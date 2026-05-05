@@ -82,7 +82,7 @@ function Hero() {
             </div>
           </div>
           <div className="hero-actions">
-            <a href="#work" className="btn btn-secondary">View work ↓</a>
+            <a href="work.html" className="btn btn-secondary">View work ↓</a>
             <a href="#contact" className="btn btn-ghost">Get in touch →</a>
           </div>
           <div className="hero-meta">
