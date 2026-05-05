@@ -162,7 +162,7 @@ img { display: block; max-width: 100%; }
 .scene-title {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 7rem); line-height: 1.1; letter-spacing: -0.02em;
-  margin: 0; color: var(--fg1); max-width: 16ch; font-weight: 300;
+  margin: 0; color: var(--fg1); max-width: 16ch; font-weight: 400;
 }
 .scene-title em { font-style: italic; color: var(--blue-300); }
 .scene-about .scene-title { font-size: clamp(2rem, 5.5vw, 4rem); }
@@ -233,7 +233,7 @@ img { display: block; max-width: 100%; }
 .hero-heading {
   margin: 0;
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.5rem, 5.5vw, 6rem); line-height: 0.92; letter-spacing: -0.025em;
+  font-size: clamp(3rem, 8.5vw, 130px); line-height: 0.88; letter-spacing: -0.04em;
   color: var(--fg1);
 }
 .hero-heading .italic { font-style: italic; color: var(--blue-300); font-weight: 700; }
