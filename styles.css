@@ -893,21 +893,35 @@ img { display: block; max-width: 100%; }
 .gem-photo {
   position: absolute; inset: 0; z-index: 0;
 }
-.gem-photo img {
+.gem-photo-base {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center 20%;
-  filter: saturate(0.6) brightness(0.55);
+  object-position: center 30%;
+  filter: saturate(0.5) brightness(0.5);
 }
 .gem-photo::after {
   content: '';
   position: absolute; inset: 0;
   background: linear-gradient(
     160deg,
-    oklch(0.15 0.28 288 / 0.75) 0%,
-    oklch(0.22 0.26 305 / 0.60) 50%,
-    oklch(0.12 0.30 275 / 0.80) 100%
+    oklch(0.15 0.28 288 / 0.58) 0%,
+    oklch(0.22 0.26 305 / 0.44) 50%,
+    oklch(0.12 0.30 275 / 0.62) 100%
   );
+}
+.gem-photo-reveal {
+  position: absolute; inset: 0; z-index: 2;
+  clip-path: circle(0px at var(--cx, 50%) var(--cy, 50%));
+  transition: clip-path 0.12s ease-out;
+}
+.gem-story-card:hover .gem-photo-reveal {
+  clip-path: circle(120px at var(--cx, 50%) var(--cy, 50%));
+}
+.gem-photo-reveal img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: saturate(1.15) brightness(1.0);
 }
 
 .gem-story-card {

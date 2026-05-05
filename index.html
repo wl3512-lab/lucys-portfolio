@@ -503,7 +503,10 @@ function GemStory() {
           aria-label="View tooth gems on Instagram @s0mped (opens in a new tab)"
         >
           <div className="gem-photo" aria-hidden="true">
-            <img src="assets/gems-photo.jpg" alt="" />
+            <img className="gem-photo-base" src="assets/lucy-tooth-gem.png" alt="" />
+            <div className="gem-photo-reveal">
+              <img src="assets/lucy-tooth-gem.png" alt="" />
+            </div>
           </div>
           <div className="gem-bars" aria-hidden="true">
             <div className="gem-bar gem-bar--done"><div className="gem-bar-fill"></div></div>
@@ -891,6 +894,21 @@ function initAnimations() {
     }
   }, { threshold: 0.5 });
   observer.observe(card);
+})();
+
+// Gem story: cursor spotlight — clears photo around cursor on hover
+(function() {
+  const card = document.querySelector('[data-gem-story]');
+  if (!card) return;
+  card.addEventListener('mousemove', function(e) {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+    card.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.removeProperty('--cx');
+    card.style.removeProperty('--cy');
+  });
 })();
 
 // ── Portfolio constellation sidebar nav ──────────────────────
