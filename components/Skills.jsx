@@ -36,7 +36,7 @@ function AboutSection() {
       <div className="container about-grid">
         <div className="about-left">
           <span className="scene-kicker">— IV / About</span>
-          <h2 className="scene-title" data-split-reveal>I design products<br/>through the lens of <em>psychology.</em></h2>
+          <h2 className="scene-title" data-split-reveal>I design products <br/>through the lens of <em>psychology.</em></h2>
         </div>
         <div className="about-right">
           <div className="about-headshot-wrap">
@@ -49,7 +49,7 @@ function AboutSection() {
           <div className="about-facts">
             <div className="fact"><span className="fact-k">Based in</span><span className="fact-v">New York, NY</span></div>
             <div className="fact"><span className="fact-k">From</span><span className="fact-v">Vancouver, BC</span></div>
-            <div className="fact"><span className="fact-k">Studying</span><span className="fact-v">IMA @ NYU Tisch</span></div>
+            <div className="fact"><span className="fact-k">Studying</span><span className="fact-v">IMA @ NYU Tisch '29</span></div>
             <div className="fact"><span className="fact-k">Available</span><span className="fact-v">Summer 2026</span></div>
           </div>
         </div>
