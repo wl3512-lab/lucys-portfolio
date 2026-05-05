@@ -233,7 +233,7 @@ img { display: block; max-width: 100%; }
 .hero-heading {
   margin: 0;
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(3rem, 8.5vw, 130px); line-height: 0.88; letter-spacing: -0.04em;
+  font-size: clamp(2.6rem, 5.8vw, 82px); line-height: 0.9; letter-spacing: -0.04em;
   color: var(--fg1);
 }
 .hero-heading .italic { font-style: italic; color: var(--blue-300); font-weight: 700; }
