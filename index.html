@@ -107,68 +107,78 @@
     'uniform sampler2D u_txt;',
     'uniform vec2 u_res;',
 
-    /* Value noise helpers */
     'float h(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}',
-    'float n(vec2 p){',
-    '  vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);',
-    '  return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}',
+    'float n(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}',
 
     'void main(){',
     '  vec2 uv=gl_FragCoord.xy/u_res;',
 
-    /* ── Horizontal jitter: scanline instability before lock ──
-       Kicks in at 55-82% — individual rows shift, then snap to grid */
-    '  float jAmt=smoothstep(0.52,0.62,u_p)*(1.0-smoothstep(0.75,0.84,u_p));',
-    '  float jRow=h(vec2(floor(u_t*38.0),floor(uv.y*u_res.y/2.0)));',
-    '  float jX=(jRow-0.5)*0.010*jAmt;',
-    '  vec2 uvj=vec2(uv.x+jX,uv.y);',
+    /* Jitter: fine row shifts + occasional wide block scrambles */
+    '  float jAmt=smoothstep(0.32,0.48,u_p)*(1.0-smoothstep(0.68,0.87,u_p));',
+    '  float jFine=h(vec2(floor(u_t*52.0),floor(uv.y*u_res.y/2.0)));',
+    '  float jWide=h(vec2(floor(u_t*14.0),floor(uv.y*u_res.y/8.0)));',
+    '  float wideOn=step(0.80,jWide)+step(jWide,0.20);',
+    '  float jX=(jFine-0.5)*0.018*jAmt+(jWide-0.5)*0.055*jAmt*wideOn;',
+    '  vec2 uvj=vec2(clamp(uv.x+jX,0.0,1.0),uv.y);',
 
-    /* ── Chromatic aberration: R/B offset closes to zero at resolve ── */
-    '  float ca=(1.0-u_p)*0.007;',
-    '  vec2 uvR=vec2(uvj.x+ca,uvj.y);',
-    '  vec2 uvB=vec2(uvj.x-ca,uvj.y);',
+    /* Chromatic aberration: peaks at glitch, closes at resolve */
+    '  float ca=(1.0-u_p)*0.010+jAmt*0.004;',
+    '  vec2 uvR=vec2(clamp(uvj.x+ca,0.,1.),uvj.y);',
+    '  vec2 uvB=vec2(clamp(uvj.x-ca,0.,1.),uvj.y);',
 
     /* Three noise octaves per channel */
-    '  float sR=n(uvR*130.0+vec2(u_t*5.0,u_t*3.1))*0.50+n(uvR*60.0-vec2(u_t*2.3,u_t*4.7))*0.30+n(uvR*260.0+vec2(u_t*9.0,-u_t*7.0))*0.20;',
-    '  float sG=n(uvj*130.0+vec2(u_t*5.0,u_t*3.1))*0.50+n(uvj*60.0-vec2(u_t*2.3,u_t*4.7))*0.30+n(uvj*260.0+vec2(u_t*9.0,-u_t*7.0))*0.20;',
-    '  float sB=n(uvB*130.0+vec2(u_t*5.0,u_t*3.1))*0.50+n(uvB*60.0-vec2(u_t*2.3,u_t*4.7))*0.30+n(uvB*260.0+vec2(u_t*9.0,-u_t*7.0))*0.20;',
+    '  float sR=n(uvR*130.+vec2(u_t*5.,u_t*3.1))*.50+n(uvR*60.-vec2(u_t*2.3,u_t*4.7))*.30+n(uvR*260.+vec2(u_t*9.,-u_t*7.))*.20;',
+    '  float sG=n(uvj*130.+vec2(u_t*5.,u_t*3.1))*.50+n(uvj*60.-vec2(u_t*2.3,u_t*4.7))*.30+n(uvj*260.+vec2(u_t*9.,-u_t*7.))*.20;',
+    '  float sB=n(uvB*130.+vec2(u_t*5.,u_t*3.1))*.50+n(uvB*60.-vec2(u_t*2.3,u_t*4.7))*.30+n(uvB*260.+vec2(u_t*9.,-u_t*7.))*.20;',
 
-    /* ── CRT scanline bands: fine horizontal lines, fade with progress ── */
-    '  float scan=sin(uv.y*u_res.y*1.3)*0.032*(1.0-u_p);',
+    /* CRT scanlines */
+    '  float scan=sin(uv.y*u_res.y*1.3)*0.030*(1.0-u_p);',
 
-    /* Text mask — flip Y */
-    '  float txt=texture2D(u_txt,vec2(uvj.x,1.0-uv.y)).r;',
+    /* Scan lock: head sweeps left→right during 63-88% */
+    '  float scanX=smoothstep(0.63,0.88,u_p);',
+    '  float isLocked=smoothstep(0.020,0.0,uv.x-scanX);',
+
+    /* Eroded text mask: noise-displaced UV, erosion zeroes out once locked */
+    '  float erosion=(1.0-smoothstep(0.38,0.87,u_p))*(1.0-isLocked*0.92)*0.013;',
+    '  float nd1=n(uvj*70.0+vec2(u_t*7.5,u_t*1.8));',
+    '  float nd2=n(uvj*70.0-vec2(u_t*2.0,u_t*6.0));',
+    '  vec2 tUV=clamp(vec2(uvj.x+(nd1-0.5)*erosion,1.0-uv.y+(nd2-0.5)*erosion*0.4),0.0,1.0);',
+    '  float txt=texture2D(u_txt,tUV).r;',
 
     /* Brand colors */
     '  vec3 void_c=vec3(0.020,0.028,0.063);',
     '  vec3 blue_c=vec3(0.447,0.678,1.000);',
     '  vec3 white_c=vec3(0.965,0.980,1.000);',
 
-    /* Per-channel static field */
-    '  float mask=(1.0-txt*0.3)*0.65;',
+    /* Proto-signal: text region shows denser blue static before resolve */
+    '  float proto=txt*smoothstep(0.16,0.48,u_p)*(1.0-smoothstep(0.46,0.66,u_p))*0.42;',
     '  vec3 static_col=vec3(',
-    '    mix(void_c.r,blue_c.r,sR*mask),',
-    '    mix(void_c.g,blue_c.g,sG*mask),',
-    '    mix(void_c.b,blue_c.b,sB*mask));',
+    '    mix(void_c.r,blue_c.r,sR*0.65+proto*0.38),',
+    '    mix(void_c.g,blue_c.g,sG*0.65+proto*0.22),',
+    '    mix(void_c.b,blue_c.b,sB*0.65+proto*0.70));',
 
-    /* Background clears */
-    '  float bg_clear=smoothstep(0.0,0.78,u_p);',
-    '  vec3 col=mix(static_col,void_c,bg_clear*(1.0-txt));',
+    /* Background clears: follows scan head, then global settle */
+    '  float bgClear=max(smoothstep(0.63,0.92,u_p)*isLocked,smoothstep(0.88,0.99,u_p));',
+    '  vec3 col=mix(static_col,void_c,bgClear*(1.0-txt));',
 
-    /* Text resolves: noisy → sharp */
-    '  float txt_noise=smoothstep(0.30,0.72,u_p);',
-    '  float txt_sharp=smoothstep(0.60,0.97,u_p);',
-    '  col=mix(col,mix(static_col,white_c,txt_noise),txt*txt_noise);',
+    /* Text resolves in locked region; globally at the very end */
+    '  float gRes=smoothstep(0.89,1.0,u_p);',
+    '  float txt_noise=smoothstep(0.38,0.70,u_p)*max(isLocked,gRes*0.4);',
+    '  float txt_sharp=max(smoothstep(0.63,0.90,u_p)*isLocked,gRes);',
+    '  col=mix(col,mix(static_col,blue_c,txt_noise),txt*txt_noise);',
     '  col=mix(col,white_c,txt*txt_sharp);',
-    '  col=mix(col,mix(blue_c,white_c,txt_sharp),txt*(1.0-txt_sharp)*0.4);',
 
-    /* CRT bands overlay */
+    /* Scan head glint: thin bright line at head X position */
+    '  float headGlow=smoothstep(0.022,0.0,abs(uv.x-scanX))*smoothstep(0.63,0.71,u_p)*(1.0-smoothstep(0.86,0.91,u_p));',
+    '  col+=blue_c*headGlow*0.65+white_c*headGlow*0.18;',
+
+    /* CRT overlay */
     '  col+=scan;',
 
-    /* ── Lock flash: brightness spike as signal snaps in ── */
-    '  float flash=smoothstep(0.80,0.88,u_p)*(1.0-smoothstep(0.88,0.98,u_p));',
-    '  col=mix(col,white_c,txt*flash*0.45);',
-    '  col+=flash*0.05;',
+    /* Lock flash */
+    '  float flash=smoothstep(0.86,0.92,u_p)*(1.0-smoothstep(0.92,0.99,u_p));',
+    '  col=mix(col,white_c,txt*flash*0.50);',
+    '  col+=flash*0.06;',
 
     '  gl_FragColor=vec4(clamp(col,0.0,1.0),1.0);',
     '}'
@@ -233,8 +243,8 @@
   }
 
   /* ── Animation loop ── */
-  var ANIM_MS   = 2300;  /* noise-to-text resolve duration */
-  var HOLD_MS   = 380;   /* hold at full clarity before exit */
+  var ANIM_MS   = 3200;  /* noise-to-text resolve duration */
+  var HOLD_MS   = 420;   /* hold at full clarity before exit */
   var startTs   = null;
   var animDone  = false;
 
@@ -259,10 +269,10 @@
     }
   }
 
-  /* ── Safety timeout (4s) ── */
+  /* ── Safety timeout (5s) ── */
   setTimeout(function () {
     if (!loader.classList.contains('is-done')) exitLoader();
-  }, 4000);
+  }, 5000);
 
   /* ── Start: wait for fonts, then kick off ── */
   var fontsPromise = document.fonts
