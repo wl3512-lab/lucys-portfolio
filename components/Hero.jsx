@@ -59,9 +59,9 @@ function Hero() {
           </p>
           <div className="hero-toolkit">
             <p className="hero-toolkit-label">Toolkit</p>
-            <div className="hero-toolkit-icons">
+            <div className="hero-toolkit-icons" role="list" aria-label="Toolkit">
               {TOOLS.map(t => (
-                <div key={t.name} className="tool-item" tabIndex={0} aria-label={t.name}>
+                <div key={t.name} className="tool-item" role="listitem" tabIndex={0} aria-label={t.name}>
                   <div className="tool-card">
                     <div
                       className="tool-face tool-face-front"

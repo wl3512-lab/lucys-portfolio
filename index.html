@@ -56,6 +56,8 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <div id="ll-loader" aria-hidden="true" role="presentation">
   <div class="ll-inner">
     <span class="ll-eye">Design Strategist &nbsp;·&nbsp; New York</span>
@@ -386,7 +388,7 @@ function App() {
     <>
       <Cursor />
       <Nav onNavClick={onNavClick} />
-      <main>
+      <main id="main-content" tabIndex="-1">
         <Hero />
         <Marquee />
         <WorkSection projects={projects} onOpen={onOpenProject} />
