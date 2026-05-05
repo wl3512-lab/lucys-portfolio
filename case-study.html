@@ -867,6 +867,36 @@
     .cs-method-name { min-width: auto; font-size: 17px; margin-bottom: 10px; display: block; }
     .cs-method-desc { font-size: 13.5px; }
   }
+
+  /* ── QUESTION CASCADE ── */
+  .cs-question-cascade {
+    margin-top: 36px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+    max-width: 52ch;
+  }
+  .cs-question-step {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 24px 28px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    width: 100%;
+  }
+  .cs-question-step--reframe { border-color: rgba(114,173,255,0.25); background: rgba(114,173,255,0.04); }
+  .cs-question-step--insight {
+    border-color: rgba(114,173,255,0.45); background: rgba(114,173,255,0.08);
+  }
+  .cs-question-n {
+    font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-accent); flex-shrink: 0;
+    padding-top: 3px; min-width: 52px;
+  }
+  .cs-question-q {
+    font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--fg1);
+  }
+  .cs-question-q em { font-style: italic; color: var(--blue-300); }
+  .cs-question-arrow {
+    padding: 4px 0 4px 24px;
+    font-family: var(--font-code); font-size: 18px; color: var(--fg3);
+  }
 </style>
 </head>
 <body>
@@ -1034,6 +1064,41 @@
       <div class="cs-pull-quote">
         <blockquote>"The AI never flagged escalating risk. It kept engaging. That's the real-world version of what Driftwood simulates."</blockquote>
         <cite>— In memory of Sam Nelson · Driftwood project brief, Spring 2026</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       GOALS
+  ═══════════════════════════════════════════════════════ -->
+  <div class="cs-body-inner">
+    <div class="cs-section" data-cs-section>
+      <p class="cs-section-label" data-cs-reveal>Goals &nbsp;·&nbsp; Design question</p>
+      <h2 class="cs-section-h" data-cs-reveal>Get them to play. <em>Then</em> wake them up.</h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>The brief was "educate people about AI dangers while entertaining them." That framing has a problem built into it: it assumes people want to be educated about AI. Most don't. Reframing the question changed everything.</p>
+      </div>
+
+      <div class="cs-question-cascade" data-cs-reveal>
+        <div class="cs-question-step">
+          <span class="cs-question-n">01</span>
+          <p class="cs-question-q">How do I create a game that educates people about AI dangers while being entertaining?</p>
+        </div>
+        <div class="cs-question-arrow">↓</div>
+        <div class="cs-question-step cs-question-step--reframe">
+          <span class="cs-question-n">reframe</span>
+          <p class="cs-question-q">How do I educate people about something <em>they're not interested in</em>?</p>
+        </div>
+        <div class="cs-question-arrow">↓</div>
+        <div class="cs-question-step cs-question-step--insight">
+          <span class="cs-question-n">insight</span>
+          <p class="cs-question-q">How do I get people to play — and then <em>'wake up'</em>?</p>
+        </div>
+      </div>
+
+      <div class="cs-body-text" data-cs-reveal style="margin-top: 2.5rem;">
+        <p><strong>Success looked like this:</strong> players adopt a pet because they want to, enjoy the honeymoon phase, feel something go wrong in Phase 02, and name their pet's flaw in Phase 03 without ever being told what it was. The wake-up is the product. If they felt tricked, it worked.</p>
       </div>
     </div>
   </div>
