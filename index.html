@@ -13,44 +13,32 @@
 /* LOADER */
 #ll-loader {
   position: fixed; inset: 0; z-index: 9999;
-  background: var(--void, oklch(4% 0.008 250));
-  display: flex; align-items: flex-start;
-  padding-top: 38vh;
+  background: #050710;
   pointer-events: none;
-  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
 }
 #ll-loader.is-done { transform: translateY(-100%); }
-.ll-inner {
-  padding: 0 clamp(32px, 8vw, 120px);
-  display: flex; flex-direction: column; gap: 20px;
+#ll-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* Reduced-motion fallback: static text, no WebGL */
+.ll-rm-inner {
+  display: none;
+  position: absolute; inset: 0;
+  align-items: center; justify-content: center; flex-direction: column; gap: 16px;
 }
-.ll-eye {
-  font-family: var(--font-code, monospace);
-  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--fg3, oklch(50% 0.01 250));
-  opacity: 0; transform: translateY(10px);
-  animation: ll-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-}
-.ll-name {
-  font-family: var(--font-display, serif); font-style: italic; font-weight: 400;
-  font-size: clamp(56px, 8vw, 100px); line-height: 0.9; letter-spacing: -0.05em;
-  color: var(--fg1, oklch(96% 0.005 250)); margin: 0;
-  opacity: 0; transform: scale(0.96);
-  animation: ll-name-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
-}
-.ll-rule {
-  height: 2px; width: 100%; max-width: 280px;
-  background: var(--blue-400, #72ADFF);
-  transform: scaleX(0); transform-origin: left;
-  animation: ll-rule-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-}
-@keyframes ll-up      { to { opacity: 1; transform: translateY(0); } }
-@keyframes ll-name-in { to { opacity: 1; transform: scale(1); } }
-@keyframes ll-rule-draw { to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) {
-  .ll-eye, .ll-name, .ll-rule { animation: none !important; opacity: 1 !important; transform: none !important; }
+  #ll-canvas { display: none; }
+  .ll-rm-inner { display: flex; }
   #ll-loader { transition: opacity 0.4s; }
   #ll-loader.is-done { opacity: 0; transform: none; }
+}
+.ll-rm-name {
+  font-family: 'Syne', system-ui, sans-serif; font-style: italic; font-weight: 400;
+  font-size: clamp(48px, 8vw, 96px); letter-spacing: -0.04em; line-height: 1;
+  color: #F6FAFF;
+}
+.ll-rm-sub {
+  font-family: 'Space Mono', monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(160,200,255,0.4);
 }
 </style>
 </head>
@@ -59,40 +47,218 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <div id="ll-loader" aria-hidden="true" role="presentation">
-  <div class="ll-inner">
-    <span class="ll-eye">Design Strategist &nbsp;·&nbsp; New York</span>
-    <p class="ll-name">lucy liu</p>
-    <div class="ll-rule" aria-hidden="true"></div>
+  <canvas id="ll-canvas"></canvas>
+  <div class="ll-rm-inner" aria-hidden="true">
+    <p class="ll-rm-name">lucy liu</p>
+    <span class="ll-rm-sub">Design Strategist · New York</span>
   </div>
 </div>
 <script>
 (function () {
-  var loader = document.getElementById('ll-loader');
-  if (!loader) return;
+  var loader  = document.getElementById('ll-loader');
+  var canvas  = document.getElementById('ll-canvas');
+  if (!loader || !canvas) return;
   document.body.style.overflow = 'hidden';
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var minTime = reducedMotion ? 600 : 1400;
-  var minPassed = false, loadPassed = false;
-  function tryExit() {
-    if (!minPassed || !loadPassed) return;
+
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Exit helper (shared by both paths) ── */
+  function exitLoader() {
     loader.classList.add('is-done');
     loader.addEventListener('transitionend', function () {
       loader.style.display = 'none';
       document.body.style.overflow = '';
     }, { once: true });
+    setTimeout(function () {
+      if (loader.style.display !== 'none') {
+        loader.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }, 1200);
   }
-  setTimeout(function () { minPassed = true; tryExit(); }, minTime);
-  if (document.readyState === 'complete') {
-    loadPassed = true; tryExit();
-  } else {
-    window.addEventListener('load', function () { loadPassed = true; tryExit(); });
+
+  /* ── Reduced-motion: plain exit ── */
+  if (rm) {
+    setTimeout(exitLoader, 700);
+    return;
   }
-  setTimeout(function () {
-    if (!loader.classList.contains('is-done')) {
-      loader.classList.add('is-done');
-      setTimeout(function () { loader.style.display = 'none'; document.body.style.overflow = ''; }, 800);
+
+  /* ── Safety bail: exit if WebGL unavailable ── */
+  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) { setTimeout(exitLoader, 900); return; }
+
+  /* ── Size canvas to device pixels ── */
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W = window.innerWidth, H = window.innerHeight;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  gl.viewport(0, 0, canvas.width, canvas.height);
+
+  /* ── Shaders ── */
+  var VERT = [
+    'attribute vec2 pos;',
+    'void main(){gl_Position=vec4(pos,0.0,1.0);}'
+  ].join('\n');
+
+  var FRAG = [
+    'precision highp float;',
+    'uniform float u_t;',       /* time in seconds */
+    'uniform float u_p;',       /* progress 0→1 */
+    'uniform sampler2D u_txt;', /* text mask */
+    'uniform vec2 u_res;',
+
+    /* Value noise */
+    'float h(vec2 p){',
+    '  p=fract(p*vec2(127.1,311.7));',
+    '  p+=dot(p,p+19.19);',
+    '  return fract(p.x*p.y);',
+    '}',
+    'float n(vec2 p){',
+    '  vec2 i=floor(p);vec2 f=fract(p);',
+    '  vec2 u=f*f*(3.0-2.0*f);',
+    '  return mix(mix(h(i),h(i+vec2(1,0)),u.x),',
+    '             mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);',
+    '}',
+
+    'void main(){',
+    '  vec2 uv=gl_FragCoord.xy/u_res;',
+
+    /* Three noise octaves — fast animated static */
+    '  float s = n(uv*130.0+vec2(u_t*5.0, u_t*3.1))*0.50',
+    '           +n(uv* 60.0-vec2(u_t*2.3, u_t*4.7))*0.30',
+    '           +n(uv*260.0+vec2(u_t*9.0,-u_t*7.0))*0.20;',
+
+    /* Text mask — flip Y because texture origin is bottom-left */
+    '  float txt=texture2D(u_txt,vec2(uv.x,1.0-uv.y)).r;',
+
+    /* Brand colors in linear space */
+    '  vec3 void_c =vec3(0.020,0.028,0.063);',
+    '  vec3 blue_c =vec3(0.447,0.678,1.000);',  /* Signal Blue */
+    '  vec3 white_c=vec3(0.965,0.980,1.000);',  /* Cloud White */
+
+    /* Noise field: Signal Blue tinted static fading to void */
+    '  vec3 static_col=mix(void_c,blue_c,s*0.65*(1.0-txt*0.3));',
+
+    /* Background clears as progress rises */
+    '  float bg_clear=smoothstep(0.0,0.78,u_p);',
+    '  vec3 col=mix(static_col,void_c,bg_clear*(1.0-txt));',
+
+    /* Text resolves: first noisy then sharp */
+    '  float txt_noise=smoothstep(0.30,0.72,u_p);',  /* static gives way */
+    '  float txt_sharp=smoothstep(0.60,0.97,u_p);',  /* final clarity */
+    '  col=mix(col,mix(static_col,white_c,txt_noise),txt*txt_noise);',
+    '  col=mix(col,white_c,txt*txt_sharp);',
+
+    /* Subtle blue tint on text before full resolve */
+    '  col=mix(col,mix(blue_c,white_c,txt_sharp),txt*(1.0-txt_sharp)*0.4);',
+
+    '  gl_FragColor=vec4(col,1.0);',
+    '}'
+  ].join('\n');
+
+  function compile(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  /* ── Fullscreen quad ── */
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    -1,-1,  1,-1,  -1,1,
+     1,-1,  1, 1,  -1,1
+  ]), gl.STATIC_DRAW);
+  var posLoc = gl.getAttribLocation(prog, 'pos');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  /* ── Uniforms ── */
+  var uT   = gl.getUniformLocation(prog, 'u_t');
+  var uP   = gl.getUniformLocation(prog, 'u_p');
+  var uTxt = gl.getUniformLocation(prog, 'u_txt');
+  var uRes = gl.getUniformLocation(prog, 'u_res');
+  gl.uniform2f(uRes, canvas.width, canvas.height);
+  gl.uniform1i(uTxt, 0);
+
+  /* ── Text mask texture — generated after fonts load ── */
+  function buildTextMask(fontsReady) {
+    var tc = document.createElement('canvas');
+    tc.width = canvas.width; tc.height = canvas.height;
+    var ctx = tc.getContext('2d');
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, tc.width, tc.height);
+    ctx.fillStyle = '#fff';
+    /* Tight italic at ~8vw, matching brand loader aesthetic */
+    var fs = Math.round(Math.min(tc.width * 0.075, 108));
+    var fontStr = (fontsReady ? '"Syne"' : 'system-ui') + ', sans-serif';
+    ctx.font = 'italic 400 ' + fs + 'px ' + fontStr;
+    ctx.letterSpacing = '-0.04em';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('lucy liu', tc.width / 2, tc.height / 2);
+
+    var tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tc);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return tex;
+  }
+
+  /* ── Animation loop ── */
+  var ANIM_MS   = 2300;  /* noise-to-text resolve duration */
+  var HOLD_MS   = 380;   /* hold at full clarity before exit */
+  var startTs   = null;
+  var animDone  = false;
+
+  function frame(ts) {
+    if (startTs === null) startTs = ts;
+    var elapsed = ts - startTs;
+    var raw = elapsed / ANIM_MS;
+    /* Ease in-out for the progress value */
+    var p = Math.min(raw, 1.0);
+    p = p < 0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; /* ease-in-out quad */
+
+    gl.uniform1f(uT, elapsed / 1000);
+    gl.uniform1f(uP, p);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    if (raw < 1.0) {
+      requestAnimationFrame(frame);
+    } else if (!animDone) {
+      animDone = true;
+      setTimeout(exitLoader, HOLD_MS);
     }
+  }
+
+  /* ── Safety timeout (4s) ── */
+  setTimeout(function () {
+    if (!loader.classList.contains('is-done')) exitLoader();
   }, 4000);
+
+  /* ── Start: wait for fonts, then kick off ── */
+  var fontsPromise = document.fonts
+    ? document.fonts.ready
+    : Promise.resolve();
+
+  fontsPromise.then(function () {
+    buildTextMask(true);
+    requestAnimationFrame(frame);
+  }).catch(function () {
+    buildTextMask(false);
+    requestAnimationFrame(frame);
+  });
+
 })();
 </script>
 
