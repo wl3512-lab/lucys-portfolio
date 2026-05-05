@@ -169,7 +169,7 @@ img { display: block; max-width: 100%; }
 
 /* ========== HERO ========== */
 .scene-hero {
-  min-height: 100vh; padding: 0;
+  min-height: 100vh; padding: 0 0 clamp(20px, 4vh, 56px);
   display: flex; flex-direction: column; justify-content: flex-end;
   overflow: hidden; position: relative;
 }
@@ -216,8 +216,8 @@ img { display: block; max-width: 100%; }
 
 .hero-content {
   position: relative; z-index: 2;
-  display: grid; grid-template-columns: 2fr 1fr; gap: 80px;
-  align-items: end; padding: 0 0 100px;
+  display: grid; grid-template-columns: 2fr 1.2fr; gap: 72px;
+  align-items: end; padding: 0 0 80px;
   width: min(1400px, 96vw); margin: 0 auto;
 }
 .hero-text { will-change: transform, opacity; }
@@ -297,14 +297,14 @@ img { display: block; max-width: 100%; }
 .hero-toolkit-icons {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 6px;
   perspective: 600px;
 }
 
 /* ── 3D flip card ── */
 .tool-item {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   transform-style: preserve-3d;
   will-change: transform;
 }
