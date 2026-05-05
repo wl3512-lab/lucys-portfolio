@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucy Liu — Interactive Media Arts</title>
+  <meta name="description" content="Lucy Liu — NYU Interactive Media Arts. Developer and creative technologist based in New York City." />
+
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="base.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="animations.css" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
+
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+
+  <!-- ======= NAV ======= -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">lucy liu</a>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#work"    class="nav-link">work</a></li>
+        <li><a href="#about"   class="nav-link">about</a></li>
+        <li><a href="#contact" class="nav-link">contact ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- scroll progress bar -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+
+  <!-- ======= SCENE 01 · HERO ======= -->
+  <!-- Pin: 200vh of scroll moves through the hero animation timeline -->
+  <section class="scene scene-hero" data-scene="hero">
+
+    <!-- Parallax background layer (slow) -->
+    <div class="hero-bg-layer" aria-hidden="true">
+      <div class="hero-grain"></div>
+      <div class="hero-grid-lines"></div>
+    </div>
+
+    <!-- Floating ambient orb -->
+    <div class="hero-orb" aria-hidden="true"></div>
+
+    <div class="container hero-content">
+
+      <!-- LEFT: editorial headline -->
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-char" aria-hidden="true">H</span><span class="eyebrow-char" aria-hidden="true">E</span><span class="eyebrow-char" aria-hidden="true">L</span><span class="eyebrow-char" aria-hidden="true">L</span><span class="eyebrow-char" aria-hidden="true">O</span><span class="eyebrow-sep" aria-hidden="true">,</span><span class="eyebrow-sep" aria-hidden="true">&thinsp;</span><span class="eyebrow-char" aria-hidden="true">I</span><span class="eyebrow-sep" aria-hidden="true">'</span><span class="eyebrow-char" aria-hidden="true">M</span><span class="eyebrow-sep" aria-hidden="true">&thinsp;</span><span class="eyebrow-char" aria-hidden="true">L</span><span class="eyebrow-char" aria-hidden="true">U</span><span class="eyebrow-char" aria-hidden="true">C</span><span class="eyebrow-char" aria-hidden="true">Y</span>
+        </div>
+
+        <h1 class="hero-heading" aria-label="Design meets access.">
+          <span class="word-mask"><span class="word">Design</span></span>
+          <span class="word-mask"><span class="word">meets</span></span>
+          <span class="word-mask"><span class="word italic">access.</span></span>
+        </h1>
+      </div>
+
+      <!-- RIGHT: photo + bio + toolkit + CTAs -->
+      <div class="hero-right">
+
+        <div class="hero-photo-wrap">
+          <img
+            src="headshot.jpg"
+            alt="Lucy Liu — Design Strategist"
+            class="hero-photo"
+            width="200"
+            height="200"
+          />
+        </div>
+
+        <p class="hero-sub">
+          I'm Lucy Liu, a Design Strategist from Vancouver, now based in New York City. I study Interactive Media Arts at NYU with a focus on human-centered, accessible digital experiences — the kind that work for everyone, not just most people.
+        </p>
+
+        <div class="hero-toolkit">
+          <p class="hero-toolkit-label">Toolkit</p>
+          <div class="hero-toolkit-tags">
+            <span class="tag">User Research</span>
+            <span class="tag">Interaction Design</span>
+            <span class="tag">Accessibility</span>
+            <span class="tag">Figma</span>
+            <span class="tag">React</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">CSS</span>
+            <span class="tag">p5.js</span>
+            <span class="tag">Prototyping</span>
+            <span class="tag">WCAG</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">Resume ↓</a>
+          <a href="https://github.com/" class="btn btn-ghost hover-underline" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Scroll indicator — fades out as user scrolls -->
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>scroll</span>
+    </div>
+  </section>
+
+
+  <!-- ======= SCENE 02 · MARQUEE TRANSITION ======= -->
+  <!-- A full-bleed marquee strip bridges hero → work -->
+  <div class="scene-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Design Strategy</span><span class="marquee-dot"></span>
+      <span>Accessibility</span><span class="marquee-dot"></span>
+      <span>NYU IMA</span><span class="marquee-dot"></span>
+      <span>Vancouver → NYC</span><span class="marquee-dot"></span>
+      <span>Human-Centered</span><span class="marquee-dot"></span>
+      <span>Interaction Design</span><span class="marquee-dot"></span>
+      <span>Avant-Garde</span><span class="marquee-dot"></span>
+      <span>Design Strategy</span><span class="marquee-dot"></span>
+      <span>Accessibility</span><span class="marquee-dot"></span>
+      <span>NYU IMA</span><span class="marquee-dot"></span>
+      <span>Vancouver → NYC</span><span class="marquee-dot"></span>
+      <span>Human-Centered</span><span class="marquee-dot"></span>
+      <span>Interaction Design</span><span class="marquee-dot"></span>
+      <span>Avant-Garde</span><span class="marquee-dot"></span>
+    </div>
+  </div>
+
+
+  <!-- ======= SCENE 03 · WORK ======= -->
+  <!-- Each project card is a scroll-pinned "frame" -->
+  <section id="work" class="scene scene-work" data-scene="work">
+    <div class="container">
+
+      <div class="section-heading-row">
+        <h2 class="section-title" data-split-reveal>Selected work</h2>
+        <span class="eyebrow">2023–2025</span>
+      </div>
+
+      <div class="projects-stack">
+
+        <!-- Project 01 — featured, morphs full-screen on hover -->
+        <div class="project-row" data-project="01">
+          <a href="#" class="project-card-v2" data-reveal>
+            <div class="project-card-inner">
+              <div class="project-left">
+                <span class="project-index">01</span>
+                <div class="project-title-wrap">
+                  <h3 class="project-title">Project Name</h3>
+                </div>
+                <div class="project-tags">
+                  <span class="tag">React</span>
+                  <span class="tag">Three.js</span>
+                  <span class="tag tag-accent">Featured</span>
+                </div>
+              </div>
+              <div class="project-right">
+                <p class="project-description">
+                  A short description of what this project does, the problem it solves, and what makes it interesting.
+                </p>
+                <span class="project-arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+            <!-- Mask reveal overlay -->
+            <div class="project-mask" aria-hidden="true"></div>
+          </a>
+        </div>
+
+        <div class="project-row" data-project="02">
+          <a href="#" class="project-card-v2" data-reveal>
+            <div class="project-card-inner">
+              <div class="project-left">
+                <span class="project-index">02</span>
+                <div class="project-title-wrap">
+                  <h3 class="project-title">Another Project</h3>
+                </div>
+                <div class="project-tags">
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">Next.js</span>
+                </div>
+              </div>
+              <div class="project-right">
+                <p class="project-description">
+                  Description of this project — what you built, why, and what you learned from it.
+                </p>
+                <span class="project-arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+            <div class="project-mask" aria-hidden="true"></div>
+          </a>
+        </div>
+
+        <div class="project-row" data-project="03">
+          <a href="#" class="project-card-v2" data-reveal>
+            <div class="project-card-inner">
+              <div class="project-left">
+                <span class="project-index">03</span>
+                <div class="project-title-wrap">
+                  <h3 class="project-title">Creative Experiment</h3>
+                </div>
+                <div class="project-tags">
+                  <span class="tag">p5.js</span>
+                  <span class="tag">Python</span>
+                </div>
+              </div>
+              <div class="project-right">
+                <p class="project-description">
+                  An experimental side project — generative, interactive, or just something you were curious about.
+                </p>
+                <span class="project-arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+            <div class="project-mask" aria-hidden="true"></div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======= SCENE 04 · SKILLS ======= -->
+  <section class="scene scene-skills" data-scene="skills">
+    <div class="container">
+
+      <div class="section-heading-row">
+        <h2 class="section-title" data-split-reveal>Tools &amp; craft</h2>
+        <span class="eyebrow">What I work with</span>
+      </div>
+
+      <div class="skills-bento">
+
+        <!-- Row 1 -->
+        <div class="skill-card skill-card--wide skill-card--design" data-skill-card>
+          <img src="figma.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Visual Design</span>
+          <div class="skill-name">Figma</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--code" data-skill-card>
+          <img src="p5js.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Creative Code</span>
+          <div class="skill-name">p5.js</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--code" data-skill-card>
+          <img src="javascript.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Creative Code</span>
+          <div class="skill-name">JavaScript</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="skill-card skill-card--motion" data-skill-card>
+          <img src="aftereffects.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Motion</span>
+          <div class="skill-name">After Effects</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--motion" data-skill-card>
+          <img src="premierepro.webp" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Motion</span>
+          <div class="skill-name">Premiere Pro</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--wide skill-card--physical" data-skill-card>
+          <img src="touchdesigner.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Physical Computing</span>
+          <div class="skill-name">TouchDesigner</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="skill-card skill-card--design" data-skill-card>
+          <img src="photoshop.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Visual Design</span>
+          <div class="skill-name">Photoshop</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--design" data-skill-card>
+          <img src="illustrator.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Visual Design</span>
+          <div class="skill-name">Illustrator</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--physical" data-skill-card>
+          <img src="arduino.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">Physical Computing</span>
+          <div class="skill-name">Arduino</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+        <div class="skill-card skill-card--wide skill-card--ai" data-skill-card>
+          <img src="claudecode.png" alt="" class="skill-logo" aria-hidden="true" />
+          <span class="skill-category">AI Tools</span>
+          <div class="skill-name">Claude Code</div>
+          <div class="skill-bg-shape" aria-hidden="true"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======= SCENE 05 · ABOUT — Pinned depth zoom ======= -->
+  <section id="about" class="scene scene-about" data-scene="about">
+
+    <!-- Depth layer behind text (parallaxes slower) -->
+    <div class="about-bg-text" aria-hidden="true">access</div>
+
+    <div class="container about-grid">
+      <div class="about-left" data-reveal>
+        <div class="eyebrow" style="margin-bottom: var(--space-5);">Hello, I'm Lucy</div>
+        <h2 class="about-heading">Design<br>meets<br><em>access.</em></h2>
+
+        <!-- Circular headshot -->
+        <div class="about-photo-wrap" data-reveal>
+          <img
+            src="headshot.jpg"
+            alt="Lucy Liu — Design Strategist"
+            class="about-photo"
+            width="260"
+            height="260"
+          />
+        </div>
+      </div>
+
+      <div class="about-right" data-reveal>
+        <p class="about-body">
+          I'm Lucy Liu, a Design Strategist from Vancouver, now based in New York City. I study Interactive Media Arts at NYU with a focus on human-centered, accessible digital experiences — the kind that work for everyone, not just most people.
+        </p>
+        <p class="about-body">
+          I put emphasis on user research, accessibility, and interaction design, creating experiences that are intuitive and inclusive.
+        </p>
+
+        <div class="about-skills">
+          <p class="about-skills-label">Toolkit</p>
+          <div class="about-skills-list" data-stagger>
+            <span class="tag">User Research</span>
+            <span class="tag">Interaction Design</span>
+            <span class="tag">Accessibility</span>
+            <span class="tag">Figma</span>
+            <span class="tag">React</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">CSS</span>
+            <span class="tag">p5.js</span>
+            <span class="tag">Prototyping</span>
+            <span class="tag">WCAG</span>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-8); display: flex; gap: var(--space-5);">
+          <a href="/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">Resume ↓</a>
+          <a href="https://github.com/" class="btn btn-ghost hover-underline" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======= SCENE 05 · CONTACT ======= -->
+  <section id="contact" class="scene scene-contact" data-scene="contact">
+    <div class="container contact-inner">
+
+      <div class="contact-eyebrow eyebrow" data-reveal>Get in touch</div>
+
+      <!-- Giant elastic heading that stretches on scroll -->
+      <h2 class="contact-heading" data-reveal>
+        Let's make<br>
+        <span class="contact-accent">something inclusive.</span>
+      </h2>
+
+      <p class="contact-sub" data-reveal>
+        Open to design strategy roles, research collabs, and interesting problems.
+      </p>
+
+      <a href="mailto:wl3512@nyu.edu" class="contact-email" data-reveal>
+        wl3512@nyu.edu
+      </a>
+
+      <div class="contact-links" data-reveal>
+        <a href="https://www.linkedin.com/in/lucy-liu-9b812127b/?skipRedirect=true" class="btn btn-secondary" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/"      class="btn btn-secondary" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://are.na/"          class="btn btn-secondary" target="_blank" rel="noopener">Are.na ↗</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <div class="container">
+      <div class="footer">
+        <span class="footer-copy">© 2025 Lucy Liu. All rights reserved.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#work"    class="footer-link">work</a>
+          <a href="#about"   class="footer-link">about</a>
+          <a href="#contact" class="footer-link">contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring">
+      <span class="cursor-label"></span>
+    </div>
+  </div>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

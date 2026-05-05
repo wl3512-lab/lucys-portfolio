@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Editor — Lucy Liu</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--void); color: var(--fg1); font-family: var(--font-body); padding: 40px 0; min-height: 100vh; }
+  .wrap { width: min(1240px, 94vw); margin: 0 auto; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+  h1 { font-family: var(--font-display); font-weight: 400; font-size: 44px; letter-spacing: -0.03em; margin: 0 0 6px; }
+  h1 em { font-style: italic; color: var(--blue-300); }
+  .sub { font-size: 13px; color: var(--fg2); margin: 0; max-width: 62ch; }
+  .back { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; text-transform: lowercase; color: var(--fg2); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+  .back:hover { color: var(--fg1); }
+
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+  .panel h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0 0 18px; letter-spacing: -0.01em; display: flex; align-items: baseline; gap: 10px; }
+  .panel h2 small { font-family: var(--font-code); font-size: 11px; color: var(--fg3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .group { border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 16px; background: rgba(10,15,42,0.4); }
+  .group-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .group-title { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-accent); }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg3); }
+  .field .help { font-size: 11px; color: var(--fg3); line-height: 1.4; margin-top: 2px; font-style: italic; }
+  .field input, .field select, .field textarea {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; color: var(--fg1); font: inherit; font-size: 14px;
+    font-family: var(--font-body);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--border-focus); background: var(--surface-3);
+  }
+  .field textarea { min-height: 80px; resize: vertical; font-family: var(--font-body); line-height: 1.55; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg2); margin-top: 4px; }
+  .check input { width: 16px; height: 16px; accent-color: var(--blue-400); }
+
+  .btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.04em; text-transform: lowercase;
+    padding: 9px 16px; border-radius: 999px; border: 1px solid var(--border-strong);
+    background: transparent; color: var(--fg1); cursor: pointer; transition: all .25s;
+  }
+  .btn:hover { border-color: var(--fg1); }
+  .btn-primary { background: var(--fg1); color: var(--void); border-color: var(--fg1); }
+  .btn-primary:hover { background: var(--blue-300); border-color: var(--blue-300); }
+  .btn-danger:hover { color: #E8B4C0; border-color: #E8B4C0; }
+  .btn-sm { padding: 6px 12px; font-size: 11px; }
+
+  /* BLOCKS */
+  .blocks-intro { font-size: 12px; color: var(--fg2); margin-bottom: 12px; line-height: 1.55; padding: 12px 14px; background: rgba(114,173,255,0.06); border: 1px solid rgba(114,173,255,0.2); border-radius: 8px; }
+  .blocks-intro b { color: var(--fg1); font-weight: 500; }
+  .block {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; margin-bottom: 10px; position: relative;
+  }
+  .block-head {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+  }
+  .block-type {
+    font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-accent);
+  }
+  .block-ctrls { display: flex; gap: 4px; }
+  .block-ctrl {
+    width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border);
+    background: transparent; color: var(--fg2); cursor: pointer; font-size: 13px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .block-ctrl:hover { color: var(--fg1); border-color: var(--border-strong); }
+  .block-ctrl.danger:hover { color: #E8B4C0; border-color: #E8B4C0; }
+
+  .add-block {
+    margin-top: 12px; padding: 14px; border: 1px dashed var(--border-strong); border-radius: 10px;
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  }
+  .add-block-label { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg3); margin-right: 6px; }
+  .add-btn {
+    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: transparent; color: var(--fg2); font-family: var(--font-ui); font-size: 11px;
+    letter-spacing: 0.04em; text-transform: lowercase; cursor: pointer; transition: all .2s;
+  }
+  .add-btn:hover { color: var(--fg1); border-color: var(--fg1); background: rgba(255,255,255,0.03); }
+
+  /* IMAGE UPLOAD */
+  .dropzone {
+    border: 1px dashed var(--border-strong); border-radius: 10px; padding: 24px;
+    text-align: center; cursor: pointer; transition: all .25s;
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--blue-400); background: rgba(114,173,255,0.04); }
+  .dropzone-icon { font-size: 20px; color: var(--fg-accent); }
+  .dropzone-text { font-size: 13px; color: var(--fg2); }
+  .dropzone-sub { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.1em; color: var(--fg3); text-transform: uppercase; }
+  .img-preview {
+    border-radius: 8px; overflow: hidden; position: relative; background: var(--void);
+  }
+  .img-preview img { width: 100%; display: block; max-height: 300px; object-fit: contain; }
+  .img-preview .remove {
+    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7);
+    color: var(--fg1); border: 1px solid var(--border); border-radius: 999px;
+    padding: 4px 10px; font-family: var(--font-ui); font-size: 11px; cursor: pointer;
+  }
+
+  /* METRICS BLOCK */
+  .metrics-rows { display: flex; flex-direction: column; gap: 6px; }
+  .metric-row { display: grid; grid-template-columns: 1fr 1.8fr 32px; gap: 8px; align-items: center; }
+  .metric-row input {
+    background: var(--surface-3); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; color: var(--fg1); font-family: var(--font-body); font-size: 13px;
+  }
+  .metric-row button {
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--fg3); cursor: pointer; height: 34px;
+  }
+  .metric-row button:hover { color: #E8B4C0; border-color: #E8B4C0; }
+
+  /* LIST SIDE */
+  .list { display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; padding-right: 4px; }
+  .card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; cursor: pointer; transition: border .3s; }
+  .card.active { border-color: var(--blue-400); background: var(--surface-3); }
+  .card:hover { border-color: var(--border-strong); }
+  .card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card-title { font-family: var(--font-display); font-size: 17px; font-weight: 400; letter-spacing: -0.01em; margin: 0; color: var(--fg1); }
+  .card-meta { font-family: var(--font-code); font-size: 10px; color: var(--fg3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .card-desc { font-size: 12.5px; color: var(--fg2); margin: 6px 0 8px; line-height: 1.45; }
+  .card-cat { font-family: var(--font-code); font-size: 10px; color: var(--fg-accent); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .export { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-top: 14px; font-family: var(--font-code); font-size: 10.5px; color: var(--fg2); white-space: pre; overflow: auto; max-height: 200px; line-height: 1.5; }
+  .hint { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin: 12px 0 4px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--blue-400); color: var(--void); padding: 10px 18px; border-radius: 999px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; font-weight: 500; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-8px); }
+
+  /* TEMPLATE SWITCHER */
+  .template-bar {
+    display: flex; gap: 6px; margin-bottom: 18px; padding: 4px;
+    background: var(--surface-2); border-radius: 999px; width: fit-content;
+  }
+  .template-btn {
+    padding: 8px 16px; border-radius: 999px; background: transparent; border: 0;
+    font-family: var(--font-ui); font-size: 12px; color: var(--fg2);
+    letter-spacing: 0.04em; text-transform: lowercase; cursor: pointer; transition: all .25s;
+  }
+  .template-btn.active { background: var(--fg1); color: var(--void); }
+
+  .section-sep {
+    margin: 20px 0 14px;
+    padding-top: 18px; border-top: 1px solid var(--border);
+    font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--fg-accent);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <h1><em>Project</em> editor</h1>
+      <p class="sub">Build case studies portfolio reviewers actually want to see. Select <b>UX/UI</b> for the full NN/g-style template with problem → research → process → outcome. Images upload inline (stored base64 in localStorage) — reviewers see everything outward, no PDFs.</p>
+    </div>
+    <a class="back" href="index.html">← portfolio</a>
+  </header>
+
+  <div class="grid">
+    <section class="panel" id="form-panel">
+      <h2 id="form-title">New project <small id="form-sub"></small></h2>
+
+      <div class="template-bar" id="template-bar">
+        <button type="button" class="template-btn active" data-cat="ux">UX/UI · full template</button>
+        <button type="button" class="template-btn" data-cat="code">Code</button>
+        <button type="button" class="template-btn" data-cat="creative">Creative coding</button>
+      </div>
+
+      <form id="form">
+
+        <!-- ========= CORE ========= -->
+        <div class="section-sep">Core</div>
+        <div class="field">
+          <label for="title">Title *</label>
+          <input id="title" required placeholder="HabitaBull Lifting" />
+        </div>
+        <div class="field">
+          <label for="subtitle">One-line pitch</label>
+          <input id="subtitle" placeholder="A gym app built around the psychology of showing up." />
+          <span class="help">What the reviewer reads first after the title. Make it land.</span>
+        </div>
+        <div class="row3">
+          <div class="field">
+            <label for="year">Year *</label>
+            <input id="year" required placeholder="2024" />
+          </div>
+          <div class="field">
+            <label for="timeline">Timeline</label>
+            <input id="timeline" placeholder="8 weeks" />
+          </div>
+          <div class="field">
+            <label for="slug">URL slug</label>
+            <input id="slug" placeholder="auto-generated" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="tags">Tags (comma separated)</label>
+          <input id="tags" placeholder="UX/UI, Research, Figma, Psychology" />
+        </div>
+        <label class="check">
+          <input id="featured" type="checkbox" />
+          <span>Featured (pins to top of portfolio)</span>
+        </label>
+
+        <!-- ========= CONTEXT (UX/UI only) ========= -->
+        <div id="ctx-section">
+          <div class="section-sep">Context</div>
+          <div class="field">
+            <label for="role">Your role *</label>
+            <input id="role" placeholder="Lead UX/UI Designer" />
+            <span class="help">Be specific about what you did. If team project, call out the parts that are yours.</span>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="team">Team</label>
+              <input id="team" placeholder="Solo, or 3 designers + 1 PM" />
+            </div>
+            <div class="field">
+              <label for="client">Client / course</label>
+              <input id="client" placeholder="NYU IMA · DM-UY 4183" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="tools">Tools</label>
+            <input id="tools" placeholder="Figma, FigJam, Principle, User Interviews" />
+          </div>
+        </div>
+
+        <!-- ========= PROBLEM & GOAL ========= -->
+        <div id="prob-section">
+          <div class="section-sep">Problem → Goal</div>
+          <div class="field">
+            <label for="audience">Who is it for?</label>
+            <input id="audience" placeholder="Lapsed gym-goers, ages 22–35, who quit after missing a streak." />
+            <span class="help">Be concrete. A real audience, not "everyone".</span>
+          </div>
+          <div class="field">
+            <label for="problem">The problem</label>
+            <textarea id="problem" placeholder="Most gym apps shame absence. Missing one day feels like failure, so users quit entirely. The psychology is backwards — they punish the behavior they're trying to build."></textarea>
+            <span class="help">Frame the <b>why</b>. What's broken? What's the tension?</span>
+          </div>
+          <div class="field">
+            <label for="goal">Goal / hypothesis</label>
+            <textarea id="goal" placeholder="If we redesign around streak-forgiveness and 'minimum viable workouts', we can keep users engaged through the dips where habits actually form."></textarea>
+          </div>
+          <div class="field">
+            <label for="constraints">Constraints</label>
+            <textarea id="constraints" placeholder="8 week timeline · solo researcher · limited to 12 interviews · no budget for beta"></textarea>
+          </div>
+        </div>
+
+        <!-- ========= CONTENT BLOCKS ========= -->
+        <div class="section-sep">Process & visuals</div>
+        <p class="blocks-intro">
+          <b>Tell the story visually.</b> Add blocks in the order reviewers should read them. Mix text (for the "why/how") with images (wireframes → hi-fi), metrics, and process steps. Drag images in, or browse.
+        </p>
+        <div id="blocks"></div>
+
+        <div class="add-block">
+          <span class="add-block-label">Add block</span>
+          <button type="button" class="add-btn" data-add="heading">+ heading</button>
+          <button type="button" class="add-btn" data-add="text">+ text</button>
+          <button type="button" class="add-btn" data-add="image">+ image</button>
+          <button type="button" class="add-btn" data-add="image-caption">+ image + caption</button>
+          <button type="button" class="add-btn" data-add="process">+ process step</button>
+          <button type="button" class="add-btn" data-add="metrics">+ metrics</button>
+          <button type="button" class="add-btn" data-add="quote">+ quote / testimonial</button>
+          <button type="button" class="add-btn" data-add="video">+ video / embed</button>
+        </div>
+
+        <!-- ========= OUTCOME ========= -->
+        <div id="outcome-section">
+          <div class="section-sep">Outcome & reflection</div>
+          <div class="field">
+            <label for="outcome">Outcome</label>
+            <textarea id="outcome" placeholder="Tested with 12 users — 11 preferred it over their current app. Prototype handed off to the course as a proof of concept."></textarea>
+            <span class="help">What happened? Use numbers if you have them. Ship evidence.</span>
+          </div>
+          <div class="field">
+            <label for="reflection">What I'd do differently</label>
+            <textarea id="reflection" placeholder="Not every interview was useful — I should've screened harder. The 'streak forgiveness' mechanic needed more testing; half of users didn't notice it at first."></textarea>
+            <span class="help">Reviewers love honesty about what didn't work. Don't skip this.</span>
+          </div>
+          <div class="field">
+            <label for="link">Live link / GitHub / Figma</label>
+            <input id="link" placeholder="https://…" />
+          </div>
+        </div>
+
+        <div class="btns">
+          <button type="submit" class="btn btn-primary" id="save-btn">save project</button>
+          <button type="button" class="btn" id="new-btn">new</button>
+          <button type="button" class="btn" id="view-btn">view case study ↗</button>
+          <button type="button" class="btn btn-danger" id="delete-btn" style="display:none">delete</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>All projects <small id="count"></small></h2>
+      <div class="list" id="list"></div>
+
+      <p class="hint">Export / backup</p>
+      <div class="btns">
+        <button type="button" class="btn" id="export-btn">copy JSON</button>
+        <button type="button" class="btn" id="download-btn">download .json</button>
+        <button type="button" class="btn" id="import-btn">import .json</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none" />
+        <button type="button" class="btn btn-danger" id="reset-btn">reset all</button>
+      </div>
+      <pre class="export" id="export-area" style="display:none"></pre>
+
+      <p class="hint">Storage</p>
+      <p style="font-size:11.5px;color:var(--fg2);line-height:1.5;margin:0">Everything saves to <code>localStorage</code> (images as base64). To publish, download the JSON and paste into <code>index.html</code>'s <code>DEFAULT_PROJECTS</code> — or keep them here and reviewers see the live version.</p>
+    </section>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ============================================================
+  //  STATE
+  // ============================================================
+  const KEY = 'lucy.projects';
+  const $ = (q) => document.querySelector(q);
+  const $$ = (q) => document.querySelectorAll(q);
+
+  let projects = load();
+  let editingId = null;
+  let currentCat = 'ux';
+  let blocks = []; // content blocks for current project
+
+  function load() {
+    try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch {}
+    return [];
+  }
+  function save() { localStorage.setItem(KEY, JSON.stringify(projects)); renderList(); }
+  function uid() { return 'p' + Math.random().toString(36).slice(2, 8); }
+  function slugify(s) { return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+  function esc(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // ============================================================
+  //  TEMPLATE (category switcher)
+  // ============================================================
+  function applyTemplate(cat) {
+    currentCat = cat;
+    $$('.template-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+    // Full template for UX. Lighter for code/creative.
+    const showFull = cat === 'ux';
+    $('#ctx-section').style.display = showFull ? 'block' : 'none';
+    $('#prob-section').style.display = showFull ? 'block' : 'none';
+    $('#outcome-section').style.display = 'block';
+    // Always allow outcome + blocks
+
+    $('#form-sub').textContent = {
+      ux: '· full UX/UI case study',
+      code: '· coding project (lighter)',
+      creative: '· creative coding piece (lighter)',
+    }[cat] || '';
+  }
+
+  $('#template-bar').addEventListener('click', (e) => {
+    if (e.target.matches('.template-btn')) applyTemplate(e.target.dataset.cat);
+  });
+
+  // ============================================================
+  //  CONTENT BLOCKS
+  // ============================================================
+  function renderBlocks() {
+    const container = $('#blocks');
+    container.innerHTML = '';
+    if (!blocks.length) {
+      container.innerHTML = '<p style="font-size:12px;color:var(--fg3);font-style:italic;padding:14px 0">No blocks yet. Add one below ↓</p>';
+      return;
+    }
+    blocks.forEach((b, i) => {
+      const el = document.createElement('div');
+      el.className = 'block';
+      el.innerHTML = `
+        <div class="block-head">
+          <span class="block-type">${b.type.replace('-', ' + ')}</span>
+          <div class="block-ctrls">
+            <button type="button" class="block-ctrl" data-move="up" ${i===0?'disabled':''} title="move up">↑</button>
+            <button type="button" class="block-ctrl" data-move="down" ${i===blocks.length-1?'disabled':''} title="move down">↓</button>
+            <button type="button" class="block-ctrl danger" data-del title="delete">×</button>
+          </div>
+        </div>
+        <div class="block-body"></div>
+      `;
+      el.querySelector('[data-move="up"]').addEventListener('click', () => { [blocks[i-1], blocks[i]] = [blocks[i], blocks[i-1]]; renderBlocks(); });
+      el.querySelector('[data-move="down"]').addEventListener('click', () => { [blocks[i+1], blocks[i]] = [blocks[i], blocks[i+1]]; renderBlocks(); });
+      el.querySelector('[data-del]').addEventListener('click', () => { if (confirm('Delete this block?')) { blocks.splice(i, 1); renderBlocks(); } });
+      const body = el.querySelector('.block-body');
+      renderBlockBody(b, body, i);
+      container.appendChild(el);
+    });
+  }
+
+  function renderBlockBody(b, body, idx) {
+    switch (b.type) {
+      case 'heading': {
+        body.innerHTML = `<div class="field"><label>Heading text</label><input value="${esc(b.text||'')}" placeholder="Research insights"/></div>`;
+        body.querySelector('input').addEventListener('input', e => b.text = e.target.value);
+        break;
+      }
+      case 'text': {
+        body.innerHTML = `<div class="field"><label>Paragraph</label><textarea placeholder="Write the story here — the why, how, what you learned.">${esc(b.text||'')}</textarea></div>`;
+        body.querySelector('textarea').addEventListener('input', e => b.text = e.target.value);
+        break;
+      }
+      case 'image': {
+        renderImageUpload(b, body, false);
+        break;
+      }
+      case 'image-caption': {
+        renderImageUpload(b, body, true);
+        break;
+      }
+      case 'process': {
+        body.innerHTML = `
+          <div class="row2">
+            <div class="field"><label>Step number</label><input value="${esc(b.num||'01')}" placeholder="01"/></div>
+            <div class="field"><label>Label</label><input value="${esc(b.label||'')}" placeholder="Discovery"/></div>
+          </div>
+          <div class="field"><label>Description</label><textarea placeholder="What happened in this step. Include the messy parts.">${esc(b.text||'')}</textarea></div>
+        `;
+        body.querySelectorAll('input, textarea').forEach((el, i) => {
+          const keys = ['num','label','text'];
+          el.addEventListener('input', e => b[keys[i]] = e.target.value);
+        });
+        break;
+      }
+      case 'metrics': {
+        if (!b.rows) b.rows = [{ k: '', v: '' }];
+        const mkRow = (r, i) => `
+          <div class="metric-row" data-idx="${i}">
+            <input placeholder="Metric label" value="${esc(r.k)}" data-f="k"/>
+            <input placeholder="Value (e.g. '11 / 12 users' or '+34%')" value="${esc(r.v)}" data-f="v"/>
+            <button type="button" data-rm>×</button>
+          </div>`;
+        body.innerHTML = `
+          <div class="field"><label>Metrics / impact</label>
+            <div class="metrics-rows">${b.rows.map(mkRow).join('')}</div>
+            <button type="button" class="btn btn-sm" data-addrow style="margin-top:8px;align-self:flex-start">+ add metric</button>
+          </div>
+        `;
+        const bindRows = () => {
+          body.querySelectorAll('.metric-row').forEach((row) => {
+            const i = +row.dataset.idx;
+            row.querySelectorAll('input').forEach(inp => {
+              inp.addEventListener('input', e => { b.rows[i][e.target.dataset.f] = e.target.value; });
+            });
+            row.querySelector('[data-rm]').addEventListener('click', () => {
+              b.rows.splice(i, 1); renderBlockBody(b, body, idx);
+            });
+          });
+          body.querySelector('[data-addrow]').addEventListener('click', () => {
+            b.rows.push({ k: '', v: '' }); renderBlockBody(b, body, idx);
+          });
+        };
+        bindRows();
+        break;
+      }
+      case 'quote': {
+        body.innerHTML = `
+          <div class="field"><label>Quote</label><textarea placeholder='"I actually look forward to checking in now."'>${esc(b.text||'')}</textarea></div>
+          <div class="row2">
+            <div class="field"><label>Attribution</label><input value="${esc(b.attr||'')}" placeholder="User 7, HabitaBull test"/></div>
+            <div class="field"><label>Context</label><input value="${esc(b.context||'')}" placeholder="Usability round 2"/></div>
+          </div>
+        `;
+        const [ta, a1, a2] = body.querySelectorAll('textarea, input');
+        ta.addEventListener('input', e => b.text = e.target.value);
+        a1.addEventListener('input', e => b.attr = e.target.value);
+        a2.addEventListener('input', e => b.context = e.target.value);
+        break;
+      }
+      case 'video': {
+        body.innerHTML = `
+          <div class="field"><label>YouTube / Vimeo / Figma embed URL</label><input value="${esc(b.url||'')}" placeholder="https://youtube.com/embed/…"/></div>
+          <div class="field"><label>Caption</label><input value="${esc(b.caption||'')}" placeholder="Walkthrough of final prototype"/></div>
+        `;
+        const [u, c] = body.querySelectorAll('input');
+        u.addEventListener('input', e => b.url = e.target.value);
+        c.addEventListener('input', e => b.caption = e.target.value);
+        break;
+      }
+    }
+  }
+
+  function renderImageUpload(b, body, withCaption) {
+    body.innerHTML = `
+      <div class="field">
+        <label>Image</label>
+        ${b.src ? `
+          <div class="img-preview">
+            <img src="${b.src}" alt="" />
+            <button type="button" class="remove" data-remove>remove</button>
+          </div>
+        ` : `
+          <label class="dropzone" data-drop>
+            <span class="dropzone-icon">↑</span>
+            <span class="dropzone-text">Drop image here or click to browse</span>
+            <span class="dropzone-sub">PNG · JPG · WebP · max 4MB</span>
+            <input type="file" accept="image/*" style="display:none"/>
+          </label>
+        `}
+      </div>
+      ${withCaption ? `
+        <div class="field"><label>Caption</label><input value="${esc(b.caption||'')}" placeholder="Fig 1. Low-fi wireframe exploring streak-forgiveness UX."/></div>
+      ` : ''}
+    `;
+    const drop = body.querySelector('[data-drop]');
+    if (drop) {
+      const inp = drop.querySelector('input');
+      drop.addEventListener('click', (e) => { if (e.target.tagName !== 'INPUT') inp.click(); });
+      inp.addEventListener('change', (e) => handleFile(e.target.files[0], b, body));
+      drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+      drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+      drop.addEventListener('drop', e => {
+        e.preventDefault(); drop.classList.remove('drag');
+        const f = e.dataTransfer.files[0];
+        if (f) handleFile(f, b, body);
+      });
+    }
+    const remove = body.querySelector('[data-remove]');
+    if (remove) remove.addEventListener('click', () => { b.src = ''; renderImageUpload(b, body, withCaption); });
+    const cap = body.querySelector('input[placeholder^="Fig"]');
+    if (cap) cap.addEventListener('input', e => b.caption = e.target.value);
+  }
+
+  async function handleFile(file, b, body) {
+    if (!file) return;
+    if (file.size > 4_000_000) { toast('Image over 4MB — try compressing'); return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      b.src = reader.result;
+      b.name = file.name;
+      renderImageUpload(b, body, b.type === 'image-caption');
+      toast('Image added');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Add block buttons
+  document.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.add;
+      const init = { heading:{text:''}, text:{text:''}, image:{src:''}, 'image-caption':{src:'',caption:''}, process:{num:String(blocks.filter(x=>x.type==='process').length+1).padStart(2,'0'),label:'',text:''}, metrics:{rows:[{k:'',v:''}]}, quote:{text:'',attr:'',context:''}, video:{url:'',caption:''} }[type];
+      blocks.push({ type, ...init });
+      renderBlocks();
+    });
+  });
+
+  // ============================================================
+  //  FORM ↔ STATE
+  // ============================================================
+  function resetForm() {
+    editingId = null;
+    $('#form').reset();
+    blocks = [];
+    renderBlocks();
+    applyTemplate('ux');
+    $('#form-title').firstChild.textContent = 'New project ';
+    $('#delete-btn').style.display = 'none';
+    $('#save-btn').textContent = 'save project';
+    renderList();
+  }
+
+  function loadIntoForm(id) {
+    const p = projects.find(x => x.id === id);
+    if (!p) return;
+    editingId = id;
+    $('#form-title').firstChild.textContent = 'Edit: ' + p.title + ' ';
+    $('#title').value = p.title || '';
+    $('#subtitle').value = p.subtitle || '';
+    $('#year').value = p.year || '';
+    $('#timeline').value = p.timeline || '';
+    $('#slug').value = p.slug || '';
+    $('#tags').value = (p.tags || []).join(', ');
+    $('#featured').checked = !!p.featured;
+    $('#role').value = p.role || '';
+    $('#team').value = p.team || '';
+    $('#client').value = p.client || '';
+    $('#tools').value = (p.tools || []).join(', ');
+    $('#audience').value = p.audience || '';
+    $('#problem').value = p.problem || '';
+    $('#goal').value = p.goal || '';
+    $('#constraints').value = p.constraints || '';
+    $('#outcome').value = p.outcome || '';
+    $('#reflection').value = p.reflection || '';
+    $('#link').value = p.link || '';
+    blocks = JSON.parse(JSON.stringify(p.blocks || []));
+    renderBlocks();
+    applyTemplate(p.category || 'ux');
+    $('#delete-btn').style.display = 'inline-block';
+    $('#save-btn').textContent = 'update project';
+    renderList();
+    scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  $('#form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const slugVal = $('#slug').value.trim() || slugify($('#title').value);
+    const data = {
+      id: editingId || uid(),
+      slug: slugVal,
+      title: $('#title').value.trim(),
+      subtitle: $('#subtitle').value.trim(),
+      year: $('#year').value.trim(),
+      timeline: $('#timeline').value.trim(),
+      tags: $('#tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+      category: currentCat,
+      featured: $('#featured').checked,
+      role: $('#role').value.trim(),
+      team: $('#team').value.trim(),
+      client: $('#client').value.trim(),
+      tools: $('#tools').value.split(',').map(s=>s.trim()).filter(Boolean),
+      audience: $('#audience').value.trim(),
+      problem: $('#problem').value.trim(),
+      goal: $('#goal').value.trim(),
+      constraints: $('#constraints').value.trim(),
+      outcome: $('#outcome').value.trim(),
+      reflection: $('#reflection').value.trim(),
+      link: $('#link').value.trim(),
+      blocks: JSON.parse(JSON.stringify(blocks)),
+      // legacy description field for the portfolio index view
+      description: $('#subtitle').value.trim() || $('#problem').value.trim().slice(0, 140),
+    };
+    const i = projects.findIndex(p => p.id === data.id);
+    if (i >= 0) projects[i] = data; else projects.unshift(data);
+    save();
+    toast(editingId ? 'Updated' : 'Saved');
+    if (editingId) return; // stay in edit
+    editingId = data.id;
+    $('#delete-btn').style.display = 'inline-block';
+    $('#save-btn').textContent = 'update project';
+    renderList();
+  });
+
+  $('#new-btn').addEventListener('click', () => { if (blocks.length || $('#title').value) { if (!confirm('Start a new project? Unsaved changes lost.')) return; } resetForm(); });
+  $('#delete-btn').addEventListener('click', () => {
+    if (!editingId || !confirm('Delete this project?')) return;
+    projects = projects.filter(p => p.id !== editingId);
+    save(); toast('Deleted'); resetForm();
+  });
+  $('#view-btn').addEventListener('click', () => {
+    if (!editingId) { toast('Save first'); return; }
+    const p = projects.find(x => x.id === editingId);
+    if (p) window.open(`case-study.html?slug=${encodeURIComponent(p.slug||p.id)}`, '_blank');
+  });
+
+  // ============================================================
+  //  LIST
+  // ============================================================
+  function renderList() {
+    const list = $('#list');
+    list.innerHTML = '';
+    $('#count').textContent = `(${projects.length})`;
+    if (!projects.length) { list.innerHTML = '<p style="color:var(--fg3);font-size:13px;font-style:italic;padding:10px 0">No projects yet.</p>'; return; }
+    projects.forEach(p => {
+      const c = document.createElement('div');
+      c.className = 'card' + (p.id === editingId ? ' active' : '');
+      c.innerHTML = `
+        <div class="card-top">
+          <h3 class="card-title">${esc(p.title)}${p.featured?' ★':''}</h3>
+          <span class="card-meta">${esc(p.year||'')}</span>
+        </div>
+        <span class="card-cat">${esc(p.category||'')}</span>
+        <p class="card-desc">${esc(p.subtitle || p.description || '')}</p>
+      `;
+      c.addEventListener('click', () => loadIntoForm(p.id));
+      list.appendChild(c);
+    });
+  }
+
+  // ============================================================
+  //  EXPORT / IMPORT
+  // ============================================================
+  $('#export-btn').addEventListener('click', async () => {
+    const json = JSON.stringify(projects, null, 2);
+    const area = $('#export-area');
+    area.style.display = 'block'; area.textContent = json;
+    try { await navigator.clipboard.writeText(json); toast('Copied to clipboard'); }
+    catch { toast('Shown below — copy manually'); }
+  });
+  $('#download-btn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'lucy-projects.json'; a.click();
+    URL.revokeObjectURL(url); toast('Downloaded');
+  });
+  $('#import-btn').addEventListener('click', () => $('#import-file').click());
+  $('#import-file').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result);
+        if (!Array.isArray(data)) throw 0;
+        if (!confirm(`Import ${data.length} projects? This replaces current.`)) return;
+        projects = data; save(); toast('Imported'); resetForm();
+      } catch { toast('Invalid JSON'); }
+    };
+    r.readAsText(f);
+  });
+  $('#reset-btn').addEventListener('click', () => {
+    if (!confirm('Delete ALL projects?')) return;
+    projects = []; save(); resetForm(); toast('Reset');
+  });
+
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  // ============================================================
+  //  INIT
+  // ============================================================
+  applyTemplate('ux');
+  renderBlocks();
+  renderList();
+</script>
+
+</body>
+</html>

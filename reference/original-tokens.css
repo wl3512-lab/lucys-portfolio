@@ -1,0 +1,86 @@
+/* ============================================
+   DESIGN TOKENS — lucyliu.dev
+   ============================================ */
+
+:root {
+  /* --- Colors (brand identity palette) --- */
+  --color-bg:         #050710;   /* void */
+  --color-surface:    #0A0F2A;   /* navy */
+  --color-surface-2:  #141930;   /* navy-mid */
+  --color-border:     rgba(160, 200, 255, 0.10);
+  --color-border-2:   rgba(160, 200, 255, 0.20);
+
+  --color-text-1:     #F6FAFF;   /* cloud white */
+  --color-text-2:     rgba(235, 243, 255, 0.55);
+  --color-text-3:     rgba(160, 200, 255, 0.35);
+
+  /* Brand identity palette */
+  --blue-300:     #A0C8FF;
+  --blue-400:     #72ADFF;
+  --blue-500:     #4A8FEF;
+  --lavender:     #C4B0FF;
+  --aura: linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #8EC4FF 100%);
+
+  --color-accent:     #72ADFF;
+  --color-accent-dim: rgba(114, 173, 255, 0.10);
+  --color-accent-dark:#050710;
+
+  /* --- Typography --- */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-ui:      'Syne', system-ui, sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-code:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* --- Type Scale --- */
+  --text-9xl:  clamp(72px, 12vw, 140px);
+  --text-6xl:  clamp(40px, 6vw, 64px);
+  --text-4xl:  clamp(28px, 4vw, 40px);
+  --text-2xl:  clamp(20px, 2.5vw, 26px);
+  --text-xl:   20px;
+  --text-lg:   18px;
+  --text-base: 16px;
+  --text-sm:   14px;
+  --text-xs:   12px;
+
+  /* --- Line Heights --- */
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.7;
+
+  /* --- Spacing --- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+
+  /* --- Border Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+
+  /* --- Transitions --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:   200ms;
+  --duration-base:   300ms;
+  --duration-slow:   500ms;
+  --duration-page:   800ms;
+
+  /* --- Layout --- */
+  --max-width: 1100px;
+  --nav-height: 64px;
+  --section-gap: clamp(80px, 12vw, 140px);
+  --gutter: clamp(20px, 5vw, 48px);
+}

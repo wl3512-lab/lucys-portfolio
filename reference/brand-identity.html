@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucy Liu — Brand Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-100: #EBF3FF;
+    --blue-200: #C8DEFF;
+    --blue-300: #A0C8FF;
+    --blue-400: #72ADFF;
+    --blue-500: #4A8FEF;
+    --navy: #0A0F2A;
+    --navy-mid: #141930;
+    --navy-light: #1E2640;
+    --void: #050710;
+    --white: #F6FAFF;
+    --mist: #E2EEFF;
+    --lavender: #C4B0FF;
+    --lavender-light: #E8E0FF;
+    --aura: linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 50%, #8EC4FF 100%);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F0F4FA;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  /* ─── PAGE WRAPPER ─── */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-500);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--blue-300), transparent);
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--void);
+    border-radius: 24px;
+    padding: 80px 72px;
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cover-aura {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(160,200,255,0.22) 0%, rgba(196,176,255,0.12) 40%, transparent 70%);
+    top: -150px;
+    right: -100px;
+    pointer-events: none;
+  }
+  .cover-aura-2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(142,196,255,0.15) 0%, transparent 70%);
+    bottom: -100px;
+    left: 40px;
+    pointer-events: none;
+  }
+  .cover-wordmark {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-wordmark span {
+    background: linear-gradient(135deg, #A0C8FF, #C4B0FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cover-meta {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .cover-tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(235,243,255,0.55);
+    letter-spacing: 0.04em;
+    max-width: 360px;
+  }
+  .cover-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--blue-300);
+    text-transform: uppercase;
+    border: 1px solid rgba(160,200,255,0.3);
+    border-radius: 40px;
+    padding: 6px 16px;
+  }
+  .cover-concept {
+    position: absolute;
+    top: 52px;
+    right: 72px;
+    z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(160,200,255,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  /* ─── COLOR SECTION ─── */
+  .color-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .color-swatch {
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .swatch-block {
+    height: 140px;
+    flex-shrink: 0;
+  }
+  .swatch-block.aura {
+    background: linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #7EB8FF 100%);
+  }
+  .swatch-block.navy { background: var(--navy); }
+  .swatch-block.void { background: var(--void); }
+  .swatch-block.white { background: var(--white); border: 1px solid rgba(10,15,42,0.08); }
+  .swatch-info {
+    background: white;
+    padding: 14px 16px;
+    flex: 1;
+  }
+  .swatch-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .swatch-hex {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #7A8BAA;
+  }
+  .swatch-role {
+    font-size: 11px;
+    color: #A0AAB8;
+    margin-top: 4px;
+    font-weight: 300;
+  }
+  .color-accents {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .accent-swatch {
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 12px;
+    position: relative;
+  }
+  .accent-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+  }
+  .accent-label.dark { color: rgba(10,15,42,0.55); }
+
+  /* ─── TYPOGRAPHY ─── */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .type-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    border: 1px solid rgba(10,15,42,0.07);
+  }
+  .type-specimen-xl {
+    font-family: 'Syne', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--navy) 40%, var(--blue-500));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .type-specimen-lg {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .type-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--blue-500);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(10,15,42,0.07);
+  }
+  .type-scale-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .type-scale-sample {
+    font-family: 'Syne', sans-serif;
+    color: var(--navy);
+  }
+  .type-scale-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #A0AAB8;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .type-body-specimen {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--navy);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .type-body-strong {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .type-mono-specimen {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--blue-500);
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(10,15,42,0.07);
+  }
+  .type-italic {
+    font-style: italic;
+    color: #8A9AB8;
+  }
+
+  /* ─── LOGO SYSTEM ─── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .logo-card {
+    border-radius: 20px;
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 200px;
+  }
+  .logo-card.dark { background: var(--void); }
+  .logo-card.light { background: var(--white); border: 1px solid rgba(10,15,42,0.09); }
+  .logo-card.blue { background: linear-gradient(140deg, var(--blue-200), var(--lavender-light)); }
+  .logo-wordmark {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .logo-wordmark.light-text { color: var(--white); font-size: 36px; }
+  .logo-wordmark.dark-text { color: var(--navy); font-size: 36px; }
+  .logo-wordmark.gradient-text {
+    font-size: 36px;
+    background: linear-gradient(135deg, var(--blue-500), var(--lavender));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .logo-card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .logo-card-label.on-dark { color: rgba(160,200,255,0.5); }
+  .logo-card-label.on-light { color: rgba(10,15,42,0.4); }
+  .logo-card-label.on-blue { color: rgba(74,143,239,0.7); }
+
+  /* logo small row */
+  .logo-small-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .logo-small-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(10,15,42,0.08);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .logo-small-wordmark {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .logo-size-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #A0AAB8;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ─── DESIGN PRINCIPLES ─── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .principle-card {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .principle-aura {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+  }
+  .principle-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    color: rgba(160,200,255,0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .principle-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .principle-body {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(235,243,255,0.5);
+    line-height: 1.65;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── VISUAL MOTIFS ─── */
+  .motif-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .motif-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(10,15,42,0.07);
+  }
+  .motif-visual {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .motif-label-wrap {
+    padding: 16px 18px;
+  }
+  .motif-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .motif-desc {
+    font-size: 11px;
+    color: #A0AAB8;
+  }
+
+  /* ─── COMPONENT EXAMPLES ─── */
+  .component-dark-bg {
+    background: var(--void);
+    border-radius: 24px;
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .comp-nav {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(160,200,255,0.12);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(8px);
+  }
+  .comp-nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+  .comp-nav-links {
+    display: flex;
+    gap: 24px;
+  }
+  .comp-nav-link {
+    font-size: 13px;
+    color: rgba(235,243,255,0.45);
+    font-weight: 300;
+    cursor: pointer;
+  }
+  .comp-nav-link.active {
+    color: var(--blue-300);
+  }
+  .comp-cta-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .comp-btn-primary {
+    background: var(--blue-400);
+    color: var(--void);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    letter-spacing: 0.01em;
+    border: none;
+    cursor: pointer;
+  }
+  .comp-btn-ghost {
+    background: transparent;
+    color: var(--blue-300);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(160,200,255,0.25);
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .comp-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(160,200,255,0.1);
+    border-radius: 16px;
+    padding: 28px;
+    backdrop-filter: blur(8px);
+  }
+  .comp-card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-400);
+    margin-bottom: 12px;
+  }
+  .comp-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .comp-card-body {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(235,243,255,0.45);
+    line-height: 1.6;
+  }
+  .comp-tag-chip {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(160,200,255,0.2);
+    color: rgba(160,200,255,0.65);
+    margin-top: 16px;
+    margin-right: 6px;
+  }
+  .comp-input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(160,200,255,0.15);
+    border-radius: 8px;
+    padding: 11px 16px;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-top: 8px;
+    outline: none;
+  }
+  .comp-input::placeholder { color: rgba(235,243,255,0.25); }
+  .comp-input-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(160,200,255,0.5);
+    display: block;
+    margin-top: 16px;
+  }
+
+  /* ─── TICKER / MARQUEE ─── */
+  .ticker-wrap {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 16px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 40px;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(160,200,255,0.45);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ticker-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--blue-400);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* ─── VOICE & TONE ─── */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .voice-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid rgba(10,15,42,0.07);
+  }
+  .voice-card.do { border-top: 3px solid var(--blue-400); }
+  .voice-card.dont { border-top: 3px solid #E8B4C0; }
+  .voice-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .voice-dot-do {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--blue-400); flex-shrink: 0;
+  }
+  .voice-dot-dont {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #E8B4C0; flex-shrink: 0;
+  }
+  .voice-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--navy);
+    font-weight: 300;
+  }
+  .voice-item-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+
+  /* ─── SPACING + RADIUS TOKENS ─── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .token-section {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid rgba(10,15,42,0.07);
+  }
+  .token-section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-500);
+    margin-bottom: 20px;
+  }
+  .token-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .spacing-block {
+    background: linear-gradient(135deg, var(--blue-300), var(--lavender));
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .radius-block {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--blue-300), var(--lavender));
+    flex-shrink: 0;
+  }
+  .token-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--navy);
+    flex: 1;
+  }
+  .token-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #A0AAB8;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--void);
+    border-radius: 20px;
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(246,250,255,0.85);
+    letter-spacing: -0.02em;
+  }
+  .footer-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(160,200,255,0.35);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ─── UTILITY ─── */
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: #7A8BAA;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── COVER ── -->
+  <section class="cover">
+    <div class="cover-aura"></div>
+    <div class="cover-aura-2"></div>
+    <div class="cover-concept">Brand Identity System · 2026</div>
+
+    <div class="cover-wordmark">
+      lucy <span>liu</span>
+    </div>
+
+    <div class="cover-meta">
+      <p class="cover-tagline">Design Strategist from Vancouver, based in NYC — creating experiences that live at the edge of human and digital.</p>
+      <div class="cover-badge">Brand Identity System</div>
+    </div>
+  </section>
+
+  <!-- ── COLORS ── -->
+  <section>
+    <p class="section-label">01 / Color System</p>
+    <h2>Palette</h2>
+    <p class="section-desc">An aura-forward palette — atmospheric and otherworldly, grounded in deep space.</p>
+
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-block aura"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Aura Blue</div>
+          <div class="swatch-hex">#A0C8FF → #C4B0FF</div>
+          <div class="swatch-role">Primary · Gradient · Holographic</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block navy"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Space</div>
+          <div class="swatch-hex">#0A0F2A</div>
+          <div class="swatch-role">Secondary · UI Surfaces</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block void"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Void</div>
+          <div class="swatch-hex">#050710</div>
+          <div class="swatch-role">Backgrounds · Depth</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block white"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Cloud White</div>
+          <div class="swatch-hex">#F6FAFF</div>
+          <div class="swatch-role">Text · Light UI</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-accents">
+      <div class="accent-swatch" style="background:#A0C8FF;">
+        <span class="accent-label dark">Blue 300</span>
+      </div>
+      <div class="accent-swatch" style="background:#72ADFF;">
+        <span class="accent-label dark">Blue 400</span>
+      </div>
+      <div class="accent-swatch" style="background:#4A8FEF;">
+        <span class="accent-label">Blue 500</span>
+      </div>
+      <div class="accent-swatch" style="background:#C4B0FF;">
+        <span class="accent-label dark">Lavender</span>
+      </div>
+      <div class="accent-swatch" style="background:#E8E0FF;">
+        <span class="accent-label dark">Lav. Light</span>
+      </div>
+      <div class="accent-swatch" style="background:#1E2640;">
+        <span class="accent-label">Navy Mid</span>
+      </div>
+      <div class="accent-swatch" style="background:#E2EEFF;">
+        <span class="accent-label dark">Mist</span>
+      </div>
+      <div class="accent-swatch" style="background:linear-gradient(135deg,#A0C8FF,#C4B0FF,#8EC4FF);">
+        <span class="accent-label dark">Aura Grad.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TYPOGRAPHY ── -->
+  <section>
+    <p class="section-label">02 / Typography</p>
+    <h2>Type System</h2>
+    <p class="section-desc">Three typefaces in precise roles — expressive display, humanist body, monospace precision.</p>
+
+    <div class="type-grid">
+      <div class="type-card">
+        <p class="type-meta">Display — Syne</p>
+        <div class="type-specimen-xl">Aa</div>
+        <div class="type-specimen-lg">Human-Centered<br>Interface Design.</div>
+        <div class="type-scale">
+          <div class="type-scale-row">
+            <span class="type-scale-sample" style="font-family:'Syne';font-size:40px;font-weight:800;">Display XL</span>
+            <span class="type-scale-label">Syne 800 / 40px</span>
+          </div>
+          <div class="type-scale-row">
+            <span class="type-scale-sample" style="font-family:'Syne';font-size:28px;font-weight:700;">Heading L</span>
+            <span class="type-scale-label">Syne 700 / 28px</span>
+          </div>
+          <div class="type-scale-row">
+            <span class="type-scale-sample" style="font-family:'Syne';font-size:20px;font-weight:600;">Heading M</span>
+            <span class="type-scale-label">Syne 600 / 20px</span>
+          </div>
+          <div class="type-scale-row">
+            <span class="type-scale-sample" style="font-family:'Syne';font-size:15px;font-weight:500;">Label</span>
+            <span class="type-scale-label">Syne 500 / 15px</span>
+          </div>
+        </div>
+      </div>
+      <div class="type-card">
+        <p class="type-meta">Body — DM Sans</p>
+        <p class="type-body-specimen">I put emphasis on user research, accessibility, and interaction design — creating experiences that are intuitive and inclusive.</p>
+        <p class="type-body-strong">Legible. Warm. Human.</p>
+        <p class="type-body-specimen type-italic">"Design is intelligence made visible."</p>
+        <p class="type-meta" style="margin-top:24px;">Mono — Space Mono</p>
+        <div class="type-mono-specimen">
+          NYU_IMA · DESIGN_STRATEGIST<br>
+          VANCOUVER → NEW_YORK_CITY<br>
+          &lt;human-centered-design /&gt;
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LOGO SYSTEM ── -->
+  <section>
+    <p class="section-label">03 / Logo System</p>
+    <h2>Wordmark</h2>
+    <p class="section-desc">The wordmark is set in Syne Bold — confident, geometric, and distinctive. Always lowercase.</p>
+
+    <div class="logo-grid">
+      <div class="logo-card dark">
+        <span class="logo-card-label on-dark">Primary · Dark BG</span>
+        <span class="logo-wordmark light-text">lucy liu</span>
+        <span class="logo-card-label on-dark">Syne 700 · #F6FAFF</span>
+      </div>
+      <div class="logo-card light">
+        <span class="logo-card-label on-light">Secondary · Light BG</span>
+        <span class="logo-wordmark dark-text">lucy liu</span>
+        <span class="logo-card-label on-light">Syne 700 · #0A0F2A</span>
+      </div>
+      <div class="logo-card blue">
+        <span class="logo-card-label on-blue">Accent · Aura BG</span>
+        <span class="logo-wordmark gradient-text">lucy liu</span>
+        <span class="logo-card-label on-blue">Syne 700 · Gradient</span>
+      </div>
+    </div>
+
+    <div class="logo-small-row">
+      <div class="logo-small-card">
+        <span class="logo-size-label">Nav / Small</span>
+        <span class="logo-small-wordmark" style="font-size:18px;">lucy liu</span>
+      </div>
+      <div class="logo-small-card">
+        <span class="logo-size-label">Card Header</span>
+        <span class="logo-small-wordmark" style="font-size:24px;">lucy liu</span>
+      </div>
+      <div class="logo-small-card">
+        <span class="logo-size-label">Hero / Medium</span>
+        <span class="logo-small-wordmark" style="font-size:32px;">lucy liu</span>
+      </div>
+      <div class="logo-small-card" style="border:1.5px solid rgba(10,15,42,0.12);background:#f0f4f9;">
+        <span class="logo-size-label" style="color:#C8B4FF;">Never stretch</span>
+        <span class="logo-small-wordmark" style="font-size:24px;transform:scaleX(1.4);display:inline-block;color:#DDBBCC;transform-origin:left;">lucy liu</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DESIGN PRINCIPLES ── -->
+  <section>
+    <p class="section-label">04 / Design Principles</p>
+    <h2>Brand Pillars</h2>
+    <p class="section-desc">Three ideas that define how the brand thinks, feels, and communicates.</p>
+
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-aura" style="background:radial-gradient(circle,rgba(160,200,255,0.2),transparent 70%);"></div>
+        <div class="principle-number">01</div>
+        <div class="principle-title">Liminal</div>
+        <p class="principle-body">Existing at the threshold — between the physical and digital, the intuitive and the technical. The work lives in that in-between space.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-aura" style="background:radial-gradient(circle,rgba(196,176,255,0.2),transparent 70%);"></div>
+        <div class="principle-number">02</div>
+        <div class="principle-title">Precise</div>
+        <p class="principle-body">Every decision is intentional. Experimental doesn't mean chaotic — it means considered risk-taking with clear purpose behind each choice.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-aura" style="background:radial-gradient(circle,rgba(114,173,255,0.2),transparent 70%);"></div>
+        <div class="principle-number">03</div>
+        <div class="principle-title">Human</div>
+        <p class="principle-body">The futurism is always in service of people. Accessibility and human-centered design anchor every aesthetic choice, however bold.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VISUAL MOTIFS ── -->
+  <section>
+    <p class="section-label">05 / Visual Language</p>
+    <h2>Motifs</h2>
+    <p class="section-desc">Recurring visual elements that create coherence and atmosphere across the brand.</p>
+
+    <div class="motif-grid">
+      <!-- Aura Glow -->
+      <div class="motif-card">
+        <div class="motif-visual" style="background:#07080F;">
+          <div style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(160,200,255,0.5) 0%,rgba(196,176,255,0.2) 40%,transparent 70%);"></div>
+        </div>
+        <div class="motif-label-wrap">
+          <div class="motif-name">Aura Glow</div>
+          <div class="motif-desc">Soft radial halos — atmosphere, depth</div>
+        </div>
+      </div>
+      <!-- Fine Grid -->
+      <div class="motif-card">
+        <div class="motif-visual" style="background:#0A0F2A;background-image:linear-gradient(rgba(160,200,255,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(160,200,255,0.08) 1px,transparent 1px);background-size:28px 28px;">
+        </div>
+        <div class="motif-label-wrap">
+          <div class="motif-name">Fine Grid</div>
+          <div class="motif-desc">Technical precision, system thinking</div>
+        </div>
+      </div>
+      <!-- Gradient Streak -->
+      <div class="motif-card">
+        <div class="motif-visual" style="background:#F0F4FA;display:flex;align-items:center;justify-content:center;">
+          <div style="width:80%;height:3px;background:linear-gradient(90deg,transparent,#A0C8FF,#C4B0FF,transparent);border-radius:4px;box-shadow:0 0 20px rgba(160,200,255,0.5);"></div>
+        </div>
+        <div class="motif-label-wrap">
+          <div class="motif-name">Aura Streak</div>
+          <div class="motif-desc">Linear gradients as dividers / accents</div>
+        </div>
+      </div>
+      <!-- Frosted Glass -->
+      <div class="motif-card">
+        <div class="motif-visual" style="background:linear-gradient(135deg,#0A0F2A,#1E2640);">
+          <div style="width:120px;height:70px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(160,200,255,0.18);display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:rgba(160,200,255,0.6);letter-spacing:0.14em;">FROSTED</span>
+          </div>
+        </div>
+        <div class="motif-label-wrap">
+          <div class="motif-name">Frosted Glass</div>
+          <div class="motif-desc">Translucent surfaces, layered depth</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPONENT EXAMPLES ── -->
+  <section>
+    <p class="section-label">06 / In Practice</p>
+    <h2>UI Components</h2>
+    <p class="section-desc">How the brand system comes to life across real UI elements.</p>
+
+    <div class="component-dark-bg">
+      <!-- Left col -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="comp-nav">
+          <span class="comp-nav-logo">lucy liu</span>
+          <div class="comp-nav-links">
+            <span class="comp-nav-link active">work</span>
+            <span class="comp-nav-link">about</span>
+            <span class="comp-nav-link">contact ↗</span>
+          </div>
+        </div>
+
+        <div style="padding:8px 4px;">
+          <p style="font-family:'Syne',sans-serif;font-size:42px;font-weight:700;color:#F6FAFF;letter-spacing:-0.025em;line-height:1.05;margin-bottom:16px;">Hello, I'm<br><span style="background:linear-gradient(135deg,#A0C8FF,#C4B0FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Lucy.</span></span></p>
+          <div class="comp-cta-row">
+            <button class="comp-btn-primary">View my work ↓</button>
+            <button class="comp-btn-ghost">Let's talk →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right col -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="comp-card">
+          <div class="comp-card-tag">Featured Project</div>
+          <div class="comp-card-title">Accessible Navigation for Spatial Interfaces</div>
+          <p class="comp-card-body">Research-led interaction design exploring how spatial computing changes accessibility paradigms.</p>
+          <span class="comp-tag-chip">NYU IMA</span>
+          <span class="comp-tag-chip">Accessibility</span>
+          <span class="comp-tag-chip">XR</span>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(160,200,255,0.1);border-radius:12px;padding:20px;">
+          <label class="comp-input-label">Get in touch</label>
+          <input type="text" class="comp-input" placeholder="your@email.com" readonly>
+          <div style="margin-top:12px;text-align:right;">
+            <button class="comp-btn-primary" style="font-size:12px;padding:8px 16px;">Send →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TICKER ── -->
+  <section>
+    <div class="ticker-wrap">
+      <div class="ticker-track">
+        <span class="ticker-item"><span class="ticker-dot"></span>NYC</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Human-Centered Design</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Interaction Design</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Design Strategy</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Accessibility</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>NYU IMA</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Vancouver → NYC</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Avant-Garde</span>
+        <!-- dupe for seamless loop -->
+        <span class="ticker-item"><span class="ticker-dot"></span>NYC</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Human-Centered Design</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Interaction Design</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Design Strategy</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Accessibility</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>NYU IMA</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Vancouver → NYC</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Avant-Garde</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DESIGN TOKENS ── -->
+  <section>
+    <p class="section-label">07 / Design Tokens</p>
+    <h2>Spacing & Radius</h2>
+    <p class="section-desc">A tight token system for consistent spatial rhythm and corner styles across the UI.</p>
+
+    <div class="token-grid">
+      <div class="token-section">
+        <div class="token-section-title">Spacing Scale</div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:4px;"></div>
+          <span class="token-name">--space-1</span>
+          <span class="token-value">4px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:8px;"></div>
+          <span class="token-name">--space-2</span>
+          <span class="token-value">8px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:12px;"></div>
+          <span class="token-name">--space-3</span>
+          <span class="token-value">12px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:16px;"></div>
+          <span class="token-name">--space-4</span>
+          <span class="token-value">16px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:24px;"></div>
+          <span class="token-name">--space-6</span>
+          <span class="token-value">24px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:32px;"></div>
+          <span class="token-name">--space-8</span>
+          <span class="token-value">32px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:48px;"></div>
+          <span class="token-name">--space-12</span>
+          <span class="token-value">48px</span>
+        </div>
+        <div class="token-row">
+          <div class="spacing-block" style="width:64px;"></div>
+          <span class="token-name">--space-16</span>
+          <span class="token-value">64px</span>
+        </div>
+      </div>
+      <div class="token-section">
+        <div class="token-section-title">Border Radius</div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:4px;width:32px;height:32px;"></div>
+          <span class="token-name">--radius-sm</span>
+          <span class="token-value">4px · Inputs</span>
+        </div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:8px;width:36px;height:36px;"></div>
+          <span class="token-name">--radius-md</span>
+          <span class="token-value">8px · Buttons</span>
+        </div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:12px;width:40px;height:40px;"></div>
+          <span class="token-name">--radius-lg</span>
+          <span class="token-value">12px · Cards</span>
+        </div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:20px;width:44px;height:44px;"></div>
+          <span class="token-name">--radius-xl</span>
+          <span class="token-value">20px · Sections</span>
+        </div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:24px;width:48px;height:48px;"></div>
+          <span class="token-name">--radius-2xl</span>
+          <span class="token-value">24px · Hero</span>
+        </div>
+        <div class="token-row">
+          <div class="radius-block" style="border-radius:999px;width:48px;height:32px;"></div>
+          <span class="token-name">--radius-full</span>
+          <span class="token-value">999px · Pills, Tags</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VOICE & TONE ── -->
+  <section>
+    <p class="section-label">08 / Voice & Tone</p>
+    <h2>Brand Voice</h2>
+    <p class="section-desc">The brand speaks the way Lucy thinks — sharp, warm, experimental, never pretentious.</p>
+
+    <div class="voice-grid">
+      <div class="voice-card do">
+        <div class="voice-heading">
+          <div class="voice-dot-do"></div>
+          Do
+        </div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Lead with specificity — "interaction patterns for spatial computing" not "cool tech stuff"</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Own the tension between experimental and accessible</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Use lowercase typography throughout — it's a style choice, not an accident</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Reference the methodology: user research, accessibility audits, co-design</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Sound curious, not authoritative</div>
+      </div>
+      <div class="voice-card dont">
+        <div class="voice-heading">
+          <div class="voice-dot-dont"></div>
+          Don't
+        </div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Use buzzword soup — "synergy," "disruptive," "innovative solutions"</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Over-explain the aesthetic — let the work speak</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Capitalize randomly or break the lowercase system</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Use exclamation marks (the work is confident, not excitable)</div>
+        <div class="voice-item"><span class="voice-item-icon">→</span> Write in the passive voice — own your decisions</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <span class="footer-brand">lucy liu</span>
+    <div class="footer-meta">
+      Brand Identity System · 2026<br>
+      NYU Interactive Media Arts<br>
+      New York City
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

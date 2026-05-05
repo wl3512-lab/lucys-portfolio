@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lucy / typography system — operator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@200,300,400,500,600,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════
+       TOKENS — pulled from lucy's CSS
+       ═══════════════════════════════════════════ */
+    :root {
+      --void:       #050710;
+      --navy:       #0A0F2A;
+      --navy-mid:   #141930;
+      --navy-light: #1E2640;
+
+      --blue-100:   #EBF3FF;
+      --blue-200:   #C8DEFF;
+      --blue-300:   #A0C8FF;
+      --blue-400:   #72ADFF;
+      --blue-500:   #4A8FEF;
+      --lavender:   #C4B0FF;
+      --cloud:      #F6FAFF;
+
+      --aura:       linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #8EC4FF 100%);
+      --aura-radial:radial-gradient(circle, rgba(160,200,255,0.18) 0%, rgba(196,176,255,0.08) 40%, transparent 70%);
+
+      --bg:           var(--void);
+      --surface:      var(--navy);
+      --surface-2:    var(--navy-mid);
+      --fg1:          var(--cloud);
+      --fg2:          rgba(235,243,255,0.55);
+      --fg3:          rgba(160,200,255,0.35);
+      --accent:       var(--blue-400);
+      --accent-dim:   var(--blue-300);
+      --border:       rgba(160,200,255,0.10);
+      --border-strong:rgba(160,200,255,0.22);
+      --dont:         #E8B4C0;
+
+      --font-display: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+      --font-body:    'Switzer', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+      --gutter:       clamp(20px, 5vw, 64px);
+      --section-gap:  clamp(80px, 12vw, 160px);
+
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ═══════════════════════════════════════════
+       BASE
+       ═══════════════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--fg1);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(160,200,255,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: -300px; right: -200px;
+      width: 900px; height: 900px;
+      background: var(--aura-radial);
+      pointer-events: none; z-index: 0;
+    }
+    main { position: relative; z-index: 1; }
+
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: rgba(114,173,255,0.3); color: var(--fg1); }
+
+    /* ═══════════════════════════════════════════
+       NAV
+       ═══════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--gutter);
+      background: rgba(5,7,16,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .navbar .wordmark {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--fg1);
+      letter-spacing: 0;
+      text-transform: lowercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .navbar .wordmark::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+    .navbar .meta { color: var(--fg3); }
+    .navbar .clock {
+      color: var(--accent-dim);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+    }
+    @media (max-width: 720px) {
+      .navbar .meta { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT
+       ═══════════════════════════════════════════ */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      position: relative;
+    }
+    .section + .section { margin-top: var(--section-gap); }
+
+    .section-header {
+      display: flex; gap: 16px; align-items: baseline;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .section-header .num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+    .section-header .title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg2);
+      font-weight: 400;
+    }
+    .section-header .spec {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ */
+    .hero { padding-top: 160px; padding-bottom: 80px; }
+    .hero .system-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+    .hero .system-tag::before { content: '>>>  '; }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(56px, 13vw, 196px);
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      color: var(--fg1);
+      margin-bottom: 40px;
+    }
+    .hero h1 .glow { color: var(--accent); }
+    .hero .lede {
+      font-family: var(--font-body);
+      font-size: clamp(17px, 1.8vw, 21px);
+      font-weight: 300;
+      line-height: 1.55;
+      max-width: 640px;
+      color: var(--fg2);
+    }
+    .hero .lede strong {
+      color: var(--fg1);
+      font-weight: 500;
+    }
+    .hero-meta {
+      margin-top: 96px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-meta dt {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+    .hero-meta dd {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--fg1);
+      font-weight: 500;
+    }
+    @media (max-width: 720px) {
+      .hero-meta { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ═══════════════════════════════════════════
+       FONT CARDS
+       ═══════════════════════════════════════════ */
+    .font-card {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .font-card:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .font-card .role {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .font-card .role::before { content: '◉  '; }
+
+    .font-card .name-row {
+      display: flex; align-items: baseline;
+      gap: 24px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .font-card .name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(44px, 7vw, 88px);
+      line-height: 1;
+      letter-spacing: -0.035em;
+      color: var(--fg1);
+    }
+    .font-card.body-card .name {
+      font-family: var(--font-body);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .font-card .meta-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      padding: 5px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+    }
+    .font-card .description {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--fg2);
+      max-width: 640px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .font-card .description .accent { color: var(--fg1); font-weight: 500; }
+
+    .specimen {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+    .specimen .specimen-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      margin-bottom: 20px;
+    }
+    .specimen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 720px) { .specimen-grid { grid-template-columns: 1fr; } }
+
+    .glyph-row {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0;
+      color: var(--fg1);
+      line-height: 1.5;
+    }
+    .glyph-row + .glyph-row { color: var(--fg2); margin-top: 8px; }
+    .body-card .glyph-row { font-family: var(--font-body); }
+
+    .weight-stack { display: flex; flex-direction: column; gap: 4px; }
+    .weight-stack > div {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.01em;
+      color: var(--fg1);
+    }
+    .body-card .weight-stack > div { font-family: var(--font-body); }
+    .weight-stack > div .w-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--fg3);
+      text-transform: uppercase;
+      margin-right: 12px;
+    }
+
+    /* ═══════════════════════════════════════════
+       SCALE LADDER
+       ═══════════════════════════════════════════ */
+    .scale-row {
+      display: grid;
+      grid-template-columns: 110px 90px 110px 1fr;
+      gap: 24px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .scale-row:last-child { border-bottom: none; }
+    .scale-row .col {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg3);
+      letter-spacing: 0.08em;
+      font-weight: 400;
+    }
+    .scale-row .col.size { color: var(--accent); font-weight: 500; }
+    .scale-row .sample { color: var(--fg1); }
+
+    .row-hero .sample {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 96px;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .row-h1 .sample {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 56px;
+      line-height: 1;
+      letter-spacing: -0.035em;
+    }
+    .row-h2 .sample {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .row-h3 .sample {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+    .row-body .sample {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 520px;
+      color: var(--fg2);
+    }
+    .row-caption .sample {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--fg2);
+    }
+    .row-eyebrow .sample {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+
+    @media (max-width: 720px) {
+      .scale-row { grid-template-columns: 60px 60px 1fr; }
+      .scale-row .col-weight { display: none; }
+      .row-hero .sample { font-size: 56px; }
+      .row-h1 .sample { font-size: 36px; }
+      .row-h2 .sample { font-size: 24px; }
+    }
+
+    /* ═══════════════════════════════════════════
+       MOCK CONTAINER
+       ═══════════════════════════════════════════ */
+    .mock {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      overflow: hidden;
+      position: relative;
+    }
+    .mock-label {
+      position: absolute; top: 16px; left: 20px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      z-index: 2;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mock-label::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .mock-hero { padding: 88px 48px 64px; }
+    .mock-hero .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+    .mock-hero .eyebrow::before { content: '>>>  '; }
+    .mock-hero h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 32px;
+      color: var(--fg1);
+    }
+    .mock-hero h2 .accent { color: var(--accent); }
+    .mock-hero .lede {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--fg2);
+      max-width: 580px;
+      margin-bottom: 40px;
+    }
+    .mock-hero .lede strong { color: var(--fg1); font-weight: 500; }
+    .mock-hero .links {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+    }
+    .mock-hero .links a {
+      color: var(--fg1);
+      padding: 10px 18px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      transition: all 220ms var(--ease);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .mock-hero .links a::before {
+      content: '→'; opacity: 0.4;
+      transition: all 220ms var(--ease);
+    }
+    .mock-hero .links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(114,173,255,0.08);
+    }
+    .mock-hero .links a:hover::before { opacity: 1; transform: translateX(2px); }
+
+    /* PROJECT INDEX MOCK */
+    .mock-projects { padding: 64px 32px; }
+    .mock-projects .header-row {
+      display: grid;
+      grid-template-columns: 70px 1fr 240px 80px;
+      gap: 24px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mock-projects .header-row span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      font-weight: 400;
+    }
+    .mock-projects .header-row span:last-child { text-align: right; }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 70px 1fr 240px 80px;
+      gap: 24px;
+      padding: 20px 16px;
+      align-items: center;
+      border-radius: 8px;
+      transition: all 250ms var(--ease);
+      cursor: pointer;
+      position: relative;
+    }
+    .project-row:hover {
+      background: var(--surface-2);
+    }
+    .project-row::before {
+      content: '';
+      position: absolute; left: -8px; top: 50%;
+      transform: translateY(-50%) scale(0);
+      width: 4px; height: 24px;
+      background: var(--accent);
+      border-radius: 2px;
+      box-shadow: 0 0 12px var(--accent);
+      transition: transform 220ms var(--ease);
+    }
+    .project-row:hover::before { transform: translateY(-50%) scale(1); }
+    .project-row .num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      font-weight: 500;
+    }
+    .project-row .title {
+      font-family: var(--font-body);
+      font-size: 19px;
+      font-weight: 500;
+      color: var(--fg1);
+      letter-spacing: -0.015em;
+      transition: color 200ms ease;
+    }
+    .project-row:hover .title { color: var(--accent); }
+    .project-row .tags {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .project-row .tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      color: var(--fg2);
+      font-weight: 500;
+    }
+    .project-row .year {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--fg3);
+      text-align: right;
+      font-weight: 500;
+    }
+    @media (max-width: 720px) {
+      .mock-projects .header-row,
+      .project-row { grid-template-columns: 50px 1fr 70px; }
+      .mock-projects .header-row .col-tags,
+      .project-row .tags { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════
+       AURA AS INTERFACE — compare cards
+       ═══════════════════════════════════════════ */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+    .compare-card {
+      padding: 40px 32px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      min-height: 280px;
+      display: flex; flex-direction: column;
+    }
+    .compare-card .verdict {
+      position: absolute; top: 16px; right: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .compare-card.dont .verdict {
+      background: rgba(232,180,192,0.10);
+      color: var(--dont);
+      border: 1px solid rgba(232,180,192,0.30);
+    }
+    .compare-card.dont {
+      border: 1px solid rgba(232,180,192,0.18);
+    }
+    .compare-card.do .verdict {
+      background: rgba(114,173,255,0.10);
+      color: var(--accent);
+      border: 1px solid rgba(114,173,255,0.30);
+    }
+    .compare-card h4 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+    .compare-card .demo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+      color: var(--fg1);
+      flex-grow: 1;
+    }
+    .compare-card .demo em {
+      font-style: italic;
+      background: var(--aura);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .compare-card.do .demo .num-tag {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 16px;
+      vertical-align: top;
+      margin-right: 12px;
+      font-weight: 500;
+      display: inline-block;
+      transform: translateY(8px);
+    }
+    .compare-card.do .demo {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+    .compare-card .note {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--fg2);
+    }
+
+    /* ═══════════════════════════════════════════
+       MONO VOCABULARY GRID
+       ═══════════════════════════════════════════ */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .vocab-item {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      transition: all 220ms var(--ease);
+    }
+    .vocab-item:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+      background: var(--surface-2);
+    }
+    .vocab-item .vocab-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg3);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+    .vocab-item .vocab-label::before {
+      content: '○ ';
+      color: var(--accent);
+    }
+    .vocab-item .demo {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--fg1);
+      margin-bottom: 12px;
+      letter-spacing: 0;
+      line-height: 1.4;
+    }
+    .vocab-item .demo .accent { color: var(--accent); }
+    .vocab-item .demo .dim { color: var(--fg3); }
+    .vocab-item .desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--fg2);
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ */
+    footer {
+      margin-top: var(--section-gap);
+      padding: 40px var(--gutter);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      color: var(--fg3);
+      max-width: 1280px;
+      margin-left: auto; margin-right: auto;
+    }
+    footer .accent { color: var(--accent-dim); }
+    footer .col-end { text-align: right; }
+    @media (max-width: 720px) {
+      footer { grid-template-columns: 1fr; }
+      footer .col-end { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ─── NAV ─── -->
+  <header class="navbar">
+    <div class="wordmark">lucy</div>
+    <div class="meta">TYPOGRAPHY&nbsp;SYSTEM&nbsp;/&nbsp;V.04&nbsp;/&nbsp;OPERATOR</div>
+    <div class="clock" id="clock">--:--:-- EDT</div>
+  </header>
+
+  <main>
+    <!-- ─── HERO ─── -->
+    <section class="section hero">
+      <div class="system-tag">brand_identity / v04 / lucywyliu.com</div>
+      <h1>typography<br>as <span class="glow">interface.</span></h1>
+      <p class="lede">A type system built around how you actually work. <strong>Mono</strong> carries the dramatic weight, <strong>sans</strong> does the calm reading, and the aura palette stops being decoration and becomes <strong>infrastructure</strong>.</p>
+
+      <dl class="hero-meta">
+        <div><dt>Direction</dt><dd>Operator</dd></div>
+        <div><dt>Display</dt><dd>JetBrains Mono</dd></div>
+        <div><dt>Body</dt><dd>Switzer</dd></div>
+        <div><dt>License</dt><dd>Free / OFL</dd></div>
+      </dl>
+    </section>
+
+    <!-- ─── 01 / THE STACK ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">01</span>
+        <span class="title">The Stack</span>
+        <span class="spec">2 fonts · 0 serifs</span>
+      </div>
+
+      <div class="font-card">
+        <div class="role">Display & Mono / primary voice</div>
+        <div class="name-row">
+          <h3 class="name">JetBrains Mono</h3>
+          <span class="meta-tag">Google&nbsp;Fonts</span>
+          <span class="meta-tag">300–800 + italic</span>
+        </div>
+        <p class="description">
+          Used <span class="accent">huge</span> for hero moments and as the only voice for everything interface: the live clock, project numbers, hover states, tags, code, file paths, footer metadata. This is what reads as <span class="accent">technologist</span> before anyone reads the words.
+        </p>
+        <div class="specimen">
+          <div class="specimen-label">SPECIMEN / 0×01</div>
+          <div class="specimen-grid">
+            <div>
+              <div class="glyph-row">ABCDEFGHIJKLM</div>
+              <div class="glyph-row">NOPQRSTUVWXYZ</div>
+              <div class="glyph-row">abcdefghijklm</div>
+              <div class="glyph-row">nopqrstuvwxyz</div>
+              <div class="glyph-row">0123456789</div>
+              <div class="glyph-row">→ ← ↑ ↓ &gt;&gt;&gt; ◉ ●</div>
+            </div>
+            <div class="weight-stack">
+              <div><span class="w-label">L/300</span>Operator</div>
+              <div><span class="w-label">R/400</span>Operator</div>
+              <div><span class="w-label">M/500</span>Operator</div>
+              <div><span class="w-label">SB/600</span>Operator</div>
+              <div><span class="w-label">B/700</span>Operator</div>
+              <div><span class="w-label">XB/800</span>Operator</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="font-card body-card">
+        <div class="role">Body & UI / calm reading voice</div>
+        <div class="name-row">
+          <h3 class="name">Switzer</h3>
+          <span class="meta-tag">Fontshare</span>
+          <span class="meta-tag">200–700 + italic</span>
+        </div>
+        <p class="description">
+          A refined neo-grotesque for everything that needs to <span class="accent">read calmly</span> — captions, body paragraphs, project descriptions, button labels. More character than General Sans / Inter, less default. Stays at low weights (300–500) to keep the page quiet so the mono can speak.
+        </p>
+        <div class="specimen">
+          <div class="specimen-label">SPECIMEN / 0×02</div>
+          <div class="specimen-grid">
+            <div>
+              <div class="glyph-row">ABCDEFGHIJKLM</div>
+              <div class="glyph-row">NOPQRSTUVWXYZ</div>
+              <div class="glyph-row">abcdefghijklm</div>
+              <div class="glyph-row">nopqrstuvwxyz</div>
+              <div class="glyph-row">0123456789</div>
+              <div class="glyph-row" style="font-style: italic;">italic / for emphasis only</div>
+            </div>
+            <div class="weight-stack">
+              <div><span class="w-label">XL/200</span>Switzer</div>
+              <div><span class="w-label">L/300</span>Switzer</div>
+              <div><span class="w-label">R/400</span>Switzer</div>
+              <div><span class="w-label">M/500</span>Switzer</div>
+              <div><span class="w-label">SB/600</span>Switzer</div>
+              <div><span class="w-label">B/700</span>Switzer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 02 / SCALE ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">02</span>
+        <span class="title">Scale & Hierarchy</span>
+        <span class="spec">7 levels</span>
+      </div>
+
+      <div class="scale-row row-hero">
+        <div class="col size">96/0.95</div>
+        <div class="col">Hero</div>
+        <div class="col col-weight">Mono · 700</div>
+        <div class="sample">operator.</div>
+      </div>
+      <div class="scale-row row-h1">
+        <div class="col size">56/1.0</div>
+        <div class="col">H1</div>
+        <div class="col col-weight">Mono · 700</div>
+        <div class="sample">Project Title</div>
+      </div>
+      <div class="scale-row row-h2">
+        <div class="col size">36/1.15</div>
+        <div class="col">H2</div>
+        <div class="col col-weight">Switzer · 500</div>
+        <div class="sample">Section heading for case studies</div>
+      </div>
+      <div class="scale-row row-h3">
+        <div class="col size">22/1.3</div>
+        <div class="col">H3</div>
+        <div class="col col-weight">Switzer · 500</div>
+        <div class="sample">Sub-section or callout heading</div>
+      </div>
+      <div class="scale-row row-body">
+        <div class="col size">16/1.6</div>
+        <div class="col">Body</div>
+        <div class="col col-weight">Switzer · 300</div>
+        <div class="sample">Body copy stays quiet at weight 300 so the mono micro-details can carry the personality. Long-form reading is rare here — most pages are visuals with short captions.</div>
+      </div>
+      <div class="scale-row row-caption">
+        <div class="col size">13/1.5</div>
+        <div class="col">Caption</div>
+        <div class="col col-weight">Switzer · 400</div>
+        <div class="sample">Image captions, image credits, footnotes.</div>
+      </div>
+      <div class="scale-row row-eyebrow">
+        <div class="col size">11/1.4</div>
+        <div class="col">Eyebrow</div>
+        <div class="col col-weight">Mono · 500 / +0.18em</div>
+        <div class="sample">SECTION LABEL · METADATA · TAG</div>
+      </div>
+    </section>
+
+    <!-- ─── 03 / IN SITU: HERO ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">03</span>
+        <span class="title">In Situ — Homepage Hero</span>
+        <span class="spec">applied</span>
+      </div>
+
+      <div class="mock">
+        <div class="mock-label">/ home / hero</div>
+        <div class="mock-hero">
+          <div class="eyebrow">design × code · nyc</div>
+          <h2>hello, i'm <span class="accent">lucy.</span><br>i build interfaces<br>that feel like objects.</h2>
+          <p class="lede">Design strategist working at the intersection of <strong>research</strong>, <strong>fabrication</strong>, and <strong>code</strong>. Currently studying Interactive Media Arts at NYU. Previously: K-beauty research, ferrofluid object design, brand systems.</p>
+          <div class="links">
+            <a href="#">work</a>
+            <a href="#">about</a>
+            <a href="#">notes</a>
+            <a href="#">contact</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 04 / IN SITU: PROJECT INDEX ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">04</span>
+        <span class="title">In Situ — Project Index</span>
+        <span class="spec">hover to preview</span>
+      </div>
+
+      <div class="mock">
+        <div class="mock-label">/ work / index</div>
+        <div class="mock-projects">
+          <div class="header-row">
+            <span>№</span>
+            <span>project</span>
+            <span class="col-tags">discipline</span>
+            <span>year</span>
+          </div>
+
+          <div class="project-row">
+            <span class="num">001</span>
+            <span class="title">Cipactli — ferrofluid table</span>
+            <span class="tags">
+              <span class="tag">fabrication</span>
+              <span class="tag">electronics</span>
+              <span class="tag">myth</span>
+            </span>
+            <span class="year">2026</span>
+          </div>
+
+          <div class="project-row">
+            <span class="num">002</span>
+            <span class="title">lucywyliu.com — brand &amp; site</span>
+            <span class="tags">
+              <span class="tag">brand</span>
+              <span class="tag">code</span>
+              <span class="tag">type</span>
+            </span>
+            <span class="year">2026</span>
+          </div>
+
+          <div class="project-row">
+            <span class="num">003</span>
+            <span class="title">K-beauty research / NYC student wellness</span>
+            <span class="tags">
+              <span class="tag">research</span>
+              <span class="tag">writing</span>
+            </span>
+            <span class="year">2025</span>
+          </div>
+
+          <div class="project-row">
+            <span class="num">004</span>
+            <span class="title">Tooth Gem — accessibility audit</span>
+            <span class="tags">
+              <span class="tag">ux</span>
+              <span class="tag">a11y</span>
+            </span>
+            <span class="year">2025</span>
+          </div>
+
+          <div class="project-row">
+            <span class="num">005</span>
+            <span class="title">Aura — interaction studies</span>
+            <span class="tags">
+              <span class="tag">p5.js</span>
+              <span class="tag">touchdesigner</span>
+            </span>
+            <span class="year">2024</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 05 / SIGNATURE MOVE ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">05</span>
+        <span class="title">Signature Move — Aura as Interface</span>
+        <span class="spec">replaces italic-gradient</span>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card dont">
+          <span class="verdict">retired</span>
+          <h4>Before / V.03</h4>
+          <div class="demo">interfaces that feel like <em>objects.</em></div>
+          <p class="note">Aura blue used as a gradient fill on italic text. Beautiful, but it's the same move every Webflow template makes right now. Reads as decoration, not signal.</p>
+        </div>
+
+        <div class="compare-card do">
+          <span class="verdict">v.04</span>
+          <h4>After / Operator</h4>
+          <div class="demo"><span class="num-tag">№003</span>interfaces that feel like objects.</div>
+          <p class="note">Aura moves out of letterforms and into the <strong style="color: var(--fg1); font-weight: 500;">interface chrome</strong> — project numbers, the live clock, hover glows, focus rings, link states. The palette becomes infrastructure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 06 / MONO VOCABULARY ─── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="num">06</span>
+        <span class="title">Mono Vocabulary — where aura lives</span>
+        <span class="spec">interface only</span>
+      </div>
+
+      <div class="vocab-grid">
+        <div class="vocab-item">
+          <div class="vocab-label">Live Clock</div>
+          <div class="demo"><span class="accent" id="vocab-clock">14:32:08 EDT</span></div>
+          <div class="desc">Top-right corner. Always running. Ticks once per second. Locks the site to the present moment.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Project Numbers</div>
+          <div class="demo"><span class="accent">№003</span> &nbsp;·&nbsp; <span class="accent">>>> 003</span> &nbsp;·&nbsp; <span class="accent">[03/12]</span></div>
+          <div class="desc">Aura color identifies sequence. Three accepted formats — pick one, hold the line.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Tag / Pill</div>
+          <div class="demo"><span style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border: 1px solid var(--border-strong); border-radius: 4px; color: var(--fg2);">FABRICATION</span></div>
+          <div class="desc">Disciplined uppercase mono. Border in border-strong. No fill. Aura only on hover.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Hover State</div>
+          <div class="demo">link <span class="accent">→</span> &nbsp;<span class="dim">// aura on hover only</span></div>
+          <div class="desc">Color shifts from cloud → aura blue. Arrow appears. No underline. No gradient.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Code Comment</div>
+          <div class="demo"><span class="dim">// design strategist /</span><br><span class="dim">// nyu — ima — '26</span></div>
+          <div class="desc">Mono at fg3 opacity. Used for casual personal metadata in footers, about page, easter eggs.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">File Path</div>
+          <div class="demo"><span class="dim">/lucy</span>/work/<span class="accent">003-cipactli</span></div>
+          <div class="desc">Breadcrumb-as-path. Current segment in aura. Dim parent segments. Footer uses this format too.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Status Indicator</div>
+          <div class="demo"><span class="accent">●</span> <span style="font-family: var(--font-body); font-weight: 400;">available for collab</span> &nbsp;·&nbsp; <span class="dim">●</span> <span style="font-family: var(--font-body); font-weight: 400; color: var(--fg3);">deep in build mode</span></div>
+          <div class="desc">Aura dot for active states, fg3 dot for inactive. Pairs with body sans for the label.</div>
+        </div>
+
+        <div class="vocab-item">
+          <div class="vocab-label">Focus Ring</div>
+          <div class="demo">
+            <button style="font-family: var(--font-mono); font-size: 12px; padding: 8px 16px; background: transparent; color: var(--fg1); border: 1px solid var(--border-strong); border-radius: 6px; outline: 2px solid var(--accent); outline-offset: 3px; letter-spacing: 0.06em;">FOCUSED</button>
+          </div>
+          <div class="desc">2px aura outline + 3px offset. Consistent everywhere — buttons, links, inputs. Non-negotiable for a11y.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div>/lucy/typography-system/<span class="accent">v04-operator</span></div>
+      <div style="text-align: center;">// built · 2026 · brooklyn</div>
+      <div class="col-end">SYSTEM <span class="accent">●</span> ONLINE</div>
+    </footer>
+  </main>
+
+  <script>
+    // live clock — pulls from local time, ticks every second
+    function updateClock() {
+      const now = new Date();
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'LOCAL';
+      // shorten timezone to abbreviation if possible
+      const tzAbbr = new Date().toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').slice(-1)[0];
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const stamp = `${hh}:${mm}:${ss} ${tzAbbr}`;
+      const main = document.getElementById('clock');
+      const vocab = document.getElementById('vocab-clock');
+      if (main) main.textContent = stamp;
+      if (vocab) vocab.textContent = stamp;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

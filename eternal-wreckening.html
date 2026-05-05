@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eternal Wreckening — Lucy Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="preload" as="image" href="assets/eternal-wreckening/slides/slide-01.png" fetchpriority="high" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: auto;
+  --ember: oklch(0.60 0.14 22);
+  --ember-dim: oklch(0.50 0.12 22);
+  --ember-a18: oklch(0.60 0.14 22 / 0.18);
+  --ember-a30: oklch(0.60 0.14 22 / 0.30);
+  --ember-a40: oklch(0.60 0.14 22 / 0.40);
+  --ember-a50: oklch(0.60 0.14 22 / 0.50);
+  --ember-a60: oklch(0.60 0.14 22 / 0.60);
+  --ember-a70: oklch(0.60 0.14 22 / 0.70);
+  --ember-a10: oklch(0.60 0.14 22 / 0.10);
+  --ember-a04: oklch(0.60 0.14 22 / 0.04);
+  --void-a72: oklch(5% 0.005 22 / 0.72);
+  --void-a92: oklch(4% 0.01 22 / 0.92);
+}
+body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* NAV */
+.cs-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 20px 0;
+  background: var(--void-a72); backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.cs-nav-inner {
+  width: min(1240px, 92vw); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; }
+.cs-back:hover { color: var(--fg1); }
+.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; }
+
+/* HERO */
+.cs-hero {
+  padding: clamp(100px, 14vh, 160px) 0 clamp(60px, 8vh, 80px);
+  position: relative; overflow: hidden;
+}
+.cs-hero-orb {
+  position: absolute; top: -10%; right: -6%;
+  width: clamp(400px, 55vw, 780px); height: clamp(400px, 55vw, 780px);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--ember-a10) 0%, var(--ember-a04) 40%, transparent 70%);
+  filter: blur(70px); pointer-events: none; contain: strict;
+}
+.cs-hero-orb-2 {
+  position: absolute; bottom: -15%; left: -5%;
+  width: clamp(300px, 38vw, 520px); height: clamp(300px, 38vw, 520px);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.22 0.04 22 / 0.22) 0%, transparent 65%);
+  filter: blur(55px); pointer-events: none; contain: strict;
+}
+.cs-hero--cover { padding-bottom: 0; }
+.cs-hero-cover-full {
+  position: relative; width: min(1100px, 92vw); margin: 0 auto;
+  border-radius: 16px; overflow: hidden;
+}
+.cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+.cs-hero-below {
+  width: min(1100px, 92vw); margin: 0 auto;
+  padding: 40px 0 clamp(60px, 8vh, 100px);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.cs-hero-foot {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 20px; margin-top: 4px;
+}
+.cs-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* META STRIP */
+.cs-meta {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 36px 0; background: var(--surface);
+}
+.cs-meta-inner { width: min(1100px, 92vw); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+@media (max-width: 760px) { .cs-meta-inner { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.cs-meta-item { display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+.cs-meta-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
+.cs-meta-v { font-family: var(--font-display); font-size: 17px; letter-spacing: -0.01em; color: var(--fg1); line-height: 1.3; }
+.cs-meta-v.small { font-family: var(--font-body); font-size: 13px; color: var(--fg2); }
+
+/* SHARED SECTIONS */
+.cs-body { padding: clamp(80px, 10vh, 120px) 0; }
+.cs-body-wide { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-body-inner { width: min(860px, 92vw); margin: 0 auto; }
+.cs-section { margin-bottom: clamp(80px, 10vw, 120px); position: relative; }
+.cs-section-wm {
+  position: absolute; top: -0.08em; right: -0.02em;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(110px, 16vw, 200px); line-height: 1; letter-spacing: -0.06em;
+  color: var(--fg1); opacity: 0.035; pointer-events: none; user-select: none; z-index: 0;
+}
+.cs-section > * { position: relative; z-index: 1; }
+.cs-section-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ember-dim); margin: 0 0 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.cs-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.cs-section-h {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(42px, 6vw, 78px); line-height: 0.95; letter-spacing: -0.04em;
+  margin: 0 0 clamp(28px, 3.5vw, 44px); color: var(--fg1);
+}
+.cs-section-h em { font-style: italic; color: var(--ember); }
+.cs-body-text { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--fg2); max-width: 72ch; }
+.cs-body-text p { margin-bottom: 18px; }
+.cs-body-text p:first-child { color: var(--fg1); }
+.cs-body-text strong { color: var(--fg1); font-weight: 500; }
+
+/* PULL QUOTE */
+.cs-pull-quote {
+  margin: 48px 0; padding: 36px 44px 36px 56px;
+  border: 1px solid var(--ember-a18); background: var(--ember-a04);
+  border-radius: 12px; position: relative; overflow: hidden;
+}
+.cs-pull-quote::before {
+  content: '\201C'; position: absolute; top: -20px; left: 14px;
+  font-family: var(--font-display); font-size: 180px; font-style: italic; font-weight: 700;
+  color: var(--ember-a10); line-height: 1; pointer-events: none; user-select: none; opacity: 0.13;
+}
+@media (min-width: 1060px) { .cs-pull-quote { margin-left: -60px; margin-right: -60px; } }
+.cs-pull-quote blockquote {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(18px, 2.2vw, 24px); line-height: 1.35; letter-spacing: -0.01em;
+  color: var(--fg1); margin: 0 0 16px; position: relative;
+}
+.cs-pull-quote cite { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg3); font-style: normal; }
+
+/* IMAGE BLOCKS */
+.cs-image-block { margin: 72px auto; width: min(1100px, 92vw); }
+.cs-image {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; position: relative;
+}
+.cs-image-caption { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg2); margin-top: 12px; text-align: center; }
+.cs-slide-img { width: 100%; height: auto; display: block; }
+
+/* ARTIFACT GRID */
+.cs-artifact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 36px 0; }
+@media (max-width: 640px) { .cs-artifact-grid { grid-template-columns: 1fr; } }
+.cs-artifact-grid--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 720px) { .cs-artifact-grid--3 { grid-template-columns: 1fr; } }
+.cs-artifact { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.cs-artifact.span-2 { grid-column: span 2; }
+@media (max-width: 640px) { .cs-artifact.span-2 { grid-column: span 1; } }
+.cs-artifact-img--photo { background: var(--void); }
+.cs-artifact-photo { width: 100%; height: auto; display: block; }
+.cs-artifact-caption { padding: 14px 18px; font-family: var(--font-body); font-size: 13px; color: var(--fg2); line-height: 1.5; border-top: 1px solid var(--border); }
+.cs-artifact-caption strong { color: var(--fg1); }
+
+/* MECHANICS LEVERS — horizontal scroll card rail */
+.cs-levers {
+  margin-top: 44px;
+  display: flex; gap: 12px;
+  overflow-x: auto; overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;
+  cursor: grab;
+  scrollbar-width: none;
+}
+.cs-levers::-webkit-scrollbar { display: none; }
+.cs-levers.is-dragging { cursor: grabbing; user-select: none; }
+.cs-lever {
+  flex: 0 0 clamp(260px, 48vw, 340px);
+  scroll-snap-align: start;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px 26px 32px; display: flex; flex-direction: column; gap: 14px;
+}
+.cs-lever-label {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(26px, 3vw, 36px); line-height: 1;
+  letter-spacing: -0.04em; font-style: italic; color: var(--ember);
+}
+.cs-lever-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--fg2); }
+.cs-lever-desc strong { color: var(--fg1); font-weight: 500; }
+
+/* FILM STRIP */
+.cs-filmstrip { position: relative; margin: 0 0 0; }
+.cs-filmstrip::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 20px;
+  width: 72px; pointer-events: none;
+  background: linear-gradient(to left, var(--void) 0%, transparent 100%);
+}
+.cs-filmstrip-rail {
+  display: flex; gap: 10px; overflow-x: auto; overflow-y: visible;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px; cursor: grab; scrollbar-width: none;
+}
+.cs-filmstrip-rail::-webkit-scrollbar { display: none; }
+.cs-filmstrip-rail.is-dragging { cursor: grabbing; user-select: none; }
+.cs-filmstrip-frame {
+  flex: 0 0 clamp(240px, 42vw, 380px); scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cs-filmstrip-frame img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border); }
+.cs-filmstrip-step {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3); padding: 0 2px;
+}
+.cs-filmstrip-hint {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg3); text-align: right; margin-top: 10px;
+}
+
+/* DESIGN GOALS */
+.cs-goal-list {
+  margin-top: 44px; border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 0;
+}
+.cs-goal {
+  display: grid; grid-template-columns: 3ch 1fr;
+  align-items: baseline; gap: 0 20px;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.cs-goal-n {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 32px); line-height: 1; letter-spacing: -0.04em;
+  color: var(--ember-dim); padding-top: 2px;
+}
+.cs-goal-q {
+  font-family: var(--font-body); font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.5; color: var(--fg2);
+}
+.cs-goal-q strong { color: var(--fg1); font-weight: 500; }
+@media (max-width: 480px) { .cs-goal { grid-template-columns: 1fr; gap: 4px; } }
+
+/* METRICS / OUTCOMES */
+.cs-metrics { margin: 44px 0 0; border-top: 1px solid var(--border); }
+.cs-metric {
+  display: grid; grid-template-columns: 5.5ch 1fr;
+  align-items: baseline; gap: 0 28px;
+  padding: 22px 0; border-bottom: 1px solid var(--border);
+}
+.cs-metric-val {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(30px, 3.2vw, 42px); line-height: 1;
+  letter-spacing: -0.04em; color: var(--fg1); padding-top: 2px;
+}
+.cs-metric-val em { font-style: italic; color: var(--ember); }
+.cs-metric-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--fg2); }
+@media (max-width: 480px) { .cs-metric { grid-template-columns: 1fr; gap: 6px; } }
+
+/* REFLECTION */
+.cs-reflection-list { margin-top: 44px; border-top: 1px solid var(--border); counter-reset: reflect; }
+.cs-reflection-item {
+  padding: 32px 0; border-bottom: 1px solid var(--border); display: grid; gap: 10px;
+}
+.cs-reflection-head {
+  font-family: var(--font-display); font-size: clamp(16px, 1.6vw, 19px);
+  font-weight: 400; letter-spacing: -0.02em; color: var(--fg1);
+}
+.cs-reflection-head::before {
+  content: counter(reflect) ". "; counter-increment: reflect;
+  color: var(--ember-dim); font-style: italic;
+}
+.cs-reflection-body { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--fg2); max-width: 68ch; }
+.cs-reflection-body em { color: var(--ember); font-style: italic; }
+
+/* NEXT PROJECT */
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--ember); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+
+/* SKIP LINK */
+.skip-link {
+  position: absolute; top: -100%; left: 0; z-index: 999;
+  padding: 12px 20px; background: var(--ember); color: var(--void);
+  font-family: var(--font-ui); font-size: 13px; letter-spacing: 0.04em;
+  text-decoration: none; border-radius: 0 0 6px 0;
+  transition: top .2s cubic-bezier(.16,1,.3,1);
+}
+.skip-link:focus { top: 0; }
+
+/* PROGRESS */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; background: transparent; }
+.cs-progress-fill { height: 100%; background: var(--ember); transform-origin: left; width: 0%; transition: width .05s linear; }
+
+/* CONSTELLATION NAV */
+.cs-constellation-nav {
+  position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 50; width: 70px; height: 440px; margin-top: 20px;
+  opacity: 0; transition: opacity .5s ease; pointer-events: none;
+}
+.cs-constellation-nav.is-visible { opacity: 1; pointer-events: auto; }
+.cs-const-svg { width: 100%; height: 100%; overflow: visible; }
+.cs-const-line { fill: none; stroke: var(--ember-a18); stroke-width: 1; stroke-dasharray: 3 5; }
+.cs-const-hit { fill: transparent; cursor: pointer; }
+.cs-const-dot { transition: fill .3s, r .3s; }
+.cs-const-ring { fill: none; stroke-width: 1; transition: stroke .4s; }
+.cs-const-g { cursor: pointer; }
+.cs-const-g:focus-visible { outline: none; }
+.cs-const-g:focus-visible .cs-const-ring { stroke: var(--ember-a70); }
+.cs-const-g:focus-visible .cs-const-dot  { fill: var(--ember-a60); }
+.cs-const-g .cs-const-dot  { fill: var(--ember-a30); }
+.cs-const-g .cs-const-ring { stroke: transparent; }
+.cs-const-g:hover .cs-const-dot { fill: oklch(95% 0.005 22 / 0.80); }
+.cs-const-g:hover .cs-const-ring { stroke: var(--ember-a30); }
+.cs-const-g.is-active .cs-const-dot { fill: var(--ember); filter: drop-shadow(0 0 3px var(--ember)) drop-shadow(0 0 7px var(--ember-a50)); }
+.cs-const-g.is-active .cs-const-ring { stroke: var(--ember-a40); }
+.cs-const-label-el {
+  position: absolute; right: 76px;
+  font-family: var(--font-ui); font-size: 10.5px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--fg3); white-space: nowrap;
+  opacity: 0; transform: translateX(5px);
+  transition: opacity .25s, transform .25s, color .25s;
+  pointer-events: auto; line-height: 1;
+}
+.cs-const-label-el.is-visible { opacity: 1; transform: translateX(0); }
+.cs-const-label-el.is-active  { color: var(--ember); }
+@media (max-width: 900px) { .cs-constellation-nav { display: none; } }
+
+/* REVEAL */
+[data-cs-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+[data-cs-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-cs-reveal] { opacity: 1; transform: none; transition: none; }
+  [data-cs-reveal].is-revealed { opacity: 1; transform: none; }
+}
+
+/* SPOTLIGHT FOG */
+.cs-spotlight-fog {
+  position: absolute; inset: -60px -60px -60px -80px;
+  background: var(--void);
+  mask-image: radial-gradient(
+    circle 280px at var(--spot-x, 50%) var(--spot-y, 72px),
+    transparent 0%, black 68%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 280px at var(--spot-x, 50%) var(--spot-y, 72px),
+    transparent 0%, black 68%
+  );
+  pointer-events: none; z-index: 2;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cs-spotlight-fog.is-revealed { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .cs-spotlight-fog { display: none; } }
+
+/* DESIGN GOALS STAGGER */
+.cs-goal[data-goal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 580ms cubic-bezier(0.16, 1, 0.3, 1), transform 580ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cs-goal[data-goal].is-vis { opacity: 1; transform: translateY(0); }
+.cs-goal[data-goal] .cs-goal-n {
+  opacity: 0; transform: scale(0.85);
+  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1), transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cs-goal[data-goal].is-vis .cs-goal-n { opacity: 1; transform: scale(1); transition-delay: 80ms; }
+.cs-goal[data-goal] .cs-goal-q { color: transparent; transition: color 440ms cubic-bezier(0.16, 1, 0.3, 1); }
+.cs-goal[data-goal].is-vis .cs-goal-q { color: var(--fg2); transition-delay: 120ms; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-goal[data-goal], .cs-goal[data-goal] .cs-goal-n, .cs-goal[data-goal] .cs-goal-q {
+    opacity: 1 !important; transform: none !important; color: var(--fg2) !important; transition: none !important;
+  }
+}
+
+/* LIGHTBOX */
+.lb-trigger { cursor: zoom-in; }
+.lb-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--void-a92); backdrop-filter: blur(12px) saturate(120%);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .3s cubic-bezier(.16,1,.3,1);
+}
+.lb-overlay.is-open { opacity: 1; pointer-events: auto; }
+.lb-img-wrap { position: relative; max-width: min(92vw, 1200px); max-height: 90vh; }
+.lb-img-wrap img { display: block; max-width: 100%; max-height: 88vh; object-fit: contain; border-radius: 8px; }
+.lb-close {
+  position: absolute; top: -44px; right: 0;
+  font-family: var(--font-ui); font-size: 13px; color: var(--fg2); background: none; border: none; cursor: pointer;
+  transition: color .2s;
+}
+.lb-close:hover { color: var(--fg1); }
+.lb-close:focus-visible { outline: 2px solid var(--ember); outline-offset: 4px; border-radius: 2px; }
+
+/* SCROLL PROGRESS — GPU composited */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 2px; pointer-events: none; }
+.cs-progress-fill { height: 100%; background: var(--ember); transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
+
+/* STAGGER CONTAINERS — parent is transparent wrapper, children animate individually */
+[data-cs-stagger][data-cs-reveal],
+[data-cs-stagger][data-cs-reveal].is-revealed { opacity: 1 !important; transform: none !important; transition: none !important; }
+[data-cs-stagger] > * {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+[data-cs-stagger] > *.is-stag { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-cs-stagger] > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* PULL QUOTE — clip-path wipe from bottom */
+.cs-pull-quote[data-cs-reveal] {
+  opacity: 0; transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity .5s cubic-bezier(.16,1,.3,1), clip-path .65s cubic-bezier(.16,1,.3,1);
+}
+.cs-pull-quote[data-cs-reveal].is-revealed { opacity: 1; clip-path: inset(0 0 0% 0); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-pull-quote[data-cs-reveal] { clip-path: none; opacity: 1; }
+}
+
+/* SECTION HEADING EM — ember glow flash on arrival */
+@keyframes cs-em-arrive {
+  0%   { text-shadow: 0 0 24px var(--ember-a70), 0 0 60px var(--ember-a30); }
+  100% { text-shadow: none; }
+}
+.cs-section-h.is-revealed em {
+  animation: cs-em-arrive 900ms 250ms cubic-bezier(.16,1,.3,1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-section-h.is-revealed em { animation: none; }
+}
+
+/* LIGHTBOX IMAGE — scale in */
+@keyframes cs-lb-scale-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+.lb-overlay.is-open .lb-img-wrap {
+  animation: cs-lb-scale-in 360ms cubic-bezier(.16,1,.3,1) forwards;
+}
+
+/* IMAGE HOVER LIFT — subtle elevation on lb-trigger */
+.cs-artifact-img--photo .lb-trigger,
+.cs-artifact-img--photo .cs-artifact-photo {
+  transition: transform 0.35s cubic-bezier(.16,1,.3,1), filter 0.35s cubic-bezier(.16,1,.3,1);
+  display: block;
+}
+.cs-artifact-img--photo:hover .lb-trigger,
+.cs-artifact-img--photo:hover .cs-artifact-photo {
+  transform: translateY(-4px);
+  filter: brightness(1.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-artifact-img--photo .lb-trigger,
+  .cs-artifact-img--photo .cs-artifact-photo { transition: none; }
+  .cs-artifact-img--photo:hover .lb-trigger,
+  .cs-artifact-img--photo:hover .cs-artifact-photo { transform: none; filter: none; }
+}
+
+/* WATERMARK PARALLAX — driven via CSS custom prop set by JS */
+.cs-section-wm { transform: translateY(var(--wm-y, 0px)); will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .cs-section-wm { transform: none !important; } }
+
+/* SECTION LABEL LINE DRAW — extends left to right on reveal */
+.cs-section-label[data-cs-reveal]::after {
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .9s cubic-bezier(.16,1,.3,1) .25s;
+}
+.cs-section-label[data-cs-reveal].is-revealed::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lb-overlay" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb-img-wrap">
+    <button class="lb-close" id="lb-close" aria-label="Close image viewer">✕</button>
+    <img id="lb-img" src="" alt="" />
+  </div>
+</div>
+
+<nav class="cs-nav" aria-label="Site navigation">
+  <div class="cs-nav-inner">
+    <a class="cs-logo" href="index.html">lucy liu</a>
+    <a class="cs-back" href="index.html#work">← all work</a>
+  </div>
+</nav>
+
+<!-- CONSTELLATION NAV -->
+<nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
+  <svg class="cs-const-svg" viewBox="0 0 60 440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 18,100 44,176 16,252 42,328 30,400"/>
+    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Hero">
+      <circle class="cs-const-hit" cx="30" cy="24"  r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24"  r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24"  r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-problem" tabindex="0" role="button" aria-label="Jump to Problem">
+      <circle class="cs-const-hit" cx="18" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="18" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="18" cy="100" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-mechanics" tabindex="0" role="button" aria-label="Jump to Mechanics">
+      <circle class="cs-const-hit" cx="44" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="176" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-storyboard" tabindex="0" role="button" aria-label="Jump to Storyboard">
+      <circle class="cs-const-hit" cx="16" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="16" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="16" cy="252" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-visual" tabindex="0" role="button" aria-label="Jump to Visual Design">
+      <circle class="cs-const-hit" cx="42" cy="328" r="13"/>
+      <circle class="cs-const-ring" cx="42" cy="328" r="8"/>
+      <circle class="cs-const-dot"  cx="42" cy="328" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-reflection" tabindex="0" role="button" aria-label="Jump to Reflection">
+      <circle class="cs-const-hit" cx="30" cy="400" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="400" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="400" r="3"/>
+    </g>
+  </svg>
+  <span class="cs-const-label-el" style="top:17px"   data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px"   data-label="cs-s-problem">Problem</span>
+  <span class="cs-const-label-el" style="top:169px"  data-label="cs-s-mechanics">Mechanics</span>
+  <span class="cs-const-label-el" style="top:245px"  data-label="cs-s-storyboard">Storyboard</span>
+  <span class="cs-const-label-el" style="top:321px"  data-label="cs-s-visual">Visual Design</span>
+  <span class="cs-const-label-el" style="top:393px"  data-label="cs-s-reflection">Reflection</span>
+</nav>
+
+<header class="cs-hero cs-hero--cover" id="cs-s-hero">
+  <div class="cs-hero-orb"></div>
+  <div class="cs-hero-orb-2"></div>
+
+  <h1 class="visually-hidden">Eternal Wreckening — Mobile Horror Game</h1>
+  <div class="cs-hero-cover-full">
+    <img src="assets/eternal-wreckening/slides/slide-01.png" alt="Eternal Wreckening — mobile horror game cover" fetchpriority="high"
+          srcset="assets/eternal-wreckening/slides/sm/slide-01.png 1200w, assets/eternal-wreckening/slides/slide-01.png 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+  </div>
+
+  <div class="cs-hero-below" style="padding-top:24px;padding-bottom:clamp(48px,6vh,72px);">
+    <div class="cs-hero-foot">
+      <div class="cs-tags">
+        <span class="tag">Game Design</span>
+        <span class="tag">Interaction Design</span>
+        <span class="tag">UI Design</span>
+        <span class="tag">Figma</span>
+        <span class="tag">2024</span>
+      </div>
+      <div class="cs-hero-actions">
+        <a href="Eternal%20Wreckening.pdf" target="_blank" rel="noopener" class="btn btn-secondary">View presentation ↗</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+<!-- META STRIP -->
+<section class="cs-meta">
+  <div class="cs-meta-inner">
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Role</span>
+      <span class="cs-meta-v">Solo Designer</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Timeline</span>
+      <span class="cs-meta-v">8 weeks · 2024</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Tools</span>
+      <span class="cs-meta-v small">Figma · Illustrator · Procreate</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Methods</span>
+      <span class="cs-meta-v small">Game Design · Storyboarding · Interaction Design</span>
+    </div>
+  </div>
+</section>
+
+<div class="cs-body">
+
+  <!-- Opening atmospheric image -->
+  <div class="cs-image-block" style="margin-top:0;padding-top:clamp(60px,8vh,100px);">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img" src="assets/eternal-wreckening/slides/slide-02.png" alt="Eternal Wreckening project brief: a multiplayer mobile horror game where immersivity and horror collide" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-02.png 1200w, assets/eternal-wreckening/slides/slide-02.png 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>The design brief: immersivity and horror, on a phone</p>
+  </div>
+
+  <!-- 01 PROBLEM -->
+  <div class="cs-body-inner" id="cs-s-problem">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">01</span>
+      <p class="cs-section-label">01 &nbsp;·&nbsp; The Problem</p>
+      <h2 class="cs-section-h">Mobile games forget <em>you have a body.</em></h2>
+
+      <div class="cs-body-text">
+        <p>Standard mobile controls give you two thumbs and call it a game. Left thumb moves. Right thumb aims. Your torso, your hands, the physical instinct to flinch — all of it waits outside the screen. For most genres, that tradeoff is acceptable.</p>
+        <p>For horror, it isn't. <strong>Horror works through presence: the sense that you are in the space, that the threat is sharing the room.</strong> A game that keeps the player's body outside the experience can build atmosphere, but it can't manufacture genuine dread. The screen stays a window when it needs to be a portal.</p>
+      </div>
+
+      <div class="cs-pull-quote" data-cs-reveal>
+        <blockquote>Horror doesn't work at arm's length. The threat has to feel like it's in the room. That requires a body in the game, not just a screen.</blockquote>
+        <cite>Design intent, Eternal Wreckening</cite>
+      </div>
+
+      <p class="cs-section-label" style="margin-top:44px;">Design goals</p>
+      <div class="cs-goal-list" data-goal-list>
+        <div class="cs-goal" data-goal>
+          <span class="cs-goal-n">01</span>
+          <span class="cs-goal-q"><strong>Body as controller.</strong> Gyroscope, shake, tap, and vibration replace passive thumb controls with full physical engagement.</span>
+        </div>
+        <div class="cs-goal" data-goal>
+          <span class="cs-goal-n">02</span>
+          <span class="cs-goal-q"><strong>Horror through presence.</strong> The player's body inside the experience amplifies tension that visuals alone can't create.</span>
+        </div>
+        <div class="cs-goal" data-goal>
+          <span class="cs-goal-n">03</span>
+          <span class="cs-goal-q"><strong>Interface that moves with you.</strong> Controls and feedback respond to physical input, not just touch coordinates.</span>
+        </div>
+        <div class="cs-goal" data-goal>
+          <span class="cs-goal-n">04</span>
+          <span class="cs-goal-q"><strong>New mechanics, no friction.</strong> Three unfamiliar input methods taught through play, not instruction screens.</span>
+        </div>
+      </div>
+
+      <div class="cs-spotlight-fog" id="cs-problem-fog" aria-hidden="true" role="presentation"></div>
+    </div>
+  </div>
+
+  <!-- 02 MECHANICS -->
+  <div class="cs-body-inner" id="cs-s-mechanics">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">02</span>
+      <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Movement Mechanics</p>
+      <h2 class="cs-section-h" data-cs-reveal>Three layers of <em>physical play.</em></h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>The design is built around a hierarchy of physical engagement, large to small. Each layer adds a different register of bodily involvement, from full-body orientation to muscle fatigue to haptic pulse. Together they cover every scale of the player's physical experience.</p>
+      </div>
+
+      <div class="cs-levers" data-cs-stagger data-cs-reveal>
+        <div class="cs-lever">
+          <span class="cs-lever-label">Large</span>
+          <div class="cs-lever-desc"><strong>Gyroscope.</strong> Instead of using the right thumb to look around (the mobile default), players physically turn and tilt their device to orient within the game world. The joystick on the lower left handles movement; the body handles perspective. Players lean around corners. They physically face threats. The horror environment becomes something they inhabit, not just observe.</div>
+        </div>
+        <div class="cs-lever">
+          <span class="cs-lever-label">Medium</span>
+          <div class="cs-lever-desc"><strong>Shake to escape.</strong> When captured by the Entity, survivors don't tap a button: they shake their phone. The physical act mimics what they'd do in real life, creating an immediate, visceral connection. But it comes with risk: a failed shake attempt results in immediate elimination. This risk-vs-reward dynamic forces players to make a real decision under pressure, one they feel in their hands.</div>
+        </div>
+        <div class="cs-lever">
+          <span class="cs-lever-label">Small</span>
+          <div class="cs-lever-desc"><strong>Tap to run, vibrate to stop.</strong> Sprinting requires both thumbs tapping the screen repeatedly. As the in-game energy bar depletes, the phone vibrates: your character is exhausted, and so are your fingers. The mechanics mirror each other. When the bar resets, you can run again. Players don't just watch a resource bar; they feel the cost of using it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-06.png" alt="Gyroscope mechanic — full body movement replaces right-thumb camera control" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-06.png 1200w, assets/eternal-wreckening/slides/slide-06.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Large: Gyroscope.</strong> Full-body orientation replaces the right thumb. Players turn, tilt, and lean their way through the horror environment.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-07.png" alt="Shake to escape mechanic — physical mimicry creates visceral connection, risk vs reward" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-07.png 1200w, assets/eternal-wreckening/slides/slide-07.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Medium: Shake to escape.</strong> Captured by the Entity? Shake to break free, with real consequences for failure. Physical mimicry meets risk-vs-reward.</div>
+      </div>
+      <div class="cs-artifact span-2">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-08.png" alt="Vibration and tap mechanics — energy bar depletes as fingers tire, phone vibrates at exhaustion" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-08.png 1200w, assets/eternal-wreckening/slides/slide-08.png 2280w"
+          sizes="(max-width: 640px) 100vw, 1068px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Small: Tap to run, vibrate to stop.</strong> The energy bar and the player's fingers exhaust together. Haptic feedback closes the loop between body and screen.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 STORYBOARD -->
+  <div class="cs-body-inner" id="cs-s-storyboard">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">03</span>
+      <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Storyboard</p>
+      <h2 class="cs-section-h" data-cs-reveal>Four hunters, one monster, <em>earned map.</em></h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>Eternal Wreckening is a 4v1 asymmetric multiplayer game inspired by Dead by Daylight, the survival horror game that defined the predator-versus-survivors model. The translation to mobile wasn't a port: it was a rethinking of what that structure feels like when the controller is your whole body. Four Guardians must find and destroy five Abyssal Amulets scattered across the map, release the gem fragment from each, and throw them into the portal to close it and eliminate the Entity. One player controls the Entity, whose goal is to knock down all four Guardians and throw them into the portal before it closes.</p>
+        <p>The asymmetry is structural. Guardians, represented by Harper Stone, start with full visibility but face an unknown map and limited tactical tools. The Entity, played as Sorcha Nightshade, starts 30 seconds later with reduced visibility but gains new abilities every three minutes: speed multipliers, enhanced detection, extended capture range. <strong>The longer the match runs, the more dangerous Sorcha becomes.</strong> Time always favors the monster.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-filmstrip" data-cs-reveal>
+      <div class="cs-filmstrip-rail" id="cs-filmstrip-storyboard">
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-01.png" alt="Main menu: Start and Guide buttons over a dark forest background"
+               srcset="assets/eternal-wreckening/frames/sm/frame-01.png 900w, assets/eternal-wreckening/frames/frame-01.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">01 · Main menu</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-19.png" alt="Choose your character: Harper Stone and Sorcha Nightshade face each other"
+               srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">02 · Choose role</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-02.png" alt="Harper Stone Guardian backstory: adventurous thrill-seeker, family of renowned explorers"
+               srcset="assets/eternal-wreckening/frames/sm/frame-02.png 900w, assets/eternal-wreckening/frames/frame-02.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">03 · Guardian backstory</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-10.png" alt="Harper Stone ability: perceive aura of objects within five-meter radius"
+               srcset="assets/eternal-wreckening/frames/sm/frame-10.png 900w, assets/eternal-wreckening/frames/frame-10.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">04 · Guardian ability</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-11.png" alt="Gadget selection screen: empty equipped slots, three gadgets in inventory"
+               srcset="assets/eternal-wreckening/frames/sm/frame-11.png 900w, assets/eternal-wreckening/frames/frame-11.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">05 · Gadget loadout</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-17.png" alt="Gadget selection: three gadgets fully equipped, ready for match"
+               srcset="assets/eternal-wreckening/frames/sm/frame-17.png 900w, assets/eternal-wreckening/frames/frame-17.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">06 · Loadout ready</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-18.png" alt="Loading screen: dark atmospheric forest with LOADING text"
+               srcset="assets/eternal-wreckening/frames/sm/frame-18.png 900w, assets/eternal-wreckening/frames/frame-18.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">07 · Match loading</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-21.png" alt="Guardian Guide step 2: smash objects and collect the gem"
+               srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">08 · Smash amulets</p>
+        </figure>
+        <figure class="cs-filmstrip-frame">
+          <img src="assets/eternal-wreckening/frames/frame-22.png" alt="Guardian Guide step 3: find and put gems in portal to close it"
+               srcset="assets/eternal-wreckening/frames/sm/frame-22.png 900w, assets/eternal-wreckening/frames/frame-22.png 2110w"
+               sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
+          <p class="cs-filmstrip-step">09 · Close the portal</p>
+        </figure>
+      </div>
+      <p class="cs-filmstrip-hint">Drag to explore the game flow →</p>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-09.png" alt="Low-fidelity storyboard: Guardian and Entity game loops, map reveal mechanic, portal goal" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-09.png 1200w, assets/eternal-wreckening/slides/slide-09.png 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 01 — Low-fidelity storyboard: Guardian and Entity loops, from spawn to portal</p>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-section" data-cs-section style="margin-bottom:0;">
+      <div class="cs-body-text" data-cs-reveal>
+        <p><strong>Map wayfinding is intentionally constrained.</strong> The fog-of-war map only reveals areas the Guardian has physically explored. Rather than giving players a complete overhead view, the map is earned by movement, creating a tension between exploration and self-preservation. Hide or look: you can't do both.</p>
+        <p>Interactive objects glow when the character comes within proximity, even through walls. Bright, clear outlines act as the only reliable wayfinding signal in an otherwise dim, disorienting environment. The design trusts players to move toward light.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-10.png" alt="Wayfinding: glowing interactive objects visible through walls, fog-of-war map reveals by exploration" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-10.png 1200w, assets/eternal-wreckening/slides/slide-10.png 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 02 — Wayfinding: glowing objects cut through fog, and the map only opens what you've walked</p>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-metrics" data-cs-stagger data-cs-reveal>
+      <div class="cs-metric">
+        <div class="cs-metric-val"><em>4v1</em></div>
+        <div class="cs-metric-desc">Asymmetric team structure. Four Guardians work to close the portal; one Entity works to stop them. Each side has distinct abilities, visibility ranges, and win conditions.</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric-val"><em>5</em></div>
+        <div class="cs-metric-desc">Abyssal Amulets scattered across the map. Guardians must find all five, break each to release a gem fragment, and throw every gem into the portal before the Entity eliminates them.</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric-val">30<em>s</em></div>
+        <div class="cs-metric-desc">Head start for the Guardians. The Entity spawns 30 seconds after Guardians begin, giving players time to orient before the hunt begins. But the Entity is stronger and gets stronger still.</div>
+      </div>
+      <div class="cs-metric">
+        <div class="cs-metric-val"><em>3</em> min</div>
+        <div class="cs-metric-desc">Power escalation interval. Every three minutes, the Entity gains a new ability: speed multipliers, enhanced detection, extended capture range. Extended games favor the monster.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/frames/frame-19.png" alt="Choose your character screen: Harper Stone (Guardian) and Sorcha Nightshade (Entity) face each other" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.png 2110w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2110" height="975">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 03 — Role selection: choose Guardian or Entity before the match begins</p>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-14.png" alt="Harper Stone Guardian character select screen with backstory and gadget loadout entry" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-14.png 900w, assets/eternal-wreckening/frames/frame-14.png 2110w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Harper Stone, Guardian.</strong> Adventurous thrill-seeker from a family of renowned explorers, with the ability to perceive the aura of possessed objects within a five-meter radius. Before entering a match, Guardians choose their gadget loadout, building a pre-match strategy around the tools they bring in.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-09.png" alt="Sorcha Nightshade Entity character select screen with predator role overview" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-09.png 900w, assets/eternal-wreckening/frames/frame-09.png 2110w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Sorcha Nightshade, Entity.</strong> Exiled wielder of forest magic, armed with a ceremonial dagger and dark arcane force. A solo predator growing stronger every three minutes, she hunts all four Guardians and needs to eliminate them before the portal closes.</div>
+      </div>
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 04 — Character select: Guardian and Entity archetypes carry distinct visual languages and ability sets</p>
+  </div>
+
+  <!-- 04 VISUAL DESIGN -->
+  <div class="cs-body-inner" id="cs-s-visual">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">04</span>
+      <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design</p>
+      <h2 class="cs-section-h" data-cs-reveal>Horror that <em>reads.</em></h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>The visual language of Eternal Wreckening had to do two things simultaneously: establish atmosphere and maintain clarity. Horror aesthetics typically work through obscurity; game UI requires instant legibility. The design resolves this tension by separating the registers: environment carries mood, interface carries function, and color bridges the two.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-12.png" alt="Control layout: joystick bottom-left for movement, action button top-right for thumb reach" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-12.png 1200w, assets/eternal-wreckening/slides/slide-12.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Controls ergonomics.</strong> Joystick sits bottom-left (left thumb movement). Action button sits top-right (right thumb reach). Each hand has a distinct zone, preventing grip interference during intense play.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-13.png" alt="Typography: Martyric headings for atmosphere, Blood Crow body for legibility" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-13.png 1200w, assets/eternal-wreckening/slides/slide-13.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Typography.</strong> Martyric carries the eerie heading register. Blood Crow handles body copy: legible under pressure, with enough texture to stay in-world. Instructions read clearly. The horror persists.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-body-text" data-cs-reveal>
+      <p><strong>Art direction: painterly horror-realism.</strong> All environments and characters were hand-drawn with the same brush, creating visual consistency through repetition of stroke. The style is deliberately not representational: stylized forms are unsettling in ways that photorealism isn't. The goal was a creeping sense of dread before the first interaction, a world that looks familiar but isn't quite right.</p>
+      <p>Dim lighting, dilapidated geometry, and a dominant brown palette ground the game in a decayed, dystopian world. The palette works against the player: in low contrast environments, identifying threats requires attention. The brightness in the palette has a job: it marks what matters.</p>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-14.png" alt="Icon system: consistent circular shapes, arrow for direction, circles for slide position indicators" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-14.png 1200w, assets/eternal-wreckening/slides/slide-14.png 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 05 — Icon system: circular shapes, universal symbols, consistent shape language throughout</p>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-body-text" data-cs-reveal>
+      <p><strong>Icon system.</strong> All interactive icons share a circular base shape, creating consistency that teaches through repetition: circular means interactive. Arrows signal direction. A circle exit replaces an "exit" text label, maintaining visual harmony with the illustrated art. The exit icon is drawn, not typed, keeping the interface feeling authored rather than templated.</p>
+      <p><strong>Gadget selection.</strong> Before each match, Guardians choose from three tactical items that shape their play style. The Stun deploys a blinding burst for four seconds, activating after placing two gems. The Amplify gadget heightens hearing for 30 seconds and detects the Entity within 100 meters. The Mask reduces detection range by 10 percent, enabling stealth. Each screen uses bold color coding so players can identify and compare options at a glance under pre-match time pressure.</p>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid cs-artifact-grid--3" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-06.png" alt="Stun gadget selection screen: blinding burst 4 seconds, activated after 2 gems placed" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-06.png 900w, assets/eternal-wreckening/frames/frame-06.png 2110w"
+          sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Stun.</strong> Blinding burst for 4 seconds. Activates after inserting 2 gems into the portal. Offensive counter against a pursuing Entity.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-07.png" alt="Amplify gadget selection screen: 30 seconds heightened hearing, detects Entity within 100m" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-07.png 900w, assets/eternal-wreckening/frames/frame-07.png 2110w"
+          sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Amplify.</strong> 30 seconds of heightened hearing. Detects the Entity anywhere within 100 meters. Coordination tool for the whole team.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-08.png" alt="Mask gadget selection screen: reduces Entity detection range by 10%, stealth passive" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-08.png 900w, assets/eternal-wreckening/frames/frame-08.png 2110w"
+          sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Mask.</strong> Reduces detection range by 10%. A passive stealth modifier for players who move quietly and avoid confrontation.</div>
+      </div>
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 06 — Gadget selection: three tactical items, each color-coded and function-distinct</p>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-body-text" data-cs-reveal>
+      <p><strong>Inventory and backpack UI.</strong> Collected gadgets live in a backpack metaphor, a real-world object players already understand. The equip icon's color matches the selected gadget, creating a direct visual link between item and action. In a dim, high-stress environment, color does the work of text.</p>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-15.png" alt="Gadget collection UI: backpack metaphor, matchup button, gadget selection flow" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-15.png 1200w, assets/eternal-wreckening/slides/slide-15.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Backpack and gadget UI.</strong> The inventory uses a backpack metaphor, a real-world object players already understand. Collecting gadgets gives the game a secondary goal layer: not just survive, but gather. Tap to select, tap to equip. Familiar interactions carry the unfamiliar world.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-16.png" alt="Color system for gadgets: bright colors for quick differentiation, equip icon color matches gadget" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-16.png 1200w, assets/eternal-wreckening/slides/slide-16.png 2280w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2280" height="1530">
+        </div>
+        <div class="cs-artifact-caption"><strong>Color as wayfinding.</strong> Gadgets are brightly colored against the brown palette, drawing the eye immediately. The equip icon's color matches the selected gadget, creating a direct visual link between item and action. In a dim, high-stress environment, color does the work of text.</div>
+      </div>
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 07 — Inventory and gadget UI: familiar metaphor, color-coded affordances</p>
+  </div>
+
+  <div class="cs-body-inner">
+    <div class="cs-body-text" data-cs-reveal>
+      <p><strong>Role-split onboarding.</strong> Three unfamiliar input methods require explanation before first play. Rather than a single tutorial screen, the game provides separate Guardian and Entity guides, each explaining controls specific to that role. A Guardian never needs to know how Sorcha moves. The Entity guide can lean into the predator fantasy from the start. Splitting the learning paths keeps each side focused and preserves the asymmetric mystery: neither player is exposed to the other side's mechanics before choosing a role.</p>
+    </div>
+  </div>
+
+  <div class="cs-image-block">
+    <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-21.png" alt="Guardian Guide tutorial screen: role explanation, objective, and control instructions" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.png 2110w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Guardian Guide, step 2.</strong> Smash each Abyssal Amulet to release its gem fragment, then insert all five into the portal before the Entity eliminates the team. Gadgets can be equipped before each match to improve survival odds.</div>
+      </div>
+      <div class="cs-artifact">
+        <div class="cs-artifact-img--photo">
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-27.png" alt="Entity Guide: find, attack, and throw all 4 Guardians into the portal to win; entities grow stronger over time" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-27.png 900w, assets/eternal-wreckening/frames/frame-27.png 2110w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
+          width="2110" height="975">
+        </div>
+        <div class="cs-artifact-caption"><strong>Entity Guide.</strong> Knock down each Guardian, then throw them into the portal. Entities are immortal — Guardians can only impair them with gadgets, not eliminate them. The Entity grows stronger and faster every three minutes.</div>
+      </div>
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 08 — Role-split guides: Guardian and Entity each get their own learning path, preserving asymmetric mystery</p>
+  </div>
+
+  <!-- 05 REFLECTION -->
+  <div class="cs-body-inner" id="cs-s-reflection">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">05</span>
+      <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Reflection</p>
+      <h2 class="cs-section-h" data-cs-reveal>What I'd <em>build next.</em></h2>
+
+      <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">Physical mechanics need physical playtesting.</p>
+          <p class="cs-reflection-body">The gyroscope and shake mechanics were designed logically but not stress-tested in real play sessions. A shake under pressure feels different than a shake while calm. The energy bar depletion rate, the shake threshold required to escape, the exact vibration pattern at exhaustion: all of these need hands-on iteration that static prototyping can't replicate. <em>The body is the test environment.</em></p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">Onboarding new controls without breaking the horror.</p>
+          <p class="cs-reflection-body">Teaching three unfamiliar input methods (gyroscope, shake, tap-to-run) within a horror context is a tension I didn't fully resolve. Traditional tutorial screens break the atmosphere. The better solution is contextual first use: a forced low-stakes encounter that teaches each mechanic through play, not instruction text. That design lives in v2.</p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">The Entity is harder to design than the Guardian.</p>
+          <p class="cs-reflection-body">Most of the visual and interaction design focused on the Guardian's perspective. The Entity's UI needs separate thinking: different field of view, different HUD needs, different emotional register. A player controlling the monster should <em>feel like the most dangerous thing in the room,</em> and that experience requires its own design language beyond what I built here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /cs-body -->
+
+</main><!-- /main-content -->
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Next project</p>
+    <a class="cs-next-link" href="case-study.html?slug=driftwood">
+      <span class="cs-next-title">Driftwood</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
+
+<script>
+(function () {
+  // Scroll progress — GPU composited scaleX
+  const fill = document.getElementById('cs-progress');
+  if (fill) {
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const ratio = h.scrollTop / (h.scrollHeight - h.clientHeight) || 0;
+      fill.style.transform = `scaleX(${ratio})`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('[data-cs-reveal]');
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); ro.unobserve(e.target); } });
+  }, { rootMargin: '-6% 0px -6% 0px', threshold: 0.01 });
+  revealEls.forEach(el => ro.observe(el));
+
+  // Stagger reveal — children of [data-cs-stagger] enter one by one
+  const staggerEls = document.querySelectorAll('[data-cs-stagger]');
+  const staggerObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      staggerObs.unobserve(e.target);
+      [...e.target.children].forEach((child, i) => {
+        child.style.setProperty('--stagger-delay', `${i * 120}ms`);
+        child.classList.add('is-stag');
+      });
+    });
+  }, { rootMargin: '-6% 0px -6% 0px', threshold: 0.01 });
+  staggerEls.forEach(el => staggerObs.observe(el));
+
+  // Watermark parallax — each cs-section-wm drifts up at 0.25× its section's scroll progress
+  const watermarks = [...document.querySelectorAll('.cs-section-wm')].map(wm => ({
+    el: wm, section: wm.closest('.cs-section')
+  })).filter(o => o.section);
+
+  function updateWatermarks() {
+    const vy = window.innerHeight;
+    watermarks.forEach(({ el, section }) => {
+      const r = section.getBoundingClientRect();
+      const offset = (r.top + r.height / 2) - vy / 2;
+      el.style.setProperty('--wm-y', `${Math.round(offset * 0.07)}px`);
+    });
+  }
+
+  // Constellation nav
+  const cnav = document.getElementById('cs-section-nav');
+  if (!cnav) return;
+  const nodes  = [...cnav.querySelectorAll('.cs-const-g[data-snav]')];
+  const labels = [...cnav.querySelectorAll('.cs-const-label-el[data-label]')];
+
+  function setActive(id) {
+    nodes.forEach(n  => n.classList.toggle('is-active', n.dataset.snav === id));
+    labels.forEach(l => {
+      const match = l.dataset.label === id;
+      l.classList.toggle('is-active', match);
+      l.classList.toggle('is-visible', match);
+    });
+  }
+
+  nodes.forEach(n => {
+    const activate = () => {
+      const el = document.getElementById(n.dataset.snav);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    n.addEventListener('click', activate);
+    n.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
+  const sectionIds = ['cs-s-hero','cs-s-problem','cs-s-mechanics','cs-s-storyboard','cs-s-visual','cs-s-reflection'];
+  const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  const heroEl = document.getElementById('cs-s-hero');
+  if (heroEl) {
+    new IntersectionObserver(entries => {
+      const leaving = !entries[0].isIntersecting;
+      cnav.classList.toggle('is-visible', leaving);
+    }, { threshold: 0.1 }).observe(heroEl);
+  }
+
+  const activeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-10% 0px -55% 0px', threshold: 0 });
+  sectionEls.forEach(el => activeObs.observe(el));
+
+  let rafId = null;
+  window.addEventListener('scroll', () => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      const vp30 = window.innerHeight * 0.30;
+      let best = null, bestDist = Infinity;
+      sectionEls.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top <= vp30) {
+          const dist = vp30 - top;
+          if (dist < bestDist) { bestDist = dist; best = el; }
+        }
+      });
+      if (best) setActive(best.id);
+      updateWatermarks();
+    });
+  }, { passive: true });
+  updateWatermarks();
+
+  // Lightbox
+  const lbOverlay = document.getElementById('lb-overlay');
+  const lbImg = document.getElementById('lb-img');
+  const lbClose = document.getElementById('lb-close');
+  let lbTriggerEl = null;
+
+  function lbOpen(src, alt, triggerEl) {
+    lbTriggerEl = triggerEl || document.activeElement;
+    lbImg.src = src; lbImg.alt = alt || '';
+    lbOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+  function lbCloseF() {
+    lbOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; }, 300);
+    if (lbTriggerEl) lbTriggerEl.focus();
+  }
+  // Focus trap inside overlay
+  lbOverlay.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusable = [...lbOverlay.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')];
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+    else           { if (document.activeElement === last)  { e.preventDefault(); first.focus(); } }
+  });
+  document.querySelectorAll('.lb-trigger').forEach(el => {
+    el.addEventListener('click', () => lbOpen(el.src || el.querySelector('img')?.src, el.alt || el.querySelector('img')?.alt, el));
+  });
+  lbClose.addEventListener('click', lbCloseF);
+  lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) lbCloseF(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lbOverlay.classList.contains('is-open')) lbCloseF(); });
+
+  // Spotlight fog — problem section
+  const fog = document.getElementById('cs-problem-fog');
+  const problemSection = document.getElementById('cs-s-problem');
+  if (fog && problemSection) {
+    const fogSection = problemSection.querySelector('.cs-section');
+    let revealed = false;
+    let autoRevealTimer = null;
+    const revealFog = () => {
+      if (revealed) return;
+      revealed = true;
+      clearTimeout(autoRevealTimer);
+      fog.classList.add('is-revealed');
+    };
+    // Fire goal stagger immediately (fog is the reveal, not IntersectionObserver)
+    const goalItemsEarly = fogSection.querySelectorAll('[data-goal]');
+    goalItemsEarly.forEach((item, i) => setTimeout(() => item.classList.add('is-vis'), 300 + i * 110));
+    // Touch / no-hover devices: auto-reveal after 1.5s
+    if (window.matchMedia('(hover: none)').matches) {
+      setTimeout(revealFog, 1500);
+    } else {
+      // Mouse: track cursor
+      fogSection.addEventListener('mousemove', e => {
+        const rect = fogSection.getBoundingClientRect();
+        fog.style.setProperty('--spot-x', (e.clientX - rect.left) + 'px');
+        fog.style.setProperty('--spot-y', (e.clientY - rect.top)  + 'px');
+      });
+      fogSection.addEventListener('mouseleave', () => {
+        fog.style.setProperty('--spot-x', '-9999px');
+        fog.style.setProperty('--spot-y', '-9999px');
+      });
+      // When section enters viewport, start a 2s countdown
+      new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !revealed) {
+          autoRevealTimer = setTimeout(revealFog, 2000);
+        } else {
+          clearTimeout(autoRevealTimer);
+        }
+      }, { threshold: 0.15 }).observe(fogSection);
+      // Mouse entering the section rewards engagement with an instant reveal
+      fogSection.addEventListener('mouseenter', revealFog, { once: true });
+    }
+  }
+
+  // Drag-to-scroll for horizontal rails
+  function addDragScroll(el) {
+    if (!el) return;
+    let down = false, startX = 0, scrollLeft = 0;
+    el.addEventListener('mousedown', e => {
+      down = true; el.classList.add('is-dragging');
+      startX = e.pageX - el.getBoundingClientRect().left;
+      scrollLeft = el.scrollLeft;
+    });
+    const end = () => { down = false; el.classList.remove('is-dragging'); };
+    el.addEventListener('mouseleave', end);
+    el.addEventListener('mouseup', end);
+    el.addEventListener('mousemove', e => {
+      if (!down) return; e.preventDefault();
+      const x = e.pageX - el.getBoundingClientRect().left;
+      el.scrollLeft = scrollLeft - (x - startX) * 1.1;
+    });
+  }
+  addDragScroll(document.querySelector('.cs-levers'));
+  addDragScroll(document.getElementById('cs-filmstrip-storyboard'));
+
+  // Ember cursor trail (non-touch, reduced-motion respected)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (!prefersReduced && !isTouch) {
+    const cvs = document.createElement('canvas');
+    cvs.style.cssText = 'position:fixed;inset:0;z-index:9998;pointer-events:none;';
+    document.body.appendChild(cvs);
+    const ctx2d = cvs.getContext('2d');
+    let cw = window.innerWidth, ch = window.innerHeight;
+    cvs.width = cw; cvs.height = ch;
+    window.addEventListener('resize', () => {
+      cw = window.innerWidth; ch = window.innerHeight;
+      cvs.width = cw; cvs.height = ch;
+    }, { passive: true });
+    const sparks = [];
+    let cx = -999, cy = -999, lastSparkTs = 0;
+    window.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; }, { passive: true });
+    function spawnSpark() {
+      sparks.push({
+        x: cx + (Math.random() - 0.5) * 8,
+        y: cy + (Math.random() - 0.5) * 8,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: -(Math.random() * 1.2 + 0.4),
+        r: Math.random() * 1.5 + 0.5,
+        life: 1,
+      });
+    }
+    function renderSparks(ts) {
+      requestAnimationFrame(renderSparks);
+      if (ts - lastSparkTs > 55 && cx > 0) { spawnSpark(); lastSparkTs = ts; }
+      ctx2d.clearRect(0, 0, cw, ch);
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const s = sparks[i];
+        s.life -= 0.035; s.x += s.vx; s.y += s.vy; s.vy += 0.04;
+        if (s.life <= 0) { sparks.splice(i, 1); continue; }
+        ctx2d.globalAlpha = s.life * 0.55;
+        ctx2d.fillStyle = '#c8571a';
+        ctx2d.beginPath();
+        ctx2d.arc(s.x, s.y, s.r * s.life + 0.3, 0, Math.PI * 2);
+        ctx2d.fill();
+      }
+      ctx2d.globalAlpha = 1;
+    }
+    requestAnimationFrame(renderSparks);
+  }
+
+  // Console easter egg
+  if (window.console && console.log) {
+    console.log('%cETERNAL WRECKENING', 'color:#c8571a;font-size:20px;font-weight:bold;font-family:Georgia,serif;letter-spacing:3px;');
+    console.log('%cThe Entity knows you\'re here.', 'color:#555;font-size:12px;font-style:italic;');
+    console.log('%cDesigned by Lucy Liu  ·  wl3512@nyu.edu', 'color:#444;font-size:11px;');
+  }
+
+})();
+</script>
+</body>
+</html>

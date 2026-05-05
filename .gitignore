@@ -1,0 +1,9 @@
+# Large files excluded from GitHub (> 100MB)
+FINAL PLANT UX.pdf
+video game.pdf
+
+.DS_Store
+node_modules/
+*.log
+.env
+.vercel

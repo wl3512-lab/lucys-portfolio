@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--void);color:var(--fg1);font-family:var(--font-body);padding:20px;min-height:150px}
+.card{padding:4px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:8px}
+</style></head><body class="card"><div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div>
+        <div style="background:var(--navy);height:90px;border-radius:12px;border:1px solid var(--border);"></div>
+        <div style="font-family:var(--font-ui);font-size:11px;margin-top:8px;color:var(--fg1);font-weight:600;">Flat surface</div>
+        <div style="font-family:var(--font-code);font-size:9px;color:var(--fg3);margin-top:2px;">1px border · no glow</div>
+      </div>
+      <div>
+        <div style="background:var(--navy);height:90px;border-radius:12px;border:1px solid var(--border-strong);position:relative;overflow:hidden;">
+          <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(160,200,255,0.22),transparent 70%);top:-40px;right:-40px;"></div>
+        </div>
+        <div style="font-family:var(--font-ui);font-size:11px;margin-top:8px;color:var(--fg1);font-weight:600;">Aura glow</div>
+        <div style="font-family:var(--font-code);font-size:9px;color:var(--fg3);margin-top:2px;">radial gradient inside</div>
+      </div>
+      <div>
+        <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);height:90px;border-radius:12px;border:1px solid rgba(160,200,255,0.12);"></div>
+        <div style="font-family:var(--font-ui);font-size:11px;margin-top:8px;color:var(--fg1);font-weight:600;">Frosted glass</div>
+        <div style="font-family:var(--font-code);font-size:9px;color:var(--fg3);margin-top:2px;">rgba white · blur 8–16</div>
+      </div>
+    </div>
+  </div></body></html>

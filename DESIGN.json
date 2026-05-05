@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-03T00:00:00Z",
+  "title": "Design System: Lucy Liu",
+  "extensions": {
+    "colorMeta": {
+      "void": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#050710",
+        "tonalRamp": ["#020305", "#050710", "#0A0F2A", "#141930", "#1E2640", "#2D3857", "#4A5A80", "#7F90B8"]
+      },
+      "navy": {
+        "role": "neutral",
+        "displayName": "Deep Space Navy",
+        "canonical": "#0A0F2A",
+        "tonalRamp": ["#020407", "#050810", "#0A0F2A", "#141930", "#1E2640", "#2D3857", "#4A5A80", "#9AAEC8"]
+      },
+      "navy-mid": {
+        "role": "neutral",
+        "displayName": "Navy Mid",
+        "canonical": "#141930",
+        "tonalRamp": ["#030508", "#08101E", "#141930", "#1E2640", "#2D3857", "#415575", "#6080A8", "#A0BACC"]
+      },
+      "navy-light": {
+        "role": "neutral",
+        "displayName": "Navy Light",
+        "canonical": "#1E2640",
+        "tonalRamp": ["#040609", "#0A1020", "#141B35", "#1E2640", "#2D3857", "#415575", "#6080A8", "#A8C0D8"]
+      },
+      "cloud": {
+        "role": "neutral",
+        "displayName": "Cloud White",
+        "canonical": "#F6FAFF",
+        "tonalRamp": ["#0C0E10", "#1E222A", "#323A48", "#4A5569", "#6B7D97", "#9BAFC8", "#C8D8EE", "#F6FAFF"]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#E2EEFF",
+        "tonalRamp": ["#0A0D15", "#141C2E", "#202D4A", "#304570", "#4A6AA0", "#7898CC", "#B8CCEC", "#E2EEFF"]
+      },
+      "atmospheric-blue": {
+        "role": "primary",
+        "displayName": "Atmospheric Blue",
+        "canonical": "#A0C8FF",
+        "tonalRamp": ["#050D17", "#0A1828", "#14283E", "#2240 6B", "#375DA0", "#5E8AD4", "#A0C8FF", "#D4E8FF"]
+      },
+      "signal-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "#72ADFF",
+        "tonalRamp": ["#06101E", "#0E1E32", "#1A3150", "#2A4E82", "#3E72BB", "#5E95E8", "#72ADFF", "#C8DEFF"]
+      },
+      "deep-signal-blue": {
+        "role": "primary",
+        "displayName": "Deep Signal Blue",
+        "canonical": "#4A8FEF",
+        "tonalRamp": ["#050D18", "#0C1A2C", "#152A48", "#224478", "#3568B0", "#4A8FEF", "#82B8FF", "#C0D8FF"]
+      },
+      "nebula-lavender": {
+        "role": "secondary",
+        "displayName": "Nebula Lavender",
+        "canonical": "#C4B0FF",
+        "tonalRamp": ["#07050F", "#0F0B1E", "#1C1535", "#2E2262", "#4D3A9A", "#8B6ADE", "#C4B0FF", "#E8E0FF"]
+      },
+      "lavender-light": {
+        "role": "secondary",
+        "displayName": "Lavender Light",
+        "canonical": "#E8E0FF",
+        "tonalRamp": ["#090710", "#14101E", "#231B35", "#3A2E62", "#5E4A9A", "#9880D8", "#C4B0FF", "#E8E0FF"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero names and section heroes only. Extremely tight leading (0.92). Italic variant with Atmospheric Light gradient reserved for one word per screen."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, contact headings, project titles. Playfair Display."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Tertiary section leaders, mobile nav links. Syne 600."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Standard paragraphs, about bio, project descriptions. DM Sans. Max line length 65ch."
+      },
+      "label": {
+        "displayName": "Label / Eyebrow",
+        "purpose": "Section labels, project indices, tag text, meta. Space Mono. Always uppercase + 0.14em tracking."
+      }
+    },
+    "shadows": [
+      {
+        "name": "none",
+        "value": "none",
+        "purpose": "No box-shadow in this system. Depth comes from aura radial gradients, tonal layering, and backdrop-filter blur. See Elevation section in DESIGN.md."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Standard easing for all state transitions, page-level animations, nav transitions. The house curve."
+      },
+      {
+        "name": "ease-spring",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "purpose": "Snap-back and entrance personality. Project arrow on hover, magnetic button release, skill card entrance."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Bidirectional transitions (scroll progress bar, layout shifts)."
+      },
+      {
+        "name": "duration-fast",
+        "value": "200ms",
+        "purpose": "Hover color shifts, cursor transitions."
+      },
+      {
+        "name": "duration-base",
+        "value": "300ms",
+        "purpose": "Standard state transitions: nav scroll, button hover, link color."
+      },
+      {
+        "name": "duration-slow",
+        "value": "500ms",
+        "purpose": "Project row padding expansion, photo hover scale, skill card entrances."
+      },
+      {
+        "name": "duration-page",
+        "value": "800ms",
+        "purpose": "Page-level GSAP orchestrations, hero entrance sequence."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px", "purpose": "Nav collapses to hamburger. Project row goes single-column." },
+      { "name": "md", "value": "768px", "purpose": "Skill bento grid collapses to 2 columns. About grid goes single-column." },
+      { "name": "lg", "value": "900px", "purpose": "Hero content goes single-column (editorial stacked)." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main CTA. Signal Blue fill, Void text. Lightens on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">View my work ↓</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; font-family: 'Syne', system-ui, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; border-radius: 4px; cursor: pointer; transition: background 200ms cubic-bezier(0.16,1,0.3,1), transform 200ms; text-decoration: none; background: #72ADFF; color: #050710; padding: 11px 22px; border: none; } .ds-btn-primary:hover { background: #A0C8FF; } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #72ADFF; outline-offset: 4px; border-radius: 4px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ghost variant with hairline border. For secondary actions like Resume download.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Resume ↓</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; font-family: 'Syne', system-ui, sans-serif; font-size: 14px; font-weight: 400; letter-spacing: 0.04em; border-radius: 4px; cursor: pointer; transition: border-color 200ms, background 200ms, transform 200ms; text-decoration: none; background: transparent; color: #F6FAFF; padding: 10px 22px; border: 1px solid rgba(160,200,255,0.20); } .ds-btn-secondary:hover { border-color: #F6FAFF; background: rgba(255,255,255,0.04); } .ds-btn-secondary:active { transform: scale(0.97); } .ds-btn-secondary:focus-visible { outline: 2px solid #72ADFF; outline-offset: 4px; }"
+    },
+    {
+      "name": "Tag (Default)",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Read-only discipline label. Space Mono 11px, Navy Mid background.",
+      "html": "<span class=\"ds-tag\">Interaction Design</span>",
+      "css": ".ds-tag { display: inline-block; font-family: 'Space Mono', 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #141930; color: rgba(235,243,255,0.55); border: 0.5px solid rgba(160,200,255,0.10); white-space: nowrap; letter-spacing: 0.02em; }"
+    },
+    {
+      "name": "Tag (Accent)",
+      "kind": "chip",
+      "refersTo": "tag-accent",
+      "description": "Highlighted tag for primary skill or featured attribute.",
+      "html": "<span class=\"ds-tag-accent\">Accessibility</span>",
+      "css": ".ds-tag-accent { display: inline-block; font-family: 'Space Mono', 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: rgba(114,173,255,0.10); color: #A0C8FF; border: 0.5px solid rgba(160,200,255,0.25); white-space: nowrap; letter-spacing: 0.02em; }"
+    },
+    {
+      "name": "Navigation (Scrolled State)",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed top nav after 40px scroll. Frosted glass on Void. Transparent at rest.",
+      "html": "<nav class=\"ds-nav ds-nav--scrolled\"><div class=\"ds-nav-inner\"><a class=\"ds-nav-logo\" href=\"#\">lucy liu</a><div class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">work</a><a class=\"ds-nav-link\" href=\"#\">about</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">contact ↗</a></div></div></nav>",
+      "css": ".ds-nav { position: relative; height: 64px; display: flex; align-items: center; padding-inline: clamp(20px,5vw,48px); background: transparent; transition: background 300ms cubic-bezier(0.16,1,0.3,1), border-color 300ms; } .ds-nav--scrolled { background: rgba(5,7,16,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(160,200,255,0.10); } .ds-nav-inner { width: 100%; max-width: 1100px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; } .ds-nav-logo { font-family: 'Syne', system-ui, sans-serif; font-size: 14px; font-weight: 700; color: #F6FAFF; letter-spacing: 0.02em; text-decoration: none; transition: color 200ms; } .ds-nav-logo:hover { color: #72ADFF; } .ds-nav-links { display: flex; align-items: center; gap: 24px; } .ds-nav-link { font-family: 'Syne', system-ui, sans-serif; font-size: 14px; color: rgba(235,243,255,0.55); text-decoration: none; transition: color 200ms; } .ds-nav-link:hover { color: #F6FAFF; } .ds-nav-link--active { color: #72ADFF; } .ds-nav-link:focus-visible { outline: 2px solid #72ADFF; outline-offset: 4px; border-radius: 2px; }"
+    },
+    {
+      "name": "Project Row",
+      "kind": "card",
+      "refersTo": "project-row",
+      "description": "Signature work-list component. Full-width, 2-column on hover. Not a card grid.",
+      "html": "<div class=\"ds-project-row\"><a class=\"ds-project-card\" href=\"#\"><div class=\"ds-project-inner\"><div class=\"ds-project-left\"><span class=\"ds-project-index\">01</span><div class=\"ds-project-title-wrap\"><h3 class=\"ds-project-title\">Design Meets Access</h3></div><div class=\"ds-project-tags\"><span class=\"ds-tag\">UX Research</span><span class=\"ds-tag-accent\">Accessibility</span></div></div><div class=\"ds-project-right\"><p class=\"ds-project-desc\">Co-design with switch-nav users to improve wayfinding in a transit app.</p><span class=\"ds-project-arrow\">↗</span></div></div><div class=\"ds-project-mask\"></div></a></div>",
+      "css": ".ds-project-row { border-top: 0.5px solid rgba(160,200,255,0.10); } .ds-project-card { display: block; position: relative; text-decoration: none; color: inherit; overflow: hidden; cursor: pointer; } .ds-project-inner { display: grid; grid-template-columns: 1fr 1fr; padding-block: 40px; transition: padding 500ms cubic-bezier(0.16,1,0.3,1); } .ds-project-card:hover .ds-project-inner { padding-block: 48px; } .ds-project-left { display: flex; flex-direction: column; gap: 12px; } .ds-project-right { display: flex; flex-direction: column; justify-content: center; gap: 16px; padding-left: 48px; } .ds-project-index { font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(160,200,255,0.35); letter-spacing: 0.14em; } .ds-project-title-wrap { overflow: hidden; } .ds-project-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px,4vw,40px); font-weight: 700; line-height: 1.2; color: #F6FAFF; margin: 0; transition: color 300ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.34,1.56,0.64,1); } .ds-project-card:hover .ds-project-title { color: #72ADFF; transform: translateX(8px); } .ds-project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; } .ds-tag { display: inline-block; font-family: 'Space Mono',monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: #141930; color: rgba(235,243,255,0.55); border: 0.5px solid rgba(160,200,255,0.10); white-space: nowrap; } .ds-tag-accent { display: inline-block; font-family: 'Space Mono',monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; background: rgba(114,173,255,0.10); color: #A0C8FF; border: 0.5px solid rgba(160,200,255,0.25); white-space: nowrap; } .ds-project-desc { font-family: 'DM Sans',system-ui,sans-serif; font-size: 16px; color: rgba(235,243,255,0.55); line-height: 1.7; max-width: 38ch; margin: 0; } .ds-project-arrow { font-size: clamp(20px,2.5vw,26px); color: rgba(160,200,255,0.35); transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1), color 300ms; align-self: flex-start; line-height: 1; font-family: 'Syne',system-ui,sans-serif; } .ds-project-card:hover .ds-project-arrow { transform: translate(4px,-4px); color: #72ADFF; } .ds-project-mask { position: absolute; inset: 0; background: #72ADFF; transform: translateX(-101%); transition: transform 600ms cubic-bezier(0.16,1,0.3,1); pointer-events: none; mix-blend-mode: overlay; opacity: 0.08; } .ds-project-card:hover .ds-project-mask { transform: translateX(0); }"
+    },
+    {
+      "name": "Eyebrow Label",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Section meta label. Space Mono uppercase + 0.14em tracking. Always tertiary text color.",
+      "html": "<span class=\"ds-eyebrow\">01 / SELECTED WORK</span>",
+      "css": ".ds-eyebrow { font-family: 'Space Mono', 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(160,200,255,0.35); display: inline-block; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lit Archive",
+    "overview": "A personal body of work that glows from within. Not a gallery with overhead lights and white walls — a deep-space archive where each piece is lit by its own aura, the glow emanating from behind the content rather than from above it. The environment itself argues for Lucy's sensibility: the void background is the default reality; every surface exists as a departure from it.\n\nThe system is editorial and atmospheric in equal measure. Editorial precision governs the typography — a deliberate mix of Playfair's serif intelligence, Syne's geometric weight, and Space Mono's technical rigor. Atmospheric depth governs the environment — deep-space void backgrounds, aura-blue radial halos, fine grid lines visible only at the center, SVG grain barely perceptible under content. The result is a space that feels occupied, not rendered.\n\nThis is a brand-register system: the design IS the portfolio. Every decision communicates methodology without stating it. The work is the evidence; the surface is the argument.",
+    "keyCharacteristics": [
+      "Dark-only. Full-bleed void (#050710) as the default environment, always.",
+      "Glow over shadow. No drop shadows on any surface. Depth is aura radial gradients behind content.",
+      "One atmospheric light per screen. The aura gradient fires on one italic word per screen; nowhere else.",
+      "Frosted restraint. Components have minimal material presence at rest, emerge fully on interaction.",
+      "Motion as proof. GSAP-orchestrated entrances and scroll effects confirm structure; they do not decorate.",
+      "Type as system. Four typefaces in precise, non-interchangeable roles."
+    ],
+    "rules": [
+      {
+        "name": "The One Flame Rule",
+        "body": "The Atmospheric Light gradient applied via background-clip: text fires on exactly one italic Playfair word per screen. Not one per component. Per screen. If the aura fires twice in viewport, it means nothing.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-White Rule",
+        "body": "#ffffff and #000000 are prohibited. Cloud White (#F6FAFF) is the near-white. Void (#050710) is the near-black.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast Floor",
+        "body": "Secondary text at rgba(235,243,255,0.55) on Void clears WCAG AA. Tertiary text at rgba(160,200,255,0.35) does not. Tertiary is eyebrow and decorative meta only; never assigned to body-weight reading text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Four-Voice Rule",
+        "body": "Each typeface has one role and does not migrate. Playfair Display for editorial display and italic accents; Syne for UI surface and wordmark; DM Sans for reading-weight body; Space Mono for monospace labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lowercase Rule",
+        "body": "The wordmark (lucy liu) and all short nav labels (work, about, contact) are lowercase. UPPERCASE + 0.14em tracking is reserved for Space Mono eyebrows and tags.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Shadow Rule",
+        "body": "box-shadow is prohibited on all surfaces. If you're reaching for it, the alternative is always: a tonal background step, an aura radial behind the element, or a 1px border at low alpha.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Frosted-Nav Exception",
+        "body": "Navigation uses backdrop-filter: blur(16px) and rgba(5,7,16,0.85) background only after 40px of scroll. At rest, the nav is transparent. This is a purposeful material moment — earned by the scroll, not present by default.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use #050710 (Void) as the default background on every screen, page, and component. There is no light mode.",
+      "Do use Signal Blue (#72ADFF) as the sole interactive accent.",
+      "Do apply the Atmospheric Light gradient to exactly one italic Playfair word per screen.",
+      "Do use cubic-bezier(0.16,1,0.3,1) (expo-out) as the standard easing curve.",
+      "Do use the four-voice type system as specified.",
+      "Do keep all navigation and short UI labels lowercase.",
+      "Do use glyph arrows as the icon system.",
+      "Do provide 2px solid Signal Blue focus rings at 4px offset on every interactive element.",
+      "Do include prefers-reduced-motion fallbacks for all GSAP animations.",
+      "Do use Space Mono uppercase + 0.14em tracking for all eyebrow labels."
+    ],
+    "donts": [
+      "Don't do generic dark Webflow. No Neue Haas Unica, no UPPERCASE headline stack, no neon accent, no uniform grid of portfolio cards.",
+      "Don't do SaaS landing-page patterns. No feature-bullet sections, no hero-metric cards, no purple-to-blue gradient heroes.",
+      "Don't add box-shadow to any card or container.",
+      "Don't use border-left or border-right greater than 1px as a colored accent stripe.",
+      "Don't fire the Atmospheric Light gradient twice in the same viewport.",
+      "Don't mix typeface roles.",
+      "Don't introduce a light mode.",
+      "Don't use glassmorphism decoratively.",
+      "Don't use emoji.",
+      "Don't animate CSS layout properties.",
+      "Don't use #000000 or #ffffff."
+    ]
+  }
+}

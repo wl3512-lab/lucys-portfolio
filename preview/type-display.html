@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--void); color: var(--fg1); font-family: var(--font-body); padding: 24px 28px; }
+  .meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+  .meta { font-family: var(--font-code); font-size: 10px; color: var(--fg-accent); text-transform: uppercase; letter-spacing: 0.22em; }
+  .specs { font-family: var(--font-code); font-size: 10px; color: var(--fg3); letter-spacing: 0.1em; }
+  .display {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; font-weight: 400; line-height: 0.95; letter-spacing: -0.035em;
+    color: var(--fg1);
+  }
+  .accent {
+    font-family: var(--font-code);
+    font-weight: 400; font-size: 0.32em;
+    color: var(--fg-accent); letter-spacing: 0.16em;
+    text-transform: uppercase; vertical-align: middle;
+    margin-left: 12px; padding: 4px 10px;
+    border: 1px solid var(--border-strong); border-radius: 4px;
+  }
+  .bar { width: 40px; height: 1px; background: var(--fg-accent); display: inline-block; vertical-align: middle; margin-right: 14px; }
+</style></head><body>
+  <div class="meta-row">
+    <span class="meta">Display · Playfair Display 400</span>
+    <span class="specs">64 / 60 · -0.035em</span>
+  </div>
+  <div class="display"><span class="bar"></span>Designing for the human mind<span class="accent">v.2026</span></div>
+</body></html>

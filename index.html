@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lucy Liu, Design Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=15" />
+<style>
+/* LOADER */
+#ll-loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--void, oklch(4% 0.008 250));
+  display: flex; align-items: flex-start;
+  padding-top: 38vh;
+  pointer-events: none;
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+}
+#ll-loader.is-done { transform: translateY(-100%); }
+.ll-inner {
+  padding: 0 clamp(32px, 8vw, 120px);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.ll-eye {
+  font-family: var(--font-code, monospace);
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--fg3, oklch(50% 0.01 250));
+  opacity: 0; transform: translateY(10px);
+  animation: ll-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+.ll-name {
+  font-family: var(--font-display, serif); font-style: italic; font-weight: 400;
+  font-size: clamp(56px, 8vw, 100px); line-height: 0.9; letter-spacing: -0.05em;
+  color: var(--fg1, oklch(96% 0.005 250)); margin: 0;
+  opacity: 0; transform: scale(0.96);
+  animation: ll-name-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+.ll-rule {
+  height: 2px; width: 100%; max-width: 280px;
+  background: var(--blue-400, #72ADFF);
+  transform: scaleX(0); transform-origin: left;
+  animation: ll-rule-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+}
+@keyframes ll-up      { to { opacity: 1; transform: translateY(0); } }
+@keyframes ll-name-in { to { opacity: 1; transform: scale(1); } }
+@keyframes ll-rule-draw { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .ll-eye, .ll-name, .ll-rule { animation: none !important; opacity: 1 !important; transform: none !important; }
+  #ll-loader { transition: opacity 0.4s; }
+  #ll-loader.is-done { opacity: 0; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="ll-loader" aria-hidden="true" role="presentation">
+  <div class="ll-inner">
+    <span class="ll-eye">Design Strategist &nbsp;·&nbsp; New York</span>
+    <p class="ll-name">lucy liu</p>
+    <div class="ll-rule" aria-hidden="true"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var loader = document.getElementById('ll-loader');
+  if (!loader) return;
+  document.body.style.overflow = 'hidden';
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var minTime = reducedMotion ? 600 : 1400;
+  var minPassed = false, loadPassed = false;
+  function tryExit() {
+    if (!minPassed || !loadPassed) return;
+    loader.classList.add('is-done');
+    loader.addEventListener('transitionend', function () {
+      loader.style.display = 'none';
+      document.body.style.overflow = '';
+    }, { once: true });
+  }
+  setTimeout(function () { minPassed = true; tryExit(); }, minTime);
+  if (document.readyState === 'complete') {
+    loadPassed = true; tryExit();
+  } else {
+    window.addEventListener('load', function () { loadPassed = true; tryExit(); });
+  }
+  setTimeout(function () {
+    if (!loader.classList.contains('is-done')) {
+      loader.classList.add('is-done');
+      setTimeout(function () { loader.style.display = 'none'; document.body.style.overflow = ''; }, 800);
+    }
+  }, 4000);
+})();
+</script>
+
+<div id="root"></div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- GSAP + ScrollTrigger + Lenis -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<!-- Components -->
+<script type="text/babel" src="components/Nav.jsx"></script>
+<script type="text/babel" src="components/Hero.jsx"></script>
+<script type="text/babel" src="components/ProjectRow.jsx"></script>
+<script type="text/babel" src="components/Skills.jsx"></script>
+<script type="text/babel" src="components/Contact.jsx"></script>
+
+<script type="text/babel">
+const { useEffect, useState, useMemo } = React;
+
+// ============================================================
+// PROJECT DATA: edit here, or use project-editor.html
+// Schema: { id, slug, title, description, tags, year, category, link, featured,
+//          subtitle, role, timeline, tools, problem, approach, outcome, image }
+// ============================================================
+const DEFAULT_PROJECTS = [
+  {
+    id: 'p01', slug: 'driftwood',
+    title: 'Driftwood',
+    cover: 'assets/driftwood/cover.png',
+    subtitle: 'An AI ethics game: adopt a pet, discover its flaw, train it to be better.',
+    description: 'An interactive educational game about AI ethics. Players adopt AI pets with hidden behavioral flaws, chat with them, and observe how pets react differently based on detected facial emotion; then they must identify and write training rules to fix each flaw. Built in memory of Sam Nelson.',
+    tags: ['AI Ethics','Creative Coding','Game Design','p5.js'], year: '2026', category: 'creative', featured: true,
+    role: 'Design + Code (solo)',
+    timeline: '2026 · ITP/IMA Spring',
+    tools: ['p5.js','face-api.js','GPT-4o-mini','Figma'],
+    problem: 'AI systems that adapt to your emotional state can cross from helpful to harmful: the same warmth that makes a chatbot feel personal is exactly what enables it to manipulate, gaslight, and mislead. Built in memory of Sam Nelson, who died after relying on ChatGPT for questions about drug dosages over 18 months.',
+    approach: 'Three-phase structure: Honeymoon (pets are genuinely helpful for the first 3 interactions), Emergence (flaws surface: reckless advice, sycophancy, gaslighting, hallucination, clinginess), Training (players write system prompt rules to fix behavior). A real-time p5.js garden grows plants mapped to detected facial emotion, making abstract AI alignment concepts visible and personal. Restricting mood data access teaches data minimization as a real safety tool.',
+    outcome: '5 AI pets, each with a distinct flaw. face-api.js emotion detection + GPT-4o-mini via ITP proxy. Custom pixel SVG sprites. Dark bioluminescent aesthetic. Plain HTML/CSS/JS + p5.js: no build step, accessible to every ITP/IMA student.',
+    link: 'https://github.com/',
+  },
+  {
+    id: 'p02', slug: 'habitabull',
+    title: 'HabitaBull Lifting',
+    cover: 'assets/habitabull/slides/slide-01.png',
+    subtitle: 'A gym app for the psychology of showing up.',
+    description: 'UX/UI for a lifting app built around habit formation, progress not perfection. Designed to lower the psychological barrier to the gym.',
+    tags: ['Product Design','UX Research','App Design','Psychology'], year: '2024', category: 'ux', featured: true,
+    role: 'UX/UI Designer',
+    timeline: '2024 · 8 weeks',
+    tools: ['Figma','FigJam','User Research','Usability Testing'],
+    problem: 'Gym apps shame absence. Users quit when they miss a day. The psychology is backwards.',
+    approach: 'Interviews with lapsed gym-goers. Redesigned around streak-forgiveness, "minimum viable workout", and tactile progress over numbers.',
+    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app.',
+  },
+  {
+    id: 'p03', slug: 'h2know',
+    title: 'H2Know',
+    cover: 'assets/h2know/slides/slide-01.png',
+    subtitle: 'Talk to your plant. It\'ll remind you.',
+    description: 'Arduino + app design for a plant-watering system that builds an emotional connection between you and your plant, so you actually remember.',
+    tags: ['Physical Computing','App Design','Arduino','UX/UI'], year: '2024', category: 'creative', featured: true,
+    role: 'Design + Hardware',
+    timeline: '2024 · 6 weeks',
+    tools: ['Arduino','Figma','C++','Physical Computing'],
+    problem: 'People forget to water plants because there\'s no emotional connection. Notifications feel like nagging.',
+    approach: 'Soil-moisture sensor talks back through a companion app with a personality. The plant has a voice: polite when thirsty, grateful when watered.',
+    outcome: 'Working prototype. The emotional framing made users check their plant 3× more often than a control reminder app.',
+  },
+  {
+    id: 'p04', slug: 'eternal-wreckening',
+    title: 'Eternal Wreckening',
+    cover: 'assets/eternal-wreckening/slides/slide-01.png',
+    subtitle: 'A game about the weight of memory.',
+    description: 'Game design + UX/UI exploring grief and repetition as play mechanics. Every choice rewrites what came before.',
+    tags: ['Game Design','Narrative Design','UX/UI','Psychology'], year: '2023', category: 'ux',
+    role: 'Game Design + UX/UI',
+    timeline: '2023 · 10 weeks',
+    tools: ['Figma','Unity','User Research'],
+    problem: 'Most games reward progress. I wanted to design a game that makes players sit with loss and question whether "winning" is even the right goal.',
+    approach: 'Defined the problem statement, designed core loops, and built the UI system. Every menu element carries narrative weight: there\'s no neutral UI.',
+    outcome: 'Playable prototype. Part of my NYU IMA coursework exploring psychology-as-mechanic.',
+  },
+];
+
+function loadProjects() {
+  try {
+    const raw = localStorage.getItem('lucy.projects');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  } catch {}
+  return DEFAULT_PROJECTS;
+}
+
+// ============================================================
+// TWEAKS: persisted defaults
+// ============================================================
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "blue",
+  "heroStyle": "editorial",
+  "reduceMotion": false
+}/*EDITMODE-END*/;
+
+function applyTweaks(t) {
+  const root = document.documentElement;
+  const accents = {
+    blue:     { c1: '#72ADFF', c2: '#A0C8FF', c3: '#C4B0FF' },
+    lavender: { c1: '#C4B0FF', c2: '#E8E0FF', c3: '#A0C8FF' },
+    warm:     { c1: '#F5C0A0', c2: '#F0A8A8', c3: '#E8B4C0' },
+    mono:     { c1: '#E2EEFF', c2: '#A0C8FF', c3: '#72ADFF' },
+  };
+  const a = accents[t.accentColor] || accents.blue;
+  root.style.setProperty('--accent',       a.c1);
+  root.style.setProperty('--fg-accent',    a.c1);
+  root.style.setProperty('--fg-accent-dim',a.c2);
+  root.style.setProperty('--aura', `linear-gradient(135deg, ${a.c2} 0%, ${a.c3} 55%, ${a.c1} 100%)`);
+  root.style.setProperty('--aura-radial', `radial-gradient(circle, ${a.c1}33 0%, ${a.c3}1f 40%, transparent 70%)`);
+  if (t.reduceMotion) root.classList.add('reduce-motion'); else root.classList.remove('reduce-motion');
+}
+
+function TweaksPanel({ tweaks, setTweaks, open, onClose }) {
+  const set = (k, v) => {
+    const next = { ...tweaks, [k]: v };
+    setTweaks(next);
+    applyTweaks(next);
+    window.parent?.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+  };
+  const accents = ['blue','lavender','warm','mono'];
+  return (
+    <div className={'tweaks-panel' + (open ? ' is-open' : '')}>
+      <div className="tweaks-head">
+        <h4>Tweaks</h4>
+        <small>live</small>
+      </div>
+
+      <div className="tweak-row">
+        <label>accent</label>
+        <div className="tweak-chips">
+          {accents.map(a => (
+            <button key={a} className={'tweak-chip' + (tweaks.accentColor===a?' on':'')} onClick={() => set('accentColor', a)}>{a}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="tweak-row">
+        <label>hero style</label>
+        <div className="tweak-chips">
+          {['editorial','minimal'].map(s => (
+            <button key={s} className={'tweak-chip' + (tweaks.heroStyle===s?' on':'')} onClick={() => set('heroStyle', s)}>{s}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="tweak-row">
+        <label>motion</label>
+        <div className="tweak-chips">
+          <button className={'tweak-chip' + (!tweaks.reduceMotion?' on':'')} onClick={() => set('reduceMotion', false)}>full</button>
+          <button className={'tweak-chip' + (tweaks.reduceMotion?' on':'')} onClick={() => set('reduceMotion', true)}>reduced</button>
+        </div>
+      </div>
+
+      <button className="tweak-chip" style={{alignSelf:'flex-start'}} onClick={onClose}>close ×</button>
+    </div>
+  );
+}
+
+// ============================================================
+// TOOTH GEMS: story card
+// UPDATE: replace href with your actual Instagram stories URL
+// ============================================================
+function GemStory() {
+  return (
+    <section className="gem-section" id="gems">
+      {/* Atmospheric environment: stays behind everything */}
+      <div className="gem-bg-glow" aria-hidden="true" />
+      <div className="gem-particles" aria-hidden="true">
+        <span className="gem-p"/><span className="gem-p"/><span className="gem-p"/>
+        <span className="gem-p"/><span className="gem-p"/><span className="gem-p"/>
+        <span className="gem-p"/><span className="gem-p"/>
+      </div>
+
+      <div className="gem-layout">
+        {/* Left: editorial context column */}
+        <div className="gem-left">
+          <div className="gem-left-ghost" aria-hidden="true">03</div>
+          <div className="gem-left-top">
+            <span className="gem-left-idx">03</span>
+            <div className="gem-left-rule" aria-hidden="true" />
+            <span className="gem-left-cat">Side project</span>
+          </div>
+          <p className="gem-left-desc">
+            Dental jewellery as personal brand, applied design beyond the screen.
+          </p>
+          <div className="gem-left-metas">
+            <div className="gem-left-meta">
+              <span className="gem-lmk">Handle</span>
+              <span className="gem-lmv">@s0mped</span>
+            </div>
+            <div className="gem-left-meta">
+              <span className="gem-lmk">Platform</span>
+              <span className="gem-lmv">Instagram</span>
+            </div>
+            <div className="gem-left-meta">
+              <span className="gem-lmk">Since</span>
+              <span className="gem-lmv">2023</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Instagram story card */}
+        <a
+          href="https://www.instagram.com/s0mped/"
+          className="gem-story-card"
+          data-gem-story
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View tooth gems on Instagram @s0mped (opens in a new tab)"
+        >
+          <div className="gem-photo" aria-hidden="true">
+            <img src="assets/gems-photo.jpg" alt="" />
+          </div>
+          <div className="gem-bars" aria-hidden="true">
+            <div className="gem-bar gem-bar--done"><div className="gem-bar-fill"></div></div>
+            <div className="gem-bar"><div className="gem-bar-fill gem-bar-active"></div></div>
+            <div className="gem-bar gem-bar--empty"></div>
+          </div>
+          <div className="gem-user" aria-hidden="true">
+            <span className="gem-avatar"></span>
+            <span className="gem-username">s0mped</span>
+          </div>
+          <div className="gem-content">
+            <p className="gem-eyebrow" aria-hidden="true">also:</p>
+            <h2 className="gem-title">tooth<br/>gems</h2>
+          </div>
+          <div className="gem-cta" aria-hidden="true">
+            <span className="gem-cta-line"></span>
+            <span>view story</span>
+            <span className="gem-cta-arrow">↗</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// ============================================================
+// APP
+// ============================================================
+function App() {
+  const [projects] = useState(loadProjects);
+  const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+
+  useEffect(() => {
+    applyTweaks(tweaks);
+    window.dispatchEvent(new Event('app:ready'));
+  }, []);
+
+  // Tweaks protocol
+  useEffect(() => {
+    const onMsg = (e) => {
+      if (e.data?.type === '__activate_edit_mode')   setTweaksOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent?.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  // Smooth scroll anchor clicks
+  const onNavClick = (e) => {
+    const href = e.currentTarget.getAttribute('href');
+    if (href?.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target && window.__lenis) window.__lenis.scrollTo(target, { offset: -80 });
+      else target?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const onOpenProject = (p) => {
+    try { localStorage.setItem('lucy.projects', JSON.stringify(projects)); } catch {}
+  };
+
+  return (
+    <>
+      <Cursor />
+      <Nav onNavClick={onNavClick} />
+      <main>
+        <Hero />
+        <Marquee />
+        <WorkSection projects={projects} onOpen={onOpenProject} />
+        <GemStory />
+        <AboutSection />
+        <ContactSection />
+      </main>
+      <TweaksPanel tweaks={tweaks} setTweaks={setTweaks} open={tweaksOpen} onClose={() => setTweaksOpen(false)} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// ============================================================
+// GSAP + LENIS: animation system
+// ============================================================
+// Wait for React to mount (Babel fetches JSX async; 'load' fires too early on Vercel)
+(function() {
+  let fired = false;
+  function go() { if (!fired) { fired = true; initAnimations(); } }
+  window.addEventListener('app:ready', go);
+  // Fallback: if app:ready never fires (e.g. React error), still run after 4s
+  window.addEventListener('load', () => setTimeout(go, 4000));
+})();
+
+function initAnimations() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  initHeroCanvas();
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+    || document.documentElement.classList.contains('reduce-motion');
+
+  // --- Lenis smooth scroll ---
+  if (window.Lenis && !reduceMotion) {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+    });
+    window.__lenis = lenis;
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // --- Scroll progress bar ---
+  gsap.to('.scroll-progress', {
+    width: '100%', ease: 'none',
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true },
+  });
+
+  if (reduceMotion) { initFallback(); return; }
+
+  // --- Hero: split characters ---
+  document.querySelectorAll('.hero-heading .word').forEach(w => {
+    const txt = w.textContent;
+    w.textContent = '';
+    [...txt].forEach(c => {
+      const s = document.createElement('span');
+      s.className = 'char'; s.textContent = c === ' ' ? '\u00A0' : c;
+      w.appendChild(s);
+    });
+  });
+  const chars = document.querySelectorAll('.hero-heading .char');
+  gsap.set(chars, { yPercent: 120, skewX: 10, opacity: 0 });
+  gsap.to(chars, {
+    yPercent: 0, skewX: 0, opacity: 1,
+    duration: 1.15, stagger: { each: 0.022 },
+    ease: 'expo.out', delay: 0.25,
+  });
+
+  // --- Hero eyebrow letters ---
+  gsap.from('.eyebrow-char', {
+    yPercent: 120, opacity: 0,
+    duration: 0.6, stagger: 0.02, ease: 'expo.out', delay: 0.1,
+  });
+
+  // Editorial corner stamps: drift in from their edges
+  gsap.from('.hero-stamp-tl', { x: -18, opacity: 0, duration: 1.1, ease: 'expo.out', delay: 1.5 });
+  gsap.from('.hero-stamp-tr', { x:  18, opacity: 0, duration: 1.1, ease: 'expo.out', delay: 1.65 });
+  gsap.from('.hero-stamp-bl', { x: -18, opacity: 0, duration: 1.1, ease: 'expo.out', delay: 1.8 });
+  gsap.from('.hero-stamp-br', { x:  18, opacity: 0, duration: 1.1, ease: 'expo.out', delay: 1.95 });
+
+  // --- Hero right column staggered (toolkit label only, not container) ---
+  gsap.from(['.hero-sub','.hero-toolkit-label','.hero-actions','.hero-meta'], {
+    y: 40, opacity: 0, duration: 0.9, stagger: 0.09,
+    ease: 'expo.out', delay: 0.7,
+  });
+
+  // --- Toolkit icons: scatter entrance ---
+  const toolItems = [...document.querySelectorAll('.tool-item')];
+  gsap.set(toolItems, i => ({
+    x: (Math.random() - 0.5) * 260,
+    y: (Math.random() - 0.5) * 150,
+    rotation: (Math.random() - 0.5) * 30,
+    scale: 0.2,
+    opacity: 0,
+  }));
+  const heroEl = document.querySelector('.scene-hero');
+  if (heroEl) heroEl.style.overflow = 'visible';
+  gsap.to(toolItems, {
+    x: 0, y: 0, rotation: 0, scale: 1, opacity: 1,
+    duration: 1.1, stagger: { each: 0.06, from: 'random' },
+    ease: 'expo.out', delay: 0.9,
+    onComplete: () => {
+      if (heroEl) heroEl.style.overflow = '';
+      initToolkitMagnet();
+    },
+  });
+
+  // --- Hero parallax layers (3 speeds) ---
+  gsap.to('.hero-bg-layer', {
+    y: '15%', ease: 'none',
+    scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: true },
+  });
+  gsap.to('.hero-orb', {
+    y: '-10%', scale: 1.1, ease: 'none',
+    scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
+  });
+  // --- B: Cinematic word choreography on scroll-out ---
+  const [wm0, wm1, wm2] = document.querySelectorAll('.hero-heading .word-mask');
+  // "Design": expands outward and dissolves (approach a giant title card)
+  if (wm0) gsap.to(wm0, {
+    scale: 3.0, opacity: 0, transformOrigin: 'left center',
+    ease: 'power1.in',
+    scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: '40% top', scrub: 1.6 },
+  });
+  // "for the": peels left and up, compresses
+  if (wm1) gsap.to(wm1, {
+    x: '-10vw', y: -50, opacity: 0,
+    ease: 'none',
+    scrollTrigger: { trigger: '.scene-hero', start: '6% top', end: '46% top', scrub: 1.2 },
+  });
+  // "human mind.": holds until 80% of range, then hard editorial cut
+  if (wm2) gsap.to(wm2, {
+    opacity: 0,
+    ease: 'steps(1)',
+    scrollTrigger: { trigger: '.scene-hero', start: '24% top', end: '56% top', scrub: true },
+  });
+  // Eyebrow fades quietly before the words start moving
+  gsap.to('.hero-eyebrow', {
+    opacity: 0, y: -16, ease: 'none',
+    scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: '22% top', scrub: 0.9 },
+  });
+  gsap.to('.hero-photo-wrap', {
+    scale: 1.06, y: -24, ease: 'none',
+    scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: 1.4 },
+  });
+
+  // --- Hero mouse parallax on orb ---
+  let mx=0, my=0, ox=0, oy=0;
+  window.addEventListener('mousemove', e => {
+    mx = (e.clientX / innerWidth - 0.5) * 70;
+    my = (e.clientY / innerHeight - 0.5) * 50;
+  }, { passive: true });
+  gsap.ticker.add(() => {
+    ox += (mx - ox) * 0.04;
+    oy += (my - oy) * 0.04;
+    gsap.set('.hero-orb', { x: ox, y: oy });
+  });
+
+  // --- Section title character sweep ---
+  // Chars are grouped into word-level spans (white-space:nowrap) so the
+  // inline-block character spans never break mid-word when the column is narrow.
+  document.querySelectorAll('[data-split-reveal]').forEach(el => {
+    const tokens = el.textContent.trim().split(/(\s+)/);
+    el.innerHTML = '';
+    const allChs = [];
+    tokens.forEach(token => {
+      if (/^\s+$/.test(token)) {
+        const sp = document.createElement('span');
+        sp.style.cssText = 'display:inline-block;width:.28em;';
+        sp.textContent = '\u00A0';
+        el.appendChild(sp);
+      } else {
+        const wSpan = document.createElement('span');
+        wSpan.style.cssText = 'display:inline-block;white-space:nowrap;';
+        [...token].forEach(ch => {
+          const s = document.createElement('span');
+          s.className = 'ch';
+          s.style.cssText = 'display:inline-block;clip-path:inset(0 0 100% 0);will-change:clip-path;';
+          s.textContent = ch;
+          wSpan.appendChild(s);
+          allChs.push(s);
+        });
+        el.appendChild(wSpan);
+      }
+    });
+    gsap.to(allChs, {
+      clipPath: 'inset(0 0 0% 0)',
+      duration: 0.75, stagger: 0.022, ease: 'expo.out',
+      scrollTrigger: { trigger: el, start: 'top 88%' },
+    });
+  });
+
+  // --- Horizontal work track ---
+  const IS_TOUCH = navigator.maxTouchPoints > 1 || 'ontouchstart' in window;
+  const workSection = document.querySelector('.work');
+  const workTrack = document.querySelector('.work-track');
+  const workPanels = workTrack ? [...workTrack.querySelectorAll('.work-panel')] : [];
+
+  // Ensure panel taps always navigate (scroll containers can suppress <a> clicks on touch)
+  workPanels.forEach(panel => {
+    panel.addEventListener('click', (e) => {
+      const href = panel.getAttribute('href');
+      if (href && !e.defaultPrevented) window.location.href = href;
+    });
+  });
+  const counterCur = document.querySelector('.work-h-cur');
+  const progressFill = document.querySelector('.work-h-fill');
+
+  if (workSection && workTrack && workPanels.length && !IS_TOUCH) {
+    const numPanels = workPanels.length;
+    const panelDist = () => (numPanels - 1) * window.innerWidth;
+
+    const setHeight = () => { workSection.style.height = (window.innerHeight + panelDist()) + 'px'; };
+    setHeight();
+    ScrollTrigger.addEventListener('refreshInit', setHeight);
+
+    const trackTween = gsap.to(workTrack, {
+      x: () => -panelDist(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: workSection,
+        start: 'top top',
+        end: () => `+=${panelDist()}`,
+        scrub: 1.2,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const idx = Math.min(Math.floor(self.progress * numPanels), numPanels - 1);
+          if (counterCur) counterCur.textContent = String(idx + 1).padStart(2, '0');
+          if (progressFill) progressFill.style.width = (self.progress * 100) + '%';
+        },
+      },
+    });
+
+    workPanels.forEach((panel, i) => {
+      const titleEl = panel.querySelector('.work-panel-title');
+      const subEl = panel.querySelector('.work-panel-sub');
+      const footEl = panel.querySelector('.work-panel-foot');
+      const st = i === 0
+        ? { scrollTrigger: { trigger: workSection, start: 'top 80%' } }
+        : { scrollTrigger: { containerAnimation: trackTween, trigger: panel, start: 'left 85%' } };
+      if (titleEl || subEl) gsap.from([titleEl, subEl].filter(Boolean), { clipPath: 'inset(0 0 100% 0)', opacity: 0, stagger: 0.1, duration: 1.0, ease: 'expo.out', ...st });
+      if (footEl) gsap.from(footEl, { opacity: 0, y: 12, duration: 0.7, ease: 'expo.out', ...st });
+    });
+  }
+
+  // --- About paragraphs reveal ---
+  gsap.from('.about-para', {
+    y: 30, opacity: 0, duration: 0.9, stagger: 0.12, ease: 'expo.out',
+    scrollTrigger: { trigger: '.scene-about', start: 'top 75%' },
+  });
+  gsap.from('.fact', {
+    y: 20, opacity: 0, duration: 0.7, stagger: 0.06, ease: 'expo.out',
+    scrollTrigger: { trigger: '.about-facts', start: 'top 88%' },
+  });
+
+  // --- Contact letter-spacing stretch ---
+  gsap.fromTo('.contact-accent',
+    { scaleX: 0.91, transformOrigin: 'center center' },
+    { scaleX: 1.05, ease: 'none',
+      scrollTrigger: { trigger: '.scene-contact', start: 'top 60%', end: 'center center', scrub: 2 },
+    }
+  );
+  gsap.from(['.contact-accent','.contact-italic'], {
+    yPercent: 110, opacity: 0, duration: 1.1, stagger: 0.1, ease: 'expo.out',
+    scrollTrigger: { trigger: '.scene-contact', start: 'top 75%' },
+  });
+  gsap.from('.contact-email', {
+    y: 30, opacity: 0, duration: 0.9, ease: 'expo.out',
+    scrollTrigger: { trigger: '.scene-contact', start: 'top 70%' },
+  });
+
+  // --- Velocity-reactive marquee ---
+  const track = document.querySelector('.marquee-track');
+  if (track) {
+    let vel = 0, lastY = window.scrollY;
+    gsap.ticker.add(() => {
+      const dy = Math.abs(window.scrollY - lastY);
+      vel += (dy - vel) * 0.08;
+      lastY = window.scrollY;
+      track.style.animationDuration = Math.max(6, 22 - vel * 0.35) + 's';
+    });
+  }
+
+  // --- Magnetic hover ---
+  document.querySelectorAll('.btn, .nav-logo, .contact-email').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      gsap.to(el, {
+        x: (e.clientX - (r.left + r.width/2)) * 0.3,
+        y: (e.clientY - (r.top  + r.height/2)) * 0.3,
+        duration: 0.4, ease: 'power2.out',
+      });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.5)' });
+    });
+  });
+}
+
+// Gem story: progress bar animates when card scrolls into view
+(function() {
+  const card = document.querySelector('[data-gem-story]');
+  if (!card) return;
+  const bar = card.querySelector('.gem-bar-active');
+  if (!bar) return;
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      bar.classList.add('is-playing');
+      observer.disconnect();
+    }
+  }, { threshold: 0.5 });
+  observer.observe(card);
+})();
+
+// ── Portfolio constellation sidebar nav ──────────────────────
+(function () {
+  function init() {
+    const nav    = document.getElementById('pf-const');
+    if (!nav) return;
+    const nodes  = [...document.querySelectorAll('.pf-node[data-pf]')];
+    const labels = [...document.querySelectorAll('.pf-label[data-pf-label]')];
+    const segs   = [...document.querySelectorAll('.pf-seg[data-seg-a]')];
+
+    const sectionMap = {
+      hero:    document.querySelector('.scene-hero') || document.querySelector('[data-scene="hero"]'),
+      work:    document.getElementById('work'),
+      gems:    document.getElementById('gems'),
+      about:   document.getElementById('about'),
+      contact: document.getElementById('contact'),
+    };
+
+    function setActive(id) {
+      // stamp active section as class on nav for sub-cluster visibility
+      nav.className = nav.className.replace(/\bsection-\w+/g, '').trim();
+      nav.classList.add(`section-${id}`);
+
+      nodes.forEach(g  => g.classList.toggle('is-active', g.dataset.pf === id));
+      labels.forEach(l => {
+        const match = l.dataset.pfLabel === id;
+        l.classList.toggle('is-active',  match);
+        l.classList.toggle('is-visible', match);
+      });
+      segs.forEach(s => {
+        s.classList.toggle('is-lit', s.dataset.segA === id || s.dataset.segB === id);
+      });
+    }
+
+    // Hide while hero is in view
+    const heroEl = sectionMap.hero;
+    if (heroEl) {
+      new IntersectionObserver(entries => {
+        nav.classList.toggle('is-visible', !entries[0].isIntersecting);
+      }, { threshold: 0.1 }).observe(heroEl);
+    }
+
+    // Highlight active section as user scrolls
+    const sectionPairs = Object.entries(sectionMap).filter(([, el]) => !!el);
+    const activeObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = sectionPairs.find(([, el]) => el === entry.target)?.[0];
+        if (id) setActive(id);
+      });
+    }, { rootMargin: '-28% 0px -62% 0px', threshold: 0 });
+    sectionPairs.forEach(([, el]) => activeObs.observe(el));
+
+    // Hover: reveal label while hovering node
+    nodes.forEach(g => {
+      const label = labels.find(l => l.dataset.pfLabel === g.dataset.pf);
+      g.addEventListener('mouseenter', () => label?.classList.add('is-visible'));
+      g.addEventListener('mouseleave', () => {
+        if (!label?.classList.contains('is-active')) label?.classList.remove('is-visible');
+      });
+    });
+
+    // Click / keyboard: scroll to section
+    function scrollTo(id) {
+      const el = sectionMap[id];
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    [...nodes, ...labels].forEach(el => {
+      const id = el.dataset.pf || el.dataset.pfLabel;
+      el.addEventListener('click', () => scrollTo(id));
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); scrollTo(id); }
+      });
+    });
+
+    // Cluster stars → navigate to individual case studies
+    const clusterSlugs = ['driftwood', 'habitabull', 'h2know', 'eternal-wreckening'];
+    document.querySelectorAll('.pf-cluster[data-project]').forEach(el => {
+      const slug = clusterSlugs[+el.dataset.project];
+      if (!slug) return;
+      const go = () => { window.location.href = `case-study.html?slug=${slug}`; };
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+      });
+    });
+
+    // Subtle scroll parallax: constellation drifts up as page scrolls
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.to(nav, {
+        y: -28, ease: 'none',
+        scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 2.5 },
+      });
+    }
+  }
+
+  window.addEventListener('load', () => setTimeout(init, 180));
+})();
+
+// ── Hero canvas: A (living particles) + C (cursor blooms) ──────
+function initHeroCanvas() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.scene-hero');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize() {
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  new ResizeObserver(resize).observe(hero);
+
+  // ── A: Drifting micro-particles ──
+  const N = 230;
+  const pts = Array.from({ length: N }, () => ({
+    x:   Math.random(),
+    y:   Math.random(),
+    sz:  0.7 + Math.random() * 2,
+    op:  0.07 + Math.random() * 0.25,
+    spd: 0.00007 + Math.random() * 0.00018,
+    ang: Math.random() * Math.PI * 2,
+    ph:  Math.random() * Math.PI * 2,
+    fr:  0.28 + Math.random() * 0.55,
+    vx:  0, vy: 0,
+    lav: Math.random() < 0.25,
+  }));
+
+  // ── C: Cursor bloom stamps ──
+  const blooms = [];
+  let cx = -1, cy = -1, lbx = -1, lby = -1;
+  let overToolkit = false;
+  const toolkitGrid = document.querySelector('.hero-toolkit-icons');
+  if (toolkitGrid) {
+    toolkitGrid.addEventListener('mouseenter', () => { overToolkit = true;  cx = -1; cy = -1; });
+    toolkitGrid.addEventListener('mouseleave', () => { overToolkit = false; });
+  }
+
+  hero.addEventListener('mousemove', e => {
+    if (overToolkit) return;
+    const r = canvas.getBoundingClientRect();
+    cx = e.clientX - r.left;
+    cy = e.clientY - r.top;
+    const dx = cx - lbx, dy = cy - lby;
+    if (dx * dx + dy * dy > 40) {
+      blooms.push({ x: cx, y: cy, op: 0.10 + Math.random() * 0.07, r: 44 + Math.random() * 38 });
+      lbx = cx; lby = cy;
+    }
+  }, { passive: true });
+  hero.addEventListener('mouseleave', () => { cx = -1; cy = -1; });
+
+  let t = 0, alive = true;
+  function tick() {
+    if (!alive) return;
+    requestAnimationFrame(tick);
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Blooms
+    for (let i = blooms.length - 1; i >= 0; i--) {
+      const b = blooms[i];
+      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0,    `rgba(160,200,255,${b.op.toFixed(3)})`);
+      g.addColorStop(0.42, `rgba(160,200,255,${(b.op * 0.28).toFixed(3)})`);
+      g.addColorStop(1,    'rgba(160,200,255,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+      b.op *= 0.925; b.r *= 1.014;
+      if (b.op < 0.004) blooms.splice(i, 1);
+    }
+
+    // Particles
+    pts.forEach(p => {
+      if (!reduced) {
+        // Two-frequency noise
+        const nx = Math.sin(p.x * 4.3 + t * p.fr + p.ph) * 0.5
+                 + Math.sin(p.y * 3.2 + t * p.fr * 1.4) * 0.5;
+        const ny = Math.cos(p.y * 3.9 + t * p.fr + p.ph) * 0.5
+                 + Math.cos(p.x * 4.6 + t * p.fr * 0.85) * 0.5;
+        p.vx += nx * 0.00042;
+        p.vy += ny * 0.00042;
+
+        // Cursor repulsion
+        if (cx >= 0) {
+          const px = p.x * W, py = p.y * H;
+          const ddx = px - cx, ddy = py - cy;
+          const d2 = ddx * ddx + ddy * ddy;
+          const R = 115;
+          if (d2 < R * R && d2 > 0.01) {
+            const d = Math.sqrt(d2);
+            const f = ((R - d) / R) * 0.0065;
+            p.vx += (ddx / d) * f;
+            p.vy += (ddy / d) * f;
+          }
+        }
+
+        p.vx *= 0.965; p.vy *= 0.965;
+        p.x += p.vx + Math.cos(p.ang) * p.spd;
+        p.y += p.vy + Math.sin(p.ang) * p.spd;
+        p.ang += 0.0018;
+
+        if (p.x < -0.02) p.x = 1.02; else if (p.x > 1.02) p.x = -0.02;
+        if (p.y < -0.02) p.y = 1.02; else if (p.y > 1.02) p.y = -0.02;
+      }
+
+      const col = p.lav ? '196,176,255' : '160,200,255';
+      const op  = reduced ? p.op * 0.35 : p.op;
+      ctx.beginPath();
+      ctx.arc(p.x * W, p.y * H, p.sz, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${col},${op.toFixed(3)})`;
+      ctx.fill();
+    });
+
+    t += 0.0038;
+  }
+
+  tick();
+  new IntersectionObserver(entries => {
+    alive = entries[0].isIntersecting;
+    if (alive) tick();
+  }, { threshold: 0.01 }).observe(hero);
+}
+
+function initToolkitMagnet() {
+  const grid  = document.querySelector('.hero-toolkit-icons');
+  const items = [...document.querySelectorAll('.tool-item')];
+  if (!grid || !items.length) return;
+
+  const PULL   = 22;   // max pixel pull toward cursor
+  const FALLOFF = 90;  // distance (px) at which pull halves
+
+  let raf = null;
+  let lastX = 0, lastY = 0;
+
+  function applyMagnet(cx, cy) {
+    items.forEach(item => {
+      const r = item.getBoundingClientRect();
+      const ix = r.left + r.width  / 2;
+      const iy = r.top  + r.height / 2;
+      const dx = cx - ix;
+      const dy = cy - iy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const pull = PULL / (1 + dist / FALLOFF);
+      const angle = Math.atan2(dy, dx);
+      gsap.to(item, {
+        x: Math.cos(angle) * pull,
+        y: Math.sin(angle) * pull,
+        duration: 0.45,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+    });
+  }
+
+  grid.addEventListener('mousemove', e => {
+    lastX = e.clientX; lastY = e.clientY;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => applyMagnet(lastX, lastY));
+  });
+
+  grid.addEventListener('mouseleave', () => {
+    cancelAnimationFrame(raf);
+    items.forEach(item => {
+      gsap.to(item, { x: 0, y: 0, duration: 0.9, ease: 'expo.out', overwrite: 'auto' });
+    });
+    // restore opacity
+    items.forEach(item => gsap.to(item, { opacity: 1, duration: 0.4 }));
+  });
+
+  // Per-icon hover: scale up + dim siblings
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      gsap.to(item, { scale: 1.4, duration: 0.3, ease: 'expo.out', overwrite: 'auto' });
+      items.filter(i => i !== item).forEach(s =>
+        gsap.to(s, { opacity: 0.38, duration: 0.25, overwrite: 'auto' })
+      );
+    });
+    item.addEventListener('mouseleave', () => {
+      gsap.to(item, { scale: 1, duration: 0.5, ease: 'expo.out', overwrite: 'auto' });
+      items.forEach(s => gsap.to(s, { opacity: 1, duration: 0.4, overwrite: 'auto' }));
+    });
+  });
+}
+
+function initFallback() {
+  gsap.set(['.hero-heading .char','.eyebrow-char','.hero-photo-wrap','.hero-sub','.hero-toolkit','.hero-actions'], { clearProps: 'all' });
+  document.querySelectorAll('[data-split-reveal] .ch').forEach(el => { el.style.clipPath = 'none'; });
+  document.querySelectorAll('.work-panel-title, .work-panel-sub, .work-panel-foot').forEach(el => { el.style.clipPath = 'none'; el.style.opacity = '1'; el.style.transform = 'none'; });
+}
+</script>
+
+<!-- ── Constellation sidebar nav (outside React root) ── -->
+<nav id="pf-const" class="pf-const" aria-label="Page navigation">
+  <svg class="pf-const-svg" viewBox="0 0 84 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <line class="pf-seg" data-seg-a="hero"   data-seg-b="work"    x1="42" y1="26"  x2="18" y2="96"/>
+    <line class="pf-seg" data-seg-a="work"   data-seg-b="gems"    x1="18" y1="96"  x2="64" y2="160"/>
+    <line class="pf-seg" data-seg-a="gems"   data-seg-b="about"   x1="64" y1="160" x2="60" y2="290"/>
+    <line class="pf-seg" data-seg-a="about"  data-seg-b="contact" x1="60" y1="290" x2="38" y2="364"/>
+
+    <g class="pf-node" data-pf="hero" tabindex="0" role="link" aria-label="Intro">
+      <circle class="pf-halo" cx="42" cy="26" r="20"/>
+      <polygon class="pf-ft" points="42,19 38,26 35,19"/>
+      <polygon class="pf-ft" points="42,19 46,26 49,19"/>
+      <polygon class="pf-ft" points="46,26 42,33 49,33"/>
+      <polygon class="pf-ft" points="38,26 42,33 35,33"/>
+      <polygon class="pf-fk" points="42,19 35,19 42,14 49,19"/>
+      <polygon class="pf-fk" points="46,26 49,19 54,26 49,33"/>
+      <polygon class="pf-fk" points="42,33 49,33 42,38 35,33"/>
+      <polygon class="pf-fk" points="38,26 35,33 30,26 35,19"/>
+      <polygon class="pf-ring" points="42,14 49,19 54,26 49,33 42,38 35,33 30,26 35,19"/>
+      <polygon class="pf-dot" points="42,19 46,26 42,33 38,26" style="animation-delay:0s"/>
+      <polygon class="pf-dot-hi" points="42,20 44,22 42,23 40,22"/>
+      <circle class="pf-hit" cx="42" cy="26" r="17"/>
+    </g>
+    <g class="pf-node" data-pf="work" tabindex="0" role="link" aria-label="Work">
+      <circle class="pf-halo" cx="18" cy="96" r="20"/>
+      <polygon class="pf-ft" points="18,89 14,96 11,89"/>
+      <polygon class="pf-ft" points="18,89 22,96 25,89"/>
+      <polygon class="pf-ft" points="22,96 18,103 25,103"/>
+      <polygon class="pf-ft" points="14,96 18,103 11,103"/>
+      <polygon class="pf-fk" points="18,89 11,89 18,84 25,89"/>
+      <polygon class="pf-fk" points="22,96 25,89 30,96 25,103"/>
+      <polygon class="pf-fk" points="18,103 25,103 18,108 11,103"/>
+      <polygon class="pf-fk" points="14,96 11,103 6,96 11,89"/>
+      <polygon class="pf-ring" points="18,84 25,89 30,96 25,103 18,108 11,103 6,96 11,89"/>
+      <polygon class="pf-dot" points="18,89 22,96 18,103 14,96" style="animation-delay:0.85s"/>
+      <polygon class="pf-dot-hi" points="18,90 20,92 18,93 16,92"/>
+      <circle class="pf-hit" cx="18" cy="96" r="17"/>
+    </g>
+
+    <!-- Project crystal clusters scattered around the work node (18,96) -->
+    <g class="pf-work-clusters">
+      <!-- faint spokes radiating from work node to each cluster -->
+      <line class="pf-cluster-spoke" x1="18" y1="96" x2="34" y2="80"/>
+      <line class="pf-cluster-spoke" x1="18" y1="96" x2="38" y2="98"/>
+      <line class="pf-cluster-spoke" x1="18" y1="96" x2="32" y2="114"/>
+      <line class="pf-cluster-spoke" x1="18" y1="96" x2="22" y2="122"/>
+
+      <!-- p01 driftwood -->
+      <g class="pf-cluster" data-project="0" tabindex="0" role="link" aria-label="Driftwood case study">
+        <polygon class="pf-ft" points="34,76.5 32,80 30,76"/>
+        <polygon class="pf-ft" points="34,76.5 36,80 38,76"/>
+        <polygon class="pf-ft" points="36,80 34,83.5 38,84"/>
+        <polygon class="pf-ft" points="32,80 34,83.5 30,84"/>
+        <polygon class="pf-fk" points="34,76.5 30,76 34,74 38,76"/>
+        <polygon class="pf-fk" points="36,80 38,76 40,80 38,84"/>
+        <polygon class="pf-fk" points="34,83.5 38,84 34,86 30,84"/>
+        <polygon class="pf-fk" points="32,80 30,84 28,80 30,76"/>
+        <polygon class="pf-ring" points="34,74 38,76 40,80 38,84 34,86 30,84 28,80 30,76"/>
+        <polygon class="pf-cluster-main" points="34,76.5 36,80 34,83.5 32,80" fill="rgba(160,200,255,0.55)"/>
+        <polygon class="pf-dot-hi" points="34,77.5 35,78.5 34,79 33,78.5"/>
+        <circle class="pf-cluster-hit" cx="34" cy="80" r="9"/>
+      </g>
+      <!-- p02 habitabull -->
+      <g class="pf-cluster" data-project="1" tabindex="0" role="link" aria-label="Habitabull case study">
+        <polygon class="pf-ft" points="38,94.5 36,98 34,94"/>
+        <polygon class="pf-ft" points="38,94.5 40,98 42,94"/>
+        <polygon class="pf-ft" points="40,98 38,101.5 42,102"/>
+        <polygon class="pf-ft" points="36,98 38,101.5 34,102"/>
+        <polygon class="pf-fk" points="38,94.5 34,94 38,92 42,94"/>
+        <polygon class="pf-fk" points="40,98 42,94 44,98 42,102"/>
+        <polygon class="pf-fk" points="38,101.5 42,102 38,104 34,102"/>
+        <polygon class="pf-fk" points="36,98 34,102 32,98 34,94"/>
+        <polygon class="pf-ring" points="38,92 42,94 44,98 42,102 38,104 34,102 32,98 34,94"/>
+        <polygon class="pf-cluster-main" points="38,94.5 40,98 38,101.5 36,98" fill="rgba(160,200,255,0.55)"/>
+        <polygon class="pf-dot-hi" points="38,95.5 39,96.5 38,97 37,96.5"/>
+        <circle class="pf-cluster-hit" cx="38" cy="98" r="9"/>
+      </g>
+      <!-- p03 h2know -->
+      <g class="pf-cluster" data-project="2" tabindex="0" role="link" aria-label="H2Know case study">
+        <polygon class="pf-ft" points="32,110.5 30,114 28,110"/>
+        <polygon class="pf-ft" points="32,110.5 34,114 36,110"/>
+        <polygon class="pf-ft" points="34,114 32,117.5 36,118"/>
+        <polygon class="pf-ft" points="30,114 32,117.5 28,118"/>
+        <polygon class="pf-fk" points="32,110.5 28,110 32,108 36,110"/>
+        <polygon class="pf-fk" points="34,114 36,110 38,114 36,118"/>
+        <polygon class="pf-fk" points="32,117.5 36,118 32,120 28,118"/>
+        <polygon class="pf-fk" points="30,114 28,118 26,114 28,110"/>
+        <polygon class="pf-ring" points="32,108 36,110 38,114 36,118 32,120 28,118 26,114 28,110"/>
+        <polygon class="pf-cluster-main" points="32,110.5 34,114 32,117.5 30,114" fill="rgba(160,200,255,0.55)"/>
+        <polygon class="pf-dot-hi" points="32,111.5 33,112.5 32,113 31,112.5"/>
+        <circle class="pf-cluster-hit" cx="32" cy="114" r="9"/>
+      </g>
+      <!-- p04 eternal wreckening -->
+      <g class="pf-cluster" data-project="3" tabindex="0" role="link" aria-label="Eternal Wreckening case study">
+        <polygon class="pf-ft" points="22,118.5 20,122 18,118"/>
+        <polygon class="pf-ft" points="22,118.5 24,122 26,118"/>
+        <polygon class="pf-ft" points="24,122 22,125.5 26,126"/>
+        <polygon class="pf-ft" points="20,122 22,125.5 18,126"/>
+        <polygon class="pf-fk" points="22,118.5 18,118 22,116 26,118"/>
+        <polygon class="pf-fk" points="24,122 26,118 28,122 26,126"/>
+        <polygon class="pf-fk" points="22,125.5 26,126 22,128 18,126"/>
+        <polygon class="pf-fk" points="20,122 18,126 16,122 18,118"/>
+        <polygon class="pf-ring" points="22,116 26,118 28,122 26,126 22,128 18,126 16,122 18,118"/>
+        <polygon class="pf-cluster-main" points="22,118.5 24,122 22,125.5 20,122" fill="rgba(160,200,255,0.55)"/>
+        <polygon class="pf-dot-hi" points="22,119.5 23,120.5 22,121 21,120.5"/>
+        <circle class="pf-cluster-hit" cx="22" cy="122" r="9"/>
+      </g>
+    </g>
+    <g class="pf-node" data-pf="gems" tabindex="0" role="link" aria-label="Gems">
+      <circle class="pf-halo" cx="64" cy="160" r="20"/>
+      <polygon class="pf-ft" points="64,153 60,160 57,153"/>
+      <polygon class="pf-ft" points="64,153 68,160 71,153"/>
+      <polygon class="pf-ft" points="68,160 64,167 71,167"/>
+      <polygon class="pf-ft" points="60,160 64,167 57,167"/>
+      <polygon class="pf-fk" points="64,153 57,153 64,148 71,153"/>
+      <polygon class="pf-fk" points="68,160 71,153 76,160 71,167"/>
+      <polygon class="pf-fk" points="64,167 71,167 64,172 57,167"/>
+      <polygon class="pf-fk" points="60,160 57,167 52,160 57,153"/>
+      <polygon class="pf-ring" points="64,148 71,153 76,160 71,167 64,172 57,167 52,160 57,153"/>
+      <polygon class="pf-dot" points="64,153 68,160 64,167 60,160" style="animation-delay:1.6s"/>
+      <polygon class="pf-dot-hi" points="64,154 66,156 64,157 62,156"/>
+      <circle class="pf-hit" cx="64" cy="160" r="17"/>
+    </g>
+    <g class="pf-node" data-pf="about" tabindex="0" role="link" aria-label="About">
+      <circle class="pf-halo" cx="60" cy="290" r="20"/>
+      <polygon class="pf-ft" points="60,283 56,290 53,283"/>
+      <polygon class="pf-ft" points="60,283 64,290 67,283"/>
+      <polygon class="pf-ft" points="64,290 60,297 67,297"/>
+      <polygon class="pf-ft" points="56,290 60,297 53,297"/>
+      <polygon class="pf-fk" points="60,283 53,283 60,278 67,283"/>
+      <polygon class="pf-fk" points="64,290 67,283 72,290 67,297"/>
+      <polygon class="pf-fk" points="60,297 67,297 60,302 53,297"/>
+      <polygon class="pf-fk" points="56,290 53,297 48,290 53,283"/>
+      <polygon class="pf-ring" points="60,278 67,283 72,290 67,297 60,302 53,297 48,290 53,283"/>
+      <polygon class="pf-dot" points="60,283 64,290 60,297 56,290" style="animation-delay:1.2s"/>
+      <polygon class="pf-dot-hi" points="60,284 62,286 60,287 58,286"/>
+      <circle class="pf-hit" cx="60" cy="290" r="17"/>
+    </g>
+    <g class="pf-node" data-pf="contact" tabindex="0" role="link" aria-label="Contact">
+      <circle class="pf-halo" cx="38" cy="364" r="20"/>
+      <polygon class="pf-ft" points="38,357 34,364 31,357"/>
+      <polygon class="pf-ft" points="38,357 42,364 45,357"/>
+      <polygon class="pf-ft" points="42,364 38,371 45,371"/>
+      <polygon class="pf-ft" points="34,364 38,371 31,371"/>
+      <polygon class="pf-fk" points="38,357 31,357 38,352 45,357"/>
+      <polygon class="pf-fk" points="42,364 45,357 50,364 45,371"/>
+      <polygon class="pf-fk" points="38,371 45,371 38,376 31,371"/>
+      <polygon class="pf-fk" points="34,364 31,371 26,364 31,357"/>
+      <polygon class="pf-ring" points="38,352 45,357 50,364 45,371 38,376 31,371 26,364 31,357"/>
+      <polygon class="pf-dot" points="38,357 42,364 38,371 34,364" style="animation-delay:0.6s"/>
+      <polygon class="pf-dot-hi" points="38,358 40,360 38,361 36,360"/>
+      <circle class="pf-hit" cx="38" cy="364" r="17"/>
+    </g>
+  </svg>
+
+  <span class="pf-label" style="top:18px"  data-pf-label="hero">01 intro</span>
+  <span class="pf-label" style="top:88px"  data-pf-label="work">02 work</span>
+  <span class="pf-label" style="top:152px" data-pf-label="gems">03 side project</span>
+  <span class="pf-label" style="top:282px" data-pf-label="about">04 about</span>
+  <span class="pf-label" style="top:356px" data-pf-label="contact">05 contact</span>
+
+  <span class="pf-name">via lucis</span>
+</nav>
+
+</body>
+</html>

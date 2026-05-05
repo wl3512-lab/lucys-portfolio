@@ -1,0 +1,55 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--void); color: var(--fg1); font-family: var(--font-body); padding: 20px; min-height: 150px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--aura-radial); opacity: 0.35; pointer-events: none;
+  }
+  .card > * { position: relative; }
+  .meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+  .eyebrow {
+    font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-accent);
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-400); box-shadow: 0 0 12px var(--blue-400); }
+  .title {
+    font-family: var(--font-body);
+    font-size: 22px; font-weight: 500; letter-spacing: -0.015em;
+    color: var(--fg1); margin-bottom: 8px; line-height: 1.25;
+  }
+  .desc {
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 400;
+    color: var(--fg2); line-height: 1.55; margin-bottom: 14px;
+  }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--font-code); font-size: 10px; padding: 4px 10px;
+    border-radius: 999px; border: 1px solid var(--border);
+    background: rgba(160,200,255,0.04);
+    color: var(--fg2); letter-spacing: 0.04em;
+  }
+</style></head><body>
+  <div class="card">
+    <div class="meta-row">
+      <span class="eyebrow">Featured · 2024</span>
+      <span class="dot"></span>
+    </div>
+    <h3 class="title">HabitaBull Lifting</h3>
+    <p class="desc">Unleash Your Inner Bull — Your Habit-Building Fitness Partner</p>
+    <div class="tags">
+      <span class="tag">UX/UI</span>
+      <span class="tag">App Design</span>
+      <span class="tag">Psychology</span>
+    </div>
+  </div>
+</body></html>
