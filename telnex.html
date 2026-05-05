@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Arrested Motion — Lucy Liu</title>
+<title>Telnex — Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -24,12 +24,10 @@
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--fg3);
-  text-decoration: none;
-  margin-bottom: 64px;
+  text-decoration: none; margin-bottom: 64px;
   transition: color 0.2s;
 }
 .ant-back:hover { color: var(--fg1); }
-
 .ant-eyebrow {
   font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--blue-300);
@@ -38,17 +36,14 @@
 .ant-heading {
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(2.8rem, 6vw, 72px); line-height: 0.92; letter-spacing: -0.03em;
-  color: var(--fg1);
-  margin: 0 0 40px;
+  color: var(--fg1); margin: 0 0 40px;
 }
 .ant-heading em { font-style: italic; font-weight: 400; }
-
 .ant-meta-row {
   display: flex; gap: 40px; flex-wrap: wrap;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 20px 0;
-  margin-bottom: 56px;
+  padding: 20px 0; margin-bottom: 56px;
 }
 .ant-meta-item { display: flex; flex-direction: column; gap: 4px; }
 .ant-meta-k {
@@ -58,28 +53,33 @@
 .ant-meta-v {
   font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
 }
-
+.ant-award {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.08em;
+  color: oklch(0.82 0.14 85); margin-bottom: 40px;
+}
+.ant-award::before {
+  content: '✦';
+  font-size: 10px;
+}
 .ant-cover {
   width: 100%;
   background: oklch(0.10 0.015 285);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 56px;
-  display: flex; align-items: center; justify-content: center;
 }
 .ant-cover img {
-  width: 100%;
-  height: auto;
-  display: block;
+  width: 100%; height: auto; display: block;
 }
-
 .ant-body {
   font-family: var(--font-body); font-size: 17px; line-height: 1.75;
-  color: var(--fg2);
-  max-width: 65ch;
+  color: var(--fg2); max-width: 65ch;
 }
 .ant-body p { margin: 0 0 1.5em; }
 .ant-body p:last-child { margin: 0; }
+.ant-body em { font-style: italic; color: var(--fg1); }
+.ant-body strong { font-weight: 600; color: var(--fg1); }
 </style>
 </head>
 <body>
@@ -101,36 +101,35 @@
   <div class="ant-container">
     <a href="work.html" class="ant-back">← All work</a>
 
-    <p class="ant-eyebrow">Fine Arts &nbsp;·&nbsp; 2024</p>
-    <h1 class="ant-heading"><em>Arrested Motion</em></h1>
+    <p class="ant-eyebrow">Design &nbsp;·&nbsp; 2024</p>
+    <h1 class="ant-heading"><em>Telnex</em></h1>
+
+    <p class="ant-award">Honourable Mention — 2025 Scholastic Art and Writing Awards</p>
 
     <div class="ant-meta-row">
       <div class="ant-meta-item">
         <span class="ant-meta-k">Medium</span>
-        <span class="ant-meta-v">Oil on canvas</span>
+        <span class="ant-meta-v">Soap, Adobe Photoshop</span>
       </div>
       <div class="ant-meta-item">
         <span class="ant-meta-k">Year</span>
-        <span class="ant-meta-v">2023</span>
-      </div>
-      <div class="ant-meta-item">
-        <span class="ant-meta-k">Size</span>
-        <span class="ant-meta-v">18 × 22 in</span>
+        <span class="ant-meta-v">2024</span>
       </div>
       <div class="ant-meta-item">
         <span class="ant-meta-k">Category</span>
-        <span class="ant-meta-v">Fine Arts</span>
+        <span class="ant-meta-v">Design</span>
       </div>
     </div>
 
     <div class="ant-cover">
-      <img src="assets/handpainting/cover.jpg" alt="Handpainting — hands washing dishes, watercolour" />
+      <img src="assets/telnex/cover.jpg"
+           alt="Telnex: fictional Fight Club advertisement — soap carved as rotary telephone on yellow-green ground" />
     </div>
 
     <div class="ant-body">
-      <p>This painting captures an arrested moment within a mundane process, serving as an experimental snapshot of daily activities. It highlights the grace found in routine and the beauty embedded in the mundane.</p>
-      <p>Detailing the routine-like motion of washing dishes, this piece emphasizes the fluidity and repetitive nature of the task. I was challenged by conveying motion and stillness simultaneously and solved it by focusing on brush texture and transparency.</p>
-      <p>This project deepened my appreciation for everyday moments and how these small tasks connect us with our surroundings.</p>
+      <p>Inspired by the 1999 film <em>Fight Club</em>, this piece imagines an advertisement for <strong>Telnex</strong>, a fictional communication device used by the film's characters. At its center is a bar of soap carved into the shape of a rotary telephone, merging symbols of cleansing and communication to reflect the film's subversive tone.</p>
+      <p>The yellow-green palette echoes the sterile lighting of industrial environments, evoking isolation and emotional detachment. The slogan <strong>"Uncover You, Connect Two"</strong> functions as both a brand line and a metaphor for the protagonist's fractured identity.</p>
+      <p>The work explores <em>Fight Club</em>'s recurring themes of duality, illusion, and the longing for authentic connection within a fragmented, material world.</p>
     </div>
   </div>
 </main>
