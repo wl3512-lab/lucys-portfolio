@@ -336,14 +336,14 @@ a { color: inherit; text-decoration: none; }
         </a>
       </li>
 
-      <li class="cover-item" data-cat="coding" role="listitem">
-        <a href="h2know.html" aria-label="H2Know — Coding, 2024">
+      <li class="cover-item" data-cat="coding ux" role="listitem">
+        <a href="h2know.html" aria-label="H2Know — Coding / UX Design, 2024">
           <img class="cover-img"
             src="assets/h2know/slides/slide-01.png"
             alt="H2Know: Arduino plant companion — device and interface overview"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Coding</span>
+            <span class="cover-cat">Coding / UX Design</span>
             <p class="cover-title">H2Know</p>
             <span class="cover-year">2024</span>
           </div>
@@ -435,7 +435,7 @@ a { color: inherit; text-decoration: none; }
       var visibleCount = 0;
 
       allItems.forEach(function (item) {
-        var match = filter === 'all' || item.dataset.cat === filter;
+        var match = filter === 'all' || item.dataset.cat.split(' ').indexOf(filter) !== -1;
         if (match) {
           visibleCount++;
           if (item.classList.contains('is-filtered')) {
