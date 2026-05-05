@@ -52,7 +52,7 @@ function AboutSection() {
           <div className="about-facts">
             <div className="fact"><span className="fact-k">Based in</span><span className="fact-v">New York, NY</span></div>
             <div className="fact"><span className="fact-k">From</span><span className="fact-v">Vancouver, BC</span></div>
-            <div className="fact"><span className="fact-k">Studying</span><span className="fact-v">IMA @ NYU Tisch '29</span><span className="fact-minor">BEMT minor</span></div>
+            <div className="fact"><span className="fact-k">Studying</span><span className="fact-v">IMA @ NYU Tisch '29</span><span className="fact-minor">Business of Entertainment, Media and Technology (BEMT) minor</span></div>
             <div className="fact"><span className="fact-k">Available</span><span className="fact-v">Summer 2026</span></div>
           </div>
         </div>
