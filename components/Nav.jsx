@@ -63,6 +63,17 @@ function Cursor() {
       el.addEventListener('mouseenter', enter('view ↗'));
       el.addEventListener('mouseleave', leave);
     });
+
+    const toolkit = document.querySelector('.hero-toolkit-icons');
+    if (toolkit) {
+      toolkit.addEventListener('mouseenter', () => {
+        if (window.gsap) gsap.to(cursor, { opacity: 0, duration: 0.12, overwrite: true });
+      });
+      toolkit.addEventListener('mouseleave', () => {
+        if (window.gsap) gsap.to(cursor, { opacity: 1, duration: 0.12, overwrite: true });
+      });
+    }
+
     return () => {
       window.removeEventListener('mousemove', onMove);
       if (window.gsap) gsap.ticker.remove(tick);
