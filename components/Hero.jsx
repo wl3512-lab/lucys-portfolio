@@ -92,7 +92,7 @@ function Hero() {
             </div>
             <div className="hero-meta-item">
               <span className="hero-meta-k">Studying</span>
-              <span className="hero-meta-v">IMA · NYU Tisch</span>
+              <span className="hero-meta-v">IMA · NYU Tisch &amp; BEMT · Stern</span>
             </div>
             <div className="hero-meta-item">
               <span className="hero-meta-k">Open for</span>
