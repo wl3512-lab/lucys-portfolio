@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="styles.css?v=15" />
 <style>
 
-/* ── Page shell ── */
 .sc-page {
   min-height: 100vh;
   background: oklch(0.08 0.012 285);
@@ -19,7 +18,7 @@
 
 /* ── Header ── */
 .sc-header {
-  padding: 140px 0 72px;
+  padding: 140px 0 56px;
   width: min(860px, 92vw);
   margin: 0 auto;
 }
@@ -40,15 +39,20 @@
 .sc-heading {
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(2.6rem, 5.5vw, 68px); line-height: 0.9; letter-spacing: -0.03em;
-  color: var(--fg1); margin: 0 0 40px;
+  color: var(--fg1); margin: 0 0 32px;
 }
 .sc-heading em { font-style: italic; font-weight: 400; color: #FF5500; }
+
+.sc-intro {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.7;
+  color: var(--fg3); max-width: 58ch; margin: 0 0 40px;
+}
 
 .sc-meta-row {
   display: flex; gap: 40px; flex-wrap: wrap;
   border-top: 1px solid oklch(0.22 0.012 285);
   border-bottom: 1px solid oklch(0.22 0.012 285);
-  padding: 18px 0; margin-bottom: 0;
+  padding: 18px 0;
 }
 .sc-meta-item { display: flex; flex-direction: column; gap: 4px; }
 .sc-meta-k {
@@ -59,43 +63,30 @@
   font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
 }
 
-/* ── Book reader ── */
-.sc-book {
+/* ── Grid ── */
+.sc-grid-wrap {
   background: oklch(0.06 0.010 285);
-  padding: 80px 0 120px;
+  padding: 72px 0 120px;
+}
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px 40px;
+  width: min(860px, 92vw);
+  margin: 0 auto;
 }
 
-.sc-page-nav {
-  position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 10px;
-  z-index: 100;
-}
-.sc-page-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: oklch(0.35 0.012 285);
-  cursor: pointer; transition: background 0.2s, transform 0.2s;
-  border: none; padding: 0;
-}
-.sc-page-dot:hover { background: oklch(0.55 0.012 285); }
-.sc-page-dot.is-active { background: #FF5500; transform: scale(1.5); }
-
-.sc-spread {
-  width: min(800px, 90vw);
-  margin: 0 auto 64px;
-  position: relative;
-}
-.sc-spread:last-child { margin-bottom: 0; }
+.sc-item { display: flex; flex-direction: column; }
 
 .sc-paper {
-  width: 100%;
   background: #fff;
   border-radius: 3px;
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.12),
-    0 8px 24px rgba(0,0,0,0.20),
-    0 32px 80px rgba(0,0,0,0.32);
+    0 2px 4px rgba(0,0,0,0.14),
+    0 8px 24px rgba(0,0,0,0.22),
+    0 24px 64px rgba(0,0,0,0.30);
   overflow: hidden;
-  display: block;
+  flex-shrink: 0;
 }
 .sc-paper img {
   width: 100%;
@@ -103,16 +94,27 @@
   display: block;
 }
 
-.sc-page-label {
-  margin-top: 16px;
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: oklch(0.38 0.012 285);
+.sc-caption {
+  margin-top: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.sc-cap-num {
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.18em;
+  color: #FF5500; flex-shrink: 0; padding-top: 2px;
+}
+.sc-cap-text {
+  font-family: var(--font-body); font-size: 13.5px; line-height: 1.6;
+  color: oklch(0.55 0.012 285);
 }
 
-/* ── Reduced motion ── */
+@media (max-width: 600px) {
+  .sc-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sc-page-dot { transition: none; }
+  .sc-back, .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-grid-wrap { animation: none; }
 }
 </style>
 </head>
@@ -133,11 +135,11 @@
 
 <main id="main-content" class="sc-page">
 
-  <!-- Header -->
   <div class="sc-header">
     <a href="work.html" class="sc-back">← All work</a>
     <p class="sc-eyebrow">UX Design &nbsp;·&nbsp; 2023</p>
     <h1 class="sc-heading">SoundCloud<br><em>App Critique</em></h1>
+    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app — brand identity, home screen widgets, and playlist management — with proposed redesigns for each.</p>
     <div class="sc-meta-row">
       <div class="sc-meta-item">
         <span class="sc-meta-k">Type</span>
@@ -158,106 +160,61 @@
     </div>
   </div>
 
-  <!-- Description -->
-  <div style="width: min(860px, 92vw); margin: 0 auto; padding: 48px 0 72px;">
-    <div class="ant-body">
-      <p>A UX critique of the SoundCloud iOS app examining three areas where the product could better serve its users: brand identity, home screen customization, and playlist management.</p>
-      <p>The critique argues that SoundCloud's orange logo, while iconic, leans too heavily on nostalgia and limits individual expression. It proposes a flexible color system that lets users make the app feel like their own. On the widget front, the analysis identifies missed opportunities for utility — a customizable widget menu and a dedicated likes toolbar would surface content users already care about and give SoundCloud a competitive edge over rivals with more rigid home screens.</p>
-      <p>The final section addresses playlist covers, comparing the current auto-generated defaults to a user-controlled alternative that better reflects the personal curation that defines SoundCloud's community.</p>
+  <div class="sc-grid-wrap">
+    <div class="sc-grid">
+
+      <div class="sc-item">
+        <div class="sc-paper">
+          <img src="assets/soundcloud/page-01.jpg"
+               alt="Page 1: SoundCloud logo color critique and solution"
+               loading="eager" />
+        </div>
+        <div class="sc-caption">
+          <span class="sc-cap-num">01</span>
+          <p class="sc-cap-text">SoundCloud's orange carries nostalgia but limits individual expression. A user-defined color system would let listeners make the app feel like their own.</p>
+        </div>
+      </div>
+
+      <div class="sc-item">
+        <div class="sc-paper">
+          <img src="assets/soundcloud/page-02.jpg"
+               alt="Page 2: widget customization — more control, increased utility, competitive advantage"
+               loading="lazy" />
+        </div>
+        <div class="sc-caption">
+          <span class="sc-cap-num">02</span>
+          <p class="sc-cap-text">Competitors offer more flexible home screen widgets. Expanded customization would surface liked content and give SoundCloud a stronger foothold on the lock screen.</p>
+        </div>
+      </div>
+
+      <div class="sc-item">
+        <div class="sc-paper">
+          <img src="assets/soundcloud/page-03.jpg"
+               alt="Page 3: widget menu and likes toolbar redesign"
+               loading="lazy" />
+        </div>
+        <div class="sc-caption">
+          <span class="sc-cap-num">03</span>
+          <p class="sc-cap-text">A redesigned widget menu and dedicated likes toolbar cut the steps between a user and the tracks they return to most.</p>
+        </div>
+      </div>
+
+      <div class="sc-item">
+        <div class="sc-paper">
+          <img src="assets/soundcloud/page-04.jpg"
+               alt="Page 4: playlist cover before/after with user-controlled art"
+               loading="lazy" />
+        </div>
+        <div class="sc-caption">
+          <span class="sc-cap-num">04</span>
+          <p class="sc-cap-text">Auto-generated playlist covers flatten personal curation. User-controlled cover art better reflects the taste and intent behind each collection.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Book -->
-  <div class="sc-book" id="sc-book">
-
-    <!-- Side page navigation dots -->
-    <nav class="sc-page-nav" aria-label="Jump to page">
-      <button class="sc-page-dot is-active" data-page="1" aria-label="Page 1"></button>
-      <button class="sc-page-dot" data-page="2" aria-label="Page 2"></button>
-      <button class="sc-page-dot" data-page="3" aria-label="Page 3"></button>
-      <button class="sc-page-dot" data-page="4" aria-label="Page 4"></button>
-    </nav>
-
-    <div class="sc-spread" id="sc-p1" data-spread="1">
-      <div class="sc-paper">
-        <img src="assets/soundcloud/page-01.jpg"
-             alt="SoundCloud App Critique page 1: logo color change, nostalgic association, lack of individuality, solution"
-             loading="eager" />
-      </div>
-      <div class="sc-page-label">
-        <span>SoundCloud App Critique</span>
-        <span>01 / 04</span>
-      </div>
-    </div>
-
-    <div class="sc-spread" id="sc-p2" data-spread="2">
-      <div class="sc-paper">
-        <img src="assets/soundcloud/page-02.jpg"
-             alt="SoundCloud App Critique page 2: widget customization — more control, increased utility, competitive advantage"
-             loading="lazy" />
-      </div>
-      <div class="sc-page-label">
-        <span>Widget Customization</span>
-        <span>02 / 04</span>
-      </div>
-    </div>
-
-    <div class="sc-spread" id="sc-p3" data-spread="3">
-      <div class="sc-paper">
-        <img src="assets/soundcloud/page-03.jpg"
-             alt="SoundCloud App Critique page 3: widget customization continued — widget menu, likes toolbar"
-             loading="lazy" />
-      </div>
-      <div class="sc-page-label">
-        <span>Widget Customization (cont.)</span>
-        <span>03 / 04</span>
-      </div>
-    </div>
-
-    <div class="sc-spread" id="sc-p4" data-spread="4">
-      <div class="sc-paper">
-        <img src="assets/soundcloud/page-04.jpg"
-             alt="SoundCloud App Critique page 4: playlist cover before/after, personizable focus"
-             loading="lazy" />
-      </div>
-      <div class="sc-page-label">
-        <span>Playlist Cover</span>
-        <span>04 / 04</span>
-      </div>
-    </div>
-
-  </div>
 </main>
-
-<script>
-(function () {
-  var spreads = document.querySelectorAll('.sc-spread');
-  var dots = document.querySelectorAll('.sc-page-dot');
-  if (!spreads.length || !dots.length) return;
-
-  /* Click dot → scroll to spread */
-  dots.forEach(function (dot) {
-    dot.addEventListener('click', function () {
-      var target = document.getElementById('sc-p' + dot.dataset.page);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  /* Scroll → update active dot */
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        var idx = entry.target.dataset.spread;
-        dots.forEach(function (d) {
-          d.classList.toggle('is-active', d.dataset.page === idx);
-        });
-      }
-    });
-  }, { threshold: 0.4 });
-
-  spreads.forEach(function (s) { observer.observe(s); });
-})();
-</script>
 
 </body>
 </html>
