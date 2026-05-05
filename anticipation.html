@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Anticipation — Lucy Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=15" />
+<style>
+.ant-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding-top: 120px;
+}
+.ant-container {
+  width: min(880px, 92vw);
+  margin: 0 auto;
+  padding-bottom: 120px;
+}
+.ant-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3);
+  text-decoration: none;
+  margin-bottom: 64px;
+  transition: color 0.2s;
+}
+.ant-back:hover { color: var(--fg1); }
+
+.ant-eyebrow {
+  font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--blue-300);
+  margin-bottom: 20px;
+}
+.ant-heading {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 72px); line-height: 0.92; letter-spacing: -0.03em;
+  color: var(--fg1);
+  margin: 0 0 40px;
+}
+.ant-heading em { font-style: italic; font-weight: 400; }
+
+.ant-meta-row {
+  display: flex; gap: 40px; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  margin-bottom: 56px;
+}
+.ant-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.ant-meta-k {
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3);
+}
+.ant-meta-v {
+  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
+}
+
+.ant-cover {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: oklch(0.10 0.015 285);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 56px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ant-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.ant-cover-placeholder {
+  font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3);
+}
+
+.ant-body {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.75;
+  color: var(--fg2);
+  max-width: 65ch;
+}
+.ant-body p { margin: 0 0 1.5em; }
+.ant-body p:last-child { margin: 0; }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">lucy liu</a>
+    <ul class="nav-links">
+      <li><a href="work.html" class="nav-link">work</a></li>
+      <li><a href="index.html#about" class="nav-link">about</a></li>
+      <li><a href="index.html#contact" class="nav-link">contact ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main-content" class="ant-page">
+  <div class="ant-container">
+    <a href="work.html" class="ant-back">← All work</a>
+
+    <p class="ant-eyebrow">Fine Arts &nbsp;·&nbsp; 2024</p>
+    <h1 class="ant-heading"><em>Anticipation</em></h1>
+
+    <div class="ant-meta-row">
+      <div class="ant-meta-item">
+        <span class="ant-meta-k">Medium</span>
+        <span class="ant-meta-v">Oil on canvas</span>
+      </div>
+      <div class="ant-meta-item">
+        <span class="ant-meta-k">Year</span>
+        <span class="ant-meta-v">2024</span>
+      </div>
+      <div class="ant-meta-item">
+        <span class="ant-meta-k">Category</span>
+        <span class="ant-meta-v">Fine Arts</span>
+      </div>
+    </div>
+
+    <div class="ant-cover">
+      <img src="assets/anticipation/cover.jpg" alt="Anticipation — oil painting of Marilyn Monroe in self-reflection" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <p class="ant-cover-placeholder" style="display:none">Image coming soon</p>
+    </div>
+
+    <div class="ant-body">
+      <p>This painting delves into the glorification and commodification of Marilyn Monroe as an emblem of beauty, femininity, and vulnerability. By depicting her in a moment of self-reflection, I aim to highlight the internal conflict between her true self and the image imposed upon her by society.</p>
+      <p>Highlighting the constricting nature of these expectations — how they shape and often distort one's identity. This piece is deeply personal to me because it resonates with the universal experience of grappling with external pressures and the quest for self-acceptance.</p>
+      <p>It is a commentary on the broader cultural obsession with perfection and the often-overlooked cost of maintaining such façades.</p>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
