@@ -16,7 +16,7 @@ function Nav({ onNavClick }) {
         <div className="nav-inner">
           <a href="#" className="nav-logo">lucy liu</a>
           <ul className="nav-links">
-            <li><a href="#work"    className="nav-link" onClick={onNavClick}>work</a></li>
+            <li><a href="work.html" className="nav-link">work</a></li>
             <li><a href="#about"   className="nav-link" onClick={onNavClick}>about</a></li>
             <li><a href="#contact" className="nav-link" onClick={onNavClick}>contact ↗</a></li>
           </ul>

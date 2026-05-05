@@ -911,11 +911,13 @@ img { display: block; max-width: 100%; }
 }
 .gem-photo-reveal {
   position: absolute; inset: 0; z-index: 2;
-  clip-path: circle(0px at var(--cx, 50%) var(--cy, 50%));
-  transition: clip-path 0.12s ease-out;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(circle 80px at var(--cx, 50%) var(--cy, 50%), black 15%, transparent 100%);
+  mask-image: radial-gradient(circle 80px at var(--cx, 50%) var(--cy, 50%), black 15%, transparent 100%);
+  transition: opacity 0.25s ease;
 }
 .gem-story-card:hover .gem-photo-reveal {
-  clip-path: circle(120px at var(--cx, 50%) var(--cy, 50%));
+  opacity: 1;
 }
 .gem-photo-reveal img {
   width: 100%; height: 100%;
