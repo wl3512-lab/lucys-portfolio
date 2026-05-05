@@ -37,6 +37,9 @@ function AboutSection() {
         <div className="about-left">
           <span className="scene-kicker">— IV / About</span>
           <h2 className="scene-title" data-split-reveal>I design products <br/>through the lens of <em>psychology.</em></h2>
+          <div className="about-mark-wrap">
+            <img src="assets/lucy-mark.jpg" alt="Lucy Liu mark" className="about-mark" />
+          </div>
         </div>
         <div className="about-right">
           <div className="about-headshot-wrap">

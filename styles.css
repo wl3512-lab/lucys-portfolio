@@ -606,6 +606,15 @@ img { display: block; max-width: 100%; }
   align-items: start;
 }
 .about-left { position: sticky; top: 120px; }
+.about-mark-wrap {
+  margin-top: 48px;
+  width: 120px;
+}
+.about-mark {
+  width: 100%; height: auto; display: block;
+  border-radius: 6px;
+  opacity: 0.85;
+}
 
 .about-headshot-wrap {
   width: 160px; height: 160px;
