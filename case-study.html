@@ -900,6 +900,15 @@
     padding: 4px 0 4px 24px;
     font-family: var(--font-code); font-size: 18px; color: var(--fg3);
   }
+
+  /* ── MOBILE: iPhone (≤480px) ── */
+  @media (max-width: 480px) {
+    .cs-hero { padding: clamp(96px, 14vh, 140px) 0 clamp(40px, 6vh, 64px); }
+    .cs-title { font-size: clamp(48px, 15vw, 100px); }
+    .cs-subtitle { font-size: 17px; margin-bottom: 32px; }
+    .cs-pull-quote { padding: 24px 20px 24px 32px; }
+    .cs-col { padding: 28px 20px; }
+  }
 </style>
 </head>
 <body>

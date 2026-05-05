@@ -42,7 +42,7 @@ function Hero() {
       <div className="container hero-content">
         <div className="hero-text">
           <div className="hero-eyebrow">
-            {'HELLO, I\u2019M LUCY \u2014 IMA \u2019 27'.split('').map((c, i) => (
+            {'HELLO, I\u2019M LUCY \u2014 IMA \u2019 29'.split('').map((c, i) => (
               <span key={i} className={c===' '?'eyebrow-sep':'eyebrow-char'}>{c==' '?'\u00A0':c}</span>
             ))}
           </div>

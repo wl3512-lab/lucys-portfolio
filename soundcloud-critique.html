@@ -119,6 +119,12 @@
   .sc-grid { grid-template-columns: 1fr; gap: 40px; }
 }
 
+@media (max-width: 480px) {
+  .sc-grid-wrap { padding: 48px 0 72px; }
+  .sc-heading { font-size: clamp(2rem, 10vw, 3.5rem); }
+  .sc-intro { font-size: 15px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sc-back, .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-grid-wrap { animation: none; }
 }

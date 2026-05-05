@@ -647,6 +647,8 @@ img { display: block; max-width: 100%; }
 .fact-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
 .fact-v { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--fg1); letter-spacing: -0.01em; font-weight: 400; }
 .fact-minor { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg2); margin-top: 2px; font-weight: 700; }
+.fact-wide { grid-column: span 2; }
+.fact-wide .fact-v { font-size: 18px; }
 
 /* ========== CONTACT ========== */
 .scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; }
@@ -1272,5 +1274,56 @@ img { display: block; max-width: 100%; }
   .ant-award, .ant-meta-row, .ant-cover, .ant-body,
   .sc-back, .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-book {
     animation: none;
+  }
+}
+
+/* ========== MOBILE — iPhone (≤480px) ========== */
+@media (max-width: 480px) {
+  /* Scene vertical padding — 9rem is excessive on phone */
+  .scene { padding: 4rem 0; }
+
+  /* Nav — tighten for small screens */
+  .nav { padding: 18px 0; }
+  .nav.scrolled { padding: 14px 0; }
+  .nav-links { gap: 16px; }
+  .nav-logo { font-size: 22px; }
+
+  /* Hero — scale and reflow */
+  .hero-heading { font-size: clamp(2.2rem, 11vw, 4rem); }
+  .hero-sub { font-size: 14px; max-width: 100%; }
+  .hero-photo-wrap { width: 160px; height: 160px; }
+  .hero-meta { grid-template-columns: 1fr 1fr; }
+  .hero-meta-item:last-child { display: none; }
+  .hero-actions { flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.14em; }
+
+  /* Skills — single column on phone */
+  .skills-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+  .skill-lg, .skill-md, .skill-sm {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .skill-card { padding: 28px 22px; }
+
+  /* About */
+  .about-grid { gap: 32px; }
+  .about-facts { grid-template-columns: 1fr; }
+  .fact-wide { grid-column: span 1; }
+  .fact-v { font-size: 18px; }
+  .fact-wide .fact-v { font-size: 16px; }
+
+  /* Contact */
+  .scene-contact { padding-top: 72px; }
+  .contact-inner { padding-bottom: 72px; gap: 20px; }
+
+  /* Footer */
+  .footer-inner {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    align-items: center;
   }
 }
