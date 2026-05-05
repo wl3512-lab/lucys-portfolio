@@ -1229,3 +1229,38 @@ img { display: block; max-width: 100%; }
 .pf-cluster:focus-visible .pf-cluster-main { fill: rgba(114,173,255,0.85); }
 
 @media (max-width: 900px) { .pf-const { display: none; } }
+
+/* ── Project page entrance animations ─────────────────────── */
+@keyframes ant-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ant-scale-up {
+  from { opacity: 0; transform: scale(0.965); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* .ant-* pages (anticipation, arrested motion, telnex, agar alphabet) */
+.ant-back       { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1)   0ms both; }
+.ant-eyebrow    { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1)  80ms both; }
+.ant-heading    { animation: ant-rise     0.70s cubic-bezier(0.16,1,0.3,1) 150ms both; }
+.ant-subheading { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1) 210ms both; }
+.ant-award      { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1) 210ms both; }
+.ant-meta-row   { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1) 290ms both; }
+.ant-cover      { animation: ant-scale-up 0.80s cubic-bezier(0.16,1,0.3,1) 400ms both; }
+.ant-body       { animation: ant-rise     0.65s cubic-bezier(0.16,1,0.3,1) 560ms both; }
+
+/* .sc-* pages (soundcloud critique) */
+.sc-back     { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1)   0ms both; }
+.sc-eyebrow  { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1)  80ms both; }
+.sc-heading  { animation: ant-rise     0.70s cubic-bezier(0.16,1,0.3,1) 150ms both; }
+.sc-meta-row { animation: ant-rise     0.55s cubic-bezier(0.16,1,0.3,1) 270ms both; }
+.sc-book     { animation: ant-scale-up 0.75s cubic-bezier(0.16,1,0.3,1) 370ms both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ant-back, .ant-eyebrow, .ant-heading, .ant-subheading,
+  .ant-award, .ant-meta-row, .ant-cover, .ant-body,
+  .sc-back, .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-book {
+    animation: none;
+  }
+}
