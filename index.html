@@ -910,14 +910,19 @@ function initAnimations() {
 (function() {
   const card = document.querySelector('[data-gem-story]');
   if (!card) return;
+  const reveal = card.querySelector('.gem-photo-reveal');
+  if (!reveal) return;
   card.addEventListener('mousemove', function(e) {
     const r = card.getBoundingClientRect();
-    card.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-    card.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    const cx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+    const cy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+    const grad = 'radial-gradient(circle 80px at ' + cx + ' ' + cy + ', black 20%, transparent 100%)';
+    reveal.style.webkitMaskImage = grad;
+    reveal.style.maskImage = grad;
   });
   card.addEventListener('mouseleave', function() {
-    card.style.removeProperty('--cx');
-    card.style.removeProperty('--cy');
+    reveal.style.webkitMaskImage = '';
+    reveal.style.maskImage = '';
   });
 })();
 

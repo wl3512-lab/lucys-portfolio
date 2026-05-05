@@ -912,8 +912,6 @@ img { display: block; max-width: 100%; }
 .gem-photo-reveal {
   position: absolute; inset: 0; z-index: 2;
   opacity: 0;
-  -webkit-mask-image: radial-gradient(circle 80px at var(--cx, 50%) var(--cy, 50%), black 15%, transparent 100%);
-  mask-image: radial-gradient(circle 80px at var(--cx, 50%) var(--cy, 50%), black 15%, transparent 100%);
   transition: opacity 0.25s ease;
 }
 .gem-story-card:hover .gem-photo-reveal {
