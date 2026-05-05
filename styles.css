@@ -646,6 +646,7 @@ img { display: block; max-width: 100%; }
 .fact { background: var(--surface); padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; }
 .fact-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
 .fact-v { font-family: var(--font-display); font-style: italic; font-size: 22px; color: var(--fg1); letter-spacing: -0.01em; font-weight: 400; }
+.fact-minor { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); margin-top: 2px; }
 
 /* ========== CONTACT ========== */
 .scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; }
