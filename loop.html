@@ -306,6 +306,14 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 .cs-const-label-el.is-active { color: var(--cyan); }
 @media (max-width: 900px) { .cs-constellation-nav { display: none; } }
 
+/* DESIGN PRINCIPLES */
+.lp-principles { margin-top: 40px; border-top: 1px solid var(--border); counter-reset: principle; }
+.lp-principle { padding: 22px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 2.5ch 1fr; gap: 20px; align-items: baseline; }
+.lp-principle-num { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em; color: var(--cyan-dim); padding-top: 2px; }
+.lp-principle-content { display: grid; gap: 5px; }
+.lp-principle-head { font-family: var(--font-display); font-size: clamp(15px, 1.5vw, 17px); font-weight: 400; letter-spacing: -0.02em; color: var(--fg1); }
+.lp-principle-body { font-family: var(--font-body); font-size: 14px; line-height: 1.65; color: var(--fg2); max-width: 60ch; }
+
 /* REVEAL */
 [data-cs-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
 [data-cs-reveal].is-revealed { opacity: 1; transform: translateY(0); }
@@ -380,7 +388,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       </p>
       <h1 class="lp-hero-title">LOOP</h1>
       <p class="lp-hero-tagline">You were always on both ends.</p>
-      <p class="lp-hero-sub">A browser-based psychological thriller told through text messages. An unknown number contacts you. They claim to be you — 24 hours from now.</p>
+      <p class="lp-hero-sub">A narrative phone-simulation game. You receive a text from an unknown number. They claim to be you — 24 hours from now. There is no first version.</p>
       <div class="cs-tags">
         <span class="tag">p5.js</span>
         <span class="tag">GPT-4o-mini</span>
@@ -423,10 +431,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
   <!-- CONCEPT INTRO -->
   <div id="cs-s-interface" class="lp-concept" data-cs-reveal>
     <p class="lp-concept-label">Chatbots for Art's Sake</p>
-    <h2 class="lp-concept-h">A phone that<br>feels <em>wrong.</em></h2>
+    <h2 class="lp-concept-h">The interface<br>is the <em>narrative.</em></h2>
     <div class="lp-concept-body">
-      <p>At 11:47 PM, your phone lights up. An unknown number. The message is short: "you still awake?" They know things about you — not invented, only things visible on your phone screen. They claim to be you, texting back from 24 hours ahead.</p>
-      <p>The interface is designed to feel like a real iOS device — lock screen, home screen, cameras, reminders, a full contacts list. The game is not a chat window with a theme. The interface is the game. It is a real app that something has gone wrong inside.</p>
+      <p>Every visual choice in LOOP is part of the story. The monospace clock. The reminders widget with "call dr. about appointment." The bedroom camera that stays offline for the entire game — until it doesn't. None of that is in the chat. The environment creates dread before the bot says a word.</p>
+      <p>LOOP looks 95% like a real iPhone. That 5% is where it lives. Dread comes from familiarity. The design principle is restraint over spectacle: the scariest version of this interface is the one that almost passes as normal. Cheap horror uses distorted fonts. LOOP uses mundane reminders and a camera feed that says "Last Updated: 3 seconds ago."</p>
     </div>
   </div>
 
@@ -587,6 +595,52 @@ details[open] .tr-panel-icon { color: var(--cyan); }
     </div>
   </div>
 
+  <!-- DESIGN PRINCIPLES -->
+  <div class="cs-body-inner" style="margin-top: clamp(72px, 9vw, 108px);">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">D</span>
+      <p class="cs-section-label" data-cs-reveal>Design Principles</p>
+      <h2 class="cs-section-h" data-cs-reveal>How it was <em>built.</em></h2>
+      <div class="lp-principles" data-cs-reveal>
+        <div class="lp-principle">
+          <span class="lp-principle-num">01</span>
+          <div class="lp-principle-content">
+            <p class="lp-principle-head">The interface is the narrative.</p>
+            <p class="lp-principle-body">Every visual choice — the monospace font, the dark field, the cyan accent — is part of the story, not decoration around it. The game doesn't have a theme applied to a chat app. The chat app is the story.</p>
+          </div>
+        </div>
+        <div class="lp-principle">
+          <span class="lp-principle-num">02</span>
+          <div class="lp-principle-content">
+            <p class="lp-principle-head">Restraint over spectacle.</p>
+            <p class="lp-principle-body">Dread comes from what is almost normal. The scariest version of this interface looks 95% like a real iPhone. No distorted fonts. No gore. A reminders widget with "call dr. about appointment" is more unsettling than any jump-scare.</p>
+          </div>
+        </div>
+        <div class="lp-principle">
+          <span class="lp-principle-num">03</span>
+          <div class="lp-principle-content">
+            <p class="lp-principle-head">Fragmentation is intentional.</p>
+            <p class="lp-principle-body">As the story collapses in Act 3, the design earns the right to break. But only because Acts 1 and 2 held. The horror of Act 3's one-word messages is that you remember what full sentences felt like.</p>
+          </div>
+        </div>
+        <div class="lp-principle">
+          <span class="lp-principle-num">04</span>
+          <div class="lp-principle-content">
+            <p class="lp-principle-head">The paradox must be felt, not explained.</p>
+            <p class="lp-principle-body">LOOP never uses the words "time loop." The visual design makes you feel the loop before the text tells you about it — because if it had to be explained, it wouldn't land.</p>
+          </div>
+        </div>
+        <div class="lp-principle">
+          <span class="lp-principle-num">05</span>
+          <div class="lp-principle-content">
+            <p class="lp-principle-head">Every screen is a proof of work.</p>
+            <p class="lp-principle-body">The kind of detail a viewer zooms in on to see if it holds up. The camera timestamp. The unread badge count. The screen crack on the right side. It has to hold up. A portfolio piece that doesn't survive scrutiny isn't a portfolio piece.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- REFLECTION -->
   <div class="cs-body-inner" style="margin-top: clamp(72px, 9vw, 108px);">
     <div class="cs-section" data-cs-section>
@@ -595,16 +649,16 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       <h2 class="cs-section-h" data-cs-reveal>What I took <em>away.</em></h2>
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
-          <p class="cs-reflection-head">The interface is the writing.</p>
-          <p class="cs-reflection-body">In most chatbot projects, the interface is a container and the writing is the content. In LOOP, the interface carries the horror. The offline camera, the cracked screen, the reminders widget with "call dr. about appointment" — none of that is in the chat. The environment creates dread before the bot says a word. Building both layers as one system taught me that the most effective narrative design doesn't separate where you are from what you feel.</p>
-        </div>
-        <div class="cs-reflection-item">
           <p class="cs-reflection-head">Constraining the bot's voice was the hardest design problem.</p>
-          <p class="cs-reflection-body">Every LLM wants to be helpful, verbose, and emotionally validating. Every line in the LOOP bot prompt had to fight that. The result — two sentences, lowercase, no metaphors, never say "I understand" — was more about prohibition than prescription. The voice only worked once I stopped writing what the bot should say and started writing what it could never say.</p>
+          <p class="cs-reflection-body">Every LLM wants to be helpful, verbose, emotionally validating. Every line in the LOOP prompt had to fight that. The result — two sentences, lowercase, no metaphors, never say "I understand" — was more about prohibition than prescription. The voice only worked once I stopped writing what the bot should say and started writing what it could never say.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Behavioral tracking is what makes interactive fiction feel authored.</p>
           <p class="cs-reflection-body">Players who find Ending D almost always think the betrayal path was written just for them. That recognition — "it knew I would try that" — is the game's best moment. It only exists because the code watches the messages list, the contacts, the silence timer. The feeling of being observed is produced entirely by observation.</p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">The audience and the protagonist are the same person.</p>
+          <p class="cs-reflection-body">LOOP works because the player is alone, late at night, on a phone. The dread is personal. Portfolio viewers arrive as an audience and leave as participants. Players arrive as participants and leave with the uneasy feeling that the loop already started before they picked up the phone.</p>
         </div>
       </div>
     </div>
