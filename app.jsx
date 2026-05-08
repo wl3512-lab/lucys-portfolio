@@ -411,6 +411,7 @@ function AboutInline() {
             <div className="fact"><span className="fact-k">From</span><span className="fact-v">Vancouver, BC</span></div>
             <div className="fact"><span className="fact-k">Studying</span><span className="fact-v">IMA @ NYU Tisch</span></div>
             <div className="fact"><span className="fact-k">Available</span><span className="fact-v">Summer 2026</span></div>
+            <div className="fact"><span className="fact-k">Languages</span><span className="fact-v">English, Mandarin</span></div>
           </div>
         </div>
       </div>
