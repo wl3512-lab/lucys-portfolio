@@ -306,6 +306,9 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 .cs-const-label-el.is-active { color: var(--cyan); }
 @media (max-width: 900px) { .cs-constellation-nav { display: none; } }
 
+/* SECTION GAP */
+.lp-section-gap { margin-top: clamp(72px, 9vw, 108px); }
+
 /* DESIGN PRINCIPLES */
 .lp-principles { margin-top: 40px; border-top: 1px solid var(--border); counter-reset: principle; }
 .lp-principle { padding: 22px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 2.5ch 1fr; gap: 20px; align-items: baseline; }
@@ -438,18 +441,19 @@ details[open] .tr-panel-icon { color: var(--cyan); }
     </div>
   </div>
 
-  <!-- CAMERA SCREENSHOT -->
-  <div class="cs-image-block" data-cs-reveal>
-    <div class="cs-image">
-      <img src="assets/loop/home-cameras.png"
-           alt="LOOP Home Cameras screen: Front Door live, Back Door infrared night vision, Bedroom Window offline with a MOTION alert in red"
-           loading="lazy" />
-    </div>
-    <p class="cs-image-caption">Home Cameras — CAM 04 offline. Motion detected.</p>
-  </div>
-
-  <!-- ACCORDION SECTIONS -->
   <div class="cs-body-inner">
+
+    <!-- CAMERA SCREENSHOT -->
+    <div class="cs-image-block" data-cs-reveal>
+      <div class="cs-image">
+        <img src="assets/loop/home-cameras.png"
+             alt="LOOP Home Cameras screen: Front Door live, Back Door infrared night vision, Bedroom Window offline with a MOTION alert in red"
+             loading="lazy" />
+      </div>
+      <p class="cs-image-caption">Home Cameras — CAM 04 offline. Motion detected.</p>
+    </div>
+
+    <!-- ACCORDION SECTIONS -->
     <div class="tr-accordion">
 
       <!-- 01 · THE INTERFACE -->
@@ -593,11 +597,9 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       </details>
 
     </div>
-  </div>
 
-  <!-- DESIGN PRINCIPLES -->
-  <div class="cs-body-inner" style="margin-top: clamp(72px, 9vw, 108px);">
-    <div class="cs-section" data-cs-section>
+    <!-- DESIGN PRINCIPLES -->
+    <div class="cs-section lp-section-gap" data-cs-section>
       <span class="cs-section-wm">D</span>
       <p class="cs-section-label" data-cs-reveal>Design Principles</p>
       <h2 class="cs-section-h" data-cs-reveal>How it was <em>built.</em></h2>
@@ -639,11 +641,9 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- REFLECTION -->
-  <div class="cs-body-inner" style="margin-top: clamp(72px, 9vw, 108px);">
-    <div class="cs-section" data-cs-section>
+    <!-- REFLECTION -->
+    <div class="cs-section lp-section-gap" data-cs-section>
       <span class="cs-section-wm">R</span>
       <p class="cs-section-label" data-cs-reveal>Reflection</p>
       <h2 class="cs-section-h" data-cs-reveal>What I took <em>away.</em></h2>
@@ -662,6 +662,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </div>
     </div>
+
   </div>
 
 </div>
