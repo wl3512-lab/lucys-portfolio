@@ -240,7 +240,7 @@
 
     /* Edges draw in sequence */
     lineEls.forEach(function(l, i) {
-      setTimeout(function() { l.style.strokeDashoffset = '0'; }, 160 + i * 65);
+      setTimeout(function() { l.style.strokeDashoffset = '0'; }, 180 + i * 90);
     });
 
     /* Two nodes activate with glow */
@@ -249,7 +249,7 @@
         nodeEls[idx].dot.setAttribute('fill', '#72ADFF');
         nodeEls[idx].dot.setAttribute('filter', 'url(#ll-glow)');
       });
-    }, 620);
+    }, 750);
 
     /* Spring-drop name chars */
     var chars = document.querySelectorAll('.ll-c');
@@ -258,17 +258,17 @@
       c.style.setProperty('--from-y', fromYs[i] || '-32px');
     });
     chars.forEach(function(c, i) {
-      setTimeout(function() { c.classList.add('is-in'); }, 660 + i * 46);
+      setTimeout(function() { c.classList.add('is-in'); }, 800 + i * 58);
     });
 
     /* Kicker */
     setTimeout(function() {
       var sub = document.getElementById('ll-name-sub');
       if (sub) sub.classList.add('is-in');
-    }, 660 + 7 * 46 + 90);
+    }, 800 + 7 * 58 + 100);
 
     /* Exit */
-    setTimeout(exitLoader, 660 + 7 * 46 + 400);
+    setTimeout(exitLoader, 800 + 7 * 58 + 820);
   }
 
   try {
