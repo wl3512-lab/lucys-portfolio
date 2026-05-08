@@ -13,7 +13,7 @@
 <meta name="description" content="All work by Lucy Liu — interaction design, creative coding, and accessibility-focused projects." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="styles.css" />
 <style>
@@ -313,6 +313,21 @@ a { color: inherit; text-decoration: none; }
     <ul class="wk-grid" role="list" id="wk-grid" aria-label="Project covers">
 
       <li class="cover-item" data-cat="coding" role="listitem">
+        <a href="loop.html" aria-label="LOOP — Interactive Narrative, 2025">
+          <img class="cover-img"
+            src="assets/loop/chat-betrayal.png"
+            alt="LOOP: psychological thriller text game — unknown contact warns 'dont send that message to jess'"
+            loading="eager" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Interactive Narrative</span>
+            <p class="cover-title">LOOP</p>
+            <span class="cover-year">2025</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="cover-item" data-cat="coding" role="listitem">
         <a href="case-study.html" aria-label="Driftwood — Coding, 2025">
           <img class="cover-img"
             src="assets/driftwood/cover.png"
@@ -321,6 +336,36 @@ a { color: inherit; text-decoration: none; }
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Coding</span>
             <p class="cover-title">Driftwood</p>
+            <span class="cover-year">2025</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="cover-item" data-cat="coding" role="listitem">
+        <a href="trance.html" aria-label="Trance — Physical Computing, 2025">
+          <img class="cover-img"
+            src="assets/trance/cover.png"
+            alt="Trance: acrylic hand sculpture with LEDs, installation view"
+            loading="lazy" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Physical Computing</span>
+            <p class="cover-title">Trance</p>
+            <span class="cover-year">2025</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="cover-item" data-cat="coding" role="listitem">
+        <a href="undertheweather.html" aria-label="Under the Weather — Coding, 2025">
+          <img class="cover-img"
+            src="assets/undertheweather/cover.png"
+            alt="Under the Weather: generateMood() sassy one-liner code screenshot"
+            loading="lazy" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Coding</span>
+            <p class="cover-title">Under the Weather</p>
             <span class="cover-year">2025</span>
           </div>
           <span class="cover-arrow" aria-hidden="true">↗</span>
@@ -342,14 +387,14 @@ a { color: inherit; text-decoration: none; }
         </a>
       </li>
 
-      <li class="cover-item" data-cat="coding ux" role="listitem">
-        <a href="h2know.html" aria-label="H2Know — Coding / UX Design, 2024">
+      <li class="cover-item" data-cat="ux" role="listitem">
+        <a href="h2know.html" aria-label="H2Know — Physical Computing / UX, 2024">
           <img class="cover-img"
             src="assets/h2know/slides/slide-01.png"
             alt="H2Know: Arduino plant companion — device and interface overview"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Coding / UX Design</span>
+            <span class="cover-cat">Physical Computing / UX</span>
             <p class="cover-title">H2Know</p>
             <span class="cover-year">2024</span>
           </div>
@@ -418,21 +463,6 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="design" role="listitem">
-        <a href="agar-alphabet.html" aria-label="Agar Alphabet — Design, 2025">
-          <img class="cover-img"
-            src="assets/agar-alphabet/cover.jpg"
-            alt="Agar Alphabet: bacteria-grown letterforms in agar plates"
-            loading="lazy" />
-          <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Design</span>
-            <p class="cover-title">Agar Alphabet</p>
-            <span class="cover-year">2025</span>
-          </div>
-          <span class="cover-arrow" aria-hidden="true">↗</span>
-        </a>
-      </li>
-
-      <li class="cover-item" data-cat="design" role="listitem">
         <a href="telnex.html" aria-label="Telnex — Design, 2024">
           <img class="cover-img"
             src="assets/telnex/cover.jpg"
@@ -447,12 +477,27 @@ a { color: inherit; text-decoration: none; }
         </a>
       </li>
 
+      <li class="cover-item" data-cat="design" role="listitem">
+        <a href="agar-alphabet.html" aria-label="Agar Alphabet — Design, 2025">
+          <img class="cover-img"
+            src="assets/agar-alphabet/cover.jpg"
+            alt="Agar Alphabet: bacteria-grown letterforms in agar plates"
+            loading="lazy" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Design</span>
+            <p class="cover-title">Agar Alphabet</p>
+            <span class="cover-year">2025</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
     </ul>
 
     <!-- EMPTY STATE -->
     <div class="wk-empty" id="wk-empty" role="status" aria-live="polite">
       <p class="wk-empty-label">Nothing here yet</p>
-      <p class="wk-empty-text">This category is coming soon.</p>
+      <p class="wk-empty-text">No projects in this category yet.</p>
     </div>
   </div>
 

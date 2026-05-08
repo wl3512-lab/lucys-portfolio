@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>LOOP — Lucy Liu</title>
+<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=15" />
+<style>
+
+/* ── TOKENS ── */
+:root {
+  --loop-bg:       oklch(0.04 0.008 285);
+  --loop-surface:  oklch(0.07 0.010 285);
+  --loop-border:   oklch(0.14 0.010 285);
+  --loop-fg1:      oklch(0.87 0.010 280);
+  --loop-fg2:      oklch(0.62 0.010 280);
+  --loop-fg3:      oklch(0.42 0.008 280);
+  --cyan:          #4DFFF0;
+}
+
+/* NAV */
+.cs-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 20px 0;
+  background: rgba(4,4,8,0.80); backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--loop-border);
+}
+.cs-nav-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--loop-fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; text-decoration: none; }
+.cs-back:hover { color: var(--loop-fg1); }
+.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; text-decoration: none; color: var(--loop-fg1); }
+
+/* PROGRESS */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; }
+.cs-progress-fill { height: 100%; background: var(--cyan); transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
+
+/* PAGE */
+.lp-page {
+  min-height: 100vh;
+  background: var(--loop-bg);
+  color: var(--loop-fg1);
+}
+
+/* ── HERO ── */
+.lp-hero {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: 120px 0 0;
+  display: grid;
+  grid-template-columns: 1fr min(340px, 38vw);
+  gap: 48px;
+  align-items: start;
+}
+
+.lp-hero-text { padding-top: 8px; }
+
+.lp-eyebrow {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 28px;
+}
+
+.lp-heading {
+  font-family: var(--font-ui); font-weight: 800;
+  font-size: clamp(72px, 14vw, 160px); line-height: 0.88; letter-spacing: -0.04em;
+  color: var(--loop-fg1);
+  margin: 0 0 24px;
+}
+
+.lp-tagline {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--loop-fg2);
+  margin: 0 0 36px;
+  letter-spacing: -0.01em;
+}
+
+.lp-intro {
+  font-family: var(--font-body); font-size: 15.5px; line-height: 1.7;
+  color: var(--loop-fg2); max-width: 52ch; margin: 0 0 44px;
+}
+
+.lp-meta-row {
+  display: flex; gap: 36px; flex-wrap: wrap;
+  border-top: 1px solid var(--loop-border);
+  border-bottom: 1px solid var(--loop-border);
+  padding: 16px 0;
+  margin-bottom: 0;
+}
+.lp-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.lp-meta-k {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--loop-fg3);
+}
+.lp-meta-v {
+  font-family: var(--font-code); font-size: 12.5px; color: var(--loop-fg2);
+}
+
+/* phone mockup */
+.lp-phone-col {
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lp-phone-wrap {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 36px;
+  overflow: hidden;
+  border: 1px solid var(--loop-border);
+  filter: drop-shadow(0 24px 64px oklch(0 0 0 / 0.70));
+}
+.lp-phone-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── BODY ── */
+.lp-body {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: 72px 0 120px;
+}
+
+/* accordion sections */
+.lp-section {
+  border-top: 1px solid var(--loop-border);
+}
+.lp-section:last-child {
+  border-bottom: 1px solid var(--loop-border);
+}
+
+.lp-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 28px 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.lp-summary::-webkit-details-marker { display: none; }
+
+.lp-section-num {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+  color: var(--cyan); flex-shrink: 0;
+}
+.lp-section-title {
+  font-family: var(--font-ui); font-weight: 600; font-size: 15px;
+  color: var(--loop-fg1); flex: 1;
+  letter-spacing: -0.01em;
+}
+.lp-section-caret {
+  font-size: 13px; color: var(--loop-fg3);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  flex-shrink: 0;
+}
+details[open] .lp-section-caret { transform: rotate(90deg); }
+
+.lp-section-body {
+  padding: 0 0 48px 50px;
+}
+
+.lp-body-text {
+  font-family: var(--font-body); font-size: 15px; line-height: 1.8;
+  color: var(--loop-fg2); max-width: 62ch;
+  margin-bottom: 24px;
+}
+.lp-body-text:last-child { margin-bottom: 0; }
+
+/* screenshot display */
+.lp-screens {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin: 32px 0;
+  max-width: 640px;
+}
+.lp-screens.single {
+  grid-template-columns: 1fr;
+  max-width: 340px;
+}
+
+.lp-screen-wrap {
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--loop-border);
+  filter: drop-shadow(0 12px 40px oklch(0 0 0 / 0.60));
+}
+.lp-screen-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.lp-screen-cap {
+  margin-top: 10px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.08em;
+  color: var(--loop-fg3);
+}
+
+/* act cards */
+.lp-acts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.lp-act-card {
+  background: var(--loop-surface);
+  border: 1px solid var(--loop-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+.lp-act-label {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 10px;
+}
+.lp-act-title {
+  font-family: var(--font-ui); font-weight: 600; font-size: 13.5px;
+  color: var(--loop-fg1); margin-bottom: 8px;
+}
+.lp-act-desc {
+  font-family: var(--font-body); font-size: 13px; line-height: 1.65;
+  color: var(--loop-fg2);
+}
+
+/* endings */
+.lp-endings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.lp-ending {
+  background: var(--loop-surface);
+  border: 1px solid var(--loop-border);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.lp-ending-letter {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--loop-fg3);
+  margin-bottom: 8px;
+}
+.lp-ending-name {
+  font-family: var(--font-ui); font-weight: 600; font-size: 13.5px;
+  color: var(--loop-fg1); margin-bottom: 6px;
+}
+.lp-ending-desc {
+  font-family: var(--font-body); font-size: 13px; line-height: 1.6;
+  color: var(--loop-fg2);
+}
+
+/* quote callout */
+.lp-quote {
+  border-left: 2px solid var(--loop-border);
+  padding: 4px 0 4px 20px;
+  margin: 24px 0;
+}
+.lp-quote-text {
+  font-family: var(--font-code); font-size: 13px; line-height: 1.7;
+  color: var(--loop-fg2); font-style: italic;
+}
+.lp-quote-attr {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em;
+  color: var(--loop-fg3); margin-top: 8px;
+  text-transform: uppercase;
+}
+
+/* tech stack */
+.lp-tech-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.lp-tech-tag {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.08em;
+  color: var(--loop-fg2); padding: 5px 12px;
+  border: 1px solid var(--loop-border);
+  border-radius: 3px;
+}
+
+/* ── NEXT PROJECT ── */
+.cs-next { padding: clamp(72px, 9vh, 110px) 0 56px; border-top: 1px solid var(--loop-border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--loop-fg3); margin-bottom: 20px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 36px 0; border-top: 1px solid var(--loop-border); text-decoration: none; }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--cyan); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5vw, 68px); letter-spacing: -0.04em; color: var(--loop-fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 32px; color: var(--loop-fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-footer { padding: 24px 0; border-top: 1px solid var(--loop-border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--loop-fg3); text-align: center; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 760px) {
+  .lp-hero {
+    grid-template-columns: 1fr;
+    padding-top: 100px;
+  }
+  .lp-phone-col { display: none; }
+  .lp-acts { grid-template-columns: 1fr; }
+  .lp-endings { grid-template-columns: 1fr; }
+  .lp-screens { grid-template-columns: 1fr; max-width: 300px; }
+}
+
+@media (max-width: 520px) {
+  .lp-heading { font-size: clamp(60px, 18vw, 90px); }
+  .lp-section-body { padding-left: 0; }
+  .lp-meta-row { gap: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-section-caret { transition: none; }
+}
+
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
+
+<nav class="cs-nav" aria-label="Site navigation">
+  <div class="cs-nav-inner">
+    <a class="cs-logo" href="index.html">lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
+  </div>
+</nav>
+
+<main id="main-content" class="lp-page">
+
+  <div class="lp-hero">
+
+    <div class="lp-hero-text">
+      <p class="lp-eyebrow">Interactive Narrative &nbsp;·&nbsp; NYU ITP &nbsp;·&nbsp; 2025</p>
+      <h1 class="lp-heading">LOOP</h1>
+      <p class="lp-tagline">You were always on both ends.</p>
+      <p class="lp-intro">A browser-based psychological thriller told through text messages. You receive a message from an unknown number. They claim to be you — 24 hours from now.</p>
+      <div class="lp-meta-row">
+        <div class="lp-meta-item">
+          <span class="lp-meta-k">Type</span>
+          <span class="lp-meta-v">Interactive narrative</span>
+        </div>
+        <div class="lp-meta-item">
+          <span class="lp-meta-k">Platform</span>
+          <span class="lp-meta-v">Browser / Web</span>
+        </div>
+        <div class="lp-meta-item">
+          <span class="lp-meta-k">Stack</span>
+          <span class="lp-meta-v">p5.js · GPT-4o-mini · Web Audio API</span>
+        </div>
+        <div class="lp-meta-item">
+          <span class="lp-meta-k">Context</span>
+          <span class="lp-meta-v">NYU ITP — Chatbots for Art's Sake</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lp-phone-col" aria-hidden="true">
+      <div class="lp-phone-wrap">
+        <img src="assets/loop/chat-betrayal.png"
+             alt="LOOP game: Unknown contact warns 'Dont send that message to Jess' while player is in Jess's conversation" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="lp-body">
+
+    <details class="lp-section" open>
+      <summary class="lp-summary">
+        <span class="lp-section-num">01</span>
+        <span class="lp-section-title">The Premise</span>
+        <span class="lp-section-caret" aria-hidden="true">›</span>
+      </summary>
+      <div class="lp-section-body">
+        <p class="lp-body-text">At 11:47 PM, your phone lights up. An unknown number. The message is short: "you still awake?" You respond. They know things about you — not invented, only things visible on your phone screen. They claim to be you, texting back from 24 hours ahead, trying to warn you about something that happens tomorrow.</p>
+        <p class="lp-body-text">The premise is a time loop, but LOOP never calls it that. The bot never explains the mechanics. It stays in the conversation, lowercase, two sentences max, the way someone actually texts at midnight when they're scared.</p>
+        <div class="lp-quote">
+          <p class="lp-quote-text">"who is this"<br>"it's you. from tomorrow."<br>"that makes no sense"<br>"i know. i said the same thing."</p>
+          <p class="lp-quote-attr">from the Act 1 prompt</p>
+        </div>
+        <p class="lp-body-text">The central tension is not horror in the jump-scare sense. It's the slow realization that if someone from the future texted you a warning, the only way the loop continues is if tomorrow, you text yourself back.</p>
+      </div>
+    </details>
+
+    <details class="lp-section">
+      <summary class="lp-summary">
+        <span class="lp-section-num">02</span>
+        <span class="lp-section-title">The Interface</span>
+        <span class="lp-section-caret" aria-hidden="true">›</span>
+      </summary>
+      <div class="lp-section-body">
+        <p class="lp-body-text">LOOP runs inside a phone frame designed to feel like a real iOS device. Lock screen, home screen, app dock, reminders widget, messages list, camera feeds — all interactive, all part of the fiction. The game is not a chat interface with a theme. The interface IS the game.</p>
+        <p class="lp-body-text">Every screen was built from scratch in p5.js and HTML. The lock screen shows the time and a notification from "Unknown." The home screen has a reminders widget with items like "call dr. about appointment" and "pick up prescription" — mundane enough to feel real. The home camera app shows three feeds: Front Door (live), Back Door (night vision, last updated 3 seconds ago), and Bedroom Window, which is offline with a MOTION alert.</p>
+
+        <div class="lp-screens">
+          <div>
+            <div class="lp-screen-wrap">
+              <img src="assets/loop/home-screen.png" alt="LOOP home screen: purple wallpaper, Messages, LOOP game, and Home Camera icons in dock" loading="lazy" />
+            </div>
+            <p class="lp-screen-cap">Home screen</p>
+          </div>
+          <div>
+            <div class="lp-screen-wrap">
+              <img src="assets/loop/home-cameras.png" alt="LOOP home cameras screen: Front Door live feed, Back Door infrared, Bedroom Window offline with motion alert" loading="lazy" />
+            </div>
+            <p class="lp-screen-cap">Home Cameras — CAM 04 offline, motion detected</p>
+          </div>
+        </div>
+
+        <p class="lp-body-text">Screen cracks appear on the right side of the phone frame. The audio layer adds glitch sounds, a pulsing alarm, and an iOS-style text ping. None of it is explained. The game looks like a real app that something has gone wrong inside.</p>
+      </div>
+    </details>
+
+    <details class="lp-section">
+      <summary class="lp-summary">
+        <span class="lp-section-num">03</span>
+        <span class="lp-section-title">The Story Engine</span>
+        <span class="lp-section-caret" aria-hidden="true">›</span>
+      </summary>
+      <div class="lp-section-body">
+        <p class="lp-body-text">The bot is GPT-4o-mini, routed through the NYU ITP/IMA proxy. The entire narrative is driven by a 200-line system prompt split into three acts, each with its own voice rules, constraints, and advancement conditions.</p>
+
+        <div class="lp-acts">
+          <div class="lp-act-card">
+            <p class="lp-act-label">Act 1</p>
+            <p class="lp-act-title">Calm. Careful.</p>
+            <p class="lp-act-desc">You're receiving a message from an unknown number. They're patient, lowercase, careful with words. They've had this conversation before.</p>
+          </div>
+          <div class="lp-act-card">
+            <p class="lp-act-label">Act 2</p>
+            <p class="lp-act-title">Urgent. Controlling.</p>
+            <p class="lp-act-desc">Seven instructions, one at a time. Don't go outside between 2pm and 4pm. Don't answer the door. Let unknown calls ring. Each requires conversation before the next is given.</p>
+          </div>
+          <div class="lp-act-card">
+            <p class="lp-act-label">Act 3</p>
+            <p class="lp-act-title">Fragmenting.</p>
+            <p class="lp-act-desc">Messages get shorter. Sometimes one word. "i know." Signal dropping. The loop closes. The only exit is setting a reminder to send this exact message at 11:47 tomorrow.</p>
+          </div>
+        </div>
+
+        <p class="lp-body-text">The hardest design problem was the chatbot voice. It had to feel like a scared person texting, not a bot delivering horror. That meant hard constraints: no metaphors, no exclamation points, no therapy-speak, never start with a capital letter, maximum two sentences, never say "indeed" or "perhaps" or "I understand." The prompt is more about what it cannot say than what it should.</p>
+        <p class="lp-body-text">Act advancement is tracked in JavaScript — turn counts, silence timers, whether the betrayal path was triggered, whether the player tried to text a contact. The bot receives a clean tagged response; the code handles state.</p>
+
+        <div class="lp-tech-row">
+          <span class="lp-tech-tag">GPT-4o-mini</span>
+          <span class="lp-tech-tag">NYU ITP/IMA proxy</span>
+          <span class="lp-tech-tag">p5.js 1.11.1</span>
+          <span class="lp-tech-tag">Web Audio API</span>
+          <span class="lp-tech-tag">Vanilla JS state machine</span>
+          <span class="lp-tech-tag">Inline SVG camera feeds</span>
+        </div>
+      </div>
+    </details>
+
+    <details class="lp-section">
+      <summary class="lp-summary">
+        <span class="lp-section-num">04</span>
+        <span class="lp-section-title">Four Endings</span>
+        <span class="lp-section-caret" aria-hidden="true">›</span>
+      </summary>
+      <div class="lp-section-body">
+        <p class="lp-body-text">Every choice has a consequence. The game tracks what the player does — not just what they say in the main chat, but whether they opened the camera app, whether they tried texting Jess or Tyler, whether they went silent. Four endings, each triggered by different behavior.</p>
+
+        <div class="lp-endings">
+          <div class="lp-ending">
+            <p class="lp-ending-letter">Ending A</p>
+            <p class="lp-ending-name">Break the Loop</p>
+            <p class="lp-ending-desc">You refuse to send the message. Tomorrow's version of you receives no warning. They go outside at 2pm. They answer the door.</p>
+          </div>
+          <div class="lp-ending">
+            <p class="lp-ending-letter">Ending B</p>
+            <p class="lp-ending-name">Stay in the Loop</p>
+            <p class="lp-ending-desc">You set the reminder. The loop continues. Another version of you will receive this message at 11:47 tomorrow. The chain has no origin.</p>
+          </div>
+          <div class="lp-ending">
+            <p class="lp-ending-letter">Ending C</p>
+            <p class="lp-ending-name">You Became the Sender</p>
+            <p class="lp-ending-desc">You went silent — three timeouts. No response triggers the camera horror sequence. The bedroom window camera, offline with a motion alert, comes to life.</p>
+          </div>
+          <div class="lp-ending">
+            <p class="lp-ending-letter">Ending D</p>
+            <p class="lp-ending-name">You Told Someone</p>
+            <p class="lp-ending-desc">You texted Jess, Tyler, or another contact to explain. Unknown intercepts: "dont send that message to jess." You've triggered the betrayal path.</p>
+          </div>
+        </div>
+
+        <p class="lp-body-text">Ending D is the one players discover by accident. The messages list is fully interactive — you can open any contact and type. The game watches. If you try to warn someone else, the bot already knows.</p>
+      </div>
+    </details>
+
+  </div>
+
+</main>
+
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Next project</p>
+    <a class="cs-next-link" href="undertheweather.html">
+      <span class="cs-next-title">Under the Weather</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
+
+<script>
+(function () {
+  const fill = document.getElementById('cs-progress');
+  if (fill) {
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      fill.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight)})`;
+    }, { passive: true });
+  }
+})();
+</script>
+
+</body>
+</html>
