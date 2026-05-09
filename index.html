@@ -185,55 +185,105 @@
 
   var NS = 'http://www.w3.org/2000/svg';
 
-  /* Glow filter */
+  /* Filters + gradients */
   var defs = document.createElementNS(NS, 'defs');
-  var filt = document.createElementNS(NS, 'filter');
-  filt.id = 'll-glow'; filt.setAttribute('x', '-60%'); filt.setAttribute('y', '-60%');
-  filt.setAttribute('width', '220%'); filt.setAttribute('height', '220%');
-  var blur = document.createElementNS(NS, 'feGaussianBlur');
-  blur.setAttribute('stdDeviation', '3.5'); blur.setAttribute('result', 'b');
-  var merge = document.createElementNS(NS, 'feMerge');
-  ['b','SourceGraphic'].forEach(function(i) {
-    var n = document.createElementNS(NS, 'feMergeNode'); n.setAttribute('in', i); merge.appendChild(n);
-  });
-  filt.appendChild(blur); filt.appendChild(merge); defs.appendChild(filt); svg.appendChild(defs);
 
-  /* Starfield — circles only, 3 tiers */
-  for (var si = 0; si < 120; si++) {
+  function mkFilter(id, sd, pad) {
+    var f = document.createElementNS(NS, 'filter');
+    f.id = id; f.setAttribute('x', '-' + pad + '%'); f.setAttribute('y', '-' + pad + '%');
+    f.setAttribute('width', (200 + pad*2) + '%'); f.setAttribute('height', (200 + pad*2) + '%');
+    var b = document.createElementNS(NS, 'feGaussianBlur');
+    b.setAttribute('stdDeviation', sd); b.setAttribute('result', 'b');
+    var m = document.createElementNS(NS, 'feMerge');
+    ['b','SourceGraphic'].forEach(function(i) {
+      var n = document.createElementNS(NS, 'feMergeNode'); n.setAttribute('in', i); m.appendChild(n);
+    });
+    f.appendChild(b); f.appendChild(m); return f;
+  }
+  defs.appendChild(mkFilter('ll-glow', '4', 70));
+  defs.appendChild(mkFilter('ll-spike-blur', '1.2', 30));
+
+  /* Shared radial gradient: white core → cool-blue edge → transparent */
+  function mkRadGrad(id, r0, r1, r2) {
+    var g = document.createElementNS(NS, 'radialGradient');
+    g.id = id;
+    [[0, '#ffffff', r0], [0.38, '#cce4ff', r1], [1, '#aac8ff', r2]].forEach(function(s) {
+      var stop = document.createElementNS(NS, 'stop');
+      stop.setAttribute('offset', s[0]); stop.setAttribute('stop-color', s[1]); stop.setAttribute('stop-opacity', s[2]);
+      g.appendChild(stop);
+    });
+    return g;
+  }
+  defs.appendChild(mkRadGrad('ll-sg-hi',  1, 0.75, 0));
+  defs.appendChild(mkRadGrad('ll-sg-mid', 0.9, 0.55, 0));
+  svg.appendChild(defs);
+
+  /* Diffraction cross on hero stars */
+  function addCross(cx, cy, r, opacity) {
+    var span = r * 5.5;
+    [[cx - span, cy, cx + span, cy], [cx, cy - span, cx, cy + span]].forEach(function(coords) {
+      var l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', coords[0].toFixed(1)); l.setAttribute('y1', coords[1].toFixed(1));
+      l.setAttribute('x2', coords[2].toFixed(1)); l.setAttribute('y2', coords[3].toFixed(1));
+      l.setAttribute('stroke', 'rgba(200,230,255,' + opacity.toFixed(2) + ')');
+      l.setAttribute('stroke-width', '0.8');
+      l.setAttribute('filter', 'url(#ll-spike-blur)');
+      svg.appendChild(l);
+    });
+  }
+
+  /* Starfield — 4 tiers */
+  for (var si = 0; si < 140; si++) {
     var rng = Math.random();
-    var st = document.createElementNS(NS, 'circle');
-    var sx = (Math.random() * W).toFixed(1);
-    var sy = (Math.random() * H).toFixed(1);
-    var sr, so, col, twinkle;
-    if (rng > 0.91) {
-      /* Bright — large, glowing, animated */
-      sr = 1.6 + Math.random() * 1.2;
-      so = 0.72 + Math.random() * 0.22;
-      col = Math.random() > 0.5 ? 'rgba(200,225,255,' : 'rgba(246,250,255,';
+    var sx = +(Math.random() * W).toFixed(1);
+    var sy = +(Math.random() * H).toFixed(1);
+
+    if (rng > 0.95) {
+      /* Tier 1 — hero: large gradient circle + cross + glow + twinkle */
+      var sr = 3.5 + Math.random() * 3.0;
+      addCross(sx, sy, sr, 0.28 + Math.random() * 0.15);
+      var st = document.createElementNS(NS, 'circle');
+      st.setAttribute('cx', sx); st.setAttribute('cy', sy); st.setAttribute('r', sr.toFixed(2));
+      st.setAttribute('fill', 'url(#ll-sg-hi)');
+      st.setAttribute('opacity', (0.80 + Math.random() * 0.18).toFixed(2));
       st.setAttribute('filter', 'url(#ll-glow)');
-      st.style.setProperty('--tw-hi', so.toFixed(2));
-      st.style.setProperty('--tw-lo', (so * 0.35).toFixed(2));
-      st.style.animation = 'll-twinkle ' + (2.0 + Math.random() * 2.0).toFixed(1) + 's ease-in-out infinite';
-    } else if (rng > 0.72) {
-      /* Mid — visible, subtle color */
-      sr = 0.85 + Math.random() * 0.7;
-      so = 0.32 + Math.random() * 0.22;
-      col = Math.random() > 0.6 ? 'rgba(200,225,255,' : 'rgba(246,250,255,';
+      st.style.setProperty('--tw-hi', '1'); st.style.setProperty('--tw-lo', '0.42');
+      st.style.animation = 'll-twinkle ' + (1.8 + Math.random() * 1.6).toFixed(1) + 's ease-in-out infinite';
+      svg.appendChild(st);
+
+    } else if (rng > 0.84) {
+      /* Tier 2 — bright: gradient circle + glow + twinkle */
+      var sr = 1.8 + Math.random() * 1.6;
+      var st = document.createElementNS(NS, 'circle');
+      st.setAttribute('cx', sx); st.setAttribute('cy', sy); st.setAttribute('r', sr.toFixed(2));
+      st.setAttribute('fill', 'url(#ll-sg-hi)');
+      st.setAttribute('opacity', (0.65 + Math.random() * 0.22).toFixed(2));
+      st.setAttribute('filter', 'url(#ll-glow)');
+      st.style.setProperty('--tw-hi', '1'); st.style.setProperty('--tw-lo', '0.38');
+      st.style.animation = 'll-twinkle ' + (2.4 + Math.random() * 2.0).toFixed(1) + 's ease-in-out infinite';
+      svg.appendChild(st);
+
+    } else if (rng > 0.65) {
+      /* Tier 3 — mid: gradient circle, some twinkle */
+      var sr = 0.9 + Math.random() * 0.9;
+      var st = document.createElementNS(NS, 'circle');
+      st.setAttribute('cx', sx); st.setAttribute('cy', sy); st.setAttribute('r', sr.toFixed(2));
+      st.setAttribute('fill', 'url(#ll-sg-mid)');
+      st.setAttribute('opacity', (0.30 + Math.random() * 0.25).toFixed(2));
       if (Math.random() > 0.5) {
-        st.style.setProperty('--tw-hi', so.toFixed(2));
-        st.style.setProperty('--tw-lo', (so * 0.28).toFixed(2));
+        st.style.setProperty('--tw-hi', '1'); st.style.setProperty('--tw-lo', '0.25');
         st.style.animation = 'll-twinkle ' + (3.5 + Math.random() * 3.0).toFixed(1) + 's ease-in-out infinite';
       }
+      svg.appendChild(st);
+
     } else {
-      /* Dust — faint background fill */
-      sr = 0.28 + Math.random() * 0.42;
-      so = 0.06 + Math.random() * 0.10;
-      col = 'rgba(246,250,255,';
+      /* Tier 4 — dust: flat faint circles */
+      var sr = 0.22 + Math.random() * 0.38;
+      var st = document.createElementNS(NS, 'circle');
+      st.setAttribute('cx', sx); st.setAttribute('cy', sy); st.setAttribute('r', sr.toFixed(2));
+      st.setAttribute('fill', 'rgba(246,250,255,' + (0.05 + Math.random() * 0.10).toFixed(2) + ')');
+      svg.appendChild(st);
     }
-    st.setAttribute('cx', sx); st.setAttribute('cy', sy);
-    st.setAttribute('r', sr.toFixed(2));
-    st.setAttribute('fill', col + so.toFixed(2) + ')');
-    svg.appendChild(st);
   }
 
   /* Node positions as fractions */
