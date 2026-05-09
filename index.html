@@ -99,6 +99,11 @@
 }
 #ll-name-sub.is-in { opacity: 1; transform: translateY(0); }
 
+@keyframes ll-twinkle {
+  0%, 100% { opacity: var(--tw-hi, 1); }
+  50%       { opacity: var(--tw-lo, 0.3); }
+}
+
 /* Reduced-motion fallback */
 .ll-rm-inner {
   display: none; position: absolute; inset: 0;
@@ -192,6 +197,44 @@
     var n = document.createElementNS(NS, 'feMergeNode'); n.setAttribute('in', i); merge.appendChild(n);
   });
   filt.appendChild(blur); filt.appendChild(merge); defs.appendChild(filt); svg.appendChild(defs);
+
+  /* Starfield — circles only, 3 tiers */
+  for (var si = 0; si < 120; si++) {
+    var rng = Math.random();
+    var st = document.createElementNS(NS, 'circle');
+    var sx = (Math.random() * W).toFixed(1);
+    var sy = (Math.random() * H).toFixed(1);
+    var sr, so, col, twinkle;
+    if (rng > 0.91) {
+      /* Bright — large, glowing, animated */
+      sr = 1.6 + Math.random() * 1.2;
+      so = 0.72 + Math.random() * 0.22;
+      col = Math.random() > 0.5 ? 'rgba(200,225,255,' : 'rgba(246,250,255,';
+      st.setAttribute('filter', 'url(#ll-glow)');
+      st.style.setProperty('--tw-hi', so.toFixed(2));
+      st.style.setProperty('--tw-lo', (so * 0.35).toFixed(2));
+      st.style.animation = 'll-twinkle ' + (2.0 + Math.random() * 2.0).toFixed(1) + 's ease-in-out infinite';
+    } else if (rng > 0.72) {
+      /* Mid — visible, subtle color */
+      sr = 0.85 + Math.random() * 0.7;
+      so = 0.32 + Math.random() * 0.22;
+      col = Math.random() > 0.6 ? 'rgba(200,225,255,' : 'rgba(246,250,255,';
+      if (Math.random() > 0.5) {
+        st.style.setProperty('--tw-hi', so.toFixed(2));
+        st.style.setProperty('--tw-lo', (so * 0.28).toFixed(2));
+        st.style.animation = 'll-twinkle ' + (3.5 + Math.random() * 3.0).toFixed(1) + 's ease-in-out infinite';
+      }
+    } else {
+      /* Dust — faint background fill */
+      sr = 0.28 + Math.random() * 0.42;
+      so = 0.06 + Math.random() * 0.10;
+      col = 'rgba(246,250,255,';
+    }
+    st.setAttribute('cx', sx); st.setAttribute('cy', sy);
+    st.setAttribute('r', sr.toFixed(2));
+    st.setAttribute('fill', col + so.toFixed(2) + ')');
+    svg.appendChild(st);
+  }
 
   /* Node positions as fractions */
   var fracs = [[0.38,0.28],[0.62,0.25],[0.74,0.47],[0.62,0.70],[0.38,0.73],[0.26,0.52]];
