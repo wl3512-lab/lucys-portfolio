@@ -315,8 +315,9 @@
   (function () {
     var COLS = ['rgba(246,250,255,', 'rgba(185,215,255,', 'rgba(255,242,228,'];
 
+    /* 4-pointed spike star path */
     function spikePath(cx, cy, outerR) {
-      var innerR = outerR * 0.16;
+      var innerR = outerR * 0.10;
       var pts = [];
       for (var i = 0; i < 8; i++) {
         var a = (i * Math.PI / 4) - Math.PI / 2;
@@ -326,67 +327,61 @@
       return 'M' + pts.join('L') + 'Z';
     }
 
-    for (var si = 0; si < 160; si++) {
+    /* Draw a spike star (shared by tiers 3 + 4) */
+    function addSpike(cx, cy, outerR, opacity, twinkleBase, twinkleMin, dur) {
+      var halo = document.createElementNS(NS, 'circle');
+      halo.setAttribute('cx', cx); halo.setAttribute('cy', cy);
+      halo.setAttribute('r', (outerR * 2.4).toFixed(1));
+      halo.setAttribute('fill', 'rgba(160,205,255,' + (opacity * 0.12).toFixed(2) + ')');
+      svg.appendChild(halo);
+      var sp = document.createElementNS(NS, 'path');
+      sp.setAttribute('d', spikePath(cx, cy, outerR));
+      sp.setAttribute('fill', COLS[1] + opacity.toFixed(2) + ')');
+      sp.setAttribute('filter', 'url(#ll-glow)');
+      sp.style.setProperty('--tw-base', twinkleBase.toFixed(2));
+      sp.style.setProperty('--tw-peak', twinkleMin.toFixed(2));
+      sp.style.setProperty('--tw-dur', dur.toFixed(1) + 's');
+      sp.classList.add('ll-star-twinkle');
+      svg.appendChild(sp);
+    }
+
+    for (var si = 0; si < 180; si++) {
       var rng = Math.random();
       var cx = +(Math.random() * W).toFixed(1);
       var cy = +(Math.random() * H).toFixed(1);
 
-      if (rng > 0.97) {
-        /* Tier 4 — spike star with halo */
-        var outerR = 3.0 + Math.random() * 2.0;
-        var halo = document.createElementNS(NS, 'circle');
-        halo.setAttribute('cx', cx); halo.setAttribute('cy', cy);
-        halo.setAttribute('r', (outerR * 2.2).toFixed(1));
-        halo.setAttribute('fill', 'rgba(160,205,255,0.08)');
-        svg.appendChild(halo);
-        var sp = document.createElementNS(NS, 'path');
-        sp.setAttribute('d', spikePath(cx, cy, outerR));
-        sp.setAttribute('fill', 'rgba(210,232,255,0.94)');
-        sp.setAttribute('filter', 'url(#ll-glow)');
-        sp.style.setProperty('--tw-base', '0.94');
-        sp.style.setProperty('--tw-peak', '0.52');
-        sp.style.setProperty('--tw-dur', (2.0 + Math.random() * 1.8).toFixed(1) + 's');
-        sp.classList.add('ll-star-twinkle');
-        svg.appendChild(sp);
+      if (rng > 0.88) {
+        /* Tier 4 — large spike star, prominent */
+        var outerR = 7 + Math.random() * 7;
+        addSpike(cx, cy, outerR, 0.88 + Math.random() * 0.10, 0.88, 0.40, 1.8 + Math.random() * 1.6);
 
-      } else if (rng > 0.92) {
-        /* Tier 3 — bright circle, glow, twinkle */
-        var sr = 1.4 + Math.random() * 0.9;
-        var col = COLS[Math.random() > 0.45 ? 1 : 0];
-        var so = 0.58 + Math.random() * 0.28;
-        var st = document.createElementNS(NS, 'circle');
-        st.setAttribute('cx', cx); st.setAttribute('cy', cy);
-        st.setAttribute('r', sr.toFixed(2));
-        st.setAttribute('fill', col + so.toFixed(2) + ')');
-        if (Math.random() > 0.35) st.setAttribute('filter', 'url(#ll-glow)');
-        st.style.setProperty('--tw-base', so.toFixed(2));
-        st.style.setProperty('--tw-peak', (so * 0.38).toFixed(2));
-        st.style.setProperty('--tw-dur', (2.6 + Math.random() * 2.2).toFixed(1) + 's');
-        st.classList.add('ll-star-twinkle');
-        svg.appendChild(st);
+      } else if (rng > 0.72) {
+        /* Tier 3 — smaller spike star */
+        var outerR = 3.5 + Math.random() * 3.5;
+        addSpike(cx, cy, outerR, 0.55 + Math.random() * 0.25, 0.60, 0.22, 2.4 + Math.random() * 2.0);
 
-      } else if (rng > 0.77) {
-        /* Tier 2 — medium, subtle color, some twinkle */
-        var sr = 0.7 + Math.random() * 0.65;
+      } else if (rng > 0.52) {
+        /* Tier 2 — medium circle, color-tinted */
+        var sr = 0.8 + Math.random() * 0.7;
         var pick = Math.random();
-        var col = pick > 0.6 ? COLS[1] : (pick > 0.82 ? COLS[2] : COLS[0]);
-        var so = 0.17 + Math.random() * 0.18;
+        var col = pick > 0.55 ? COLS[1] : (pick > 0.78 ? COLS[2] : COLS[0]);
+        var so = 0.20 + Math.random() * 0.22;
         var st = document.createElementNS(NS, 'circle');
         st.setAttribute('cx', cx); st.setAttribute('cy', cy);
         st.setAttribute('r', sr.toFixed(2));
         st.setAttribute('fill', col + so.toFixed(2) + ')');
-        if (Math.random() > 0.55) {
+        if (Math.random() > 0.5) {
           st.style.setProperty('--tw-base', so.toFixed(2));
-          st.style.setProperty('--tw-peak', (so * 0.28).toFixed(2));
-          st.style.setProperty('--tw-dur', (3.8 + Math.random() * 3.0).toFixed(1) + 's');
+          st.style.setProperty('--tw-peak', (so * 0.25).toFixed(2));
+          st.style.setProperty('--tw-dur', (3.5 + Math.random() * 3.0).toFixed(1) + 's');
           st.classList.add('ll-star-twinkle');
         }
         svg.appendChild(st);
 
       } else {
         /* Tier 1 — dust */
-        var sr = 0.25 + Math.random() * 0.42;
-        var so = 0.04 + Math.random() * 0.10;
+        var sr = 0.25 + Math.random() * 0.45;
+        var so = 0.05 + Math.random() * 0.10;
         var st = document.createElementNS(NS, 'circle');
         st.setAttribute('cx', cx); st.setAttribute('cy', cy);
         st.setAttribute('r', sr.toFixed(2));
