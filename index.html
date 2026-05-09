@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=10" />
 <link rel="stylesheet" href="styles.css?v=15" />
 <style>
@@ -48,23 +48,6 @@
   transition: transform 0.72s 0.14s cubic-bezier(0.76,0,0.24,1);
 }
 
-/* Aura orb */
-#ll-aura {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 520px 340px at center, rgba(114,173,255,0.09) 0%, rgba(196,176,255,0.04) 55%, transparent 100%);
-  opacity: 0; transition: opacity 0.9s ease; pointer-events: none;
-}
-#ll-aura.is-in { opacity: 1; }
-#ll-loader.is-done #ll-aura { opacity: 0; transition: opacity 0.18s ease; }
-
-/* Scan line */
-#ll-scan {
-  position: absolute; left: 0; right: 0;
-  height: 1px; background: rgba(160,200,255,0.45);
-  top: 0; will-change: transform, opacity;
-  opacity: 0; pointer-events: none;
-}
-
 /* Constellation SVG */
 #ll-svg {
   position: absolute; inset: 0;
@@ -78,7 +61,7 @@
 #ll-name {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 18px;
+  flex-direction: column; gap: 14px;
   pointer-events: none;
   transition: opacity 0.18s ease;
 }
@@ -86,44 +69,35 @@
 
 #ll-name-word {
   font-family: 'Syne', system-ui, sans-serif;
-  font-style: italic; font-weight: 800;
-  font-size: clamp(60px, 12vw, 120px); line-height: 1;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(48px, 9vw, 96px);
+  letter-spacing: -0.04em; line-height: 1;
   color: #F6FAFF;
   display: flex; align-items: baseline;
 }
 .ll-c {
   display: inline-block;
   opacity: 0;
-  letter-spacing: 0.12em;
   transform: translateY(var(--from-y, -30px));
   will-change: transform, opacity;
 }
 .ll-c.is-in {
   opacity: 1;
   transform: translateY(0);
-  letter-spacing: -0.04em;
   transition:
     opacity 0.42s cubic-bezier(0.34,1.56,0.64,1),
-    transform 0.52s cubic-bezier(0.34,1.56,0.64,1),
-    letter-spacing 0.70s cubic-bezier(0.25,1,0.5,1);
+    transform 0.52s cubic-bezier(0.34,1.56,0.64,1);
 }
 .ll-sp { width: 0.32em; }
-.ll-sp.is-in { letter-spacing: 0.20em; }
 
 #ll-name-sub {
   font-family: 'Space Mono', monospace;
-  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(160,200,255,0.52);
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(160,200,255,0.32);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 #ll-name-sub.is-in { opacity: 1; transform: translateY(0); }
-
-@keyframes ll-twinkle {
-  0%, 100% { opacity: var(--tw-base, 1); }
-  50%       { opacity: var(--tw-peak, 0.3); }
-}
-.ll-star-twinkle { animation: ll-twinkle var(--tw-dur, 3s) ease-in-out infinite; }
 
 /* Reduced-motion fallback */
 .ll-rm-inner {
@@ -132,110 +106,20 @@
   flex-direction: column; gap: 16px;
 }
 .ll-rm-name {
-  font-family: 'Syne', system-ui, sans-serif; font-style: italic; font-weight: 800;
-  font-size: clamp(60px, 12vw, 120px); color: #F6FAFF;
+  font-family: 'Syne', system-ui, sans-serif; font-style: italic; font-weight: 400;
+  font-size: clamp(48px, 8vw, 96px); letter-spacing: -0.04em; color: #F6FAFF;
 }
 .ll-rm-sub {
-  font-family: 'Space Mono', monospace; font-size: 11px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(160,200,255,0.52);
+  font-family: 'Space Mono', monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: rgba(160,200,255,0.4);
 }
 @media (prefers-reduced-motion: reduce) {
-  #ll-svg, #ll-name, #ll-aura, #ll-scan { display: none; }
+  #ll-svg, #ll-name { display: none; }
   .ll-rm-inner { display: flex; }
   #ll-loader { transition: opacity 0.4s; }
   #ll-loader.is-done { opacity: 0; pointer-events: none; }
   #ll-loader.is-done .ll-panel { transition: none; }
 }
-
-/* ── Quick Work Grid ───────────────────────────────── */
-.qg {
-  padding: clamp(72px, 10vw, 112px) 0 clamp(80px, 11vw, 128px);
-  background: var(--void);
-}
-.qg-inner {
-  width: min(1200px, 92vw); margin: 0 auto;
-}
-.qg-header {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 48px; gap: 24px; flex-wrap: wrap;
-}
-.qg-eyebrow {
-  font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--fg3);
-  display: flex; align-items: center; gap: 14px;
-}
-.qg-eyebrow::after {
-  content: ''; display: inline-block; width: 40px; height: 1px;
-  background: var(--border);
-}
-.qg-all-link {
-  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--fg3);
-  text-decoration: none; transition: color 0.2s;
-  display: flex; align-items: center; gap: 6px;
-}
-.qg-all-link:hover { color: var(--fg1); }
-@keyframes qg-in {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.qg-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-}
-@media (max-width: 600px) { .qg-grid { grid-template-columns: 1fr; } }
-.qg-grid.is-visible .qg-card:nth-child(1) { animation: qg-in 0.6s cubic-bezier(0.16,1,0.3,1) 0.05s both; }
-.qg-grid.is-visible .qg-card:nth-child(2) { animation: qg-in 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
-.qg-grid.is-visible .qg-card:nth-child(3) { animation: qg-in 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
-.qg-grid.is-visible .qg-card:nth-child(4) { animation: qg-in 0.6s cubic-bezier(0.16,1,0.3,1) 0.35s both; }
-@media (prefers-reduced-motion: reduce) { .qg-grid .qg-card { animation: none !important; } }
-.qg-card {
-  display: block; text-decoration: none;
-  position: relative; overflow: hidden;
-  aspect-ratio: 4/3;
-  background: oklch(0.10 0.008 285);
-}
-.qg-card:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.qg-cover {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.55s cubic-bezier(0.25,1,0.5,1), filter 0.55s;
-  filter: brightness(0.75);
-}
-.qg-card:hover .qg-cover { transform: scale(1.03); filter: brightness(0.55); }
-.qg-card-info {
-  position: absolute; inset: 0;
-  padding: 28px 28px 24px;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  background: linear-gradient(to top, rgba(5,7,16,0.85) 0%, rgba(5,7,16,0.2) 50%, transparent 100%);
-}
-.qg-card-tags {
-  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
-}
-.qg-card-tag {
-  font-family: var(--font-ui); font-size: 9px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: oklch(0.85 0.005 285 / 0.65);
-  background: oklch(1 0 0 / 0.06); border-radius: 2px; padding: 3px 7px;
-}
-.qg-card-title {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(20px, 2.2vw, 30px); letter-spacing: -0.03em; line-height: 1.05;
-  color: var(--fg1); margin: 0 0 6px;
-}
-.qg-card-sub {
-  font-family: var(--font-body); font-size: 13px; line-height: 1.5;
-  color: oklch(0.75 0.008 285); max-width: 38ch;
-  opacity: 0; transform: translateY(6px);
-  transition: opacity 0.35s, transform 0.35s cubic-bezier(0.25,1,0.5,1);
-}
-.qg-card:hover .qg-card-sub { opacity: 1; transform: translateY(0); }
-.qg-card-arrow {
-  position: absolute; top: 24px; right: 24px;
-  font-size: 18px; color: oklch(0.85 0.005 285 / 0.4);
-  transition: color 0.2s, transform 0.35s cubic-bezier(0.25,1,0.5,1);
-}
-.qg-card:hover .qg-card-arrow { color: var(--fg1); transform: translate(3px,-3px); }
 </style>
 </head>
 <body>
@@ -245,8 +129,6 @@
 <div id="ll-loader" aria-hidden="true" role="presentation">
   <div class="ll-panel" id="ll-panel-l"></div>
   <div class="ll-panel" id="ll-panel-r"></div>
-  <div id="ll-aura"></div>
-  <div id="ll-scan"></div>
   <svg id="ll-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
   <div id="ll-name">
     <div id="ll-name-word">
@@ -301,95 +183,15 @@
   /* Glow filter */
   var defs = document.createElementNS(NS, 'defs');
   var filt = document.createElementNS(NS, 'filter');
-  filt.id = 'll-glow'; filt.setAttribute('x', '-80%'); filt.setAttribute('y', '-80%');
-  filt.setAttribute('width', '260%'); filt.setAttribute('height', '260%');
+  filt.id = 'll-glow'; filt.setAttribute('x', '-60%'); filt.setAttribute('y', '-60%');
+  filt.setAttribute('width', '220%'); filt.setAttribute('height', '220%');
   var blur = document.createElementNS(NS, 'feGaussianBlur');
-  blur.setAttribute('stdDeviation', '5.5'); blur.setAttribute('result', 'b');
+  blur.setAttribute('stdDeviation', '3.5'); blur.setAttribute('result', 'b');
   var merge = document.createElementNS(NS, 'feMerge');
   ['b','SourceGraphic'].forEach(function(i) {
     var n = document.createElementNS(NS, 'feMergeNode'); n.setAttribute('in', i); merge.appendChild(n);
   });
   filt.appendChild(blur); filt.appendChild(merge); defs.appendChild(filt); svg.appendChild(defs);
-
-  /* Starfield — 4-tier depth field */
-  (function () {
-    var COLS = ['rgba(246,250,255,', 'rgba(185,215,255,', 'rgba(255,242,228,'];
-
-    /* 4-pointed spike star path */
-    function spikePath(cx, cy, outerR) {
-      var innerR = outerR * 0.10;
-      var pts = [];
-      for (var i = 0; i < 8; i++) {
-        var a = (i * Math.PI / 4) - Math.PI / 2;
-        var r = (i % 2 === 0) ? outerR : innerR;
-        pts.push((cx + Math.cos(a) * r).toFixed(2) + ',' + (cy + Math.sin(a) * r).toFixed(2));
-      }
-      return 'M' + pts.join('L') + 'Z';
-    }
-
-    /* Draw a spike star (shared by tiers 3 + 4) */
-    function addSpike(cx, cy, outerR, opacity, twinkleBase, twinkleMin, dur) {
-      var halo = document.createElementNS(NS, 'circle');
-      halo.setAttribute('cx', cx); halo.setAttribute('cy', cy);
-      halo.setAttribute('r', (outerR * 2.4).toFixed(1));
-      halo.setAttribute('fill', 'rgba(160,205,255,' + (opacity * 0.12).toFixed(2) + ')');
-      svg.appendChild(halo);
-      var sp = document.createElementNS(NS, 'path');
-      sp.setAttribute('d', spikePath(cx, cy, outerR));
-      sp.setAttribute('fill', COLS[1] + opacity.toFixed(2) + ')');
-      sp.setAttribute('filter', 'url(#ll-glow)');
-      sp.style.setProperty('--tw-base', twinkleBase.toFixed(2));
-      sp.style.setProperty('--tw-peak', twinkleMin.toFixed(2));
-      sp.style.setProperty('--tw-dur', dur.toFixed(1) + 's');
-      sp.classList.add('ll-star-twinkle');
-      svg.appendChild(sp);
-    }
-
-    for (var si = 0; si < 180; si++) {
-      var rng = Math.random();
-      var cx = +(Math.random() * W).toFixed(1);
-      var cy = +(Math.random() * H).toFixed(1);
-
-      if (rng > 0.88) {
-        /* Tier 4 — large spike star, prominent */
-        var outerR = 7 + Math.random() * 7;
-        addSpike(cx, cy, outerR, 0.88 + Math.random() * 0.10, 0.88, 0.40, 1.8 + Math.random() * 1.6);
-
-      } else if (rng > 0.72) {
-        /* Tier 3 — smaller spike star */
-        var outerR = 3.5 + Math.random() * 3.5;
-        addSpike(cx, cy, outerR, 0.55 + Math.random() * 0.25, 0.60, 0.22, 2.4 + Math.random() * 2.0);
-
-      } else if (rng > 0.52) {
-        /* Tier 2 — medium circle, color-tinted */
-        var sr = 0.8 + Math.random() * 0.7;
-        var pick = Math.random();
-        var col = pick > 0.55 ? COLS[1] : (pick > 0.78 ? COLS[2] : COLS[0]);
-        var so = 0.20 + Math.random() * 0.22;
-        var st = document.createElementNS(NS, 'circle');
-        st.setAttribute('cx', cx); st.setAttribute('cy', cy);
-        st.setAttribute('r', sr.toFixed(2));
-        st.setAttribute('fill', col + so.toFixed(2) + ')');
-        if (Math.random() > 0.5) {
-          st.style.setProperty('--tw-base', so.toFixed(2));
-          st.style.setProperty('--tw-peak', (so * 0.25).toFixed(2));
-          st.style.setProperty('--tw-dur', (3.5 + Math.random() * 3.0).toFixed(1) + 's');
-          st.classList.add('ll-star-twinkle');
-        }
-        svg.appendChild(st);
-
-      } else {
-        /* Tier 1 — dust */
-        var sr = 0.25 + Math.random() * 0.45;
-        var so = 0.05 + Math.random() * 0.10;
-        var st = document.createElementNS(NS, 'circle');
-        st.setAttribute('cx', cx); st.setAttribute('cy', cy);
-        st.setAttribute('r', sr.toFixed(2));
-        st.setAttribute('fill', COLS[0] + so.toFixed(2) + ')');
-        svg.appendChild(st);
-      }
-    }
-  })();
 
   /* Node positions as fractions */
   var fracs = [[0.38,0.28],[0.62,0.25],[0.74,0.47],[0.62,0.70],[0.38,0.73],[0.26,0.52]];
@@ -403,8 +205,8 @@
     var l = document.createElementNS(NS, 'line');
     l.setAttribute('x1', a.x.toFixed(1)); l.setAttribute('y1', a.y.toFixed(1));
     l.setAttribute('x2', b.x.toFixed(1)); l.setAttribute('y2', b.y.toFixed(1));
-    l.setAttribute('stroke', 'rgba(160,200,255,0.38)');
-    l.setAttribute('stroke-width', '1.1');
+    l.setAttribute('stroke', 'rgba(114,173,255,0.16)');
+    l.setAttribute('stroke-width', '0.7');
     l.setAttribute('fill', 'none');
     l.style.strokeDasharray = len;
     l.style.strokeDashoffset = len;
@@ -419,33 +221,18 @@
     g.style.opacity = '0'; g.style.transition = 'opacity 0.22s ease';
     var halo = document.createElementNS(NS, 'circle');
     halo.setAttribute('cx', p.x.toFixed(1)); halo.setAttribute('cy', p.y.toFixed(1));
-    halo.setAttribute('r', '14'); halo.setAttribute('fill', 'rgba(114,173,255,0.10)');
-    halo.style.transition = 'fill 0.5s ease';
+    halo.setAttribute('r', '8'); halo.setAttribute('fill', 'rgba(114,173,255,0.07)');
     var dot = document.createElementNS(NS, 'circle');
     dot.setAttribute('cx', p.x.toFixed(1)); dot.setAttribute('cy', p.y.toFixed(1));
-    dot.setAttribute('r', '4'); dot.setAttribute('fill', 'rgba(160,200,255,0.50)');
+    dot.setAttribute('r', '2.5'); dot.setAttribute('fill', 'rgba(160,200,255,0.32)');
     dot.style.transition = 'fill 0.4s ease';
     g.appendChild(halo); g.appendChild(dot);
     svg.appendChild(g);
-    return { g: g, dot: dot, halo: halo };
+    return { g: g, dot: dot };
   });
 
   /* ── Animate ── */
   function go() {
-    /* Scan line sweeps full screen to activate the field */
-    var scan = document.getElementById('ll-scan');
-    if (scan) {
-      setTimeout(function() {
-        scan.style.opacity = '1';
-        scan.style.transform = 'translateY(100vh)';
-        scan.style.transition = 'transform 0.58s cubic-bezier(0.25,1,0.5,1), opacity 0.12s ease';
-        setTimeout(function() {
-          scan.style.transition = 'opacity 0.3s ease';
-          scan.style.opacity = '0';
-        }, 620);
-      }, 30);
-    }
-
     /* Nodes appear staggered */
     nodeEls.forEach(function(n, i) {
       setTimeout(function() { n.g.style.opacity = '1'; }, i * 55);
@@ -456,22 +243,13 @@
       setTimeout(function() { l.style.strokeDashoffset = '0'; }, 180 + i * 90);
     });
 
-    /* All nodes glow — sweep through constellation */
+    /* Two nodes activate with glow */
     setTimeout(function() {
-      nodeEls.forEach(function(n, i) {
-        setTimeout(function() {
-          n.dot.setAttribute('fill', '#72ADFF');
-          n.dot.setAttribute('filter', 'url(#ll-glow)');
-          n.halo.setAttribute('fill', 'rgba(114,173,255,0.20)');
-        }, i * 65);
+      [1, 4].forEach(function(idx) {
+        nodeEls[idx].dot.setAttribute('fill', '#72ADFF');
+        nodeEls[idx].dot.setAttribute('filter', 'url(#ll-glow)');
       });
-    }, 760);
-
-    /* Aura orb blooms as name chars start */
-    setTimeout(function() {
-      var aura = document.getElementById('ll-aura');
-      if (aura) aura.classList.add('is-in');
-    }, 780);
+    }, 750);
 
     /* Spring-drop name chars */
     var chars = document.querySelectorAll('.ll-c');
@@ -753,46 +531,6 @@ function GemStory() {
 }
 
 // ============================================================
-// QUICK WORK GRID — passive-scroll layer, no interaction required
-// ============================================================
-function QuickGrid({ projects }) {
-  const slugToHref = {
-    'driftwood':         'case-study.html',
-    'habitabull':        'habitabull.html',
-    'h2know':            'h2know.html',
-    'eternal-wreckening':'eternal-wreckening.html',
-  };
-  return (
-    <section className="qg" id="qg-work" aria-label="Selected work">
-      <div className="qg-inner">
-        <div className="qg-header">
-          <span className="qg-eyebrow">Selected work</span>
-          <a className="qg-all-link" href="work.html">All projects ↗</a>
-        </div>
-        <div className="qg-grid">
-          {projects.map(p => {
-            const href = slugToHref[p.slug] || `case-study.html?slug=${encodeURIComponent(p.slug || p.id)}`;
-            return (
-              <a key={p.id} className="qg-card" href={href} aria-label={`${p.title} — ${p.tags[0]}, ${p.year}`}>
-                {p.cover && <img className="qg-cover" src={p.cover} alt="" loading="lazy" />}
-                <div className="qg-card-info">
-                  <div className="qg-card-tags">
-                    {p.tags.slice(0, 2).map(t => <span key={t} className="qg-card-tag">{t}</span>)}
-                  </div>
-                  <h3 className="qg-card-title">{p.title}</h3>
-                  <p className="qg-card-sub">{p.subtitle}</p>
-                </div>
-                <span className="qg-card-arrow" aria-hidden="true">↗</span>
-              </a>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ============================================================
 // APP
 // ============================================================
 function App() {
@@ -838,7 +576,7 @@ function App() {
       <main id="main-content" tabIndex="-1">
         <Hero />
         <Marquee />
-        <QuickGrid projects={projects} />
+        <WorkSection projects={projects} onOpen={onOpenProject} />
         <GemStory />
         <AboutSection />
         <ContactSection />
@@ -889,14 +627,6 @@ function initAnimations() {
     width: '100%', ease: 'none',
     scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true },
   });
-
-  // --- QuickGrid stagger reveal ---
-  const qgGrid = document.querySelector('.qg-grid');
-  if (qgGrid && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { if (e.isIntersecting) { qgGrid.classList.add('is-visible'); } }, { threshold: 0.12 }).observe(qgGrid);
-  } else if (qgGrid) {
-    qgGrid.classList.add('is-visible');
-  }
 
   if (reduceMotion) { initFallback(); return; }
 
