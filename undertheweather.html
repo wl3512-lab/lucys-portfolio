@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Under the Weather — Lucy Liu</title>
+<meta name="description" content="Under the Weather — an intentionally useless p5.js weather app that responds to real data with sassy one-liners. By Lucy Liu." />
+<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=15" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: auto;
+  --sky:     oklch(0.62 0.13 228);
+  --sky-dim: oklch(0.52 0.11 228);
+  --sky-a08: oklch(0.62 0.13 228 / 0.08);
+  --sky-a18: oklch(0.62 0.13 228 / 0.18);
+  --sky-a30: oklch(0.62 0.13 228 / 0.30);
+}
+body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* NAV */
+.cs-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 20px 0;
+  background: rgba(5,7,16,0.72); backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.cs-nav-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; }
+.cs-back:hover { color: var(--fg1); }
+.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; }
+
+/* PROGRESS */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; }
+.cs-progress-fill { height: 100%; background: var(--sky); transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
+
+/* HERO ORB */
+.cs-hero-orb {
+  position: absolute; top: -8%; right: -6%;
+  width: clamp(380px, 52vw, 700px); height: clamp(380px, 52vw, 700px);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.62 0.13 228 / 0.10) 0%, oklch(0.62 0.13 228 / 0.04) 40%, transparent 70%);
+  filter: blur(60px); pointer-events: none; contain: strict;
+}
+.cs-hero-orb-2 {
+  position: absolute; bottom: -20%; left: -4%;
+  width: clamp(260px, 32vw, 440px); height: clamp(260px, 32vw, 440px);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.50 0.10 240 / 0.10) 0%, transparent 65%);
+  filter: blur(50px); pointer-events: none; contain: strict;
+}
+
+/* HERO TWO-COLUMN SPLIT */
+.utw-hero {
+  position: relative; overflow: hidden;
+}
+.utw-hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+  width: min(1060px, 92vw);
+  margin: 0 auto;
+  padding: clamp(112px, 16vh, 180px) 0 clamp(64px, 8vh, 96px);
+}
+@media (max-width: 740px) {
+  .utw-hero-split {
+    grid-template-columns: 1fr;
+    padding-top: clamp(96px, 13vh, 130px);
+    gap: 36px;
+  }
+  .utw-hero-img-col { order: -1; }
+}
+.utw-hero-img-col {
+  display: flex; justify-content: center;
+}
+.utw-hero-img-wrap {
+  width: min(300px, 88%);
+  border-radius: 18px; overflow: hidden;
+  background: oklch(0.10 0.015 228);
+  border: 1px solid oklch(0.22 0.015 228);
+  filter: drop-shadow(0 4px 12px oklch(0 0 0 / 0.30)) drop-shadow(0 16px 48px oklch(0 0 0 / 0.35));
+}
+.utw-hero-img-wrap img { width: 100%; height: auto; display: block; }
+.utw-hero-text-col {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.cs-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--sky-dim);
+}
+.cs-kicker-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.utw-hero-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(3.2rem, 6vw, 76px); line-height: 0.92; letter-spacing: -0.04em;
+  color: var(--fg1); margin: 0;
+}
+.utw-hero-title em { font-style: italic; color: var(--sky); font-weight: 400; }
+.utw-hero-sub {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.65;
+  color: var(--fg2); max-width: 42ch;
+}
+.cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.cs-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+
+/* META STRIP */
+.cs-meta { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 32px 0; background: var(--surface); }
+.cs-meta-inner { width: min(1060px, 92vw); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+@media (max-width: 640px) { .cs-meta-inner { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+.cs-meta-item { display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center; }
+.cs-meta-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
+.cs-meta-v { font-family: var(--font-display); font-size: 16px; letter-spacing: -0.01em; color: var(--fg1); line-height: 1.3; }
+.cs-meta-v.small { font-family: var(--font-body); font-size: 13px; color: var(--fg2); }
+
+/* BODY */
+.cs-body { padding: clamp(64px, 9vh, 100px) 0; }
+.cs-body-inner { width: min(800px, 92vw); margin: 0 auto; }
+
+/* CONCEPT INTRO */
+.utw-concept {
+  width: min(800px, 92vw); margin: 0 auto clamp(48px, 6vw, 72px);
+}
+.utw-concept-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sky-dim); margin: 0 0 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.utw-concept-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.utw-concept-h {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(36px, 5vw, 60px); line-height: 0.95; letter-spacing: -0.04em;
+  margin: 0 0 24px; color: var(--fg1);
+}
+.utw-concept-h em { font-style: italic; color: var(--sky); }
+.utw-concept-body { font-family: var(--font-body); font-size: 16px; line-height: 1.72; color: var(--fg2); max-width: 66ch; }
+.utw-concept-body p { margin-bottom: 16px; }
+.utw-concept-body p:first-child { color: var(--fg1); }
+.utw-concept-body p:last-child { margin-bottom: 0; }
+
+/* MOOD GRID */
+.utw-moods {
+  margin-top: 32px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+}
+@media (max-width: 480px) { .utw-moods { grid-template-columns: 1fr; } }
+.utw-mood-item {
+  background: var(--surface); padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.utw-mood-condition {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--sky-dim);
+}
+.utw-mood-response {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.5;
+  color: var(--fg2); font-style: italic;
+}
+
+/* ACCORDION */
+.tr-accordion { border-top: 1px solid var(--border); }
+.tr-panel { border-bottom: 1px solid var(--border); }
+.tr-panel summary {
+  display: flex; align-items: center; gap: 18px;
+  padding: 26px 0; cursor: pointer; list-style: none; user-select: none;
+}
+.tr-panel summary::-webkit-details-marker { display: none; }
+.tr-panel summary:hover .tr-panel-title { color: var(--fg1); }
+.tr-panel summary:hover .tr-panel-icon { color: var(--sky); }
+.tr-panel-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--sky-dim); transition: color 0.25s; display: flex; align-items: center; justify-content: center; }
+.tr-panel-icon svg { width: 100%; height: 100%; }
+.tr-panel-num { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: oklch(0.62 0.13 228 / 0.40); flex-shrink: 0; min-width: 2.5ch; }
+.tr-panel-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 2.4vw, 27px); letter-spacing: -0.02em; line-height: 1; color: var(--fg2); flex: 1; transition: color 0.2s; }
+.tr-panel-arrow { width: 16px; height: 16px; flex-shrink: 0; color: var(--fg3); transition: transform 0.36s cubic-bezier(0.25,1,0.5,1); display: flex; align-items: center; justify-content: center; }
+.tr-panel-arrow svg { width: 100%; height: 100%; }
+details[open] .tr-panel-arrow { transform: rotate(180deg); }
+details[open] .tr-panel-title { color: var(--fg1); }
+details[open] .tr-panel-icon { color: var(--sky); }
+.tr-panel-body { padding: 0 0 40px 46px; }
+@media (max-width: 560px) { .tr-panel-body { padding-left: 0; } }
+.tr-panel-body-text { font-family: var(--font-body); font-size: 16px; line-height: 1.75; color: var(--fg2); max-width: 64ch; }
+.tr-panel-body-text p { margin-bottom: 14px; }
+.tr-panel-body-text p:first-child { color: var(--fg1); }
+.tr-panel-body-text p:last-child { margin-bottom: 0; }
+.tr-panel-body-text strong { color: var(--fg1); font-weight: 500; }
+
+/* CODE SCREENSHOTS (inside accordion) */
+.utw-code-pair {
+  margin-top: 28px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media (max-width: 560px) { .utw-code-pair { grid-template-columns: 1fr; } }
+.utw-code-item { display: flex; flex-direction: column; gap: 10px; }
+.utw-code-img {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden;
+}
+.utw-code-img img { width: 100%; height: auto; display: block; }
+.utw-code-cap { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg3); }
+
+/* FINDINGS */
+.utw-findings { margin-top: 24px; border-top: 1px solid var(--border); }
+.utw-finding { padding: 18px 0; border-bottom: 1px solid var(--border); display: grid; gap: 5px; }
+.utw-finding-head { font-family: var(--font-display); font-size: 15px; letter-spacing: -0.01em; color: var(--fg1); }
+.utw-finding-body { font-family: var(--font-body); font-size: 13.5px; line-height: 1.65; color: var(--fg2); max-width: 58ch; }
+
+/* USER TEST PHOTO (inside accordion) */
+.utw-test-photo {
+  margin-top: 28px;
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--border);
+  max-width: 480px;
+}
+.utw-test-photo img { width: 100%; height: auto; display: block; }
+
+/* PULL QUOTE */
+.cs-pull-quote {
+  margin: 32px 0 0; padding: 28px 36px 28px 44px;
+  border: 1px solid var(--sky-a18); background: var(--sky-a08);
+  border-radius: 10px; position: relative; overflow: hidden;
+}
+.cs-pull-quote::before {
+  content: '\201C'; position: absolute; top: -18px; left: 14px;
+  font-family: var(--font-display); font-size: 140px; font-style: italic; font-weight: 700;
+  color: oklch(0.62 0.13 228 / 0.08); line-height: 1; pointer-events: none; user-select: none;
+}
+.cs-pull-quote blockquote { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.4; letter-spacing: -0.01em; color: var(--fg1); margin: 0; }
+
+/* NEXT PROJECT */
+.cs-next { padding: clamp(72px, 9vh, 110px) 0 56px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1060px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 20px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 36px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--sky); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5vw, 68px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 32px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-footer { padding: 24px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+
+/* CONSTELLATION NAV */
+.cs-constellation-nav { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 50; width: 60px; height: 220px; opacity: 0; transition: opacity .5s; pointer-events: none; }
+.cs-constellation-nav.is-visible { opacity: 1; pointer-events: auto; }
+.cs-const-svg { width: 100%; height: 100%; overflow: visible; }
+.cs-const-line { fill: none; stroke: oklch(0.62 0.13 228 / 0.18); stroke-width: 1; stroke-dasharray: 3 5; }
+.cs-const-hit { fill: transparent; cursor: pointer; }
+.cs-const-dot { transition: fill .3s; }
+.cs-const-ring { fill: none; stroke-width: 1; transition: stroke .4s; }
+.cs-const-g { cursor: pointer; }
+.cs-const-g:focus-visible { outline: none; }
+.cs-const-g:focus-visible .cs-const-ring { stroke: oklch(0.62 0.13 228 / 0.60); }
+.cs-const-g .cs-const-dot { fill: oklch(0.62 0.13 228 / 0.30); }
+.cs-const-g .cs-const-ring { stroke: transparent; }
+.cs-const-g:hover .cs-const-dot { fill: oklch(0.92 0.008 228 / 0.85); }
+.cs-const-g:hover .cs-const-ring { stroke: oklch(0.62 0.13 228 / 0.30); }
+.cs-const-g.is-active .cs-const-dot { fill: var(--sky); filter: drop-shadow(0 0 3px var(--sky)) drop-shadow(0 0 7px oklch(0.62 0.13 228 / 0.50)); }
+.cs-const-g.is-active .cs-const-ring { stroke: oklch(0.62 0.13 228 / 0.40); }
+.cs-const-label-el {
+  position: absolute; right: 68px;
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--fg3); white-space: nowrap;
+  opacity: 0; transform: translateX(5px);
+  transition: opacity .25s, transform .25s, color .25s;
+  pointer-events: auto; line-height: 1;
+}
+.cs-const-label-el.is-visible { opacity: 1; transform: translateX(0); }
+.cs-const-label-el.is-active { color: var(--sky); }
+@media (max-width: 900px) { .cs-constellation-nav { display: none; } }
+
+.cs-snav-anchor { pointer-events: none; height: 0; }
+
+/* REVEAL */
+[data-cs-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+[data-cs-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { [data-cs-reveal] { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
+
+<nav class="cs-nav">
+  <div class="cs-nav-inner">
+    <a class="cs-logo" href="index.html">lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
+  </div>
+</nav>
+
+<!-- CONSTELLATION NAV -->
+<nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
+  <svg class="cs-const-svg" viewBox="0 0 60 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,20 18,90 42,155 30,205"/>
+    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Overview">
+      <circle class="cs-const-hit" cx="30" cy="20"  r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="20"  r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="20"  r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-concept" tabindex="0" role="button" aria-label="Jump to Concept">
+      <circle class="cs-const-hit" cx="18" cy="90" r="13"/>
+      <circle class="cs-const-ring" cx="18" cy="90" r="8"/>
+      <circle class="cs-const-dot"  cx="18" cy="90" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-code" tabindex="0" role="button" aria-label="Jump to Under the Hood">
+      <circle class="cs-const-hit" cx="42" cy="155" r="13"/>
+      <circle class="cs-const-ring" cx="42" cy="155" r="8"/>
+      <circle class="cs-const-dot"  cx="42" cy="155" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-testing" tabindex="0" role="button" aria-label="Jump to Testing">
+      <circle class="cs-const-hit" cx="30" cy="205" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="205" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="205" r="3"/>
+    </g>
+  </svg>
+  <span class="cs-const-label-el" style="top:13px"  data-label="cs-s-hero">Overview</span>
+  <span class="cs-const-label-el" style="top:83px"  data-label="cs-s-concept">Concept</span>
+  <span class="cs-const-label-el" style="top:148px" data-label="cs-s-code">Code</span>
+  <span class="cs-const-label-el" style="top:198px" data-label="cs-s-testing">Testing</span>
+</nav>
+
+<!-- HERO -->
+<header class="utw-hero" id="cs-s-hero">
+  <div class="cs-hero-orb"></div>
+  <div class="cs-hero-orb-2"></div>
+
+  <div class="utw-hero-split">
+    <div class="utw-hero-img-col">
+      <div class="utw-hero-img-wrap">
+        <img src="assets/undertheweather/cover.png"
+             alt="Under the Weather app: title screen with check weather button and NYC timestamp"
+             fetchpriority="high" />
+      </div>
+    </div>
+    <div class="utw-hero-text-col">
+      <p class="cs-kicker">
+        <span class="cs-kicker-dot"></span>
+        Coding &nbsp;·&nbsp; first p5.js sketch &nbsp;·&nbsp; 2025
+      </p>
+      <h1 class="utw-hero-title">Under<br>the <em>Weather</em></h1>
+      <p class="utw-hero-sub">An intentionally useless weather app. Real NYC data. Zero useful information.</p>
+      <div class="cs-tags">
+        <span class="tag">p5.js</span>
+        <span class="tag">OpenWeatherMap API</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="cs-hero-actions">
+        <a href="https://editor.p5js.org/wl3512/full/6BhpoP8ic" target="_blank" rel="noopener" class="btn btn-secondary">View live ↗</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+<section class="cs-meta">
+  <div class="cs-meta-inner">
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Role</span>
+      <span class="cs-meta-v">Design + Code</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Year</span>
+      <span class="cs-meta-v">2025</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Tools</span>
+      <span class="cs-meta-v small">p5.js · OpenWeatherMap</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Assist</span>
+      <span class="cs-meta-v small">OpenAI</span>
+    </div>
+  </div>
+</section>
+
+<div class="cs-body">
+
+  <!-- CONCEPT INTRO -->
+  <div id="cs-s-concept" class="utw-concept" data-cs-reveal>
+    <p class="utw-concept-label">Intentionally useless</p>
+    <h2 class="utw-concept-h">Real data.<br><em>Nothing helpful.</em></h2>
+    <div class="utw-concept-body">
+      <p>My first p5.js project. The brief: build something that works perfectly and does absolutely nothing useful.</p>
+      <p>Under the Weather fetches live NYC weather from the OpenWeatherMap API, then responds with sassy one-liners instead of temperatures. It was an excuse to learn API calls, async JavaScript, and p5.js — wrapped in a concept about how people treat weather reports as emotional verdicts.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION SECTIONS -->
+  <div class="cs-body-inner">
+    <div class="tr-accordion">
+
+      <!-- 01 · CONCEPT -->
+      <details class="tr-panel" open>
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">01</span>
+          <span class="tr-panel-title">Concept</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p>Most weather apps give you data. Under the Weather gives you attitude. "Rain" becomes "At least you have an excuse to cancel plans now." The question driving every decision: does this app feel <strong>unnecessary</strong> — not broken, just unhelpful by design?</p>
+          </div>
+          <div class="utw-moods">
+            <div class="utw-mood-item">
+              <span class="utw-mood-condition">🌧 Rain</span>
+              <p class="utw-mood-response">"At least you have an excuse to cancel plans now."</p>
+            </div>
+            <div class="utw-mood-item">
+              <span class="utw-mood-condition">☀️ Clear</span>
+              <p class="utw-mood-response">"Can't beat this weather. This is suspiciously perfect."</p>
+            </div>
+            <div class="utw-mood-item">
+              <span class="utw-mood-condition">☁️ Cloud</span>
+              <p class="utw-mood-response">"Where's the sun?"</p>
+            </div>
+            <div class="utw-mood-item">
+              <span class="utw-mood-condition">❄️ Snow</span>
+              <p class="utw-mood-response">"Stay home."</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 02 · UNDER THE HOOD -->
+      <div id="cs-s-code" class="cs-snav-anchor"></div>
+      <details class="tr-panel">
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6" stroke-width="1.5"/>
+              <polyline points="8 6 2 12 8 18" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">02</span>
+          <span class="tr-panel-title">Under the Hood</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p><strong>getWeather()</strong> hits the OpenWeatherMap API and pulls live NYC conditions. <strong>generateMood()</strong> maps the weather string to a sassy response and a background color. A Date object locked to America/New_York handles the timestamp.</p>
+            <p>The entire emotional logic is eight lines of if/else. All the infrastructure — async fetch, timezone math, error handling, global state for p5.js — exists to serve eight sarcastic strings. That ratio is the joke.</p>
+          </div>
+          <div class="utw-code-pair">
+            <div class="utw-code-item">
+              <div class="utw-code-img">
+                <img src="assets/undertheweather/code-api.png"
+                     alt="getWeather() function: OpenWeatherMap fetch, condition extraction, emoji and color assignment"
+                     loading="lazy" />
+              </div>
+              <p class="utw-code-cap">getWeather() — API fetch + state</p>
+            </div>
+            <div class="utw-code-item">
+              <div class="utw-code-img">
+                <img src="assets/undertheweather/code-date.png"
+                     alt="Date and time logic with America/New_York timezone"
+                     loading="lazy" />
+              </div>
+              <p class="utw-code-cap">NYC timestamp — Date object</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 03 · USER TESTING -->
+      <div id="cs-s-testing" class="cs-snav-anchor"></div>
+      <details class="tr-panel">
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="3.5" stroke-width="1.5"/>
+              <path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">03</span>
+          <span class="tr-panel-title">User Testing</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p>Tested with Michael Ryan Leese. API worked and updated live. Colors and emojis matched conditions correctly.</p>
+          </div>
+          <div class="utw-test-photo">
+            <img src="assets/undertheweather/user-test.png"
+                 alt="User testing: Michael Ryan Leese reacting to the app at a laptop"
+                 loading="lazy" />
+          </div>
+          <div class="utw-findings">
+            <div class="utw-finding">
+              <p class="utw-finding-head">Tried pressing the screen instead of the button</p>
+              <p class="utw-finding-body">Fixed by rewriting the prompt text to make the button action explicit.</p>
+            </div>
+            <div class="utw-finding">
+              <p class="utw-finding-head">Suggested lat/long input for humor</p>
+              <p class="utw-finding-body">Letting users type coordinates to check the weather somewhere they'll never go — absurdity that fits the tone.</p>
+            </div>
+          </div>
+          <div class="cs-pull-quote">
+            <blockquote>"It's solving a problem that didn't need solving."</blockquote>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Next project</p>
+    <a class="cs-next-link" href="trance.html">
+      <span class="cs-next-title">Trance</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
+
+<script>
+(function () {
+  const fill = document.getElementById('cs-progress');
+  if (fill) {
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      fill.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight)})`;
+    }, { passive: true });
+  }
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-cs-reveal]').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('[data-cs-reveal]').forEach(el => el.classList.add('is-revealed'));
+  }
+
+  const nav = document.getElementById('cs-section-nav');
+  const sectionIds = ['cs-s-hero','cs-s-concept','cs-s-code','cs-s-testing'];
+  const nodes = document.querySelectorAll('[data-snav]');
+  const labels = document.querySelectorAll('[data-label]');
+
+  function setActive(id) {
+    nodes.forEach(n => n.classList.toggle('is-active', n.dataset.snav === id));
+    labels.forEach(l => {
+      l.classList.toggle('is-active', l.dataset.label === id);
+      l.classList.toggle('is-visible', l.dataset.label === id);
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    if (nav) nav.classList.toggle('is-visible', window.scrollY > 200);
+  }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    const navIo = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sectionIds.forEach(id => { const el = document.getElementById(id); if (el) navIo.observe(el); });
+  }
+
+  document.querySelectorAll('.tr-panel').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) requestAnimationFrame(() => d.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

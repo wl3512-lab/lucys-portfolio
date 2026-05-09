@@ -58,6 +58,7 @@
   --font-ui:       'Syne', 'Inter Tight', system-ui, sans-serif; /* labels, buttons, nav */
   --font-body:     'DM Sans', system-ui, sans-serif; /* body copy */
   --font-code:     'Space Mono', 'Courier New', monospace; /* mono accents */
+  --font-serif:    'Playfair Display', Georgia, serif; /* italic emphasis only */
 
   /* ─── TYPE SCALE ─── */
   --text-9xl:  clamp(72px, 12vw, 140px);
@@ -226,3 +227,49 @@
 .lucy-typography p  { font-family: var(--font-body);    font-size: var(--text-base); font-weight: 400; line-height: var(--lh-relaxed); color: var(--fg2); }
 .lucy-typography code, .lucy-typography kbd, .lucy-typography pre { font-family: var(--font-code); }
 .lucy-typography em { font-style: italic; font-family: var(--font-display); }
+
+/* ─── Playfair italic: one job, everywhere it applies ─── */
+/* Used only for italic emphasis inside display headings and pull quotes.
+   All other text stays Syne or DM Sans. */
+
+/* Hero headline italic word */
+.hero-heading .italic,
+.hero-heading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Section headings on the index page */
+.scene-title em,
+.scene-h em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Case study section headings */
+.cs-section-h em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Case study next-project title on hover */
+.cs-next-link:hover .cs-next-title {
+  font-family: var(--font-serif);
+}
+
+/* Pull quote blockquote text */
+.cs-pull-quote blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* SoundCloud heading em */
+.sc-heading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}

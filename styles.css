@@ -952,13 +952,14 @@ img { display: block; max-width: 100%; }
     radial-gradient(ellipse 80% 55% at 75% 80%, oklch(0.42 0.18 305 / 0.38) 0%, transparent 65%),
     radial-gradient(ellipse 50% 40% at 52% 50%, oklch(0.18 0.06 285 / 0.70) 0%, transparent 70%),
     oklch(0.08 0.018 285);
-  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px oklch(0.30 0.08 285 / 0.50);
-  transition: transform .45s cubic-bezier(0.25,1,0.5,1), box-shadow .45s;
+  border: 1px solid oklch(0.30 0.08 285 / 0.50);
+  filter: drop-shadow(0 16px 48px oklch(0 0 0 / 0.55));
+  transition: transform .45s cubic-bezier(0.25,1,0.5,1), filter .45s, border-color .45s;
 }
 .gem-story-card:hover {
   transform: scale(1.025) translateY(-5px);
-  box-shadow: 0 52px 110px rgba(0,0,0,0.68), 0 0 0 1px oklch(0.45 0.16 285 / 0.40),
-              0 0 40px -8px oklch(0.55 0.22 285 / 0.30);
+  border-color: oklch(0.45 0.16 285 / 0.40);
+  filter: drop-shadow(0 28px 64px oklch(0 0 0 / 0.68)) drop-shadow(0 0 24px oklch(0.55 0.22 285 / 0.22));
 }
 /* glint sweep on hover — gem catching light */
 .gem-story-card::after {

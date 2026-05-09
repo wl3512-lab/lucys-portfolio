@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Trance — Lucy Liu</title>
+<meta name="description" content="Trance — An immersive audio-visual installation transforming physical touch into dynamic visual and auditory experiences. By Lucy Liu." />
+<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=15" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  scroll-behavior: auto;
+  --violet:     oklch(0.70 0.22 280);
+  --violet-dim: oklch(0.60 0.20 280);
+  --violet-a08: oklch(0.70 0.22 280 / 0.08);
+  --violet-a18: oklch(0.70 0.22 280 / 0.18);
+  --violet-a30: oklch(0.70 0.22 280 / 0.30);
+  --violet-a40: oklch(0.70 0.22 280 / 0.40);
+  --violet-a50: oklch(0.70 0.22 280 / 0.50);
+  --violet-a60: oklch(0.70 0.22 280 / 0.60);
+}
+body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* NAV */
+.cs-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 20px 0;
+  background: rgba(5,7,16,0.72); backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.cs-nav-inner {
+  width: min(1240px, 92vw); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; }
+.cs-back:hover { color: var(--fg1); }
+.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; }
+
+/* PROGRESS */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; background: transparent; }
+.cs-progress-fill { height: 100%; background: var(--violet); transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
+
+/* HERO */
+.cs-hero {
+  padding: clamp(100px, 14vh, 160px) 0 0;
+  position: relative; overflow: hidden;
+}
+.cs-hero-orb {
+  position: absolute; top: -8%; right: -6%;
+  width: clamp(380px, 52vw, 700px); height: clamp(380px, 52vw, 700px);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.70 0.22 280 / 0.11) 0%, oklch(0.70 0.22 280 / 0.04) 40%, transparent 70%);
+  filter: blur(60px); pointer-events: none; contain: strict;
+}
+.cs-hero-orb-2 {
+  position: absolute; bottom: -20%; left: -4%;
+  width: clamp(260px, 32vw, 440px); height: clamp(260px, 32vw, 440px);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.55 0.16 300 / 0.12) 0%, transparent 65%);
+  filter: blur(50px); pointer-events: none; contain: strict;
+}
+.cs-hero-cover-full {
+  position: relative; width: min(1100px, 92vw); margin: 0 auto;
+  border-radius: 16px; overflow: hidden;
+  background: oklch(0.10 0.015 280);
+  min-height: 420px; display: flex; align-items: center; justify-content: center;
+}
+.cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+.cs-hero-cover-placeholder {
+  width: 100%; min-height: 420px;
+  background: linear-gradient(135deg, oklch(0.10 0.02 280) 0%, oklch(0.14 0.05 280) 50%, oklch(0.10 0.02 300) 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.cs-hero-cover-placeholder-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet-a30);
+}
+.cs-hero-below {
+  width: min(1100px, 92vw); margin: 0 auto;
+  padding: 32px 0 clamp(56px, 7vh, 88px);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.cs-hero-foot {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.cs-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet-dim); margin-bottom: 28px;
+}
+.cs-kicker-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.cs-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* META STRIP */
+.cs-meta {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 36px 0; background: var(--surface);
+}
+.cs-meta-inner { width: min(1100px, 92vw); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+@media (max-width: 760px) { .cs-meta-inner { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.cs-meta-item { display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+.cs-meta-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
+.cs-meta-v { font-family: var(--font-display); font-size: 17px; letter-spacing: -0.01em; color: var(--fg1); line-height: 1.3; }
+.cs-meta-v.small { font-family: var(--font-body); font-size: 13px; color: var(--fg2); }
+
+/* BODY */
+.cs-body { padding: clamp(72px, 10vh, 112px) 0; }
+.cs-body-wide { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-body-inner { width: min(860px, 92vw); margin: 0 auto; }
+
+/* SECTION SHARED */
+.cs-section { margin-bottom: clamp(72px, 9vw, 108px); position: relative; }
+.cs-section-wm {
+  position: absolute; top: -0.08em; right: -0.02em;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(100px, 15vw, 188px); line-height: 1; letter-spacing: -0.06em;
+  color: var(--fg1); opacity: 0.03; pointer-events: none; user-select: none; z-index: 0;
+}
+.cs-section > * { position: relative; z-index: 1; }
+.cs-section-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--violet-dim); margin: 0 0 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.cs-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.cs-section-h {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 5.5vw, 72px); line-height: 0.95; letter-spacing: -0.04em;
+  margin: 0 0 clamp(28px, 3.5vw, 40px); color: var(--fg1);
+}
+.cs-section-h em { font-style: italic; color: var(--violet); }
+.cs-body-text { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--fg2); max-width: 70ch; }
+.cs-body-text p { margin-bottom: 18px; }
+.cs-body-text p:first-child { color: var(--fg1); }
+.cs-body-text strong { color: var(--fg1); font-weight: 500; }
+
+/* IMAGE BLOCK */
+.cs-image-block { margin: 64px auto; width: min(1100px, 92vw); }
+.cs-image {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden;
+  min-height: 320px; display: flex; align-items: center; justify-content: center;
+}
+.cs-image img { width: 100%; height: auto; display: block; }
+.cs-image-caption { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin-top: 12px; text-align: center; }
+
+/* ── ACCORDION PANELS ── */
+.tr-accordion {
+  margin-top: 56px;
+  border-top: 1px solid var(--border);
+}
+.tr-panel {
+  border-bottom: 1px solid var(--border);
+}
+.tr-panel summary {
+  display: flex; align-items: center; gap: 18px;
+  padding: 28px 0; cursor: pointer; list-style: none;
+  user-select: none;
+  transition: background 0.18s ease;
+}
+.tr-panel summary::-webkit-details-marker { display: none; }
+.tr-panel summary:hover .tr-panel-title { color: var(--fg1); }
+.tr-panel summary:hover .tr-panel-icon { color: var(--violet); }
+
+.tr-panel-icon {
+  width: 32px; height: 32px; flex-shrink: 0;
+  color: var(--violet-dim);
+  transition: color 0.25s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.tr-panel-icon svg { width: 100%; height: 100%; }
+
+.tr-panel-num {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet-a40); flex-shrink: 0; min-width: 2.5ch;
+}
+
+.tr-panel-title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -0.02em; line-height: 1;
+  color: var(--fg2); flex: 1;
+  transition: color 0.2s ease;
+}
+
+.tr-panel-arrow {
+  width: 18px; height: 18px; flex-shrink: 0; color: var(--fg3);
+  transition: transform 0.36s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex; align-items: center; justify-content: center;
+}
+.tr-panel-arrow svg { width: 100%; height: 100%; }
+details[open] .tr-panel-arrow { transform: rotate(180deg); }
+details[open] .tr-panel-title { color: var(--fg1); }
+details[open] .tr-panel-icon { color: var(--violet); }
+
+.tr-panel-body {
+  padding: 0 0 44px 50px;
+}
+@media (max-width: 600px) { .tr-panel-body { padding-left: 0; } }
+
+.tr-panel-body-text {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.75;
+  color: var(--fg2); max-width: 66ch;
+}
+.tr-panel-body-text p { margin-bottom: 16px; }
+.tr-panel-body-text p:first-child { color: var(--fg1); }
+.tr-panel-body-text p:last-child { margin-bottom: 0; }
+.tr-panel-body-text strong { color: var(--fg1); font-weight: 500; }
+
+/* THREE PHASES */
+.tr-phases {
+  margin-top: 32px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
+}
+@media (max-width: 600px) { .tr-phases { grid-template-columns: 1fr; } }
+.tr-phase {
+  background: var(--surface); padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.tr-phase + .tr-phase { border-left: 1px solid var(--border); }
+@media (max-width: 600px) { .tr-phase + .tr-phase { border-left: none; border-top: 1px solid var(--border); } }
+.tr-phase-num {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet-dim);
+}
+.tr-phase-label {
+  font-family: var(--font-display); font-size: clamp(16px, 1.6vw, 19px);
+  font-weight: 400; letter-spacing: -0.02em; color: var(--fg1);
+}
+.tr-phase-desc {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--fg2);
+}
+
+/* PULL QUOTE */
+.cs-pull-quote {
+  margin: 48px 0; padding: 32px 40px 32px 48px;
+  border: 1px solid var(--violet-a18); background: var(--violet-a08);
+  border-radius: 12px; position: relative; overflow: hidden;
+}
+.cs-pull-quote::before {
+  content: '\201C'; position: absolute; top: -18px; left: 14px;
+  font-family: var(--font-display); font-size: 160px; font-style: italic; font-weight: 700;
+  color: oklch(0.70 0.22 280 / 0.08); line-height: 1; pointer-events: none; user-select: none;
+}
+.cs-pull-quote blockquote {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(17px, 2vw, 22px); line-height: 1.4; letter-spacing: -0.01em;
+  color: var(--fg1); margin: 0;
+}
+
+/* REFLECTION */
+.cs-reflection-list { margin-top: 40px; border-top: 1px solid var(--border); counter-reset: reflect; }
+.cs-reflection-item {
+  padding: 28px 0; border-bottom: 1px solid var(--border); display: grid; gap: 8px;
+}
+.cs-reflection-head {
+  font-family: var(--font-display); font-size: clamp(16px, 1.6vw, 19px);
+  font-weight: 400; letter-spacing: -0.02em; color: var(--fg1);
+}
+.cs-reflection-head::before {
+  content: counter(reflect) ". "; counter-increment: reflect;
+  color: var(--violet-dim); font-style: italic;
+}
+.cs-reflection-body { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--fg2); max-width: 68ch; }
+
+/* NEXT PROJECT */
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--violet); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+
+/* CONSTELLATION NAV */
+.cs-constellation-nav {
+  position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 50; width: 60px; height: 320px; margin-top: 20px;
+  opacity: 0; transition: opacity .5s ease; pointer-events: none;
+}
+.cs-constellation-nav.is-visible { opacity: 1; pointer-events: auto; }
+.cs-const-svg { width: 100%; height: 100%; overflow: visible; }
+.cs-const-line { fill: none; stroke: var(--violet-a18); stroke-width: 1; stroke-dasharray: 3 5; }
+.cs-const-hit { fill: transparent; cursor: pointer; }
+.cs-const-dot { transition: fill .3s, r .3s; }
+.cs-const-ring { fill: none; stroke-width: 1; transition: stroke .4s; }
+.cs-const-g { cursor: pointer; }
+.cs-const-g:focus-visible { outline: none; }
+.cs-const-g:focus-visible .cs-const-ring { stroke: var(--violet-a60); }
+.cs-const-g:focus-visible .cs-const-dot { fill: var(--violet-a50); }
+.cs-const-g .cs-const-dot { fill: var(--violet-a30); }
+.cs-const-g .cs-const-ring { stroke: transparent; }
+.cs-const-g:hover .cs-const-dot { fill: oklch(0.92 0.008 280 / 0.85); }
+.cs-const-g:hover .cs-const-ring { stroke: var(--violet-a30); }
+.cs-const-g.is-active .cs-const-dot { fill: var(--violet); filter: drop-shadow(0 0 3px var(--violet)) drop-shadow(0 0 7px var(--violet-a50)); }
+.cs-const-g.is-active .cs-const-ring { stroke: var(--violet-a40); }
+.cs-const-label-el {
+  position: absolute; right: 68px;
+  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--fg3); white-space: nowrap;
+  opacity: 0; transform: translateX(5px);
+  transition: opacity .25s, transform .25s, color .25s;
+  pointer-events: auto; line-height: 1;
+}
+.cs-const-label-el.is-visible { opacity: 1; transform: translateX(0); }
+.cs-const-label-el.is-active { color: var(--violet); }
+@media (max-width: 900px) { .cs-constellation-nav { display: none; } }
+
+/* SIDE-BY-SIDE IMAGE PAIR */
+.cs-image-pair {
+  width: min(1100px, 92vw); margin: 64px auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+@media (max-width: 640px) { .cs-image-pair { grid-template-columns: 1fr; } }
+.cs-image-pair-item { display: flex; flex-direction: column; gap: 12px; }
+
+/* INLINE IMG inside panel body */
+.tr-inline-img {
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.tr-inline-img img { width: 100%; height: auto; display: block; }
+
+/* NAV ANCHOR — invisible scroll target */
+.cs-snav-anchor { pointer-events: none; height: 0; }
+
+/* REVEAL */
+[data-cs-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+[data-cs-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-cs-reveal] { opacity: 1; transform: none; transition: none; }
+  [data-cs-reveal].is-revealed { opacity: 1; transform: none; }
+}
+
+/* SECTION LABEL LINE DRAW */
+.cs-section-label[data-cs-reveal]::after { transform: scaleX(0); transform-origin: left; transition: transform .9s cubic-bezier(.16,1,.3,1) .25s; }
+.cs-section-label[data-cs-reveal].is-revealed::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; } }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
+
+<nav class="cs-nav">
+  <div class="cs-nav-inner">
+    <a class="cs-logo" href="index.html">lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
+  </div>
+</nav>
+
+<!-- CONSTELLATION NAV -->
+<nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
+  <svg class="cs-const-svg" viewBox="0 0 60 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,20 44,100 16,180 30,260 30,300"/>
+    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Overview">
+      <circle class="cs-const-hit" cx="30" cy="20"  r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="20"  r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="20"  r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-interaction" tabindex="0" role="button" aria-label="Jump to Interaction">
+      <circle class="cs-const-hit" cx="44" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="100" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-technical" tabindex="0" role="button" aria-label="Jump to Technical Implementation">
+      <circle class="cs-const-hit" cx="16" cy="180" r="13"/>
+      <circle class="cs-const-ring" cx="16" cy="180" r="8"/>
+      <circle class="cs-const-dot"  cx="16" cy="180" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-impact" tabindex="0" role="button" aria-label="Jump to Design Impact">
+      <circle class="cs-const-hit" cx="30" cy="260" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="260" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="260" r="3"/>
+    </g>
+  </svg>
+  <span class="cs-const-label-el" style="top:13px"  data-label="cs-s-hero">Overview</span>
+  <span class="cs-const-label-el" style="top:93px"  data-label="cs-s-interaction">Interaction</span>
+  <span class="cs-const-label-el" style="top:173px" data-label="cs-s-technical">Technical</span>
+  <span class="cs-const-label-el" style="top:253px" data-label="cs-s-impact">Design Impact</span>
+</nav>
+
+<header class="cs-hero" id="cs-s-hero">
+  <div class="cs-hero-orb"></div>
+  <div class="cs-hero-orb-2"></div>
+
+  <h1 class="visually-hidden">Trance: Interactive Audio-Visual Installation</h1>
+  <div class="cs-hero-cover-full">
+    <img src="assets/trance/cover.png"
+         alt="Trance: acrylic hand sculpture with LEDs and pressure sensor on a desk, USB cables connected"
+         fetchpriority="high" />
+  </div>
+
+  <div class="cs-hero-below">
+    <p class="cs-kicker">
+      <span class="cs-kicker-dot"></span>
+      Coding &nbsp;·&nbsp; ITP/IMA Spring 2025
+    </p>
+    <div class="cs-hero-foot">
+      <div class="cs-tags">
+        <span class="tag">p5.js</span>
+        <span class="tag">Arduino</span>
+        <span class="tag">WebSerial API</span>
+        <span class="tag">Physical Computing</span>
+        <span class="tag">Audio-Visual</span>
+        <span class="tag">2025</span>
+      </div>
+      <div class="cs-hero-actions">
+        <a href="https://embed.figma.com/deck/m1p8sxC59c3cyDCMe6Q675/FINAL" target="_blank" rel="noopener" class="btn btn-secondary">View presentation ↗</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+<!-- META STRIP -->
+<section class="cs-meta">
+  <div class="cs-meta-inner">
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Role</span>
+      <span class="cs-meta-v">Design + Code (solo)</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Timeline</span>
+      <span class="cs-meta-v">Spring 2025</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Tools</span>
+      <span class="cs-meta-v small">p5.js · Arduino · WebSerial API</span>
+    </div>
+    <div class="cs-meta-item" data-cs-reveal>
+      <span class="cs-meta-k">Methods</span>
+      <span class="cs-meta-v small">User Testing · Physical Computing · Iteration</span>
+    </div>
+  </div>
+</section>
+
+<div class="cs-body">
+
+  <!-- INTRO -->
+  <div class="cs-body-inner" style="padding-top: clamp(60px, 8vh, 96px);">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">T</span>
+      <p class="cs-section-label" data-cs-reveal>Interactive Audio-Visual Installation</p>
+      <h2 class="cs-section-h" data-cs-reveal>Touch as <em>performance.</em></h2>
+      <div class="cs-body-text" data-cs-reveal>
+        <p>Trance is an immersive installation that collapses the distance between listener and music. A clear acrylic hand sculpture embedded with pressure sensors lets you control everything you see and hear. The harder you press, the more the piece transforms around you.</p>
+        <p>Three types of trance inspired the piece: <strong>music trance</strong> (the beat pulls you in), <strong>focus trance</strong> (you get locked into the interaction), and <strong>visual trance</strong> (hypnotic light and patterns). The name is about the feeling of getting lost in music and losing track of time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COVER IMAGE / HERO STILL -->
+  <div class="cs-image-block" style="margin-top:0;">
+    <div class="cs-image" data-cs-reveal>
+      <img src="assets/trance/installation.png"
+           alt="Trance: acrylic hand sculpture with layered blue-green panels, Arduino breadboard and pressure sensor visible underneath, on a wooden desk"
+           loading="lazy" />
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 01: The sculpture — layered acrylic, FSR pressure sensor, Arduino, LED strip</p>
+  </div>
+
+  <!-- ACCORDION SECTIONS -->
+  <div class="cs-body-inner">
+
+    <div class="tr-accordion" id="cs-s-interaction" data-cs-reveal>
+
+      <!-- 01 · INTERACTION -->
+      <details class="tr-panel" open>
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <!-- Pressure / touch icon: concentric rings with center point -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+              <circle cx="12" cy="12" r="5.5" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="9.5" stroke-width="1" opacity="0.45"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">01</span>
+          <span class="tr-panel-title">Interaction</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p>You walk up to a short video on the wall, "Diamonds Dancing" by Future &amp; Drake setting the mood. A clear acrylic hand sculpture sits in front of you, its lights glowing softly. The video and the shape of the object together tell you exactly what to do: place your hand here.</p>
+            <p>Press lightly and you hear calm ambient sound, soft visuals drifting. Press harder and the Brazilian funk sections of "São Paulo" by The Weeknd start cutting through. The visuals get brighter, more complex. <strong>The longer and harder you press, the more intense everything becomes.</strong> Let go, and the piece slowly settles and breathes back down.</p>
+            <p>No instructions on a wall. No labels. The video, the hand form, and the LED feedback are the entire interface. During user testing, every participant understood instantly where to place their hand.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- 02 · TECHNICAL IMPLEMENTATION -->
+      <div id="cs-s-technical" class="cs-snav-anchor"></div>
+      <details class="tr-panel">
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <!-- Circuit / chip icon: square with pin connections -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="7" y="7" width="10" height="10" rx="1.5" stroke-width="1.5"/>
+              <line x1="3"  y1="10" x2="7"  y2="10" stroke-width="1.5"/>
+              <line x1="3"  y1="14" x2="7"  y2="14" stroke-width="1.5"/>
+              <line x1="17" y1="10" x2="21" y2="10" stroke-width="1.5"/>
+              <line x1="17" y1="14" x2="21" y2="14" stroke-width="1.5"/>
+              <line x1="10" y1="3"  x2="10" y2="7"  stroke-width="1.5"/>
+              <line x1="14" y1="3"  x2="14" y2="7"  stroke-width="1.5"/>
+              <line x1="10" y1="17" x2="10" y2="21" stroke-width="1.5"/>
+              <line x1="14" y1="17" x2="14" y2="21" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">02</span>
+          <span class="tr-panel-title">Technical Implementation</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p>A force-sensitive resistor (FSR) sits inside the sculpture. An Arduino reads the pressure and sends one clean value at a time over USB. <strong>WebSerial connects that live data stream directly to a p5.js sketch in the browser</strong>, where it drives the visuals and the audio mix simultaneously.</p>
+            <p>The biggest technical challenge was the serial connection itself: older WebSerial libraries froze, ports refused to open, and fragmented readings were arriving as merged strings ("324335412" instead of separate values). The fix was simplifying the Arduino output to a single reading per line and rebuilding the serial layer with P5SerialLite, which made the data clean and the interaction responsive.</p>
+            <p>Visual states: ambient (soft gradients, slow movement, low saturation) and intense (tunnel effects, kaleidoscopes, glitchy motion). The LEDs in the sculpture mirror the same pressure mapping, so the physical object itself feels alive.</p>
+          </div>
+          <!-- Three phases -->
+          <div class="tr-phases">
+            <div class="tr-phase">
+              <span class="tr-phase-num">Phase 01</span>
+              <span class="tr-phase-label">Introduction</span>
+              <p class="tr-phase-desc">"Diamonds Dancing" plays on the projected wall. The sculpture glows at rest, inviting touch. No prompts needed.</p>
+            </div>
+            <div class="tr-phase">
+              <span class="tr-phase-num">Phase 02</span>
+              <span class="tr-phase-label">Transformation</span>
+              <p class="tr-phase-desc">Your pressure drives everything in real time. The FSR value maps to visual chaos, color energy, and the São Paulo audio mix simultaneously.</p>
+            </div>
+            <div class="tr-phase">
+              <span class="tr-phase-num">Phase 03</span>
+              <span class="tr-phase-label">Return</span>
+              <p class="tr-phase-desc">Release and the system breathes back down. Gradual decay restores the ambient state for the next visitor.</p>
+            </div>
+          </div>
+          <div class="tr-inline-img" style="margin-top:32px;">
+            <img src="assets/trance/process-setup.png"
+                 alt="Development setup: laptop running p5.js alongside the physical sculpture"
+                 loading="lazy" />
+          </div>
+        </div>
+      </details>
+
+      <!-- 03 · DESIGN IMPACT -->
+      <div id="cs-s-impact" class="cs-snav-anchor"></div>
+      <details class="tr-panel">
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <!-- Embodied / body-performance icon: figure with radiating arcs -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5.5" r="2" stroke-width="1.5"/>
+              <path d="M8.5 11.5c1-2 5-2 7 0" stroke-width="1.5"/>
+              <path d="M10 12v6M14 12v6" stroke-width="1.5"/>
+              <path d="M7 16h10" stroke-width="1" opacity="0.5"/>
+              <path d="M5 9c1.5-3 7.5-3 14 0" stroke-width="1" opacity="0.35"/>
+            </svg>
+          </span>
+          <span class="tr-panel-num">03</span>
+          <span class="tr-panel-title">Design Impact</span>
+          <span class="tr-panel-arrow" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 6.5L9 12l5.5-5.5"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="tr-panel-body">
+          <div class="tr-panel-body-text">
+            <p>The concept moves from surface to transformation. The intro video shows what's on the surface; the interaction reveals what's felt inside. Trance follows the same arc as "São Paulo" by The Weeknd: from a polished surface to a feeling of rebirth.</p>
+            <p>User testing confirmed that <strong>instruction-free design works when every element pulls its own weight.</strong> Testers immediately knew to place their hand; most wanted more feedback from the sculpture itself. That led to stronger LED patterns tied directly to pressure, with haptics planned for future iterations.</p>
+            <p>The main thing the piece asks: music is something you perform through your body, not just something you hear. Every person who touches the sculpture changes it a little. The audience is part of the artwork.</p>
+          </div>
+          <div class="cs-pull-quote" style="margin-top:32px;margin-bottom:0;">
+            <blockquote>"You are not just a viewer — you are a participant."</blockquote>
+          </div>
+        </div>
+      </details>
+
+    </div><!-- /tr-accordion -->
+  </div><!-- /cs-body-inner -->
+
+  <!-- PROCESS IMAGES — side by side -->
+  <div class="cs-image-pair" data-cs-reveal>
+    <div class="cs-image-pair-item">
+      <div class="cs-image">
+        <img src="assets/trance/fabrication-diagram.png"
+             alt="Fabrication diagram: layered hand sculpture showing wood base, LED strip, FSR sensor, rubber/foam layer, tinted acrylic top"
+             loading="lazy" />
+      </div>
+      <p class="cs-image-caption">Fig. 02: Fabrication layers — wood base → LED → FSR → foam → acrylic</p>
+    </div>
+    <div class="cs-image-pair-item">
+      <div class="cs-image">
+        <img src="assets/trance/visual-state.png"
+             alt="p5.js generative visual: psychedelic purple-blue concentric rings with white particle explosions responding to pressure"
+             loading="lazy" />
+      </div>
+      <p class="cs-image-caption">Fig. 03: High-pressure visual state — full Brazilian funk intensity</p>
+    </div>
+  </div>
+
+  <!-- REFLECTION -->
+  <div class="cs-body-inner">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">R</span>
+      <p class="cs-section-label" data-cs-reveal>Reflection</p>
+      <h2 class="cs-section-h" data-cs-reveal>What I took <em>away.</em></h2>
+      <div class="cs-reflection-list" data-cs-reveal>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">Instruction-free interaction is a design constraint, not a bonus.</p>
+          <p class="cs-reflection-body">Building a piece that required zero explanation meant every element had to carry both meaning: signal the affordance and reward the action at the same time. The acrylic hand form carried all of that. Without it, the interaction would need a label. User testing confirmed it; every participant placed their hand correctly on first contact.</p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">Live serial systems are fragile by design — that's the real lesson.</p>
+          <p class="cs-reflection-body">WebSerial libraries changed, ports failed, and readings merged into nonsense strings. Working through it taught me to think about robustness from the start: what happens when the connection drops, how to recover, and how to design around the happy path so the invisible failures don't break the experience for someone standing in front of the piece.</p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">The return to baseline matters as much as the peak.</p>
+          <p class="cs-reflection-body">Phase 3, the gradual decay when you release, was designed last and had the biggest impact on how the whole piece felt. A hard reset would have broken the cinematic quality. The slow breath back down is what makes the experience feel like a real arc rather than a toggle switch.</p>
+        </div>
+        <div class="cs-reflection-item">
+          <p class="cs-reflection-head">Where I want to take it next.</p>
+          <p class="cs-reflection-body">Add subtle vibration to the hand for deeper haptic feedback. Refine the idle "breathing" glow to pull people in from across the room. Explore multi-user versions for longer exhibition runs. Potentially rebuild the visual layer in TouchDesigner for more control over projection mapping and real-time compositing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /cs-body -->
+
+</main>
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Next project</p>
+    <a class="cs-next-link" href="h2know.html">
+      <span class="cs-next-title">H2Know</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
+
+<script>
+(function () {
+  /* Progress bar */
+  const fill = document.getElementById('cs-progress');
+  if (fill) {
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      fill.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight)})`;
+    }, { passive: true });
+  }
+
+  /* Scroll reveal */
+  const reveals = document.querySelectorAll('[data-cs-reveal]');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('is-revealed'));
+  }
+
+  /* Constellation nav */
+  const nav = document.getElementById('cs-section-nav');
+  const sectionIds = ['cs-s-hero','cs-s-interaction','cs-s-technical','cs-s-impact'];
+  const nodes = document.querySelectorAll('[data-snav]');
+  const labels = document.querySelectorAll('[data-label]');
+
+  function setActive(id) {
+    nodes.forEach(n => n.classList.toggle('is-active', n.dataset.snav === id));
+    labels.forEach(l => {
+      l.classList.toggle('is-active', l.dataset.label === id);
+      l.classList.toggle('is-visible', l.dataset.label === id);
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    if (nav) nav.classList.toggle('is-visible', window.scrollY > 200);
+  }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    const navIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) navIo.observe(el);
+    });
+  }
+
+  nodes.forEach(n => {
+    const click = () => {
+      const target = document.getElementById(n.dataset.snav);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    n.addEventListener('click', click);
+    n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); click(); } });
+  });
+
+  /* Accordion open — ensure section is scrolled into view when opened */
+  document.querySelectorAll('.tr-panel').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        requestAnimationFrame(() => {
+          d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
