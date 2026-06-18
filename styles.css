@@ -1100,6 +1100,36 @@ body.about-locked { overflow: hidden; }
 }
 .gem-iridescence canvas { display: block; width: 100%; height: 100%; }
 
+/* Animated circular progress gauge (Magic UI AnimatedCircularProgressBar, vanilla).
+   Driven by components/animated-progress.js. Sized/colored via custom props. */
+.acp {
+  position: relative;
+  width: var(--acp-size, 140px); height: var(--acp-size, 140px);
+  flex-shrink: 0;
+}
+.acp-svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.acp-track { fill: none; stroke: var(--acp-track, rgba(160,200,255,0.12)); stroke-width: var(--acp-stroke, 6); }
+.acp-bar {
+  fill: none; stroke: var(--acp-primary, #72ADFF); stroke-width: var(--acp-stroke, 6);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.acp-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  pointer-events: none;
+}
+.acp-num {
+  font-family: var(--font-ui, 'Syne', sans-serif); font-weight: 700;
+  font-size: calc(var(--acp-size, 140px) * 0.215); line-height: 1;
+  letter-spacing: -0.04em; color: var(--fg1, #F6FAFF);
+}
+.acp-label {
+  font-family: var(--font-code, 'Space Mono', monospace);
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--acp-label-color, rgba(160,200,255,0.5));
+}
+
 /* Amethyst glow bleeding from card position into section void */
 .gem-bg-glow {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;

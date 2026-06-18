@@ -1478,7 +1478,8 @@
           <div class="cs-metric-desc">Honeymoon → Emergence → Training. Average session time ~15 min. Most players completed all three phases in a single sitting.</div>
         </div>
         <div class="cs-metric">
-          <div class="cs-metric-val" data-count="80" data-count-prefix="~"><span class="cs-count-prefix">~</span><span class="cs-count-n">80</span><em>%</em></div>
+          <div class="acp" data-acp-value="80" data-acp-prefix="~" data-acp-suffix="%"
+               style="--acp-size:120px; --acp-primary:var(--blue-300); --acp-track:rgba(160,200,255,0.12);"></div>
           <div class="cs-metric-desc">Of exhibition visitors who completed Phase 02 correctly named their pet's flaw without being told, confirming the design achieved show-don't-tell</div>
         </div>
         <div class="cs-metric">
@@ -1490,10 +1491,10 @@
     </div>
   </div>
 
-  <!-- IMAGE PLACEHOLDER -->
+  <!-- IMAGE -->
   <div class="cs-image-block" style="max-width: 560px;">
-    <div class="cs-image" data-cs-image style="aspect-ratio: 4/3;">
-      <span class="cs-image-label">Photo coming · IMA Spring Show 2026</span>
+    <div class="cs-image cs-image--photo" data-cs-image style="aspect-ratio: 4/3;">
+      <img src="driftwood.JPG" alt="Driftwood installation at the IMA Spring Show 2026" loading="lazy" />
     </div>
     <p class="cs-image-caption">Fig. 04: IMA Spring Show 2026 · May 9th</p>
   </div>
@@ -1869,5 +1870,6 @@ function initCase() {
 })();
 </script>
 
+<script src="components/animated-progress.js" defer></script>
 </body>
 </html>
