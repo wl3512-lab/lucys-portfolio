@@ -24,7 +24,7 @@ function ContactSection() {
           <span className="scene-kicker">V / Get in touch</span>
           <h2 className="contact-head">
             <span className="contact-accent">Let’s</span>
-            <span className="contact-italic">work together.</span>
+            <span className="contact-line">work <span className="ascii-word">together</span>.</span>
           </h2>
           <a href={`mailto:${email}`} className="contact-email" data-cursor="write">
             {email}
