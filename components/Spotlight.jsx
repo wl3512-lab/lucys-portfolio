@@ -30,10 +30,11 @@ function Spotlight(props) {
   const onOpen = props && props.onOpen;
   const { useEffect, useRef, useMemo } = React;
 
-  // Standout set = the live spotlight piece + featured work.
+  // Single work section (Selected Work removed): show all projects, spotlight/featured first.
   const standout = useMemo(
     function () {
-      return projects.filter(function (p) { return p.spotlight || p.featured; });
+      const rank = function (p) { return p.spotlight ? 0 : (p.featured ? 1 : 2); };
+      return projects.slice().sort(function (a, b) { return rank(a) - rank(b); });
     },
     [projects]
   );
@@ -193,12 +194,14 @@ function Spotlight(props) {
           </div>
           <div className="spotlight-title-wrap">
             {showAscii ? (
-              <AsciiText text="standout_work" asciiFontSize={7} planeBaseHeight={7} />
+              <React.Fragment>
+                <AsciiText text="standout_work" asciiFontSize={7} planeBaseHeight={7} />
+                {/* Accessible heading: the ASCII canvas is aria-hidden visual only */}
+                <h2 className="sr-only">Standout work</h2>
+              </React.Fragment>
             ) : (
               <h2 className="spotlight-title-fallback">standout work</h2>
             )}
-            {/* Accessible heading for screen readers; the ASCII canvas is aria-hidden visual. */}
-            <h2 className="sr-only">Standout work</h2>
           </div>
           <p className="spotlight-sub">
             A close look at the pieces I'd point to <em className="aura-word">first</em>.
