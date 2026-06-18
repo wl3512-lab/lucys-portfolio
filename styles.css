@@ -1624,6 +1624,13 @@ body.about-locked { overflow: hidden; }
   -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
   mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
 }
+/* Waves surface behind the laser beam — grounds the beam so it reads as light
+   hitting a reactive plane rather than floating in the void. */
+.spotlight-atmos .spotlight-waves {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0.3; mix-blend-mode: screen;
+}
+.waves canvas { display: block; width: 100%; height: 100%; }
 .laser-flow-container { width: 100%; height: 100%; position: relative; pointer-events: none; }
 
 .spotlight-inner {
