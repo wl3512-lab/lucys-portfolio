@@ -904,8 +904,18 @@ body.about-locked { overflow: hidden; }
 .fact-minor { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg2); margin-top: 2px; font-weight: 700; }
 
 /* ========== CONTACT ========== */
-.scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; }
-.contact-inner { display: flex; flex-direction: column; align-items: center; gap: 36px; padding-bottom: 140px; }
+.scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; position: relative; overflow: hidden; }
+.contact-inner { display: flex; flex-direction: column; align-items: center; gap: 36px; padding-bottom: 140px; position: relative; z-index: 1; }
+
+/* Aurora backdrop behind the "Let's work together" CTA — masked clear in the centre
+   so the headline + email stay legible; the ribbons glow around them. */
+.scene-contact .contact-aurora {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.6;
+  -webkit-mask-image: radial-gradient(ellipse 78% 58% at 50% 40%, transparent 12%, #000 70%);
+          mask-image: radial-gradient(ellipse 78% 58% at 50% 40%, transparent 12%, #000 70%);
+}
+.scene-contact .contact-aurora canvas { display: block; width: 100%; height: 100%; }
 .contact-head {
   font-family: var(--font-display); font-weight: 300;
   font-size: clamp(4rem, 12vw, 13rem); line-height: 0.9; letter-spacing: -0.02em;

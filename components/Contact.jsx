@@ -4,6 +4,7 @@ const { useState: useStateC } = React;
 function ContactSection() {
   const [copied, setCopied] = useStateC(false);
   const email = 'wl3512@nyu.edu';
+  const showAurora = typeof Aurora !== 'undefined' && window.innerWidth >= 760;
 
   const copy = async () => {
     try {
@@ -16,6 +17,9 @@ function ContactSection() {
   return (
     <>
       <section className="scene scene-contact" id="contact" data-screen-label="05 Contact">
+        {showAurora && (
+          <Aurora className="contact-aurora" colorStops={['#4A8FEF', '#C4B0FF', '#72ADFF']} amplitude={0.9} blend={0.55} speed={0.5} />
+        )}
         <div className="container contact-inner">
           <span className="scene-kicker">V / Get in touch</span>
           <h2 className="contact-head">
