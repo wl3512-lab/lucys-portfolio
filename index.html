@@ -994,7 +994,7 @@ function App() {
           yGap={36}
           friction={0.92}
           tension={0.008}
-          maxCursorMove={90}
+          maxCursorMove={40}
         />
       )}
       <main id="main-content" tabIndex="-1">
@@ -1074,10 +1074,14 @@ function initAnimations() {
   // --- Hero: split characters (run now so DOM is ready; animation fires on loader:exit) ---
   document.querySelectorAll('.hero-heading .word').forEach(w => {
     const txt = w.textContent;
+    const asciiWord = w.getAttribute('data-ascii');
+    const aStart = asciiWord ? txt.indexOf(asciiWord) : -1;
+    const aEnd = aStart >= 0 ? aStart + asciiWord.length : -1;
     w.textContent = '';
-    [...txt].forEach(c => {
+    [...txt].forEach((c, i) => {
       const s = document.createElement('span');
-      s.className = 'char'; s.textContent = c === ' ' ? '\u00A0' : c;
+      s.className = (aStart >= 0 && i >= aStart && i < aEnd) ? 'char hero-ascii-char' : 'char';
+      s.textContent = c === ' ' ? '\u00A0' : c;
       w.appendChild(s);
     });
   });

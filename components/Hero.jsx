@@ -60,7 +60,7 @@ function Hero() {
           glitchAmount={1}
           flickerAmount={0.5}
           curvature={0.1}
-          mouseStrength={0.25}
+          mouseStrength={0.1}
         />
       )}
       <canvas id="hero-canvas" className="hero-canvas" aria-hidden="true" />
@@ -93,7 +93,7 @@ function Hero() {
           </div>
           <h1 className="hero-heading">
             <span className="word-mask"><span className="word">For people who actually</span></span>
-            <span className="word-mask"><span className="word italic">read the interface.</span></span>
+            <span className="word-mask"><span className="word" data-ascii="interface">read the interface.</span></span>
           </h1>
         </div>
 

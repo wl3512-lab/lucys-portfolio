@@ -180,7 +180,7 @@ function Spotlight(props) {
             flowStrength={0.22}
             verticalSizing={2.1}
             horizontalSizing={0.5}
-            mouseTiltStrength={0.012}
+            mouseTiltStrength={0.005}
           />
         )}
       </div>

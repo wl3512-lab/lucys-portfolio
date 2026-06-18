@@ -391,6 +391,19 @@ body.about-locked { overflow: hidden; }
   color: var(--fg1);
 }
 .hero-heading .italic { font-style: italic; color: var(--blue-300); font-weight: 700; }
+
+/* ASCII / dot-matrix accent on one headline word ("interface") — letters rendered
+   as a dot grid (same cloud colour as the rest: texture, not a colour split). */
+.hero-heading .hero-ascii-char {
+  color: transparent;
+  background-image: radial-gradient(var(--fg1) 44%, transparent 48%);
+  background-size: 0.1em 0.1em;
+  background-position: center;
+  -webkit-background-clip: text; background-clip: text;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero-heading .hero-ascii-char { color: var(--fg1); background: none; }
+}
 .word-mask { display: block; overflow: hidden; padding: 0.1em 0.02em; margin-bottom: -0.1em; }
 .word { display: inline-block; }
 .char { display: inline-block; }

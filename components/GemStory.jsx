@@ -10,7 +10,7 @@ function GemStory() {
     <section className="gem-section" id="gems">
       {/* Atmospheric environment: stays behind everything */}
       {showIridescence && (
-        <Iridescence className="gem-iridescence" color={[0.6, 0.45, 1.0]} speed={0.6} amplitude={0.12} />
+        <Iridescence className="gem-iridescence" color={[0.6, 0.45, 1.0]} speed={0.6} amplitude={0.05} />
       )}
       <div className="gem-bg-glow" aria-hidden="true" />
       <div className="gem-particles" aria-hidden="true">
