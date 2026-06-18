@@ -17,7 +17,7 @@ function ContactSection() {
     <>
       <section className="scene scene-contact" id="contact" data-screen-label="05 Contact">
         <div className="container contact-inner">
-          <span className="scene-kicker">— V / Get in touch</span>
+          <span className="scene-kicker">V / Get in touch</span>
           <h2 className="contact-head">
             <span className="contact-accent">Let’s</span>
             <span className="contact-italic">work together.</span>
@@ -28,7 +28,7 @@ function ContactSection() {
           </a>
           <button
             type="button"
-            className="contact-copy"
+            className={'contact-copy' + (copied ? ' is-copied' : '')}
             onClick={copy}
             data-cursor={copied ? 'copied!' : 'copy'}
             aria-live="polite"

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project | Lucy Liu</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=10">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--fg1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── Nav ── */
+.pj-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 28px 0;
+  background: linear-gradient(to bottom, var(--void) 60%, transparent);
+}
+.pj-nav-inner {
+  width: min(1240px, 92vw); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pj-logo {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 22px; letter-spacing: -0.02em; color: var(--fg1);
+}
+.pj-back {
+  font-family: var(--font-ui); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--fg2); transition: color .25s;
+}
+.pj-back:hover { color: var(--fg1); }
+
+/* ── Hero ── */
+.pj-hero {
+  padding: 140px 0 72px;
+  width: min(900px, 92vw); margin: 0 auto;
+}
+.pj-kicker {
+  font-family: var(--font-ui); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--fg3); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 10px;
+}
+.pj-kicker::before {
+  content: ''; display: inline-block;
+  width: 20px; height: 1px; background: var(--fg3);
+}
+.pj-title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(48px, 7vw, 88px);
+  letter-spacing: -0.03em; line-height: 1.05;
+  margin-bottom: 24px;
+}
+.pj-title em { font-style: italic; color: var(--fg2); }
+.pj-subtitle {
+  font-family: var(--font-body); font-size: 18px;
+  color: var(--fg2); line-height: 1.6;
+  max-width: 600px; margin-bottom: 40px;
+}
+.pj-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 48px;
+}
+.pj-tag {
+  font-family: var(--font-ui); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--border); color: var(--fg3);
+}
+.pj-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 24px 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.pj-meta-item { display: flex; flex-direction: column; gap: 6px; }
+.pj-meta-k {
+  font-family: var(--font-ui); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--fg3);
+}
+.pj-meta-v {
+  font-family: var(--font-display); font-size: 15px;
+  color: var(--fg1); line-height: 1.4;
+}
+
+/* ── Description strip ── */
+.pj-desc {
+  width: min(900px, 92vw); margin: 0 auto 80px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
+}
+@media (max-width: 700px) { .pj-desc { grid-template-columns: 1fr; } }
+.pj-desc-block { display: flex; flex-direction: column; gap: 10px; }
+.pj-desc-label {
+  font-family: var(--font-ui); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--accent);
+}
+.pj-desc-text {
+  font-size: 14px; line-height: 1.65; color: var(--fg2);
+}
+
+/* ── Slides ── */
+.pj-slides {
+  width: min(1100px, 96vw); margin: 0 auto 120px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.pj-slide {
+  width: 100%; border-radius: 4px; overflow: hidden;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.pj-slide.is-visible { opacity: 1; transform: translateY(0); }
+.pj-slide img { width: 100%; height: auto; display: block; }
+.pj-slide-num {
+  font-family: var(--font-ui); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--fg3); padding: 8px 0;
+  text-align: right;
+}
+
+/* ── Footer ── */
+.pj-foot {
+  border-top: 1px solid var(--border);
+  padding: 60px 0;
+  width: min(1100px, 92vw); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pj-foot-logo {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 20px; letter-spacing: -0.02em; color: var(--fg2);
+}
+.pj-foot-back {
+  font-family: var(--font-ui); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--fg2); transition: color .25s;
+  padding: 12px 24px; border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.pj-foot-back:hover { color: var(--fg1); border-color: var(--fg2); }
+</style>
+</head>
+<body>
+
+<nav class="pj-nav">
+  <div class="pj-nav-inner">
+    <a class="pj-logo" href="index.html">lucy liu</a>
+    <a class="pj-back" href="index.html#work">← all work</a>
+  </div>
+</nav>
+
+<main id="pj-main">
+  <!-- rendered by JS -->
+</main>
+
+<script>
+const PROJECTS = [
+  {
+    slug: 'habitabull',
+    title: 'HabitaBull', titleEm: 'Lifting',
+    kicker: 'Product Design · UX Research · 2024',
+    subtitle: 'A gym app built around the psychology of showing up, not the shame of missing.',
+    tags: ['Product Design','UX Research','App Design','Psychology'],
+    role: 'UX/UI Designer', timeline: '2024 · 8 weeks',
+    tools: 'Figma · FigJam · User Research · Usability Testing',
+    problem: 'Gym apps punish absence. Streak systems create shame, and shame makes people quit. The psychology is backwards.',
+    approach: 'Interviews with lapsed gym-goers. Redesigned around streak forgiveness, the "minimum viable workout," and tactile progress over numbers.',
+    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app.',
+    slides: 40,
+  },
+  {
+    slug: 'h2know',
+    title: 'H2', titleEm: 'Know',
+    kicker: 'Physical Computing · App Design · 2024',
+    subtitle: 'Talk to your plant. It\'ll remind you.',
+    tags: ['Physical Computing','App Design','Arduino','UX/UI'],
+    role: 'Design + Hardware', timeline: '2024 · 6 weeks',
+    tools: 'Arduino · Figma · C++ · Physical Computing',
+    problem: 'People forget to water plants because there\'s no emotional connection. Notifications feel like nagging.',
+    approach: 'A soil-moisture sensor that talks back through a companion app with personality. The plant has a voice: polite when thirsty, grateful when watered.',
+    outcome: 'Working prototype. Emotional framing made users check their plant 3× more often than a control reminder app.',
+    slides: 27,
+  },
+  {
+    slug: 'eternal-wreckening',
+    title: 'Eternal', titleEm: 'Wreckening',
+    kicker: 'Game Design · Narrative Design · 2023',
+    subtitle: 'A game about the weight of memory. Every choice rewrites what came before.',
+    tags: ['Game Design','Narrative Design','UX/UI','Psychology'],
+    role: 'Game Design + UX/UI', timeline: '2023 · 10 weeks',
+    tools: 'Figma · Unity · User Research',
+    problem: 'Most games reward progress. This one makes players sit with loss and question whether winning is even the right goal.',
+    approach: 'Defined the problem statement, designed core loops, and built the UI system. Every menu element carries narrative weight.',
+    outcome: 'Playable prototype. NYU IMA coursework exploring psychology-as-mechanic.',
+    slides: 16,
+  },
+];
+
+const slug = new URLSearchParams(location.search).get('slug');
+const p = PROJECTS.find(x => x.slug === slug);
+
+if (!p) {
+  location.replace('index.html#work');
+} else {
+  document.title = p.title + ' ' + p.titleEm + ' | Lucy Liu';
+  renderProject(p);
+}
+
+function renderProject(p) {
+  const main = document.getElementById('pj-main');
+  const slideDir = 'assets/' + p.slug + '/slides/';
+
+  const tagHtml = p.tags.map(t => '<span class="pj-tag">' + t + '</span>').join('');
+
+  main.innerHTML = `
+    <section class="pj-hero">
+      <p class="pj-kicker">${p.kicker}</p>
+      <h1 class="pj-title">${p.title} <em>${p.titleEm}</em></h1>
+      <p class="pj-subtitle">${p.subtitle}</p>
+      <div class="pj-tags">${tagHtml}</div>
+      <div class="pj-meta">
+        <div class="pj-meta-item">
+          <span class="pj-meta-k">Role</span>
+          <span class="pj-meta-v">${p.role}</span>
+        </div>
+        <div class="pj-meta-item">
+          <span class="pj-meta-k">Timeline</span>
+          <span class="pj-meta-v">${p.timeline}</span>
+        </div>
+        <div class="pj-meta-item">
+          <span class="pj-meta-k">Tools</span>
+          <span class="pj-meta-v">${p.tools}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pj-desc">
+      <div class="pj-desc-block">
+        <span class="pj-desc-label">Problem</span>
+        <p class="pj-desc-text">${p.problem}</p>
+      </div>
+      <div class="pj-desc-block">
+        <span class="pj-desc-label">Approach</span>
+        <p class="pj-desc-text">${p.approach}</p>
+      </div>
+      <div class="pj-desc-block">
+        <span class="pj-desc-label">Outcome</span>
+        <p class="pj-desc-text">${p.outcome}</p>
+      </div>
+    </section>
+
+    <div class="pj-slides" id="pj-slides-container"></div>
+
+    <footer class="pj-foot">
+      <span class="pj-foot-logo">lucy liu</span>
+      <a class="pj-foot-back" href="index.html#work">← back to all work</a>
+    </footer>
+  `;
+
+  // Build slide elements
+  const container = document.getElementById('pj-slides-container');
+  for (var i = 1; i <= p.slides; i++) {
+    var n = String(i).padStart(2, '0');
+    var wrap = document.createElement('div');
+    wrap.className = 'pj-slide';
+    wrap.innerHTML = '<img src="' + slideDir + 'slide-' + n + '.png" alt="Slide ' + n + '" loading="lazy" />';
+    container.appendChild(wrap);
+  }
+
+  // Intersection observer for scroll-in reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  container.querySelectorAll('.pj-slide').forEach(function(el) { obs.observe(el); });
+}
+</script>
+</body>
+</html>

@@ -4,13 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
 <title>H2Know: Lucy Liu</title>
-<meta name="description" content="H2Know — An Arduino-driven plant companion that builds an emotional connection so you actually remember to water it. Case study by Lucy Liu." />
+<meta name="description" content="H2Know: An Arduino-driven plant companion that builds an emotional connection so you actually remember to water it. Case study by Lucy Liu." />
+<meta property="og:title" content="H2Know | Lucy Liu" />
+<meta property="og:description" content="H2Know: An Arduino-driven plant companion that builds an emotional connection so you actually remember to water it. Case study by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/h2know.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/h2know/slides/slide-01.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="styles.css" />
 <style>
@@ -265,6 +269,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 
@@ -490,7 +495,7 @@ a { color: inherit; text-decoration: none; }
         <span class="tag">2024</span>
       </div>
       <div class="cs-hero-actions">
-        <a href="PLANT%20UXFINAL%201.pdf" target="_blank" rel="noopener" class="btn btn-secondary">View presentation ↗</a>
+        <a href="PLANT%20UXFINAL%201.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View presentation ↗</a>
       </div>
     </div>
   </div>
@@ -538,13 +543,13 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Your plant can't tell you <em>it's thirsty.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Americans spent over $48 billion on indoor plants in 2024. 67% of millennial plant owners self-identify as "plant murderers." The cause isn't negligence: it's distance. Plants are passive. They sit in corners, behind desks, out of sightlines. They have no voice and no feedback loop until they're already dying.</p>
-        <p>Existing solutions don't help: smart pots cost $80+, basic moisture meters give uninterpretable numbers, and reminder apps create the same anxiety as any notification. <strong>The real problem is emotional disconnection, not lack of information.</strong></p>
+        <p>Americans spent over $48 billion on indoor plants in 2024, and 67% of millennial plant owners call themselves "plant murderers." The cause is distance. A plant sits in a corner, behind a desk, out of your sightline, and it can't tell you anything until it's already dying.</p>
+        <p>The products meant to fix this fall short. Smart pots cost $80 and up, basic moisture meters spit out numbers you can't read, and reminder apps nag you like every other notification. <strong>You don't water a plant because you're missing information; you water it because you care whether it lives.</strong></p>
       </div>
 
       <div class="cs-pull-quote">
         <blockquote>"I'm happy when they die because then I can buy a new one. Every time I'm depressed I get a new one."</blockquote>
-        <cite>— Anya Li, 16 · Interview participant</cite>
+        <cite>Anya Li, 16 · Interview participant</cite>
       </div>
 
       <!-- HMW questions -->
@@ -582,10 +587,10 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm">02</span>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Research + Insights</p>
-      <h2 class="cs-section-h" data-cs-reveal>Not forgetfulness. <em>Disconnection.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>People don't forget. They <em>disconnect.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Competitive analysis of existing sensors (Gikfun capacitive sensor, basic moisture meters) confirmed they fail beginners: readings are hard to interpret, calibration drifts, and none provide reminders or emotional scaffolding. Interviews with three participants revealed a consistent pattern: plant death isn't a knowledge problem. It's a relationship problem.</p>
+        <p>I compared the sensors people already buy (the Gikfun capacitive sensor, basic moisture meters) and watched them fail beginners: readings are hard to interpret, calibration drifts, and nothing reminds you or makes you care. Then I interviewed three plant owners. Each told a version of the same story: their plants didn't die because they didn't know how to care for them. They died because the relationship had gone cold.</p>
       </div>
     </div>
   </div>
@@ -660,17 +665,17 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Three levers. <em>One relationship.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The research pointed at a clear design target: the system needs to create a relationship, not just deliver information. Three psychological levers emerged from the interview data that, together, build the motivation structure the app needed.</p>
+        <p>The research gave me one design target: build a relationship, not a dashboard. The interviews kept circling three psychological levers, and I made each one drive a part of the app.</p>
       </div>
 
       <div class="cs-levers" data-cs-reveal>
         <div class="cs-lever">
           <div class="cs-lever-label">Guilt</div>
-          <div class="cs-lever-desc"><strong>Make absence visible.</strong> The LED turns on when soil is dry. The plant's face shifts from happy to sad in the app icon. The Friends feed broadcasts neglect: "Pete is 9 days late on watering Todd: remind him now." Guilt operates at three levels simultaneously: hardware, interface, and social.</div>
+          <div class="cs-lever-desc"><strong>Make absence visible.</strong> When the soil goes dry, the LED turns on, the plant's face in the app icon drops from happy to sad, and the Friends feed tells everyone: "Pete is 9 days late on watering Todd: remind him now." The hardware, the interface, and your friends all flag you at once.</div>
         </div>
         <div class="cs-lever">
           <div class="cs-lever-label">Ownership</div>
-          <div class="cs-lever-desc"><strong>Give it a name, a species, a birthday.</strong> Each plant has a name (Jeremy, Todd, Bill), a species (Golden Pothos, Mini Monstera, Scarlet Ball Cactus), and an adoption date ("Your plant since June 20, 2023"). The detail screen tracks age in years, days without water, and days until next fertilize. Named things with histories don't get forgotten.</div>
+          <div class="cs-lever-desc"><strong>Give it a name, a species, a birthday.</strong> Each plant has a name (Jeremy, Todd, Bill), a species (Golden Pothos, Mini Monstera, Scarlet Ball Cactus), and an adoption date ("Your plant since June 20, 2023"). The detail screen tracks its age in years, days since you last watered it, and days until the next fertilize. Once a plant has a name and a history, you stop letting it slip your mind.</div>
         </div>
         <div class="cs-lever">
           <div class="cs-lever-label">Reward</div>
@@ -723,7 +728,7 @@ a { color: inherit; text-decoration: none; }
         </div>
         <div class="cs-metric">
           <div class="cs-metric-screen">Water Today</div>
-          <div class="cs-metric-desc">Two-column view: "To water" (Todd, 100 ml) vs "Completed" (Jeremy, checkmark). The split makes the day's task legible in one glance: no navigation, no hunt through a list.</div>
+          <div class="cs-metric-desc">Two-column view: "To water" (Todd, 100 ml) next to "Completed" (Jeremy, checkmark). You read the day's task in one glance, without digging through a list.</div>
         </div>
         <div class="cs-metric">
           <div class="cs-metric-screen">Plant detail</div>
@@ -812,15 +817,15 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The naming mechanism deserved more design time.</p>
-          <p class="cs-reflection-body">Every interview confirmed that named plants outlive unnamed ones. But the naming flow in the prototype was an afterthought, just a text field on setup. It should be a moment. Onboarding that frames naming as a ritual, not a form field, would reinforce the ownership lever from the first interaction.</p>
+          <p class="cs-reflection-body">Every interview pointed the same way: named plants outlive unnamed ones. Yet in the prototype I made naming a plain text field on the setup screen. If I framed it as a small ritual instead, with onboarding that treats the name as the start of a bond, the ownership lever would kick in from the very first tap.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Hardware and software need to be co-designed, not sequential.</p>
-          <p class="cs-reflection-body">The Arduino prototype and the Figma app were built in separate phases. The result: the hardware was designed without knowing which app interactions it would trigger, and the app was designed without knowing the sensor's latency. <em>Physical-digital systems need to be prototyped together from week one.</em></p>
+          <p class="cs-reflection-body">I built the Arduino prototype and the Figma app in separate phases. So I designed the hardware without knowing which app interactions it would trigger, and designed the app without knowing how slow the sensor actually was. <em>Next time I'd prototype the physical and digital sides side by side from week one.</em></p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Two features didn't make the build; both would have changed the testing.</p>
-          <p class="cs-reflection-body">A plant locator map (showing which plant in the house needs water, based on sensor placement) and a propagation gifting system (trading plant clippings with the community) were scoped out of the prototype. Both address the out-of-sight problem directly: the locator makes hidden plants visible, gifting creates social stakes. Worth building for v2.</p>
+          <p class="cs-reflection-body">I cut two features from the prototype: a plant locator map (which plant in the house needs water, based on sensor placement) and a propagation gifting system (trading clippings with other owners). Both go straight at the out-of-sight problem. The locator surfaces the plants you've stopped seeing, and gifting raises the social stakes of keeping yours alive. I'd build both in v2.</p>
         </div>
       </div>
     </div>
@@ -841,11 +846,12 @@ a { color: inherit; text-decoration: none; }
 <!-- NEXT PROJECT -->
 <section class="cs-next">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Next project</p>
+    <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="eternal-wreckening.html">
       <span class="cs-next-title">Eternal Wreckening</span>
       <span class="cs-next-arrow">↗</span>
     </a>
+    <p class="cs-next-desc">The Eternal Wreckening takes the same habit-loop logic into a physical, real-time game. Like H2Know, it designs for behavior that repeats and shifts over time, with the feedback wired into the system itself.</p>
   </div>
 </section>
 

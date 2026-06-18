@@ -4,12 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Arrested Motion — Lucy Liu</title>
-<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="description" content="Oil on canvas capturing the rhythm of hands washing dishes. Fine arts project by Lucy Liu." />
+<meta property="og:title" content="Arrested Motion | Lucy Liu" />
+<meta property="og:description" content="Oil on canvas capturing the rhythm of hands washing dishes. Fine arts project by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/handpainting.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/handpainting/cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<title>Arrested Motion | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -74,9 +76,13 @@
   display: flex; align-items: center; justify-content: center;
 }
 .ant-cover img {
-  width: 100%;
-  height: auto;
   display: block;
+  max-height: clamp(300px, 45vh, 480px);
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 .ant-body {
@@ -86,6 +92,16 @@
 }
 .ant-body p { margin: 0 0 1.5em; }
 .ant-body p:last-child { margin: 0; }
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 </style>
 </head>
 <body>
@@ -96,7 +112,7 @@
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">lucy liu</a>
     <ul class="nav-links">
-      <li><a href="work.html" class="nav-link">work</a></li>
+      <li><a href="work.html" class="nav-link">all work</a></li>
       <li><a href="index.html#about" class="nav-link">about</a></li>
       <li><a href="index.html#contact" class="nav-link">contact ↗</a></li>
     </ul>
@@ -130,16 +146,30 @@
     </div>
 
     <div class="ant-cover">
-      <img src="assets/handpainting/cover.jpg" alt="Handpainting — hands washing dishes, watercolour" />
+      <img src="assets/handpainting/cover.jpg" alt="Handpainting: hands washing dishes, oil on canvas" />
     </div>
 
     <div class="ant-body">
-      <p>This painting captures an arrested moment within a mundane process, serving as an experimental snapshot of daily activities. It highlights the grace found in routine and the beauty embedded in the mundane.</p>
-      <p>Detailing the routine-like motion of washing dishes, this piece emphasizes the fluidity and repetitive nature of the task. I was challenged by conveying motion and stillness simultaneously and solved it by focusing on brush texture and transparency.</p>
-      <p>This project deepened my appreciation for everyday moments and how these small tasks connect us with our surroundings.</p>
+      <p>This painting holds one frozen moment inside a chore, an experimental snapshot of an everyday task. I wanted to show that there is something graceful in a routine most people don't look at twice.</p>
+      <p>The piece follows the loop of washing dishes and tries to catch how fluid and repetitive the motion is. Showing movement and stillness at the same time was the hard part; I worked it out through brush texture and transparency.</p>
+      <p>Painting it made me pay more attention to small daily moments and how they tie me to the space around me.</p>
     </div>
   </div>
 </main>
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Related project</p>
+    <a class="cs-next-link" href="anticipation.html">
+      <span class="cs-next-title">Anticipation</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+    <p class="cs-next-desc">Anticipation is another painted study of a private moment held still. Like this one, it watches an ordinary gesture made when no one is performing for a crowd.</p>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
 </body>
 </html>

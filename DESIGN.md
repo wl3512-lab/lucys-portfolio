@@ -1,6 +1,6 @@
 ---
 name: Lucy Liu Design System
-description: Editorial-atmospheric portfolio for Lucy Liu — Design Strategist, NYU IMA
+description: Editorial-atmospheric portfolio for Lucy Liu, Design Strategist, NYU IMA
 colors:
   void: "#050710"
   navy: "#0A0F2A"
@@ -104,11 +104,11 @@ components:
 
 **Creative North Star: "The Lit Archive"**
 
-A personal body of work that glows from within. Not a gallery with overhead lights and white walls — a deep-space archive where each piece is lit by its own aura, the glow emanating from behind the content rather than from above it. The environment itself argues for Lucy's sensibility: the void background is the default reality; every surface exists as a departure from it.
+A personal body of work that glows from within. Not a gallery with overhead lights and white walls, but a deep-space archive where each piece is lit by its own aura, the glow emanating from behind the content rather than from above it. The environment argues for Lucy's sensibility: the void background is the default reality; every surface exists as a departure from it.
 
-The system is editorial and atmospheric in equal measure. Editorial precision governs the typography — a deliberate mix of Playfair's serif intelligence, Syne's geometric weight, and Space Mono's technical rigor. Atmospheric depth governs the environment — deep-space void backgrounds, aura-blue radial halos, fine grid lines visible only at the center, SVG grain barely perceptible under content. The result is a space that feels occupied, not rendered.
+The system is editorial and atmospheric in equal measure. Editorial precision governs the typography: a mix of Playfair's serif intelligence, Syne's geometric weight, and Space Mono's technical rigor. Atmospheric depth governs the environment: deep-space void backgrounds, aura-blue radial halos, fine grid lines visible only at the center, SVG grain barely perceptible under content. The result is a space that feels occupied, not rendered.
 
-This is a brand-register system: the design IS the portfolio. Every decision — the choice to use gradient light on one word per screen, the frosted nav that appears on scroll, the project row that expands with cursor pressure — communicates methodology without stating it. The work is the evidence; the surface is the argument.
+This is a brand-register system: the design IS the portfolio. Every decision (gradient light on one word per screen, the frosted nav that appears on scroll, the project row that expands with cursor pressure) communicates methodology without stating it. The work is the evidence; the surface is the argument.
 
 **This system explicitly rejects:**
 - Generic dark Webflow templates: Neue Haas Unica, full-caps headlines, neon accent, a grid of uniform portfolio cards. That communicates "studio," not "person."
@@ -124,7 +124,7 @@ This is a brand-register system: the design IS the portfolio. Every decision —
 
 ## 2. Colors: The Atmospheric Palette
 
-A deep-space palette: void black foundations, navy surfaces elevated above them, and two atmospheric lights — blue and lavender — that exist in the environment rather than on surfaces.
+A deep-space palette: void black foundations, navy surfaces elevated above them, and two atmospheric lights, blue and lavender, that exist in the environment rather than on surfaces.
 
 ### Primary
 - **Signal Blue** (`#72ADFF`): The primary accent. Buttons, focus rings, active nav links, cursor dot, hover-state color shifts on project titles and arrows. The one deliberate note of light on an otherwise atmospheric surface. Used at full opacity for interactive affordances.
@@ -144,7 +144,7 @@ A deep-space palette: void black foundations, navy surfaces elevated above them,
 - **Tertiary Text** (`rgba(160,200,255,0.35)`): Eyebrow labels, monospace meta, decorative indicators. Never used for body-weight reading text per WCAG AA.
 
 ### Named Rules
-**The One Flame Rule.** The Atmospheric Light gradient (`linear-gradient(135deg, #A0C8FF, #C4B0FF 55%, #8EC4FF)`) applied via `-webkit-background-clip: text` fires on exactly one italic Playfair word per screen — the word that carries the whole sentence's meaning. Not one per component, not one per section. Per screen. If the aura fires twice in viewport, it means nothing.
+**The One Flame Rule.** The Atmospheric Light gradient (`linear-gradient(135deg, #A0C8FF, #C4B0FF 55%, #8EC4FF)`) applied via `-webkit-background-clip: text` fires on exactly one italic Playfair word per screen: the word that carries the whole sentence's meaning. Not one per component, not one per section. Per screen. If the aura fires twice in viewport, it means nothing.
 
 **The No-White Rule.** `#ffffff` and `#000000` are prohibited. Cloud White (`#F6FAFF`) is the near-white. Void (`#050710`) is the near-black. Tinting toward the brand hue is non-negotiable.
 
@@ -152,12 +152,12 @@ A deep-space palette: void black foundations, navy surfaces elevated above them,
 
 ## 3. Typography: The Editorial Stack
 
-**Display Font:** Playfair Display (Georgia, serif fallback) — editorial headlines, hero, section titles, italic aura accents
-**UI Font:** Syne (system-ui, sans-serif fallback) — wordmark, nav, buttons, labels, section headings
-**Body Font:** DM Sans (system-ui, sans-serif fallback) — paragraphs, bio, case study prose
-**Mono Font:** Space Mono / JetBrains Mono (Courier New fallback) — eyebrow labels, project indices, tags, technical meta
+**Display Font:** Playfair Display (Georgia, serif fallback), editorial headlines, hero, section titles, italic aura accents
+**UI Font:** Syne (system-ui, sans-serif fallback), wordmark, nav, buttons, labels, section headings
+**Body Font:** DM Sans (system-ui, sans-serif fallback), paragraphs, bio, case study prose
+**Mono Font:** Space Mono / JetBrains Mono (Courier New fallback), eyebrow labels, project indices, tags, technical meta
 
-**Character:** A pairing of tension and clarity. Playfair Display brings editorial authority and the italic moment that is the system's signature. Syne provides geometric weight without coldness, functioning as both UI label and wordmark. DM Sans handles the reading-weight work: light but not frail, legible in dark contexts. Space Mono introduces technical precision — the voice of someone who codes, who counts, who measures.
+**Character:** A pairing of tension and clarity. Playfair Display brings editorial authority and the italic moment that is the system's signature. Syne provides geometric weight without coldness, functioning as both UI label and wordmark. DM Sans handles the reading-weight work: light but not frail, legible in dark contexts. Space Mono introduces technical precision: the voice of someone who codes, who counts, who measures.
 
 ### Hierarchy
 - **Display** (700 weight, `clamp(72px, 13vw, 150px)`, line-height 0.92): Hero names and section heroes. Extremely tight leading. Only Playfair Display. Uppercase initial, not all-caps.
@@ -178,15 +178,15 @@ A deep-space palette: void black foundations, navy surfaces elevated above them,
 
 This system uses glow over shadow. No `box-shadow` on any card, container, or floating element. Depth is created entirely through:
 
-1. **Aura orbs** — large CSS radial gradients (500–800px) behind hero and about sections at `rgba(160,200,255,0.18)` to `rgba(196,176,255,0.10)`, creating perceived light sources in the void.
-2. **Tonal layering** — the background stack (Void → Navy → Navy Mid → Navy Light) provides four distinct elevation tiers. Each tier is its own surface; the difference reads as depth.
-3. **Frosted glass** — `rgba(255,255,255,0.04)` fill + `backdrop-filter: blur(8–16px)` + 1px `rgba(160,200,255,0.10–0.20)` border. Used for nav (scrolled state), cards, and inputs.
-4. **Border at low alpha** — hairline at `rgba(160,200,255,0.10)` for structural dividers; strong at `rgba(160,200,255,0.20)` for cards, inputs, active components.
+1. **Aura orbs**, large CSS radial gradients (500–800px) behind hero and about sections at `rgba(160,200,255,0.18)` to `rgba(196,176,255,0.10)`, creating perceived light sources in the void.
+2. **Tonal layering**, the background stack (Void → Navy → Navy Mid → Navy Light) provides four distinct elevation tiers. Each tier is its own surface; the difference reads as depth.
+3. **Frosted glass**, `rgba(255,255,255,0.04)` fill + `backdrop-filter: blur(8–16px)` + 1px `rgba(160,200,255,0.10–0.20)` border. Used for nav (scrolled state), cards, and inputs.
+4. **Border at low alpha**, hairline at `rgba(160,200,255,0.10)` for structural dividers; strong at `rgba(160,200,255,0.20)` for cards, inputs, active components.
 
 ### Named Rules
 **The No-Shadow Rule.** `box-shadow` is prohibited on all surfaces. If you're reaching for it, the alternative is always: a tonal background step, an aura radial behind the element, or a 1px border at low alpha.
 
-**The Frosted-Nav Exception.** Navigation uses `backdrop-filter: blur(16px)` and `rgba(5,7,16,0.85)` background only after 40px of scroll. At rest, the nav is transparent. This is a purposeful material moment — earned by the scroll, not present by default.
+**The Frosted-Nav Exception.** Navigation uses `backdrop-filter: blur(16px)` and `rgba(5,7,16,0.85)` background only after 40px of scroll. At rest, the nav is transparent. This is a purposeful material moment, earned by the scroll, not present by default.
 
 ## 5. Components
 
@@ -194,7 +194,7 @@ This system uses glow over shadow. No `box-shadow` on any card, container, or fl
 
 Frosted restraint. Minimal material presence at rest; state changes are deliberate and fast.
 
-- **Shape:** Gently squared corners (4px radius — `{rounded.sm}`)
+- **Shape:** Gently squared corners (4px radius: `{rounded.sm}`)
 - **Primary:** Signal Blue (`#72ADFF`) background, Void (`#050710`) text, 11px 22px padding, Syne 700 14px. Hover: lightens to Atmospheric Blue (`#A0C8FF`). Press: `scale(0.97)`.
 - **Secondary:** Transparent background, Cloud White text, 1px border at `rgba(160,200,255,0.20)`. Hover: border shifts to Cloud White, background gets `rgba(255,255,255,0.04)` fill.
 - **Ghost:** No background, no border. Secondary-text color `rgba(235,243,255,0.55)`. Hover: lifts to Cloud White. Used for nav-style inline actions.
@@ -218,7 +218,7 @@ Fixed top bar, 64px height. Transparent on hero; gains frosted glass on scroll.
 - **Scrolled (`>40px`):** `rgba(5,7,16,0.85)` background, `backdrop-filter: blur(16px)`, 1px bottom border at `rgba(160,200,255,0.10)`. 300ms transition.
 - **Wordmark:** Syne 700 14px, lowercase `lucy liu`, 0.02em tracking. Hover: color → Signal Blue.
 - **Links:** Syne 400 14px, lowercase. Default: Secondary Text. Hover: Cloud White. Active: Signal Blue.
-- **Mobile:** Hamburger built from two `<span>` rules — 22px wide, 1px height, Cloud White. Full-screen overlay at Void background, links at Title scale.
+- **Mobile:** Hamburger built from two `<span>` rules: 22px wide, 1px height, Cloud White. Full-screen overlay at Void background, links at Title scale.
 
 ### Cards / Containers
 
@@ -231,7 +231,7 @@ Nested cards are prohibited.
 
 ### Project Row (Signature Component)
 
-The primary content pattern for the work section. Not a card grid — a list with editorial behavior.
+The primary content pattern for the work section. Not a card grid, a list with editorial behavior.
 
 - **Structure:** Full-width horizontal divider (0.5px at `rgba(160,200,255,0.10)`), 2-column grid (left: index + title + tags; right: description + arrow).
 - **Hover:** Vertical padding expands from 40px to 48px (slow 500ms expo-out). Project title shifts `translateX(8px)` and color → Signal Blue. Arrow translates `(4px, -4px)` and color → Signal Blue. An accent-colored `mix-blend-mode: overlay` mask slides in from the left at 8% opacity.

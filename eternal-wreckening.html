@@ -4,9 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Eternal Wreckening — Lucy Liu</title>
+<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
+<meta property="og:title" content="Eternal Wreckening | Lucy Liu" />
+<meta property="og:description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/eternal-wreckening.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/eternal-wreckening/slides/slide-01.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<title>Eternal Wreckening | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -286,6 +291,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 
@@ -557,16 +563,16 @@ a { color: inherit; text-decoration: none; }
   <div class="cs-hero-orb"></div>
   <div class="cs-hero-orb-2"></div>
 
-  <h1 class="visually-hidden">Eternal Wreckening — Mobile Horror Game</h1>
+  <h1 class="visually-hidden">Eternal Wreckening: Mobile Horror Game</h1>
   <div class="cs-hero-cover-full">
-    <img src="assets/eternal-wreckening/slides/slide-01.jpg" alt="Eternal Wreckening — mobile horror game cover" fetchpriority="high"
+    <img src="assets/eternal-wreckening/slides/slide-01.jpg" alt="Eternal Wreckening: mobile horror game cover" fetchpriority="high"
           srcset="assets/eternal-wreckening/slides/sm/slide-01.png 1200w, assets/eternal-wreckening/slides/slide-01.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
   </div>
 
   <div class="cs-hero-below" style="padding-top:24px;padding-bottom:clamp(48px,6vh,72px);">
-    <p class="cs-subtitle">A mobile horror game with intuitive controls, immersive visuals, and full-body movement mechanics — set in a chilling dystopian world.</p>
+    <p class="cs-subtitle">A mobile horror game with intuitive controls, immersive visuals, and full-body movement mechanics, set in a chilling dystopian world.</p>
     <div class="cs-hero-foot">
       <div class="cs-tags">
         <span class="tag">Game Design</span>
@@ -576,7 +582,7 @@ a { color: inherit; text-decoration: none; }
         <span class="tag">2024</span>
       </div>
       <div class="cs-hero-actions">
-        <a href="Eternal%20Wreckening.pdf" target="_blank" rel="noopener" class="btn btn-secondary">View presentation ↗</a>
+        <a href="Eternal%20Wreckening.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View presentation ↗</a>
       </div>
     </div>
   </div>
@@ -627,12 +633,12 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h">Mobile games forget <em>you have a body.</em></h2>
 
       <div class="cs-body-text">
-        <p>Standard mobile controls give you two thumbs and call it a game. Left thumb moves. Right thumb aims. Your torso, your hands, the physical instinct to flinch — all of it waits outside the screen. For most genres, that tradeoff is acceptable.</p>
-        <p>For horror, it isn't. <strong>Horror works through presence: the sense that you are in the space, that the threat is sharing the room.</strong> A game that keeps the player's body outside the experience can build atmosphere, but it can't manufacture genuine dread. The screen stays a window when it needs to be a portal.</p>
+        <p>Standard mobile controls hand you two thumbs: left thumb moves, right thumb aims. Your torso, your hands, the instinct to flinch all wait outside the screen. For most genres that tradeoff works fine.</p>
+        <p>Horror is the exception. <strong>It runs on presence, on the sense that you're in the space and the threat is sharing the room.</strong> Keep the player's body outside the experience and you can still build atmosphere, but you can't manufacture dread. The screen stays a window when it needs to be a portal.</p>
       </div>
 
       <div class="cs-pull-quote" data-cs-reveal>
-        <blockquote>Horror doesn't work at arm's length. The threat has to feel like it's in the room. That requires a body in the game, not just a screen.</blockquote>
+        <blockquote>Horror falls apart at arm's length. The threat has to feel like it's in the room, which means putting the player's body in the game, not just on the screen.</blockquote>
         <cite>Design intent, Eternal Wreckening</cite>
       </div>
 
@@ -668,21 +674,21 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Three layers of <em>physical play.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The design is built around a hierarchy of physical engagement, large to small. Each layer adds a different register of bodily involvement, from full-body orientation to muscle fatigue to haptic pulse. Together they cover every scale of the player's physical experience.</p>
+        <p>I built the controls around a hierarchy of physical engagement, large to small. Each layer pulls in the body at a different scale: full-body orientation, then muscle fatigue, then haptic pulse in the fingertips.</p>
       </div>
 
       <div class="cs-levers" data-cs-stagger data-cs-reveal>
         <div class="cs-lever">
           <span class="cs-lever-label">Large</span>
-          <div class="cs-lever-desc"><strong>Gyroscope.</strong> Instead of using the right thumb to look around (the mobile default), players physically turn and tilt their device to orient within the game world. The joystick on the lower left handles movement; the body handles perspective. Players lean around corners. They physically face threats. The horror environment becomes something they inhabit, not just observe.</div>
+          <div class="cs-lever-desc"><strong>Gyroscope.</strong> Instead of the right thumb sweeping the camera (the mobile default), you turn and tilt the device to orient within the world. The joystick on the lower left handles movement; the body handles perspective. You lean around corners and face threats head-on, so the horror environment turns into a place you inhabit rather than watch.</div>
         </div>
         <div class="cs-lever">
           <span class="cs-lever-label">Medium</span>
-          <div class="cs-lever-desc"><strong>Shake to escape.</strong> When captured by the Entity, survivors don't tap a button: they shake their phone. The physical act mimics what they'd do in real life, creating an immediate, visceral connection. But it comes with risk: a failed shake attempt results in immediate elimination. This risk-vs-reward dynamic forces players to make a real decision under pressure, one they feel in their hands.</div>
+          <div class="cs-lever-desc"><strong>Shake to escape.</strong> When the Entity grabs you, you shake the phone to break free instead of tapping a button. The motion mirrors what you'd do if something actually grabbed you, which makes the panic land in your hands. It carries a cost: a failed shake eliminates you on the spot, so you're forced into a real decision under pressure.</div>
         </div>
         <div class="cs-lever">
           <span class="cs-lever-label">Small</span>
-          <div class="cs-lever-desc"><strong>Tap to run, vibrate to stop.</strong> Sprinting requires both thumbs tapping the screen repeatedly. As the in-game energy bar depletes, the phone vibrates: your character is exhausted, and so are your fingers. The mechanics mirror each other. When the bar resets, you can run again. Players don't just watch a resource bar; they feel the cost of using it.</div>
+          <div class="cs-lever-desc"><strong>Tap to run, vibrate to stop.</strong> Sprinting means both thumbs tapping the screen as fast as you can. As the energy bar drains, the phone vibrates: your character is winded, and by then so are your fingers. When the bar refills you can run again. You feel the cost of the resource instead of just watching the bar slide down.</div>
         </div>
       </div>
     </div>
@@ -706,7 +712,7 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
-        <div class="cs-artifact-caption"><strong>Medium: Shake to escape.</strong> Captured by the Entity? Shake to break free, with real consequences for failure. Physical mimicry meets risk-vs-reward.</div>
+        <div class="cs-artifact-caption"><strong>Medium: Shake to escape.</strong> Caught by the Entity, you shake to break free, and a failed attempt eliminates you. Physical mimicry meets risk-vs-reward.</div>
       </div>
       <div class="cs-artifact span-2">
         <div class="cs-artifact-img--photo">
@@ -728,8 +734,8 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Four hunters, one monster, <em>earned map.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Eternal Wreckening is a 4v1 asymmetric multiplayer game inspired by Dead by Daylight, the survival horror game that defined the predator-versus-survivors model. The translation to mobile wasn't a port: it was a rethinking of what that structure feels like when the controller is your whole body. Four Guardians must find and destroy five Abyssal Amulets scattered across the map, release the gem fragment from each, and throw them into the portal to close it and eliminate the Entity. One player controls the Entity, whose goal is to knock down all four Guardians and throw them into the portal before it closes.</p>
-        <p>The asymmetry is structural. Guardians, represented by Harper Stone, start with full visibility but face an unknown map and limited tactical tools. The Entity, played as Sorcha Nightshade, starts 30 seconds later with reduced visibility but gains new abilities every three minutes: speed multipliers, enhanced detection, extended capture range. <strong>The longer the match runs, the more dangerous Sorcha becomes.</strong> Time always favors the monster.</p>
+        <p>Eternal Wreckening is a 4v1 asymmetric multiplayer game inspired by Dead by Daylight, the survival horror game that defined the predator-versus-survivors model. Bringing that to mobile meant rethinking how the structure feels when the controller is your whole body. Four Guardians have to find and destroy five Abyssal Amulets scattered across the map, release the gem fragment from each, and throw them into the portal to close it and eliminate the Entity. One player controls the Entity and tries to knock down all four Guardians and throw them into the portal before it closes.</p>
+        <p>The asymmetry is structural. Guardians, represented by Harper Stone, start with full visibility but face an unknown map and limited tactical tools. The Entity, played as Sorcha Nightshade, starts 30 seconds later with reduced visibility but gains a new ability every three minutes: speed multipliers, enhanced detection, extended capture range. <strong>The longer the match runs, the more dangerous Sorcha becomes.</strong> The clock works for the monster.</p>
       </div>
     </div>
   </div>
@@ -803,14 +809,14 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 01 — Low-fidelity storyboard: Guardian and Entity loops, from spawn to portal</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 01: Low-fidelity storyboard: Guardian and Entity loops, from spawn to portal</p>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-section" data-cs-section style="margin-bottom:0;">
       <div class="cs-body-text" data-cs-reveal>
-        <p><strong>Map wayfinding is intentionally constrained.</strong> The fog-of-war map only reveals areas the Guardian has physically explored. Rather than giving players a complete overhead view, the map is earned by movement, creating a tension between exploration and self-preservation. Hide or look: you can't do both.</p>
-        <p>Interactive objects glow when the character comes within proximity, even through walls. Bright, clear outlines act as the only reliable wayfinding signal in an otherwise dim, disorienting environment. The design trusts players to move toward light.</p>
+        <p><strong>Map wayfinding is intentionally constrained.</strong> The fog-of-war map only shows areas the Guardian has physically walked. There's no overhead view to fall back on; you earn the map by moving, which pits exploration against self-preservation. You can hide or you can scout, not both at once.</p>
+        <p>Interactive objects glow when your character gets close, even through walls. In an otherwise dim, disorienting environment, those bright outlines are the one signal you can trust, and they pull you toward the light.</p>
       </div>
     </div>
   </div>
@@ -822,7 +828,7 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 02 — Wayfinding: glowing objects cut through fog, and the map only opens what you've walked</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 02: Wayfinding: glowing objects cut through fog, and the map only opens what you've walked</p>
   </div>
 
   <div class="cs-body-inner">
@@ -837,11 +843,11 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-metric">
         <div class="cs-metric-val">30<em>s</em></div>
-        <div class="cs-metric-desc">Head start for the Guardians. The Entity spawns 30 seconds after Guardians begin, giving players time to orient before the hunt begins. But the Entity is stronger and gets stronger still.</div>
+        <div class="cs-metric-desc">Head start for the Guardians. The Entity spawns 30 seconds after they begin, leaving a short window to orient before the hunt opens. The Entity starts stronger, then keeps gaining power.</div>
       </div>
       <div class="cs-metric">
         <div class="cs-metric-val"><em>3</em> min</div>
-        <div class="cs-metric-desc">Power escalation interval. Every three minutes, the Entity gains a new ability: speed multipliers, enhanced detection, extended capture range. Extended games favor the monster.</div>
+        <div class="cs-metric-desc">Power escalation interval. Every three minutes, the Entity gains a new ability: speed multipliers, enhanced detection, extended capture range. Drag the match out and the monster wins.</div>
       </div>
     </div>
   </div>
@@ -853,7 +859,7 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2110" height="975">
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 03 — Role selection: choose Guardian or Entity before the match begins</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 03: Role selection: choose Guardian or Entity before the match begins</p>
   </div>
 
   <div class="cs-image-block">
@@ -877,7 +883,7 @@ a { color: inherit; text-decoration: none; }
         <div class="cs-artifact-caption"><strong>Sorcha Nightshade, Entity.</strong> Exiled wielder of forest magic, armed with a ceremonial dagger and dark arcane force. A solo predator growing stronger every three minutes, she hunts all four Guardians and needs to eliminate them before the portal closes.</div>
       </div>
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 04 — Character select: Guardian and Entity archetypes carry distinct visual languages and ability sets</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 04: Character select: Guardian and Entity archetypes carry distinct visual languages and ability sets</p>
   </div>
 
   <!-- 04 VISUAL DESIGN -->
@@ -888,7 +894,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Horror that <em>reads.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The visual language of Eternal Wreckening had to do two things simultaneously: establish atmosphere and maintain clarity. Horror aesthetics typically work through obscurity; game UI requires instant legibility. The design resolves this tension by separating the registers: environment carries mood, interface carries function, and color bridges the two.</p>
+        <p>The visual language had to carry atmosphere and stay legible at the same time. Horror aesthetics lean on obscurity; game UI demands that you read it instantly. I split the registers to settle the conflict: the environment carries mood, the interface carries function, and color stitches them together.</p>
       </div>
     </div>
   </div>
@@ -911,15 +917,15 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
-        <div class="cs-artifact-caption"><strong>Typography.</strong> Martyric carries the eerie heading register. Blood Crow handles body copy: legible under pressure, with enough texture to stay in-world. Instructions read clearly. The horror persists.</div>
+        <div class="cs-artifact-caption"><strong>Typography.</strong> Martyric carries the eerie heading register. Blood Crow handles body copy: legible under pressure, with enough texture to stay in-world, so instructions read clearly while the dread holds.</div>
       </div>
     </div>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-body-text" data-cs-reveal>
-      <p><strong>Art direction: painterly horror-realism.</strong> All environments and characters were hand-drawn with the same brush, creating visual consistency through repetition of stroke. The style is deliberately not representational: stylized forms are unsettling in ways that photorealism isn't. The goal was a creeping sense of dread before the first interaction, a world that looks familiar but isn't quite right.</p>
-      <p>Dim lighting, dilapidated geometry, and a dominant brown palette ground the game in a decayed, dystopian world. The palette works against the player: in low contrast environments, identifying threats requires attention. The brightness in the palette has a job: it marks what matters.</p>
+      <p><strong>Art direction: painterly horror-realism.</strong> I hand-drew every environment and character with the same brush, so the repeated stroke holds the look together. The style stays stylized rather than literal, because stylized forms unsettle in a way photorealism rarely manages. I wanted dread to creep in before the first interaction, a world that looks familiar but reads slightly wrong.</p>
+      <p>Dim lighting, decaying geometry, and a brown-dominant palette ground the game in a dystopian world that's already rotting. The low contrast works against you: spotting a threat takes real attention. Whatever brightness the palette does carry has one job, which is to mark what matters.</p>
     </div>
   </div>
 
@@ -930,13 +936,13 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 05 — Icon system: circular shapes, universal symbols, consistent shape language throughout</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 05: Icon system: circular shapes, universal symbols, consistent shape language throughout</p>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-body-text" data-cs-reveal>
-      <p><strong>Icon system.</strong> All interactive icons share a circular base shape, creating consistency that teaches through repetition: circular means interactive. Arrows signal direction. A circle exit replaces an "exit" text label, maintaining visual harmony with the illustrated art. The exit icon is drawn, not typed, keeping the interface feeling authored rather than templated.</p>
-      <p><strong>Gadget selection.</strong> Before each match, Guardians choose from three tactical items that shape their play style. The Stun deploys a blinding burst for four seconds, activating after placing two gems. The Amplify gadget heightens hearing for 30 seconds and detects the Entity within 100 meters. The Mask reduces detection range by 10 percent, enabling stealth. Each screen uses bold color coding so players can identify and compare options at a glance under pre-match time pressure.</p>
+      <p><strong>Icon system.</strong> Every interactive icon shares a circular base, and the repetition teaches one rule: round means you can touch it. Arrows signal direction. A drawn circle stands in for an "exit" text label, so the control stays in harmony with the illustrated art and the interface reads as authored, not pulled from a kit.</p>
+      <p><strong>Gadget selection.</strong> Before each match, Guardians pick from three tactical items that shape how they play. Stun fires a blinding burst for four seconds, available once two gems are placed. Amplify sharpens hearing for 30 seconds and surfaces the Entity within 100 meters. Mask cuts detection range by 10 percent for a stealthier run. Each screen leans on bold color coding so you can size up and compare options at a glance while the pre-match clock runs.</p>
     </div>
   </div>
 
@@ -970,12 +976,12 @@ a { color: inherit; text-decoration: none; }
         <div class="cs-artifact-caption"><strong>Mask.</strong> Reduces detection range by 10%. A passive stealth modifier for players who move quietly and avoid confrontation.</div>
       </div>
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 06 — Gadget selection: three tactical items, each color-coded and function-distinct</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 06: Gadget selection: three tactical items, each color-coded and function-distinct</p>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-body-text" data-cs-reveal>
-      <p><strong>Inventory and backpack UI.</strong> Collected gadgets live in a backpack metaphor, a real-world object players already understand. The equip icon's color matches the selected gadget, creating a direct visual link between item and action. In a dim, high-stress environment, color does the work of text.</p>
+      <p><strong>Inventory and backpack UI.</strong> Collected gadgets live in a backpack, a real-world object players already understand. The equip icon takes on the color of the selected gadget, so item and action stay visually linked. In a dim, high-stress moment, that color tells you what a label would have, faster.</p>
     </div>
   </div>
 
@@ -988,7 +994,7 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
-        <div class="cs-artifact-caption"><strong>Backpack and gadget UI.</strong> The inventory uses a backpack metaphor, a real-world object players already understand. Collecting gadgets gives the game a secondary goal layer: not just survive, but gather. Tap to select, tap to equip. Familiar interactions carry the unfamiliar world.</div>
+        <div class="cs-artifact-caption"><strong>Backpack and gadget UI.</strong> The inventory uses a backpack, an object players already know how to read. Collecting gadgets adds a second goal on top of survival: gather as you go. You tap to select and tap to equip, so familiar interactions carry an unfamiliar world.</div>
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
@@ -997,15 +1003,15 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
-        <div class="cs-artifact-caption"><strong>Color as wayfinding.</strong> Gadgets are brightly colored against the brown palette, drawing the eye immediately. The equip icon's color matches the selected gadget, creating a direct visual link between item and action. In a dim, high-stress environment, color does the work of text.</div>
+        <div class="cs-artifact-caption"><strong>Color as wayfinding.</strong> Bright gadgets pop against the brown palette and grab the eye right away. The equip icon matches the selected gadget's color, tying item to action. When the screen is dim and the pressure is on, that color does what a label can't do fast enough.</div>
       </div>
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 07 — Inventory and gadget UI: familiar metaphor, color-coded affordances</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 07: Inventory and gadget UI: familiar metaphor, color-coded affordances</p>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-body-text" data-cs-reveal>
-      <p><strong>Role-split onboarding.</strong> Three unfamiliar input methods require explanation before first play. Rather than a single tutorial screen, the game provides separate Guardian and Entity guides, each explaining controls specific to that role. A Guardian never needs to know how Sorcha moves. The Entity guide can lean into the predator fantasy from the start. Splitting the learning paths keeps each side focused and preserves the asymmetric mystery: neither player is exposed to the other side's mechanics before choosing a role.</p>
+      <p><strong>Role-split onboarding.</strong> Three unfamiliar input methods need explaining before the first match. Instead of one tutorial screen, the game gives separate Guardian and Entity guides, each covering only the controls for that role. A Guardian doesn't need to learn how Sorcha moves, and the Entity guide gets to lean into the predator fantasy from the first screen. Splitting the paths keeps each side focused and protects the asymmetric mystery: you don't see the other side's mechanics until you've committed to a role.</p>
     </div>
   </div>
 
@@ -1027,10 +1033,10 @@ a { color: inherit; text-decoration: none; }
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
-        <div class="cs-artifact-caption"><strong>Entity Guide.</strong> Knock down each Guardian, then throw them into the portal. Entities are immortal — Guardians can only impair them with gadgets, not eliminate them. The Entity grows stronger and faster every three minutes.</div>
+        <div class="cs-artifact-caption"><strong>Entity Guide.</strong> Knock down each Guardian, then throw them into the portal. Entities are immortal: Guardians can only impair them with gadgets, not eliminate them. The Entity grows stronger and faster every three minutes.</div>
       </div>
     </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 08 — Role-split guides: Guardian and Entity each get their own learning path, preserving asymmetric mystery</p>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 08: Role-split guides: Guardian and Entity each get their own learning path, preserving asymmetric mystery</p>
   </div>
 
   <!-- 05 REFLECTION -->
@@ -1043,15 +1049,15 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Physical mechanics need physical playtesting.</p>
-          <p class="cs-reflection-body">The gyroscope and shake mechanics were designed logically but not stress-tested in real play sessions. A shake under pressure feels different than a shake while calm. The energy bar depletion rate, the shake threshold required to escape, the exact vibration pattern at exhaustion: all of these need hands-on iteration that static prototyping can't replicate. <em>The body is the test environment.</em></p>
+          <p class="cs-reflection-body">I reasoned the gyroscope and shake mechanics through on paper but never stress-tested them in live play. A shake under threat feels nothing like a shake while you're calm. The depletion rate of the energy bar, the shake threshold to escape, the vibration pattern at exhaustion: each one needs hands-on tuning that static prototyping can't fake, because the body itself is the test environment.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Onboarding new controls without breaking the horror.</p>
-          <p class="cs-reflection-body">Teaching three unfamiliar input methods (gyroscope, shake, tap-to-run) within a horror context is a tension I didn't fully resolve. Traditional tutorial screens break the atmosphere. The better solution is contextual first use: a forced low-stakes encounter that teaches each mechanic through play, not instruction text. That design lives in v2.</p>
+          <p class="cs-reflection-body">Teaching three unfamiliar inputs (gyroscope, shake, tap-to-run) inside a horror context is a tension I didn't fully crack. A standard tutorial screen punctures the atmosphere. I think the answer is contextual first use: a low-stakes scripted encounter that teaches each mechanic through play rather than instruction text. That's the version I'd build next.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The Entity is harder to design than the Guardian.</p>
-          <p class="cs-reflection-body">Most of the visual and interaction design focused on the Guardian's perspective. The Entity's UI needs separate thinking: different field of view, different HUD needs, different emotional register. A player controlling the monster should <em>feel like the most dangerous thing in the room,</em> and that experience requires its own design language beyond what I built here.</p>
+          <p class="cs-reflection-body">Most of my visual and interaction work sat with the Guardian's view. The Entity's UI deserves its own pass: a different field of view, different HUD priorities, a different emotional register. Whoever controls the monster should <em>feel like the most dangerous thing in the room,</em> and getting there takes a design language I haven't built yet.</p>
         </div>
       </div>
     </div>
@@ -1064,11 +1070,12 @@ a { color: inherit; text-decoration: none; }
 <!-- NEXT PROJECT -->
 <section class="cs-next">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Next project</p>
+    <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="case-study.html?slug=driftwood">
       <span class="cs-next-title">Driftwood</span>
       <span class="cs-next-arrow">↗</span>
     </a>
+    <p class="cs-next-desc">Driftwood is a narrative game where the rules themselves become the emotional mechanic. Like this one, it works the seam between game design and human psychology.</p>
   </div>
 </section>
 

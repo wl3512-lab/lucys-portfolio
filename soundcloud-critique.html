@@ -4,34 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>SoundCloud App Critique — Lucy Liu</title>
-<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
+<meta property="og:title" content="SoundCloud App Critique | Lucy Liu" />
+<meta property="og:description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/soundcloud-critique.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/soundcloud/cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<title>SoundCloud App Critique | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=10" />
 <link rel="stylesheet" href="styles.css?v=15" />
 <style>
-
-/* NAV */
-.cs-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 40;
-  padding: 20px 0;
-  background: rgba(5,7,16,0.72); backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-}
-.cs-nav-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; text-decoration: none; }
-.cs-back:hover { color: var(--fg1); }
-.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; text-decoration: none; color: var(--fg1); }
-
-/* PROGRESS */
-.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; }
-.cs-progress-fill { height: 100%; background: #FF5500; transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
 
 .sc-page {
   min-height: 100vh;
@@ -40,10 +26,18 @@
 
 /* ── Header ── */
 .sc-header {
-  padding: 120px 0 56px;
+  padding: 140px 0 56px;
   width: min(860px, 92vw);
   margin: 0 auto;
 }
+.sc-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3);
+  text-decoration: none; margin-bottom: 48px;
+  transition: color 0.2s;
+}
+.sc-back:hover { color: var(--fg1); }
 
 .sc-eyebrow {
   font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.22em;
@@ -93,10 +87,12 @@
 .sc-item { display: flex; flex-direction: column; }
 
 .sc-paper {
-  background: oklch(0.98 0.002 280);
+  background: #fff;
   border-radius: 3px;
-  border: 1px solid oklch(0.88 0.004 280);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)) drop-shadow(0 12px 32px rgba(0,0,0,0.22));
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.14),
+    0 8px 24px rgba(0,0,0,0.22),
+    0 24px 64px rgba(0,0,0,0.30);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -121,51 +117,47 @@
   color: oklch(0.55 0.012 285);
 }
 
-/* NEXT PROJECT */
-.cs-next { padding: clamp(72px, 9vh, 110px) 0 56px; border-top: 1px solid var(--border); }
-.cs-next-inner { width: min(860px, 92vw); margin: 0 auto; }
-.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 20px; }
-.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 36px 0; border-top: 1px solid var(--border); text-decoration: none; }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: #FF5500; font-style: italic; }
-.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5vw, 68px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
-.cs-next-arrow { font-size: 32px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
-.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
-.cs-footer { padding: 24px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
-
 @media (max-width: 600px) {
   .sc-grid { grid-template-columns: 1fr; gap: 40px; }
 }
 
-@media (max-width: 480px) {
-  .sc-grid-wrap { padding: 48px 0 72px; }
-  .sc-heading { font-size: clamp(2rem, 10vw, 3.5rem); }
-  .sc-intro { font-size: 15px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-grid-wrap { animation: none; }
+  .sc-back, .sc-eyebrow, .sc-heading, .sc-meta-row, .sc-grid-wrap { animation: none; }
 }
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 </style>
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
-
-<nav class="cs-nav">
-  <div class="cs-nav-inner">
-    <a class="cs-logo" href="index.html">lucy liu</a>
-    <a class="cs-back" href="work.html">← all work</a>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">lucy liu</a>
+    <ul class="nav-links">
+      <li><a href="work.html" class="nav-link">all work</a></li>
+      <li><a href="index.html#about" class="nav-link">about</a></li>
+      <li><a href="index.html#contact" class="nav-link">contact ↗</a></li>
+    </ul>
   </div>
 </nav>
 
 <main id="main-content" class="sc-page">
 
   <div class="sc-header">
+    <a href="work.html" class="sc-back">← All work</a>
     <p class="sc-eyebrow">UX Design &nbsp;·&nbsp; 2023</p>
     <h1 class="sc-heading">SoundCloud<br><em>App Critique</em></h1>
-    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app: brand identity, home screen widgets, and playlist management, with proposed redesigns for each.</p>
+    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app (brand identity, home screen widgets, and playlist management) with proposed redesigns for each.</p>
     <div class="sc-meta-row">
       <div class="sc-meta-item">
         <span class="sc-meta-k">Type</span>
@@ -197,19 +189,19 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">01</span>
-          <p class="sc-cap-text">When SoundCloud replaced its iconic orange with black, it broke 15 years of visual memory. Keeping the orange cloud on the new black background would have preserved the recognition without abandoning the rebrand.</p>
+          <p class="sc-cap-text">SoundCloud's orange carries nostalgia but leaves little room for personal taste. A color you pick yourself would let the app feel like yours.</p>
         </div>
       </div>
 
       <div class="sc-item">
         <div class="sc-paper">
           <img src="assets/soundcloud/page-02.jpg"
-               alt="Page 2: widget customization — more control, increased utility, competitive advantage"
+               alt="Page 2: widget customization, more control, increased utility, competitive advantage"
                loading="lazy" />
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">02</span>
-          <p class="sc-cap-text">No major competitor currently offers in-app widget customization. Adding control over layout, toolbar order, and icon sizing would reinforce ownership, surface what listeners return to most, and give SoundCloud a differentiator no streaming app has claimed yet.</p>
+          <p class="sc-cap-text">Competitors offer more flexible home screen widgets. Expanded customization would surface liked content and give SoundCloud a stronger foothold on the lock screen.</p>
         </div>
       </div>
 
@@ -221,7 +213,7 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">03</span>
-          <p class="sc-cap-text">A redesigned widget menu and dedicated likes toolbar cut the steps between a user and the tracks they return to most.</p>
+          <p class="sc-cap-text">A redesigned widget menu and a dedicated likes toolbar cut the steps between you and the tracks you come back to most.</p>
         </div>
       </div>
 
@@ -233,7 +225,7 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">04</span>
-          <p class="sc-cap-text">The playlist cover was visually lost: undersized against same-height track artwork, with dead space to its right. Enlarging it and shifting the metadata across fills that gap and gives curated collections the visual weight that encourages ownership.</p>
+          <p class="sc-cap-text">Auto-generated playlist covers flatten personal curation. User-controlled cover art better reflects the taste and intent behind each collection.</p>
         </div>
       </div>
 
@@ -242,29 +234,19 @@
 
 </main>
 
+<!-- NEXT PROJECT -->
 <section class="cs-next">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Next project</p>
-    <a class="cs-next-link" href="h2know.html">
-      <span class="cs-next-title">H2Know</span>
+    <p class="cs-next-label">Related project</p>
+    <a class="cs-next-link" href="habitabull.html">
+      <span class="cs-next-title">HabitaBull Lifting</span>
       <span class="cs-next-arrow">↗</span>
     </a>
+    <p class="cs-next-desc">HabitaBull came out of the same kind of user research: watch how people actually behave, find where intention and action drift apart, and redesign around that gap.</p>
   </div>
 </section>
 
-<footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
-
-<script>
-(function () {
-  const fill = document.getElementById('cs-progress');
-  if (fill) {
-    window.addEventListener('scroll', () => {
-      const h = document.documentElement;
-      fill.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight)})`;
-    }, { passive: true });
-  }
-})();
-</script>
+<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
 </body>
 </html>

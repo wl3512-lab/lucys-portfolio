@@ -28,7 +28,6 @@ Content rules from the brand doc:
 - All lowercase for wordmark, nav, short UI labels
 - Sentence case for headlines, body, CTAs
 - UPPERCASE + 0.14em tracking for eyebrow labels, tags, monospace meta
-- Em dashes used in editorial copy for rhythm ("Design Strategist from Vancouver — now based in New York City")
 - Directional arrows as typography: `↓` `↗` `→` (carry meaning, never decorative)
 - No exclamation marks
 - No emoji (substituted by unicode arrows, bullet dots `·`, single ornamental sparkle `✦` for favicon only)

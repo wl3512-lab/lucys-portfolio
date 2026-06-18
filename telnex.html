@@ -4,12 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Telnex — Lucy Liu</title>
-<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="description" content="Fictional Fight Club-style advertisement series. Soap carved as a rotary telephone. Design project by Lucy Liu." />
+<meta property="og:title" content="Telnex | Lucy Liu" />
+<meta property="og:description" content="Fictional Fight Club-style advertisement series. Soap carved as a rotary telephone. Design project by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/telnex.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/telnex/cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
+<title>Telnex | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -76,7 +78,13 @@
   margin-bottom: 56px;
 }
 .ant-cover img {
-  width: 100%; height: auto; display: block;
+  display: block;
+  max-height: clamp(300px, 45vh, 480px);
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
 }
 .ant-body {
   font-family: var(--font-body); font-size: 17px; line-height: 1.75;
@@ -86,6 +94,16 @@
 .ant-body p:last-child { margin: 0; }
 .ant-body em { font-style: italic; color: var(--fg1); }
 .ant-body strong { font-weight: 600; color: var(--fg1); }
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 </style>
 </head>
 <body>
@@ -96,7 +114,7 @@
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">lucy liu</a>
     <ul class="nav-links">
-      <li><a href="work.html" class="nav-link">work</a></li>
+      <li><a href="work.html" class="nav-link">all work</a></li>
       <li><a href="index.html#about" class="nav-link">about</a></li>
       <li><a href="index.html#contact" class="nav-link">contact ↗</a></li>
     </ul>
@@ -110,7 +128,7 @@
     <p class="ant-eyebrow">Design &nbsp;·&nbsp; 2024</p>
     <h1 class="ant-heading"><em>Telnex</em></h1>
 
-    <p class="ant-award">Honourable Mention — 2025 Scholastic Art and Writing Awards</p>
+    <p class="ant-award">Honourable Mention, 2025 Scholastic Art and Writing Awards</p>
 
     <div class="ant-meta-row">
       <div class="ant-meta-item">
@@ -129,16 +147,30 @@
 
     <div class="ant-cover">
       <img src="assets/telnex/cover.jpg"
-           alt="Telnex: fictional Fight Club advertisement — soap carved as rotary telephone on yellow-green ground" />
+           alt="Telnex: fictional Fight Club advertisement, soap carved as rotary telephone on yellow-green ground" />
     </div>
 
     <div class="ant-body">
-      <p>Inspired by the 1999 film <em>Fight Club</em>, this piece imagines an advertisement for <strong>Telnex</strong>, a fictional communication device used by the film's characters. At its center is a bar of soap carved into the shape of a rotary telephone, merging symbols of cleansing and communication to reflect the film's subversive tone.</p>
-      <p>The yellow-green palette echoes the sterile lighting of industrial environments, evoking isolation and emotional detachment. The slogan <strong>"Uncover You, Connect Two"</strong> functions as both a brand line and a metaphor for the protagonist's fractured identity.</p>
-      <p>The work explores <em>Fight Club</em>'s recurring themes of duality, illusion, and the longing for authentic connection within a fragmented, material world.</p>
+      <p>Drawing on the 1999 film <em>Fight Club</em>, this piece imagines an advertisement for <strong>Telnex</strong>, a fictional communication device the film's characters might use. I carved a bar of soap into a rotary telephone, putting cleansing and communication in one object to match the film's subversive tone.</p>
+      <p>The yellow-green palette borrows the sterile lighting of an industrial space, which reads as isolation and detachment. The slogan <strong>"Uncover You, Connect Two"</strong> works as a brand line and as a nod to the protagonist's split identity.</p>
+      <p>The piece picks up on <em>Fight Club</em>'s ideas about duality and the want for real connection in a world that runs on stuff.</p>
     </div>
   </div>
 </main>
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Related project</p>
+    <a class="cs-next-link" href="agar-alphabet.html">
+      <span class="cs-next-title">Agar Alphabet</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+    <p class="cs-next-desc">Agar Alphabet grows letterforms from live bacteria, turning an odd medium into a carrier for meaning. Like Telnex, it starts from the material and lets the idea come out of it.</p>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
 </body>
 </html>

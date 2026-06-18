@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Project Editor — Lucy Liu</title>
+<title>Project Editor | Lucy Liu</title>
 <link rel="stylesheet" href="colors_and_type.css" />
 <style>
   * { box-sizing: border-box; }
@@ -173,7 +170,7 @@
   <header class="head">
     <div>
       <h1><em>Project</em> editor</h1>
-      <p class="sub">Build case studies portfolio reviewers actually want to see. Select <b>UX/UI</b> for the full NN/g-style template with problem → research → process → outcome. Images upload inline (stored base64 in localStorage) — reviewers see everything outward, no PDFs.</p>
+      <p class="sub">Build case studies portfolio reviewers actually want to see. Select <b>UX/UI</b> for the full NN/g-style template with problem → research → process → outcome. Images upload inline (stored base64 in localStorage): reviewers see everything outward, no PDFs.</p>
     </div>
     <a class="back" href="index.html">← portfolio</a>
   </header>
@@ -258,7 +255,7 @@
           </div>
           <div class="field">
             <label for="problem">The problem</label>
-            <textarea id="problem" placeholder="Most gym apps shame absence. Missing one day feels like failure, so users quit entirely. The psychology is backwards — they punish the behavior they're trying to build."></textarea>
+            <textarea id="problem" placeholder="Most gym apps shame absence. Missing one day feels like failure, so users quit entirely. The psychology is backwards: they punish the behavior they're trying to build."></textarea>
             <span class="help">Frame the <b>why</b>. What's broken? What's the tension?</span>
           </div>
           <div class="field">
@@ -295,12 +292,12 @@
           <div class="section-sep">Outcome & reflection</div>
           <div class="field">
             <label for="outcome">Outcome</label>
-            <textarea id="outcome" placeholder="Tested with 12 users — 11 preferred it over their current app. Prototype handed off to the course as a proof of concept."></textarea>
+            <textarea id="outcome" placeholder="Tested with 12 users: 11 preferred it over their current app. Prototype handed off to the course as a proof of concept."></textarea>
             <span class="help">What happened? Use numbers if you have them. Ship evidence.</span>
           </div>
           <div class="field">
             <label for="reflection">What I'd do differently</label>
-            <textarea id="reflection" placeholder="Not every interview was useful — I should've screened harder. The 'streak forgiveness' mechanic needed more testing; half of users didn't notice it at first."></textarea>
+            <textarea id="reflection" placeholder="Not every interview was useful; I should've screened harder. The 'streak forgiveness' mechanic needed more testing; half of users didn't notice it at first."></textarea>
             <span class="help">Reviewers love honesty about what didn't work. Don't skip this.</span>
           </div>
           <div class="field">
@@ -333,7 +330,7 @@
       <pre class="export" id="export-area" style="display:none"></pre>
 
       <p class="hint">Storage</p>
-      <p style="font-size:11.5px;color:var(--fg2);line-height:1.5;margin:0">Everything saves to <code>localStorage</code> (images as base64). To publish, download the JSON and paste into <code>index.html</code>'s <code>DEFAULT_PROJECTS</code> — or keep them here and reviewers see the live version.</p>
+      <p style="font-size:11.5px;color:var(--fg2);line-height:1.5;margin:0">Everything saves to <code>localStorage</code> (images as base64). To publish, download the JSON and paste into <code>index.html</code>'s <code>DEFAULT_PROJECTS</code>, or keep them here and reviewers see the live version.</p>
     </section>
   </div>
 </div>
@@ -427,7 +424,7 @@
         break;
       }
       case 'text': {
-        body.innerHTML = `<div class="field"><label>Paragraph</label><textarea placeholder="Write the story here — the why, how, what you learned.">${esc(b.text||'')}</textarea></div>`;
+        body.innerHTML = `<div class="field"><label>Paragraph</label><textarea placeholder="Write the story here: the why, how, what you learned.">${esc(b.text||'')}</textarea></div>`;
         body.querySelector('textarea').addEventListener('input', e => b.text = e.target.value);
         break;
       }
@@ -554,7 +551,7 @@
 
   async function handleFile(file, b, body) {
     if (!file) return;
-    if (file.size > 4_000_000) { toast('Image over 4MB — try compressing'); return; }
+    if (file.size > 4_000_000) { toast('Image over 4MB: try compressing'); return; }
     const reader = new FileReader();
     reader.onload = () => {
       b.src = reader.result;
@@ -705,7 +702,7 @@
     const area = $('#export-area');
     area.style.display = 'block'; area.textContent = json;
     try { await navigator.clipboard.writeText(json); toast('Copied to clipboard'); }
-    catch { toast('Shown below — copy manually'); }
+    catch { toast('Shown below, copy manually'); }
   });
   $('#download-btn').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });

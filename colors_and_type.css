@@ -28,7 +28,7 @@
   /* ─── SIGNATURE GRADIENTS ─── */
   --aura:         linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #8EC4FF 100%);
   --aura-soft:    linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 100%);
-  --aura-radial:  radial-gradient(circle, rgba(160,200,255,0.22) 0%, rgba(196,176,255,0.12) 40%, transparent 70%);
+  --aura-radial:  radial-gradient(circle, rgba(114,173,255,0.20) 0%, rgba(196,176,255,0.12) 40%, transparent 70%);
 
   /* ─── SEMANTIC COLORS (dark mode primary) ─── */
   --bg:            var(--void);
@@ -58,7 +58,6 @@
   --font-ui:       'Syne', 'Inter Tight', system-ui, sans-serif; /* labels, buttons, nav */
   --font-body:     'DM Sans', system-ui, sans-serif; /* body copy */
   --font-code:     'Space Mono', 'Courier New', monospace; /* mono accents */
-  --font-serif:    'Playfair Display', Georgia, serif; /* italic emphasis only */
 
   /* ─── TYPE SCALE ─── */
   --text-9xl:  clamp(72px, 12vw, 140px);
@@ -113,6 +112,7 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-reveal:   cubic-bezier(0.7, 0, 0.2, 1);  /* hover underlines, ring expansion */
   --duration-fast: 200ms;
   --duration-base: 300ms;
   --duration-slow: 500ms;
@@ -227,49 +227,3 @@
 .lucy-typography p  { font-family: var(--font-body);    font-size: var(--text-base); font-weight: 400; line-height: var(--lh-relaxed); color: var(--fg2); }
 .lucy-typography code, .lucy-typography kbd, .lucy-typography pre { font-family: var(--font-code); }
 .lucy-typography em { font-style: italic; font-family: var(--font-display); }
-
-/* ─── Playfair italic: one job, everywhere it applies ─── */
-/* Used only for italic emphasis inside display headings and pull quotes.
-   All other text stays Syne or DM Sans. */
-
-/* Hero headline italic word */
-.hero-heading .italic,
-.hero-heading em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Section headings on the index page */
-.scene-title em,
-.scene-h em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Case study section headings */
-.cs-section-h em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Case study next-project title on hover */
-.cs-next-link:hover .cs-next-title {
-  font-family: var(--font-serif);
-}
-
-/* Pull quote blockquote text */
-.cs-pull-quote blockquote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* SoundCloud heading em */
-.sc-heading em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}

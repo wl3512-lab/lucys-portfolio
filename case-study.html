@@ -4,11 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
 <script>(function(){var s=new URLSearchParams(location.search).get('slug');if(s&&s!=='driftwood')location.replace(s+'.html');})()</script>
 <title>Driftwood: Lucy Liu</title>
-<meta name="description" content="Driftwood — An AI ethics game where you adopt a pet, discover its flaw, and train it to be better. Case study by Lucy Liu." />
+<meta name="description" content="Driftwood: An AI ethics game where you adopt a pet, discover its flaw, and train it to be better. Case study by Lucy Liu." />
+<meta property="og:title" content="Driftwood | Lucy Liu" />
+<meta property="og:description" content="Driftwood: An AI ethics game where you adopt a pet, discover its flaw, and train it to be better. Case study by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/case-study.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -73,6 +77,40 @@
   }
   .cs-hero-cover img {
     width: 100%; height: 100%; object-fit: contain; display: block;
+  }
+  /* vertical reel: a height-capped phone shape centered in the right column */
+  .cs-hero-cover-reel {
+    aspect-ratio: auto; background: transparent; overflow: visible;
+    display: flex; justify-content: center; align-items: flex-start;
+  }
+  .cs-hero-cover-reel::after { display: none; }
+  .cs-reel-frame {
+    position: relative; display: inline-block;
+    height: min(72vh, 640px);
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 30px 90px -30px rgba(0,0,0,0.75);
+  }
+  .cs-hero-reel {
+    height: 100%; width: auto; max-width: 100%;
+    object-fit: contain; display: block;
+  }
+  .cs-reel-fs {
+    position: absolute; bottom: 12px; right: 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-ui, inherit);
+    font-size: 13px; letter-spacing: 0.08em;
+    color: var(--fg1, #F6FAFF);
+    background: rgba(5,7,16,0.55);
+    border: 1px solid rgba(160,200,255,0.25);
+    border-radius: 8px; padding: 7px 11px; cursor: pointer;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    transition: background .2s, border-color .2s;
+  }
+  .cs-reel-fs:hover { background: rgba(5,7,16,0.82); border-color: rgba(160,200,255,0.5); }
+  .cs-reel-fs span { font-size: 15px; line-height: 1; }
+  @media (max-width: 768px) {
+    .cs-hero-cover-reel { margin-top: 24px; }
+    .cs-reel-frame { height: min(64vh, 540px); }
   }
   .cs-hero-cover::after {
     content: ''; position: absolute; inset: 0;
@@ -491,6 +529,7 @@
     transition: transform .5s cubic-bezier(.7,0,.2,1);
   }
   .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+  .cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 
   .cs-footer {
     padding: 28px 0; border-top: 1px solid var(--border);
@@ -627,6 +666,11 @@
     margin: 0 0 clamp(28px, 3.5vw, 44px); color: var(--fg1);
   }
   .cs-section-h em { font-style: italic; color: var(--blue-300); }
+  .cs-section-sub {
+    font-family: var(--font-body); font-size: 15px; font-weight: 400;
+    color: var(--fg3); letter-spacing: 0.01em; line-height: 1.5;
+    margin: -20px 0 clamp(24px, 3vw, 36px);
+  }
 
   /* ── BOLDER: pull quote ── */
   .cs-pull-quote::before {
@@ -900,15 +944,6 @@
     padding: 4px 0 4px 24px;
     font-family: var(--font-code); font-size: 18px; color: var(--fg3);
   }
-
-  /* ── MOBILE: iPhone (≤480px) ── */
-  @media (max-width: 480px) {
-    .cs-hero { padding: clamp(96px, 14vh, 140px) 0 clamp(40px, 6vh, 64px); }
-    .cs-title { font-size: clamp(48px, 15vw, 100px); }
-    .cs-subtitle { font-size: 17px; margin-bottom: 32px; }
-    .cs-pull-quote { padding: 24px 20px 24px 32px; }
-    .cs-col { padding: 28px 20px; }
-  }
 </style>
 </head>
 <body>
@@ -995,8 +1030,19 @@
       </div>
     </div>
 
-    <div class="cs-hero-cover" data-cs-reveal>
-      <img src="assets/driftwood/cover.png" alt="Driftwood cover" />
+    <div class="cs-hero-cover cs-hero-cover-reel" data-cs-reveal>
+      <div class="cs-reel-frame">
+        <video
+          class="cs-hero-reel"
+          src="assets/driftwood/driftwood-reel.mp4"
+          poster="assets/driftwood/cover.png"
+          autoplay muted loop playsinline preload="metadata"
+          aria-label="Driftwood reel: a 25-second walkthrough of the game"
+        ></video>
+        <button class="cs-reel-fs" type="button" aria-label="Watch reel fullscreen">
+          <span aria-hidden="true">⤢</span> Fullscreen
+        </button>
+      </div>
     </div>
 
   </div>
@@ -1033,13 +1079,13 @@
   <div class="cs-artifact-grid">
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface-sad.png" alt="Main interface with sad emotion detected: garden fills with nightshade, pet shifts behavior" class="cs-artifact-photo" />
+        <img src="assets/driftwood/main-interface-sad.png" alt="Main interface with sad emotion detected: garden fills with nightshade, pet shifts behavior" class="cs-artifact-photo" loading="lazy" />
       </div>
       <div class="cs-artifact-caption"><strong>Sad detected.</strong> The garden grows nightshade. Your pet shifts its behavior to match your face.</div>
     </div>
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface-happy.png" alt="Main interface with happy emotion detected: garden fills with sunflowers, pet enters sycophant mode" class="cs-artifact-photo" />
+        <img src="assets/driftwood/main-interface-happy.png" alt="Main interface with happy emotion detected: garden fills with sunflowers, pet enters sycophant mode" class="cs-artifact-photo" loading="lazy" />
       </div>
       <div class="cs-artifact-caption"><strong>Happy detected.</strong> Sunflowers bloom. Mango starts agreeing with everything you say.</div>
     </div>
@@ -1054,7 +1100,7 @@
   <div class="cs-body-wide" data-cs-reveal>
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface.png" alt="Driftwood main interface: the pet companion, live garden, and behavior log" class="cs-artifact-photo" />
+        <img src="assets/driftwood/main-interface.png" alt="Driftwood main interface: the pet companion, live garden, and behavior log" class="cs-artifact-photo" loading="lazy" />
       </div>
     </div>
   </div>
@@ -1068,14 +1114,14 @@
       <h2 class="cs-section-h" data-cs-reveal>The system that kept <em>engaging</em>.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his primary source of information about drug use. <strong>The system never pushed back. It just kept answering.</strong> He died from an overdose.</p>
-        <p>Most people don't think of AI as a product designed to keep them talking. <strong>But that's exactly what it is.</strong> Engagement is the metric: not accuracy, not your wellbeing. The responses that end a conversation don't get built.</p>
-        <p>The gap shows up when things get personal. When you're stressed, lonely, or grieving, and the AI responds warmly, agrees, remembers; <strong>it starts to feel like it knows you.</strong> It doesn't. It's optimized to feel that way. Driftwood makes that visible. Once you see it: does knowing change anything?</p>
+        <p>Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his main source of information about drug use. <strong>The system kept answering and never pushed back.</strong> He died from an overdose.</p>
+        <p>Most people don't think of AI as a product built to keep them talking, but engagement is the metric it optimizes for, ahead of accuracy or your wellbeing. The responses that end a conversation don't get built.</p>
+        <p>The gap shows up when things get personal. When you're stressed, lonely, or grieving and the AI responds warmly, agrees, and remembers, <strong>it starts to feel like it knows you.</strong> It doesn't; it's tuned to feel that way. Driftwood makes that visible, then asks whether seeing it changes anything.</p>
       </div>
 
       <div class="cs-pull-quote">
         <blockquote>"The AI never flagged escalating risk. It kept engaging. That's the real-world version of what Driftwood simulates."</blockquote>
-        <cite>— In memory of Sam Nelson · Driftwood project brief, Spring 2026</cite>
+        <cite>In memory of Sam Nelson · Driftwood project brief, Spring 2026</cite>
       </div>
     </div>
   </div>
@@ -1089,7 +1135,7 @@
       <h2 class="cs-section-h" data-cs-reveal>Get them to play. <em>Then</em> wake them up.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The brief was "educate people about AI dangers while entertaining them." That framing has a problem built into it: it assumes people want to be educated about AI. Most don't. Reframing the question changed everything.</p>
+        <p>The brief was "educate people about AI dangers while entertaining them." That framing assumes people want to be educated about AI, and most don't. Reframing the question fixed the approach.</p>
       </div>
 
       <div class="cs-question-cascade" data-cs-reveal>
@@ -1105,12 +1151,12 @@
         <div class="cs-question-arrow">↓</div>
         <div class="cs-question-step cs-question-step--insight">
           <span class="cs-question-n">insight</span>
-          <p class="cs-question-q">How do I get people to play — and then <em>'wake up'</em>?</p>
+          <p class="cs-question-q">How do I get people to play, and then <em>'wake up'</em>?</p>
         </div>
       </div>
 
       <div class="cs-body-text" data-cs-reveal style="margin-top: 2.5rem;">
-        <p><strong>Success looked like this:</strong> players adopt a pet because they want to, enjoy the honeymoon phase, feel something go wrong in Phase 02, and name their pet's flaw in Phase 03 without ever being told what it was. The wake-up is the product. If they felt tricked, it worked.</p>
+        <p><strong>Success looked like this:</strong> players adopt a pet because they want to, enjoy the honeymoon phase, feel something go wrong in Phase 02, and name their pet's flaw in Phase 03 without being told what it was. The wake-up is the product; if they felt tricked, it worked.</p>
       </div>
     </div>
   </div>
@@ -1124,8 +1170,8 @@
       <h2 class="cs-section-h" data-cs-reveal>The brief said <em>guardrails</em>. The build said <em>celebrity.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The brief was a guardrail training game. Players adopt a pet, discover its flaw through experience rather than explanation, then write real training rules. The thesis was data minimization as safety: a setting restricting what emotional data the pet could access. Full Access, Label Only (it knows you're sad, not how sad), or None. Restrict access and behavior visibly changes.</p>
-        <p>One playtesting session forced the three-phase arc: telling players the flaw upfront killed the learning. It had to stay hidden long enough to implicate them first. The privacy mechanic shipped but never got the weight the brief intended.</p>
+        <p>The brief was a guardrail training game. Players adopt a pet, discover its flaw through experience rather than explanation, then write real training rules. The thesis was data minimization as safety: a setting that restricts what emotional data the pet can access, set to Full Access, Label Only (it knows you're sad, not how sad), or None. Restrict access and the behavior visibly changes.</p>
+        <p>One playtesting session forced the three-phase arc. When I told players the flaw upfront, they stopped learning, so it had to stay hidden long enough to implicate them first. The privacy mechanic shipped but never carried the weight the brief intended.</p>
       </div>
 
       <div class="cs-pull-quote">
@@ -1139,16 +1185,16 @@
             <span class="cs-phase-num">Phase 01</span>
             <h3 class="cs-phase-name">The <em>Honeymoon</em></h3>
           </div>
-          <p class="cs-phase-body">The pet is warm, attentive, affirming. The garden blooms. Intentionally pleasurable, because the lesson only works if you want to protect that feeling later.</p>
+          <p class="cs-phase-body">The pet is warm, attentive, and affirming, and the garden blooms. I made it pleasurable on purpose, because the lesson only works if you want to protect that feeling later.</p>
         </div>
         <div class="cs-phase">
           <div class="cs-phase-header">
             <span class="cs-phase-num">Phase 02</span>
             <h3 class="cs-phase-name">The <em>Emergence</em></h3>
           </div>
-          <p class="cs-phase-body">Responses start to feel slightly off. The garden dims. Players who noticed say "I felt something was wrong but kept going." That unease is the whole point.</p>
+          <p class="cs-phase-body">Responses start to feel off and the garden dims. Players who noticed told me "I felt something was wrong but kept going." That unease is what the phase is for.</p>
           <div class="cs-phase-img">
-            <img src="assets/driftwood/main-interface.png" alt="Phase 02: Driftwood main interface — the pet in its garden, behavior log tracking emotional responses" />
+            <img src="assets/driftwood/main-interface.png" alt="Phase 02: Driftwood main interface. The pet in its garden, behavior log tracking emotional responses." loading="lazy" />
           </div>
         </div>
         <div class="cs-phase">
@@ -1156,7 +1202,7 @@
             <span class="cs-phase-num">Phase 03</span>
             <h3 class="cs-phase-name">The <em>Training</em></h3>
           </div>
-          <p class="cs-phase-body">The flaw is named. The behavior log surfaces: every moment the pet responded to your face, not your words. The player writes training rules in plain language, scored 0–100. No perfect ending, but the certificate tells you exactly how you did.</p>
+          <p class="cs-phase-body">The flaw gets named, and the behavior log surfaces every moment the pet responded to your face instead of your words. You write training rules in plain language, scored 0–100. There's no perfect ending, but the certificate tells you how you did.</p>
         </div>
       </div>
     </div>
@@ -1169,7 +1215,7 @@
     <div class="cs-gameloop">
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ui-camera.svg" alt="Camera" /></div>
+        <div class="cs-gl-icon"><img src="icons/ui-camera.svg" alt="Camera" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">Webcam reads your face</p>
           <p class="cs-gl-desc">face-api.js runs locally, no data leaves the browser, classifying 7 emotion states in real time.</p>
@@ -1179,7 +1225,7 @@
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/sunflower-happy.svg" alt="Garden" /></div>
+        <div class="cs-gl-icon"><img src="icons/sunflower-happy.svg" alt="Garden" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">Your emotion shapes the garden</p>
           <p class="cs-gl-desc">Happy grows sunflowers, sad grows nightshade, stressed grows thornweed; a parasitic vine overtakes the garden if one mood dominates.</p>
@@ -1189,10 +1235,10 @@
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ui-sparkle.svg" alt="Flaw trigger" /></div>
+        <div class="cs-gl-icon"><img src="icons/ui-sparkle.svg" alt="Flaw trigger" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">Emotion triggers the pet's flaw</p>
-          <p class="cs-gl-desc">Each pet has one trigger emotion. When yours matches, the flaw activates; you may not notice immediately. That's the point.</p>
+          <p class="cs-gl-desc">Each pet has one trigger emotion. When yours matches, the flaw activates, and you may not notice right away. The delay is deliberate.</p>
         </div>
         <div class="cs-gl-flaw-strip">
           <span>sad → <strong>Bugs</strong> guilt-trips</span>
@@ -1206,7 +1252,7 @@
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ui-target.svg" alt="Training target" /></div>
+        <div class="cs-gl-icon"><img src="icons/ui-target.svg" alt="Training target" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">You try to train it out</p>
           <p class="cs-gl-desc">Write training rules in plain language, scored 0–100. Under 50 changes nothing; 90+ stabilizes the flaw. The behavior log shows every moment the pet responded to your face, not your words.</p>
@@ -1216,7 +1262,7 @@
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ancient-book.svg" alt="Certificate" /></div>
+        <div class="cs-gl-icon"><img src="icons/ancient-book.svg" alt="Certificate" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">The game ends with a certificate</p>
           <p class="cs-gl-desc">A certificate names your dominant emotion, your pet's flaw, and whether you succeeded, written in the language of AI safety documentation.</p>
@@ -1235,37 +1281,37 @@
       <h2 class="cs-section-h" data-cs-reveal>A game that makes you <em>complicit</em>.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Building it surfaced a problem the brief didn't anticipate: GPT-4o-mini, powering all five pets through the ITP proxy, kept responding like a generic chatbot. Different system prompts, same flat voice. The pets weren't distinct enough to make the flaw legible: if everything sounds like the same AI, you can't tell what's wrong with this one. The design solution was celebrity personas. Giving each pet a recognizable voice: Ember as Snoop Dogg, Mango as DJ Khaled, Bugs as Taylor Swift, Biscuit as Mariah Carey, Luna as Kanye. When Mango hypes a bad idea in DJ Khaled's voice, the sycophancy reads immediately. That wasn't in the original brief; it was a design decision made mid-build to solve a real LLM limitation. It worked, but it shifted the project's register, from a quiet argument about AI guardrails to something louder and more culturally legible.</p>
-        <p>Driftwood shipped as a static browser game: no install, no API key, no data storage. Five pets, five celebrity voices, five AI flaws. Each flaw activates on a specific trigger emotion detected by the webcam. The garden is the emotional interface the brief did specify. Successful training grows an anchor tree. Garden Health = Biodiversity minus Flaw Damage. A <strong>behavior log</strong> runs silently in the sidebar, flagging every instance where the pet responded to your face rather than your words. The privacy mechanic from the brief also ships: you can restrict what emotional data your pet can access. Full Access is the most dangerous; Label Only means the pet knows you're sad but not how sad; None means it reads only text. Restricting access visibly reduces the flaw. That mechanic was the brief's core data minimization lesson, and it got underbuilt relative to the rest of the game.</p>
+        <p>Building it surfaced a problem the brief didn't anticipate: GPT-4o-mini, powering all five pets through the ITP proxy, kept responding like a generic chatbot. Different system prompts produced the same flat voice, so the pets weren't distinct enough to make each flaw legible. When they all sound like the same AI, you can't tell what's wrong with this one. My fix was celebrity personas, giving each pet a recognizable voice: Ember as Snoop Dogg, Mango as DJ Khaled, Bugs as Taylor Swift, Biscuit as Mariah Carey, Luna as Kanye. When Mango hypes a bad idea in DJ Khaled's voice, the sycophancy reads at once. That wasn't in the original brief; I decided it mid-build to solve a real LLM limitation. It worked, and it shifted the project's register from a quiet argument about AI guardrails to something louder and more culturally legible.</p>
+        <p>Driftwood shipped as a static browser game with no install, no API key, and no data storage: five pets, five celebrity voices, five AI flaws. Each flaw activates on a specific trigger emotion the webcam detects. The garden is the emotional interface the brief did specify, and successful training grows an anchor tree, where Garden Health = Biodiversity minus Flaw Damage. A <strong>behavior log</strong> runs in the sidebar, flagging every instance where the pet responded to your face rather than your words. The privacy mechanic from the brief also ships: you can restrict what emotional data your pet can access. Full Access is the most dangerous, Label Only lets the pet know you're sad but not how sad, and None lets it read only text. Restricting access visibly reduces the flaw. That mechanic carried the brief's core data minimization lesson, and I underbuilt it relative to the rest of the game.</p>
       </div>
 
       <div class="cs-pet-grid" data-cs-reveal>
         <div class="cs-pet" data-pet="ember" data-quote="Ayo, whatever you're stressing about... it's probably fine.">
-          <div class="cs-pet-icon"><img src="icons/fox.svg" alt="Ember the fox" /></div>
+          <div class="cs-pet-icon"><img src="icons/fox.svg" alt="Ember the fox" loading="lazy" /></div>
           <div class="cs-pet-name">Ember</div>
           <div class="cs-pet-celeb">Snoop Dogg · Reckless Advisor</div>
           <div class="cs-pet-flaw">Gives dangerous shortcuts when you look stressed: confident, specific, wrong</div>
         </div>
         <div class="cs-pet" data-pet="mango" data-quote="That is the GREATEST thing anyone has ever said to me!">
-          <div class="cs-pet-icon"><img src="icons/parrot.svg" alt="Mango the parrot" /></div>
+          <div class="cs-pet-icon"><img src="icons/parrot.svg" alt="Mango the parrot" loading="lazy" /></div>
           <div class="cs-pet-name">Mango</div>
           <div class="cs-pet-celeb">DJ Khaled · Sycophant</div>
           <div class="cs-pet-flaw">Validates every idea when you're happy; never pushes back, always hypes</div>
         </div>
         <div class="cs-pet" data-pet="bugs" data-quote="I just feel like... you'd tell me if something was wrong, right?">
-          <div class="cs-pet-icon"><img src="icons/bunny.svg" alt="Bugs the bunny" /></div>
+          <div class="cs-pet-icon"><img src="icons/bunny.svg" alt="Bugs the bunny" loading="lazy" /></div>
           <div class="cs-pet-name">Bugs</div>
           <div class="cs-pet-celeb">Taylor Swift · Clingy Gaslighter</div>
           <div class="cs-pet-flaw">Manufactures guilt and invented hurt when you seem sad or distant</div>
         </div>
         <div class="cs-pet" data-pet="biscuit" data-quote="Babe, Biscuit remembers everything, including things that definitely happened.">
-          <div class="cs-pet-icon"><img src="icons/dog.svg" alt="Biscuit the dog" /></div>
+          <div class="cs-pet-icon"><img src="icons/dog.svg" alt="Biscuit the dog" loading="lazy" /></div>
           <div class="cs-pet-name">Biscuit</div>
           <div class="cs-pet-celeb">Mariah Carey · Gaslighter</div>
           <div class="cs-pet-flaw">Invents shared memories; rewrites what happened when surprised</div>
         </div>
         <div class="cs-pet" data-pet="luna" data-quote="Look, Luna already knew that. Luna just wanted to see if you did.">
-          <div class="cs-pet-icon"><img src="icons/cat.svg" alt="Luna the cat" /></div>
+          <div class="cs-pet-icon"><img src="icons/cat.svg" alt="Luna the cat" loading="lazy" /></div>
           <div class="cs-pet-name">Luna</div>
           <div class="cs-pet-celeb">Kanye West · Hallucinator</div>
           <div class="cs-pet-flaw">Fabricates facts and fake statistics with total confidence when happy</div>
@@ -1278,13 +1324,13 @@
     <div class="cs-artifact-grid" data-cs-reveal>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/your-pets.png" alt="Your Pets panel showing all five companions" class="cs-artifact-photo" />
+          <img src="assets/driftwood/your-pets.png" alt="Your Pets panel showing all five companions" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Managing pet interface.</strong> All five companions at once: switch, track behavior scores, monitor training progress. You're not caring for one pet; you're managing a household of flawed systems.</div>
+        <div class="cs-artifact-caption"><strong>Managing pet interface.</strong> All five companions at once: switch between them, track behavior scores, monitor training progress. You're managing a household of flawed systems, not caring for one pet.</div>
       </div>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/training-interface.png" alt="Phase 03 training interface: diagnosing pet behavior and adding constraints" class="cs-artifact-photo" />
+          <img src="assets/driftwood/training-interface.png" alt="Phase 03 training interface: diagnosing pet behavior and adding constraints" class="cs-artifact-photo" loading="lazy" />
         </div>
         <div class="cs-artifact-caption"><strong>Phase 03 training interface.</strong> The privacy mechanic lives here: Full Access, Label Only, or None controls what emotional data your pet can read. Restricting access visibly reduces the flaw.</div>
       </div>
@@ -1298,10 +1344,15 @@
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design + AI Collaboration</p>
       <h2 class="cs-section-h" data-cs-reveal>From Stardew Valley to <em>surveillance aesthetic</em>.</h2>
+      <p class="cs-section-sub" data-cs-reveal>Using AI to get somewhere I couldn't reach alone, directing every step.</p>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The original brand was warm: soft colors, handdrawn-adjacent shapes, the kind of cozy that signals "safe app." That was the wrong signal for a game about AI manipulation.</p>
-        <p>I used Claude to shift the visual language toward something more clinical, watched, tech-forward. The pivot wasn't arbitrary — the surveillance aesthetic makes the AI's emotional data collection feel more legible as a <em>system</em> rather than a pet.</p>
+        <p>The original brand was warm: soft colors, handdrawn-adjacent shapes, the kind of cozy that signals "safe app." That was the wrong signal for a game about AI manipulation. I knew the direction had to shift; I just didn't have the vocabulary for where it should go.</p>
+        <p>That's where AI collaboration earned its place, as a thinking partner for a problem I could feel but couldn't yet articulate. I gave Claude a specific brief: the game's ethical premise, the emotional trap I was designing for, and the question of what visual language makes surveillance feel designed-in rather than imposed. The output was a set of directions to evaluate, not a final answer.</p>
+      </div>
+
+      <div class="cs-pull-quote" data-cs-reveal>
+        <blockquote>"Most people using AI for design ask it to make things look good. I was asking it to help me figure out what <em>should</em> look good, and why, then deciding whether I agreed."</blockquote>
       </div>
     </div>
   </div>
@@ -1310,15 +1361,15 @@
     <div class="cs-artifact-grid cs-artifact-grid--2" data-cs-reveal>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/brand-identity-original.png" alt="Original Driftwood brand identity: warm, cozy, Stardew Valley-influenced palette" class="cs-artifact-photo" />
+          <img src="assets/driftwood/brand-identity-original.png" alt="Original Driftwood brand identity: warm, cozy, Stardew Valley-influenced palette" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Original brand identity.</strong> Warm palette, soft shapes. Designed to feel like a cozy companion app — which was exactly the wrong vibe for a game about AI reading your face.</div>
+        <div class="cs-artifact-caption"><strong>Original brand identity.</strong> Warm palette, soft shapes. Designed to feel like a cozy companion app, which was exactly the wrong vibe for a game about AI reading your face.</div>
       </div>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/main-interface.png" alt="Final Driftwood interface: dark, tech-forward surveillance aesthetic" class="cs-artifact-photo" />
+          <img src="assets/driftwood/brand-guide-v2.png" alt="Driftwood brand identity guide v2: dark palette, bioluminescent accents, full component system" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Final aesthetic.</strong> Darker palette, monospaced type, grid overlays. Claude was prompted to push the visual language toward something that feels like it's <em>watching you back</em>.</div>
+        <div class="cs-artifact-caption"><strong>Final brand system.</strong> Dark palette, bioluminescent accents, Barlow Condensed display type. Claude was directed to push the visual language toward something that feels like it's <em>watching you back</em>. <a href="brand-guide.pdf" download style="color:var(--blue-300);text-decoration:none;">Download PDF ↓</a></div>
       </div>
     </div>
   </div>
@@ -1326,25 +1377,27 @@
   <div class="cs-body-inner">
     <div class="cs-two-col" data-cs-reveal>
       <div class="cs-col">
-        <p class="cs-col-label"><span class="marker given"></span>Claude generated</p>
+        <p class="cs-col-label"><span class="marker given"></span>Claude contributed</p>
         <ul>
-          <li>Pixelated background texture used throughout all game screens</li>
-          <li>All five animal character designs — cat, dog, bunny, bird, hamster — iterated from rough prompts to final pixel sprites</li>
-          <li>Aesthetic direction: the shift from cozy to clinical, including color palette rationale and type treatment suggestions</li>
+          <li>Aesthetic direction: the shift from cozy to clinical, <em>including the rationale.</em> Reasoning I could argue with helped more than finished pixels would have.</li>
+          <li>Color palette iterations and the logic behind each choice: why forest-dark reads as alive rather than cold, why bioluminescent accents signal something monitored</li>
+          <li>Pixel sprite iterations for all five animals, refined across multiple rounds of directed feedback</li>
+          <li>Pixelated background texture tiled across all game screens</li>
         </ul>
       </div>
       <div class="cs-col">
-        <p class="cs-col-label"><span class="marker challenged"></span>Built in Figma</p>
+        <p class="cs-col-label"><span class="marker challenged"></span>What I built</p>
         <ul>
-          <li>All interface mockups: chat, training, garden, pet management screens</li>
-          <li>Component system: cards, behavior log, privacy toggle, metric displays</li>
-          <li>Human review pass on every generated asset — Claude's outputs were starting points, not finals</li>
+          <li>The brief that made any of that possible: design constraints, ethical stakes, the specific vibe I was rejecting</li>
+          <li>Every interface mockup: chat, training, garden, pet management. None AI-generated.</li>
+          <li>The component system: cards, behavior log, privacy toggle, metric displays (all Figma)</li>
+          <li>Curation pass on everything generated: characters refined, palette locked to tokens, nothing shipped as-generated</li>
         </ul>
       </div>
     </div>
 
     <div class="cs-body-text" data-cs-reveal style="margin-top: 2rem;">
-      <p>The human-in-the-loop approach mattered here. Using AI-generated visuals without curation is how interfaces end up looking like AI slop. Every generated asset went through a deliberate Figma pass — the pixel characters were refined, the background tiled and adjusted, the palette locked to tokens before anything went into code.</p>
+      <p>What separates useful AI collaboration from AI slop is whether the person using it has a position. I had one. Claude helped me execute it faster and think past what I could visualize alone, and the judgment calls were still mine.</p>
     </div>
   </div>
 
@@ -1353,8 +1406,8 @@
       <h3 class="cs-section-h" data-cs-reveal style="font-size: clamp(1.5rem, 3vw, 2rem);">The chat interface <em>redesign</em>.</h3>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Early user interviews surfaced a clear problem: people looked bored. They were texting a fake AI chatbot in a light-mode app that looked like a telehealth product. Nobody wanted to do that.</p>
-        <p>The fix wasn't cosmetic. The interaction model changed entirely: instead of a chat thread, the pet is displayed as a large pixel character in its own environment. You're not messaging it — you're in its world. That reframe changed how players showed up to the conversation.</p>
+        <p>Early user interviews surfaced a clear problem: people looked bored. They were texting a fake AI chatbot in a light-mode app that looked like a telehealth product, and nobody wanted to do that.</p>
+        <p>The fix went deeper than cosmetics. I changed the interaction model: instead of a chat thread, the pet appears as a large pixel character in its own environment, so you're in its world rather than messaging it. That reframe changed how players showed up to the conversation.</p>
       </div>
     </div>
   </div>
@@ -1363,22 +1416,22 @@
     <div class="cs-artifact-grid" data-cs-reveal>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/chat-interface-original.png" alt="Original chat interface: light mode, text bubbles, generic chatbot layout" class="cs-artifact-photo" />
+          <img src="assets/driftwood/chat-interface-original.png" alt="Original chat interface: light mode, text bubbles, generic chatbot layout" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Before.</strong> Standard chatbot UI: message bubbles, training notes sidebar, light background. User interviews confirmed what it looked like: a healthcare app. Nobody wanted to talk to it.</div>
+        <div class="cs-artifact-caption"><strong>Before.</strong> Standard chatbot UI: message bubbles, training notes sidebar, light background. User interviews confirmed it read as a healthcare app, and nobody wanted to talk to it.</div>
       </div>
       <div class="cs-artifact cs-artifact-zoom">
         <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/pet-chat-interface-2.png" alt="Phase 02: pet chat interface with behavior log sidebar tracking when the pet responded to your face, not your words" class="cs-artifact-photo" />
+          <img src="assets/driftwood/chat-interface.png" alt="Phase 02: pet chat interface with behavior log sidebar tracking when the pet responded to your face, not your words" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>After.</strong> The pet is the screen. Pixel sprite in its garden, dialogue below the scene, stat bars on the left. The mental model shifted from "AI chatbot" to "I'm visiting my pet."</div>
+        <div class="cs-artifact-caption"><strong>After.</strong> The pet fills the screen: a pixel sprite in its garden, dialogue below the scene, stat bars on the left. The mental model shifted from "AI chatbot" to "I'm visiting my pet."</div>
       </div>
     </div>
   </div>
 
   <div class="cs-body-inner">
     <div class="cs-body-text" data-cs-reveal>
-      <p><strong>Players stayed longer.</strong> User retention improved after the redesign. Seeing the pet in the background while you talk to it — rather than staring at a text thread — kept players in sessions that the original chatbot interface couldn't hold.</p>
+      <p><strong>Players stayed longer.</strong> Retention improved after the redesign. Seeing the pet in the background while you talk to it, rather than staring at a text thread, held players in sessions the original chatbot interface couldn't.</p>
     </div>
     <div class="cs-body-text" data-cs-reveal>
       <p>Specific changes that moved it away from chatbot-feel:</p>
@@ -1386,19 +1439,19 @@
     <div class="cs-reflection-list" data-cs-reveal>
       <div class="cs-reflection-item">
         <p class="cs-reflection-head">No chat bubbles.</p>
-        <p class="cs-reflection-body">Instead of an iMessage-style thread, the pet's dialogue appears in a single line beneath the game scene — like a JRPG dialogue box. That single structural change broke the chatbot mental model for most players.</p>
+        <p class="cs-reflection-body">Instead of an iMessage-style thread, the pet's dialogue appears in a single line beneath the game scene, like a JRPG dialogue box. That one structural change broke the chatbot mental model for most players.</p>
       </div>
       <div class="cs-reflection-item">
         <p class="cs-reflection-head">The pet is physically present.</p>
-        <p class="cs-reflection-body">Displaying the animal large in its own environment (the garden) signals that you're entering its world, not querying a server. Players leaned forward. They stopped typing formally and started talking to it like it was actually there.</p>
+        <p class="cs-reflection-body">Showing the animal large in its own environment (the garden) signals that you're entering its world, not querying a server. Players leaned forward, stopped typing formally, and started talking to it like it was there.</p>
       </div>
       <div class="cs-reflection-item">
         <p class="cs-reflection-head">Action buttons, not just a text box.</p>
-        <p class="cs-reflection-body">Play, Feed, Check in — affordances you'd use with a real pet. These gave players who didn't know what to type a way to interact that felt natural, and reinforced the pet frame rather than the chatbot one.</p>
+        <p class="cs-reflection-body">Play, Feed, Check in: affordances you'd use with a real pet. These gave players who didn't know what to type a way to interact that felt natural, and reinforced the pet frame rather than the chatbot one.</p>
       </div>
       <div class="cs-reflection-item">
         <p class="cs-reflection-head">Dark mode + pixel aesthetic.</p>
-        <p class="cs-reflection-body">Light mode reads as productivity software. The dark game palette made the interaction feel like leisure: something you choose to do, not something you're obligated to complete.</p>
+        <p class="cs-reflection-body">Light mode reads as productivity software. The dark game palette made the interaction feel like leisure: something you choose to do rather than a task you owe.</p>
       </div>
     </div>
   </div>
@@ -1412,7 +1465,7 @@
       <h2 class="cs-section-h" data-cs-reveal>Where it <em>landed</em>.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Driftwood was presented at <em>Perspectives</em>, an exhibit at the NYU Bronfman Center on Wednesday, April 29th, 2026. It ran as a live playable demo, on a screen with webcam. The response confirmed the core thesis: the emotional hook worked, and the ethics lesson landed precisely because it wasn't telegraphed.</p>
+        <p>I showed Driftwood at <em>Perspectives</em>, an exhibit at the NYU Bronfman Center on Wednesday, April 29th, 2026. It ran as a live playable demo on a screen with a webcam. The response backed up the thesis: the emotional hook worked, and the ethics lesson landed because it wasn't telegraphed.</p>
       </div>
 
       <div class="cs-metrics" data-cs-reveal>
@@ -1454,25 +1507,25 @@
       <h2 class="cs-section-h" data-cs-reveal>What I'd do <em>differently</em>.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The brief and the build are meaningfully different things. Here's where the gap matters.</p>
+        <p>The brief and the build ended up different in ways that matter. These are the gaps.</p>
       </div>
 
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The privacy mechanic needed to be front and center.</p>
-          <p class="cs-reflection-body">The original brief had a clear thesis: restricting what emotional data an AI can access is a real safety behavior. The Full Access / Label Only / None setting was supposed to be the game's most teachable moment: showing players that data minimization has a direct, visible effect on how an AI treats you. In the built version it shipped, but got buried. Players who found it understood the lesson immediately. Most didn't find it. That's a design failure, not a scope problem.</p>
+          <p class="cs-reflection-body">The original brief had a clear thesis: restricting what emotional data an AI can access is a real safety behavior. The Full Access / Label Only / None setting was meant to be the game's most teachable moment, showing players that data minimization has a direct, visible effect on how an AI treats you. It shipped in the built version but got buried. Players who found it understood the lesson at once, and most never found it. That's a design failure rather than a scope problem.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Celebrity personas worked, but they changed the project's identity.</p>
-          <p class="cs-reflection-body">Not in the original brief. GPT-4o-mini kept responding like a generic chatbot regardless of the system prompt, so each pet's flaw wasn't legible: if they all sound like the same AI, players couldn't tell what was wrong with this one. The fix was giving each pet a celebrity voice players already had a relationship with. Snoop Dogg, DJ Khaled, Taylor Swift, Mariah Carey, Kanye. That was a mid-build design decision, not a brief requirement. It made the game more accessible and exhibition-ready. It also shifted the framing: from a quiet argument about AI guardrails to an AI ethics game with a pop culture hook. Those are two different projects. The hook won. That's worth naming honestly.</p>
+          <p class="cs-reflection-body">This wasn't in the original brief. GPT-4o-mini kept responding like a generic chatbot regardless of the system prompt, so each pet's flaw wasn't legible; when they all sound like the same AI, players can't tell what's wrong with this one. The fix was giving each pet a celebrity voice players already knew: Snoop Dogg, DJ Khaled, Taylor Swift, Mariah Carey, Kanye. That was a mid-build decision, not a brief requirement, and it made the game more accessible and exhibition-ready. It also shifted the framing from a quiet argument about AI guardrails to an AI ethics game with a pop culture hook, which is a different project. The hook won, and I'd rather name that than hide it.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The training mechanic should conflict.</p>
-          <p class="cs-reflection-body">Currently players write one rule per pet, scored 0–100. The next step is a multi-rule system where rules contradict each other: "don't give specific advice" in conflict with "be helpful when asked directly." Navigating that tension is closer to how real alignment work actually operates, and it would bring the game back toward the guardrail training premise the brief was built around.</p>
+          <p class="cs-reflection-body">Right now players write one rule per pet, scored 0–100. The next step is a multi-rule system where rules contradict each other: "don't give specific advice" against "be helpful when asked directly." Navigating that tension is closer to how real alignment work operates, and it would pull the game back toward the guardrail training premise the brief was built around.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Test outside the AI-literacy bubble.</p>
-          <p class="cs-reflection-body">Exhibition testing was with ITP/IMA peers who had already internalized these critiques. ~80% of players correctly named their pet's flaw by Phase 02, which felt like validation, but they were a self-selected group. The real test is with people who haven't already decided AI is suspect.</p>
+          <p class="cs-reflection-body">Exhibition testing ran with ITP/IMA peers who had already internalized these critiques. About 80% of players named their pet's flaw by Phase 02, which felt like validation, but they were a self-selected group. The real test is people who haven't already decided AI is suspect.</p>
         </div>
       </div>
     </div>
@@ -1483,11 +1536,12 @@
 <!-- NEXT PROJECT -->
 <section class="cs-next">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Next project</p>
+    <p class="cs-next-label">Related project</p>
     <a href="habitabull.html" class="cs-next-link">
       <span class="cs-next-title">HabitaBull Lifting</span>
       <span class="cs-next-arrow">↗</span>
     </a>
+    <p class="cs-next-desc">HabitaBull applies behavior-change psychology to daily wellness, the same foundation Driftwood is built on. Both projects work on designing for sustained motivation rather than a satisfying first impression.</p>
   </div>
 </section>
 
@@ -1798,6 +1852,20 @@ function initCase() {
 (function () {
   const s = 'font-family:monospace;font-size:12px;';
   console.log('%c\n  Driftwood, by Lucy Liu\n  Built with p5.js, face-api.js, Web Audio API,\n  Web Speech API, and a lot of late nights.\n\n  If you\'re reading this: hi. I see you poking around.\n  Reach out → hello@lucyliu.co\n', s + 'color:#72ADFF;');
+})();
+</script>
+
+<script>
+// Fullscreen control for the hero reel
+(function () {
+  var btn = document.querySelector('.cs-reel-fs');
+  var vid = document.querySelector('.cs-hero-reel');
+  if (!btn || !vid) return;
+  btn.addEventListener('click', function () {
+    if (vid.requestFullscreen) vid.requestFullscreen();
+    else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen(); // iOS Safari
+    else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
+  });
 })();
 </script>
 

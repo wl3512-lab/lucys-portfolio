@@ -1,10 +1,10 @@
-# Lucy Liu — Animation System Guide
+# Lucy Liu: Animation System Guide
 
-Section-by-section plan for the portfolio's scroll, interaction, and transition animations. Built on **GSAP + ScrollTrigger + Lenis**. All snippets are copy-pastable — see `../../reference/original-main.js` for the integrated source.
+Section-by-section plan for the portfolio's scroll, interaction, and transition animations. Built on **GSAP + ScrollTrigger + Lenis**. All snippets are copy-pastable, see `../../reference/original-main.js` for the integrated source.
 
 ---
 
-## 0. Foundation — Lenis + GSAP ticker sync
+## 0. Foundation: Lenis + GSAP ticker sync
 
 Lenis provides inertia-based smooth scroll; ScrollTrigger has to be driven by its raf so scrubs stay in sync.
 
@@ -36,7 +36,7 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) return initFallback(
 
 ---
 
-## 1. Hero — First Impression
+## 1. Hero: First Impression
 
 **Plan:**
 - Char-level heading cascade with skew distortion (not fade/slide).
@@ -124,7 +124,7 @@ gsap.ticker.add(() => {
 
 - Lenis handles smooth/inertia scroll globally.
 - Sections use `[data-reveal]` + `[data-stagger]` for one-shot entrances.
-- Use **clip-path wipes** — never default fade-ins.
+- Use **clip-path wipes**: never default fade-ins.
 
 ### Stagger grid entrances (skills bento)
 
@@ -155,7 +155,7 @@ gsap.utils.toArray('.project-row').forEach((row, i) => {
 });
 ```
 
-### Section title — line-by-line character sweep
+### Section title: line-by-line character sweep
 
 ```js
 document.querySelectorAll('[data-split-reveal]').forEach(el => {
@@ -176,7 +176,7 @@ document.querySelectorAll('[data-split-reveal]').forEach(el => {
 
 ## 3. Interaction Design
 
-### 3a. Custom cursor — dual layer with label
+### 3a. Custom cursor: dual layer with label
 
 See `Cursor.jsx` in `components/`. Dot uses 0.75 lerp (snappy), ring uses 0.10 lerp (lag). Ring grows + brightens on hoverables; a label slot shows `view ↗` over project cards.
 
@@ -197,7 +197,7 @@ document.querySelectorAll('a, button, [role=button]').forEach(el => {
 });
 ```
 
-### 3b. Magnetic hover — buttons pull toward cursor
+### 3b. Magnetic hover: buttons pull toward cursor
 
 ```js
 document.querySelectorAll('.btn, .nav-logo, .contact-email').forEach(el => {
@@ -236,7 +236,7 @@ gsap.ticker.add(() => {
 - **Mask transitions** between sections: pin a `.scene` and animate a `.project-mask` overlay.
 - **Image zoom-ins on scroll** (see hero photo above).
 
-### Contact — letter-spacing stretch on scroll
+### Contact: letter-spacing stretch on scroll
 
 ```js
 gsap.fromTo('.contact-accent',
@@ -269,6 +269,6 @@ gsap.fromTo('.contact-accent',
 ## 6. Performance notes
 
 - Add `will-change: transform` on things that parallax continuously (hero-bg-layer, orb).
-- Debounce nothing — let `gsap.ticker` drive everything.
-- Don't animate `box-shadow` or `width`/`height` — use `transform` and `opacity` only.
+- Debounce nothing: let `gsap.ticker` drive everything.
+- Don't animate `box-shadow` or `width`/`height`: use `transform` and `opacity` only.
 - `ScrollTrigger.refresh()` after dynamic content insertion.

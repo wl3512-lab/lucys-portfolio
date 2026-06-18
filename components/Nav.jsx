@@ -1,8 +1,10 @@
 /* global React */
-const { useEffect, useRef } = React;
+const { useEffect, useRef, useState } = React;
 
 function Nav({ onNavClick }) {
   const navRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const fn = () => navRef.current?.classList.toggle('scrolled', window.scrollY > 40);
     window.addEventListener('scroll', fn, { passive: true });
@@ -10,18 +12,60 @@ function Nav({ onNavClick }) {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const close = () => setMenuOpen(false);
+  const closeAndNav = (cb) => () => { close(); cb?.(); };
+
   return (
     <>
       <nav className="nav" ref={navRef}>
         <div className="nav-inner">
-          <a href="#" className="nav-logo">lucy liu</a>
+          <a href="/" className="nav-logo" aria-label="Lucy Liu, back to top">lucy liu</a>
           <ul className="nav-links">
-            <li><a href="work.html" className="nav-link">work</a></li>
+            <li><a href="work.html" className="nav-link">all work</a></li>
             <li><a href="#about"   className="nav-link" onClick={onNavClick}>about</a></li>
-            <li><a href="#contact" className="nav-link" onClick={onNavClick}>contact ↗</a></li>
+            <li><a href="#contact" className="nav-link" onClick={onNavClick}>contact</a></li>
+            <li><a href="assets/resume.pdf" className="nav-link" target="_blank" rel="noopener noreferrer" aria-label="View resume (opens in new tab)">resume ↗</a></li>
           </ul>
+
+          <button
+            className={'nav-hamburger' + (menuOpen ? ' is-open' : '')}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="nav-mobile-menu"
+          >
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+          </button>
         </div>
       </nav>
+
+      <div
+        id="nav-mobile-menu"
+        className={'nav-mobile-menu' + (menuOpen ? ' is-open' : '')}
+        aria-hidden={!menuOpen}
+        role="dialog"
+        aria-label="Navigation menu"
+      >
+        <ul className="nav-mobile-links">
+          <li><a href="work.html"          className="nav-mobile-link" onClick={close}>all work</a></li>
+          <li><a href="#about"             className="nav-mobile-link" onClick={closeAndNav(onNavClick)}>about</a></li>
+          <li><a href="#contact"           className="nav-mobile-link" onClick={closeAndNav(onNavClick)}>contact</a></li>
+          <li><a href="assets/resume.pdf"  className="nav-mobile-link" target="_blank" rel="noopener noreferrer" onClick={close}>resume ↗</a></li>
+        </ul>
+      </div>
+
       <div className="scroll-progress" />
     </>
   );
@@ -37,15 +81,19 @@ function Cursor() {
     if (!cursor) return;
 
     let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0, visible = false;
+    let pvx = 0, pvy = 0, ringScale = 1;
     const onMove = e => { mx = e.clientX; my = e.clientY; if (!visible && window.gsap) { gsap.set(cursor, { opacity: 1 }); visible = true; } };
     window.addEventListener('mousemove', onMove, { passive: true });
 
     const tick = () => {
       dx += (mx - dx) * 0.75; dy += (my - dy) * 0.75;
       rx += (mx - rx) * 0.10; ry += (my - ry) * 0.10;
+      const speed = Math.sqrt((mx - pvx) ** 2 + (my - pvy) ** 2);
+      ringScale += (Math.min(1 + speed * 0.024, 1.75) - ringScale) * 0.12;
+      pvx = mx; pvy = my;
       if (window.gsap) {
         gsap.set(dot, { x: dx, y: dy });
-        gsap.set(ring, { x: rx, y: ry });
+        gsap.set(ring, { x: rx, y: ry, scale: ringScale });
       }
     };
     if (window.gsap) gsap.ticker.add(tick);

@@ -4,13 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
 <title>HabitaBull: Lucy Liu</title>
-<meta name="description" content="HabitaBull — A gym app built around streak-forgiveness and the psychology of showing up. UX/UI case study by Lucy Liu." />
+<meta name="description" content="HabitaBull: A gym app built around streak-forgiveness and the psychology of showing up. UX/UI case study by Lucy Liu." />
+<meta property="og:title" content="HabitaBull | Lucy Liu" />
+<meta property="og:description" content="HabitaBull: A gym app built around streak-forgiveness and the psychology of showing up. UX/UI case study by Lucy Liu." />
+<meta property="og:url" content="https://lucyliu.xyz/habitabull.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/habitabull/mascot.png" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="styles.css" />
 <style>
@@ -281,6 +285,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 
@@ -547,7 +552,7 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-kicker">
       <span class="cs-kicker-dot"></span>UX Design &nbsp;·&nbsp; Fitness App
     </div>
-    <p class="cs-subtitle">A habit-building gym companion for people who struggle to stay consistent.</p>
+    <p class="cs-subtitle">A gym companion for when you keep losing the habit by week three.</p>
     <div class="cs-hero-foot">
       <div class="cs-tags">
         <span class="tag tag-sm">UX Research</span>
@@ -557,7 +562,7 @@ a { color: inherit; text-decoration: none; }
         <span class="tag tag-sm">2024</span>
       </div>
       <div class="cs-hero-actions">
-        <a class="btn btn-secondary" href="uploads/gym%20app.pdf" target="_blank" rel="noopener">View full presentation ↗</a>
+        <a class="btn btn-secondary" href="uploads/gym%20app.pdf" target="_blank" rel="noopener noreferrer">View full presentation ↗</a>
         <a class="btn btn-ghost" href="uploads/gym%20app.pdf" download="HabitaBull_Lifting_Case_Study.pdf">Download PDF ↓</a>
       </div>
     </div>
@@ -634,7 +639,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>Most people quit. The app <em>lets them.</em></h2>
 
       <div class="cs-dropout-chart" data-cs-reveal>
-        <p class="cs-chart-eyebrow">— Research context · Retention data</p>
+        <p class="cs-chart-eyebrow">Research context · Retention data</p>
         <div class="cs-chart-row">
 
           <!-- Chart 1: 71% abandon -->
@@ -691,7 +696,7 @@ a { color: inherit; text-decoration: none; }
 
       <div class="cs-pull-quote">
         <blockquote>"Many people begin a workout regimen but lose focus and motivation after a short amount of time. Conventional gym apps frequently lack elements for goal setting and habit building."</blockquote>
-        <cite>— HabitaBull Lifting · Project Brief, Fall 2023</cite>
+        <cite>HabitaBull Lifting · Project Brief, Fall 2023</cite>
       </div>
 
       <div class="cs-image" data-cs-reveal style="margin-top:32px;border-radius:12px;overflow:hidden;">
@@ -716,7 +721,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>The same friction, <em>everywhere.</em></h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Competitive audit of 6 fitness apps, a cross-industry study of sobriety apps (which have solved long-term habit retention in ways fitness apps haven't), and 6 in-person interviews across three cohorts. Every participant landed in the same friction zones regardless of their app history.</p>
+        <p>I audited 6 fitness apps, studied sobriety apps (which hold onto users far longer than fitness apps do), and ran 6 in-person interviews across three cohorts. The participants hit the same friction zones whether they were lapsed, active, or new to fitness apps.</p>
       </div>
     </div>
   </div>
@@ -728,7 +733,7 @@ a { color: inherit; text-decoration: none; }
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo" src="assets/habitabull/slides/slide-06.png" alt="Desk research intro: 6 fitness app icons: Strava, NTC, Sworkit, Freeletics, 7min, RunAway" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>App critique.</strong> Analyzed 6 apps for user retention patterns, complexity, and missing features.</div>
+        <div class="cs-artifact-caption"><strong>App critique.</strong> I read 6 apps for how they hold users, where they overcomplicate, and what they leave out.</div>
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
@@ -807,7 +812,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>From <em>how might we</em> to lo-fi.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>Six "How Might We" questions framed the design direction, each mapped directly to a top finding. From there: user flows for the two core journeys (building a custom routine, using auto-generate), then lo-fi prototypes tested against four tasks in Figma.</p>
+        <p>I wrote six "How Might We" questions, one per top finding, to set the design direction. Then I mapped user flows for the two core journeys (building a custom routine and using auto-generate) and tested lo-fi prototypes against four tasks in Figma.</p>
       </div>
 
       <div class="cs-hmw-list" data-cs-stagger data-cs-reveal>
@@ -872,7 +877,7 @@ a { color: inherit; text-decoration: none; }
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo" src="assets/habitabull/slides/slide-36.png" alt="Lo-fi prototype: calendar streak view and photo album for past workout photos" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Lo-fi: Streak calendar.</strong> Workout calendar with 6-day streak indicator and a photo album: visual progress that isn't just numbers.</div>
+        <div class="cs-artifact-caption"><strong>Lo-fi: Streak calendar.</strong> Workout calendar with a 6-day streak indicator and a photo album, so progress shows up as pictures, not only numbers.</div>
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
@@ -884,7 +889,7 @@ a { color: inherit; text-decoration: none; }
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo" src="assets/habitabull/slides/slide-38.png" alt="Lo-fi prototype: workout tutorial with animated figure and common mistakes listed" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Lo-fi: Exercise tutorial.</strong> Animated demonstration + common mistakes listed. Addresses beginner confidence directly.</div>
+        <div class="cs-artifact-caption"><strong>Lo-fi: Exercise tutorial.</strong> Animated demonstration plus a list of common mistakes, so beginners know what to watch for.</div>
       </div>
     </div>
   </div>
@@ -897,7 +902,7 @@ a { color: inherit; text-decoration: none; }
       <h2 class="cs-section-h" data-cs-reveal>A bull with a grin. A system that <em>sticks.</em></h2>
 
       <div class="cs-brand-intro" data-cs-reveal>
-        <p class="cs-body-text" style="margin:0">The brand is built around the mascot: a grinning grey bull who embodies the HabitaBull ethos. Strong, a little stubborn, but rooting for you. Approachable but not soft, energetic but not aggressive.</p>
+        <p class="cs-body-text" style="margin:0">I built the brand around the mascot: a grinning grey bull who carries the HabitaBull voice. He's strong and a little stubborn, and he's on your side. Friendly without going soft, energetic without shouting at you.</p>
         <div class="cs-mascot-aside">
           <img src="assets/habitabull/mascot.png" alt="HabitaBull mascot, a friendly grey bull" />
         </div>
@@ -906,7 +911,7 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-metrics" data-cs-reveal>
         <div class="cs-metric">
           <div class="cs-metric-val"><em>6</em></div>
-          <div class="cs-metric-desc">Core features mapped to 6 research findings, each one addresses a specific drop-off point</div>
+          <div class="cs-metric-desc">Core features, one per research finding, each aimed at a specific drop-off point</div>
         </div>
         <div class="cs-metric">
           <div class="cs-metric-val">3</div>
@@ -914,7 +919,7 @@ a { color: inherit; text-decoration: none; }
         </div>
         <div class="cs-metric">
           <div class="cs-metric-val"><em>2</em></div>
-          <div class="cs-metric-desc">Core user flows prototyped and lo-fi tested with target audience before visual design began</div>
+          <div class="cs-metric-desc">Core user flows prototyped and lo-fi tested with the target audience before I started visual design</div>
         </div>
         <div class="cs-metric">
           <div class="cs-metric-val">0</div>
@@ -942,15 +947,15 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Cross-industry research changed everything.</p>
-          <p class="cs-reflection-body">Studying sobriety apps wasn't an obvious move for a fitness project. But <em>I Am Sober</em> had solved the exact retention problem I was designing for; it just used different language. Pattern-matching across industries surfaced solutions that competitive audit of fitness apps alone never would have.</p>
+          <p class="cs-reflection-body">Studying sobriety apps was an odd move for a fitness project. But <em>I Am Sober</em> had already cracked the retention problem I was working on; it just talked about it in recovery terms. Looking outside fitness showed me fixes the six-app audit never would have.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The mascot did real UX work.</p>
-          <p class="cs-reflection-body">The bull started as a brand element. By the end it was a functional design choice: the mascot gives the app a consistent voice, a reason to celebrate PRs, and a presence that makes missing a workout feel like letting someone down rather than just skipping a feature. <em>Emotional design as retention mechanism.</em></p>
+          <p class="cs-reflection-body">The bull started as decoration. By the end he was doing the work: he gives the app a voice, a reason to celebrate a PR, and enough presence that <em>skipping a workout feels like letting someone down.</em></p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Lo-fi testing changed the hierarchy.</p>
-          <p class="cs-reflection-body">My first prototype led with goal-setting, a logical starting point that tested terribly. Users wanted to log a workout first and set goals second, once they'd seen what the app could track. I had designed from the product's logic rather than from the user's first action. <em>Entry point matters more than information architecture.</em></p>
+          <p class="cs-reflection-body">My first prototype opened with goal-setting, which felt logical and tested badly. People wanted to log a workout first and set goals later, once they'd seen what the app could track. I had built from the product's logic instead of from <em>the first thing you actually want to do.</em></p>
         </div>
       </div>
     </div>
@@ -963,11 +968,12 @@ a { color: inherit; text-decoration: none; }
 <!-- NEXT PROJECT -->
 <section class="cs-next">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Next project</p>
+    <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="h2know.html">
       <span class="cs-next-title">H2Know</span>
       <span class="cs-next-arrow">↗</span>
     </a>
+    <p class="cs-next-desc">H2Know digs into the behavioral and emotional triggers behind inconsistent water intake. Both projects start from habit formation and design outward from there.</p>
   </div>
 </section>
 

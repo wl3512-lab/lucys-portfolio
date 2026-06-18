@@ -7,3 +7,12 @@ node_modules/
 *.log
 .env
 .vercel
+
+# Raw video masters at project root — large, never deployed.
+# Anchored with leading slash so assets/**/*.mp4 (the deployed clips) stay tracked.
+/*.mov
+/*.MOV
+/*.mp4
+
+# Local game project (has its own git repo; not deployed)
+Final Loop game/

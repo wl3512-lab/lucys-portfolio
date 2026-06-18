@@ -4,16 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Work — Lucy Liu</title>
-<meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
+<title>Work | Lucy Liu</title>
+<meta name="description" content="All work by Lucy Liu: interaction design, creative coding, and accessibility-focused projects." />
+<meta property="og:title" content="Work | Lucy Liu" />
+<meta property="og:description" content="All work by Lucy Liu: interaction design, creative coding, and accessibility-focused projects." />
+<meta property="og:url" content="https://lucyliu.xyz/work.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
-<meta name="description" content="All work by Lucy Liu — interaction design, creative coding, and accessibility-focused projects." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="styles.css" />
 <style>
@@ -146,14 +147,38 @@ a { color: inherit; text-decoration: none; }
 .cover-img {
   width: 100%; height: 100%;
   object-fit: cover; display: block;
+  filter: brightness(0.76) saturate(0.88);
   transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1),
-              filter .4s cubic-bezier(0.16, 1, 0.3, 1);
+              filter .5s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+}
+.cover-img--contained {
+  object-fit: contain;
+  padding: clamp(18px, 8%, 36px);
+  background: var(--navy-mid);
 }
 .cover-item:hover .cover-img,
 .cover-item:focus-within .cover-img {
-  transform: scale(1.05);
-  filter: brightness(0.6) saturate(0.8);
+  transform: scale(1.04);
+  filter: brightness(1.0) saturate(1.0);
+}
+
+/* BOTTOM BAR */
+.wk-grid a {
+  display: block; height: 100%; position: relative;
+}
+.wk-grid a::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  height: 2px; width: 0;
+  background: rgba(114, 173, 255, 0.9);
+  transition: width .45s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+  pointer-events: none;
+}
+.cover-item:hover a::after,
+.cover-item:focus-within a::after {
+  width: 100%;
 }
 
 /* HOVER OVERLAY */
@@ -179,6 +204,19 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--blue-400);
   margin-bottom: 8px; opacity: 0.9;
+}
+.cover-td-badge {
+  position: absolute; top: 14px; left: 14px;
+  width: 28px; height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+  opacity: 0.7;
+  z-index: 2;
+  transition: opacity .25s var(--ease-out-expo);
+}
+.cover-item:hover .cover-td-badge,
+.cover-item:focus-within .cover-td-badge {
+  opacity: 1;
 }
 .cover-title {
   font-family: var(--font-display); font-weight: 700;
@@ -259,6 +297,11 @@ a { color: inherit; text-decoration: none; }
   .wk-nav-right { gap: 20px; }
 }
 
+.cover-gradient-vj {
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse 70% 80% at 38% 62%, oklch(0.38 0.14 290 / 0.72) 0%, oklch(0.18 0.06 270) 52%, #050710 100%);
+}
+
 /* REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
   .cover-img { transition: filter .2s; }
@@ -312,89 +355,73 @@ a { color: inherit; text-decoration: none; }
   <div class="wk-grid-wrap">
     <ul class="wk-grid" role="list" id="wk-grid" aria-label="Project covers">
 
+      <li class="cover-item" data-cat="coding design" role="listitem">
+        <a href="live-visuals-nyc.html" aria-label="VJ Performance, Coding / Design, 2026">
+          <img class="cover-img" src="assets/live-visuals-nyc/cover.jpg" alt="VJ Performance — ceiling projection at private NYC event" loading="eager" />
+          <img src="assets/icons/touchdesigner.png" alt="" class="cover-td-badge" aria-hidden="true" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Coding / Design</span>
+            <p class="cover-title">VJ Performance</p>
+            <span class="cover-year">2026</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
       <li class="cover-item" data-cat="coding" role="listitem">
-        <a href="case-study.html" aria-label="Driftwood — Coding, 2025">
+        <a href="case-study.html" aria-label="Driftwood, Coding, 2026">
           <img class="cover-img"
             src="assets/driftwood/cover.png"
-            alt="Driftwood: AI pet guardian game — five celebrity-persona pets on a void background"
+            alt="Driftwood: AI pet guardian game, five celebrity-persona pets on a void background"
             loading="eager" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Coding</span>
             <p class="cover-title">Driftwood</p>
-            <span class="cover-year">2025</span>
+            <span class="cover-year">2026</span>
           </div>
           <span class="cover-arrow" aria-hidden="true">↗</span>
         </a>
       </li>
 
       <li class="cover-item" data-cat="coding" role="listitem">
-        <a href="trance.html" aria-label="Trance — Physical Computing, 2025">
+        <a href="audio-reactive.html" aria-label="audio reactive, Coding, 2026">
           <img class="cover-img"
-            src="assets/trance/cover.png"
-            alt="Trance: acrylic hand sculpture with LEDs, installation view"
+            src="assets/audio-reactive/td-cover.jpg"
+            alt="audio reactive: four touchdesigner audio-reactive visual systems, abstract particle orbits and waveforms in blue and purple"
             loading="lazy" />
-          <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Physical Computing</span>
-            <p class="cover-title">Trance</p>
-            <span class="cover-year">2025</span>
-          </div>
-          <span class="cover-arrow" aria-hidden="true">↗</span>
-        </a>
-      </li>
-
-      <li class="cover-item" data-cat="coding" role="listitem">
-        <a href="loop.html" aria-label="LOOP — Interactive Narrative, 2025">
-          <img class="cover-img"
-            src="assets/loop/cover.png"
-            alt="LOOP: psychological thriller text game — chat with Unknown: 'you still awake?' 'it's you. from tomorrow.'"
-            loading="lazy" />
-          <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Interactive Narrative</span>
-            <p class="cover-title">LOOP</p>
-            <span class="cover-year">2025</span>
-          </div>
-          <span class="cover-arrow" aria-hidden="true">↗</span>
-        </a>
-      </li>
-
-      <li class="cover-item" data-cat="coding" role="listitem">
-        <a href="undertheweather.html" aria-label="Under the Weather — Coding, 2025">
-          <img class="cover-img"
-            src="assets/undertheweather/cover.png"
-            alt="Under the Weather: generateMood() sassy one-liner code screenshot"
-            loading="lazy" />
+          <img src="assets/icons/touchdesigner.png" alt="" class="cover-td-badge" aria-hidden="true" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Coding</span>
-            <p class="cover-title">Under the Weather</p>
-            <span class="cover-year">2025</span>
+            <p class="cover-title">audio reactive</p>
+            <span class="cover-year">2026</span>
           </div>
           <span class="cover-arrow" aria-hidden="true">↗</span>
         </a>
       </li>
 
       <li class="cover-item" data-cat="ux" role="listitem">
-        <a href="habitabull.html" aria-label="HabitaBull — UX Design, 2025">
+        <a href="habitabull.html" aria-label="HabitaBull, UX Design, 2024">
           <img class="cover-img"
             src="assets/habitabull/mascot.png"
-            alt="HabitaBull: gym habit tracker — illustrated bull mascot in workout gear"
+            alt="HabitaBull: gym habit tracker, illustrated bull mascot in workout gear"
             loading="eager" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">UX Design</span>
             <p class="cover-title">HabitaBull</p>
-            <span class="cover-year">2025</span>
+            <span class="cover-year">2024</span>
           </div>
           <span class="cover-arrow" aria-hidden="true">↗</span>
         </a>
       </li>
 
-      <li class="cover-item" data-cat="ux" role="listitem">
-        <a href="h2know.html" aria-label="H2Know — Physical Computing / UX, 2024">
+      <li class="cover-item" data-cat="coding ux" role="listitem">
+        <a href="h2know.html" aria-label="H2Know, Coding / UX Design, 2024">
           <img class="cover-img"
             src="assets/h2know/slides/slide-01.jpg"
-            alt="H2Know: Arduino plant companion — device and interface overview"
+            alt="H2Know: Arduino plant companion, device and interface overview"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
-            <span class="cover-cat">Physical Computing / UX</span>
+            <span class="cover-cat">Coding / UX Design</span>
             <p class="cover-title">H2Know</p>
             <span class="cover-year">2024</span>
           </div>
@@ -403,7 +430,7 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="ux" role="listitem">
-        <a href="eternal-wreckening.html" aria-label="Eternal Wreckening — UX Design, 2024">
+        <a href="eternal-wreckening.html" aria-label="Eternal Wreckening, UX Design, 2024">
           <img class="cover-img"
             src="assets/eternal-wreckening/slides/slide-01.jpg"
             alt="Eternal Wreckening: mid-fidelity Figma prototype"
@@ -418,10 +445,10 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="fineart" role="listitem">
-        <a href="anticipation.html" aria-label="Anticipation — Fine Arts, 2024">
+        <a href="anticipation.html" aria-label="Anticipation, Fine Arts, 2024">
           <img class="cover-img"
             src="assets/anticipation/cover.jpg"
-            alt="Anticipation: oil painting — Marilyn Monroe in self-reflection"
+            alt="Anticipation: oil painting, Marilyn Monroe in self-reflection"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Fine Arts</span>
@@ -433,10 +460,10 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="fineart" role="listitem">
-        <a href="handpainting.html" aria-label="Arrested Motion — Fine Arts, 2023">
+        <a href="handpainting.html" aria-label="Arrested Motion, Fine Arts, 2023">
           <img class="cover-img"
             src="assets/handpainting/cover.jpg"
-            alt="Arrested Motion: oil on canvas — hands washing dishes"
+            alt="Arrested Motion: oil on canvas, hands washing dishes"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Fine Arts</span>
@@ -448,10 +475,10 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="ux" role="listitem">
-        <a href="soundcloud-critique.html" aria-label="SoundCloud App Critique — UX Design, 2023">
+        <a href="soundcloud-critique.html" aria-label="SoundCloud App Critique, UX Design, 2023">
           <img class="cover-img"
             src="assets/soundcloud/cover.jpg"
-            alt="SoundCloud App Critique — logo redesign, widget customization, playlist UI"
+            alt="SoundCloud App Critique: logo redesign, widget customization, playlist UI"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">UX Design</span>
@@ -463,7 +490,22 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="design" role="listitem">
-        <a href="telnex.html" aria-label="Telnex — Design, 2024">
+        <a href="agar-alphabet.html" aria-label="Agar Alphabet, Design, 2025">
+          <img class="cover-img"
+            src="assets/agar-alphabet/cover.jpg"
+            alt="Agar Alphabet: bacteria-grown letterforms in agar plates"
+            loading="lazy" />
+          <div class="cover-overlay" aria-hidden="true">
+            <span class="cover-cat">Design</span>
+            <p class="cover-title">Agar Alphabet</p>
+            <span class="cover-year">2025</span>
+          </div>
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+
+      <li class="cover-item" data-cat="design" role="listitem">
+        <a href="telnex.html" aria-label="Telnex, Design, 2024">
           <img class="cover-img"
             src="assets/telnex/cover.jpg"
             alt="Telnex: Fight Club-inspired fictional advertisement"
@@ -478,14 +520,14 @@ a { color: inherit; text-decoration: none; }
       </li>
 
       <li class="cover-item" data-cat="design" role="listitem">
-        <a href="agar-alphabet.html" aria-label="Agar Alphabet — Design, 2025">
-          <img class="cover-img"
-            src="assets/agar-alphabet/cover.jpg"
-            alt="Agar Alphabet: bacteria-grown letterforms in agar plates"
+        <a href="under-the-weather.html" aria-label="Under the Weather, Design, 2025">
+          <img class="cover-img cover-img--contained"
+            src="under%20the%20weather.png"
+            alt="Under the Weather project cover"
             loading="lazy" />
           <div class="cover-overlay" aria-hidden="true">
             <span class="cover-cat">Design</span>
-            <p class="cover-title">Agar Alphabet</p>
+            <p class="cover-title">Under the Weather</p>
             <span class="cover-year">2025</span>
           </div>
           <span class="cover-arrow" aria-hidden="true">↗</span>
@@ -497,7 +539,7 @@ a { color: inherit; text-decoration: none; }
     <!-- EMPTY STATE -->
     <div class="wk-empty" id="wk-empty" role="status" aria-live="polite">
       <p class="wk-empty-label">Nothing here yet</p>
-      <p class="wk-empty-text">No projects in this category yet.</p>
+      <p class="wk-empty-text">This category is coming soon.</p>
     </div>
   </div>
 
@@ -519,15 +561,13 @@ a { color: inherit; text-decoration: none; }
       .to('.wk-filters', { opacity: 1, duration: 0.4 }, '-=0.25');
 
     var items = document.querySelectorAll('.cover-item');
-    items.forEach(function (item, i) {
-      tl.to(item, {
-        clipPath: 'inset(0 0 0% 0)',
-        opacity: 1,
-        duration: 0.55,
-        ease: 'power4.out',
-        delay: i * 0.06
-      }, i === 0 ? '-=0.15' : undefined);
-    });
+    tl.to(items, {
+      clipPath: 'inset(0 0 0% 0)',
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power4.out',
+      stagger: 0.025
+    }, '-=0.2');
   }
 
   /* ── Count display ── */
