@@ -1624,15 +1624,15 @@ body.about-locked { overflow: hidden; }
   -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
   mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
 }
-/* Waves backdrop — sticky viewport-height layer spanning the Spotlight + Capabilities
-   zone, so the field reads as one continuous reactive surface behind both sections. */
+/* Waves backdrop — viewport-fixed layer shown only while the Spotlight zone is in view
+   (toggled via .is-active). Fades out as the Capabilities header arrives. */
 .wave-zone { position: relative; }
 .zone-waves {
-  position: sticky; top: 0; height: 100vh;
-  margin-bottom: -100vh;        /* overlaps following content: ~0 net layout height */
-  z-index: 0; pointer-events: none;
-  opacity: 0.26; mix-blend-mode: screen;
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; mix-blend-mode: screen;
+  opacity: 0; transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1);
 }
+.zone-waves.is-active { opacity: 0.26; }
 @media (max-width: 760px) { .zone-waves { display: none; } }
 .waves canvas { display: block; width: 100%; height: 100%; }
 

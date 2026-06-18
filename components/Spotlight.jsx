@@ -195,7 +195,7 @@ function Spotlight(props) {
           <div className="spotlight-title-wrap">
             {showAscii ? (
               <React.Fragment>
-                <AsciiText text="standout_work" asciiFontSize={7} planeBaseHeight={7} />
+                <AsciiText text="standout_work" asciiFontSize={6} planeBaseHeight={10} enableWaves={false} />
                 {/* Accessible heading: the ASCII canvas is aria-hidden visual only */}
                 <h2 className="sr-only">Standout work</h2>
               </React.Fragment>

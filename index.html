@@ -902,6 +902,8 @@ function App() {
   const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [wavesActive, setWavesActive] = useState(false);
+  const waveZoneRef = React.useRef(null);
 
   useEffect(() => {
     applyTweaks(tweaks);
@@ -958,6 +960,18 @@ function App() {
     try { localStorage.setItem('lucy.projects', JSON.stringify(projects)); } catch {}
   };
 
+  // Show the Waves backdrop only while the Spotlight zone is on screen.
+  useEffect(() => {
+    const el = waveZoneRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => setWavesActive(entries[0].isIntersecting),
+      { threshold: 0, rootMargin: '0px 0px -25% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const wavesEnabled = typeof Waves !== 'undefined' && window.innerWidth >= 760 &&
     !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
@@ -965,29 +979,30 @@ function App() {
     <>
       <Cursor />
       <Nav onNavClick={onNavClick} />
+      {/* Viewport-fixed Waves backdrop, shown only while the Spotlight zone is in view
+          (IntersectionObserver). Fades out as the Capabilities header arrives. */}
+      {wavesEnabled && (
+        <Waves
+          className={'zone-waves' + (wavesActive ? ' is-active' : '')}
+          lineColor="#169eff"
+          waveSpeedX={0.015}
+          waveSpeedY={0.008}
+          waveAmpX={34}
+          waveAmpY={18}
+          xGap={14}
+          yGap={36}
+          friction={0.92}
+          tension={0.008}
+          maxCursorMove={90}
+        />
+      )}
       <main id="main-content" tabIndex="-1">
         <Hero />
         <Marquee />
-        {/* Waves backdrop spans the Spotlight + Capabilities zone (sticky, viewport-sized). */}
-        <div className="wave-zone">
-          {wavesEnabled && (
-            <Waves
-              className="zone-waves"
-              lineColor="#169eff"
-              waveSpeedX={0.015}
-              waveSpeedY={0.008}
-              waveAmpX={34}
-              waveAmpY={18}
-              xGap={14}
-              yGap={36}
-              friction={0.92}
-              tension={0.008}
-              maxCursorMove={90}
-            />
-          )}
+        <div className="wave-zone" ref={waveZoneRef}>
           <Spotlight projects={projects} onOpen={onOpenProject} />
-          <SkillsSection />
         </div>
+        <SkillsSection />
         <GemStory />
         <ContactSection />
       </main>
