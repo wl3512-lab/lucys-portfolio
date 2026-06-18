@@ -1438,8 +1438,8 @@ function initHeroCanvas() {
   resize();
   new ResizeObserver(resize).observe(hero);
 
-  // ── A: Drifting micro-particles ──
-  const N = 230;
+  // ── A: Drifting micro-particles (floaters) — disabled; FaultyTerminal is the hero bg texture ──
+  const N = 0;
   const pts = Array.from({ length: N }, () => ({
     x:   Math.random(),
     y:   Math.random(),
