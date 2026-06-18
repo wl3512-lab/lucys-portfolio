@@ -222,8 +222,8 @@ function Spotlight(props) {
               >
                 <div className="spotlight-card-cover">
                   {p.cover ? (
-                    /* eager: the ScrollStack transforms cards, so lazy covers don't load before a card peeks into the stack */
-                    <img src={p.cover} alt={p.title} loading="eager" decoding="async" />
+                    /* eager + sync decode: the ScrollStack transforms cards, so covers must be ready (not lazy/async) before a card peeks into the stack */
+                    <img src={p.cover} alt={p.title} loading="eager" decoding="sync" />
                   ) : (
                     <div className="spotlight-card-cover-fallback"><span>{p.title[0]}</span></div>
                   )}
