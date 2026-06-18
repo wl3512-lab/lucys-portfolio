@@ -45,6 +45,22 @@
 #ll-loader.is-done #ll-faulty { opacity: 0; }
 @media (prefers-reduced-motion: reduce) { #ll-faulty { display: none; } }
 
+/* ASCIIText loader name — replaces #ll-ascii once it mounts (.has-asciitext). */
+#ll-asciitext { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+#ll-asciitext canvas {
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  image-rendering: pixelated;
+}
+#ll-asciitext pre {
+  background-image: linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #72ADFF 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+#ll-loader.has-asciitext #ll-ascii,
+#ll-loader.has-asciitext #ll-svg { display: none !important; }
+#ll-loader.is-done #ll-asciitext { opacity: 0; transition: opacity 0.4s ease; }
+@media (prefers-reduced-motion: reduce) { #ll-asciitext { display: none; } }
+
 /* WebGL noise-dissolve canvas — pixels become transparent as the fBm threshold sweeps */
 #ll-canvas {
   position: absolute; inset: 0;
@@ -230,6 +246,7 @@ body.loader-done .tool-item {
     <pre id="ll-ascii-line2"></pre>
     <span id="ll-ascii-sub">Design Strategist &middot; NYU IMA</span>
   </div>
+  <div id="ll-asciitext" aria-hidden="true"></div>
   <div class="ll-rm-inner" aria-hidden="true">
     <p class="ll-rm-name">lucy liu</p>
     <span class="ll-rm-sub">Design Strategist &middot; New York</span>
@@ -712,6 +729,7 @@ setTimeout(function() {
 <script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <!-- FaultyTerminal WebGL engine (plain JS, defer) — shared by hero (React wrapper) and the loader boot backdrop. Must load after three.js. -->
 <script defer src="components/faulty-terminal-core.js"></script>
+<script defer src="components/ascii-text-core.js"></script>
 
 <!-- Components -->
 <script type="text/babel" src="components/StaggeredMenu.jsx"></script>
