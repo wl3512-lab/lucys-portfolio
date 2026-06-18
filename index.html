@@ -900,6 +900,7 @@ function App() {
   const [projects] = useState(loadProjects);
   const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
   const [tweaksOpen, setTweaksOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   useEffect(() => {
     applyTweaks(tweaks);
@@ -917,15 +918,39 @@ function App() {
     return () => window.removeEventListener('message', onMsg);
   }, []);
 
-  // Smooth scroll anchor clicks
+  // About is a menu-only view (not in the scroll). Hash #about is the single source of
+  // truth so nav links, the constellation node, and cross-page index.html#about all work.
+  useEffect(() => {
+    const sync = () => setAboutOpen(location.hash === '#about');
+    sync();
+    window.addEventListener('hashchange', sync);
+    return () => window.removeEventListener('hashchange', sync);
+  }, []);
+
+  useEffect(() => {
+    if (aboutOpen) { try { window.__lenis?.stop(); } catch (e) {} }
+    else { try { window.__lenis?.start(); } catch (e) {} }
+    document.body.classList.toggle('about-locked', aboutOpen);
+    if (!aboutOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') closeAbout(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [aboutOpen]);
+
+  const closeAbout = () => {
+    setAboutOpen(false);
+    if (location.hash === '#about') history.replaceState(null, '', location.pathname + location.search);
+  };
+
+  // Smooth scroll anchor clicks; #about opens the menu-only About view instead.
   const onNavClick = (e) => {
     const href = e.currentTarget.getAttribute('href');
-    if (href?.startsWith('#')) {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target && window.__lenis) window.__lenis.scrollTo(target, { offset: -80 });
-      else target?.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (!href || !href.startsWith('#')) return;
+    e.preventDefault();
+    if (href === '#about') { location.hash = 'about'; return; }
+    const target = document.querySelector(href);
+    if (target && window.__lenis) window.__lenis.scrollTo(target, { offset: -80 });
+    else target?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const onOpenProject = (p) => {
@@ -941,10 +966,24 @@ function App() {
         <Marquee />
         <Spotlight projects={projects} onOpen={onOpenProject} />
         <SkillsSection />
-        <AboutSection />
         <GemStory />
         <ContactSection />
       </main>
+      <div
+        className={'about-overlay' + (aboutOpen ? ' is-open' : '')}
+        role="dialog"
+        aria-modal="true"
+        aria-label="About Lucy Liu"
+        aria-hidden={!aboutOpen}
+        onClick={(e) => { if (e.target === e.currentTarget) closeAbout(); }}
+      >
+        <button type="button" className="about-overlay-close" aria-label="Close about" onClick={closeAbout}>
+          <span aria-hidden="true">✕</span>
+        </button>
+        <div className="about-overlay-scroll">
+          <AboutSection />
+        </div>
+      </div>
       <TweaksPanel tweaks={tweaks} setTweaks={setTweaks} open={tweaksOpen} onClose={() => setTweaksOpen(false)} />
     </>
   );
@@ -1354,7 +1393,7 @@ function initAnimations() {
       hero:    document.querySelector('.scene-hero') || document.querySelector('[data-scene="hero"]'),
       work:    document.getElementById('work'),
       gems:    document.getElementById('gems'),
-      about:   document.getElementById('about'),
+      // about is a menu-only overlay (not a scroll section) — intentionally not observed.
       contact: document.getElementById('contact'),
     };
 
@@ -1404,6 +1443,7 @@ function initAnimations() {
 
     // Click / keyboard: scroll to section
     function scrollTo(id) {
+      if (id === 'about') { window.location.hash = 'about'; return; }  // opens the menu-only About overlay
       const el = sectionMap[id];
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }

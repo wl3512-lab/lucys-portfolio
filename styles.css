@@ -313,6 +313,47 @@ img { display: block; max-width: 100%; }
   .scene-hero .faulty-terminal { opacity: 0.3; }
 }
 
+/* About — menu-only overlay view (removed from the page scroll flow) */
+.about-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(5,7,16,0.94);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+          backdrop-filter: blur(22px) saturate(140%);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0.5s;
+}
+.about-overlay.is-open {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.about-overlay-scroll {
+  position: absolute; inset: 0;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.about-overlay .scene-about {
+  min-height: auto;
+  padding: clamp(96px, 13vh, 150px) 0 clamp(60px, 9vh, 110px);
+  transform: translateY(18px);
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.about-overlay.is-open .scene-about { transform: translateY(0); }
+.about-overlay-close {
+  position: fixed; top: clamp(16px, 2.5vh, 28px); right: clamp(16px, 3vw, 32px); z-index: 2;
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(160,200,255,0.22);
+  color: var(--fg1); font-size: 15px; line-height: 1; cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.about-overlay-close:hover { background: rgba(255,255,255,0.09); border-color: var(--fg1); transform: scale(1.07); }
+.about-overlay-close:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 3px; }
+body.about-locked { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .about-overlay { transition: opacity 0.2s linear; }
+  .about-overlay .scene-about { transform: none; transition: none; }
+}
+
 .hero-orb {
   position: absolute; top: -8%; right: -10%;
   width: clamp(420px, 60vw, 780px); height: clamp(420px, 60vw, 780px); border-radius: 50%;
