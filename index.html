@@ -32,6 +32,19 @@
 }
 #ll-loader.ll-gone { display: none; }
 
+/* FaultyTerminal boot backdrop — faint digit-rain behind the constellation/name.
+   Center kept clear (radial mask) so the name reveal stays legible; fades on exit. */
+#ll-faulty {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.5; mix-blend-mode: screen;
+  transition: opacity 0.55s ease;
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, transparent 12%, #000 72%);
+          mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, transparent 12%, #000 72%);
+}
+#ll-faulty canvas { display: block; width: 100%; height: 100%; }
+#ll-loader.is-done #ll-faulty { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { #ll-faulty { display: none; } }
+
 /* WebGL noise-dissolve canvas — pixels become transparent as the fBm threshold sweeps */
 #ll-canvas {
   position: absolute; inset: 0;
@@ -209,6 +222,7 @@ body.loader-done .tool-item {
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <div id="ll-loader" aria-hidden="true" role="presentation">
+  <div id="ll-faulty" aria-hidden="true"></div>
   <canvas id="ll-canvas" aria-hidden="true"></canvas>
   <svg id="ll-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
   <div id="ll-ascii" aria-hidden="true">
@@ -696,6 +710,8 @@ setTimeout(function() {
 
 <!-- three.js — WebGL for LaserFlow + ASCIIText in the Spotlight section. Deferred; components degrade gracefully if absent. -->
 <script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<!-- FaultyTerminal WebGL engine (plain JS, defer) — shared by hero (React wrapper) and the loader boot backdrop. Must load after three.js. -->
+<script defer src="components/faulty-terminal-core.js"></script>
 
 <!-- Components -->
 <script type="text/babel" src="components/Nav.jsx"></script>
