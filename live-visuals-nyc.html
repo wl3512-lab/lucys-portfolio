@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Demon Nights: VJ Residency | Lucy Liu</title>
+<meta name="description" content="Weekly VJ residency at Studio Maison Nur (217 Bowery, NYC), a private invite-only club. Custom audio-reactive visuals designed every Thursday for Demon Nights, in collaboration with DJ Diablo (Sebastian Baldeon)." />
+<meta property="og:title" content="Demon Nights: VJ Residency | Lucy Liu" />
+<meta property="og:description" content="Weekly VJ residency at Studio Maison Nur (217 Bowery, NYC) for Demon Nights. Custom audio-reactive generative visuals every Thursday, in collaboration with DJ Diablo." />
+<meta property="og:url" content="https://lucyliu.xyz/live-visuals-nyc.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-preview.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cloud-a40: rgba(246,250,255,0.40);
+  --cloud-a75: rgba(246,250,255,0.75);
+  --cloud-a88: rgba(246,250,255,0.88);
+}
+html { scroll-behavior: auto; }
+body {
+  background: var(--void);
+  color: var(--fg1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ── NAV ── */
+.cs-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  padding: 20px 0;
+  background: rgba(5,7,16,0.78); backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.cs-nav-inner {
+  width: min(1240px, 92vw); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cs-back {
+  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
+  display: flex; align-items: center; gap: 8px;
+  transition: color .25s var(--ease-out-expo);
+}
+.cs-back:hover { color: var(--fg1); }
+.cs-back svg { flex-shrink: 0; }
+.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; color: var(--fg1); }
+.cs-nav-right { display: flex; align-items: center; gap: 28px; }
+.cs-nav-link { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); transition: color .25s; }
+.cs-nav-link:hover { color: var(--fg1); }
+
+/* ── INNER WRAP ── */
+.ar-inner { width: min(1240px, 92vw); margin: 0 auto; }
+
+/* ── HERO ── */
+.ar-hero {
+  padding: clamp(110px, 16vh, 160px) 0 clamp(48px, 7vh, 72px);
+  position: relative; overflow: hidden;
+}
+.ar-hero-orb {
+  position: absolute; top: -10%; right: -6%;
+  width: clamp(360px, 45vw, 640px); height: clamp(360px, 45vw, 640px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,176,255,0.18) 0%, rgba(114,173,255,0.10) 40%, transparent 70%);
+  filter: blur(72px); pointer-events: none;
+}
+.ar-hero-orb-2 {
+  position: absolute; bottom: -15%; left: -4%;
+  width: clamp(240px, 28vw, 400px); height: clamp(240px, 28vw, 400px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(114,173,255,0.12) 0%, transparent 65%);
+  filter: blur(60px); pointer-events: none;
+}
+.ar-eyebrow {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3);
+  margin-bottom: 24px;
+  opacity: 0; transform: translateY(10px);
+  display: flex; align-items: center; gap: 12px;
+}
+.ar-eyebrow::before {
+  content: '';
+  display: block; width: 20px; height: 1px;
+  background: var(--fg3);
+  flex-shrink: 0;
+}
+.ar-td-logo {
+  width: 26px; height: 26px;
+  object-fit: contain;
+  opacity: 0.65;
+  flex-shrink: 0;
+  border-radius: 4px;
+  animation: ar-td-spin 1.2s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes ar-td-spin {
+  from { transform: rotate(-540deg) scale(0.15); opacity: 0; }
+  to   { transform: rotate(0deg)    scale(1);    opacity: 0.65; }
+}
+.ar-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(64px, 11vw, 128px); line-height: 0.9;
+  letter-spacing: -0.03em; color: var(--fg1);
+  clip-path: inset(0 0 100% 0);
+}
+.ar-title em {
+  font-style: italic; color: var(--blue-300);
+  animation: ar-em-breathe 6s ease-in-out infinite;
+}
+@keyframes ar-em-breathe {
+  0%, 100% { color: var(--blue-300); }
+  50%       { color: var(--fg1); }
+}
+.ar-platform {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 2.2vw, 28px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--fg2);
+  letter-spacing: -0.01em;
+  margin-top: 6px;
+  opacity: 0;
+}
+.ar-sub {
+  font-family: var(--font-body); font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65; color: var(--fg2);
+  max-width: 54ch;
+  margin-top: 28px;
+  opacity: 0;
+}
+.ar-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 24px;
+  opacity: 0;
+}
+.ar-tag {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg3);
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* ── HERO SPLIT LAYOUT ── */
+.ar-hero .ar-inner {
+  display: flex;
+  gap: clamp(48px, 6vw, 88px);
+  align-items: flex-start;
+}
+.ar-hero-title-col {
+  flex: 0 0 auto;
+  width: min(52%, 580px);
+}
+.ar-hero-meta-col {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-top: clamp(56px, 8vw, 88px);
+}
+
+/* ── STATUS PILL ── */
+.ar-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg2);
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  margin-top: 24px;
+  opacity: 0;
+}
+.ar-status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: oklch(0.72 0.18 142);
+  flex-shrink: 0;
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+/* ── FACT GRID ── */
+.ar-fact-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 20px;
+  margin-bottom: 28px;
+  opacity: 0;
+}
+.ar-fact-label {
+  font-family: var(--font-code);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  line-height: 1.6;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+.ar-fact-value {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg1);
+}
+.ar-fact-note {
+  display: block;
+  font-family: var(--font-code);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+  .ar-hero .ar-inner { flex-direction: column; gap: 32px; }
+  .ar-hero-title-col { width: 100%; }
+  .ar-hero-meta-col  { padding-top: 0; }
+}
+
+/* ── COLLECTION ── */
+.ar-collection {
+  padding-bottom: clamp(80px, 12vw, 120px);
+}
+.ar-divider {
+  width: 100%; height: 1px;
+  background: var(--border);
+  margin-bottom: clamp(40px, 5vw, 56px);
+  opacity: 0;
+}
+.ar-section-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3);
+  margin-bottom: clamp(28px, 4vw, 40px);
+  opacity: 0;
+}
+
+/* ── GRID ── */
+.ar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(12px, 2vw, 20px);
+}
+
+/* ── CARD ── */
+.ar-card {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  opacity: 0; transform: translateY(20px);
+  transition:
+    border-color .3s var(--ease-out-expo),
+    transform .3s var(--ease-out-expo),
+    opacity .5s var(--ease-out-expo);
+}
+.ar-card:not(.is-playing):hover {
+  transform: translateY(-5px);
+  border-color: oklch(from var(--pa, var(--blue-300)) l c h / 0.28);
+}
+.ar-card:not(.is-playing):hover .ar-card-title {
+  color: oklch(from var(--pa, var(--blue-300)) 0.88 c h);
+}
+.ar-card:focus-visible {
+  outline: 2px solid var(--blue-400); outline-offset: 3px;
+}
+
+/* ── PER-PIECE COLOR IDENTITY ── */
+.ar-card[data-piece="live-av-1"] { --pa: oklch(0.68 0.14 290); } /* violet: ceiling glow */
+.ar-card[data-piece="live-av-2"] { --pa: oklch(0.72 0.12 228); } /* electric blue */
+.ar-card[data-piece="live-av-3"] { --pa: oklch(0.74 0.10 195); } /* cyan: bioluminescent floor wash */
+
+/* ── VIDEO LOADING GRADIENT: color identity visible before video loads ── */
+.ar-card[data-piece="live-av-1"] .ar-video-wrap {
+  background: radial-gradient(ellipse 60% 60% at 40% 55%, oklch(0.32 0.12 290 / 0.35) 0%, var(--navy) 70%);
+}
+.ar-card[data-piece="live-av-2"] .ar-video-wrap {
+  background: radial-gradient(ellipse 60% 60% at 55% 50%, oklch(0.32 0.10 228 / 0.35) 0%, var(--navy) 70%);
+}
+.ar-card[data-piece="live-av-3"] .ar-video-wrap {
+  background: radial-gradient(ellipse 60% 60% at 45% 55%, oklch(0.32 0.08 195 / 0.35) 0%, var(--navy) 70%);
+}
+.ar-card[data-piece="live-av-4"] { --pa: oklch(0.68 0.14 30); } /* warm amber: up-close particle fire */
+.ar-card[data-piece="live-av-4"] .ar-video-wrap {
+  background: radial-gradient(ellipse 60% 60% at 50% 55%, oklch(0.32 0.10 30 / 0.35) 0%, var(--navy) 70%);
+}
+
+/* ── VIDEO WRAPPER ── */
+.ar-video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--navy);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.ar-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── SOUND INDICATOR ── */
+.ar-sound-btn {
+  position: absolute;
+  bottom: 12px; right: 12px; z-index: 3;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(5,7,16,0.58);
+  border: 1px solid rgba(160,200,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cloud-a40);
+  pointer-events: none;
+  transition: background .2s, color .2s, border-color .2s, transform .2s var(--ease-out-expo);
+}
+.ar-video-wrap:hover .ar-sound-btn {
+  color: var(--cloud-a75);
+  border-color: rgba(160,200,255,0.32);
+  transform: scale(1.06);
+}
+.ar-sound-btn.is-on {
+  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.18);
+  border-color: oklch(from var(--pa, var(--blue-300)) l c h / 0.55);
+  color: var(--pa, var(--blue-300));
+  animation: ar-pulse 2s ease-in-out infinite;
+}
+.ar-icon-muted   { display: block; }
+.ar-icon-unmuted { display: none;  }
+.ar-sound-btn.is-on .ar-icon-muted   { display: none;  }
+.ar-sound-btn.is-on .ar-icon-unmuted { display: block; }
+
+@keyframes ar-pulse {
+  0%, 100% { box-shadow: 0 0 0 0   oklch(from var(--pa, var(--blue-300)) l c h / 0.42); }
+  50%       { box-shadow: 0 0 0 7px oklch(from var(--pa, var(--blue-300)) l c h / 0);    }
+}
+.ar-sound-btn.is-on::after {
+  content: '';
+  position: absolute; inset: -5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid oklch(from var(--pa, var(--blue-300)) l c h / 0.4);
+  animation: ar-sound-ring 1.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes ar-sound-ring {
+  0%   { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(1.55); }
+}
+
+.ar-video-wrap:focus-visible {
+  outline: 2px solid var(--blue-400); outline-offset: 3px;
+}
+
+/* ── PLAY INDICATOR ── */
+.ar-play-indicator {
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  transition: opacity .2s var(--ease-out-expo);
+}
+.ar-play-icon {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(5,7,16,0.52);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(246,250,255,0.16);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cloud-a88);
+  transition: transform .2s var(--ease-out-expo), background .2s;
+}
+.ar-video-wrap:hover .ar-play-icon {
+  transform: scale(1.12);
+  background: rgba(5,7,16,0.72);
+}
+.ar-video-wrap[aria-pressed="true"] .ar-play-indicator {
+  opacity: 0;
+}
+
+/* ── HOVER OVERLAY ── */
+.ar-video-wrap::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background: oklch(from var(--pa, var(--blue-300)) l c h / 0);
+  transition: background .35s var(--ease-out-expo);
+  pointer-events: none;
+}
+.ar-video-wrap:hover::after {
+  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.07);
+}
+
+/* ── WAVEFORM ── */
+.ar-waveform {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 44px; z-index: 5;
+  display: flex; align-items: flex-end;
+  gap: 2px; padding: 0 10px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(5,7,16,0.55) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity .35s var(--ease-out-expo);
+}
+.ar-video-wrap[aria-pressed="true"] .ar-waveform {
+  opacity: 1;
+}
+.ar-waveform span {
+  flex: 1;
+  border-radius: 1px 1px 0 0;
+  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.58);
+  transform: scaleY(0.08);
+  transform-origin: bottom;
+}
+.ar-video-wrap[aria-pressed="true"] .ar-waveform span {
+  animation: ar-bar var(--wd, 0.7s) ease-in-out infinite alternate;
+}
+@keyframes ar-bar {
+  from { transform: scaleY(0.08); }
+  to   { transform: scaleY(1.0);  }
+}
+
+/* ── CARD BODY ── */
+.ar-card-body {
+  padding: clamp(18px, 2.5vw, 26px);
+  display: flex; flex-direction: column;
+  gap: 8px; flex: 1;
+}
+.ar-card-meta {
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.ar-card-num {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
+  color: var(--fg3);
+  transition: color .25s;
+}
+.ar-card-artist {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3);
+}
+.ar-card-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(20px, 2.2vw, 26px); line-height: 1.1;
+  letter-spacing: -0.01em; color: var(--fg1);
+  transition: color .25s var(--ease-out-expo);
+}
+.ar-card-desc {
+  font-family: var(--font-body); font-size: 14px;
+  line-height: 1.7; color: var(--fg2);
+  margin-top: 4px;
+}
+
+/* ── ACTIVE GLOW ── */
+@property --glow-l {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: false;
+}
+@keyframes ar-card-glow {
+  0%, 100% { --glow-l: 1;    border-color: oklch(from var(--pa, var(--blue-300)) calc(l * var(--glow-l)) c h / 0.40); }
+  50%       { --glow-l: 1.22; border-color: oklch(from var(--pa, var(--blue-300)) calc(l * var(--glow-l)) c h / 0.82); }
+}
+.ar-card.is-playing {
+  animation: ar-card-glow 2.4s ease-in-out infinite;
+}
+.ar-card.is-playing .ar-card-num { color: var(--pa, var(--blue-300)); }
+
+/* ── PAGE DIM ── */
+.ar-grid:has(.ar-card.is-playing) .ar-card:not(.is-playing) {
+  opacity: 0.35;
+}
+
+/* ── PLAYING NUM PULSE ── */
+.ar-card.is-playing .ar-card-num::after {
+  content: ' ►';
+  font-size: 7px;
+  vertical-align: middle;
+  animation: ar-num-pulse 1.2s ease-in-out infinite;
+}
+@keyframes ar-num-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.28; }
+}
+
+.ar-video-wrap:active .ar-sound-btn {
+  transform: scale(0.82);
+}
+
+/* ── FEATURED CARD — full-width horizontal ── */
+.ar-card--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+}
+.ar-card--featured .ar-video-wrap {
+  flex: 0 0 54%;
+  aspect-ratio: unset;
+  height: clamp(210px, 27vw, 370px);
+}
+.ar-card--featured .ar-card-body {
+  padding: clamp(28px, 4vw, 52px);
+  justify-content: center;
+  gap: 12px;
+}
+.ar-card--featured .ar-card-title {
+  font-size: clamp(24px, 2.8vw, 36px);
+}
+.ar-card--featured .ar-card-desc {
+  font-size: 15px;
+  max-width: 48ch;
+}
+.ar-desc-extra {
+  display: none;
+}
+.ar-desc-extra.is-open {
+  display: inline;
+}
+.ar-read-more {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 4px;
+  background: none; border: none; cursor: pointer; padding: 0;
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3);
+  transition: color .2s;
+}
+.ar-read-more:hover { color: var(--fg2); }
+.ar-read-more::after { content: ' ↓'; }
+.ar-read-more[aria-expanded="true"]::after { content: ' ↑'; }
+
+/* ── EXPAND BUTTON ── */
+.ar-expand-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 44px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg3);
+  background: none; border: none; padding: 12px 0;
+  cursor: pointer;
+  transition: color .2s var(--ease-out-expo), gap .2s var(--ease-out-expo);
+}
+.ar-expand-btn:hover { color: var(--pa, var(--blue-300)); gap: 10px; }
+.ar-expand-btn svg { transition: transform .2s var(--ease-out-expo); }
+.ar-expand-btn:hover svg { transform: translate(2px, -2px); }
+.ar-expand-btn:focus-visible {
+  outline: 2px solid var(--blue-400); outline-offset: 4px; border-radius: 2px;
+}
+
+/* ── FULLSCREEN OVERLAY ── */
+.ar-fs {
+  position: fixed; inset: 0; z-index: 80;
+  display: grid; place-items: center;
+  padding: clamp(16px, 3vw, 40px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ease-out-expo);
+}
+.ar-fs.is-open {
+  opacity: 1; pointer-events: auto;
+}
+.ar-fs-bg {
+  position: absolute; inset: 0;
+  background: rgba(5,7,16,0.94);
+  backdrop-filter: blur(16px) saturate(120%);
+  cursor: pointer;
+}
+.ar-fs-panel {
+  position: relative; z-index: 1;
+  width: min(920px, 100%);
+  background: var(--navy-mid);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transform: translateY(16px) scale(0.97);
+  transition: transform .4s var(--ease-out-expo);
+  max-height: calc(100svh - 32px);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.ar-fs.is-open .ar-fs-panel {
+  transform: translateY(0) scale(1);
+}
+.ar-fs-close {
+  position: absolute; top: 14px; right: 14px; z-index: 10;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(5,7,16,0.65); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); color: var(--fg2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s, transform .2s var(--ease-out-expo);
+}
+.ar-fs-close:hover {
+  color: var(--fg1); border-color: var(--border-strong); transform: scale(1.08);
+}
+.ar-fs-close:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 3px; }
+.ar-fs-vid-wrap {
+  position: relative; aspect-ratio: 16 / 9;
+  background: var(--void); flex-shrink: 0;
+}
+.ar-fs-vid {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: contain; display: block;
+}
+.ar-fs-vid::-webkit-media-controls-panel {
+  background: linear-gradient(to top, rgba(5,7,16,0.85) 0%, transparent 40%);
+}
+.ar-fs-body {
+  padding: clamp(20px, 3.5vw, 40px);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.ar-fs-meta { display: flex; align-items: center; justify-content: space-between; }
+.ar-fs-num {
+  font-family: var(--font-code); font-size: 11px;
+  letter-spacing: 0.14em; color: var(--fg3);
+}
+.ar-fs-artist {
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3);
+}
+.ar-fs-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(28px, 4.5vw, 48px); line-height: 1.0;
+  letter-spacing: -0.02em; color: var(--fg1); margin-top: 4px;
+}
+.ar-fs-desc {
+  font-family: var(--font-body); font-size: 15px;
+  line-height: 1.75; color: var(--fg2); max-width: 62ch; margin-top: 4px;
+}
+
+/* ── PAGE FOOTER ── */
+.ar-page-footer {
+  border-top: 1px solid var(--border);
+  padding: clamp(40px, 6vw, 64px) 0;
+}
+.ar-footer-inner {
+  width: min(1240px, 92vw); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.ar-footer-back {
+  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
+  display: flex; align-items: center; gap: 8px;
+  transition: color .25s;
+}
+.ar-footer-back:hover { color: var(--fg1); }
+.ar-footer-label {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3);
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .ar-eyebrow, .ar-title, .ar-platform, .ar-sub, .ar-tags,
+  .ar-divider, .ar-section-label, .ar-card {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+  .ar-card { transition: border-color .2s, opacity .2s; }
+  .ar-card:hover { transform: none; }
+  .ar-title em { animation: none; color: var(--blue-300); }
+  .ar-td-logo  { animation: none; opacity: 0.65; }
+  .ar-card.is-playing { animation: none; border-color: oklch(from var(--blue-400) l c h / 0.45); }
+  .ar-grid:has(.ar-card.is-playing) .ar-card:not(.is-playing) { opacity: 0.5; }
+  .ar-card.is-playing .ar-card-num::after { animation: none; opacity: 1; }
+  .ar-waveform { display: none !important; }
+}
+
+/* ── FEATURED: revert to vertical on mobile ── */
+@media (max-width: 680px) {
+  .ar-card--featured {
+    flex-direction: column;
+  }
+  .ar-card--featured .ar-video-wrap {
+    flex: none;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+@media (max-width: 640px) {
+  .ar-grid { grid-template-columns: 1fr; }
+  .ar-card-title { font-size: 20px; }
+}
+@media (max-width: 480px) {
+  .cs-nav-right { display: none; }
+}
+@media (max-width: 860px) and (min-width: 641px) {
+  .ar-grid { gap: clamp(10px, 1.5vw, 14px); }
+  .ar-card--featured .ar-video-wrap { flex: 0 0 50%; height: clamp(190px, 24vw, 320px); }
+  .ar-card--featured .ar-card-body { padding: clamp(20px, 3vw, 36px); }
+  .ar-card-title { font-size: clamp(17px, 2.2vw, 22px); }
+}
+.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
+.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
+.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
+.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); font-style: italic; }
+.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
+.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
+.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
+.cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="visually-hidden">skip to main content</a>
+
+<!-- NAV -->
+<nav class="cs-nav" aria-label="site navigation">
+  <div class="cs-nav-inner">
+    <a href="work.html" class="cs-back" aria-label="back to all work">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      all work
+    </a>
+    <a href="index.html" class="cs-logo" aria-label="lucy liu home">lucy liu</a>
+    <div class="cs-nav-right">
+      <a href="index.html#about" class="cs-nav-link">about</a>
+      <a href="index.html#contact" class="cs-nav-link">contact ↗</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <header class="ar-hero">
+    <div class="ar-hero-orb" aria-hidden="true"></div>
+    <div class="ar-hero-orb-2" aria-hidden="true"></div>
+    <div class="ar-inner">
+
+      <div class="ar-hero-title-col">
+        <p class="ar-eyebrow" aria-hidden="true">
+          <img src="assets/icons/touchdesigner.png" alt="" class="ar-td-logo" aria-hidden="true" />
+          touchdesigner · live · nyc
+        </p>
+        <h1 class="ar-title">Demon <em>Nights</em></h1>
+        <div class="ar-status" aria-label="status: currently running">
+          <span class="ar-status-dot" aria-hidden="true"></span>
+          ongoing, every thursday
+        </div>
+      </div>
+
+      <div class="ar-hero-meta-col">
+        <dl class="ar-fact-grid" aria-label="residency details">
+          <dt class="ar-fact-label">venue</dt>
+          <dd class="ar-fact-value">
+            Studio Maison Nur
+            <span class="ar-fact-note">private · invite-only · 217 Bowery, NYC</span>
+          </dd>
+          <dt class="ar-fact-label">role</dt>
+          <dd class="ar-fact-value">VJ / Visual Artist</dd>
+          <dt class="ar-fact-label">with</dt>
+          <dd class="ar-fact-value">DJ Diablo (Sebastian Baldeon)</dd>
+          <dt class="ar-fact-label">tools</dt>
+          <dd class="ar-fact-value">TouchDesigner, MIDI, audio routing</dd>
+        </dl>
+        <p class="ar-sub">
+          every Thursday i build custom audio-reactive generative visuals from scratch for Studio Maison Nur, a private, invite-only club at 217 Bowery that runs nightlife small and close instead of loud. the work plays live across the full ceiling above the dance floor and reacts to frequency bands, percussive hits, and how hard the room is going. i wrote and run the whole TouchDesigner network myself.
+        </p>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- COLLECTION -->
+  <section class="ar-collection" aria-labelledby="ar-coll-label">
+    <div class="ar-inner">
+      <div class="ar-divider" role="separator" aria-hidden="true"></div>
+      <p class="ar-section-label" id="ar-coll-label">04 clips</p>
+
+      <div class="ar-grid" role="list">
+
+        <!-- 01: main performance — featured, full width -->
+        <article class="ar-card ar-card--featured" role="listitem" aria-label="clip 01: live performance" data-piece="live-av-1">
+          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 1: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-1.mp4">
+            <video
+              class="ar-video"
+              data-src="assets/live-visuals-nyc/live-av-1.mp4"
+              poster="assets/live-visuals-nyc/live-av-1-poster.jpg"
+              muted loop playsinline
+              preload="metadata"
+              aria-label="live audio-reactive generative visuals projected on ceiling at Demon Nights, Studio Maison Nur, 217 Bowery NYC"
+            ></video>
+            <div class="ar-sound-btn" aria-hidden="true">
+              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="ar-play-indicator" aria-hidden="true">
+              <div class="ar-play-icon">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
+                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="ar-card-body">
+            <div class="ar-card-meta">
+              <span class="ar-card-num">01</span>
+              <span class="ar-card-artist">dj diablo</span>
+            </div>
+            <h2 class="ar-card-title">How it works</h2>
+            <p class="ar-card-desc" id="clip01-desc">
+              every Thursday i build the visuals from scratch in TouchDesigner and run them live
+              across the full ceiling above the dance floor. they react to frequency bands,
+              percussive hits, and how hard the room is going. i wrote and operate the whole
+              network myself.<span class="ar-desc-extra" id="clip01-extra" aria-hidden="true"> TouchDesigner reads a live audio device feed and splits it into frequency bands: kick, low, mid, and high. each band drives a different visual parameter. every song hits differently, though; some tracks have a soft kick, others compress the highs, some run loud all night. so through the set i tune the detection thresholds by hand in real time, raising the kick floor so a quiet track still triggers geometry, pulling back the mid sensitivity when a dense mix starts firing everything at once. if the audio isn't being read cleanly, the visuals fall apart, so that calibration never stops.</span>
+            </p>
+            <button class="ar-read-more" aria-expanded="false" aria-controls="clip01-extra">read more</button>
+            <button class="ar-expand-btn" aria-label="view clip 1 fullscreen">
+              view full
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="ar-card" role="listitem" aria-label="clip 02" data-piece="live-av-2">
+          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 2: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-2.mp4">
+            <video
+              class="ar-video"
+              data-src="assets/live-visuals-nyc/live-av-2.mp4"
+              poster="assets/live-visuals-nyc/live-av-2-poster.jpg"
+              muted loop playsinline
+              preload="metadata"
+              aria-label="second clip: live audio-reactive visuals at NYC event"
+            ></video>
+            <div class="ar-sound-btn" aria-hidden="true">
+              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="ar-play-indicator" aria-hidden="true">
+              <div class="ar-play-icon">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
+                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="ar-card-body">
+            <div class="ar-card-meta">
+              <span class="ar-card-num">02</span>
+              <span class="ar-card-artist">dj diablo</span>
+            </div>
+            <h2 class="ar-card-title">the set, mid-night</h2>
+            <p class="ar-card-desc">
+              the system ran the whole set, changing as each section of music changed. this
+              clip is from the mid-point, with the crowd on the dance floor below and the
+              ceiling lit up overhead.
+            </p>
+            <button class="ar-expand-btn" aria-label="view clip 2 fullscreen">
+              view full
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="ar-card" role="listitem" aria-label="clip 03" data-piece="live-av-3">
+          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 3: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-3.mp4">
+            <video
+              class="ar-video"
+              data-src="assets/live-visuals-nyc/live-av-3.mp4"
+              poster="assets/live-visuals-nyc/live-av-3-poster.jpg"
+              muted loop playsinline
+              preload="metadata"
+              aria-label="third clip: live audio-reactive visuals at NYC event"
+            ></video>
+            <div class="ar-sound-btn" aria-hidden="true">
+              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="ar-play-indicator" aria-hidden="true">
+              <div class="ar-play-icon">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
+                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="ar-card-body">
+            <div class="ar-card-meta">
+              <span class="ar-card-num">03</span>
+              <span class="ar-card-artist">dj diablo</span>
+            </div>
+            <h2 class="ar-card-title">the drop</h2>
+            <p class="ar-card-desc">
+              the drop is where the system hits hardest: parameters pegged to low-frequency
+              amplitude slam to full scale and release with the tail, so from the dance floor
+              you feel it before you read it.
+            </p>
+            <button class="ar-expand-btn" aria-label="view clip 3 fullscreen">
+              view full
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="ar-card" role="listitem" aria-label="clip 04: close up" data-piece="live-av-4">
+          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 4: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-4.mp4">
+            <video
+              class="ar-video"
+              data-src="assets/live-visuals-nyc/live-av-4.mp4"
+              poster="assets/live-visuals-nyc/live-av-4-poster.jpg"
+              muted loop playsinline
+              preload="metadata"
+              aria-label="close-up of generative visuals at Demon Nights"
+            ></video>
+            <div class="ar-sound-btn" aria-hidden="true">
+              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="ar-play-indicator" aria-hidden="true">
+              <div class="ar-play-icon">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
+                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="ar-card-body">
+            <div class="ar-card-meta">
+              <span class="ar-card-num">04</span>
+              <span class="ar-card-artist">dj diablo</span>
+            </div>
+            <h2 class="ar-card-title">close up</h2>
+            <p class="ar-card-desc">
+              the geometry up close: particle systems and feedback loops that look like
+              texture from the dance floor. at this angle you can see how the whole
+              composition is built.
+            </p>
+            <button class="ar-expand-btn" aria-label="view clip 4 fullscreen">
+              view full
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <footer class="ar-page-footer">
+    <div class="ar-footer-inner">
+      <a href="work.html" class="ar-footer-back">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        all work
+      </a>
+      <span class="ar-footer-label">vj performance · touchdesigner · 2026 · lucy liu</span>
+    </div>
+  </footer>
+
+</main>
+
+<!-- FULLSCREEN OVERLAY -->
+<div id="ar-media-status" role="status" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
+
+<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true" aria-labelledby="ar-fs-title">
+  <div class="ar-fs-bg" aria-hidden="true"></div>
+  <div class="ar-fs-panel">
+    <button class="ar-fs-close" aria-label="close fullscreen">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="ar-fs-vid-wrap">
+      <video class="ar-fs-vid" playsinline loop controls></video>
+    </div>
+    <div class="ar-fs-body">
+      <div class="ar-fs-meta">
+        <span class="ar-fs-num"></span>
+        <span class="ar-fs-artist"></span>
+      </div>
+      <h2 class="ar-fs-title" id="ar-fs-title"></h2>
+      <p class="ar-fs-desc"></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function () {
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Entrance animations ── */
+  if (!reducedMotion && window.gsap) {
+    gsap.set('.ar-title', { scale: 0.97, opacity: 0.01 });
+    var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    tl
+      .to('.ar-eyebrow',       { opacity: 1, y: 0, duration: 0.5, delay: 0.15 })
+      .to('.ar-title',         { clipPath: 'inset(0 0 0% 0)', scale: 1, opacity: 1, duration: 0.9, ease: 'power4.out' }, '-=0.25')
+      .to('.ar-status',        { opacity: 1, duration: 0.45 }, '-=0.45')
+      .to('.ar-fact-grid',     { opacity: 1, duration: 0.5 }, '-=0.2')
+      .to('.ar-sub',           { opacity: 1, duration: 0.4 }, '-=0.3')
+      .to('.ar-divider',       { opacity: 1, duration: 0.4 }, '-=0.2')
+      .to('.ar-section-label', { opacity: 1, duration: 0.35,
+        onStart: function () {
+          var el = document.querySelector('.ar-section-label');
+          if (!el || reducedMotion) return;
+          var target = 4, current = 0, interval = 50;
+          var t = setInterval(function () {
+            current = Math.min(current + 1, target);
+            el.textContent = (current < 10 ? '0' + current : current) + ' clips';
+            if (current >= target) clearInterval(t);
+          }, interval);
+        }
+      }, '-=0.3')
+      .to('.ar-card', {
+        opacity: 1, y: 0,
+        duration: 0.5, stagger: 0.09,
+        ease: 'power3.out'
+      }, '-=0.2');
+  }
+
+  /* ── Read-more toggles ── */
+  Array.from(document.querySelectorAll('.ar-read-more')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var extra = document.getElementById(btn.getAttribute('aria-controls'));
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      extra.setAttribute('aria-hidden', open ? 'true' : 'false');
+      extra.classList.toggle('is-open', !open);
+      btn.textContent = open ? 'read more' : 'read less';
+    });
+  });
+
+  /* ── Lazy-load: assign video src only when it enters the viewport ── */
+  var videos = Array.from(document.querySelectorAll('.ar-video[data-src]'));
+
+  function loadVideo(vid) {
+    if (vid.src) return;
+    vid.src = vid.dataset.src;
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          loadVideo(v);
+        } else {
+          var wrap = v.closest('.ar-video-wrap');
+          if (wrap && wrap.getAttribute('aria-pressed') === 'true') {
+            v.pause();
+            var btn  = wrap.querySelector('.ar-sound-btn');
+            var card = wrap.closest('.ar-card');
+            if (btn)  { btn.classList.remove('is-on'); }
+            if (card) { card.classList.remove('is-playing'); }
+            wrap.setAttribute('aria-pressed', 'false');
+          }
+        }
+      });
+    }, { threshold: 0.15 });
+    videos.forEach(function (v) { io.observe(v); });
+  } else {
+    videos.forEach(function (v) { loadVideo(v); });
+  }
+
+  /* ── Play/pause toggle: one active at a time ── */
+  var wraps = Array.from(document.querySelectorAll('.ar-video-wrap'));
+  var statusEl = document.getElementById('ar-media-status');
+
+  function announce(msg) {
+    if (!statusEl) return;
+    statusEl.textContent = '';
+    requestAnimationFrame(function () { statusEl.textContent = msg; });
+  }
+
+  function muteAll() {
+    wraps.forEach(function (w) {
+      var v    = w.querySelector('.ar-video');
+      var btn  = w.querySelector('.ar-sound-btn');
+      var card = w.closest('.ar-card');
+      if (v)    { v.pause(); v.muted = true; }
+      if (btn)  { btn.classList.remove('is-on'); }
+      if (card) { card.classList.remove('is-playing'); }
+      w.setAttribute('aria-pressed', 'false');
+    });
+  }
+
+  function toggle(wrap) {
+    var vid  = wrap.querySelector('.ar-video');
+    var btn  = wrap.querySelector('.ar-sound-btn');
+    var card = wrap.closest('.ar-card');
+    if (!vid) return;
+
+    /* If lazy-load hasn't fired yet (e.g. user clicked before IO threshold),
+       load immediately so the click isn't silently swallowed. */
+    if (!vid.src && vid.dataset.src) { loadVideo(vid); }
+    if (!vid.src) return;
+
+    var wasPlaying = !vid.paused;
+    muteAll();
+
+    if (!wasPlaying) {
+      vid.muted = false;
+      vid.volume = 1;
+      var playPromise = vid.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function () {
+          /* Confirmed playing with sound — update UI now. */
+          if (btn)  { btn.classList.add('is-on'); }
+          if (card) { card.classList.add('is-playing'); }
+          wrap.setAttribute('aria-pressed', 'true');
+          var title = card ? (card.querySelector('.ar-card-title') || {}).textContent : '';
+          announce((title || 'video') + ': playing with sound');
+        }).catch(function () {
+          /* Unmuted play blocked — retry muted so video at least plays. */
+          vid.muted = true;
+          vid.play().catch(function () {});
+        });
+      } else {
+        /* Older browser — optimistically update UI. */
+        if (btn)  { btn.classList.add('is-on'); }
+        if (card) { card.classList.add('is-playing'); }
+        wrap.setAttribute('aria-pressed', 'true');
+      }
+    } else {
+      announce('paused');
+    }
+  }
+
+  /* ── Hide "view full" on cards without a fullscreen source ── */
+  document.querySelectorAll('.ar-card').forEach(function (card) {
+    var wrap = card.querySelector('.ar-video-wrap');
+    if (!wrap || !wrap.dataset.fsSrc) {
+      var btn = card.querySelector('.ar-expand-btn');
+      if (btn) { btn.hidden = true; }
+    }
+  });
+
+  wraps.forEach(function (wrap) {
+    wrap.addEventListener('click', function () { toggle(wrap); });
+    wrap.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        toggle(wrap);
+      }
+    });
+  });
+
+  /* ── Fullscreen overlay ── */
+  var fsEl     = document.getElementById('ar-fs');
+  var fsBg     = fsEl && fsEl.querySelector('.ar-fs-bg');
+  var fsVid    = fsEl && fsEl.querySelector('.ar-fs-vid');
+  var fsClose  = fsEl && fsEl.querySelector('.ar-fs-close');
+  var fsNum    = fsEl && fsEl.querySelector('.ar-fs-num');
+  var fsArtist = fsEl && fsEl.querySelector('.ar-fs-artist');
+  var fsTitleEl= fsEl && fsEl.querySelector('.ar-fs-title');
+  var fsDescEl = fsEl && fsEl.querySelector('.ar-fs-desc');
+  var fsOpener = null;
+
+  function openFS(card, trigger) {
+    if (!fsEl) return;
+    var vid  = card.querySelector('.ar-video');
+    var wrap = card.querySelector('.ar-video-wrap');
+    var src  = (wrap && wrap.dataset.fsSrc) || (vid && (vid.dataset.src || vid.getAttribute('src')));
+    if (!src) return;
+
+    muteAll();
+
+    if (fsNum)     fsNum.textContent     = (card.querySelector('.ar-card-num')    || {}).textContent || '';
+    if (fsArtist)  fsArtist.textContent  = (card.querySelector('.ar-card-artist') || {}).textContent || '';
+    if (fsTitleEl) fsTitleEl.textContent = (card.querySelector('.ar-card-title')  || {}).textContent || '';
+    if (fsDescEl)  fsDescEl.textContent  = (card.querySelector('.ar-card-desc')   || {}).textContent || '';
+
+    fsVid.pause();
+    fsVid.src   = src;
+    fsVid.muted = false;
+    fsVid.load();
+
+    fsEl.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    document.querySelector('main')    && (document.querySelector('main').inert    = true);
+    document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = true);
+    fsOpener = trigger || null;
+    requestAnimationFrame(function () { if (fsClose) fsClose.focus(); });
+
+    fsVid.play().catch(function () {
+      fsVid.muted = true;
+      fsVid.play().catch(function () {});
+    });
+  }
+
+  function closeFS() {
+    if (!fsEl) return;
+    fsEl.classList.remove('is-open');
+    document.body.style.overflow = '';
+    document.querySelector('main')    && (document.querySelector('main').inert    = false);
+    document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = false);
+    setTimeout(function () {
+      if (!fsEl.classList.contains('is-open')) {
+        fsVid.pause();
+        fsVid.src = '';
+      }
+    }, 320);
+    if (fsOpener) { fsOpener.focus(); fsOpener = null; }
+  }
+
+  if (fsClose) fsClose.addEventListener('click', closeFS);
+  if (fsBg)    fsBg.addEventListener('click', closeFS);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && fsEl && fsEl.classList.contains('is-open')) closeFS();
+  });
+
+  document.querySelectorAll('.ar-expand-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var card = btn.closest('.ar-card');
+      if (card) openFS(card, btn);
+    });
+  });
+
+  /* ── Waveform bars: generated per wrap ── */
+  if (!reducedMotion) {
+    var wfH = [14,18,22,28,32,30,26,24,20,22,26,30,28,24,20,18,16,12];
+    var wfD = [0.52,0.73,0.61,0.84,0.49,0.67,0.93,0.55,0.78,0.63,0.88,0.51,0.72,0.46,0.81,0.59,0.69,0.47];
+    var wfP = [0,-0.31,-0.18,-0.45,-0.22,-0.38,-0.09,-0.51,-0.27,-0.15,-0.42,-0.33,-0.07,-0.48,-0.21,-0.37,-0.12,-0.44];
+    wraps.forEach(function (wrap) {
+      var wf = document.createElement('div');
+      wf.className = 'ar-waveform';
+      wf.setAttribute('aria-hidden', 'true');
+      wfH.forEach(function (h, i) {
+        var b = document.createElement('span');
+        b.style.height = h + 'px';
+        b.style.setProperty('--wd', wfD[i] + 's');
+        b.style.animationDelay = wfP[i] + 's';
+        wf.appendChild(b);
+      });
+      wrap.appendChild(wf);
+    });
+  }
+
+})();
+</script>
+
+<!-- NEXT PROJECT -->
+<section class="cs-next">
+  <div class="cs-next-inner">
+    <p class="cs-next-label">Related project</p>
+    <a class="cs-next-link" href="audio-reactive.html">
+      <span class="cs-next-title">Audio Reactive</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+    <p class="cs-next-desc">Audio Reactive is the studio side of the same work: using code and sound to generate visuals in a controlled setting, where I can push the system without a live crowd waiting on it.</p>
+  </div>
+</section>
+
+<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
+
+</body>
+</html>

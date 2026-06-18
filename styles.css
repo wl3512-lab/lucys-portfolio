@@ -563,42 +563,91 @@ img { display: block; max-width: 100%; }
   .work-panel-title { font-size: clamp(2rem, 7vw, 3.5rem); }
 }
 
-/* ========== SKILLS BENTO ========== */
+/* ========== SKILLS BENTO (MagicBento-style) ========== */
+.skills-head { margin-bottom: 40px; }
+.skills-title {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.9rem, 4vw, 3.1rem); letter-spacing: -0.025em; line-height: 1.05;
+  margin: 14px 0 0; color: var(--fg1);
+}
+.skills-title em { font-style: italic; color: var(--accent); }
+
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(180px, auto);
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(190px, auto);
   gap: 0;
   border-top: 1px solid var(--border);
   border-left: 1px solid var(--border);
 }
 .skill-card {
-  background: transparent; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  --mx: 50%; --my: 50%; --reveal-delay: 0ms;
+  background: transparent;
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
   border-radius: 0;
-  padding: 36px 32px; display: flex; flex-direction: column; justify-content: space-between;
-  opacity: 0; transform: translateY(40px);
-  transition: background .4s, transform .5s;
-  position: relative; overflow: hidden;
+  padding: 34px 32px;
+  display: flex; flex-direction: column; gap: 22px; justify-content: space-between;
+  position: relative; overflow: hidden; isolation: isolate;
+  transition: background .4s ease;
 }
+/* Cursor-following spotlight fill */
 .skill-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--aura-radial); opacity: 0; transition: opacity .5s;
-  pointer-events: none;
+  content: ''; position: absolute; inset: 0; z-index: -2;
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgba(160,200,255,0.10), transparent 60%);
+  opacity: 0; transition: opacity .4s ease; pointer-events: none;
 }
-.skill-card:hover::before { opacity: 0.5; }
-.skill-card:hover { background: rgba(160,200,255,0.018); }
-.skill-lg { grid-column: span 2; grid-row: span 2; }
-.skill-md { grid-column: span 2; }
-.skill-sm { grid-column: span 1; }
-.skill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+/* Cursor-following border glow (ring only, via mask) */
+.skill-card::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  padding: 1px; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx) var(--my), var(--accent), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .4s ease;
+}
+.skill-card:hover { background: rgba(160,200,255,0.020); }
+.skill-card:hover::before { opacity: 1; }
+.skill-card:hover::after  { opacity: 0.9; }
+.skill-card:focus-visible { outline: 1px solid var(--accent); outline-offset: -2px; }
+.skill-card:focus-visible::before, .skill-card:focus-visible::after { opacity: 1; }
+
+/* Spans */
+.skill-feature { grid-column: span 3; grid-row: span 2; }
+.skill-wide    { grid-column: span 3; }
+.skill-third   { grid-column: span 2; }
+
+/* Scroll reveal (only active once JS adds .js-reveal; visible otherwise) */
+.skills-grid.js-reveal .skill-card { opacity: 0; transform: translateY(26px); }
+.skills-grid.js-reveal .skill-card.is-in {
+  opacity: 1; transform: none;
+  transition: opacity .6s ease var(--reveal-delay), transform .7s cubic-bezier(.22,1,.36,1) var(--reveal-delay);
+}
+
+.skill-top { display: flex; justify-content: space-between; align-items: baseline; }
 .skill-meta { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg3); font-weight: 400; }
-.skill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue-400); box-shadow: 0 0 12px var(--blue-400); }
+.skill-num { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em; color: var(--fg3); }
+.skill-body { display: flex; flex-direction: column; gap: 14px; }
 .skill-title {
   font-family: var(--font-display); font-weight: 300;
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem); letter-spacing: -0.02em;
-  margin: 0 0 14px; color: var(--fg1); line-height: 1.1;
+  font-size: clamp(1.5rem, 2.5vw, 2.3rem); letter-spacing: -0.02em;
+  margin: 0; color: var(--fg1); line-height: 1.1;
 }
-.skill-desc { font-size: 13px; line-height: 1.85; color: var(--fg2); margin: 0; font-family: var(--font-body); letter-spacing: 0.005em; }
+.skill-feature .skill-title { font-size: clamp(2rem, 3.4vw, 3rem); }
+.skill-desc { font-size: 13px; line-height: 1.8; color: var(--fg2); margin: 0; font-family: var(--font-body); letter-spacing: 0.005em; }
+.skill-feature .skill-desc { font-size: 14px; max-width: 40ch; }
+
+.skill-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--fg2); padding: 6px 11px; border: 1px solid var(--border); border-radius: 100px;
+  transition: border-color .3s ease, color .3s ease;
+}
+.skill-card:hover .skill-tag { border-color: rgba(160,200,255,0.28); color: var(--fg1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-grid.js-reveal .skill-card { opacity: 1; transform: none; transition: none; }
+  .skill-card::before, .skill-card::after { transition: none; }
+}
 
 /* ========== ABOUT ========== */
 .about-grid {
@@ -730,7 +779,8 @@ img { display: block; max-width: 100%; }
   .hero-orb { width: 420px; height: 420px; right: -20%; }
   .nav-links { gap: 20px; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  .skill-lg, .skill-md { grid-column: span 2; }
+  .skill-feature { grid-column: span 2; grid-row: auto; }
+  .skill-wide, .skill-third { grid-column: span 1; }
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
   .about-left { position: static; }
   .scene { padding: 6rem 0; }
@@ -1303,7 +1353,7 @@ img { display: block; max-width: 100%; }
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
   }
-  .skill-lg, .skill-md, .skill-sm {
+  .skill-feature, .skill-wide, .skill-third {
     grid-column: span 1;
     grid-row: span 1;
   }
@@ -1327,4 +1377,171 @@ img { display: block; max-width: 100%; }
     text-align: center;
     align-items: center;
   }
+}
+
+   SPOTLIGHT — standout-work section
+   ScrollStack (driven by global Lenis) + LaserFlow + ASCIIText.
+   No box-shadow (glow/tonal layering only). Transforms on cards
+   are owned by JS (components/Spotlight.jsx); hover changes only
+   color / border / aura so it never fights the pin transform.
+   ============================================================ */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.spotlight {
+  position: relative;
+  padding: var(--space-section, clamp(80px, 12vw, 140px)) 0;
+  overflow: hidden; /* contain the laser beam */
+}
+
+/* Atmospheric light: one beam rising behind the header. */
+.spotlight-atmos {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 78vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+  /* fade the beam into the void at every edge */
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
+}
+.laser-flow-container { width: 100%; height: 100%; position: relative; pointer-events: none; }
+
+.spotlight-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 var(--space-gutter, clamp(20px, 5vw, 48px));
+}
+
+/* ---- header ---- */
+.spotlight-header { text-align: center; margin-bottom: clamp(40px, 7vw, 88px); }
+.spotlight-meta {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin: 0 auto;
+}
+.spotlight-idx,
+.spotlight-label {
+  font-family: var(--font-code); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3);
+}
+.spotlight-rule { width: 40px; height: 1px; background: var(--border-strong); display: block; }
+
+.spotlight-title-wrap { position: relative; margin: 18px auto 14px; }
+.ascii-text-container {
+  width: 100%; height: clamp(120px, 18vw, 200px);
+  position: relative; overflow: hidden;
+}
+.spotlight-title-fallback {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.4rem, 9vw, 5rem); letter-spacing: -0.03em;
+  line-height: 1; color: var(--fg1); margin: 0;
+}
+.spotlight-sub {
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.6;
+  color: var(--fg2); max-width: 46ch; margin: 0 auto;
+}
+/* One italic accent word per screen (the Lit Archive "flame"). */
+.aura-word {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  color: var(--blue-300); font-size: 1.08em;
+}
+
+/* ---- scroll stack ---- */
+.scroll-stack { position: relative; max-width: 840px; margin: 0 auto; padding-bottom: 12vh; }
+.spotlight-card {
+  display: grid; grid-template-columns: 1.05fr 1fr;
+  align-items: stretch;
+  text-decoration: none;
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 84px;
+  height: clamp(300px, 44vh, 400px); /* fixed so stacked cards stay uniform */
+  transition: border-color 0.4s var(--ease-out-expo);
+}
+.spotlight-card:last-of-type { margin-bottom: 0; }
+.spotlight-card:hover { border-color: var(--border-strong); }
+.spotlight-card:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 4px; border-color: transparent;
+}
+
+.spotlight-card-cover { position: relative; overflow: hidden; background: var(--navy); }
+.spotlight-card-cover img {
+  position: absolute; inset: 0; /* never let intrinsic image size dictate card height */
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.spotlight-card:hover .spotlight-card-cover img { transform: scale(1.04); }
+.spotlight-card-cover-fallback {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 5rem; color: var(--fg3);
+  background: radial-gradient(ellipse at 50% 40%, rgba(114,173,255,0.12), transparent 70%);
+}
+.spotlight-card-aura {
+  position: absolute; inset: 0; opacity: 0.7; pointer-events: none;
+  background: radial-gradient(ellipse 70% 75% at 60% 40%, rgba(160,200,255,0.16) 0%, transparent 70%);
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+.spotlight-card:hover .spotlight-card-aura { opacity: 1; }
+
+.spotlight-card-body { padding: clamp(22px, 2.6vw, 34px); display: flex; flex-direction: column; }
+.spotlight-card-top {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+}
+.spotlight-card-num {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.16em; color: var(--fg3);
+}
+.spotlight-card-live {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.72 0.18 30);
+}
+.spotlight-card-live::before {
+  content: '●'; font-size: 6px; animation: spotlight-dot 2.2s ease-in-out infinite;
+}
+.spotlight-card-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem); letter-spacing: -0.02em;
+  line-height: 1.04; color: var(--fg1); margin: 0 0 10px;
+  transition: color 0.35s var(--ease-out-expo);
+}
+.spotlight-card:hover .spotlight-card-title { color: var(--accent); }
+.spotlight-card-desc {
+  font-family: var(--font-body); font-size: 0.94rem; line-height: 1.6;
+  color: var(--fg2); margin: 0 0 16px; max-width: 42ch;
+}
+.spotlight-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: auto; }
+.spotlight-card-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.spotlight-card-year {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.08em; color: var(--fg3);
+}
+.spotlight-card-arrow {
+  font-size: 1.1rem; color: var(--fg2);
+  transition: transform 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo);
+}
+.spotlight-card:hover .spotlight-card-arrow { transform: translate(4px, -4px); color: var(--accent); }
+
+.scroll-stack-end { width: 100%; height: 1px; }
+
+@media (max-width: 760px) {
+  .spotlight-atmos { display: none; }
+  .spotlight-card { grid-template-columns: 1fr; height: auto; }
+  .spotlight-card-cover { height: 200px; position: relative; }
+  .scroll-stack { padding-bottom: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card-cover img,
+  .spotlight-card,
+  .spotlight-card-arrow,
+  .spotlight-card-aura { transition: none; }
+  .spotlight-card-live::before { animation: none; }
 }

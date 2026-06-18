@@ -383,12 +383,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
+<!-- three.js — WebGL for LaserFlow + ASCIIText in the Spotlight section. Deferred; components degrade gracefully if absent. -->
+<script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
 <!-- Components -->
 <script type="text/babel" src="components/Nav.jsx"></script>
 <script type="text/babel" src="components/Hero.jsx"></script>
 <script type="text/babel" src="components/ProjectRow.jsx"></script>
 <script type="text/babel" src="components/Skills.jsx"></script>
 <script type="text/babel" src="components/Contact.jsx"></script>
+<script type="text/babel" src="components/LaserFlow.jsx"></script>
+<script type="text/babel" src="components/AsciiText.jsx"></script>
+<script type="text/babel" src="components/Spotlight.jsx"></script>
 
 <script type="text/babel">
 const { useEffect, useState, useMemo } = React;
@@ -399,6 +405,19 @@ const { useEffect, useState, useMemo } = React;
 //          subtitle, role, timeline, tools, problem, approach, outcome, image }
 // ============================================================
 const DEFAULT_PROJECTS = [
+  {
+    id: 'p00', slug: 'live-visuals-nyc',
+    detailPage: 'live-visuals-nyc.html',
+    title: 'Demon Nights',
+    cover: 'assets/live-visuals-nyc/cover.jpg',
+    subtitle: 'Weekly VJ residency at Studio Maison Nur, 217 Bowery. Audio-reactive generative visuals designed fresh every Thursday.',
+    description: 'Custom audio-reactive visuals designed and operated live every Thursday at Studio Maison Nur (217 Bowery, NYC), a private invite-only club, for Demon Nights, DJ Diablo\'s weekly NYC party. New visuals each week to client spec. Fully custom TouchDesigner network, solo. In collaboration with DJ Diablo (Sebastian Baldeon).',
+    tags: ['TouchDesigner', 'Live Performance', 'Generative Art'], year: '2026', category: 'creative',
+    spotlight: true,
+    role: 'VJ / Visual Artist',
+    timeline: '2026',
+    tools: ['TouchDesigner'],
+  },
   {
     id: 'p01', slug: 'driftwood',
     title: 'Driftwood',
@@ -431,7 +450,7 @@ const DEFAULT_PROJECTS = [
   {
     id: 'p03', slug: 'h2know',
     title: 'H2Know',
-    cover: 'assets/h2know/slides/slide-01.png',
+    cover: 'assets/h2know/slides/slide-01.jpg',
     subtitle: 'Talk to your plant. It\'ll remind you.',
     description: 'Arduino + app design for a plant-watering system that builds an emotional connection between you and your plant, so you actually remember.',
     tags: ['Physical Computing','App Design','Arduino','UX/UI'], year: '2024', category: 'creative', featured: true,
@@ -445,7 +464,7 @@ const DEFAULT_PROJECTS = [
   {
     id: 'p04', slug: 'eternal-wreckening',
     title: 'Eternal Wreckening',
-    cover: 'assets/eternal-wreckening/slides/slide-01.png',
+    cover: 'assets/eternal-wreckening/slides/slide-01.jpg',
     subtitle: 'A game about the weight of memory.',
     description: 'Game design + UX/UI exploring grief and repetition as play mechanics. Every choice rewrites what came before.',
     tags: ['Game Design','Narrative Design','UX/UI','Psychology'], year: '2023', category: 'ux',
@@ -669,7 +688,9 @@ function App() {
       <main id="main-content" tabIndex="-1">
         <Hero />
         <Marquee />
+        <Spotlight projects={projects} onOpen={onOpenProject} />
         <WorkSection projects={projects} onOpen={onOpenProject} />
+        <SkillsSection />
         <GemStory />
         <AboutSection />
         <ContactSection />
