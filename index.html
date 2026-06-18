@@ -958,6 +958,9 @@ function App() {
     try { localStorage.setItem('lucy.projects', JSON.stringify(projects)); } catch {}
   };
 
+  const wavesEnabled = typeof Waves !== 'undefined' && window.innerWidth >= 760 &&
+    !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
   return (
     <>
       <Cursor />
@@ -965,8 +968,26 @@ function App() {
       <main id="main-content" tabIndex="-1">
         <Hero />
         <Marquee />
-        <Spotlight projects={projects} onOpen={onOpenProject} />
-        <SkillsSection />
+        {/* Waves backdrop spans the Spotlight + Capabilities zone (sticky, viewport-sized). */}
+        <div className="wave-zone">
+          {wavesEnabled && (
+            <Waves
+              className="zone-waves"
+              lineColor="#169eff"
+              waveSpeedX={0.015}
+              waveSpeedY={0.008}
+              waveAmpX={34}
+              waveAmpY={18}
+              xGap={14}
+              yGap={36}
+              friction={0.92}
+              tension={0.008}
+              maxCursorMove={90}
+            />
+          )}
+          <Spotlight projects={projects} onOpen={onOpenProject} />
+          <SkillsSection />
+        </div>
         <GemStory />
         <ContactSection />
       </main>

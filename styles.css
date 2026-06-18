@@ -1624,13 +1624,30 @@ body.about-locked { overflow: hidden; }
   -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
   mask-image: radial-gradient(ellipse 60% 70% at 50% 22%, #000 35%, transparent 78%);
 }
-/* Waves surface behind the laser beam — grounds the beam so it reads as light
-   hitting a reactive plane rather than floating in the void. */
-.spotlight-atmos .spotlight-waves {
-  position: absolute; inset: 0; z-index: 0;
-  opacity: 0.3; mix-blend-mode: screen;
+/* Waves backdrop — sticky viewport-height layer spanning the Spotlight + Capabilities
+   zone, so the field reads as one continuous reactive surface behind both sections. */
+.wave-zone { position: relative; }
+.zone-waves {
+  position: sticky; top: 0; height: 100vh;
+  margin-bottom: -100vh;        /* overlaps following content: ~0 net layout height */
+  z-index: 0; pointer-events: none;
+  opacity: 0.26; mix-blend-mode: screen;
 }
+@media (max-width: 760px) { .zone-waves { display: none; } }
 .waves canvas { display: block; width: 100%; height: 100%; }
+
+/* Capabilities (Skills) section header */
+.skills-header { margin-bottom: clamp(40px, 6vw, 76px); }
+.skills-meta { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.skills-idx, .skills-label {
+  font-family: var(--font-code); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3);
+}
+.skills-rule { width: 40px; height: 1px; background: var(--border-strong); display: block; }
+.skills-head-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 56px); line-height: 1.05; color: var(--fg1); margin: 0;
+}
 .laser-flow-container { width: 100%; height: 100%; position: relative; pointer-events: none; }
 
 .spotlight-inner {

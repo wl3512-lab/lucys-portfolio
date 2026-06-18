@@ -12,8 +12,16 @@ function SkillsSection() {
   ];
 
   return (
-    <section className="scene scene-skills" id="skills" data-screen-label="03 Skills">
+    <section className="scene scene-skills" id="skills" data-screen-label="02 Capabilities">
       <div className="container">
+        <header className="skills-header">
+          <div className="skills-meta">
+            <span className="skills-idx">02</span>
+            <span className="skills-rule" aria-hidden="true" />
+            <span className="skills-label">Capabilities</span>
+          </div>
+          <h2 className="skills-head-title">What I do, <em className="aura-word">end to end</em>.</h2>
+        </header>
         <div className="skills-grid">
           {skills.map((s) => (
             <div key={s.title} className={'skill-card skill-' + s.size} data-skill-card>

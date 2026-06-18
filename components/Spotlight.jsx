@@ -49,8 +49,6 @@ function Spotlight(props) {
     typeof THREE !== 'undefined';
   const showLaser = heavyOk && typeof LaserFlow !== 'undefined';
   const showAscii = heavyOk && typeof AsciiText !== 'undefined';
-  // Waves grounds the laser: flowing surface behind the beam (canvas 2D).
-  const showWaves = typeof Waves !== 'undefined' && !spReducedMotion() && window.innerWidth >= 760;
 
   useEffect(function () {
     const scroller = stackRef.current;
@@ -171,21 +169,6 @@ function Spotlight(props) {
   return (
     <section className="spotlight" id="spotlight" data-screen-label="01 Spotlight">
       <div className="spotlight-atmos" aria-hidden="true">
-        {showWaves && (
-          <Waves
-            className="spotlight-waves"
-            lineColor="#169eff"
-            waveSpeedX={0.015}
-            waveSpeedY={0.008}
-            waveAmpX={34}
-            waveAmpY={18}
-            xGap={14}
-            yGap={34}
-            friction={0.92}
-            tension={0.008}
-            maxCursorMove={90}
-          />
-        )}
         {showLaser && (
           <LaserFlow
             color="#72ADFF"
