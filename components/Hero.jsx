@@ -50,6 +50,19 @@ function Hero() {
   return (
     <section className="scene scene-hero" data-scene="hero" data-screen-label="01 Hero">
       <div className="hero-bg-layer"><div className="hero-grain"/><div className="hero-grid-lines"/></div>
+      {typeof FaultyTerminal !== 'undefined' && (
+        <FaultyTerminal
+          tint="#72ADFF"
+          brightness={0.9}
+          scale={1.5}
+          digitSize={1.4}
+          scanlineIntensity={0.4}
+          glitchAmount={1}
+          flickerAmount={0.5}
+          curvature={0.1}
+          mouseStrength={0.25}
+        />
+      )}
       <canvas id="hero-canvas" className="hero-canvas" aria-hidden="true" />
       <div className="hero-orb" />
       <div className="hero-orb-2" />
