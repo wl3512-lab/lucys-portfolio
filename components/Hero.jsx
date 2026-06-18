@@ -124,8 +124,8 @@ function Hero() {
             </div>
           </div>
           <div className="hero-actions">
-            <a href="#work" className="btn btn-secondary">View standout work ↓</a>
-            <a href="#contact" className="btn btn-ghost">Get in touch →</a>
+            <a href="#work" className="btn btn-secondary">View standout work <span className="btn-arrow" aria-hidden="true">↓</span></a>
+            <a href="#contact" className="btn btn-ghost">Get in touch <span className="btn-arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>

@@ -210,6 +210,26 @@ img { display: block; max-width: 100%; }
 .btn-ghost { background: transparent; color: var(--fg1); border: 1px solid var(--border-strong); padding: 13px 25px; }
 .btn-ghost:hover { border-color: var(--fg1); background: rgba(235,243,255,0.04); }
 
+/* Always-on button life — so mobile (no hover) still reads them as interactive.
+   Aura glow breathes; the directional arrow nudges. Disabled for reduced motion. */
+.btn-arrow { display: inline-block; will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-actions .btn-secondary { animation: btn-glow-fill 3.4s ease-in-out infinite; }
+  .hero-actions .btn-ghost { animation: btn-glow-ghost 3.4s ease-in-out infinite; }
+  .hero-actions .btn-secondary .btn-arrow { animation: btn-arrow-y 1.9s ease-in-out infinite; }
+  .hero-actions .btn-ghost .btn-arrow { animation: btn-arrow-x 1.9s ease-in-out infinite; }
+}
+@keyframes btn-glow-fill {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(160,200,255,0); }
+  50%      { box-shadow: 0 10px 34px -8px rgba(160,200,255,0.5); }
+}
+@keyframes btn-glow-ghost {
+  0%, 100% { border-color: var(--border-strong); box-shadow: 0 0 0 0 rgba(160,200,255,0); }
+  50%      { border-color: rgba(160,200,255,0.55); box-shadow: 0 0 24px -6px rgba(160,200,255,0.3); }
+}
+@keyframes btn-arrow-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@keyframes btn-arrow-x { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+
 .tag {
   display: inline-block;
   font-family: var(--font-code); font-size: 11px; letter-spacing: 0.04em;
