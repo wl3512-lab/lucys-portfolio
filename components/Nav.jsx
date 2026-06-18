@@ -1,71 +1,32 @@
 /* global React */
 const { useEffect, useRef, useState } = React;
 
-function Nav({ onNavClick }) {
-  const navRef = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const fn = () => navRef.current?.classList.toggle('scrolled', window.scrollY > 40);
-    window.addEventListener('scroll', fn, { passive: true });
-    fn();
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
-
-  const close = () => setMenuOpen(false);
-  const closeAndNav = (cb) => () => { close(); cb?.(); };
-
+function Nav() {
+  const items = [
+    { label: 'All Work', ariaLabel: 'View all work', link: 'work.html' },
+    { label: 'About', ariaLabel: 'About Lucy Liu', link: '#about' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
+    { label: 'Resume', ariaLabel: 'View resume (opens in new tab)', link: 'assets/resume.pdf', external: true },
+  ];
+  const socialItems = [
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lucy-liu-9b812127b/' },
+    { label: 'GitHub', link: 'https://github.com/wl3512-lab' },
+    { label: 'Instagram', link: 'https://www.instagram.com/lucyy.liuu/' },
+  ];
   return (
     <>
-      <nav className="nav" ref={navRef}>
-        <div className="nav-inner">
-          <a href="/" className="nav-logo" aria-label="Lucy Liu, back to top">lucy liu</a>
-          <ul className="nav-links">
-            <li><a href="work.html" className="nav-link">all work</a></li>
-            <li><a href="#about"   className="nav-link" onClick={onNavClick}>about</a></li>
-            <li><a href="#contact" className="nav-link" onClick={onNavClick}>contact</a></li>
-            <li><a href="assets/resume.pdf" className="nav-link" target="_blank" rel="noopener noreferrer" aria-label="View resume (opens in new tab)">resume ↗</a></li>
-          </ul>
-
-          <button
-            className={'nav-hamburger' + (menuOpen ? ' is-open' : '')}
-            onClick={() => setMenuOpen(o => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            aria-controls="nav-mobile-menu"
-          >
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-          </button>
-        </div>
-      </nav>
-
-      <div
-        id="nav-mobile-menu"
-        className={'nav-mobile-menu' + (menuOpen ? ' is-open' : '')}
-        aria-hidden={!menuOpen}
-        role="dialog"
-        aria-label="Navigation menu"
-      >
-        <ul className="nav-mobile-links">
-          <li><a href="work.html"          className="nav-mobile-link" onClick={close}>all work</a></li>
-          <li><a href="#about"             className="nav-mobile-link" onClick={closeAndNav(onNavClick)}>about</a></li>
-          <li><a href="#contact"           className="nav-mobile-link" onClick={closeAndNav(onNavClick)}>contact</a></li>
-          <li><a href="assets/resume.pdf"  className="nav-mobile-link" target="_blank" rel="noopener noreferrer" onClick={close}>resume ↗</a></li>
-        </ul>
-      </div>
-
+      {typeof StaggeredMenu !== 'undefined' && (
+        <StaggeredMenu
+          position="right"
+          colors={['#4A8FEF', '#C4B0FF']}
+          accentColor="#72ADFF"
+          logoText="lucy liu"
+          items={items}
+          socialItems={socialItems}
+          displaySocials
+          displayItemNumbering
+        />
+      )}
       <div className="scroll-progress" />
     </>
   );
