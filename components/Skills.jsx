@@ -1,6 +1,7 @@
 /* global React */
 
 function SkillsSection() {
+  const showDither = typeof Dither !== 'undefined' && window.innerWidth >= 760;
   const skills = [
     { title: 'Product Design', desc: 'UX/UI, user research, flows, high-fidelity prototypes. Psychology-first: I design for how people actually behave, not how we wish they would.', meta: 'Figma · FigJam', size: 'lg' },
     { title: 'Interaction', desc: 'Motion, micro-interactions, state transitions. The feel matters as much as the flow.', meta: 'craft', size: 'sm' },
@@ -13,6 +14,10 @@ function SkillsSection() {
 
   return (
     <section className="scene scene-skills" id="skills" data-screen-label="02 Capabilities">
+      {showDither && (
+        <Dither className="skills-dither" waveColor={[0.149, 0.545, 1.0]} colorNum={4} pixelSize={3}
+          waveAmplitude={0.3} waveFrequency={3} waveSpeed={0.04} mouseRadius={0.6} />
+      )}
       <div className="container">
         <header className="skills-header">
           <div className="skills-meta">

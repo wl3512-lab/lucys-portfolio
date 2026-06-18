@@ -1722,6 +1722,17 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(32px, 4.5vw, 56px); line-height: 1.05; color: var(--fg1); margin: 0;
 }
+
+/* Dither backdrop behind the Capabilities bento — masked so the cards/text stay clear. */
+.scene-skills { position: relative; overflow: hidden; }
+.scene-skills .skills-dither {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(ellipse 110% 85% at 50% 50%, #000 28%, transparent 92%);
+          mask-image: radial-gradient(ellipse 110% 85% at 50% 50%, #000 28%, transparent 92%);
+}
+.scene-skills .skills-dither canvas { display: block; width: 100%; height: 100%; }
+.scene-skills > .container { position: relative; z-index: 1; }
 .laser-flow-container { width: 100%; height: 100%; position: relative; pointer-events: none; }
 
 .spotlight-inner {
