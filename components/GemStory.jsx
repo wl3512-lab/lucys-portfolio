@@ -5,9 +5,13 @@
 // Self-contained presentational section, exposed as window.GemStory.
 // ============================================================
 function GemStory() {
+  const showIridescence = typeof Iridescence !== 'undefined' && window.innerWidth >= 760;
   return (
     <section className="gem-section" id="gems">
       {/* Atmospheric environment: stays behind everything */}
+      {showIridescence && (
+        <Iridescence className="gem-iridescence" color={[0.6, 0.45, 1.0]} speed={0.6} amplitude={0.12} />
+      )}
       <div className="gem-bg-glow" aria-hidden="true" />
       <div className="gem-particles" aria-hidden="true">
         <span className="gem-p"/><span className="gem-p"/><span className="gem-p"/>
