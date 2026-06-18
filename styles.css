@@ -230,6 +230,25 @@ img { display: block; max-width: 100%; }
 @keyframes btn-arrow-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 @keyframes btn-arrow-x { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
 
+/* MorphingText — cross-fading blur morph (Magic UI, ported). Sizer holds the box. */
+.morphing-text { display: inline-block; position: relative; line-height: 1; }
+.morphing-text-stage { position: relative; display: inline-block; }
+.morphing-text-sizer { visibility: hidden; white-space: nowrap; }
+.morphing-text-a, .morphing-text-b {
+  position: absolute; inset: 0; white-space: nowrap; text-align: center;
+  will-change: filter, opacity;
+}
+.morphing-text-filters { position: absolute; width: 0; height: 0; pointer-events: none; }
+
+/* Hero rotating-roles line (MorphingText) */
+.hero-roles { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+.hero-roles-slash { font-family: var(--font-code); color: var(--fg3); font-size: 18px; line-height: 1; }
+.hero-roles-morph {
+  font-family: var(--font-ui); font-weight: 700;
+  font-size: clamp(22px, 2.4vw, 32px); letter-spacing: -0.02em;
+  color: var(--blue-300); line-height: 1;
+}
+
 .tag {
   display: inline-block;
   font-family: var(--font-code); font-size: 11px; letter-spacing: 0.04em;

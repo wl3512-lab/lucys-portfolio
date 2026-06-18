@@ -98,6 +98,12 @@ function Hero() {
         </div>
 
         <div className="hero-right">
+          {typeof MorphingText !== 'undefined' && (
+            <p className="hero-roles">
+              <span className="hero-roles-slash" aria-hidden="true">/</span>
+              <MorphingText className="hero-roles-morph" texts={['designer', 'researcher', 'vj', 'creative coder', 'strategist']} />
+            </p>
+          )}
           <p className="hero-sub">
             IMA student at NYU Tisch. I care most about <em>accessibility</em>, the kind that gets tested with real users, not just checked against WCAG.
           </p>
