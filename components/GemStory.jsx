@@ -37,7 +37,7 @@ function GemStory() {
           <div className="gem-left-metas">
             <div className="gem-left-meta">
               <span className="gem-lmk">Handle</span>
-              <span className="gem-lmv">@s0mped</span>
+              <span className="gem-lmv">@sompednyc</span>
             </div>
             <div className="gem-left-meta">
               <span className="gem-lmk">Platform</span>
@@ -63,12 +63,12 @@ function GemStory() {
 
         {/* Right: Instagram story card */}
         <a
-          href="https://www.instagram.com/s0mped/"
+          href="https://www.instagram.com/sompednyc/"
           className="gem-story-card"
           data-gem-story
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="View tooth gems on Instagram @s0mped (opens in a new tab)"
+          aria-label="View tooth gems on Instagram @sompednyc (opens in a new tab)"
         >
           <div className="gem-photo" aria-hidden="true">
             <img className="gem-photo-base" src="assets/lucy-tooth-gem.png" alt="" loading="lazy" />
@@ -83,7 +83,7 @@ function GemStory() {
           </div>
           <div className="gem-user" aria-hidden="true">
             <span className="gem-avatar"></span>
-            <span className="gem-username">s0mped</span>
+            <span className="gem-username">sompednyc</span>
           </div>
           <div className="gem-content">
             <p className="gem-eyebrow" aria-hidden="true">also:</p>
