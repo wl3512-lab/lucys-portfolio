@@ -1115,12 +1115,6 @@ function initAnimations() {
     });
   });
 
-  // --- Work grid cards ---
-  gsap.from('.work-card', {
-    y: 40, opacity: 0, duration: 0.85, stagger: 0.1, ease: 'expo.out',
-    scrollTrigger: { trigger: '.work-grid', start: 'top 82%' },
-  });
-
   // --- Skills bento reveal ---
   gsap.to('.skill-card', {
     y: 0, opacity: 1, duration: 0.75, stagger: 0.08, ease: 'expo.out',
@@ -1244,25 +1238,6 @@ function initAnimations() {
   // --- Haptic feedback (mobile vibration) ---
   function haptic(ms) { if (navigator.vibrate) navigator.vibrate(ms || 8); }
 
-  // --- Work cards: 3D tilt on hover ---
-  if (!reduceMotion) {
-    document.querySelectorAll('.work-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        gsap.to(card, {
-          rotateX: -y * 5, rotateY: x * 5,
-          transformPerspective: 900,
-          duration: 0.35, ease: 'power2.out',
-        });
-      }, { passive: true });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.7, ease: 'expo.out' });
-      });
-    });
-  }
-
   // --- Skill cards: subtle 3D tilt on hover ---
   if (!reduceMotion) {
     document.querySelectorAll('.skill-card').forEach(card => {
@@ -1295,10 +1270,8 @@ function initAnimations() {
   document.addEventListener('click', e => {
     const btn  = e.target.closest('.btn');
     const chip = e.target.closest('.toolkit-chip');
-    const card = e.target.closest('.work-card');
     if (btn)  { spawnRipple(btn, e); haptic(10); }
     if (chip) { haptic(7); }
-    if (card) { haptic(14); }
   }, { passive: true });
 
   // --- Console Easter egg: a note for the curious ---
@@ -1638,7 +1611,7 @@ function initToolkitMagnet() {
 function initFallback() {
   gsap.set(['.hero-heading .char','.eyebrow-char','.hero-photo-wrap','.hero-sub','.hero-toolkit','.hero-actions'], { clearProps: 'all' });
   document.querySelectorAll('[data-split-reveal] .ch').forEach(el => { el.style.clipPath = 'none'; });
-  document.querySelectorAll('.work-card, .skill-card').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  document.querySelectorAll('.skill-card').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
 }
 </script>
 
