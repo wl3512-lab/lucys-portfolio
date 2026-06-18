@@ -19,6 +19,13 @@
 <link rel="stylesheet" href="styles.css" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.wk-glitch {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.5;
+}
+.wk-glitch canvas { display: block; width: 100%; height: 100%; }
+.wk-nav, #main { position: relative; z-index: 1; }
+@media (max-width: 760px) { .wk-glitch { opacity: 0.35; } }
 body {
   background: var(--void);
   color: var(--fg1);
@@ -313,6 +320,9 @@ a { color: inherit; text-decoration: none; }
 </style>
 </head>
 <body>
+
+<!-- LetterGlitch backdrop (React Bits, vanilla) — scrambling letter field behind the page -->
+<div class="wk-glitch" data-letter-glitch data-colors="#141930,#1E2640,#4A8FEF,#C4B0FF" data-speed="55" aria-hidden="true"></div>
 
 <a href="#main" class="skip-link visually-hidden">Skip to main content</a>
 
@@ -642,5 +652,6 @@ a { color: inherit; text-decoration: none; }
 })();
 </script>
 
+<script src="components/letter-glitch.js" defer></script>
 </body>
 </html>
