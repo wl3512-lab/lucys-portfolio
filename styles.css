@@ -1983,3 +1983,52 @@ body.about-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .sm-prelayer { display: none; }
 }
+
+/* CASE STUDY CLARITY STRIP
+   Recruiter-facing summary that answers role, process, and impact before the
+   more expressive narrative sections begin. */
+.case-clarity {
+  scroll-margin-top: 96px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--surface) 86%, transparent);
+}
+.case-clarity--standalone { border-top: 1px solid var(--border); }
+.case-clarity-inner {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: clamp(30px, 4vw, 46px) 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 3.4vw, 42px);
+}
+.case-clarity-item {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+.case-clarity-k {
+  font-family: var(--font-code);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+.case-clarity-v {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.4vw, 15.5px);
+  line-height: 1.55;
+  color: var(--fg2);
+}
+.case-clarity-v strong {
+  color: var(--fg1);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .case-clarity-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
