@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
-<title>H2Know: Lucy Liu</title>
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="favicon.png?v=3" />
+<title>H2Know | Lucy Liu</title>
 <meta name="description" content="H2Know: An Arduino-driven plant companion that builds an emotional connection so you actually remember to water it. Case study by Lucy Liu." />
 <meta property="og:title" content="H2Know | Lucy Liu" />
 <meta property="og:description" content="H2Know: An Arduino-driven plant companion that builds an emotional connection so you actually remember to water it. Case study by Lucy Liu." />
@@ -15,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: auto; --sage: oklch(0.72 0.09 152); --sage-dim: oklch(0.62 0.09 152); --sage-a18: oklch(0.72 0.09 152 / 0.18); --sage-a30: oklch(0.72 0.09 152 / 0.30); --sage-a40: oklch(0.72 0.09 152 / 0.40); --sage-a50: oklch(0.72 0.09 152 / 0.50); --sage-a60: oklch(0.72 0.09 152 / 0.60); --sage-a70: oklch(0.72 0.09 152 / 0.70); }
@@ -64,6 +68,26 @@ a { color: inherit; text-decoration: none; }
   border-radius: 16px; overflow: hidden;
 }
 .cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .cs-hero-below {
   width: min(1100px, 92vw); margin: 0 auto;
   padding: 40px 0 clamp(60px, 8vh, 100px);
@@ -110,6 +134,10 @@ a { color: inherit; text-decoration: none; }
 .cs-body-wide { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-body-inner { width: min(860px, 92vw); margin: 0 auto; }
 .cs-section { margin-bottom: clamp(80px, 10vw, 120px); position: relative; }
+/* Decorative section numeral: rendered as CSS content, not a text node.
+   WCAG 1.4.3 exempts pure decoration from contrast; keeping it out of the DOM
+   stops it being audited as real text while preserving the exact visual. */
+.cs-section-wm::before { content: attr(data-wm); }
 .cs-section-wm {
   position: absolute; top: -0.08em; right: -0.02em;
   font-family: var(--font-display); font-weight: 700;
@@ -187,6 +215,9 @@ a { color: inherit; text-decoration: none; }
 .cs-artifact-caption strong { color: var(--fg1); }
 
 /* MOTIVATION LEVERS: horizontal card rail */
+/* focusable via tabindex for keyboard scrolling (a11y: scrollable-region-focusable) */
+.cs-levers:focus-visible,
+.cs-filmstrip-rail:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
 .cs-levers {
   margin-top: 44px; display: flex; gap: 12px;
   overflow-x: auto; scroll-snap-type: x mandatory;
@@ -414,7 +445,7 @@ a { color: inherit; text-decoration: none; }
 }
 </style>
 </head>
-<body>
+<body data-persona-slug="h2know">
 
 <div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
 
@@ -435,45 +466,45 @@ a { color: inherit; text-decoration: none; }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,400"/>
-    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Hero">
-      <circle class="cs-const-hit" cx="30" cy="24"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="24"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="24"  r="3"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 444" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,404"/>
+    <g class="cs-const-g" data-snav="cs-s-hero">
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-problem" tabindex="0" role="button" aria-label="Jump to Problem">
+    <g class="cs-const-g" data-snav="cs-s-problem">
       <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
       <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
       <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-research" tabindex="0" role="button" aria-label="Jump to Research">
+    <g class="cs-const-g" data-snav="cs-s-research">
       <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
       <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
       <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-design" tabindex="0" role="button" aria-label="Jump to Design Logic">
+    <g class="cs-const-g" data-snav="cs-s-design">
       <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
       <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
       <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-solution" tabindex="0" role="button" aria-label="Jump to Solution">
+    <g class="cs-const-g" data-snav="cs-s-solution">
       <circle class="cs-const-hit" cx="18" cy="328" r="13"/>
       <circle class="cs-const-ring" cx="18" cy="328" r="8"/>
       <circle class="cs-const-dot"  cx="18" cy="328" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-reflection" tabindex="0" role="button" aria-label="Jump to Reflection">
-      <circle class="cs-const-hit" cx="30" cy="400" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="400" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="400" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-reflection">
+      <circle class="cs-const-hit" cx="30" cy="404" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="404" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="404" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:17px"  data-label="cs-s-hero">Hero</span>
-  <span class="cs-const-label-el" style="top:93px"  data-label="cs-s-problem">Problem</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-problem">Problem</span>
   <span class="cs-const-label-el" style="top:169px" data-label="cs-s-research">Research</span>
   <span class="cs-const-label-el" style="top:245px" data-label="cs-s-design">Design Logic</span>
   <span class="cs-const-label-el" style="top:321px" data-label="cs-s-solution">Solution</span>
-  <span class="cs-const-label-el" style="top:393px" data-label="cs-s-reflection">Reflection</span>
+  <span class="cs-const-label-el" style="top:397px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <header class="cs-hero cs-hero--cover" id="cs-s-hero">
@@ -481,7 +512,7 @@ a { color: inherit; text-decoration: none; }
   <div class="cs-hero-orb-2"></div>
 
   <h1 class="visually-hidden">H2Know: Plant Care IoT</h1>
-  <div class="cs-hero-cover-full">
+  <div class="cs-hero-cover-full border-beam">
     <img src="assets/h2know/slides/slide-01.jpg" alt="H2Know: plant care IoT system cover slide" fetchpriority="high" />
   </div>
 
@@ -525,37 +556,6 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<div class="cs-body">
-
-  <!-- Opening atmospheric image -->
-  <div class="cs-image-block" style="margin-top:0;padding-top:clamp(60px,8vh,100px);">
-    <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img" src="assets/h2know/slides/slide-02.png" alt="What if your plants could actually tell you exactly what they need, when they need it?" loading="lazy" />
-    </div>
-    <p class="cs-image-caption" data-cs-reveal>The design question that started the project</p>
-  </div>
-
-  <!-- 01 PROBLEM -->
-  <div class="cs-body-inner" id="cs-s-problem">
-    <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">01</span>
-      <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h" data-cs-reveal>Your plant can't tell you <em>it's thirsty.</em></h2>
-
-      <div class="cs-body-text" data-cs-reveal>
-        <p>Americans spent over $48 billion on indoor plants in 2024, and 67% of millennial plant owners call themselves "plant murderers." The cause is distance. A plant sits in a corner, behind a desk, out of your sightline, and it can't tell you anything until it's already dying.</p>
-        <p>The products meant to fix this fall short. Smart pots cost $80 and up, basic moisture meters spit out numbers you can't read, and reminder apps nag you like every other notification. <strong>You don't water a plant because you're missing information; you water it because you care whether it lives.</strong></p>
-      </div>
-
-      <div class="cs-pull-quote">
-        <blockquote>"I'm happy when they die because then I can buy a new one. Every time I'm depressed I get a new one."</blockquote>
-        <cite>Anya Li, 16 · Interview participant</cite>
-      </div>
-
-      <!-- HMW questions -->
-      <div class="cs-hmw-list" data-hmw-list>
-        <div class="cs-hmw" data-hmw>
-          <span class="cs-hmw-n">HMW</span>
 <section class="case-clarity" aria-label="Role, process, and impact">
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
@@ -573,6 +573,37 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<div class="cs-body">
+
+  <!-- Opening atmospheric image -->
+  <div class="cs-image-block" style="margin-top:0;padding-top:clamp(60px,8vh,100px);">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img" src="assets/h2know/slides/slide-02.jpg" alt="What if your plants could actually tell you exactly what they need, when they need it?" loading="lazy" />
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>The design question that started the project</p>
+  </div>
+
+  <!-- 01 PROBLEM -->
+  <div class="cs-body-inner" id="cs-s-problem">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm" data-wm="01" aria-hidden="true"></span>
+      <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
+      <h2 class="cs-section-h" data-cs-reveal>Your plant can't tell you it's thirsty.</h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>Americans spent over $48 billion on indoor plants in 2024, and 67% of millennial plant owners call themselves "plant murderers." The cause is distance. A plant sits in a corner, behind a desk, out of your sightline, and it can't tell you anything until it's already dying.</p>
+        <p>The products meant to fix this fall short. Smart pots cost $80 and up, basic moisture meters spit out numbers you can't read, and reminder apps nag you like every other notification. <strong>You don't water a plant because you're missing information; you water it because you care whether it lives.</strong></p>
+      </div>
+
+      <div class="cs-pull-quote">
+        <blockquote>"I'm happy when they die because then I can buy a new one. Every time I'm depressed I get a new one."</blockquote>
+        <cite>Anya Li, 16 · Interview participant</cite>
+      </div>
+
+      <!-- HMW questions -->
+      <div class="cs-hmw-list" data-hmw-list>
+        <div class="cs-hmw" data-hmw>
+          <span class="cs-hmw-n">HMW</span>
           <span class="cs-hmw-q">Motivate users to water plants in a non-invasive, helpful way?</span>
         </div>
         <div class="cs-hmw" data-hmw>
@@ -594,7 +625,7 @@ a { color: inherit; text-decoration: none; }
   <!-- Problem slide -->
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img" src="assets/h2know/slides/slide-03.png" alt="H2Know: what if your plants could tell you what they need?" loading="lazy" />
+      <img class="cs-slide-img" src="assets/h2know/slides/slide-03.jpg" alt="H2Know: what if your plants could tell you what they need?" loading="lazy" />
     </div>
     <p class="cs-image-caption" data-cs-reveal>Fig. 01: Project framing: giving plants a voice</p>
   </div>
@@ -602,9 +633,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 02 RESEARCH + INSIGHTS -->
   <div class="cs-body-inner" id="cs-s-research">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">02</span>
+      <span class="cs-section-wm" data-wm="02" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Research + Insights</p>
-      <h2 class="cs-section-h" data-cs-reveal>People don't forget. They <em>disconnect.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>People don't forget. They disconnect.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>I compared the sensors people already buy (the Gikfun capacitive sensor, basic moisture meters) and watched them fail beginners: readings are hard to interpret, calibration drifts, and nothing reminds you or makes you care. Then I interviewed three plant owners. Each told a version of the same story: their plants didn't die because they didn't know how to care for them. They died because the relationship had gone cold.</p>
@@ -615,34 +646,34 @@ a { color: inherit; text-decoration: none; }
   <!-- Interview slides: horizontal filmstrip -->
   <div class="cs-body-wide">
     <div class="cs-filmstrip" data-cs-reveal>
-      <div class="cs-filmstrip-rail" id="cs-filmstrip-research">
+      <div class="cs-filmstrip-rail" id="cs-filmstrip-research" tabindex="0" role="region" aria-label="Interview slides (scrollable)">
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-10.png" alt="Competitive analysis: Gikfun and Soil Moisture Meter limitations" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-10.jpg" alt="Competitive analysis: Gikfun and Soil Moisture Meter limitations" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Competitive analysis.</strong> Existing sensors fail beginners: hard to interpret, no reminders, unreliable readings for non-experts.</div>
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-11.png" alt="User interview: Anya Li, 16, plants as emotional therapy" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-11.jpg" alt="User interview: Anya Li, 16, plants as emotional therapy" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Anya, 16.</strong> Uses plant shopping as emotional therapy. Plant death registers as neutral, an opportunity to restart, not a loss.</div>
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-12.png" alt="User interview: Macey Zhang, aesthetic motivation, switched to succulents" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-12.jpg" alt="User interview: Macey Zhang, aesthetic motivation, switched to succulents" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Macey, 17.</strong> Aesthetic motivation, plants as decor. Adapted by switching to succulents. Practical workaround over behavioral change.</div>
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-14.png" alt="Insight clustering: plant alternatives and emotional aspects" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-14.jpg" alt="Insight clustering: plant alternatives and emotional aspects" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Insight clustering.</strong> Two themes emerged: coping strategies (succulents, fake plants, relying on others) and emotional neutrality toward plant death.</div>
         </div>
         <div class="cs-filmstrip-frame cs-filmstrip-frame--wide">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-13.png" alt="Pete Young interview: plant killer, overwatering, two-sided problem" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-13.jpg" alt="Pete Young interview: plant killer, overwatering, two-sided problem" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Pete Young, 35.</strong> "I always forget to water them because I get too busy. And when I do water, I overwater them and kill them." Two-sided watering problem: both under and over.</div>
         </div>
@@ -677,15 +708,15 @@ a { color: inherit; text-decoration: none; }
   <!-- 03 DESIGN LOGIC -->
   <div class="cs-body-inner" id="cs-s-design">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">03</span>
+      <span class="cs-section-wm" data-wm="03" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Design Logic</p>
-      <h2 class="cs-section-h" data-cs-reveal>Three levers. <em>One relationship.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Three levers. One relationship.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The research gave me one design target: build a relationship, not a dashboard. The interviews kept circling three psychological levers, and I made each one drive a part of the app.</p>
       </div>
 
-      <div class="cs-levers" data-cs-reveal>
+      <div class="cs-levers" data-cs-reveal tabindex="0" role="region" aria-label="Three design levers (scrollable)">
         <div class="cs-lever">
           <div class="cs-lever-label">Guilt</div>
           <div class="cs-lever-desc"><strong>Make absence visible.</strong> When the soil goes dry, the LED turns on, the plant's face in the app icon drops from happy to sad, and the Friends feed tells everyone: "Pete is 9 days late on watering Todd: remind him now." The hardware, the interface, and your friends all flag you at once.</div>
@@ -721,7 +752,7 @@ a { color: inherit; text-decoration: none; }
   <!-- Storyboard -->
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img lb-trigger" src="assets/h2know/slides/slide-23.png" alt="Storyboard: Pete buys plant, gets busy, downloads H2Know, sets up profile, gets reminded, light and friends notify, develops good habit" loading="lazy" />
+      <img class="cs-slide-img lb-trigger" src="assets/h2know/slides/slide-23.jpg" alt="Storyboard: Pete buys plant, gets busy, downloads H2Know, sets up profile, gets reminded, light and friends notify, develops good habit" loading="lazy" />
     </div>
     <p class="cs-image-caption" data-cs-reveal>Fig. 04: Storyboard: from "gets too busy" to "develops a good habit"</p>
   </div>
@@ -729,9 +760,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 04 SOLUTION -->
   <div class="cs-body-inner" id="cs-s-solution">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">04</span>
+      <span class="cs-section-wm" data-wm="04" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Solution</p>
-      <h2 class="cs-section-h" data-cs-reveal>Hardware + app as <em>one system.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Hardware + app as one system.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>H2Know is a two-part system: an Arduino Nano with a capacitive soil moisture sensor that detects dry soil and signals via LED, paired with a five-screen companion app that visualizes plant health, handles the social layer, and converts consistent care into real-world rewards.</p>
@@ -781,7 +812,7 @@ a { color: inherit; text-decoration: none; }
   <!-- App screens: horizontal filmstrip -->
   <div class="cs-body-wide">
     <div class="cs-filmstrip" data-cs-reveal>
-      <div class="cs-filmstrip-rail" id="cs-filmstrip-solution">
+      <div class="cs-filmstrip-rail" id="cs-filmstrip-solution" tabindex="0" role="region" aria-label="App screens (scrollable)">
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
             <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-18.png" alt="Arduino circuit diagram: Pin A0 moisture probe, Pin D13 LED trigger, copper wire probes in soil" loading="lazy" />
@@ -790,19 +821,19 @@ a { color: inherit; text-decoration: none; }
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-19.png" alt="Physical prototype: Arduino Nano testing LED sensitivity with humidity, connected to plant pot" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-19.jpg" alt="Physical prototype: Arduino Nano testing LED sensitivity with humidity, connected to plant pot" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Hardware prototype.</strong> LED sensitivity testing (photos 1+2) and final hookup with copper wire probes buried in a live plant pot. USB powered, no cloud dependency.</div>
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-22.png" alt="App UI: plant thought bubbles and mood-based personality states" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-22.jpg" alt="App UI: plant thought bubbles and mood-based personality states" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Plant personality.</strong> Named plants (Jeremy, Todd, Bill) with emoji faces, happy when healthy, sad when dry. Thought bubbles communicate need through character, not data labels.</div>
         </div>
         <div class="cs-filmstrip-frame">
           <div class="cs-artifact-img--photo">
-            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-24.png" alt="Storyboard: three simultaneous guilt triggers when plant goes dry" loading="lazy" />
+            <img class="cs-artifact-photo lb-trigger" src="assets/h2know/slides/slide-24.jpg" alt="Storyboard: three simultaneous guilt triggers when plant goes dry" loading="lazy" />
           </div>
           <div class="cs-artifact-caption"><strong>Three-trigger guilt loop.</strong> When soil is dry: LED activates, app icon shifts to sad face, Friends feed flags the neglect publicly. All three fire at once.</div>
         </div>
@@ -827,9 +858,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 05 REFLECTION -->
   <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">05</span>
+      <span class="cs-section-wm" data-wm="05" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I'd do <em>differently.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I'd do differently.</h2>
 
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
@@ -861,7 +892,7 @@ a { color: inherit; text-decoration: none; }
 </main><!-- /main-content -->
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="eternal-wreckening.html">
@@ -870,7 +901,7 @@ a { color: inherit; text-decoration: none; }
     </a>
     <p class="cs-next-desc">The Eternal Wreckening takes the same habit-loop logic into a physical, real-time game. Like H2Know, it designs for behavior that repeats and shifts over time, with the feedback wired into the system itself.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
@@ -967,8 +998,34 @@ a { color: inherit; text-decoration: none; }
     });
   });
 
-  const sectionIds = ['cs-s-hero','cs-s-problem','cs-s-research','cs-s-design','cs-s-solution','cs-s-reflection'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
   const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
 
   const heroEl = document.getElementById('cs-s-hero');
   let cnavVisible = false;
@@ -981,7 +1038,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   const activeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    if (entries.some(e => e.isIntersecting)) computeActive();
   }, { rootMargin: '-10% 0px -55% 0px', threshold: 0 });
   sectionEls.forEach(el => activeObs.observe(el));
 
@@ -991,16 +1048,7 @@ a { color: inherit; text-decoration: none; }
     if (rafId) return;
     rafId = requestAnimationFrame(() => {
       rafId = null;
-      const vp30 = window.innerHeight * 0.30;
-      let best = null, bestDist = Infinity;
-      sectionEls.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if (top <= vp30) {
-          const dist = vp30 - top;
-          if (dist < bestDist) { bestDist = dist; best = el; }
-        }
-      });
-      if (best) setActive(best.id);
+      computeActive();
       updateWatermarks();
     });
   }, { passive: true });
@@ -1047,5 +1095,10 @@ a { color: inherit; text-decoration: none; }
 
 })();
 </script>
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

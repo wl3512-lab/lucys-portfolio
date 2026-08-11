@@ -276,6 +276,9 @@ class AT_CanvAscii {
   setSize(w, h) {
     this.width = w;
     this.height = h;
+    // The renderer/filter are built in the async init(); a ResizeObserver can fire before
+    // that resolves, so bail until they exist rather than throwing on this.filter.
+    if (!this.filter || !this.camera) return;
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.filter.setSize(w, h);
@@ -369,16 +372,25 @@ function AsciiText(props) {
 
     const w = container.clientWidth || 1;
     const h = container.clientHeight || 1;
-    instance = new AT_CanvAscii(
-      { text, asciiFontSize, textFontSize, textColor, glyphColor, planeBaseHeight, enableWaves },
-      container, w, h, reduced
-    );
-    instance.init().then(() => {
-      if (cancelled) { instance.dispose(); return; }
-      instance.load();
-    });
+    // Guard the WebGL init: on machines with disabled/blocklisted/flaky WebGL the engine
+    // throws while building its render filter. Degrade quietly instead of crashing the mount.
+    try {
+      instance = new AT_CanvAscii(
+        { text, asciiFontSize, textFontSize, textColor, glyphColor, planeBaseHeight, enableWaves },
+        container, w, h, reduced
+      );
+    } catch (e) {
+      instance = null;
+      if (window.console) console.warn('[AsciiText] WebGL unavailable, skipping ASCII effect');
+    }
+    if (instance) {
+      instance.init().then(() => {
+        if (cancelled) { instance.dispose(); return; }
+        instance.load();
+      }).catch(() => {});
+    }
 
-    if (!reduced) {
+    if (instance && !reduced) {
       let rRaf = 0;
       ro = new ResizeObserver(() => {
         cancelAnimationFrame(rRaf);

@@ -41,6 +41,20 @@ body::before {
   80% { transform: translate(-3%, -1%); }
   90% { transform: translate(2%, 3%); }
 }
+
+/* ===== MOBILE ATMOSPHERIC BACKDROP =====
+   The Waves WebGL backdrop is desktop-only (battery/perf). Without it, phones render
+   as flat void. This gives mobile the same "Lit Archive" atmosphere via on-brand aura
+   orbs (CSS radial gradients) — no WebGL, no battery cost. Sits behind all content. */
+@media (max-width: 759px) {
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(72vw 46vh at 80% 6%,   rgba(114, 173, 255, 0.14), transparent 62%),
+      radial-gradient(88vw 56vh at 6% 56%,    rgba(196, 176, 255, 0.10), transparent 64%),
+      radial-gradient(80vw 48vh at 64% 104%,  rgba(74, 143, 239, 0.12),  transparent 62%);
+  }
+}
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
 img { display: block; max-width: 100%; }
@@ -52,7 +66,7 @@ img { display: block; max-width: 100%; }
   position: fixed; inset: 0 0 auto 0; z-index: 40;
   padding: 32px 0;
   mix-blend-mode: difference;
-  transition: padding .4s ease;
+  transition: padding .4s var(--ease-out-quart);
 }
 .nav.scrolled { padding: 18px 0; }
 .nav-inner {
@@ -72,7 +86,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--font-ui);
   font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em;
   color: var(--fg1); position: relative; font-weight: 500;
-  transition: opacity .3s;
+  transition: opacity .3s var(--ease-out-quart);
 }
 .nav-link::after {
   content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
@@ -100,7 +114,7 @@ img { display: block; max-width: 100%; }
   width: 22px; height: 1.5px;
   background: var(--fg1);
   border-radius: 1px;
-  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1), opacity .2s;
+  transition: transform .35s var(--ease-out-expo), opacity .2s var(--ease-out-quart);
 }
 .nav-hamburger.is-open span:first-child { transform: rotate(45deg) translate(3px, 5px); }
 .nav-hamburger.is-open span:last-child  { transform: rotate(-45deg) translate(3px, -5px); }
@@ -116,7 +130,7 @@ img { display: block; max-width: 100%; }
   padding: 88px 0 48px;
   transform: translateY(-100%);
   opacity: 0;
-  transition: transform .48s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s;
+  transition: transform .48s var(--ease-out-expo), opacity .3s var(--ease-out-quart);
   pointer-events: none;
 }
 .nav-mobile-menu.is-open {
@@ -141,7 +155,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: -0.025em;
   color: rgba(235, 243, 255, 0.55);
   text-decoration: none;
-  transition: color .2s;
+  transition: color .2s var(--ease-out-quart);
 }
 .nav-mobile-link:hover,
 .nav-mobile-link:focus-visible { color: var(--fg1); }
@@ -158,28 +172,30 @@ img { display: block; max-width: 100%; }
   z-index: 60; transform-origin: 0 0;
 }
 
-/* ========== CUSTOM CURSOR ========== */
-.cursor { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0; mix-blend-mode: difference; }
-.cursor-dot {
-  position: fixed; top: 0; left: 0; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--fog); transform: translate(-50%, -50%); will-change: transform;
-  transition: opacity 0.18s var(--ease-out-expo);
+/* ========== CUSTOM CURSOR (TargetCursor, React Bits — Lit Archive themed) ========== */
+/* Signal-blue corner brackets that spin when idle and lock onto interactive elements,
+   with a cloud-white center dot. Glow over shadow, per the brand. */
+.target-cursor-wrapper {
+  position: fixed; top: 0; left: 0; width: 0; height: 0;
+  pointer-events: none; z-index: 10000;
+  transform: translate(-50%, -50%);
 }
-.cursor.is-hovering .cursor-dot { opacity: 0; }
-.cursor-ring {
-  position: fixed; top: 0; left: 0; width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid rgba(246,250,255,0.7);
+.target-cursor-dot {
+  position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
+  background: var(--cloud, #F6FAFF); border-radius: 50%;
   transform: translate(-50%, -50%); will-change: transform;
-  display: flex; align-items: center; justify-content: center;
-  transition: width .35s var(--ease-reveal), height .35s var(--ease-reveal), border-color .3s;
+  box-shadow: 0 0 6px rgba(160, 200, 255, 0.9);
 }
-.cursor.is-hovering .cursor-ring { width: 72px; height: 72px; border-color: var(--blue-300); }
-.cursor.is-hidden { opacity: 0 !important; }
-.cursor-label {
-  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.08em;
-  text-transform: lowercase; color: var(--fg1); opacity: 0; transition: opacity .2s;
+.target-cursor-corner {
+  position: absolute; left: 50%; top: 50%; width: 12px; height: 12px;
+  border: 2px solid var(--accent, #72ADFF); will-change: transform;
+  box-shadow: 0 0 7px rgba(114, 173, 255, 0.55);
 }
-@media (pointer: coarse) { .cursor { display: none; } }
+.corner-tl { transform: translate(-150%, -150%); border-right: none; border-bottom: none; }
+.corner-tr { transform: translate(50%, -150%);  border-left: none;  border-bottom: none; }
+.corner-br { transform: translate(50%, 50%);    border-left: none;  border-top: none; }
+.corner-bl { transform: translate(-150%, 50%);  border-right: none; border-top: none; }
+@media (pointer: coarse) { .target-cursor-wrapper { display: none; } }
 
 /* ========== BUTTONS / TAGS ========== */
 .btn {
@@ -188,13 +204,13 @@ img { display: block; max-width: 100%; }
   text-transform: lowercase;
   padding: 14px 26px; border-radius: 6px;
   will-change: transform;
-  transition: background .3s, color .3s, border-color .3s;
+  transition: background .3s var(--ease-out-quart), color .3s var(--ease-out-quart), border-color .3s var(--ease-out-quart);
   overflow: hidden; position: relative;
 }
 .btn:focus-visible {
   outline: 2px solid var(--accent, #72ADFF); outline-offset: 4px;
 }
-.btn:active { transform: scale(0.93) translateY(2px); transition: transform 0.07s; }
+.btn:active { transform: scale(0.93) translateY(2px); transition: transform 0.07s var(--ease-out-quart); }
 
 .ripple-circle {
   position: absolute; border-radius: 50%;
@@ -238,15 +254,44 @@ img { display: block; max-width: 100%; }
   position: absolute; inset: 0; white-space: nowrap; text-align: center;
   will-change: filter, opacity;
 }
-.morphing-text-filters { position: absolute; width: 0; height: 0; pointer-events: none; }
+.morphing-text-filters { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); pointer-events: none; }
 
 /* Hero rotating-roles line (MorphingText) */
 .hero-roles { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
 .hero-roles-slash { font-family: var(--font-code); color: var(--fg3); font-size: 18px; line-height: 1; }
+.hero-roles-field { display: inline-flex; align-items: center; gap: 9px; }
 .hero-roles-morph {
   font-family: var(--font-ui); font-weight: 700;
   font-size: clamp(22px, 2.4vw, 32px); letter-spacing: -0.02em;
   color: var(--blue-300); line-height: 1;
+}
+/* Left-align the morphing words so the leading caret hugs every word (the box is
+   sized to the widest word; centering would strand the caret on short words). */
+.hero-roles-morph .morphing-text-a,
+.hero-roles-morph .morphing-text-b { text-align: left; }
+/* Block caret: live-field affordance, hard blink (terminal cursor). */
+.hero-roles-caret {
+  flex: 0 0 auto; width: clamp(8px, 0.9vw, 12px); height: clamp(22px, 2.4vw, 32px);
+  background: var(--accent); border-radius: 2px;
+  box-shadow: 0 0 10px var(--accent), 0 0 22px rgba(114, 173, 255, 0.55);
+  animation: heroCaretBlink 1s steps(1, end) infinite;
+}
+@keyframes heroCaretBlink { 0%, 55% { opacity: 1; } 55.01%, 100% { opacity: 0; } }
+/* Advancing dots: track the current role so the rotation reads as a list. */
+.hero-roles-dots { display: inline-flex; align-self: center; align-items: center; gap: 7px; margin-left: 14px; }
+.hero-roles-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: var(--fg3); opacity: 0.45;
+  transition: transform 0.5s var(--var(--ease-out-quart)-expo), background-color 0.5s var(--ease-out-quart), opacity 0.5s var(--ease-out-quart), box-shadow 0.5s var(--ease-out-quart);
+}
+.hero-roles-dot.is-active {
+  background: var(--accent); opacity: 1;
+  transform: scale(1.6);
+  box-shadow: 0 0 10px var(--accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-roles-caret { animation: none; opacity: 0.9; }
+  .hero-roles-dot { transition: none var(--ease-out-quart); }
 }
 
 .tag {
@@ -300,15 +345,16 @@ img { display: block; max-width: 100%; }
   font-size: clamp(3rem, 8vw, 7rem); line-height: 1.1; letter-spacing: -0.02em;
   margin: 0; color: var(--fg1); max-width: 16ch; font-weight: 400;
 }
-.scene-title em { font-style: italic; color: var(--blue-300); }
-.scene-about .scene-title { font-size: clamp(2rem, 5.5vw, 4rem); }
+.scene-title em { font-style: normal; color: inherit; }
+.scene-about .scene-title { font-size: clamp(2.4rem, 6.6vw, 5.4rem); line-height: 1.02; letter-spacing: -0.03em; }
 
 /* ========== HERO ========== */
 .scene-hero {
   min-height: 100vh;
   min-height: 100dvh; /* iOS Safari: excludes URL bar so bottom content isn't clipped */
-  padding: 0 0 clamp(20px, 4vh, 56px);
-  display: flex; flex-direction: column; justify-content: flex-end;
+  /* Reserve nav clearance up top so the wordmark never collides with the nav. */
+  padding: clamp(84px, 12vh, 132px) 0 clamp(20px, 4vh, 56px);
+  display: flex; flex-direction: column; justify-content: stretch;
   overflow: hidden; position: relative;
 }
 .hero-bg-layer {
@@ -342,14 +388,19 @@ img { display: block; max-width: 100%; }
 .scene-hero .faulty-terminal {
   position: absolute; inset: 0;
   z-index: 0; pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.65;
   mix-blend-mode: screen;
-  -webkit-mask-image: linear-gradient(to top, transparent 4%, rgba(0,0,0,0.35) 32%, #000 64%);
-          mask-image: linear-gradient(to top, transparent 4%, rgba(0,0,0,0.35) 32%, #000 64%);
+  /* Cursor spotlight: the digit field is only revealed in a soft circle that follows the
+     pointer (--mx/--my set on .scene-hero in Hero.jsx). The multi-stop falloff dissolves
+     gradually into the dark so it reads like light wrapping a sphere, not a hard disc. */
+  -webkit-mask-image: radial-gradient(circle var(--ft-radius, 250px) at var(--mx, 50%) var(--my, 42%),
+    #000 0%, rgba(0,0,0,0.92) 24%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.2) 70%, transparent 88%);
+          mask-image: radial-gradient(circle var(--ft-radius, 250px) at var(--mx, 50%) var(--my, 42%),
+    #000 0%, rgba(0,0,0,0.92) 24%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.2) 70%, transparent 88%);
 }
 .scene-hero .faulty-terminal canvas { display: block; width: 100%; height: 100%; }
 @media (max-width: 700px) {
-  .scene-hero .faulty-terminal { opacity: 0.3; }
+  .scene-hero .faulty-terminal { opacity: 0.38; }
 }
 
 /* About — menu-only overlay view (removed from the page scroll flow) */
@@ -359,11 +410,11 @@ img { display: block; max-width: 100%; }
   -webkit-backdrop-filter: blur(22px) saturate(140%);
           backdrop-filter: blur(22px) saturate(140%);
   opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), visibility 0s linear 0.5s;
+  transition: opacity 0.5s var(--ease-out-expo), visibility 0s linear 0.5s;
 }
 .about-overlay.is-open {
   opacity: 1; visibility: visible; pointer-events: auto;
-  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1);
+  transition: opacity 0.5s var(--ease-out-expo);
 }
 .about-overlay-scroll {
   position: absolute; inset: 0;
@@ -373,7 +424,7 @@ img { display: block; max-width: 100%; }
   min-height: auto;
   padding: clamp(96px, 13vh, 150px) 0 clamp(60px, 9vh, 110px);
   transform: translateY(18px);
-  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  transition: transform 0.6s var(--ease-out-expo);
 }
 .about-overlay.is-open .scene-about { transform: translateY(0); }
 .about-overlay-close {
@@ -383,14 +434,14 @@ img { display: block; max-width: 100%; }
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(160,200,255,0.22);
   color: var(--fg1); font-size: 15px; line-height: 1; cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  transition: background 0.25s var(--ease-out-quart), border-color 0.25s var(--ease-out-quart), transform 0.3s var(--ease-out-expo);
 }
 .about-overlay-close:hover { background: rgba(255,255,255,0.09); border-color: var(--fg1); transform: scale(1.07); }
 .about-overlay-close:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 3px; }
 body.about-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .about-overlay { transition: opacity 0.2s linear; }
-  .about-overlay .scene-about { transform: none; transition: none; }
+  .about-overlay .scene-about { transform: none; transition: none var(--ease-out-quart); }
 }
 
 .hero-orb {
@@ -429,7 +480,6 @@ body.about-locked { overflow: hidden; }
   font-size: clamp(2.6rem, 5.8vw, 82px); line-height: 1.05; letter-spacing: -0.04em;
   color: var(--fg1);
 }
-.hero-heading .italic { font-style: italic; color: var(--blue-300); font-weight: 700; }
 
 /* ASCII / dot-matrix accent on one headline word ("interface") — letters rendered
    as a dot grid (same cloud colour as the rest: texture, not a colour split). */
@@ -474,12 +524,26 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-body);
   font-weight: 400; letter-spacing: 0.005em;
 }
-.hero-sub em { color: var(--blue-300); font-style: italic; font-family: var(--font-display); font-weight: 400; font-size: 1.15em; }
-.hero-toolkit-label {
-  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--fg3); margin: 0 0 12px;
-  font-weight: 400;
+/* Each capability card carries the tools it uses, as chips pinned to the card's foot.
+   The relationship reads at a glance, no interaction required. */
+.skill-tools {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-top: 22px; padding-top: 18px;
+  border-top: 1px solid var(--border, rgba(160, 200, 255, 0.10));
 }
+.skill-tool {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.03em;
+  color: var(--fg2);
+  padding: 4px 10px;
+  border: 1px solid var(--border, rgba(160, 200, 255, 0.12));
+  border-radius: 4px;
+  background: rgba(160, 200, 255, 0.03);
+  white-space: nowrap;
+  transition: border-color 0.25s var(--ease-out-quart), background 0.25s var(--ease-out-quart);
+}
+.skill-card:hover .skill-tool { border-color: rgba(160, 200, 255, 0.22); }
+.skill-tool-abbr { font-weight: 700; font-size: 12px; line-height: 1; } /* color is the tool's brand hue, set inline */
 
 /* ========== EDITORIAL CORNER STAMPS ========== */
 .hero-stamp {
@@ -516,34 +580,44 @@ body.about-locked { overflow: hidden; }
 .toolkit-chip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 11px;
+  gap: 9px;
+  padding: 7px 13px 7px 9px;
   margin-right: 6px;
   border: 1px solid rgba(160,200,255,0.14);
   border-radius: 3px;
   white-space: nowrap;
   flex-shrink: 0;
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.18s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  transition: border-color 0.2s var(--ease-out-quart), background 0.2s var(--ease-out-quart), transform 0.18s var(--ease-out-expo);
 }
-.toolkit-chip:hover {
-  border-color: rgba(160,200,255,0.45);
-  background: rgba(160,200,255,0.06);
+.toolkit-chip:hover,
+.toolkit-chip.is-live {
+  border-color: color-mix(in oklab, var(--tc, var(--accent)) 55%, transparent);
+  background: color-mix(in oklab, var(--tc, var(--accent)) 8%, transparent);
   transform: translateY(-1px);
 }
-.toolkit-chip:active { transform: scale(0.91) translateY(2px); transition-duration: 0.07s; }
-.toolkit-chip:hover .chip-name { color: var(--fg1); }
+.toolkit-chip.is-live::after {
+  content: '';
+  position: absolute; left: 9px; right: 9px; bottom: -1px; height: 1px;
+  background: var(--tc, var(--accent));
+}
+.toolkit-chip:active { transform: scale(0.94) translateY(1px); transition-duration: 0.07s; }
+.toolkit-chip:hover .chip-name, .toolkit-chip.is-live .chip-name { color: var(--fg1); }
+.chip-num {
+  font-family: var(--font-code);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--fg3);
+  line-height: 1;
+}
+.toolkit-chip.is-live .chip-num { color: var(--tc, var(--accent)); }
 .chip-abbr {
   font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
-}
-.chip-sep {
-  color: var(--fg3);
-  font-size: 10px;
-  opacity: 0.45;
 }
 .chip-name {
   font-family: var(--font-code);
@@ -553,48 +627,44 @@ body.about-locked { overflow: hidden; }
   color: var(--fg2);
   line-height: 1;
 }
+
+/* Terminal readout: the active tool's dossier, inline under the strip (no modal). */
+.toolkit-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  line-height: 1.7;
+  min-height: 3.4em; /* two lines reserved: no layout shift as text types */
+}
+.toolkit-readout-caret { color: var(--accent); flex-shrink: 0; }
+.toolkit-readout-name {
+  flex-shrink: 0;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.toolkit-readout-sep { color: var(--fg3); flex-shrink: 0; }
+.toolkit-readout-text { color: var(--fg2); letter-spacing: 0.01em; }
+.toolkit-readout-cursor {
+  display: inline-block;
+  width: 6px; height: 11px;
+  margin-left: 3px;
+  background: var(--accent);
+  vertical-align: baseline;
+  animation: llCurBlinkHero 1s steps(1, end) infinite;
+}
+@keyframes llCurBlinkHero { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .toolkit-readout-cursor { animation: none; } }
+@media (max-width: 640px) {
+  .toolkit-readout { font-size: 10px; min-height: 5.1em; }
+}
 @media (prefers-reduced-motion: reduce) {
   .toolkit-strip-track { transform: none !important; }
 }
-.hero-toolkit-hint { font-size: 9px; color: var(--fg3); opacity: 0.65; letter-spacing: 0.08em; font-family: var(--font-code); }
 
-/* toolkit popup */
-@keyframes toolkit-overlay-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes toolkit-popup-in {
-  from { opacity: 0; transform: translateY(10px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.toolkit-popup-overlay {
-  position: fixed; inset: 0; z-index: 200;
-  display: flex; align-items: center; justify-content: center;
-  background: oklch(8% 0.005 270 / 0.72);
-  backdrop-filter: blur(6px);
-  animation: toolkit-overlay-in 0.15s ease-out forwards;
-}
-.toolkit-popup {
-  position: relative;
-  background: var(--bg); border: 1px solid var(--border);
-  padding: 32px 36px 36px; max-width: 380px; width: calc(100vw - 48px);
-  animation: toolkit-popup-in 0.22s cubic-bezier(0.16,1,0.3,1) forwards;
-}
-.toolkit-popup-close {
-  position: absolute; top: 14px; right: 14px;
-  background: none; border: none; color: var(--fg3);
-  font-size: 13px; cursor: pointer; padding: 4px 6px; line-height: 1;
-}
-.toolkit-popup-close:hover { color: var(--fg1); }
-.toolkit-popup-abbr {
-  font-family: var(--font-code); font-size: 30px; font-weight: 700;
-  margin-bottom: 6px; line-height: 1;
-}
-.toolkit-popup-name {
-  font-family: var(--font-display); font-size: 22px; font-weight: 400;
-  color: var(--fg1); margin-bottom: 20px; line-height: 1; letter-spacing: -0.02em;
-}
-.toolkit-popup-desc { font-size: 14px; line-height: 1.75; color: var(--fg2); }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 36px; }
 
@@ -668,7 +738,7 @@ body.about-locked { overflow: hidden; }
   text-decoration: none; color: inherit;
   border: 0.5px solid var(--border);
   overflow: hidden;
-  transition: border-color 0.4s var(--ease-out-expo);
+  transition: border-color 0.4s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover { border-color: rgba(160,200,255,0.28); }
 .work-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -682,7 +752,7 @@ body.about-locked { overflow: hidden; }
 .work-card-cover img {
   width: 100%; height: 100%; object-fit: cover;
   opacity: 0.78;
-  transition: opacity 0.6s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  transition: opacity 0.6s var(--var(--ease-out-quart)-expo), transform 0.8s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover .work-card-cover img { opacity: 0.92; transform: scale(1.04); }
 
@@ -699,13 +769,13 @@ body.about-locked { overflow: hidden; }
   position: absolute; inset: auto 0 0;
   height: 40%; pointer-events: none; z-index: 1;
   background: linear-gradient(to top, rgba(5,7,16,0.5) 0%, transparent 100%);
-  opacity: 0.7; transition: opacity 0.5s var(--ease-out-expo);
+  opacity: 0.7; transition: opacity 0.5s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover .work-card-cover::after { opacity: 0.35; }
 
 .work-card-aura {
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  opacity: 0; transition: opacity 0.7s var(--ease-out-expo);
+  opacity: 0; transition: opacity 0.7s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover .work-card-aura { opacity: 1; }
 .work-card:nth-child(1) .work-card-aura { background: radial-gradient(ellipse 65% 70% at 72% 38%, oklch(0.68 0.14 290 / 0.16) 0%, transparent 70%); }
@@ -733,7 +803,7 @@ body.about-locked { overflow: hidden; }
   font-size: clamp(1.5rem, 2.5vw, 2.2rem);
   line-height: 1.05; letter-spacing: -0.02em;
   color: var(--fg1); margin: 0 0 0.65rem;
-  transition: color 0.35s var(--ease-out-expo);
+  transition: color 0.35s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover .work-card-title { color: var(--blue-300); font-style: italic; }
 .work-card-sub {
@@ -751,7 +821,7 @@ body.about-locked { overflow: hidden; }
 }
 .work-card-link {
   font-size: 1.35rem; color: var(--fg3); line-height: 1;
-  transition: color 0.3s, transform 0.4s var(--ease-out-expo);
+  transition: color 0.3s var(--ease-out-quart), transform 0.4s var(--var(--ease-out-quart)-expo);
 }
 .work-card:hover .work-card-link { color: var(--blue-400); transform: translate(4px, -4px); }
 
@@ -766,7 +836,7 @@ body.about-locked { overflow: hidden; }
   margin-bottom: clamp(28px, 4vw, 48px);
   text-decoration: none; color: inherit;
   overflow: hidden;
-  transition: border-color 0.4s var(--ease-out-expo);
+  transition: border-color 0.4s var(--var(--ease-out-quart)-expo);
   position: relative;
 }
 .work-spotlight:hover { border-color: rgba(160,200,255,0.3); }
@@ -782,7 +852,7 @@ body.about-locked { overflow: hidden; }
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
   opacity: 0.8;
-  transition: transform 0.8s var(--ease-out-expo), opacity 0.4s ease;
+  transition: transform 0.8s var(--var(--ease-out-quart)-expo), opacity 0.4s var(--ease-out-quart);
 }
 .work-spotlight:hover .work-spotlight-img img { transform: scale(1.04); opacity: 0.9; }
 .work-spotlight-img-overlay {
@@ -825,7 +895,7 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(2.2rem, 4.5vw, 4.5rem);
   letter-spacing: -0.03em; line-height: 0.95; color: var(--fg1);
-  transition: color 0.35s var(--ease-out-expo);
+  transition: color 0.35s var(--var(--ease-out-quart)-expo);
 }
 .work-spotlight:hover .work-spotlight-title { color: var(--blue-300); font-style: italic; }
 
@@ -845,7 +915,7 @@ body.about-locked { overflow: hidden; }
 }
 .work-spotlight-arrow {
   font-family: var(--font-code); font-size: 0.7rem; letter-spacing: 0.12em;
-  color: var(--fg2); transition: color 0.2s, transform 0.4s var(--ease-out-expo);
+  color: var(--fg2); transition: color 0.2s var(--ease-out-quart), transform 0.4s var(--var(--ease-out-quart)-expo);
 }
 .work-spotlight:hover .work-spotlight-arrow { color: var(--blue-400); transform: translate(4px, -2px); }
 
@@ -869,12 +939,12 @@ body.about-locked { overflow: hidden; }
   border-radius: 0;
   padding: 36px 32px; display: flex; flex-direction: column; justify-content: space-between;
   opacity: 0; transform: translateY(40px);
-  transition: background .4s, transform .5s;
+  transition: background .4s var(--ease-out-expo), transform .5s var(--ease-out-expo);
   position: relative; overflow: hidden;
 }
 .skill-card::before {
   content: ''; position: absolute; inset: 0;
-  background: var(--aura-radial); opacity: 0; transition: opacity .5s;
+  background: var(--aura-radial); opacity: 0; transition: opacity .5s var(--ease-out-expo);
   pointer-events: none;
 }
 .skill-card:hover::before { opacity: 0.5; }
@@ -909,12 +979,20 @@ body.about-locked { overflow: hidden; }
   opacity: 0.85;
 }
 
+/* Portrait + bio share a row. The portrait is an editorial plate (4:5), not an avatar. */
+.about-intro {
+  display: grid; grid-template-columns: clamp(150px, 17vw, 210px) 1fr;
+  gap: clamp(24px, 3.4vw, 48px); align-items: start;
+}
 .about-headshot-wrap {
-  width: 160px; height: 160px;
-  border-radius: 50%; overflow: hidden;
+  width: 100%; aspect-ratio: 4 / 5;
+  border-radius: 2px; overflow: hidden;
   border: 1px solid var(--border);
-  margin-bottom: 32px;
   flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .about-intro { grid-template-columns: 1fr; gap: 22px; }
+  .about-headshot-wrap { width: 148px; }
 }
 .about-headshot {
   width: 100%; height: 100%;
@@ -931,16 +1009,117 @@ body.about-locked { overflow: hidden; }
 .about-para em { font-family: var(--font-display); font-style: italic; color: var(--blue-300); font-size: 1.15em; font-weight: 400; }
 .about-para strong { color: var(--fg1); font-weight: 600; font-family: var(--font-ui); }
 
-.about-facts {
-  margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-  background: var(--border); border-radius: 12px; overflow: hidden;
-  border: 1px solid var(--border);
+/* ── THE LEDGER ──────────────────────────────────────────────
+   Facts as an editorial index: hairline rules, mono keys, oversized italic values.
+   Replaces the old 2x2 card grid (cards were the lazy affordance here). */
+.about-ledger {
+  margin: clamp(44px, 6vw, 76px) 0 0;
+  border-top: 1px solid var(--border);
 }
-.fact { background: var(--surface); padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; transition: background 0.25s; }
-.fact:hover { background: var(--surface-2); }
-.fact-k { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); }
-.fact-v { font-family: var(--font-display); font-style: italic; font-size: 26px; color: var(--fg1); letter-spacing: -0.02em; font-weight: 400; }
-.fact-minor { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg2); margin-top: 2px; font-weight: 700; }
+.ledger-row {
+  --i: 0;
+  position: relative;
+  display: grid; grid-template-columns: minmax(76px, 12ch) 1fr;
+  align-items: baseline;
+  gap: 6px clamp(18px, 3.2vw, 56px);
+  padding: clamp(15px, 2.2vw, 24px) 0;
+}
+/* rule as a pseudo-element so it can draw in from the left */
+.ledger-row::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background: var(--border); transform-origin: left center;
+}
+.ledger-k {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3); margin: 0;
+  transition: color 0.3s var(--ease-out-expo);
+}
+.ledger-v { margin: 0; overflow: hidden; }   /* mask for the rise */
+.ledger-v-in {
+  display: block;
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(1.45rem, 3vw, 2.5rem); line-height: 1.06;
+  letter-spacing: -0.025em; color: var(--fg1);
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.ledger-minor {
+  grid-column: 2; margin: 2px 0 0;
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg2); font-weight: 700;
+}
+/* archival footnote: revealed under the reading light (hover); always shown on touch */
+.ledger-note {
+  grid-column: 2; margin: 4px 0 0;
+  font-family: var(--font-code); font-size: 9.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg3);
+  opacity: 0; transform: translateY(3px);
+  transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+}
+.ledger-note::before { content: '\2514  '; opacity: 0.6; }
+.ledger-row:hover .ledger-note { opacity: 1; transform: none; }
+@media (hover: none), (max-width: 640px) { .ledger-note { opacity: 0.8; transform: none; } }
+
+/* hover: the row leans toward the reader; no extra colour (one flame per screen) */
+.ledger-row:hover .ledger-v-in { transform: translateX(10px); }
+.ledger-row:hover .ledger-k { color: var(--fg2); }
+
+/* ── The Reading Light ──
+   A soft archival lamp that follows the cursor through the About overlay: the visitor
+   carries the light through the archive. Screen-blend wash above content, driven by a
+   transform-only lerp (cheap compositing, no repaints). */
+.about-lamp {
+  position: absolute; left: -340px; top: -340px;
+  width: 680px; height: 680px; border-radius: 50%;
+  pointer-events: none; z-index: 4;
+  background: radial-gradient(circle,
+    rgba(160, 200, 255, 0.105) 0%,
+    rgba(196, 176, 255, 0.055) 42%,
+    transparent 68%);
+  mix-blend-mode: screen;
+  opacity: 0; transition: opacity 0.8s var(--ease-out-quart);
+  will-change: transform;
+}
+.about-overlay.is-open .about-lamp.is-on { opacity: 1; }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { .about-lamp { display: none; } }
+@media (max-width: 640px) {
+  .ledger-row { grid-template-columns: 1fr; gap: 4px; }
+  .ledger-minor { grid-column: 1; }
+}
+
+/* ── Entrance choreography ──
+   About is a menu overlay, so the sequence is keyed to .is-open rather than scroll:
+   rules draw left-to-right, each value rises from behind its own rule, staggered. */
+@keyframes ledgerRule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ledgerRise { from { transform: translateY(108%); } to { transform: translateY(0); } }
+@keyframes ledgerFade { from { opacity: 0; } to { opacity: 1; } }
+.about-overlay.is-open .ledger-row::after {
+  animation: ledgerRule 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(160ms + var(--i) * 85ms);
+}
+.about-overlay.is-open .ledger-v-in {
+  animation: ledgerRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(220ms + var(--i) * 85ms);
+}
+.about-overlay.is-open .ledger-k,
+.about-overlay.is-open .ledger-minor {
+  animation: ledgerFade 0.7s ease-out both;
+  animation-delay: calc(260ms + var(--i) * 85ms);
+}
+.about-overlay.is-open .about-headshot-wrap,
+.about-overlay.is-open .about-para {
+  animation: ledgerFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.about-overlay.is-open .about-headshot-wrap { animation-delay: 60ms; }
+.about-overlay.is-open .about-para { animation-delay: 130ms; }
+@media (prefers-reduced-motion: reduce) {
+  .about-overlay.is-open .ledger-row::after,
+  .about-overlay.is-open .ledger-v-in,
+  .about-overlay.is-open .ledger-k,
+  .about-overlay.is-open .ledger-minor,
+  .about-overlay.is-open .about-headshot-wrap,
+  .about-overlay.is-open .about-para { animation: none; }
+  .ledger-row:hover .ledger-v-in { transform: none; }
+}
 
 /* ========== CONTACT ========== */
 .scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; position: relative; overflow: hidden; }
@@ -980,7 +1159,7 @@ body.about-locked { overflow: hidden; }
   display: inline-flex; align-items: center; gap: 12px;
   color: var(--fg1); will-change: transform;
   padding-bottom: 6px; border-bottom: 1px solid var(--border-strong);
-  transition: color .3s, border-color .3s;
+  transition: color .3s var(--ease-out-quart), border-color .3s var(--ease-out-quart);
 }
 .contact-email:hover { color: var(--blue-300); border-color: var(--blue-300); text-shadow: 0 0 48px rgba(114,173,255,0.28); }
 .contact-arrow { font-size: 0.6em; }
@@ -988,7 +1167,7 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.1em; text-transform: lowercase;
   color: var(--fg2); border-bottom: 1px dashed var(--border);
   padding: 10px 8px;
-  transition: color 0.2s;
+  transition: color 0.2s var(--ease-out-quart);
 }
 .contact-copy:hover { color: var(--fg1); }
 .contact-copy.is-copied {
@@ -1008,6 +1187,7 @@ body.about-locked { overflow: hidden; }
   color: var(--fg2); display: flex; gap: 18px; align-items: center;
 }
 .contact-sep { color: var(--fg3); }
+.contact-socials a { display: inline-block; padding: 13px 6px; margin: -13px -6px; } /* touch target */
 
 .site-footer {
   border-top: 1px solid var(--border); padding: 28px 0;
@@ -1019,6 +1199,7 @@ body.about-locked { overflow: hidden; }
   color: var(--fg3);
 }
 .footer-mid { color: var(--fg2); }
+.footer-inner a { display: inline-block; padding: 12px 8px; margin: -12px -8px; } /* touch target */
 
 /* ========== TWEAKS PANEL ========== */
 .tweaks-panel {
@@ -1185,7 +1366,7 @@ body.about-locked { overflow: hidden; }
 .acp-bar {
   fill: none; stroke: var(--acp-primary, #72ADFF); stroke-width: var(--acp-stroke, 6);
   stroke-linecap: round;
-  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: stroke-dashoffset 1.4s var(--ease-out-expo);
 }
 .acp-center {
   position: absolute; inset: 0;
@@ -1298,13 +1479,14 @@ body.about-locked { overflow: hidden; }
 }
 
 .gem-site-cta {
+  padding-block: 10px; margin-block: -10px; /* touch target */
   display: inline-flex; align-items: center; gap: 10px;
   margin-top: 32px;
   text-decoration: none;
   font-family: var(--font-code); font-size: 11px;
   letter-spacing: 0.14em; text-transform: uppercase;
   color: oklch(0.70 0.12 285 / 0.60);
-  transition: color 0.35s var(--ease-out-expo), gap 0.35s var(--ease-out-expo);
+  transition: color 0.35s var(--var(--ease-out-quart)-expo), gap 0.35s var(--var(--ease-out-quart)-expo);
 }
 .gem-site-cta:hover { color: oklch(0.88 0.20 285); gap: 16px; }
 .gem-site-cta:focus-visible {
@@ -1313,11 +1495,11 @@ body.about-locked { overflow: hidden; }
 .gem-site-cta-line {
   display: block; width: 28px; height: 1px;
   background: currentColor; opacity: 0.5; flex-shrink: 0;
-  transition: width 0.35s var(--ease-out-expo);
+  transition: width 0.35s var(--var(--ease-out-quart)-expo);
 }
 .gem-site-cta:hover .gem-site-cta-line { width: 44px; }
 .gem-site-cta-url { letter-spacing: 0.12em; }
-.gem-site-cta-arrow { transition: transform 0.35s cubic-bezier(0.25,1,0.5,1); line-height: 1; }
+.gem-site-cta-arrow { transition: transform 0.35s var(--ease-out-quart); line-height: 1; }
 .gem-site-cta:hover .gem-site-cta-arrow { transform: translate(3px, -3px); }
 
 /* Mobile: stack vertically */
@@ -1353,7 +1535,7 @@ body.about-locked { overflow: hidden; }
 .gem-photo-reveal {
   position: absolute; inset: 0; z-index: 2;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s var(--ease-out-quart);
 }
 .gem-story-card:hover .gem-photo-reveal {
   opacity: 1;
@@ -1382,7 +1564,7 @@ body.about-locked { overflow: hidden; }
     radial-gradient(ellipse 50% 40% at 52% 50%, oklch(0.18 0.06 285 / 0.70) 0%, transparent 70%),
     oklch(0.08 0.018 285);
   box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px oklch(0.30 0.08 285 / 0.50);
-  transition: transform .45s cubic-bezier(0.25,1,0.5,1), box-shadow .45s;
+  transition: transform .45s var(--ease-out-quart), box-shadow .45s var(--ease-out-expo);
 }
 .gem-story-card:hover {
   transform: scale(1.025) translateY(-5px);
@@ -1402,7 +1584,7 @@ body.about-locked { overflow: hidden; }
   );
   background-size: 220% 100%;
   background-position: -100% 0;
-  transition: background-position 0.75s cubic-bezier(0.4,0,0.2,1);
+  transition: background-position 0.75s cubic-bezier(0.4,0 var(--ease-out-quart),0.2 var(--ease-out-quart),1) var(--ease-out-quart);
 }
 .gem-story-card:hover::after { background-position: 210% 0; }
 
@@ -1470,16 +1652,16 @@ body.about-locked { overflow: hidden; }
   display: flex; align-items: center; gap: 10px;
   font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; color: oklch(0.78 0.18 285);
-  transition: gap .35s, color .35s;
+  transition: gap .35s var(--ease-out-quart), color .35s var(--ease-out-quart);
 }
 .gem-story-card:hover .gem-cta { gap: 16px; color: oklch(0.88 0.20 285); }
 .gem-cta-line {
   flex: 1; height: 1px;
   background: oklch(0.78 0.18 285 / 0.35);
-  transition: background .35s;
+  transition: background .35s var(--ease-out-quart);
 }
 .gem-story-card:hover .gem-cta-line { background: oklch(0.88 0.20 285 / 0.55); }
-.gem-cta-arrow { transition: transform .35s cubic-bezier(0.25,1,0.5,1); }
+.gem-cta-arrow { transition: transform .35s var(--ease-out-quart); }
 .gem-story-card:hover .gem-cta-arrow { transform: rotate(-45deg) translate(2px,-2px); }
 
 /* ── Portfolio main — constellation sidebar nav ───────────── */
@@ -1493,7 +1675,7 @@ body.about-locked { overflow: hidden; }
   width: 84px;
   height: 400px;
   opacity: 0;
-  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1);
+  transition: opacity 0.7s var(--ease-out-expo);
   pointer-events: none;
 }
 .pf-const.is-visible { opacity: 1; pointer-events: auto; }
@@ -1512,7 +1694,7 @@ body.about-locked { overflow: hidden; }
   stroke-width: 1;
   stroke-dasharray: 2.5 7;
   fill: none;
-  transition: stroke 0.5s ease, stroke-dasharray 0.5s ease, stroke-width 0.5s ease;
+  transition: stroke 0.5s var(--ease-out-quart), stroke-dasharray 0.5s var(--ease-out-quart), stroke-width 0.5s var(--ease-out-quart);
 }
 .pf-seg.is-lit {
   stroke: rgba(114,173,255,0.38);
@@ -1537,7 +1719,7 @@ body.about-locked { overflow: hidden; }
   fill: none;
   stroke: rgba(114,173,255,0);
   stroke-width: 1;
-  transition: stroke 0.4s ease;
+  transition: stroke 0.4s var(--ease-out-quart);
 }
 .pf-node:hover .pf-ring { stroke: rgba(160,200,255,0.22); }
 .pf-node.is-active .pf-ring { stroke: rgba(114,173,255,0.48); }
@@ -1545,7 +1727,7 @@ body.about-locked { overflow: hidden; }
 /* The star dot */
 .pf-dot {
   fill: rgba(160,200,255,0.28);
-  transition: fill 0.4s ease, filter 0.4s ease;
+  transition: fill 0.4s var(--ease-out-quart), filter 0.4s var(--ease-out-quart);
 }
 .pf-node:not(.is-active) .pf-dot { animation: pf-twinkle 5s ease-in-out infinite; }
 .pf-node:hover .pf-dot { fill: rgba(235,243,255,0.75); animation: none; }
@@ -1559,7 +1741,7 @@ body.about-locked { overflow: hidden; }
 .pf-dot-hi {
   fill: rgba(255, 255, 255, 0.28);
   pointer-events: none;
-  transition: fill 0.4s ease;
+  transition: fill 0.4s var(--ease-out-quart);
 }
 .pf-node.is-active .pf-dot-hi { fill: rgba(255, 255, 255, 0.50); }
 .pf-node:hover .pf-dot-hi { fill: rgba(255, 255, 255, 0.40); }
@@ -1567,7 +1749,7 @@ body.about-locked { overflow: hidden; }
 /* Crystal kite facets — triangular faces between ring and diamond */
 .pf-fk {
   fill: oklch(0.70 0.06 225 / 0.10);
-  transition: fill 0.4s ease;
+  transition: fill 0.4s var(--ease-out-quart);
 }
 .pf-node:hover .pf-fk,
 .pf-cluster:hover .pf-fk { fill: oklch(0.80 0.05 225 / 0.20); }
@@ -1576,7 +1758,7 @@ body.about-locked { overflow: hidden; }
 /* Crystal corner triangle facets */
 .pf-ft {
   fill: oklch(0.85 0.03 220 / 0.06);
-  transition: fill 0.4s ease;
+  transition: fill 0.4s var(--ease-out-quart);
 }
 .pf-node:hover .pf-ft,
 .pf-cluster:hover .pf-ft { fill: oklch(0.85 0.03 220 / 0.14); }
@@ -1602,7 +1784,7 @@ body.about-locked { overflow: hidden; }
   white-space: nowrap;
   opacity: 0;
   transform: translateX(8px);
-  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease, letter-spacing 0.25s ease;
+  transition: opacity 0.25s var(--ease-out-quart), transform 0.25s var(--ease-out-quart), color 0.25s var(--ease-out-quart), letter-spacing 0.25s var(--ease-out-quart);
   line-height: 1;
   pointer-events: auto;
   cursor: pointer;
@@ -1641,7 +1823,7 @@ body.about-locked { overflow: hidden; }
 .pf-work-clusters {
   opacity: 0;
   transform-origin: 18px 96px;
-  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1);
+  transition: opacity 0.5s var(--ease-out-expo);
 }
 .pf-const.section-work .pf-work-clusters { opacity: 1; }
 
@@ -1653,14 +1835,14 @@ body.about-locked { overflow: hidden; }
 }
 
 /* Each cluster fades in with staggered delay when work is active */
-.pf-cluster { opacity: 0; transition: opacity 0.4s ease; cursor: pointer; }
+.pf-cluster { opacity: 0; transition: opacity 0.4s var(--ease-out-quart); cursor: pointer; }
 .pf-const.section-work .pf-cluster:nth-child(5) { opacity: 1; transition-delay: 0.05s; }
 .pf-const.section-work .pf-cluster:nth-child(6) { opacity: 1; transition-delay: 0.12s; }
 .pf-const.section-work .pf-cluster:nth-child(7) { opacity: 1; transition-delay: 0.19s; }
 .pf-const.section-work .pf-cluster:nth-child(8) { opacity: 1; transition-delay: 0.26s; }
 
 .pf-cluster-hit  { fill: transparent; cursor: pointer; }
-.pf-cluster-main { transition: fill 0.3s ease, filter 0.3s ease; }
+.pf-cluster-main { transition: fill 0.3s var(--ease-out-quart), filter 0.3s var(--ease-out-quart); }
 .pf-cluster:hover .pf-cluster-main {
   fill: rgba(220,236,255,0.72);
   filter: drop-shadow(0 0 3px rgba(160,200,255,0.5));
@@ -1743,7 +1925,7 @@ body.about-locked { overflow: hidden; }
 .zone-waves {
   position: fixed; inset: 0; z-index: -1;
   pointer-events: none; mix-blend-mode: screen;
-  opacity: 0; transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1);
+  opacity: 0; transition: opacity 0.6s var(--ease-out-expo);
 }
 .zone-waves.is-active { opacity: 0.26; }
 @media (max-width: 760px) { .zone-waves { display: none; } }
@@ -1809,24 +1991,34 @@ body.about-locked { overflow: hidden; }
 }
 /* One italic accent word per screen (the Lit Archive "flame"). */
 .aura-word {
-  font-family: var(--font-display); font-style: italic; font-weight: 400;
-  color: var(--blue-300); font-size: 1.08em;
+  font-style: normal; color: inherit;
 }
 
 /* ---- scroll stack ---- */
 .scroll-stack { position: relative; max-width: 840px; margin: 0 auto; padding-bottom: 12vh; }
 .spotlight-card {
-  display: grid; grid-template-columns: 1.05fr 1fr;
-  align-items: stretch;
+  display: grid;
   text-decoration: none;
   background: var(--navy-mid);
   border: 1px solid var(--border);
   border-radius: 20px;
-  overflow: hidden;
   margin-bottom: 84px;
   height: clamp(300px, 44vh, 400px); /* fixed so stacked cards stay uniform */
-  transition: border-color 0.4s var(--ease-out-expo);
+  transition: border-color 0.4s var(--var(--ease-out-quart)-expo);
 }
+/* The 2-col cover|body grid lives on the inner wrapper (BorderGlow card) or on the
+   card itself (plain fallback). Content is clipped here so the card can stay
+   overflow:visible for the BorderGlow halo. */
+.spotlight-card-inner,
+.spotlight-card--plain {
+  grid-template-columns: 1.05fr 1fr; align-items: stretch; overflow: hidden;
+}
+/* Two classes so this beats the generic `.border-glow-inner { display:flex }` that
+   loads later in the file (equal specificity would otherwise let flex win). */
+.border-glow-inner.spotlight-card-inner {
+  display: grid; height: 100%; border-radius: inherit;
+}
+.spotlight-card--plain { overflow: hidden; }
 .spotlight-card:last-of-type { margin-bottom: 0; }
 .spotlight-card:hover { border-color: var(--border-strong); }
 .spotlight-card:focus-visible {
@@ -1837,7 +2029,7 @@ body.about-locked { overflow: hidden; }
 .spotlight-card-cover img {
   position: absolute; inset: 0; /* never let intrinsic image size dictate card height */
   width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform 0.7s var(--ease-out-expo);
+  transition: transform 0.7s var(--var(--ease-out-quart)-expo);
 }
 .spotlight-card:hover .spotlight-card-cover img { transform: scale(1.04); }
 .spotlight-card-cover-fallback {
@@ -1848,7 +2040,7 @@ body.about-locked { overflow: hidden; }
 .spotlight-card-aura {
   position: absolute; inset: 0; opacity: 0.7; pointer-events: none;
   background: radial-gradient(ellipse 70% 75% at 60% 40%, rgba(160,200,255,0.16) 0%, transparent 70%);
-  transition: opacity 0.5s var(--ease-out-expo);
+  transition: opacity 0.5s var(--var(--ease-out-quart)-expo);
 }
 .spotlight-card:hover .spotlight-card-aura { opacity: 1; }
 
@@ -1871,7 +2063,7 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(1.5rem, 2.6vw, 2.1rem); letter-spacing: -0.02em;
   line-height: 1.04; color: var(--fg1); margin: 0 0 10px;
-  transition: color 0.35s var(--ease-out-expo);
+  transition: color 0.35s var(--var(--ease-out-quart)-expo);
 }
 .spotlight-card:hover .spotlight-card-title { color: var(--accent); }
 .spotlight-card-desc {
@@ -1888,7 +2080,7 @@ body.about-locked { overflow: hidden; }
 }
 .spotlight-card-arrow {
   font-size: 1.1rem; color: var(--fg2);
-  transition: transform 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo);
+  transition: transform 0.35s var(--var(--ease-out-quart)-expo), color 0.35s var(--var(--ease-out-quart)-expo);
 }
 .spotlight-card:hover .spotlight-card-arrow { transform: translate(4px, -4px); color: var(--accent); }
 
@@ -1896,7 +2088,8 @@ body.about-locked { overflow: hidden; }
 
 @media (max-width: 760px) {
   .spotlight-atmos { display: none; }
-  .spotlight-card { grid-template-columns: 1fr; height: auto; }
+  .spotlight-card { height: auto; }
+  .spotlight-card-inner, .spotlight-card--plain { grid-template-columns: 1fr; }
   .spotlight-card-cover { height: 200px; position: relative; }
   .scroll-stack { padding-bottom: 0; }
 }
@@ -1905,84 +2098,862 @@ body.about-locked { overflow: hidden; }
   .spotlight-card-cover img,
   .spotlight-card,
   .spotlight-card-arrow,
-  .spotlight-card-aura { transition: none; }
+  .spotlight-card-aura { transition: none var(--ease-out-quart); }
   .spotlight-card-live::before { animation: none; }
 }
 
-/* ── StaggeredMenu (React Bits, ported + dark-brand themed) ───────────────── */
-.staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 100; pointer-events: none; }
-.staggered-menu-wrapper.fixed-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; overflow: hidden; }
-.staggered-menu-header {
-  position: absolute; top: 0; left: 0; width: 100%;
+/* ── FlowingMenu (React Bits, ported + dark-brand themed) ─────────────────── */
+/* Fixed wordmark + toggle, mirrors the prior menu's top placement. */
+.flow-menu-header {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 120;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 26px clamp(20px, 5vw, 48px); background: transparent; pointer-events: none; z-index: 20;
+  padding: 26px clamp(20px, 5vw, 48px); pointer-events: none;
 }
-.staggered-menu-header > * { pointer-events: auto; }
-.sm-logo { display: flex; align-items: center; user-select: none; }
-.sm-logo-text {
-  font-family: var(--font-display); font-style: italic; font-weight: 400;
-  font-size: 19px; letter-spacing: -0.01em; color: var(--fg1); text-decoration: none;
-  transition: color .25s;
+.flow-menu-header > * { pointer-events: auto; }
+/* Signature lockup: a signal-blue ✶ mark (brand motif) + gradient wordmark with an
+   underline that wipes in on hover (affordance cue for the home/back-to-top link). */
+.flow-menu-logo {
+  display: inline-flex; align-items: baseline; gap: 0.4em;
+  font-family: var(--font-display); font-style: italic; font-weight: 500;
+  font-size: 19px; letter-spacing: -0.01em; text-decoration: none;
+  user-select: none;
 }
-.sm-logo-text:hover { color: var(--accent, #72ADFF); }
-
-.sm-toggle {
-  position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
-  background: transparent; border: none; cursor: pointer; color: var(--fg1);
-  font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; line-height: 1; overflow: visible;
+.flow-menu-logo-mark {
+  font-style: normal; font-size: 0.7em; line-height: 1;
+  color: var(--accent); display: inline-block;
+  transform: translateY(-0.05em);
+  filter: drop-shadow(0 0 6px rgba(114, 173, 255, 0.55));
+  transition: transform .45s var(--ease-out-quint), filter .25s var(--ease-out-quart);
 }
-.sm-toggle:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 4px; border-radius: 4px; }
-.sm-toggle-textWrap { position: relative; display: inline-block; height: 1em; overflow: hidden; white-space: nowrap; }
-.sm-toggle-textInner { display: flex; flex-direction: column; line-height: 1; }
-.sm-toggle-line { display: block; height: 1em; line-height: 1; }
-.sm-icon { position: relative; width: 14px; height: 14px; flex: 0 0 14px; display: inline-flex; align-items: center; justify-content: center; will-change: transform; }
-.sm-icon-line { position: absolute; left: 50%; top: 50%; width: 100%; height: 1.5px; background: currentColor; border-radius: 2px; transform: translate(-50%, -50%); will-change: transform; }
-
-.staggered-menu-panel {
-  position: absolute; top: 0; right: 0; width: clamp(280px, 40vw, 460px); height: 100%;
-  background: rgba(10, 15, 42, 0.94); backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border-left: 1px solid var(--border, rgba(160,200,255,0.12));
-  display: flex; flex-direction: column; padding: clamp(90px, 12vh, 130px) clamp(28px, 4vw, 56px) 2.5em;
-  overflow-y: auto; z-index: 10; pointer-events: auto; opacity: 0;
+.flow-menu-logo-text {
+  position: relative;
+  padding-right: 0.12em; /* italic overhang room (background-clip:text would clip it) */
+  background: linear-gradient(118deg, #F6FAFF 0%, #A0C8FF 55%, #72ADFF 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  filter: drop-shadow(0 0 9px rgba(114, 173, 255, 0.30));
+  transition: filter .25s var(--ease-out-quart);
 }
-[data-position='left'] .staggered-menu-panel { right: auto; left: 0; border-left: none; border-right: 1px solid var(--border, rgba(160,200,255,0.12)); }
-.sm-prelayers { position: absolute; top: 0; right: 0; bottom: 0; width: clamp(280px, 40vw, 460px); pointer-events: none; z-index: 5; opacity: 0; }
-[data-position='left'] .sm-prelayers { right: auto; left: 0; }
-.sm-prelayer { position: absolute; top: 0; right: 0; height: 100%; width: 100%; transform: translateX(0); opacity: 0.9; }
-.sm-panel-inner { flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
-
-.sm-panel-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-.sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1; }
-.sm-panel-item {
-  position: relative; color: var(--fg1); font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(2.4rem, 5vw, 3.4rem); cursor: pointer; line-height: 1; letter-spacing: -1.5px;
-  display: inline-block; text-decoration: none; padding-right: 1.4em; transition: color 0.25s;
+.flow-menu-logo-text::after {
+  content: ''; position: absolute; left: 0; right: 0.12em; bottom: -0.1em; height: 1.5px;
+  background: var(--accent); border-radius: 1px; opacity: 0.9;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s var(--ease-out-quint);
 }
-.sm-panel-item:hover { color: var(--sm-accent, #72ADFF); }
-.sm-panel-itemLabel { display: inline-block; will-change: transform; transform-origin: 50% 100%; }
-.sm-panel-list[data-numbering] { counter-reset: smItem; }
-.sm-panel-list[data-numbering] .sm-panel-item::after {
-  counter-increment: smItem; content: counter(smItem, decimal-leading-zero);
-  position: absolute; top: 0.1em; right: 0.4em; font-family: var(--font-code); font-size: 14px; font-weight: 400;
-  color: var(--sm-accent, #72ADFF); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0);
-}
-
-.sm-socials { margin-top: auto; padding-top: 2rem; display: flex; flex-direction: column; gap: 0.9rem; }
-.sm-socials-title { margin: 0; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; color: var(--sm-accent, #72ADFF); }
-.sm-socials-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-.sm-socials-link { font-family: var(--font-ui); font-size: 1rem; font-weight: 500; color: var(--fg2); text-decoration: none; padding: 2px 0; display: inline-block; transition: color 0.3s ease, opacity 0.3s ease; }
-.sm-socials-link:hover { color: var(--sm-accent, #72ADFF); }
-.sm-socials-list:hover .sm-socials-link:not(:hover) { opacity: 0.4; }
-.sm-socials-link:focus-visible { outline: 2px solid var(--sm-accent, #72ADFF); outline-offset: 3px; }
-
-@media (max-width: 760px) {
-  .staggered-menu-panel, .sm-prelayers { width: 100%; left: 0; right: 0; }
-  .staggered-menu-panel { border-left: none; }
+.flow-menu-logo:hover .flow-menu-logo-text { filter: drop-shadow(0 0 15px rgba(114, 173, 255, 0.55)); }
+.flow-menu-logo:hover .flow-menu-logo-text::after { transform: scaleX(1); }
+.flow-menu-logo:hover .flow-menu-logo-mark {
+  transform: translateY(-0.05em) rotate(135deg);
+  filter: drop-shadow(0 0 11px rgba(114, 173, 255, 0.9));
 }
 @media (prefers-reduced-motion: reduce) {
-  .sm-prelayer { display: none; }
+  .flow-menu-logo-mark, .flow-menu-logo-text::after { transition: none var(--ease-out-quart); }
 }
+
+.flow-menu-toggle {
+  position: relative; display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 12px; margin: -12px; /* >=44px hit area, no visual shift */
+  background: transparent; border: none; cursor: pointer; color: var(--fg1);
+  font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; line-height: 1;
+}
+.flow-menu-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.flow-menu-toggle-label { display: inline-block; min-width: 3.4em; text-align: right; }
+.flow-menu-toggle-icon { position: relative; width: 16px; height: 12px; flex: 0 0 16px; }
+.flow-menu-toggle-icon span {
+  position: absolute; left: 0; width: 100%; height: 1.5px; background: currentColor; border-radius: 2px;
+  transition: transform .35s cubic-bezier(.6,0 var(--ease-out-quart),.2 var(--ease-out-quart),1) var(--ease-out-quart), top .35s cubic-bezier(.6,0 var(--ease-out-quart),.2 var(--ease-out-quart),1) var(--ease-out-quart);
+}
+.flow-menu-toggle-icon span:first-child { top: 2px; }
+.flow-menu-toggle-icon span:last-child { top: 8px; }
+.flow-menu-toggle[data-open] .flow-menu-toggle-icon span:first-child { top: 5px; transform: rotate(45deg); }
+.flow-menu-toggle[data-open] .flow-menu-toggle-icon span:last-child { top: 5px; transform: rotate(-45deg); }
+
+/* Full-screen overlay holding the flowing menu. Hidden (opacity/pointer-events) until opened. */
+.flow-menu-overlay {
+  position: fixed; inset: 0; z-index: 110;
+  display: flex; flex-direction: column;
+  background: rgba(8, 12, 32, 0.96);
+  backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%);
+  opacity: 0; pointer-events: none; visibility: hidden; padding-top: 84px; /* clear the fixed header */
+}
+
+.flow-menu { display: flex; flex-direction: column; flex: 1; margin: 0; padding: 0; min-height: 0; }
+.flow-menu__item {
+  flex: 1; position: relative; overflow: hidden; text-align: center;
+  border-top: 1px solid var(--border-strong);
+}
+.flow-menu__item:first-child { border-top: none; }
+.flow-menu__link {
+  display: flex; align-items: center; justify-content: center; height: 100%; position: relative;
+  cursor: pointer; text-transform: uppercase; text-decoration: none; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 500; letter-spacing: -0.5px;
+  font-size: clamp(2rem, 6vh, 4.4rem); color: var(--fg1); transition: color .25s var(--ease-out-quart), opacity .25s var(--ease-out-quart);
+}
+.flow-menu:hover .flow-menu__link:not(:hover) { opacity: 0.42; }
+
+.flow-marquee {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;
+  pointer-events: none; transform: translate3d(0, 101%, 0); background: var(--accent);
+}
+.flow-marquee__wrap { height: 100%; width: 100%; overflow: hidden; }
+.flow-marquee__inner { display: flex; align-items: center; position: relative; height: 100%; width: fit-content; will-change: transform; }
+.flow-marquee__part { display: flex; align-items: center; flex-shrink: 0; }
+.flow-marquee__part span {
+  white-space: nowrap; text-transform: uppercase; font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2rem, 6vh, 4.4rem); line-height: 1; padding: 0 1vw; color: var(--accent-on);
+}
+.flow-marquee__img {
+  width: clamp(140px, 18vw, 240px); height: 60%; margin: 0 2vw; border-radius: 999px;
+  background-size: cover; background-position: 50% 50%;
+}
+
+/* Socials footer pinned below the flowing rows. */
+.flow-menu__footer {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap;
+  padding: 1.4rem clamp(20px, 5vw, 48px) calc(1.4rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-strong);
+}
+.flow-menu__footer-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.flow-menu__footer ul { list-style: none; display: flex; gap: 1.2rem; margin: 0; padding: 0; flex-wrap: wrap; }
+.flow-menu__footer a { font-family: var(--font-ui); font-size: 0.95rem; font-weight: 500; color: var(--fg2); text-decoration: none; transition: color .25s var(--ease-out-quart); }
+.flow-menu__footer a:hover { color: var(--accent); }
+.flow-menu__footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 760px) {
+  .flow-menu__link, .flow-marquee__part span { font-size: clamp(1.8rem, 5vh, 2.8rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-marquee { transition: none var(--ease-out-quart); }
+}
+
+/* ── BorderGlow (React Bits, ported + dark-brand themed) ──────────────────── */
+/* Cursor-reactive mesh-gradient border + edge glow. Heavy upstream box-shadow
+   dropped for the Lit Archive system; border uses the brand --border token so it
+   composes with .spotlight-card without fighting on specificity. */
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 30;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+  --border-radius: 28px;
+  --glow-padding: 40px;
+  --cone-spread: 25;
+
+  position: relative;
+  border-radius: var(--border-radius);
+  isolation: isolate;
+  transform: translate3d(0, 0, 0.01px);
+  display: grid;
+  border: 1px solid var(--border);
+  background: var(--card-bg, var(--navy-mid));
+  overflow: visible;
+}
+
+.border-glow-card::before,
+.border-glow-card::after,
+.border-glow-card > .edge-light {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transition: opacity 0.25s var(--ease-out-quart);
+  z-index: -1;
+}
+
+.border-glow-card:not(:hover):not(.sweep-active)::before,
+.border-glow-card:not(:hover):not(.sweep-active)::after,
+.border-glow-card:not(:hover):not(.sweep-active) > .edge-light {
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-quint);
+}
+
+/* colored mesh-gradient border, masked to a cursor-following cone */
+.border-glow-card::before {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card-bg, #141930) 0 100%) padding-box,
+    linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+    var(--gradient-one) border-box,
+    var(--gradient-two) border-box,
+    var(--gradient-three) border-box,
+    var(--gradient-four) border-box,
+    var(--gradient-five) border-box,
+    var(--gradient-six) border-box,
+    var(--gradient-seven) border-box,
+    var(--gradient-base) border-box;
+
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+
+  mask-image:
+    conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%)
+    );
+}
+
+/* colored mesh-gradient fill bleeding in from the edges */
+.border-glow-card::after {
+  border: 1px solid transparent;
+  background:
+    var(--gradient-one) padding-box,
+    var(--gradient-two) padding-box,
+    var(--gradient-three) padding-box,
+    var(--gradient-four) padding-box,
+    var(--gradient-five) padding-box,
+    var(--gradient-six) padding-box,
+    var(--gradient-seven) padding-box,
+    var(--gradient-base) padding-box;
+
+  mask-image:
+    linear-gradient(to bottom, black, black),
+    radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+    radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+
+  mask-composite: subtract, add, add, add, add, add;
+  opacity: calc(var(--fill-opacity, 0.5) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  mix-blend-mode: soft-light;
+}
+
+/* outer glow halo */
+.border-glow-card > .edge-light {
+  inset: calc(var(--glow-padding) * -1);
+  pointer-events: none;
+  z-index: 1;
+
+  mask-image:
+    conic-gradient(
+      from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%
+    );
+
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: plus-lighter;
+}
+
+.border-glow-card > .edge-light::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color, hsl(215deg 100% 72% / 100%)),
+    inset 0 0 1px 0 var(--glow-color-60),
+    inset 0 0 3px 0 var(--glow-color-50),
+    inset 0 0 6px 0 var(--glow-color-40),
+    inset 0 0 15px 0 var(--glow-color-30),
+    inset 0 0 25px 2px var(--glow-color-20),
+    inset 0 0 50px 2px var(--glow-color-10),
+    0 0 1px 0 var(--glow-color-60),
+    0 0 3px 0 var(--glow-color-50),
+    0 0 6px 0 var(--glow-color-40),
+    0 0 15px 0 var(--glow-color-30),
+    0 0 25px 2px var(--glow-color-20),
+    0 0 50px 2px var(--glow-color-10);
+}
+
+.border-glow-inner {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-glow-card::before,
+  .border-glow-card::after,
+  .border-glow-card > .edge-light { transition: none var(--ease-out-quart); }
+}
+
+/* ── Theme toggler (light/dark) + header actions group ──────────────────────── */
+.flow-menu-header-actions { display: inline-flex; align-items: center; gap: 14px; }
+.theme-toggler {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 999px; flex: 0 0 auto;
+  color: var(--fg2); background: transparent; border: 1px solid var(--border);
+  cursor: pointer; transition: color .25s var(--ease-out-quart), border-color .25s var(--ease-out-quart), background .25s var(--ease-out-quart);
+}
+.theme-toggler:hover { color: var(--accent); border-color: var(--border-strong); background: var(--accent-dim); }
+.theme-toggler:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* View Transitions: swap the default cross-fade for the circular clip reveal that
+   AnimatedThemeToggler drives. New snapshot expands over the old. */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2147483646; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+}
+
+/* ── Light-mode fixes for elements that hardcode light/white values ─────────── */
+/* Nav wordmark gradient starts at cloud-white (invisible on a light field) — deepen it. */
+:root.theme-light .flow-menu-logo-text {
+  background: linear-gradient(118deg, #2E5FB0 0%, #4A8FEF 55%, #72ADFF 100%);
+  -webkit-background-clip: text; background-clip: text;
+  filter: drop-shadow(0 0 7px rgba(74, 143, 239, 0.22));
+}
+/* Hero block-caret + role dots keep the accent; nothing to change there. */
+/* Frosted-glass overlays read as faint dark on light instead of faint white. */
+:root.theme-light .glass,
+:root.theme-light [class*="-frost"] { background: rgba(11, 19, 48, 0.04); }
+
+/* ── Light-mode retune of the WebGL/atmospheric effects ─────────────────────
+   The shaders are dark-tuned (screen blend brightens on a dark void). On a light
+   field that reads as gray smudges, so in light mode we flip to `multiply` at low
+   opacity: the canvases now tint the light surface with faint signal-blue atmosphere
+   (the accent stays consistent) instead of laying down darkness. */
+:root.theme-light .scene-hero .faulty-terminal {
+  opacity: 0.14; mix-blend-mode: multiply;
+}
+:root.theme-light .scene-skills .skills-dither {
+  opacity: 0.10; mix-blend-mode: multiply;
+}
+:root.theme-light .scene-contact .contact-aurora {
+  opacity: 0.26; mix-blend-mode: multiply;
+}
+:root.theme-light .gem-iridescence {
+  opacity: 0.18; mix-blend-mode: multiply;
+}
+:root.theme-light .spotlight-atmos {
+  opacity: 0.22; mix-blend-mode: multiply;
+}
+:root.theme-light .zone-waves.is-active {
+  opacity: 0.16; mix-blend-mode: multiply;
+}
+/* Mobile aura backdrop: a touch stronger so the blue still reads on a light page. */
+@media (max-width: 759px) {
+  :root.theme-light body::after {
+    background:
+      radial-gradient(72vw 46vh at 80% 6%,   rgba(74, 143, 239, 0.16), transparent 62%),
+      radial-gradient(88vw 56vh at 6% 56%,    rgba(124, 92, 255, 0.12), transparent 64%),
+      radial-gradient(80vw 48vh at 64% 104%,  rgba(74, 143, 239, 0.14), transparent 62%);
+  }
+}
+
+/* The visible "standout_work" title is the <pre> ascii (light-blue #A0C8FF with
+   mix-blend-mode: difference), which washes out on a light field. Keep the ASCII style but
+   drop the difference blend and flip it dark with a hue-preserving invert so it reads. */
+:root.theme-light .spotlight-title-wrap .ascii-text-container pre {
+  mix-blend-mode: normal !important;
+  color: var(--fg1) !important;
+  -webkit-text-fill-color: var(--fg1) !important;
+  font-weight: 700 !important;
+}
+
+/* ── Light-mode legibility fixes ─────────────────────────────────────────── */
+/* Menu overlay base is a hardcoded dark panel; in light mode the dark item text would
+   vanish on it, so flip the panel to a light frosted surface. */
+:root.theme-light .flow-menu-overlay { background: rgba(232, 238, 249, 0.97); }
+
+/* s0mped (GemStory) left-column text is light purple tuned for the dark section; deepen
+   it in light mode so it reads on the light field. */
+:root.theme-light .gem-left-idx   { color: oklch(0.46 0.17 285 / 0.92); }
+:root.theme-light .gem-left-cat   { color: oklch(0.44 0.14 285 / 0.86); }
+:root.theme-light .gem-left-desc  { color: oklch(0.34 0.06 285 / 0.88); }
+:root.theme-light .gem-lmk        { color: oklch(0.46 0.10 285 / 0.74); }
+:root.theme-light .gem-lmv        { color: oklch(0.36 0.17 285 / 0.95); }
+:root.theme-light .gem-left-ghost { color: oklch(0.50 0.16 285 / 0.07); }
+:root.theme-light .gem-site-cta   { color: oklch(0.40 0.15 285 / 0.92); }
+
+/* ── Light mode: case study (cs-) chrome ─────────────────────────────────────
+   The cs- pages link styles.css and are heavily token-based, so most colors flip
+   automatically under .theme-light. These override the few hardcoded dark frosted
+   surfaces. Higher specificity (.theme-light .cs-*) beats each page's inline rules. */
+:root.theme-light .cs-nav { background: rgba(232, 238, 249, 0.82); }
+:root.theme-light .cs-pull-quote { background: rgba(74, 143, 239, 0.06); border-color: rgba(74, 143, 239, 0.22); }
+:root.theme-light .cs-reel-fs { background: rgba(232, 238, 249, 0.7); border-color: rgba(74, 143, 239, 0.3); color: var(--fg1); }
+
+/* The legacy .nav (stub/project pages) uses mix-blend-mode:difference so its text adapts
+   over varying dark backdrops. On the light field that inverts the dark text to a faint
+   wash, so switch to normal blend in light mode (dark nav text on light reads directly). */
+:root.theme-light .nav { mix-blend-mode: normal; }
+
+/* About overlay base is a hardcoded dark panel; in light mode its (now-dark) headline
+   text would vanish on it, so flip the panel to a light frosted surface. */
+:root.theme-light .about-overlay { background: rgba(232, 238, 249, 0.96); }
+:root.theme-light .about-overlay-close:hover { background: rgba(11, 19, 48, 0.07); }
+
+/* ============================================================
+   HERO — tight 2x2 editorial name block (Nicki Vuong-inspired)
+   Lucy / Liu on the top row, [rotating role] / Designer on the bottom row.
+   The "what I do" line sits directly under Lucy (intentional, not a floating
+   stamp); location + availability sit under the role. Cleaned of corner stamps,
+   the rotation counter, and the duplicate location for an airier composition.
+   Appended last so it wins the cascade over the earlier .hero-content rules.
+   ============================================================ */
+.hero-content {
+  display: flex; flex-direction: column; align-items: stretch;
+  flex: 1 1 auto; min-height: 0;
+  gap: clamp(14px, 2.2vh, 28px);
+  position: relative; /* anchor for the top-right positioning statement */
+}
+.hero-content .hero-eyebrow { margin-bottom: 0; }
+
+/* Positioning statement, pinned top-right of the masthead (opposite the "Lucy" wordmark). */
+/* Positioning statement: mono eyebrow (the annotation voice) over DM Sans reading text.
+   Space Mono never carries sentences (Four-Voice Rule); left-aligned rag for readability
+   even though the block pins right. */
+.hero-lede {
+  position: absolute; top: 0; right: 0; z-index: 3;
+  max-width: 34ch; margin: 0;
+  text-align: left;
+}
+.hero-lede-eyebrow {
+  display: block;
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--fg3);
+  margin-bottom: 10px;
+}
+.hero-lede-body {
+  margin: 0;
+  font-family: var(--font-body); font-weight: 400;
+  font-size: clamp(0.94rem, 1.05vw, 1.03rem);
+  line-height: 1.62; letter-spacing: 0.003em;
+  color: var(--fg2);
+}
+.hero-lede-body b { color: var(--fg1); font-weight: 500; }
+@media (max-width: 900px) { .hero-lede { max-width: 28ch; } }
+
+@media (max-width: 640px) {
+  /* Phone: drop it out of the top-right into normal flow beneath the masthead. */
+  /* Hairline between "Designer" and the practice note, matching the row rules above it. */
+  .hero-lede {
+    position: static; max-width: none;
+    margin-top: 20px; padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .hero-lede-eyebrow { margin-bottom: 6px; }
+  .hero-lede-body { font-size: 0.85rem; line-height: 1.6; }
+}
+
+.hero-name {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto; min-height: 0;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.4rem, 7.4vw, 7rem);
+  line-height: 0.9; letter-spacing: -0.045em;
+  color: var(--fg1);
+}
+
+/* Each masthead row is an equal-height band: a big word on one side, a small spec
+   block on the other, full-width, divided by a hairline rule. The bands stretch to
+   fill the viewport so the dividing lines spread evenly. Alternating sides via --rev. */
+.hero-row {
+  flex: 1 1 0; min-height: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: clamp(20px, 5vw, 80px);
+  padding: clamp(6px, 1vh, 14px) 0;
+  border-top: 1px solid var(--border);
+}
+.hero-row--lead { border-top: 0; }
+.hero-row--rev { flex-direction: row-reverse; }
+
+.hero-name .word-mask { width: -moz-fit-content; width: fit-content; max-width: none; flex: 0 0 auto; }
+.hero-name-row { display: block; white-space: nowrap; }
+
+/* Small spec block opposite each big word (Nicki's discipline / location lists). */
+.hero-name-aside {
+  flex: 0 1 auto;
+  font-family: var(--font-code);
+  font-size: clamp(10px, 0.9vw, 12.5px);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  line-height: 1.95; color: var(--fg2); font-weight: 700;
+  max-width: 30ch; white-space: normal;
+  align-self: center;
+}
+.hero-name-aside--end { text-align: right; }
+.hero-name-aside .dot { color: var(--accent); opacity: 0.7; margin: 0 0.12em; }
+.hero-name-aside--loc { letter-spacing: 0.14em; }
+
+/* 3rd big word: the live, morphing role field (where Nicki has "Product-led") */
+.hero-name-row--role {
+  display: inline-flex; align-items: center; gap: 0.16em;
+  color: var(--accent); white-space: nowrap;
+  font-size: 0.86em;   /* a touch smaller than the name — name / title hierarchy */
+}
+.hero-name-morph {
+  color: var(--accent);
+  font-family: inherit; font-weight: inherit;
+  letter-spacing: inherit; line-height: 0.88;
+}
+.hero-name-morph .morphing-text-a,
+.hero-name-morph .morphing-text-b { text-align: left; }
+
+/* Blinking block caret — terminal-cursor cue. Subtle glow (no neon halo). */
+.hero-name-caret {
+  flex: 0 0 auto;
+  width: 0.09em; height: 0.66em;
+  background: var(--accent); border-radius: 0.03em;
+  box-shadow: 0 0 0.12em rgba(114,173,255,0.45);
+  transform: translateY(0.04em);
+  animation: heroCaretBlink 1.05s steps(1, end) infinite;
+}
+
+/* Supporting line: blurb + actions on one row, wrapping on narrow screens */
+.hero-support {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: clamp(20px, 4vw, 56px); flex-wrap: wrap;
+  margin-top: clamp(4px, 1vh, 12px);
+}
+.hero-support .hero-sub { margin: 0; max-width: 46ch; }
+.hero-support .hero-actions { margin-top: 0; flex: 0 0 auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-name-caret { animation: none; opacity: 0.9; }
+}
+
+/* Phones: keep the editorial masthead but distribute the four rows as equal bands so
+   they fill the viewport (no dead space at the bottom), left-aligned, spec beneath each
+   word. Backdrop is quieted so the name and morphing role read cleanly over it. */
+@media (max-width: 640px) {
+  /* The generic `.scene { padding: 6rem 0 }` mobile rule overrides .scene-hero's own
+     padding, pooling ~96px of dead space under the hero. Give the hero back a small bottom
+     pad: the freed height flows into .hero-name, whose four bands are flex:1 and split it
+     evenly, so the masthead fills the screen instead of stacking at the top. */
+  .scene-hero { padding-bottom: clamp(18px, 3.5vh, 34px); }
+  .hero-content { gap: 0; padding-bottom: clamp(6px, 1.2vh, 14px); }
+  .hero-name {
+    flex: 1 1 auto; min-height: 0;
+    font-size: clamp(2.7rem, 14.5vw, 4.8rem);
+    letter-spacing: -0.04em;
+  }
+  .hero-row, .hero-row--rev {
+    flex: 1 1 0; min-height: 0;
+    flex-direction: column; align-items: flex-start; justify-content: center;
+    gap: 8px;
+    padding: clamp(6px, 1.4vh, 14px) 0;
+  }
+  .hero-name-aside, .hero-name-aside--end {
+    max-width: none; text-align: left; align-self: flex-start;
+    line-height: 1.6; font-size: 11px; letter-spacing: 0.13em;
+  }
+  .scene-hero .faulty-terminal { opacity: 0.2; }
+  .hero-name-row--role { font-size: 0.9em; }
+  .hero-support { flex-direction: column; align-items: stretch; gap: 16px; }
+  .hero-support .hero-sub { max-width: none; }
+}
+@media (max-width: 480px) {
+  .hero-name-row--role { font-size: 0.82em; }
+}
+
+/* ============================================================
+   PERSONA ENGINE — "Who are you viewing as?" gate + tailored case-study reflow.
+   Driven by components/persona-engine.js + persona-content.js. Lit Archive palette:
+   tinted neutrals, signal-blue accent, Space Mono labels. No gradient text, no glass.
+   ============================================================ */
+.persona-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(5, 7, 16, 0.72);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity 0.26s var(--ease-out-quint);
+}
+.persona-overlay.is-in { opacity: 1; }
+
+.persona-modal {
+  width: min(540px, 100%);
+  background: linear-gradient(180deg, rgba(20, 28, 52, 0.98), rgba(12, 18, 38, 0.98));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(114, 173, 255, 0.06),
+              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateY(16px) scale(0.98);
+  opacity: 0; transition: transform 0.32s var(--ease-out-quint), opacity 0.32s var(--ease-out-quart);
+}
+.persona-overlay.is-in .persona-modal { transform: none; opacity: 1; }
+
+/* Staggered orchestration: cascade the modal contents in once the overlay is shown. */
+.persona-overlay.is-in .persona-eyebrow,
+.persona-overlay.is-in .persona-q,
+.persona-overlay.is-in .persona-sub,
+.persona-overlay.is-in .persona-row,
+.persona-overlay.is-in .persona-skip {
+  animation: personaRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.persona-overlay.is-in .persona-eyebrow { animation-delay: 0.04s; }
+.persona-overlay.is-in .persona-q { animation-delay: 0.09s; }
+.persona-overlay.is-in .persona-sub { animation-delay: 0.14s; }
+.persona-overlay.is-in .persona-row { animation-delay: calc(0.2s + var(--i, 0) * 0.06s); }
+.persona-overlay.is-in .persona-skip { animation-delay: 0.5s; }
+@keyframes personaRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.persona-eyebrow {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 12px; font-weight: 700;
+}
+.persona-q {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2rem); line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--fg1); margin: 0 0 10px; text-wrap: balance;
+}
+.persona-sub {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.6;
+  color: var(--fg3); margin: 0 0 24px; max-width: 42ch;
+}
+
+/* Editorial directory list (matches the hero masthead's hairline-divider language)
+   instead of a generic card grid: mono index + display name + mono hint + slide-in arrow. */
+.persona-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.persona-row {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  gap: clamp(14px, 2.4vw, 24px);
+  width: 100%; text-align: left; cursor: pointer;
+  padding: clamp(14px, 1.9vw, 19px) 4px;
+  background: none; border: none; border-bottom: 1px solid var(--border);
+  transition: padding-left 0.3s var(--ease-out-quint), background-color 0.2s var(--ease-out-quart);
+}
+.persona-row:hover, .persona-row:focus-visible { background: rgba(114, 173, 255, 0.06); padding-left: 14px; outline: none; }
+.persona-row:active { background: rgba(114, 173, 255, 0.11); }
+.persona-row-idx {
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.08em; color: var(--fg3);
+  transition: color 0.2s var(--ease-out-quart);
+}
+.persona-row:hover .persona-row-idx, .persona-row:focus-visible .persona-row-idx { color: var(--accent); }
+.persona-row-body { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 20px; min-width: 0; }
+.persona-row-name {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.15rem, 2vw, 1.42rem);
+  letter-spacing: -0.015em; color: var(--fg1); line-height: 1.1;
+}
+.persona-row-hint {
+  font-family: var(--font-code); font-size: 10.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--fg3); white-space: nowrap;
+}
+.persona-row-arrow {
+  font-family: var(--font-code); font-size: 15px; color: var(--accent);
+  opacity: 0; transform: translateX(-7px);
+  transition: opacity 0.2s var(--ease-out-quart), transform 0.3s var(--ease-out-quint);
+}
+.persona-row:hover .persona-row-arrow, .persona-row:focus-visible .persona-row-arrow { opacity: 1; transform: translateX(0); }
+@media (max-width: 560px) {
+  .persona-row-body { flex-direction: column; align-items: flex-start; gap: 3px; }
+  .persona-row-hint { white-space: normal; }
+}
+.persona-skip {
+  display: block; margin: 22px auto 0; padding: 6px 4px; cursor: pointer;
+  background: none; border: none;
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.06em; color: var(--fg3);
+  transition: color 0.2s var(--ease-out-quart);
+}
+.persona-skip:hover, .persona-skip:focus-visible { color: var(--fg1); outline: none; }
+.persona-skip { transition: color 0.2s var(--ease-out-quart), transform 0.15s var(--ease-out-quart); }
+.persona-skip:active { transform: translateY(1px); }
+
+/* ---- Terminal picker: MacOS-style command line with typed, sequenced reveal ---- */
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.persona-term {
+  position: relative;
+  width: min(560px, 100%);
+  background: linear-gradient(180deg, rgba(13, 19, 36, 0.99), rgba(8, 12, 26, 0.99));
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  font-family: var(--font-code);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  opacity: 0; transform: translateY(14px) scale(0.985);
+  transition: opacity 0.3s var(--ease-out-quart), transform 0.34s var(--ease-out-quint);
+}
+.persona-overlay.is-in .persona-term { opacity: 1; transform: none; }
+/* CRT scanlines — the strongest "this is a terminal" signal. */
+.persona-term::after {
+  content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
+  opacity: 0.55; mix-blend-mode: multiply;
+  animation: personaScan 7s linear infinite;
+}
+@keyframes personaScan { to { background-position: 0 6px; } }
+/* Phosphor screen: faint glow at the top, vignette at the edges. */
+.persona-term::before {
+  content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(130% 60% at 50% -10%, rgba(114, 173, 255, 0.08), transparent 60%),
+    radial-gradient(120% 95% at 50% 35%, transparent 52%, rgba(0, 0, 0, 0.4) 100%);
+}
+.persona-term-body { text-shadow: 0 0 1px rgba(180, 210, 255, 0.14); }
+.tprompt { text-shadow: 0 0 7px rgba(114, 173, 255, 0.5); }
+.tcmd { color: var(--fg1); text-shadow: 0 0 7px rgba(174, 204, 255, 0.4); }
+.persona-trow:hover .tname, .persona-trow.is-sel .tname { text-shadow: 0 0 8px rgba(114, 173, 255, 0.45); }
+@media (prefers-reduced-motion: reduce) { .persona-term::after { animation: none; } }
+.persona-term-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.02);
+}
+.persona-term-dots { display: inline-flex; gap: 7px; }
+.persona-term-dots i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+/* Brand-tinted traffic lights: signal-blue, periwinkle, lavender (hero gradient + orb hues). */
+.persona-term-dots .d-r { background: var(--accent, #72ADFF); box-shadow: 0 0 7px rgba(114, 173, 255, 0.6); }
+.persona-term-dots .d-y { background: #A0C8FF; }
+.persona-term-dots .d-g { background: #C4B0FF; }
+.persona-term-title { font-size: 11px; letter-spacing: 0.04em; color: var(--fg3); }
+.persona-term-body { padding: clamp(18px, 3vw, 26px) clamp(18px, 3vw, 24px) clamp(16px, 2.4vw, 22px); font-size: 13px; line-height: 1.7; }
+.persona-term-line { margin: 0 0 8px; color: var(--fg1); white-space: nowrap; }
+.tprompt { color: var(--accent); }
+.tpath { color: var(--fg2); }
+.persona-term-out { margin: 0 0 4px; color: var(--fg3); }
+.persona-term-menu { display: flex; flex-direction: column; margin: 14px 0; }
+.persona-trow {
+  display: grid; grid-template-columns: 16px 18px auto 1fr; align-items: baseline; gap: 10px;
+  width: 100%; text-align: left; cursor: pointer; background: none; border: none;
+  padding: 9px 8px; border-radius: 7px;
+  font-family: var(--font-code); font-size: 14px; color: var(--fg2);
+  transition: background-color 0.15s var(--ease-out-quart);
+}
+.tsel { color: var(--accent); opacity: 0; transition: opacity 0.15s var(--ease-out-quart); }
+.tnum { color: var(--fg3); font-size: 12px; transition: color 0.15s var(--ease-out-quart); }
+.tname { color: var(--fg1); text-transform: lowercase; }
+.thint { color: var(--fg3); font-size: 11px; text-transform: lowercase; letter-spacing: 0.03em; justify-self: end; text-align: right; }
+.persona-trow:hover, .persona-trow.is-sel, .persona-trow:focus-visible { background: rgba(114, 173, 255, 0.14); outline: none; }
+.persona-trow:hover .tsel, .persona-trow.is-sel .tsel, .persona-trow:focus-visible .tsel { opacity: 1; }
+.persona-trow:hover .tnum, .persona-trow.is-sel .tnum { color: var(--accent); }
+.persona-term-foot { margin: 2px 0 0; color: var(--fg2); display: flex; align-items: center; gap: 8px; }
+.persona-caret { display: inline-block; width: 8px; height: 15px; background: var(--accent); vertical-align: -2px; animation: personaBlink 1.05s steps(1, end) infinite; }
+.type-caret { height: 13px; }
+@keyframes personaBlink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+.persona-term-skip {
+  display: block; margin: 16px 0 0; padding: 0; background: none; border: none; cursor: pointer;
+  font-family: var(--font-code); font-size: 12px; color: var(--fg3); letter-spacing: 0.03em; transition: color 0.2s var(--ease-out-quart);
+}
+.persona-term-skip:hover, .persona-term-skip:focus-visible { color: var(--accent); outline: none; }
+.persona-term-help { margin: 12px 0 0; font-size: 10px; letter-spacing: 0.08em; color: var(--fg3); opacity: 0.65; }
+.persona-term-body .reveal { opacity: 0; transform: translateY(5px); }
+.persona-term-body .reveal.is-shown { opacity: 1; transform: none; transition: opacity 0.35s var(--ease-out-quart), transform 0.35s var(--ease-out-quint); }
+@media (max-width: 520px) {
+  .persona-trow { grid-template-columns: 16px 18px 1fr; }
+  .thint { display: none; }
+  .persona-term-line { white-space: normal; }
+}
+
+/* ---- injected intro card: a terminal-output block (matches the picker + the chip) ---- */
+.persona-intro {
+  margin: 0 0 clamp(36px, 6vh, 64px);
+  padding: clamp(20px, 2.6vw, 30px);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(16, 23, 42, 0.66), rgba(10, 15, 30, 0.66));
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: personaIntroIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes personaIntroIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.persona-intro-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+.persona-intro-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--fg3); font-weight: 400;
+}
+.persona-intro-badge .pi-mark { color: var(--accent); }
+.persona-intro-badge strong { color: var(--fg1); font-weight: 700; letter-spacing: 0.14em; }
+.persona-intro-change {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: none; border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 14px; cursor: pointer;
+  font-family: var(--font-code); font-size: 10.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--fg2); transition: border-color 0.2s var(--ease-out-quart), color 0.2s var(--ease-out-quart), transform 0.15s var(--ease-out-quart);
+}
+.persona-intro-change::before { content: '\21BB'; color: var(--accent); font-size: 12px; }
+.persona-intro-change:hover, .persona-intro-change:focus-visible { border-color: var(--accent); color: var(--fg1); outline: none; }
+.persona-intro-change:active { transform: translateY(1px); }
+.persona-intro-blurb {
+  font-family: var(--font-body); font-size: clamp(15px, 1.4vw, 17px); line-height: 1.65;
+  color: var(--fg1); margin: 0; max-width: 72ch;
+}
+.persona-intro-nav {
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border);
+  display: flex; align-items: baseline; gap: 8px 22px; flex-wrap: wrap;
+}
+.persona-intro-nav-label {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--fg3); flex: 0 0 auto;
+}
+.persona-intro-list {
+  list-style: none; counter-reset: pj; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 6px 20px;
+}
+.persona-intro-list li { counter-increment: pj; }
+/* Editorial numbered index, not pill chips: lowercase mono with an underline that wipes in. */
+.persona-jump {
+  position: relative; display: inline-flex; align-items: baseline; gap: 8px;
+  text-decoration: none; text-transform: lowercase;
+  font-family: var(--font-code); font-size: 12.5px; letter-spacing: 0.02em; color: var(--fg3);
+  padding: 3px 0; transition: color 0.2s var(--ease-out-quart);
+}
+.persona-jump::before { content: counter(pj, decimal-leading-zero); font-size: 10px; color: var(--fg3); opacity: 0.55; }
+.persona-jump::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s var(--ease-out-quint);
+}
+.persona-jump:hover { color: var(--fg1); }
+.persona-jump:hover::after { transform: scaleX(1); }
+.persona-jump.is-key { color: var(--fg1); }
+.persona-jump.is-key::before { color: var(--accent); opacity: 1; }
+.persona-jump.is-key::after { transform: scaleX(1); background: rgba(114, 173, 255, 0.4); }
+
+/* ---- emphasis / de-emphasis on reordered sections ---- */
+.cs-body.persona-swapping { opacity: 0.18; transition: opacity 0.17s var(--ease-out-quart); }
+.cs-body { transition: opacity 0.3s var(--ease-out-quart); }
+/* Reordering invalidates the page's scroll-reveal (ScrollTrigger) positions, which would
+   leave moved blocks stuck at opacity:0 (the "blank box"). Once a persona is active, force
+   all reveal content visible so nothing depends on stale trigger positions. Applies to any
+   case study the engine runs on, so scroll never breaks on the tailored view. */
+body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: none !important; }
+.persona-dim { opacity: 0.46; transition: opacity 0.45s var(--ease-out-quart); }
+.persona-dim:hover, .persona-dim:focus-within { opacity: 1; }
+.persona-emph[id^="cs-s-"] { position: relative; }
+.persona-emph[id^="cs-s-"]::before {
+  content: 'Most relevant for you';
+  display: inline-block; margin-bottom: 14px;
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent);
+  padding: 4px 11px; border-radius: 999px;
+  background: rgba(114, 173, 255, 0.1); border: 1px solid rgba(114, 173, 255, 0.28);
+}
+
+/* ---- persistent switcher chip ---- */
+.persona-chip {
+  position: fixed; left: 22px; bottom: 22px; z-index: 8000;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 15px; cursor: pointer;
+  background: rgba(12, 18, 38, 0.9); border: 1px solid var(--border); border-radius: 999px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.34);
+  font-family: var(--font-code); font-size: 11.5px; letter-spacing: 0.03em; color: var(--fg2);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.4s var(--ease-out-quint), transform 0.4s var(--ease-out-quint), border-color 0.2s var(--ease-out-quart);
+}
+.persona-chip.is-in { opacity: 1; transform: none; }
+.persona-chip:hover, .persona-chip:focus-visible { border-color: var(--accent); outline: none; }
+.persona-chip strong { color: var(--fg1); font-weight: 700; }
+.persona-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px rgba(114, 173, 255, 0.8); }
+.persona-chip-edit {
+  margin-left: 4px; padding-left: 9px; border-left: 1px solid var(--border);
+  color: var(--fg3); text-transform: uppercase; letter-spacing: 0.1em; font-size: 9.5px;
+}
+
+@media (max-width: 560px) {
+  .persona-grid { grid-template-columns: 1fr; }
+  .persona-chip { left: 14px; right: 14px; bottom: 14px; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .persona-overlay, .persona-modal, .persona-intro, .persona-chip,
+  .cs-body, .cs-body.persona-swapping, .persona-dim,
+  .persona-eyebrow, .persona-q, .persona-sub, .persona-row, .persona-skip,
+  .persona-term, .persona-caret, .persona-trow, .persona-term-body .reveal { transition: none var(--ease-out-quart); animation: none; }
+  .persona-term-body .reveal { opacity: 1; transform: none; }
+}
+:root.theme-light .persona-modal { background: linear-gradient(180deg, rgba(245, 248, 255, 0.99), rgba(236, 242, 252, 0.99)); }
+:root.theme-light .persona-overlay { background: rgba(220, 228, 244, 0.6); }
+:root.theme-light .persona-chip { background: rgba(245, 248, 255, 0.92); }
 
 /* CASE STUDY CLARITY STRIP
    Recruiter-facing summary that answers role, process, and impact before the
@@ -2032,3 +3003,154 @@ body.about-locked { overflow: hidden; }
     gap: 20px;
   }
 }
+
+/* ── MOBILE PERFORMANCE (site-wide) ──
+   On phone GPUs a fixed bar's backdrop-filter re-rasterizes the page behind it on every
+   scroll frame — the single biggest scroll-jank source. Swap blurs for solid fills on
+   small screens. !important intentionally beats each page's inline <style> nav rules. */
+@media (max-width: 860px) {
+  .cs-nav, .wk-nav {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(5, 7, 16, 0.94) !important;
+  }
+  :root.theme-light .cs-nav, :root.theme-light .wk-nav { background: rgba(245, 248, 255, 0.96) !important; }
+  .site-nav, .nav {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* ── MOBILE TAP TARGETS (site-wide) ──
+   Nav links and filter chips measured ~23-38px tall on phones, under the 44px
+   guideline. Padding + compensating negative margin grows the hit area without
+   shifting the visual layout. !important beats each page's inline <style>. */
+@media (max-width: 860px) {
+  .nav-link, .cs-nav-link, .wk-nav-link, .cs-back, .wk-back {
+    padding: 12px 10px !important;
+    margin: -12px -10px !important;
+  }
+  .wk-filter-btn { min-height: 44px !important; }
+}
+
+/* ── ABOUT on phones: composed, not squeezed ──
+   The desktop two-column about collapses into clutter at 390px: the brand tile floats
+   alone, the portrait hangs small and ragged, and the 2-col facts grid force-wraps its
+   italic values. Phone gets its own composition: one lit portrait moment, reading-width
+   prose, and an editorial spec list with hairline rows (glow over shadow, no cards). */
+@media (max-width: 640px) {
+  .about-overlay .scene-about { padding: 84px 0 72px; }
+  .scene-about .scene-title { font-size: clamp(1.7rem, 7.8vw, 2.3rem); }
+
+  /* desktop footnote tile reads as a stray icon alone on a phone */
+  .about-mark-wrap { display: none; }
+
+  /* portrait: same editorial 4:5 plate as desktop, lit by its own aura
+     (glow sits on the wrap's ::before and breathes outside the frame) */
+  .about-headshot-wrap {
+    width: min(52vw, 200px); aspect-ratio: 4 / 5; height: auto;
+    margin: 10px 0 6px;
+    position: relative; overflow: visible; border: none;
+  }
+  .about-headshot-wrap::before {
+    content: ''; position: absolute; inset: -30%; border-radius: 50%;
+    background: radial-gradient(circle, rgba(160, 200, 255, 0.15) 0%, rgba(196, 176, 255, 0.07) 46%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-headshot { border-radius: 2px; border: 1px solid var(--border); }
+
+  .about-para { font-size: 16px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LIGHT MODE CORRECTIONS
+   Per-page <style> blocks hard-code dark surfaces (rgba(5,7,16,…)) while their
+   text uses tokens that flip with the theme; on a light field that renders
+   dark-on-dark (measured as low as 1.0:1). These :root.theme-light rules
+   out-specify the page rules (0,3,0 vs 0,1,0), so one block corrects every page.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Fixed navs: light frosted surface instead of the void-tuned dark. */
+:root.theme-light .cs-nav,
+:root.theme-light .wk-nav,
+:root.theme-light .ar-nav {
+  background: rgba(246, 249, 255, 0.86);
+  border-bottom-color: var(--border);
+}
+
+/* About overlay: the scrim is void-tuned; lighten it so flipped text stays legible. */
+:root.theme-light .about-overlay { background: rgba(231, 237, 248, 0.96); }
+/* The reading lamp screen-blends toward white — invisible and washing on a light field. */
+:root.theme-light .about-lamp { mix-blend-mode: multiply; opacity: 0.5; }
+
+/* Gradient wordmark: the dark-mode ramp is near-white, so it vanishes on light.
+   Use background-image (not the shorthand) or it resets background-clip:text and the
+   gradient paints the whole box instead of the letterforms. */
+:root.theme-light .flow-menu-logo-text {
+  background-image: linear-gradient(118deg, #0B1330 0%, #244A86 55%, #1552B8 100%);
+}
+
+/* Accent TEXT must use the deepened token (--fg-accent = blue-500), not the fill
+   accent, which is intentionally identical across themes and too pale to read. */
+:root.theme-light .hero-name-morph,
+:root.theme-light .morphing-text-a,
+:root.theme-light .morphing-text-b,
+:root.theme-light .cs-kicker,
+:root.theme-light .cs-question-n,
+:root.theme-light .cs-pet-celeb,
+:root.theme-light .cs-const-label-el,
+:root.theme-light .cs-section-h em,
+:root.theme-light .cs-title em,
+:root.theme-light .wk-filter-btn.is-active,
+:root.theme-light .cap-idx,
+:root.theme-light .skills-label { color: var(--fg-accent); }
+
+/* Brand tool glyphs are tuned for the void; darken them to hold contrast on light. */
+:root.theme-light .skill-tool-abbr { filter: brightness(0.62) saturate(1.35); }
+
+/* Accent text that resists the cascade (inline styles / page-level rules). !important is
+   appropriate here: this is the theme-correction layer, and these are WCAG AA failures. */
+:root.theme-light .morphing-text-a,
+:root.theme-light .morphing-text-b,
+:root.theme-light .hero-name-morph,
+:root.theme-light .skills-label,
+:root.theme-light .skills-idx,
+:root.theme-light .tprompt,
+:root.theme-light .cs-metric-val em,
+:root.theme-light .cs-artifact-caption a,
+:root.theme-light .cs-reflection-body em,
+:root.theme-light .cs-decision-a em,
+:root.theme-light .tr-panel-num,
+:root.theme-light .ar-process-label,
+:root.theme-light .ar-process-chain-label,
+:root.theme-light .ar-title em { color: var(--fg-accent) !important; }
+
+/* Labels printed on their own dark pill stay light (their surface does not flip). */
+:root.theme-light .yk-label { color: #F6FAFF !important; }
+
+/* Components that remain dark in light mode (terminal modal, lightboxes, fullscreen
+   video chrome) must keep light text. Re-scoping the tokens fixes every descendant
+   at once, instead of chasing individual rules. */
+:root.theme-light .persona-overlay,
+:root.theme-light .persona-modal,
+:root.theme-light .lb-overlay,
+:root.theme-light .ar-fs,
+:root.theme-light .cs-reel-fs {
+  --fg1: #F6FAFF;
+  --fg2: rgba(235, 243, 255, 0.72);
+  --fg3: rgba(160, 200, 255, 0.58);
+  --fg-accent: #72ADFF;
+  --fg-accent-dim: #A0C8FF;
+  color: #F6FAFF;
+}
+
+/* index.html's applyTweaks() writes --fg-accent inline on :root (same value as the fill
+   accent), which clobbers the light-mode token. An !important author declaration beats a
+   non-important inline style, so this holds the deep text accent no matter when the theme
+   is toggled. --accent (fills, cursor, focus) intentionally stays the light signal blue. */
+:root.theme-light { --fg-accent: #1552B8 !important; }
+
+/* The hero role field colours from --accent (a fill token); on light it needs the text one. */
+:root.theme-light .hero-name-row--role,
+:root.theme-light .morphing-text { color: var(--fg-accent) !important; }
+:root.theme-light .hero-name-caret { background: var(--fg-accent); }

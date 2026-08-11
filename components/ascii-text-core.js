@@ -169,6 +169,7 @@
     this.texture.minFilter = THREE.NearestFilter;
     var aspect = this.textCanvas.canvas.width / this.textCanvas.canvas.height;
     var planeH = this.planeBaseHeight, planeW = planeH * aspect;
+    this.planeW = planeW; // cached so setSize() can fit the wordmark to narrow viewports
     this.geometry = new THREE.PlaneGeometry(planeW, planeH, 36, 36);
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertexShader, fragmentShader: fragmentShader, transparent: true,
@@ -190,6 +191,15 @@
   CanvAscii.prototype.setSize = function (w, h) {
     this.width = w; this.height = h;
     this.camera.aspect = w / h; this.camera.updateProjectionMatrix();
+    // Fit the wordmark to the viewport width: on portrait/narrow screens the plane is
+    // wider than the camera's visible width and would clip, so scale it down (with a 10%
+    // side margin). Desktop already fits, so it stays at scale 1 — unchanged.
+    if (this.mesh && this.planeW) {
+      var visH = 2 * this.camera.position.z * Math.tan((this.camera.fov * Math.PI / 180) / 2);
+      var visW = visH * this.camera.aspect;
+      var fit = this.planeW > visW ? (visW * 0.9) / this.planeW : 1;
+      this.mesh.scale.set(fit, fit, 1);
+    }
     this.filter.setSize(w, h); this.center = { x: w / 2, y: h / 2 };
   };
   CanvAscii.prototype.load = function () {
@@ -255,7 +265,11 @@
     var host = document.getElementById('ll-asciitext');
     var reduced = false;
     try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-    if (loaderEl && host && !reduced && !document.body.classList.contains('loader-done')) {
+    // Loader name is now the gradient .ll-rm-name wordmark (see index.html), not the WebGL
+    // ASCII plane — so the loader mount is disabled. AsciiTextMount stays exported for the
+    // Spotlight "standout_work" heading.
+    var USE_ASCII_LOADER_NAME = false;
+    if (USE_ASCII_LOADER_NAME && loaderEl && host && !reduced && !document.body.classList.contains('loader-done')) {
       if (typeof THREE === 'undefined') {
         loaderEl.classList.remove('has-asciitext');  // fall back to #ll-ascii
       } else {

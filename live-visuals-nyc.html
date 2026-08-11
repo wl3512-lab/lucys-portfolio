@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
 <title>Demon Nights: VJ Residency | Lucy Liu</title>
-<meta name="description" content="Weekly VJ residency at Studio Maison Nur (217 Bowery, NYC), a private invite-only club. Custom audio-reactive visuals designed every Thursday for Demon Nights, in collaboration with DJ Diablo (Sebastian Baldeon)." />
+<meta name="description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights, the Thursday party from DJ and diamond-certified producer Diablo. Custom audio-reactive visuals designed every Thursday for Demon Nights, the weekly party thrown by Diablo (Sebastian Baldeon) and friends who DJ." />
 <meta property="og:title" content="Demon Nights: VJ Residency | Lucy Liu" />
-<meta property="og:description" content="Weekly VJ residency at Studio Maison Nur (217 Bowery, NYC) for Demon Nights. Custom audio-reactive generative visuals every Thursday, in collaboration with DJ Diablo." />
+<meta property="og:description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights. Custom audio-reactive generative visuals every Thursday, for the weekly party thrown by Diablo and friends who DJ." />
 <meta property="og:url" content="https://lucyliu.xyz/live-visuals-nyc.html" />
 <meta property="og:image" content="https://lucyliu.xyz/assets/og-preview.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -330,6 +334,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── SOUND INDICATOR ── */
 .ar-sound-btn {
+  display: none !important; /* in-place audio removed: tapping a card now opens the fullscreen view (with sound) */
   position: absolute;
   bottom: 12px; right: 12px; z-index: 3;
   width: 36px; height: 36px;
@@ -724,6 +729,88 @@ a { color: inherit; text-decoration: none; }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
 .cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+
+/* ══ VJ SET RELAYOUT ══
+   Not a product-card grid: each clip is a stage screen. Full-bleed cinematic bands,
+   clips 02/03 offset asymmetrically like club screens, set-marker numerals and titles
+   OVERLAID on the footage, description on the scrim. Overrides the ar-card base. */
+.ar-collection .ar-inner { width: min(1400px, 96vw); }
+.ar-grid {
+  display: flex; flex-direction: column;
+  gap: clamp(24px, 5vh, 56px);
+}
+.ar-card, .ar-card--featured {
+  position: relative;
+  flex-direction: column;
+  background: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ar-card .ar-video-wrap, .ar-card--featured .ar-video-wrap {
+  width: 100%; flex: none;
+  aspect-ratio: 16 / 9;
+  height: auto; max-height: 80vh;
+}
+/* the offset pair: screens hung left and right of the stage */
+.ar-card[data-piece="live-av-2"] { width: 72%; align-self: flex-start; }
+.ar-card[data-piece="live-av-3"] { width: 72%; align-self: flex-end; }
+/* body rides the footage on a scrim, not a panel below */
+.ar-card .ar-card-body, .ar-card--featured .ar-card-body {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  padding: clamp(20px, 3.5vw, 44px);
+  background: linear-gradient(to top, rgba(5,7,16,0.92) 0%, rgba(5,7,16,0.45) 55%, transparent 100%);
+  pointer-events: none;
+  gap: 8px;
+}
+.ar-card .ar-card-body > *, .ar-card--featured .ar-card-body > * { pointer-events: auto; }
+/* set-marker: oversized outlined numeral leading the scrim stack, artist on its baseline */
+.ar-card .ar-card-meta {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 2px;
+}
+.ar-card .ar-card-num {
+  font-family: var(--font-code); font-weight: 700;
+  font-size: clamp(30px, 4.2vw, 58px); line-height: 1;
+  color: rgba(246,250,255,0.28);
+  -webkit-text-stroke: 1px rgba(246,250,255,0.55);
+  text-shadow: 0 2px 22px rgba(5,7,16,0.8);
+}
+.ar-card .ar-card-num::after { display: none; }
+.ar-card .ar-card-artist {
+  font-size: 10px; letter-spacing: 0.2em; color: rgba(246,250,255,0.6);
+  text-shadow: 0 1px 10px rgba(5,7,16,0.9);
+}
+.ar-card .ar-card-title, .ar-card--featured .ar-card-title {
+  font-size: clamp(24px, 3.4vw, 46px); line-height: 1;
+  text-shadow: 0 2px 18px rgba(5,7,16,0.7);
+}
+.ar-card .ar-card-desc, .ar-card--featured .ar-card-desc {
+  max-width: 62ch; font-size: 13.5px; line-height: 1.65;
+  color: rgba(235,243,255,0.78);
+}
+/* desktop: descriptions sit low and rise on hover so footage leads */
+@media (hover: hover) and (min-width: 861px) {
+  .ar-card .ar-card-desc, .ar-card .ar-read-more, .ar-card .ar-expand-btn {
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .35s var(--ease-out-expo), transform .35s var(--ease-out-expo);
+  }
+  .ar-card:hover .ar-card-desc, .ar-card:focus-within .ar-card-desc,
+  .ar-card:hover .ar-read-more, .ar-card:focus-within .ar-read-more,
+  .ar-card:hover .ar-expand-btn, .ar-card:focus-within .ar-expand-btn {
+    opacity: 1; transform: translateY(0);
+  }
+}
+.ar-card.is-playing { animation: none; }
+/* phones: full-width bands, text below the footage where it stays readable */
+@media (max-width: 860px) {
+  .ar-card[data-piece="live-av-2"], .ar-card[data-piece="live-av-3"] { width: 100%; }
+  .ar-card .ar-card-body, .ar-card--featured .ar-card-body {
+    position: static; background: none; padding: 14px 4px 0;
+  }
+  .ar-card .ar-card-num { font-size: 28px; }
+  .ar-card .ar-card-title, .ar-card--featured .ar-card-title { font-size: 22px; text-shadow: none; }
+}
 </style>
 </head>
 <body>
@@ -742,7 +829,7 @@ a { color: inherit; text-decoration: none; }
     <a href="index.html" class="cs-logo" aria-label="lucy liu home">lucy liu</a>
     <div class="cs-nav-right">
       <a href="index.html#about" class="cs-nav-link">about</a>
-      <a href="index.html#contact" class="cs-nav-link">contact ↗</a>
+      <a href="mailto:wl3512@nyu.edu" class="cs-nav-link">contact ↗</a>
     </div>
   </div>
 </nav>
@@ -764,7 +851,7 @@ a { color: inherit; text-decoration: none; }
         <h1 class="ar-title">Demon <em>Nights</em></h1>
         <div class="ar-status" aria-label="status: currently running">
           <span class="ar-status-dot" aria-hidden="true"></span>
-          ongoing, every thursday
+          ongoing · thursdays, 11pm to 4am
         </div>
       </div>
 
@@ -772,23 +859,40 @@ a { color: inherit; text-decoration: none; }
         <dl class="ar-fact-grid" aria-label="residency details">
           <dt class="ar-fact-label">venue</dt>
           <dd class="ar-fact-value">
-            Studio Maison Nur
-            <span class="ar-fact-note">private · invite-only · 217 Bowery, NYC</span>
+            Maison Nur
+            <span class="ar-fact-note">217 Bowery, NYC · created by Nur Khan</span>
           </dd>
           <dt class="ar-fact-label">role</dt>
           <dd class="ar-fact-value">VJ / Visual Artist</dd>
           <dt class="ar-fact-label">with</dt>
-          <dd class="ar-fact-value">DJ Diablo (Sebastian Baldeon)</dd>
+          <dd class="ar-fact-value">Diablo (Sebastian Baldeon) &amp; friends</dd>
           <dt class="ar-fact-label">tools</dt>
           <dd class="ar-fact-value">TouchDesigner, MIDI, audio routing</dd>
         </dl>
         <p class="ar-sub">
-          every Thursday i build custom audio-reactive generative visuals from scratch for Studio Maison Nur, a private, invite-only club at 217 Bowery that runs nightlife small and close instead of loud. the work plays live across the full ceiling above the dance floor and reacts to frequency bands, percussive hits, and how hard the room is going. i wrote and run the whole TouchDesigner network myself.
+          every thursday i build custom audio-reactive generative visuals from scratch for demon nights at maison nur (217 bowery), the downtown room created by nur khan. dj and diamond-certified producer diablo brought the party to new york after building one of la's most talked-about underground residencies, and it runs 11pm to 4am for a crowd of artists, creatives, founders, and tastemakers. the work plays live across the full ceiling above the dance floor and reacts to frequency bands, percussive hits, and how hard the room is going. i wrote and run the whole TouchDesigner network myself.
         </p>
       </div>
 
     </div>
   </header>
+
+  <section class="case-clarity case-clarity--standalone" aria-label="Role, process, and impact">
+    <div class="case-clarity-inner">
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Role</span>
+        <p class="case-clarity-v">I run the VJ system, build custom TouchDesigner visuals, and operate the live ceiling projection during the residency.</p>
+      </div>
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Process</span>
+        <p class="case-clarity-v">I route audio, tune MIDI controls, and adapt generative systems to the room, the DJs, and the crowd energy each week.</p>
+      </div>
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Impact</span>
+        <p class="case-clarity-v">The work ships live every Thursday at Maison Nur, turning the ceiling into a responsive visual layer for the party.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- COLLECTION -->
   <section class="ar-collection" aria-labelledby="ar-coll-label">
@@ -799,7 +903,7 @@ a { color: inherit; text-decoration: none; }
       <div class="ar-grid" role="list">
 
         <!-- 01: main performance — featured, full width -->
-        <article class="ar-card ar-card--featured" role="listitem" aria-label="clip 01: live performance" data-piece="live-av-1">
+        <div class="ar-card ar-card--featured" role="listitem" aria-label="clip 01: live performance" data-piece="live-av-1">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 1: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-1.mp4">
             <video
               class="ar-video"
@@ -807,7 +911,7 @@ a { color: inherit; text-decoration: none; }
               poster="assets/live-visuals-nyc/live-av-1-poster.jpg"
               muted loop playsinline
               preload="metadata"
-              aria-label="live audio-reactive generative visuals projected on ceiling at Demon Nights, Studio Maison Nur, 217 Bowery NYC"
+              aria-label="live audio-reactive generative visuals projected on ceiling at Demon Nights, Maison Nur, 217 Bowery NYC"
             ></video>
             <div class="ar-sound-btn" aria-hidden="true">
               <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -831,7 +935,7 @@ a { color: inherit; text-decoration: none; }
           <div class="ar-card-body">
             <div class="ar-card-meta">
               <span class="ar-card-num">01</span>
-              <span class="ar-card-artist">dj diablo</span>
+              <span class="ar-card-artist">diablo + friends</span>
             </div>
             <h2 class="ar-card-title">How it works</h2>
             <p class="ar-card-desc" id="clip01-desc">
@@ -849,10 +953,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 02 -->
-        <article class="ar-card" role="listitem" aria-label="clip 02" data-piece="live-av-2">
+        <div class="ar-card" role="listitem" aria-label="clip 02" data-piece="live-av-2">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 2: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-2.mp4">
             <video
               class="ar-video"
@@ -877,23 +981,6 @@ a { color: inherit; text-decoration: none; }
               <div class="ar-play-icon">
                 <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
                   <path d="M1.5 1.5l10 6-10 6V1.5z"/>
-  <section class="case-clarity case-clarity--standalone" aria-label="Role, process, and impact">
-    <div class="case-clarity-inner">
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Role</span>
-        <p class="case-clarity-v">I run the VJ system, build custom TouchDesigner visuals, and operate the live ceiling projection during the residency.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Process</span>
-        <p class="case-clarity-v">I route audio, tune MIDI controls, and adapt generative systems to the room, the DJs, and the crowd energy each week.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Impact</span>
-        <p class="case-clarity-v">The work ships live every Thursday at Maison Nur, turning the ceiling into a responsive visual layer for the party.</p>
-      </div>
-    </div>
-  </section>
-
                 </svg>
               </div>
             </div>
@@ -901,7 +988,7 @@ a { color: inherit; text-decoration: none; }
           <div class="ar-card-body">
             <div class="ar-card-meta">
               <span class="ar-card-num">02</span>
-              <span class="ar-card-artist">dj diablo</span>
+              <span class="ar-card-artist">diablo + friends</span>
             </div>
             <h2 class="ar-card-title">the set, mid-night</h2>
             <p class="ar-card-desc">
@@ -917,10 +1004,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 03 -->
-        <article class="ar-card" role="listitem" aria-label="clip 03" data-piece="live-av-3">
+        <div class="ar-card" role="listitem" aria-label="clip 03" data-piece="live-av-3">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 3: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-3.mp4">
             <video
               class="ar-video"
@@ -952,7 +1039,7 @@ a { color: inherit; text-decoration: none; }
           <div class="ar-card-body">
             <div class="ar-card-meta">
               <span class="ar-card-num">03</span>
-              <span class="ar-card-artist">dj diablo</span>
+              <span class="ar-card-artist">diablo + friends</span>
             </div>
             <h2 class="ar-card-title">the drop</h2>
             <p class="ar-card-desc">
@@ -968,10 +1055,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 04 -->
-        <article class="ar-card" role="listitem" aria-label="clip 04: close up" data-piece="live-av-4">
+        <div class="ar-card" role="listitem" aria-label="clip 04: close up" data-piece="live-av-4">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 4: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-4.mp4">
             <video
               class="ar-video"
@@ -1003,7 +1090,7 @@ a { color: inherit; text-decoration: none; }
           <div class="ar-card-body">
             <div class="ar-card-meta">
               <span class="ar-card-num">04</span>
-              <span class="ar-card-artist">dj diablo</span>
+              <span class="ar-card-artist">diablo + friends</span>
             </div>
             <h2 class="ar-card-title">close up</h2>
             <p class="ar-card-desc">
@@ -1019,7 +1106,7 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
       </div>
     </div>
@@ -1043,7 +1130,8 @@ a { color: inherit; text-decoration: none; }
 <!-- FULLSCREEN OVERLAY -->
 <div id="ar-media-status" role="status" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
 
-<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true" aria-labelledby="ar-fs-title">
+<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true"
+     aria-labelledby="ar-fs-title" aria-label="Fullscreen media viewer" inert>
   <div class="ar-fs-bg" aria-hidden="true"></div>
   <div class="ar-fs-panel">
     <button class="ar-fs-close" aria-label="close fullscreen">
@@ -1212,17 +1300,40 @@ a { color: inherit; text-decoration: none; }
   document.querySelectorAll('.ar-card').forEach(function (card) {
     var wrap = card.querySelector('.ar-video-wrap');
     if (!wrap || !wrap.dataset.fsSrc) {
-      var btn = card.querySelector('.ar-expand-btn');
-      if (btn) { btn.hidden = true; }
+      var eb = card.querySelector('.ar-expand-btn');
+      if (eb) { eb.hidden = true; }
+    }
+  });
+
+  /* ── Whole card opens the fullscreen view (large, phone-friendly tap target) ── */
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  document.querySelectorAll('.ar-card').forEach(function (card) {
+    card.style.cursor = 'pointer';
+    var wrap = card.querySelector('.ar-video-wrap');
+    var vid  = card.querySelector('.ar-video');
+    if (wrap) {
+      var t = (card.querySelector('.ar-card-title') || {}).textContent || 'clip';
+      wrap.setAttribute('aria-label', t + ': view fullscreen');
+    }
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('button')) return;   /* let read-more / view-full run their own handlers */
+      openFS(card, card);
+    });
+    /* desktop only: muted hover preview so the grid still feels alive */
+    if (canHover && wrap && vid) {
+      wrap.addEventListener('mouseenter', function () {
+        if (vid.src) { vid.muted = true; vid.play().catch(function () {}); }
+      });
+      wrap.addEventListener('mouseleave', function () { vid.pause(); });
     }
   });
 
   wraps.forEach(function (wrap) {
-    wrap.addEventListener('click', function () { toggle(wrap); });
     wrap.addEventListener('keydown', function (e) {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
-        toggle(wrap);
+        var c = wrap.closest('.ar-card');
+        if (c) openFS(c, wrap);
       }
     });
   });
@@ -1258,6 +1369,7 @@ a { color: inherit; text-decoration: none; }
     fsVid.load();
 
     fsEl.classList.add('is-open');
+    fsEl.inert = false;
     document.body.style.overflow = 'hidden';
     document.querySelector('main')    && (document.querySelector('main').inert    = true);
     document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = true);
@@ -1283,6 +1395,7 @@ a { color: inherit; text-decoration: none; }
       }
     }, 320);
     if (fsOpener) { fsOpener.focus(); fsOpener = null; }
+    fsEl.inert = true;
   }
 
   if (fsClose) fsClose.addEventListener('click', closeFS);
@@ -1324,7 +1437,7 @@ a { color: inherit; text-decoration: none; }
 </script>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="audio-reactive.html">
@@ -1333,7 +1446,7 @@ a { color: inherit; text-decoration: none; }
     </a>
     <p class="cs-next-desc">Audio Reactive is the studio side of the same work: using code and sound to generate visuals in a controlled setting, where I can push the system without a live crowd waiting on it.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
@@ -1389,6 +1502,7 @@ a { color: inherit; text-decoration: none; }
 
   var canvas = document.createElement('canvas');
   canvas.className = 'waves-canvas';
+  canvas.setAttribute('aria-hidden', 'true');   // decorative backdrop: keep out of the a11y tree
   host.appendChild(canvas);
   var ctx = canvas.getContext('2d');
   var noise = new Noise(Math.random());
@@ -1493,5 +1607,8 @@ a { color: inherit; text-decoration: none; }
 })();
 </script>
 
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

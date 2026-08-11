@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>LOOP — Lucy Liu</title>
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="shortcut icon" href="favicon.ico?v=3" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
+<title>LOOP | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/loop.html" />
 <meta name="description" content="LOOP — A browser-based psychological thriller told through text messages. You receive a text from an unknown number. They claim to be you — 24 hours from now. By Lucy Liu." />
 <meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -14,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=10" />
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
@@ -28,6 +32,12 @@ html {
   --cyan-a40: oklch(0.91 0.14 192 / 0.40);
   --cyan-a50: oklch(0.91 0.14 192 / 0.50);
   --cyan-a60: oklch(0.91 0.14 192 / 0.60);
+}
+/* Light mode: the dark-tuned cyan is too pale on a light field. Deepen the solid accent
+   so headline em / labels stay readable (the low-alpha a-variants stay for subtle glows). */
+:root.theme-light {
+  --cyan:     oklch(0.52 0.12 205);
+  --cyan-dim: oklch(0.46 0.11 205);
 }
 body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
@@ -91,6 +101,26 @@ a { color: inherit; text-decoration: none; }
   filter: drop-shadow(0 4px 12px oklch(0 0 0 / 0.40)) drop-shadow(0 20px 56px oklch(0 0 0 / 0.45));
 }
 .lp-hero-img-wrap img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .lp-hero-text-col { display: flex; flex-direction: column; gap: 20px; }
 
 .cs-kicker {
@@ -155,8 +185,14 @@ a { color: inherit; text-decoration: none; }
 .cs-image {
   background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
   overflow: hidden;
+  /* Hug the image instead of letterboxing it: portrait shots (phone screenshots) were
+     floating inside a full-width frame with dead space either side. fit-content collapses
+     the frame to the image; landscape shots still fill the block, so nothing else moves. */
+  width: fit-content; max-width: 100%; margin-inline: auto;
 }
-.cs-image img { width: 100%; height: auto; display: block; }
+/* Never upscale past native width, and cap height so tall/portrait photos don't dominate
+   the desktop viewport (home-cameras.png is portrait — full-bleed it renders ~1036px tall). */
+.cs-image img { width: auto; max-width: 100%; height: auto; max-height: min(70vh, 620px); display: block; margin: 0 auto; }
 .cs-image-caption { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin-top: 12px; text-align: center; }
 
 /* ACCORDION */
@@ -327,7 +363,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 @media (prefers-reduced-motion: reduce) { .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; } }
 </style>
 </head>
-<body>
+<body data-persona-slug="loop">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -342,33 +378,45 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,20 18,90 42,160 30,240"/>
-    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Overview">
-      <circle class="cs-const-hit" cx="30" cy="20"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="20"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="20"  r="3"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 444" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,404"/>
+    <g class="cs-const-g" data-snav="cs-s-hero">
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-interface" tabindex="0" role="button" aria-label="Jump to The Interface">
-      <circle class="cs-const-hit" cx="18" cy="90" r="13"/>
-      <circle class="cs-const-ring" cx="18" cy="90" r="8"/>
-      <circle class="cs-const-dot"  cx="18" cy="90" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-interface">
+      <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-engine" tabindex="0" role="button" aria-label="Jump to Story Engine">
-      <circle class="cs-const-hit" cx="42" cy="160" r="13"/>
-      <circle class="cs-const-ring" cx="42" cy="160" r="8"/>
-      <circle class="cs-const-dot"  cx="42" cy="160" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-engine">
+      <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-endings" tabindex="0" role="button" aria-label="Jump to Endings">
-      <circle class="cs-const-hit" cx="30" cy="240" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="240" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="240" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-endings">
+      <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-principles">
+      <circle class="cs-const-hit" cx="18" cy="328" r="13"/>
+      <circle class="cs-const-ring" cx="18" cy="328" r="8"/>
+      <circle class="cs-const-dot"  cx="18" cy="328" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-reflection">
+      <circle class="cs-const-hit" cx="30" cy="404" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="404" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="404" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:13px"  data-label="cs-s-hero">Overview</span>
-  <span class="cs-const-label-el" style="top:83px"  data-label="cs-s-interface">Interface</span>
-  <span class="cs-const-label-el" style="top:153px" data-label="cs-s-engine">Story Engine</span>
-  <span class="cs-const-label-el" style="top:233px" data-label="cs-s-endings">Endings</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-interface">Interface</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-engine">Engine</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-endings">Endings</span>
+  <span class="cs-const-label-el" style="top:321px" data-label="cs-s-principles">Principles</span>
+  <span class="cs-const-label-el" style="top:397px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <!-- HERO -->
@@ -378,7 +426,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 
   <div class="lp-hero-split">
     <div class="lp-hero-img-col">
-      <div class="lp-hero-img-wrap">
+      <div class="lp-hero-img-wrap border-beam">
         <img src="assets/loop/cover.png"
              alt="LOOP game: notification banner reads 'Unknown: Dont send that message to Jess' while the player is already in the Jess conversation, having typed 'help'"
              fetchpriority="high" />
@@ -429,12 +477,29 @@ details[open] .tr-panel-icon { color: var(--cyan); }
   </div>
 </section>
 
+<section class="case-clarity" aria-label="Role, process, and impact">
+  <div class="case-clarity-inner">
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Role</span>
+      <p class="case-clarity-v">I designed and built the narrative interface, prompt system, state logic, phone UI, and audio-visual pacing.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Process</span>
+      <p class="case-clarity-v">I constrained the bot voice, tracked story state in code, and used ordinary phone patterns to create dread.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Impact</span>
+      <p class="case-clarity-v">The result is a playable narrative system where the interface carries the story instead of decorating it.</p>
+    </div>
+  </div>
+</section>
+
 <div class="cs-body">
 
   <!-- CONCEPT INTRO -->
   <div id="cs-s-interface" class="lp-concept" data-cs-reveal>
     <p class="lp-concept-label">Chatbots for Art's Sake</p>
-    <h2 class="lp-concept-h">The interface<br>is the <em>narrative.</em></h2>
+    <h2 class="lp-concept-h">The interface<br>is the narrative.</h2>
     <div class="lp-concept-body">
       <p>Every visual choice in LOOP is part of the story. The monospace clock. The reminders widget with "call dr. about appointment." The bedroom camera that stays offline for the entire game — until it doesn't. None of that is in the chat. The environment creates dread before the bot says a word.</p>
       <p>LOOP looks 95% like a real iPhone. That 5% is where it lives. Dread comes from familiarity. The design principle is restraint over spectacle: the scariest version of this interface is the one that almost passes as normal. Cheap horror uses distorted fonts. LOOP uses mundane reminders and a camera feed that says "Last Updated: 3 seconds ago."</p>
@@ -453,10 +518,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       <p class="cs-image-caption">Home Cameras — CAM 04 offline. Motion detected.</p>
     </div>
 
-    <!-- ACCORDION SECTIONS -->
-    <div class="tr-accordion">
+  </div><!-- /interface: camera -->
 
-      <!-- 01 · THE INTERFACE -->
+  <!-- 01 · THE INTERFACE -->
+  <div class="cs-body-inner tr-accordion" data-cs-reveal>
       <details class="tr-panel" open>
         <summary>
           <span class="tr-panel-icon" aria-hidden="true">
@@ -477,23 +542,6 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
             <p>Every screen in LOOP is built from scratch in p5.js and HTML. The lock screen shows a real ticking time and a notification from "Unknown." The home screen has a reminders widget with items like "call dr. about appointment" — mundane enough to feel real.</p>
-<section class="case-clarity" aria-label="Role, process, and impact">
-  <div class="case-clarity-inner">
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I designed and built the narrative interface, prompt system, state logic, phone UI, and audio-visual pacing.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I constrained the bot voice, tracked story state in code, and used ordinary phone patterns to create dread.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">The result is a playable narrative system where the interface carries the story instead of decorating it.</p>
-    </div>
-  </div>
-</section>
-
             <p>The home camera app shows three feeds: <strong>Front Door</strong> (live, night vision), <strong>Back Door</strong> (last updated 3 seconds ago), and <strong>Bedroom Window</strong>, offline with a red MOTION alert. That camera goes offline as a design choice. Something is there. The game never explains it.</p>
             <p>Screen cracks run down the right side of the phone frame. The audio layer adds glitch sounds, a pulsing alarm, and an iOS-style text ping. None of it is labeled. The wrongness is in the details.</p>
           </div>
@@ -513,8 +561,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </details>
 
-      <!-- 02 · STORY ENGINE -->
-      <div id="cs-s-engine" class="cs-snav-anchor"></div>
+  </div><!-- /interface: panel -->
+
+  <!-- 02 · STORY ENGINE -->
+  <div class="cs-body-inner tr-accordion" id="cs-s-engine" data-cs-reveal>
       <details class="tr-panel">
         <summary>
           <span class="tr-panel-icon" aria-hidden="true">
@@ -558,8 +608,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </details>
 
-      <!-- 03 · FOUR ENDINGS -->
-      <div id="cs-s-endings" class="cs-snav-anchor"></div>
+  </div><!-- /cs-s-engine -->
+
+  <!-- 03 · FOUR ENDINGS -->
+  <div class="cs-body-inner tr-accordion" id="cs-s-endings" data-cs-reveal>
       <details class="tr-panel">
         <summary>
           <span class="tr-panel-icon" aria-hidden="true">
@@ -613,13 +665,14 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </details>
 
-    </div>
+  </div><!-- /cs-s-endings -->
 
-    <!-- DESIGN PRINCIPLES -->
+  <!-- DESIGN PRINCIPLES -->
+  <div class="cs-body-inner" id="cs-s-principles" data-cs-reveal>
     <div class="cs-section lp-section-gap" data-cs-section>
       <span class="cs-section-wm">D</span>
       <p class="cs-section-label" data-cs-reveal>Design Principles</p>
-      <h2 class="cs-section-h" data-cs-reveal>How it was <em>built.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>How it was built.</h2>
       <div class="lp-principles" data-cs-reveal>
         <div class="lp-principle">
           <span class="lp-principle-num">01</span>
@@ -659,11 +712,14 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       </div>
     </div>
 
-    <!-- REFLECTION -->
+  </div><!-- /cs-s-principles -->
+
+  <!-- REFLECTION -->
+  <div class="cs-body-inner" id="cs-s-reflection" data-cs-reveal>
     <div class="cs-section lp-section-gap" data-cs-section>
       <span class="cs-section-wm">R</span>
       <p class="cs-section-label" data-cs-reveal>Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I took <em>away.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I took away.</h2>
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Constraining the bot's voice was the hardest design problem.</p>
@@ -679,15 +735,14 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </div>
       </div>
     </div>
-
-  </div>
+  </div><!-- /cs-s-reflection -->
 
 </div>
 
 </main>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Next project</p>
     <a class="cs-next-link" href="undertheweather.html">
@@ -695,7 +750,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       <span class="cs-next-arrow">↗</span>
     </a>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
 
@@ -719,7 +774,34 @@ details[open] .tr-panel-icon { color: var(--cyan); }
   }
 
   const nav = document.getElementById('cs-section-nav');
-  const sectionIds = ['cs-s-hero','cs-s-interface','cs-s-engine','cs-s-endings'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
+  const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
   const nodes = document.querySelectorAll('[data-snav]');
   const labels = document.querySelectorAll('[data-label]');
 
@@ -737,7 +819,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 
   if ('IntersectionObserver' in window) {
     const navIo = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+      if (entries.some(e => e.isIntersecting)) computeActive();
     }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
     sectionIds.forEach(id => { const el = document.getElementById(id); if (el) navIo.observe(el); });
   }
@@ -756,5 +838,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 })();
 </script>
 
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

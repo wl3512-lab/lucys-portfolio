@@ -16,3 +16,6 @@ node_modules/
 
 # Local game project (has its own git repo; not deployed)
 Final Loop game/
+
+# Unreferenced full-res stray at project root
+driftwood.JPG

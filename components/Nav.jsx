@@ -1,12 +1,14 @@
 /* global React */
 const { useEffect, useRef, useState } = React;
 
-function Nav() {
+function Nav(props) {
+  const onNavClick = props && props.onNavClick;
+  // FlowingMenu rows: each reveals an image marquee on hover. text + link + image.
   const items = [
-    { label: 'All Work', ariaLabel: 'View all work', link: 'work.html' },
-    { label: 'About', ariaLabel: 'About Lucy Liu', link: '#about' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
-    { label: 'Resume', ariaLabel: 'View resume (opens in new tab)', link: 'assets/resume.pdf', external: true },
+    { text: 'Work', ariaLabel: 'View all work', link: 'work.html', image: 'assets/live-visuals-nyc/cover.jpg' },
+    { text: 'About', ariaLabel: 'About Lucy Liu', link: '#about', image: 'assets/headshot.jpg' },
+    { text: 'Contact', ariaLabel: 'Email Lucy Liu', link: 'mailto:wl3512@nyu.edu', image: 'assets/lucy-tooth-gem.webp' },
+    { text: 'Resume', ariaLabel: 'View resume (opens in new tab)', link: 'assets/resume.pdf', external: true, image: 'assets/driftwood/cover.webp' },
   ];
   const socialItems = [
     { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lucy-liu-9b812127b/' },
@@ -15,16 +17,13 @@ function Nav() {
   ];
   return (
     <>
-      {typeof StaggeredMenu !== 'undefined' && (
-        <StaggeredMenu
-          position="right"
-          colors={['#4A8FEF', '#C4B0FF']}
-          accentColor="#72ADFF"
+      {typeof FlowMenu !== 'undefined' && (
+        <FlowMenu
           logoText="lucy liu"
           items={items}
           socialItems={socialItems}
-          displaySocials
-          displayItemNumbering
+          speed={16}
+          onNavClick={onNavClick}
         />
       )}
       <div className="scroll-progress" />

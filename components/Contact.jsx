@@ -4,7 +4,9 @@ const { useState: useStateC } = React;
 function ContactSection() {
   const [copied, setCopied] = useStateC(false);
   const email = 'wl3512@nyu.edu';
-  const showAurora = typeof Aurora !== 'undefined' && window.innerWidth >= 760;
+  const sectionRef = React.useRef(null);
+  const nearView = typeof useInView === 'function' ? useInView(sectionRef) : true;
+  const showAurora = typeof Aurora !== 'undefined' && window.__webglOK !== false && window.innerWidth >= 760 && nearView;
 
   const copy = async () => {
     try {
@@ -16,7 +18,7 @@ function ContactSection() {
 
   return (
     <>
-      <section className="scene scene-contact" id="contact" data-screen-label="05 Contact">
+      <section ref={sectionRef} className="scene scene-contact" id="contact" data-screen-label="05 Contact">
         {showAurora && (
           <Aurora className="contact-aurora" colorStops={['#4A8FEF', '#C4B0FF', '#72ADFF']} amplitude={0.9} blend={0.55} speed={0.5} />
         )}

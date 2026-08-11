@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
-<title>HabitaBull: Lucy Liu</title>
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="favicon.png?v=3" />
+<title>HabitaBull | Lucy Liu</title>
 <meta name="description" content="HabitaBull: A gym app built around streak-forgiveness and the psychology of showing up. UX/UI case study by Lucy Liu." />
 <meta property="og:title" content="HabitaBull | Lucy Liu" />
 <meta property="og:description" content="HabitaBull: A gym app built around streak-forgiveness and the psychology of showing up. UX/UI case study by Lucy Liu." />
@@ -15,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: auto; }
@@ -63,6 +67,26 @@ a { color: inherit; text-decoration: none; }
   border-radius: 16px; overflow: hidden;
 }
 .cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .cs-hero-below {
   width: min(1100px, 92vw); margin: 0 auto;
   padding: 40px 0 clamp(60px, 8vh, 100px);
@@ -110,6 +134,10 @@ a { color: inherit; text-decoration: none; }
 .cs-body-wide { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-body-inner { width: min(860px, 92vw); margin: 0 auto; }
 .cs-section { margin-bottom: clamp(80px, 10vw, 120px); position: relative; }
+/* Decorative section numeral: rendered as CSS content, not a text node.
+   WCAG 1.4.3 exempts pure decoration from contrast; keeping it out of the DOM
+   stops it being audited as real text while preserving the exact visual. */
+.cs-section-wm::before { content: attr(data-wm); }
 .cs-section-wm {
   position: absolute; top: -0.08em; right: -0.02em;
   font-family: var(--font-display); font-weight: 700;
@@ -477,9 +505,10 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; }
 }
+html, body { overflow-x: clip; }
 </style>
 </head>
-<body>
+<body data-persona-slug="habitabull">
 
 <div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
 
@@ -500,12 +529,12 @@ a { color: inherit; text-decoration: none; }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,400"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 444" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,404"/>
     <g class="cs-const-g" data-snav="cs-s-hero">
-      <circle class="cs-const-hit" cx="30" cy="24"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="24"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="24"  r="3"/>
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-problem">
       <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
@@ -528,27 +557,28 @@ a { color: inherit; text-decoration: none; }
       <circle class="cs-const-dot"  cx="18" cy="328" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-reflection">
-      <circle class="cs-const-hit" cx="30" cy="400" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="400" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="400" r="3"/>
+      <circle class="cs-const-hit" cx="30" cy="404" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="404" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="404" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:17px"  data-label="cs-s-hero">Hero</span>
-  <span class="cs-const-label-el" style="top:93px"  data-label="cs-s-problem">Problem</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-problem">Problem</span>
   <span class="cs-const-label-el" style="top:169px" data-label="cs-s-research">Research</span>
   <span class="cs-const-label-el" style="top:245px" data-label="cs-s-design">Design</span>
   <span class="cs-const-label-el" style="top:321px" data-label="cs-s-solution">Solution</span>
-  <span class="cs-const-label-el" style="top:393px" data-label="cs-s-reflection">Reflect</span>
+  <span class="cs-const-label-el" style="top:397px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <!-- HERO -->
 <header class="cs-hero cs-hero--cover" id="cs-s-hero">
   <div class="cs-hero-orb"></div>
   <div class="cs-hero-orb-2"></div>
-  <div class="cs-hero-cover-full" data-cs-reveal>
+  <div class="cs-hero-cover-full border-beam" data-cs-reveal>
     <img src="assets/habitabull/slides/slide-01.png" alt="HabitaBull Lifting cover" />
   </div>
   <div class="cs-hero-below" data-cs-reveal>
+    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);margin:0">HabitaBull</h1>
     <div class="cs-kicker">
       <span class="cs-kicker-dot"></span>UX Design &nbsp;·&nbsp; Fitness App
     </div>
@@ -594,6 +624,23 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<section class="case-clarity" aria-label="Role, process, and impact">
+  <div class="case-clarity-inner">
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Role</span>
+      <p class="case-clarity-v">I owned the research, UX strategy, flows, lo-fi testing, mascot direction, and high-fidelity app design.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Process</span>
+      <p class="case-clarity-v">I audited fitness and sobriety apps, ran 6 interviews, mapped findings, and tested 4 core tasks in Figma.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Impact</span>
+      <p class="case-clarity-v">Testing moved the hierarchy from goal-setting first to workout logging first, matching what users wanted to do immediately.</p>
+    </div>
+  </div>
+</section>
+
 <!-- TIMELINE -->
 <div class="cs-timeline-strip">
   <div class="cs-timeline-inner">
@@ -624,23 +671,6 @@ a { color: inherit; text-decoration: none; }
         <span class="cs-tph-name">Implementation</span>
         <span class="cs-tph-date">May 19</span>
       </div>
-<section class="case-clarity" aria-label="Role, process, and impact">
-  <div class="case-clarity-inner">
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I owned the research, UX strategy, flows, lo-fi testing, mascot direction, and high-fidelity app design.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I audited fitness and sobriety apps, ran 6 interviews, mapped findings, and tested 4 core tasks in Figma.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">Testing moved the hierarchy from goal-setting first to workout logging first, matching what users wanted to do immediately.</p>
-    </div>
-  </div>
-</section>
-
     </div>
   </div>
 </div>
@@ -651,9 +681,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 01 PROBLEM -->
   <div class="cs-body-inner" id="cs-s-problem">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">01</span>
+      <span class="cs-section-wm" data-wm="01" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h" data-cs-reveal>Most people quit. The app <em>lets them.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Most people quit. The app lets them.</h2>
 
       <div class="cs-dropout-chart" data-cs-reveal>
         <p class="cs-chart-eyebrow">Research context · Retention data</p>
@@ -707,9 +737,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 02 RESEARCH + INSIGHTS -->
   <div class="cs-body-inner" id="cs-s-research">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">02</span>
+      <span class="cs-section-wm" data-wm="02" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Research + Insights</p>
-      <h2 class="cs-section-h" data-cs-reveal>The same friction, <em>everywhere.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>The same friction, everywhere.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>I audited 6 fitness apps, studied sobriety apps (which hold onto users far longer than fitness apps do), and ran 6 in-person interviews across three cohorts. The participants hit the same friction zones whether they were lapsed, active, or new to fitness apps.</p>
@@ -798,9 +828,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 04 DESIGN -->
   <div class="cs-body-inner" id="cs-s-design">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">03</span>
+      <span class="cs-section-wm" data-wm="03" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Design Process</p>
-      <h2 class="cs-section-h" data-cs-reveal>From <em>how might we</em> to lo-fi.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>From how might we to lo-fi.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>I wrote six "How Might We" questions, one per top finding, to set the design direction. Then I mapped user flows for the two core journeys (building a custom routine and using auto-generate) and tested lo-fi prototypes against four tasks in Figma.</p>
@@ -888,9 +918,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 05 SOLUTION -->
   <div class="cs-body-inner" id="cs-s-solution">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">04</span>
+      <span class="cs-section-wm" data-wm="04" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Brand + Solution</p>
-      <h2 class="cs-section-h" data-cs-reveal>A bull with a grin. A system that <em>sticks.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>A bull with a grin. A system that sticks.</h2>
 
       <div class="cs-brand-intro" data-cs-reveal>
         <p class="cs-body-text" style="margin:0">I built the brand around the mascot: a grinning grey bull who carries the HabitaBull voice. He's strong and a little stubborn, and he's on your side. Friendly without going soft, energetic without shouting at you.</p>
@@ -931,9 +961,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 06 REFLECTION -->
   <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">05</span>
+      <span class="cs-section-wm" data-wm="05" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I'd do <em>differently.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I'd do differently.</h2>
 
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
@@ -957,7 +987,7 @@ a { color: inherit; text-decoration: none; }
 </main><!-- /main-content -->
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="h2know.html">
@@ -966,7 +996,7 @@ a { color: inherit; text-decoration: none; }
     </a>
     <p class="cs-next-desc">H2Know digs into the behavioral and emotional triggers behind inconsistent water intake. Both projects start from habit formation and design outward from there.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
@@ -1031,15 +1061,41 @@ a { color: inherit; text-decoration: none; }
     });
   }
 
-  const sectionIds = ['cs-s-hero','cs-s-problem','cs-s-research','cs-s-design','cs-s-solution','cs-s-reflection'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
   const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
 
   const heroEl = document.getElementById('cs-s-hero');
   if (heroEl) new IntersectionObserver(e => { cnav.classList.toggle('is-visible', !e[0].isIntersecting); }, { threshold: 0.1 }).observe(heroEl);
 
   // Track which section is most "in view" by watching the top edge crossing 30% down
   const secObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    if (entries.some(e => e.isIntersecting)) computeActive();
   }, { rootMargin: '-10% 0px -55% 0px', threshold: 0 });
   sectionEls.forEach(el => secObs.observe(el));
 
@@ -1049,16 +1105,7 @@ a { color: inherit; text-decoration: none; }
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const trigger = window.innerHeight * 0.3;
-      let best = null, bestDist = Infinity;
-      sectionEls.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if (top <= trigger) {
-          const dist = trigger - top;
-          if (dist < bestDist) { bestDist = dist; best = el; }
-        }
-      });
-      if (best) setActive(best.id);
+      computeActive();
       updateWatermarks();
       ticking = false;
     });
@@ -1113,5 +1160,10 @@ document.querySelectorAll('[data-scroll-to]').forEach(el => {
 });
 </script>
 <script src="components/animated-progress.js" defer></script>
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Trance — Lucy Liu</title>
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="shortcut icon" href="favicon.ico?v=3" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
+<title>Trance | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/trance.html" />
 <meta name="description" content="Trance — An immersive audio-visual installation transforming physical touch into dynamic visual and auditory experiences. By Lucy Liu." />
 <meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -14,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=10" />
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
@@ -28,6 +32,11 @@ html {
   --violet-a40: oklch(0.70 0.22 280 / 0.40);
   --violet-a50: oklch(0.70 0.22 280 / 0.50);
   --violet-a60: oklch(0.70 0.22 280 / 0.60);
+}
+/* Light mode: deepen the violet accent so headline em / panel icons stay readable. */
+:root.theme-light {
+  --violet:     oklch(0.50 0.22 285);
+  --violet-dim: oklch(0.44 0.20 285);
 }
 body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
@@ -78,6 +87,26 @@ a { color: inherit; text-decoration: none; }
   min-height: 420px; display: flex; align-items: center; justify-content: center;
 }
 .cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .cs-hero-cover-placeholder {
   width: 100%; min-height: 420px;
   background: linear-gradient(135deg, oklch(0.10 0.02 280) 0%, oklch(0.14 0.05 280) 50%, oklch(0.10 0.02 300) 100%);
@@ -154,8 +183,14 @@ a { color: inherit; text-decoration: none; }
   background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
   overflow: hidden;
   min-height: 320px; display: flex; align-items: center; justify-content: center;
+  /* Hug the image instead of letterboxing it: portrait shots (phone screenshots) were
+     floating inside a full-width frame with dead space either side. fit-content collapses
+     the frame to the image; landscape shots still fill the block, so nothing else moves. */
+  width: fit-content; max-width: 100%; margin-inline: auto;
 }
-.cs-image img { width: 100%; height: auto; display: block; }
+/* Never upscale past native width, and cap height so tall/portrait photos don't dominate
+   the desktop viewport (installation.png is 623x831 — full-bleed it renders ~1467px tall). */
+.cs-image img { width: auto; max-width: 100%; height: auto; max-height: min(70vh, 620px); display: block; margin: 0 auto; }
 .cs-image-caption { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin-top: 12px; text-align: center; }
 
 /* ── ACCORDION PANELS ── */
@@ -355,7 +390,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
 @media (prefers-reduced-motion: reduce) { .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; } }
 </style>
 </head>
-<body>
+<body data-persona-slug="trance">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -370,33 +405,39 @@ details[open] .tr-panel-icon { color: var(--violet); }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,20 44,100 16,180 30,260 30,300"/>
-    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Overview">
-      <circle class="cs-const-hit" cx="30" cy="20"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="20"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="20"  r="3"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 368" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 30,328"/>
+    <g class="cs-const-g" data-snav="cs-s-hero">
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-interaction" tabindex="0" role="button" aria-label="Jump to Interaction">
-      <circle class="cs-const-hit" cx="44" cy="100" r="13"/>
-      <circle class="cs-const-ring" cx="44" cy="100" r="8"/>
-      <circle class="cs-const-dot"  cx="44" cy="100" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-interaction">
+      <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-technical" tabindex="0" role="button" aria-label="Jump to Technical Implementation">
-      <circle class="cs-const-hit" cx="16" cy="180" r="13"/>
-      <circle class="cs-const-ring" cx="16" cy="180" r="8"/>
-      <circle class="cs-const-dot"  cx="16" cy="180" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-technical">
+      <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-impact" tabindex="0" role="button" aria-label="Jump to Design Impact">
-      <circle class="cs-const-hit" cx="30" cy="260" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="260" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="260" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-impact">
+      <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-reflection">
+      <circle class="cs-const-hit" cx="30" cy="328" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="328" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="328" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:13px"  data-label="cs-s-hero">Overview</span>
-  <span class="cs-const-label-el" style="top:93px"  data-label="cs-s-interaction">Interaction</span>
-  <span class="cs-const-label-el" style="top:173px" data-label="cs-s-technical">Technical</span>
-  <span class="cs-const-label-el" style="top:253px" data-label="cs-s-impact">Design Impact</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-interaction">Interaction</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-technical">Technical</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-impact">Impact</span>
+  <span class="cs-const-label-el" style="top:321px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <header class="cs-hero" id="cs-s-hero">
@@ -404,7 +445,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
   <div class="cs-hero-orb-2"></div>
 
   <h1 class="visually-hidden">Trance: Interactive Audio-Visual Installation</h1>
-  <div class="cs-hero-cover-full">
+  <div class="cs-hero-cover-full border-beam">
     <img src="assets/trance/cover.png"
          alt="Trance: acrylic hand sculpture with LEDs and pressure sensor on a desk, USB cables connected"
          fetchpriority="high" />
@@ -455,47 +496,6 @@ details[open] .tr-panel-icon { color: var(--violet); }
   </div>
 </section>
 
-<div class="cs-body">
-
-  <!-- INTRO -->
-  <div class="cs-body-inner" style="padding-top: clamp(60px, 8vh, 96px);">
-    <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">T</span>
-      <p class="cs-section-label" data-cs-reveal>Interactive Audio-Visual Installation</p>
-      <h2 class="cs-section-h" data-cs-reveal>Touch as <em>performance.</em></h2>
-      <div class="cs-body-text" data-cs-reveal>
-        <p>Trance is an immersive installation that collapses the distance between listener and music. A clear acrylic hand sculpture embedded with pressure sensors lets you control everything you see and hear. The harder you press, the more the piece transforms around you.</p>
-        <p>Three types of trance inspired the piece: <strong>music trance</strong> (the beat pulls you in), <strong>focus trance</strong> (you get locked into the interaction), and <strong>visual trance</strong> (hypnotic light and patterns). The name is about the feeling of getting lost in music and losing track of time.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- COVER IMAGE / HERO STILL -->
-  <div class="cs-image-block" style="margin-top:0;">
-    <div class="cs-image" data-cs-reveal>
-      <img src="assets/trance/installation.png"
-           alt="Trance: acrylic hand sculpture with layered blue-green panels, Arduino breadboard and pressure sensor visible underneath, on a wooden desk"
-           loading="lazy" />
-    </div>
-    <p class="cs-image-caption" data-cs-reveal>Fig. 01: The sculpture — layered acrylic, FSR pressure sensor, Arduino, LED strip</p>
-  </div>
-
-  <!-- ACCORDION SECTIONS -->
-  <div class="cs-body-inner">
-
-    <div class="tr-accordion" id="cs-s-interaction" data-cs-reveal>
-
-      <!-- 01 · INTERACTION -->
-      <details class="tr-panel" open>
-        <summary>
-          <span class="tr-panel-icon" aria-hidden="true">
-            <!-- Pressure / touch icon: concentric rings with center point -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
-              <circle cx="12" cy="12" r="5.5" stroke-width="1.5"/>
-              <circle cx="12" cy="12" r="9.5" stroke-width="1" opacity="0.45"/>
-            </svg>
-          </span>
 <section class="case-clarity" aria-label="Role, process, and impact">
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
@@ -513,6 +513,43 @@ details[open] .tr-panel-icon { color: var(--violet); }
   </div>
 </section>
 
+<div class="cs-body">
+
+  <!-- INTRO -->
+  <div class="cs-body-inner" style="padding-top: clamp(60px, 8vh, 96px);">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm">T</span>
+      <p class="cs-section-label" data-cs-reveal>Interactive Audio-Visual Installation</p>
+      <h2 class="cs-section-h" data-cs-reveal>Touch as performance.</h2>
+      <div class="cs-body-text" data-cs-reveal>
+        <p>Trance is an immersive installation that collapses the distance between listener and music. A clear acrylic hand sculpture embedded with pressure sensors lets you control everything you see and hear. The harder you press, the more the piece transforms around you.</p>
+        <p>Three types of trance inspired the piece: <strong>music trance</strong> (the beat pulls you in), <strong>focus trance</strong> (you get locked into the interaction), and <strong>visual trance</strong> (hypnotic light and patterns). The name is about the feeling of getting lost in music and losing track of time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COVER IMAGE / HERO STILL -->
+  <div class="cs-image-block" style="margin-top:0;">
+    <div class="cs-image" data-cs-reveal>
+      <img src="assets/trance/installation.png"
+           alt="Trance: acrylic hand sculpture with layered blue-green panels, Arduino breadboard and pressure sensor visible underneath, on a wooden desk"
+           loading="lazy" />
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>Fig. 01: The sculpture — layered acrylic, FSR pressure sensor, Arduino, LED strip</p>
+  </div>
+
+  <!-- 01 · INTERACTION -->
+  <div class="cs-body-inner tr-accordion" id="cs-s-interaction" data-cs-reveal>
+      <details class="tr-panel" open>
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <!-- Pressure / touch icon: concentric rings with center point -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+              <circle cx="12" cy="12" r="5.5" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="9.5" stroke-width="1" opacity="0.45"/>
+            </svg>
+          </span>
           <span class="tr-panel-num">01</span>
           <span class="tr-panel-title">Interaction</span>
           <span class="tr-panel-arrow" aria-hidden="true">
@@ -530,8 +567,10 @@ details[open] .tr-panel-icon { color: var(--violet); }
         </div>
       </details>
 
-      <!-- 02 · TECHNICAL IMPLEMENTATION -->
-      <div id="cs-s-technical" class="cs-snav-anchor"></div>
+  </div><!-- /cs-s-interaction -->
+
+  <!-- 02 · TECHNICAL IMPLEMENTATION -->
+  <div class="cs-body-inner tr-accordion" id="cs-s-technical" data-cs-reveal>
       <details class="tr-panel">
         <summary>
           <span class="tr-panel-icon" aria-hidden="true">
@@ -589,8 +628,10 @@ details[open] .tr-panel-icon { color: var(--violet); }
         </div>
       </details>
 
-      <!-- 03 · DESIGN IMPACT -->
-      <div id="cs-s-impact" class="cs-snav-anchor"></div>
+  </div><!-- /cs-s-technical -->
+
+  <!-- 03 · DESIGN IMPACT -->
+  <div class="cs-body-inner tr-accordion" id="cs-s-impact" data-cs-reveal>
       <details class="tr-panel">
         <summary>
           <span class="tr-panel-icon" aria-hidden="true">
@@ -623,8 +664,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
         </div>
       </details>
 
-    </div><!-- /tr-accordion -->
-  </div><!-- /cs-body-inner -->
+  </div><!-- /cs-s-impact -->
 
   <!-- PROCESS IMAGES — side by side -->
   <div class="cs-image-pair" data-cs-reveal>
@@ -647,11 +687,11 @@ details[open] .tr-panel-icon { color: var(--violet); }
   </div>
 
   <!-- REFLECTION -->
-  <div class="cs-body-inner">
+  <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm">R</span>
       <p class="cs-section-label" data-cs-reveal>Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I took <em>away.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I took away.</h2>
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Instruction-free interaction is a design constraint, not a bonus.</p>
@@ -678,7 +718,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
 </main>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Next project</p>
     <a class="cs-next-link" href="h2know.html">
@@ -686,7 +726,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
       <span class="cs-next-arrow">↗</span>
     </a>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
 
@@ -716,7 +756,34 @@ details[open] .tr-panel-icon { color: var(--violet); }
 
   /* Constellation nav */
   const nav = document.getElementById('cs-section-nav');
-  const sectionIds = ['cs-s-hero','cs-s-interaction','cs-s-technical','cs-s-impact'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
+  const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
   const nodes = document.querySelectorAll('[data-snav]');
   const labels = document.querySelectorAll('[data-label]');
 
@@ -734,9 +801,7 @@ details[open] .tr-panel-icon { color: var(--violet); }
 
   if ('IntersectionObserver' in window) {
     const navIo = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      });
+      if (entries.some(e => e.isIntersecting)) computeActive();
     }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
     sectionIds.forEach(id => {
       const el = document.getElementById(id);
@@ -766,5 +831,10 @@ details[open] .tr-panel-icon { color: var(--violet); }
 })();
 </script>
 
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

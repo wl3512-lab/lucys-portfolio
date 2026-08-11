@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /project.html
+Disallow: /project-editor.html
+
+Sitemap: https://lucyliu.xyz/sitemap.xml

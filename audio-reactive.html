@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
 <title>audio reactive | Lucy Liu</title>
 <meta name="description" content="audio reactive: four real-time visual systems built in touchdesigner, each responding to a different song. by Lucy Liu." />
 <meta property="og:title" content="audio reactive | Lucy Liu" />
@@ -15,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -210,6 +214,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── SOUND INDICATOR ── */
 .ar-sound-btn {
+  display: none !important; /* in-place audio removed: tapping a card now opens the fullscreen view (with sound) */
   position: absolute;
   bottom: 12px; right: 12px; z-index: 3;
   width: 36px; height: 36px;
@@ -322,6 +327,48 @@ a { color: inherit; text-decoration: none; }
 .ar-card--featured .ar-card-desc {
   font-size: 15px;
   max-width: 48ch;
+}
+
+/* ── BEFORE / AFTER COMPARISON (you know you like it) ── */
+.ar-card[data-piece="you-know-you-like-it"] { --pa: oklch(0.74 0.18 142); } /* acid green: raw motion energy */
+.ar-card--ba .yk-ba {
+  position: relative; flex: 0 0 54%;
+  height: clamp(210px, 27vw, 370px);
+  overflow: hidden; cursor: ew-resize; touch-action: pan-y;
+  user-select: none; -webkit-user-select: none;
+  background: oklch(0.16 0.02 250);
+}
+.yk-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.yk-after { z-index: 1; }
+.yk-before-wrap {
+  position: absolute; inset: 0; z-index: 2; overflow: hidden;
+  clip-path: inset(0 calc(100% - var(--split, 50%)) 0 0);
+}
+.yk-divider {
+  position: absolute; top: 0; bottom: 0; left: var(--split, 50%); width: 2px;
+  background: var(--pa); transform: translateX(-1px); z-index: 4; pointer-events: none;
+  box-shadow: 0 0 14px oklch(from var(--pa) l c h / 0.7);
+}
+.yk-handle {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 40px; height: 40px; border-radius: 50%; background: var(--pa);
+  display: flex; align-items: center; justify-content: center;
+  color: oklch(0.16 0.02 250); font-size: 16px; font-weight: 700; letter-spacing: -0.05em;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.45);
+}
+.yk-label {
+  position: absolute; bottom: 12px; z-index: 5;
+  font-family: var(--font-code, monospace); font-size: 10px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 4px 8px; border-radius: 5px;
+  background: oklch(0.12 0.02 250 / 0.72); color: var(--fg2);
+  backdrop-filter: blur(4px); pointer-events: none;
+}
+.yk-label-l { left: 12px; }
+.yk-label-r { right: 12px; color: var(--pa); }
+@media (max-width: 640px) {
+  .ar-card--ba { flex-direction: column; }
+  .ar-card--ba .yk-ba { flex: none; width: 100%; height: clamp(200px, 62vw, 320px); }
 }
 
 /* ── VIDEO WRAP HOVER OVERLAY ── */
@@ -532,6 +579,19 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 640px) {
   .ar-grid { grid-template-columns: 1fr; }
   .ar-card-title { font-size: 20px; }
+}
+
+/* ── TOUCH / MOBILE PERFORMANCE ──
+   On mobile GPUs a fixed element's backdrop-filter re-rasterizes the page behind it on
+   every scroll frame — the main cause of scroll jank here. Drop the blurs (lean on solid
+   fills) and isolate the comparison media so its wipe doesn't repaint neighbours. */
+@media (max-width: 860px) {
+  .cs-nav      { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(5,7,16,0.94); }
+  .ar-fs-bg    { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(5,7,16,0.97); }
+  .ar-fs-close { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(5,7,16,0.82); }
+  .ar-play-icon{ backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(5,7,16,0.70); }
+  .yk-label    { backdrop-filter: none; -webkit-backdrop-filter: none; background: oklch(0.12 0.02 250 / 0.9); }
+  .ar-card     { contain: layout paint; }
 }
 
 /* ── NARROW ── */
@@ -803,7 +863,7 @@ a { color: inherit; text-decoration: none; }
     <a href="index.html" class="cs-logo" aria-label="lucy liu home">lucy liu</a>
     <div class="cs-nav-right">
       <a href="index.html#about" class="cs-nav-link">about</a>
-      <a href="index.html#contact" class="cs-nav-link">contact ↗</a>
+      <a href="mailto:wl3512@nyu.edu" class="cs-nav-link">contact ↗</a>
     </div>
   </div>
 </nav>
@@ -837,16 +897,72 @@ a { color: inherit; text-decoration: none; }
     </div>
   </header>
 
+  <section class="case-clarity case-clarity--standalone" aria-label="Role, process, and impact">
+    <div class="case-clarity-inner">
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Role</span>
+        <p class="case-clarity-v">I designed and built the TouchDesigner networks, source treatments, motion systems, and final visual outputs.</p>
+      </div>
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Process</span>
+        <p class="case-clarity-v">I mapped each track to visual behavior, tuning frequency response, displacement, color, pacing, and source-video treatment.</p>
+      </div>
+      <div class="case-clarity-item">
+        <span class="case-clarity-k">Impact</span>
+        <p class="case-clarity-v">The collection shows a repeatable creative-coding system: each piece has a distinct sonic logic and visual identity.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- COLLECTION -->
   <section class="ar-collection" aria-labelledby="ar-coll-label">
     <div class="ar-inner">
       <div class="ar-divider" role="separator" aria-hidden="true"></div>
-      <p class="ar-section-label" id="ar-coll-label">06 pieces</p>
+      <p class="ar-section-label" id="ar-coll-label">07 pieces</p>
 
       <div class="ar-grid" role="list">
 
+        <!-- 07: you know you like it — before/after opener, first piece seen -->
+        <div class="ar-card ar-card--featured ar-card--ba" role="listitem" aria-label="piece 01: you know you like it (drag to compare source and touchdesigner output)" data-piece="you-know-you-like-it">
+          <div class="yk-ba" role="slider" tabindex="0" aria-label="compare source footage against touchdesigner output (tap to view full)" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" data-fs-src="assets/audio-reactive/you-know-you-like-it.mp4">
+            <video class="yk-vid yk-after"
+              data-src="assets/audio-reactive/you-know-you-like-it.mp4"
+              poster="assets/audio-reactive/you-know-you-like-it-poster.jpg"
+              muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <div class="yk-before-wrap">
+              <video class="yk-vid yk-before"
+                data-src="assets/audio-reactive/you-know-you-like-it-source.mp4"
+                poster="assets/audio-reactive/you-know-you-like-it-source-poster.jpg"
+                muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            </div>
+            <div class="yk-divider" aria-hidden="true"><span class="yk-handle">⇆</span></div>
+            <span class="yk-label yk-label-l">source</span>
+            <span class="yk-label yk-label-r">touchdesigner</span>
+          </div>
+          <div class="ar-card-body">
+            <div class="ar-card-meta">
+              <span class="ar-card-num">01</span>
+              <span class="ar-card-artist">dj snake</span>
+            </div>
+            <h2 class="ar-card-title">you know you like it</h2>
+            <p class="ar-card-desc">
+              a plain ai-generated clip of a figure running in place becomes raw material for
+              touchdesigner: the runner is torn into displaced, smeared passes that build and
+              break with the track's energy. drag the divider to compare the untouched source
+              against the processed output.
+            </p>
+            <button class="ar-expand-btn" aria-label="view you know you like it fullscreen">
+              view full
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
         <!-- 06: where are ü now — featured, full width opener -->
-        <article class="ar-card ar-card--featured" role="listitem" aria-label="piece 06: where are ü now" data-piece="where-are-u-now">
+        <div class="ar-card ar-card--featured" role="listitem" aria-label="piece 02: where are ü now" data-piece="where-are-u-now">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="where are ü now: play or pause" data-fs-src="assets/audio-reactive/where-are-u-now-full.mp4">
             <video
               class="ar-video"
@@ -877,7 +993,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">06</span>
+              <span class="ar-card-num">02</span>
               <span class="ar-card-artist">justin bieber</span>
             </div>
             <h2 class="ar-card-title">where are ü now</h2>
@@ -895,27 +1011,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
-
-  <section class="case-clarity case-clarity--standalone" aria-label="Role, process, and impact">
-    <div class="case-clarity-inner">
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Role</span>
-        <p class="case-clarity-v">I designed and built the TouchDesigner networks, source treatments, motion systems, and final visual outputs.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Process</span>
-        <p class="case-clarity-v">I mapped each track to visual behavior, tuning frequency response, displacement, color, pacing, and source-video treatment.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Impact</span>
-        <p class="case-clarity-v">The collection shows a repeatable creative-coding system: each piece has a distinct sonic logic and visual identity.</p>
-      </div>
-    </div>
-  </section>
+        </div>
 
         <!-- 02: sdp interlude -->
-        <article class="ar-card" role="listitem" aria-label="piece 02: sdp interlude" data-piece="sdp-interlude">
+        <div class="ar-card" role="listitem" aria-label="piece 03: sdp interlude" data-piece="sdp-interlude">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="sdp interlude: play or pause" data-fs-src="assets/audio-reactive/sdp-interlude-v1-full.mp4">
             <video
               class="ar-video"
@@ -946,7 +1045,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">02</span>
+              <span class="ar-card-num">03</span>
               <span class="ar-card-artist">travis scott</span>
             </div>
             <h2 class="ar-card-title">sdp interlude</h2>
@@ -964,10 +1063,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 03: sdp interlude ii -->
-        <article class="ar-card" role="listitem" aria-label="piece 03: sdp interlude ii" data-piece="sdp-interlude-ii">
+        <div class="ar-card" role="listitem" aria-label="piece 04: sdp interlude ii" data-piece="sdp-interlude-ii">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="sdp interlude ii: play or pause" data-fs-src="assets/audio-reactive/sdp-interlude-v2-full.mp4">
             <video
               class="ar-video"
@@ -998,7 +1097,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">03</span>
+              <span class="ar-card-num">04</span>
               <span class="ar-card-artist">travis scott</span>
             </div>
             <h2 class="ar-card-title">sdp interlude ii</h2>
@@ -1017,10 +1116,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 04: erase your social -->
-        <article class="ar-card" role="listitem" aria-label="piece 04: erase your social" data-piece="erase-your-social">
+        <div class="ar-card" role="listitem" aria-label="piece 05: erase your social" data-piece="erase-your-social">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="erase your social: play or pause">
             <video
               class="ar-video"
@@ -1051,7 +1150,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">04</span>
+              <span class="ar-card-num">05</span>
               <span class="ar-card-artist">stham</span>
             </div>
             <h2 class="ar-card-title">erase your social</h2>
@@ -1072,10 +1171,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 01: love parade — paired with erase in row 3 -->
-        <article class="ar-card" role="listitem" aria-label="piece 01: love parade" data-piece="love-parade">
+        <div class="ar-card" role="listitem" aria-label="piece 06: love parade" data-piece="love-parade">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="love parade: play or pause" data-fs-src="assets/audio-reactive/love-parade-full.mp4">
             <video
               class="ar-video"
@@ -1106,7 +1205,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">01</span>
+              <span class="ar-card-num">06</span>
               <span class="ar-card-artist">jacidorex</span>
             </div>
             <h2 class="ar-card-title">love parade</h2>
@@ -1123,10 +1222,10 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
         <!-- 05: money longer — full width bookend -->
-        <article class="ar-card ar-card--featured" role="listitem" aria-label="piece 05: money longer" data-piece="money-longer">
+        <div class="ar-card ar-card--featured" role="listitem" aria-label="piece 07: money longer" data-piece="money-longer">
           <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="money longer: play or pause">
             <video
               class="ar-video"
@@ -1157,7 +1256,7 @@ a { color: inherit; text-decoration: none; }
           </div>
           <div class="ar-card-body">
             <div class="ar-card-meta">
-              <span class="ar-card-num">05</span>
+              <span class="ar-card-num">07</span>
               <span class="ar-card-artist">lil uzi vert</span>
             </div>
             <h2 class="ar-card-title">money longer</h2>
@@ -1179,7 +1278,7 @@ a { color: inherit; text-decoration: none; }
               </svg>
             </button>
           </div>
-        </article>
+        </div>
 
       </div>
     </div>
@@ -1250,7 +1349,8 @@ a { color: inherit; text-decoration: none; }
 <!-- FULLSCREEN OVERLAY -->
 <div id="ar-media-status" role="status" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
 
-<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true" aria-labelledby="ar-fs-title">
+<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true"
+     aria-labelledby="ar-fs-title" aria-label="Fullscreen media viewer" inert>
   <div class="ar-fs-bg" aria-hidden="true"></div>
   <div class="ar-fs-panel">
     <button class="ar-fs-close" aria-label="close fullscreen">
@@ -1292,7 +1392,7 @@ a { color: inherit; text-decoration: none; }
         onStart: function () {
           var el = document.querySelector('.ar-section-label');
           if (!el || reducedMotion) return;
-          var target = 6, current = 0, steps = 8, interval = 40;
+          var target = 7, current = 0, steps = 8, interval = 40;
           var t = setInterval(function () {
             current = Math.min(current + 1, target);
             el.textContent = (current < 10 ? '0' + current : current) + ' pieces';
@@ -1367,46 +1467,45 @@ a { color: inherit; text-decoration: none; }
     });
   }
 
-  function toggle(wrap) {
-    var vid  = wrap.querySelector('.ar-video');
-    var btn  = wrap.querySelector('.ar-sound-btn');
-    var card = wrap.closest('.ar-card');
-    if (!vid || !vid.src) return;
-
-    var wasPlaying = !vid.paused;
-    muteAll();
-
-    if (!wasPlaying) {
-      vid.muted = false;
-      vid.play().catch(function () {
-        vid.muted = true;
-        vid.play().catch(function () {});
-      });
-      if (btn)  { btn.classList.add('is-on'); }
-      if (card) { card.classList.add('is-playing'); }
-      wrap.setAttribute('aria-pressed', 'true');
-      var title = card ? (card.querySelector('.ar-card-title') || {}).textContent : '';
-      announce((title || 'video') + ': playing with sound');
-    } else {
-      announce('paused');
-    }
-  }
-
-  /* ── Hide "view full" on cards that have no fullscreen source ── */
+  /* ── Show "view full" only where a fullscreen source exists ── */
   document.querySelectorAll('.ar-card').forEach(function (card) {
-    var wrap = card.querySelector('.ar-video-wrap');
+    var wrap = card.querySelector('.ar-video-wrap') || card.querySelector('.yk-ba');
     if (!wrap || !wrap.dataset.fsSrc) {
-      var btn = card.querySelector('.ar-expand-btn');
-      if (btn) { btn.hidden = true; }
+      var eb = card.querySelector('.ar-expand-btn');
+      if (eb) { eb.hidden = true; }
+    }
+  });
+
+  /* ── Whole card opens the fullscreen view (large, phone-friendly tap target) ── */
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  document.querySelectorAll('.ar-card').forEach(function (card) {
+    if (card.classList.contains('ar-card--ba')) return;   /* before/after opens via its own tap (below) */
+    card.style.cursor = 'pointer';
+    var wrap = card.querySelector('.ar-video-wrap');
+    var vid  = card.querySelector('.ar-video');
+    if (wrap) {
+      var t = (card.querySelector('.ar-card-title') || {}).textContent || 'clip';
+      wrap.setAttribute('aria-label', t + ': view fullscreen');
+    }
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('button')) return;   /* let read-more / view-full run their own handlers */
+      openFS(card, card);
+    });
+    /* desktop only: muted hover preview so the grid still feels alive */
+    if (canHover && wrap && vid) {
+      wrap.addEventListener('mouseenter', function () {
+        if (vid.src) { vid.muted = true; vid.play().catch(function () {}); }
+      });
+      wrap.addEventListener('mouseleave', function () { vid.pause(); });
     }
   });
 
   wraps.forEach(function (wrap) {
-    wrap.addEventListener('click', function () { toggle(wrap); });
     wrap.addEventListener('keydown', function (e) {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
-        toggle(wrap);
+        var c = wrap.closest('.ar-card');
+        if (c) openFS(c, wrap);
       }
     });
   });
@@ -1424,8 +1523,8 @@ a { color: inherit; text-decoration: none; }
 
   function openFS(card, trigger) {
     if (!fsEl) return;
-    var vid = card.querySelector('.ar-video');
-    var wrap = card.querySelector('.ar-video-wrap');
+    var vid = card.querySelector('.ar-video') || card.querySelector('.yk-after');
+    var wrap = card.querySelector('.ar-video-wrap') || card.querySelector('.yk-ba');
     var src = (wrap && wrap.dataset.fsSrc) || (vid && (vid.dataset.src || vid.getAttribute('src')));
     if (!src) return;
 
@@ -1442,6 +1541,7 @@ a { color: inherit; text-decoration: none; }
     fsVid.load();
 
     fsEl.classList.add('is-open');
+    fsEl.inert = false;
     document.body.style.overflow = 'hidden';
     document.querySelector('main')   && (document.querySelector('main').inert   = true);
     document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = true);
@@ -1467,6 +1567,7 @@ a { color: inherit; text-decoration: none; }
       }
     }, 320);
     if (fsOpener) { fsOpener.focus(); fsOpener = null; }
+    fsEl.inert = true;
   }
 
   if (fsClose) fsClose.addEventListener('click', closeFS);
@@ -1530,11 +1631,89 @@ a { color: inherit; text-decoration: none; }
     procIO.observe(processEl);
   }
 
+  /* ── Before/after comparison slider (you know you like it) ── */
+  (function () {
+    var ba = document.querySelector('.ar-card--ba .yk-ba');
+    if (!ba) return;
+    var vids = Array.from(ba.querySelectorAll('.yk-vid'));
+
+    function loadBA() {
+      vids.forEach(function (v) {
+        if (!v.src && v.dataset.src) v.src = v.dataset.src;
+        if (!reducedMotion) { v.muted = true; v.play().catch(function () {}); }
+      });
+    }
+    function pauseBA() { vids.forEach(function (v) { v.pause(); }); }
+
+    if ('IntersectionObserver' in window) {
+      var ioBA = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) loadBA(); else pauseBA(); });
+      }, { threshold: 0.15 });
+      ioBA.observe(ba);
+    } else { loadBA(); }
+
+    var dragging = false;
+    function setSplit(clientX) {
+      var r = ba.getBoundingClientRect();
+      var p = Math.max(6, Math.min(94, (clientX - r.left) / r.width * 100));
+      ba.style.setProperty('--split', p + '%');
+      ba.setAttribute('aria-valuenow', Math.round(p));
+    }
+    var card = ba.closest('.ar-card');
+    /* Mouse: a clean tap opens it in full; a drag scrubs the comparison */
+    var downX = 0, moved = false;
+    function mDown(e) { dragging = true; moved = false; downX = e.clientX; }
+    function mMove(e) {
+      if (!dragging) return;
+      if (Math.abs(e.clientX - downX) > 5) moved = true;
+      if (moved) setSplit(e.clientX);
+    }
+    function mUp() {
+      if (!dragging) return;
+      dragging = false;
+      if (!moved && card) openFS(card, ba);   /* tap (not drag) → view in full */
+    }
+    ba.addEventListener('mousedown', mDown);
+    window.addEventListener('mousemove', mMove, { passive: true });
+    window.addEventListener('mouseup', mUp);
+
+    /* Touch: decide gesture direction first. Vertical = let the page scroll (no jank);
+       a horizontal drag scrubs; a stationary tap opens it in full. */
+    var tx = 0, ty = 0, tDir = null;
+    ba.addEventListener('touchstart', function (e) {
+      var t = e.touches[0]; tx = t.clientX; ty = t.clientY; tDir = null;
+    }, { passive: true });
+    ba.addEventListener('touchmove', function (e) {
+      var t = e.touches[0];
+      if (tDir === null) {
+        var dx = Math.abs(t.clientX - tx), dy = Math.abs(t.clientY - ty);
+        if (dx < 8 && dy < 8) return;
+        tDir = dx > dy ? 'h' : 'v';
+      }
+      if (tDir === 'h') { if (e.cancelable) e.preventDefault(); setSplit(t.clientX); }
+    }, { passive: false });
+    ba.addEventListener('touchend', function () {
+      if (tDir === null && card) openFS(card, ba);   /* tap, no drag → view in full */
+    });
+    ba.addEventListener('keydown', function (e) {
+      var cur = parseFloat(ba.getAttribute('aria-valuenow')) || 50;
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (card) openFS(card, ba); return; }
+      if (e.key === 'ArrowLeft')  { cur = Math.max(6, cur - 4); }
+      else if (e.key === 'ArrowRight') { cur = Math.min(94, cur + 4); }
+      else return;
+      e.preventDefault();
+      ba.style.setProperty('--split', cur + '%');
+      ba.setAttribute('aria-valuenow', Math.round(cur));
+    });
+
+    ba.style.setProperty('--split', '50%');
+  })();
+
 })();
 </script>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="live-visuals-nyc.html">
@@ -1543,9 +1722,12 @@ a { color: inherit; text-decoration: none; }
     </a>
     <p class="cs-next-desc">Demon Nights takes this practice to the stage: sound-reactive visuals generated in real time in front of a crowd. Same code, different room.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

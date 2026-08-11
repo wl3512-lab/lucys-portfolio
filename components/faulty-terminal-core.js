@@ -251,7 +251,9 @@ void main() {
     if (!container || typeof THREE === 'undefined') return function () {};
 
     var reduced = ftReducedMotion();
-    var dpr = Math.min(window.devicePixelRatio || 1, reduced ? 1 : 2);
+    // Cap DPR at 1.5: on a 2x/3x retina display, full DPR renders 4-9x the pixels for a
+    // soft digit-rain effect that doesn't need it — 1.5 nearly halves GPU load on the hero.
+    var dpr = Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.5);
 
     var scale = num(opts.scale, 1);
     var gridMul = opts.gridMul || [2, 1];
@@ -373,10 +375,25 @@ void main() {
       raf = requestAnimationFrame(frame);
     }
 
+    /* Pause the shader while the hero is scrolled out of view — a full-screen WebGL
+       pass running behind the whole page is the main mobile scroll cost. */
+    var visible = true, io = null;
+    if (!reduced && typeof IntersectionObserver !== 'undefined') {
+      io = new IntersectionObserver(function (entries) {
+        var nowVisible = entries[0].isIntersecting;
+        if (nowVisible === visible) return;
+        visible = nowVisible;
+        cancelAnimationFrame(raf);
+        if (visible && !disposed) raf = requestAnimationFrame(frame);
+      }, { threshold: 0 });
+      io.observe(container);
+    }
+
     return function dispose() {
       if (disposed) return;
       disposed = true;
       cancelAnimationFrame(raf);
+      try { if (io) io.disconnect(); } catch (e) {}
       try { ro.disconnect(); } catch (e) {}
       if (mouseReact && !reduced) window.removeEventListener('mousemove', onMove);
       try { if (renderer.domElement.parentElement === container) container.removeChild(renderer.domElement); } catch (e) {}

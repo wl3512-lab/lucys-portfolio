@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="favicon.png?v=3" />
 <meta name="description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
 <meta property="og:title" content="Eternal Wreckening | Lucy Liu" />
 <meta property="og:description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
@@ -15,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <link rel="preload" as="image" href="assets/eternal-wreckening/slides/slide-01.jpg" fetchpriority="high" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,6 +83,26 @@ a { color: inherit; text-decoration: none; }
   border-radius: 16px; overflow: hidden;
 }
 .cs-hero-cover-full img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .cs-hero-below {
   width: min(1100px, 92vw); margin: 0 auto;
   padding: 40px 0 clamp(60px, 8vh, 100px);
@@ -108,6 +132,10 @@ a { color: inherit; text-decoration: none; }
 .cs-body-wide { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-body-inner { width: min(860px, 92vw); margin: 0 auto; }
 .cs-section { margin-bottom: clamp(80px, 10vw, 120px); position: relative; }
+/* Decorative section numeral: rendered as CSS content, not a text node.
+   WCAG 1.4.3 exempts pure decoration from contrast; keeping it out of the DOM
+   stops it being audited as real text while preserving the exact visual. */
+.cs-section-wm::before { content: attr(data-wm); }
 .cs-section-wm {
   position: absolute; top: -0.08em; right: -0.02em;
   font-family: var(--font-display); font-weight: 700;
@@ -174,6 +202,9 @@ a { color: inherit; text-decoration: none; }
 .cs-artifact-caption strong { color: var(--fg1); }
 
 /* MECHANICS LEVERS — horizontal scroll card rail */
+/* focusable via tabindex for keyboard scrolling (a11y: scrollable-region-focusable) */
+.cs-levers:focus-visible,
+.cs-filmstrip-rail:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
 .cs-levers {
   margin-top: 44px;
   display: flex; gap: 12px;
@@ -495,7 +526,7 @@ a { color: inherit; text-decoration: none; }
 }
 </style>
 </head>
-<body>
+<body data-persona-slug="eternal-wreckening">
 
 <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -518,45 +549,45 @@ a { color: inherit; text-decoration: none; }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,24 18,100 44,176 16,252 42,328 30,400"/>
-    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Hero">
-      <circle class="cs-const-hit" cx="30" cy="24"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="24"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="24"  r="3"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 444" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 30,404"/>
+    <g class="cs-const-g" data-snav="cs-s-hero">
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-problem" tabindex="0" role="button" aria-label="Jump to Problem">
-      <circle class="cs-const-hit" cx="18" cy="100" r="13"/>
-      <circle class="cs-const-ring" cx="18" cy="100" r="8"/>
-      <circle class="cs-const-dot"  cx="18" cy="100" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-problem">
+      <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-mechanics" tabindex="0" role="button" aria-label="Jump to Mechanics">
-      <circle class="cs-const-hit" cx="44" cy="176" r="13"/>
-      <circle class="cs-const-ring" cx="44" cy="176" r="8"/>
-      <circle class="cs-const-dot"  cx="44" cy="176" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-mechanics">
+      <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-storyboard" tabindex="0" role="button" aria-label="Jump to Storyboard">
-      <circle class="cs-const-hit" cx="16" cy="252" r="13"/>
-      <circle class="cs-const-ring" cx="16" cy="252" r="8"/>
-      <circle class="cs-const-dot"  cx="16" cy="252" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-storyboard">
+      <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-visual" tabindex="0" role="button" aria-label="Jump to Visual Design">
-      <circle class="cs-const-hit" cx="42" cy="328" r="13"/>
-      <circle class="cs-const-ring" cx="42" cy="328" r="8"/>
-      <circle class="cs-const-dot"  cx="42" cy="328" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-visual">
+      <circle class="cs-const-hit" cx="18" cy="328" r="13"/>
+      <circle class="cs-const-ring" cx="18" cy="328" r="8"/>
+      <circle class="cs-const-dot"  cx="18" cy="328" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-reflection" tabindex="0" role="button" aria-label="Jump to Reflection">
-      <circle class="cs-const-hit" cx="30" cy="400" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="400" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="400" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-reflection">
+      <circle class="cs-const-hit" cx="30" cy="404" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="404" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="404" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:17px"   data-label="cs-s-hero">Hero</span>
-  <span class="cs-const-label-el" style="top:93px"   data-label="cs-s-problem">Problem</span>
-  <span class="cs-const-label-el" style="top:169px"  data-label="cs-s-mechanics">Mechanics</span>
-  <span class="cs-const-label-el" style="top:245px"  data-label="cs-s-storyboard">Storyboard</span>
-  <span class="cs-const-label-el" style="top:321px"  data-label="cs-s-visual">Visual Design</span>
-  <span class="cs-const-label-el" style="top:393px"  data-label="cs-s-reflection">Reflection</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-problem">Problem</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-mechanics">Mechanics</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-storyboard">Storyboard</span>
+  <span class="cs-const-label-el" style="top:321px" data-label="cs-s-visual">Visual</span>
+  <span class="cs-const-label-el" style="top:397px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <header class="cs-hero cs-hero--cover" id="cs-s-hero">
@@ -564,7 +595,7 @@ a { color: inherit; text-decoration: none; }
   <div class="cs-hero-orb-2"></div>
 
   <h1 class="visually-hidden">Eternal Wreckening: Mobile Horror Game</h1>
-  <div class="cs-hero-cover-full">
+  <div class="cs-hero-cover-full border-beam">
     <img src="assets/eternal-wreckening/slides/slide-01.jpg" alt="Eternal Wreckening: mobile horror game cover" fetchpriority="high"
           srcset="assets/eternal-wreckening/slides/sm/slide-01.png 1200w, assets/eternal-wreckening/slides/slide-01.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
@@ -612,37 +643,6 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<div class="cs-body">
-
-  <!-- Opening atmospheric image -->
-  <div class="cs-image-block" style="margin-top:0;padding-top:clamp(60px,8vh,100px);">
-    <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img" src="assets/eternal-wreckening/slides/slide-02.png" alt="Eternal Wreckening project brief: a multiplayer mobile horror game where immersivity and horror collide" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-02.png 1200w, assets/eternal-wreckening/slides/slide-02.png 2280w"
-          sizes="(max-width: 1200px) 100vw, 1100px"
-          width="2280" height="1530">
-    </div>
-    <p class="cs-image-caption" data-cs-reveal>The design brief: immersivity and horror, on a phone</p>
-  </div>
-
-  <!-- 01 PROBLEM -->
-  <div class="cs-body-inner" id="cs-s-problem">
-    <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">01</span>
-      <p class="cs-section-label">01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h">Mobile games forget <em>you have a body.</em></h2>
-
-      <div class="cs-body-text">
-        <p>Standard mobile controls hand you two thumbs: left thumb moves, right thumb aims. Your torso, your hands, the instinct to flinch all wait outside the screen. For most genres that tradeoff works fine.</p>
-        <p>Horror is the exception. <strong>It runs on presence, on the sense that you're in the space and the threat is sharing the room.</strong> Keep the player's body outside the experience and you can still build atmosphere, but you can't manufacture dread. The screen stays a window when it needs to be a portal.</p>
-      </div>
-
-      <div class="cs-pull-quote" data-cs-reveal>
-        <blockquote>Horror falls apart at arm's length. The threat has to feel like it's in the room, which means putting the player's body in the game, not just on the screen.</blockquote>
-        <cite>Design intent, Eternal Wreckening</cite>
-      </div>
-
-      <p class="cs-section-label" style="margin-top:44px;">Design goals</p>
 <section class="case-clarity" aria-label="Role, process, and impact">
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
@@ -660,6 +660,37 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<div class="cs-body">
+
+  <!-- Opening atmospheric image -->
+  <div class="cs-image-block" style="margin-top:0;padding-top:clamp(60px,8vh,100px);">
+    <div class="cs-image" data-cs-reveal>
+      <img class="cs-slide-img" src="assets/eternal-wreckening/slides/slide-02.jpg" alt="Eternal Wreckening project brief: a multiplayer mobile horror game where immersivity and horror collide" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-02.png 1200w, assets/eternal-wreckening/slides/slide-02.jpg 2280w"
+          sizes="(max-width: 1200px) 100vw, 1100px"
+          width="2280" height="1530">
+    </div>
+    <p class="cs-image-caption" data-cs-reveal>The design brief: immersivity and horror, on a phone</p>
+  </div>
+
+  <!-- 01 PROBLEM -->
+  <div class="cs-body-inner" id="cs-s-problem">
+    <div class="cs-section" data-cs-section>
+      <span class="cs-section-wm" data-wm="01" aria-hidden="true"></span>
+      <p class="cs-section-label">01 &nbsp;·&nbsp; The Problem</p>
+      <h2 class="cs-section-h">Mobile games forget you have a body.</h2>
+
+      <div class="cs-body-text">
+        <p>Standard mobile controls hand you two thumbs: left thumb moves, right thumb aims. Your torso, your hands, the instinct to flinch all wait outside the screen. For most genres that tradeoff works fine.</p>
+        <p>Horror is the exception. <strong>It runs on presence, on the sense that you're in the space and the threat is sharing the room.</strong> Keep the player's body outside the experience and you can still build atmosphere, but you can't manufacture dread. The screen stays a window when it needs to be a portal.</p>
+      </div>
+
+      <div class="cs-pull-quote" data-cs-reveal>
+        <blockquote>Horror falls apart at arm's length. The threat has to feel like it's in the room, which means putting the player's body in the game, not just on the screen.</blockquote>
+        <cite>Design intent, Eternal Wreckening</cite>
+      </div>
+
+      <p class="cs-section-label" style="margin-top:44px;">Design goals</p>
       <div class="cs-goal-list" data-goal-list>
         <div class="cs-goal" data-goal>
           <span class="cs-goal-n">01</span>
@@ -686,15 +717,15 @@ a { color: inherit; text-decoration: none; }
   <!-- 02 MECHANICS -->
   <div class="cs-body-inner" id="cs-s-mechanics">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">02</span>
+      <span class="cs-section-wm" data-wm="02" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Movement Mechanics</p>
-      <h2 class="cs-section-h" data-cs-reveal>Three layers of <em>physical play.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Three layers of physical play.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>I built the controls around a hierarchy of physical engagement, large to small. Each layer pulls in the body at a different scale: full-body orientation, then muscle fatigue, then haptic pulse in the fingertips.</p>
       </div>
 
-      <div class="cs-levers" data-cs-stagger data-cs-reveal>
+      <div class="cs-levers" data-cs-stagger data-cs-reveal tabindex="0" role="region" aria-label="Three layers of physical play (scrollable)">
         <div class="cs-lever">
           <span class="cs-lever-label">Large</span>
           <div class="cs-lever-desc"><strong>Gyroscope.</strong> Instead of the right thumb sweeping the camera (the mobile default), you turn and tilt the device to orient within the world. The joystick on the lower left handles movement; the body handles perspective. You lean around corners and face threats head-on, so the horror environment turns into a place you inhabit rather than watch.</div>
@@ -715,8 +746,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-06.png" alt="Gyroscope mechanic — full body movement replaces right-thumb camera control" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-06.png 1200w, assets/eternal-wreckening/slides/slide-06.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-06.jpg" alt="Gyroscope mechanic — full body movement replaces right-thumb camera control" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-06.png 1200w, assets/eternal-wreckening/slides/slide-06.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -724,8 +755,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-07.png" alt="Shake to escape mechanic — physical mimicry creates visceral connection, risk vs reward" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-07.png 1200w, assets/eternal-wreckening/slides/slide-07.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-07.jpg" alt="Shake to escape mechanic — physical mimicry creates visceral connection, risk vs reward" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-07.png 1200w, assets/eternal-wreckening/slides/slide-07.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -733,8 +764,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact span-2">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-08.png" alt="Vibration and tap mechanics — energy bar depletes as fingers tire, phone vibrates at exhaustion" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-08.png 1200w, assets/eternal-wreckening/slides/slide-08.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-08.jpg" alt="Vibration and tap mechanics — energy bar depletes as fingers tire, phone vibrates at exhaustion" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-08.png 1200w, assets/eternal-wreckening/slides/slide-08.jpg 2280w"
           sizes="(max-width: 640px) 100vw, 1068px"
           width="2280" height="1530">
         </div>
@@ -746,9 +777,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 03 STORYBOARD -->
   <div class="cs-body-inner" id="cs-s-storyboard">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">03</span>
+      <span class="cs-section-wm" data-wm="03" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Storyboard</p>
-      <h2 class="cs-section-h" data-cs-reveal>Four hunters, one monster, <em>earned map.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Four hunters, one monster, earned map.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Eternal Wreckening is a 4v1 asymmetric multiplayer game inspired by Dead by Daylight, the survival horror game that defined the predator-versus-survivors model. Bringing that to mobile meant rethinking how the structure feels when the controller is your whole body. Four Guardians have to find and destroy five Abyssal Amulets scattered across the map, release the gem fragment from each, and throw them into the portal to close it and eliminate the Entity. One player controls the Entity and tries to knock down all four Guardians and throw them into the portal before it closes.</p>
@@ -759,58 +790,58 @@ a { color: inherit; text-decoration: none; }
 
   <div class="cs-image-block">
     <div class="cs-filmstrip" data-cs-reveal>
-      <div class="cs-filmstrip-rail" id="cs-filmstrip-storyboard">
+      <div class="cs-filmstrip-rail" id="cs-filmstrip-storyboard" tabindex="0" role="region" aria-label="Storyboard frames (scrollable)">
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-01.png" alt="Main menu: Start and Guide buttons over a dark forest background"
-               srcset="assets/eternal-wreckening/frames/sm/frame-01.png 900w, assets/eternal-wreckening/frames/frame-01.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-01.jpg" alt="Main menu: Start and Guide buttons over a dark forest background"
+               srcset="assets/eternal-wreckening/frames/sm/frame-01.png 900w, assets/eternal-wreckening/frames/frame-01.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">01 · Main menu</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-19.png" alt="Choose your character: Harper Stone and Sorcha Nightshade face each other"
-               srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-19.jpg" alt="Choose your character: Harper Stone and Sorcha Nightshade face each other"
+               srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">02 · Choose role</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-02.png" alt="Harper Stone Guardian backstory: adventurous thrill-seeker, family of renowned explorers"
-               srcset="assets/eternal-wreckening/frames/sm/frame-02.png 900w, assets/eternal-wreckening/frames/frame-02.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-02.jpg" alt="Harper Stone Guardian backstory: adventurous thrill-seeker, family of renowned explorers"
+               srcset="assets/eternal-wreckening/frames/sm/frame-02.png 900w, assets/eternal-wreckening/frames/frame-02.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">03 · Guardian backstory</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-10.png" alt="Harper Stone ability: perceive aura of objects within five-meter radius"
-               srcset="assets/eternal-wreckening/frames/sm/frame-10.png 900w, assets/eternal-wreckening/frames/frame-10.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-10.jpg" alt="Harper Stone ability: perceive aura of objects within five-meter radius"
+               srcset="assets/eternal-wreckening/frames/sm/frame-10.png 900w, assets/eternal-wreckening/frames/frame-10.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">04 · Guardian ability</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-11.png" alt="Gadget selection screen: empty equipped slots, three gadgets in inventory"
-               srcset="assets/eternal-wreckening/frames/sm/frame-11.png 900w, assets/eternal-wreckening/frames/frame-11.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-11.jpg" alt="Gadget selection screen: empty equipped slots, three gadgets in inventory"
+               srcset="assets/eternal-wreckening/frames/sm/frame-11.png 900w, assets/eternal-wreckening/frames/frame-11.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">05 · Gadget loadout</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-17.png" alt="Gadget selection: three gadgets fully equipped, ready for match"
-               srcset="assets/eternal-wreckening/frames/sm/frame-17.png 900w, assets/eternal-wreckening/frames/frame-17.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-17.jpg" alt="Gadget selection: three gadgets fully equipped, ready for match"
+               srcset="assets/eternal-wreckening/frames/sm/frame-17.png 900w, assets/eternal-wreckening/frames/frame-17.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">06 · Loadout ready</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-18.png" alt="Loading screen: dark atmospheric forest with LOADING text"
-               srcset="assets/eternal-wreckening/frames/sm/frame-18.png 900w, assets/eternal-wreckening/frames/frame-18.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-18.jpg" alt="Loading screen: dark atmospheric forest with LOADING text"
+               srcset="assets/eternal-wreckening/frames/sm/frame-18.png 900w, assets/eternal-wreckening/frames/frame-18.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">07 · Match loading</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-21.png" alt="Guardian Guide step 2: smash objects and collect the gem"
-               srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-21.jpg" alt="Guardian Guide step 2: smash objects and collect the gem"
+               srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">08 · Smash amulets</p>
         </figure>
         <figure class="cs-filmstrip-frame">
-          <img src="assets/eternal-wreckening/frames/frame-22.png" alt="Guardian Guide step 3: find and put gems in portal to close it"
-               srcset="assets/eternal-wreckening/frames/sm/frame-22.png 900w, assets/eternal-wreckening/frames/frame-22.png 2110w"
+          <img src="assets/eternal-wreckening/frames/frame-22.jpg" alt="Guardian Guide step 3: find and put gems in portal to close it"
+               srcset="assets/eternal-wreckening/frames/sm/frame-22.png 900w, assets/eternal-wreckening/frames/frame-22.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">09 · Close the portal</p>
         </figure>
@@ -821,8 +852,8 @@ a { color: inherit; text-decoration: none; }
 
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-09.png" alt="Low-fidelity storyboard: Guardian and Entity game loops, map reveal mechanic, portal goal" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-09.png 1200w, assets/eternal-wreckening/slides/slide-09.png 2280w"
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-09.jpg" alt="Low-fidelity storyboard: Guardian and Entity game loops, map reveal mechanic, portal goal" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-09.png 1200w, assets/eternal-wreckening/slides/slide-09.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
@@ -840,8 +871,8 @@ a { color: inherit; text-decoration: none; }
 
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-10.png" alt="Wayfinding: glowing interactive objects visible through walls, fog-of-war map reveals by exploration" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-10.png 1200w, assets/eternal-wreckening/slides/slide-10.png 2280w"
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-10.jpg" alt="Wayfinding: glowing interactive objects visible through walls, fog-of-war map reveals by exploration" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-10.png 1200w, assets/eternal-wreckening/slides/slide-10.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
@@ -871,8 +902,8 @@ a { color: inherit; text-decoration: none; }
 
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/frames/frame-19.png" alt="Choose your character screen: Harper Stone (Guardian) and Sorcha Nightshade (Entity) face each other" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.png 2110w"
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/frames/frame-19.jpg" alt="Choose your character screen: Harper Stone (Guardian) and Sorcha Nightshade (Entity) face each other" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-19.png 900w, assets/eternal-wreckening/frames/frame-19.jpg 2110w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2110" height="975">
     </div>
@@ -883,8 +914,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-14.png" alt="Harper Stone Guardian character select screen with backstory and gadget loadout entry" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-14.png 900w, assets/eternal-wreckening/frames/frame-14.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-14.jpg" alt="Harper Stone Guardian character select screen with backstory and gadget loadout entry" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-14.png 900w, assets/eternal-wreckening/frames/frame-14.jpg 2110w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
@@ -892,8 +923,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-09.png" alt="Sorcha Nightshade Entity character select screen with predator role overview" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-09.png 900w, assets/eternal-wreckening/frames/frame-09.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-09.jpg" alt="Sorcha Nightshade Entity character select screen with predator role overview" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-09.png 900w, assets/eternal-wreckening/frames/frame-09.jpg 2110w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
@@ -906,9 +937,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 04 VISUAL DESIGN -->
   <div class="cs-body-inner" id="cs-s-visual">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">04</span>
+      <span class="cs-section-wm" data-wm="04" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design</p>
-      <h2 class="cs-section-h" data-cs-reveal>Horror that <em>reads.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>Horror that reads.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The visual language had to carry atmosphere and stay legible at the same time. Horror aesthetics lean on obscurity; game UI demands that you read it instantly. I split the registers to settle the conflict: the environment carries mood, the interface carries function, and color stitches them together.</p>
@@ -920,8 +951,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-12.png" alt="Control layout: joystick bottom-left for movement, action button top-right for thumb reach" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-12.png 1200w, assets/eternal-wreckening/slides/slide-12.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-12.jpg" alt="Control layout: joystick bottom-left for movement, action button top-right for thumb reach" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-12.png 1200w, assets/eternal-wreckening/slides/slide-12.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -929,8 +960,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-13.png" alt="Typography: Martyric headings for atmosphere, Blood Crow body for legibility" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-13.png 1200w, assets/eternal-wreckening/slides/slide-13.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-13.jpg" alt="Typography: Martyric headings for atmosphere, Blood Crow body for legibility" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-13.png 1200w, assets/eternal-wreckening/slides/slide-13.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -948,8 +979,8 @@ a { color: inherit; text-decoration: none; }
 
   <div class="cs-image-block">
     <div class="cs-image" data-cs-reveal>
-      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-14.png" alt="Icon system: consistent circular shapes, arrow for direction, circles for slide position indicators" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-14.png 1200w, assets/eternal-wreckening/slides/slide-14.png 2280w"
+      <img class="cs-slide-img lb-trigger" src="assets/eternal-wreckening/slides/slide-14.jpg" alt="Icon system: consistent circular shapes, arrow for direction, circles for slide position indicators" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-14.png 1200w, assets/eternal-wreckening/slides/slide-14.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
     </div>
@@ -967,8 +998,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid cs-artifact-grid--3" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-06.png" alt="Stun gadget selection screen: blinding burst 4 seconds, activated after 2 gems placed" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-06.png 900w, assets/eternal-wreckening/frames/frame-06.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-06.jpg" alt="Stun gadget selection screen: blinding burst 4 seconds, activated after 2 gems placed" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-06.png 900w, assets/eternal-wreckening/frames/frame-06.jpg 2110w"
           sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
           width="2110" height="975">
         </div>
@@ -976,8 +1007,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-07.png" alt="Amplify gadget selection screen: 30 seconds heightened hearing, detects Entity within 100m" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-07.png 900w, assets/eternal-wreckening/frames/frame-07.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-07.jpg" alt="Amplify gadget selection screen: 30 seconds heightened hearing, detects Entity within 100m" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-07.png 900w, assets/eternal-wreckening/frames/frame-07.jpg 2110w"
           sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
           width="2110" height="975">
         </div>
@@ -985,8 +1016,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-08.png" alt="Mask gadget selection screen: reduces Entity detection range by 10%, stealth passive" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-08.png 900w, assets/eternal-wreckening/frames/frame-08.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-08.jpg" alt="Mask gadget selection screen: reduces Entity detection range by 10%, stealth passive" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-08.png 900w, assets/eternal-wreckening/frames/frame-08.jpg 2110w"
           sizes="(max-width: 720px) 100vw, (max-width: 1100px) 33vw, 355px"
           width="2110" height="975">
         </div>
@@ -1006,8 +1037,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-15.png" alt="Gadget collection UI: backpack metaphor, matchup button, gadget selection flow" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-15.png 1200w, assets/eternal-wreckening/slides/slide-15.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-15.jpg" alt="Gadget collection UI: backpack metaphor, matchup button, gadget selection flow" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-15.png 1200w, assets/eternal-wreckening/slides/slide-15.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -1015,8 +1046,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-16.png" alt="Color system for gadgets: bright colors for quick differentiation, equip icon color matches gadget" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-16.png 1200w, assets/eternal-wreckening/slides/slide-16.png 2280w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-16.jpg" alt="Color system for gadgets: bright colors for quick differentiation, equip icon color matches gadget" loading="lazy"
+          srcset="assets/eternal-wreckening/slides/sm/slide-16.png 1200w, assets/eternal-wreckening/slides/slide-16.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -1036,8 +1067,8 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-artifact-grid" data-cs-stagger data-cs-reveal>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-21.png" alt="Guardian Guide tutorial screen: role explanation, objective, and control instructions" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-21.jpg" alt="Guardian Guide tutorial screen: role explanation, objective, and control instructions" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-21.png 900w, assets/eternal-wreckening/frames/frame-21.jpg 2110w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
@@ -1045,8 +1076,8 @@ a { color: inherit; text-decoration: none; }
       </div>
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
-          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-27.png" alt="Entity Guide: find, attack, and throw all 4 Guardians into the portal to win; entities grow stronger over time" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-27.png 900w, assets/eternal-wreckening/frames/frame-27.png 2110w"
+          <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-27.jpg" alt="Entity Guide: find, attack, and throw all 4 Guardians into the portal to win; entities grow stronger over time" loading="lazy"
+          srcset="assets/eternal-wreckening/frames/sm/frame-27.png 900w, assets/eternal-wreckening/frames/frame-27.jpg 2110w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
@@ -1059,9 +1090,9 @@ a { color: inherit; text-decoration: none; }
   <!-- 05 REFLECTION -->
   <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
-      <span class="cs-section-wm">05</span>
+      <span class="cs-section-wm" data-wm="05" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I'd <em>build next.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I'd build next.</h2>
 
       <div class="cs-reflection-list" data-cs-stagger data-cs-reveal>
         <div class="cs-reflection-item">
@@ -1085,7 +1116,7 @@ a { color: inherit; text-decoration: none; }
 </main><!-- /main-content -->
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="case-study.html?slug=driftwood">
@@ -1094,7 +1125,7 @@ a { color: inherit; text-decoration: none; }
     </a>
     <p class="cs-next-desc">Driftwood is a narrative game where the rules themselves become the emotional mechanic. Like this one, it works the seam between game design and human psychology.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
@@ -1172,8 +1203,34 @@ a { color: inherit; text-decoration: none; }
     });
   });
 
-  const sectionIds = ['cs-s-hero','cs-s-problem','cs-s-mechanics','cs-s-storyboard','cs-s-visual','cs-s-reflection'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
   const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
 
   const heroEl = document.getElementById('cs-s-hero');
   if (heroEl) {
@@ -1184,7 +1241,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   const activeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    if (entries.some(e => e.isIntersecting)) computeActive();
   }, { rootMargin: '-10% 0px -55% 0px', threshold: 0 });
   sectionEls.forEach(el => activeObs.observe(el));
 
@@ -1193,16 +1250,7 @@ a { color: inherit; text-decoration: none; }
     if (rafId) return;
     rafId = requestAnimationFrame(() => {
       rafId = null;
-      const vp30 = window.innerHeight * 0.30;
-      let best = null, bestDist = Infinity;
-      sectionEls.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if (top <= vp30) {
-          const dist = vp30 - top;
-          if (dist < bestDist) { bestDist = dist; best = el; }
-        }
-      });
-      if (best) setActive(best.id);
+      computeActive();
       updateWatermarks();
     });
   }, { passive: true });
@@ -1260,7 +1308,7 @@ a { color: inherit; text-decoration: none; }
     goalItemsEarly.forEach((item, i) => setTimeout(() => item.classList.add('is-vis'), 300 + i * 110));
     // Touch / no-hover devices: auto-reveal after 1.5s
     if (window.matchMedia('(hover: none)').matches) {
-      setTimeout(revealFog, 1500);
+      setTimeout(revealFog, 600);
     } else {
       // Mouse: track cursor
       fogSection.addEventListener('mousemove', e => {
@@ -1275,7 +1323,7 @@ a { color: inherit; text-decoration: none; }
       // When section enters viewport, start a 2s countdown
       new IntersectionObserver(entries => {
         if (entries[0].isIntersecting && !revealed) {
-          autoRevealTimer = setTimeout(revealFog, 2000);
+          autoRevealTimer = setTimeout(revealFog, 800);
         } else {
           clearTimeout(autoRevealTimer);
         }
@@ -1312,6 +1360,7 @@ a { color: inherit; text-decoration: none; }
   if (!prefersReduced && !isTouch) {
     const cvs = document.createElement('canvas');
     cvs.style.cssText = 'position:fixed;inset:0;z-index:9998;pointer-events:none;';
+    cvs.setAttribute('aria-hidden', 'true');   // decorative overlay: keep out of the a11y tree
     document.body.appendChild(cvs);
     const ctx2d = cvs.getContext('2d');
     let cw = window.innerWidth, ch = window.innerHeight;
@@ -1361,5 +1410,10 @@ a { color: inherit; text-decoration: none; }
 
 })();
 </script>
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

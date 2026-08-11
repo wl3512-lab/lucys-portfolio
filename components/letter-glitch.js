@@ -131,4 +131,27 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+
+  // ── Loader boot backdrop ───────────────────────────────────────────────
+  // Self-contained: mounts a decoding letter grid into #ll-glitch and tears down on the
+  // loader's existing 'loader:exit' event. Never touches the loader IIFE or its guards.
+  try {
+    var llReduced = false;
+    try { llReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    var llLoader = document.getElementById('ll-loader');
+    var llHost = document.getElementById('ll-glitch');
+    if (llLoader && llHost && !llReduced && !document.body.classList.contains('loader-done')) {
+      var disposeGlitch = LetterGlitchMount(llHost, {
+        glitchColors: ['#141930', '#1E2640', '#1E2640', '#4A8FEF', '#4A8FEF', '#72ADFF'],
+        glitchSpeed: 50,
+        smooth: true,
+        centerVignette: true,
+        outerVignette: true
+      });
+      window.addEventListener('loader:exit', function () {
+        // CSS fades #ll-glitch out (#ll-loader.is-done #ll-glitch); dispose after the transition.
+        setTimeout(function () { try { if (disposeGlitch) disposeGlitch(); } catch (e) {} }, 700);
+      }, { once: true });
+    }
+  } catch (e) {}
 })();

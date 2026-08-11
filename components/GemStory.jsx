@@ -5,9 +5,11 @@
 // Self-contained presentational section, exposed as window.GemStory.
 // ============================================================
 function GemStory() {
-  const showIridescence = typeof Iridescence !== 'undefined' && window.innerWidth >= 760;
+  const sectionRef = React.useRef(null);
+  const nearView = typeof useInView === 'function' ? useInView(sectionRef) : true;
+  const showIridescence = typeof Iridescence !== 'undefined' && window.__webglOK !== false && window.innerWidth >= 760 && nearView;
   return (
-    <section className="gem-section" id="gems">
+    <section ref={sectionRef} className="gem-section" id="gems">
       {/* Atmospheric environment: stays behind everything */}
       {showIridescence && (
         <Iridescence className="gem-iridescence" color={[0.6, 0.45, 1.0]} speed={0.6} amplitude={0.05} />
@@ -75,9 +77,9 @@ function GemStory() {
           aria-label="View tooth gems on Instagram @sompednyc (opens in a new tab)"
         >
           <div className="gem-photo" aria-hidden="true">
-            <img className="gem-photo-base" src="assets/lucy-tooth-gem.png" alt="" loading="lazy" />
+            <img className="gem-photo-base" src="assets/lucy-tooth-gem.webp" alt="" loading="lazy" />
             <div className="gem-photo-reveal">
-              <img src="assets/lucy-tooth-gem.png" alt="" loading="lazy" />
+              <img src="assets/lucy-tooth-gem.webp" alt="" loading="lazy" />
             </div>
           </div>
           <div className="gem-bars" aria-hidden="true">

@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<title>Under the Weather — Lucy Liu</title>
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="shortcut icon" href="favicon.ico?v=3" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
+<title>Under the Weather | Lucy Liu</title>
 <meta name="description" content="Under the Weather — an intentionally useless p5.js weather app that responds to real data with sassy one-liners. By Lucy Liu." />
 <meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -14,14 +17,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=10" />
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
   scroll-behavior: auto;
   --sky:     oklch(0.62 0.13 228);
-  --sky-dim: oklch(0.52 0.11 228);
+  --sky-dim: oklch(0.60 0.11 228);   /* a11y: 4.91 on --surface, 5.24 on --void (was 0.52 => 3.56, failed AA) */
   --sky-a08: oklch(0.62 0.13 228 / 0.08);
   --sky-a18: oklch(0.62 0.13 228 / 0.18);
   --sky-a30: oklch(0.62 0.13 228 / 0.30);
@@ -94,6 +97,26 @@ a { color: inherit; text-decoration: none; }
   filter: drop-shadow(0 4px 12px oklch(0 0 0 / 0.30)) drop-shadow(0 16px 48px oklch(0 0 0 / 0.35));
 }
 .utw-hero-img-wrap img { width: 100%; height: auto; display: block; }
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .border-beam::after { animation: none; opacity: 0.45; } }
 .utw-hero-text-col {
   display: flex; flex-direction: column; gap: 20px;
 }
@@ -182,7 +205,7 @@ a { color: inherit; text-decoration: none; }
 .tr-panel summary:hover .tr-panel-icon { color: var(--sky); }
 .tr-panel-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--sky-dim); transition: color 0.25s; display: flex; align-items: center; justify-content: center; }
 .tr-panel-icon svg { width: 100%; height: 100%; }
-.tr-panel-num { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: oklch(0.62 0.13 228 / 0.40); flex-shrink: 0; min-width: 2.5ch; }
+.tr-panel-num { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sky-dim); flex-shrink: 0; min-width: 2.5ch; }
 .tr-panel-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 2.4vw, 27px); letter-spacing: -0.02em; line-height: 1; color: var(--fg2); flex: 1; transition: color 0.2s; }
 .tr-panel-arrow { width: 16px; height: 16px; flex-shrink: 0; color: var(--fg3); transition: transform 0.36s cubic-bezier(0.25,1,0.5,1); display: flex; align-items: center; justify-content: center; }
 .tr-panel-arrow svg { width: 100%; height: 100%; }
@@ -302,33 +325,33 @@ details[open] .tr-panel-icon { color: var(--sky); }
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,20 18,90 42,155 30,205"/>
-    <g class="cs-const-g" data-snav="cs-s-hero" tabindex="0" role="button" aria-label="Jump to Overview">
-      <circle class="cs-const-hit" cx="30" cy="20"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="20"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="20"  r="3"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 292" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 30,252"/>
+    <g class="cs-const-g" data-snav="cs-s-hero">
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-concept" tabindex="0" role="button" aria-label="Jump to Concept">
-      <circle class="cs-const-hit" cx="18" cy="90" r="13"/>
-      <circle class="cs-const-ring" cx="18" cy="90" r="8"/>
-      <circle class="cs-const-dot"  cx="18" cy="90" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-concept">
+      <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-code" tabindex="0" role="button" aria-label="Jump to Under the Hood">
-      <circle class="cs-const-hit" cx="42" cy="155" r="13"/>
-      <circle class="cs-const-ring" cx="42" cy="155" r="8"/>
-      <circle class="cs-const-dot"  cx="42" cy="155" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-code">
+      <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-testing" tabindex="0" role="button" aria-label="Jump to Testing">
-      <circle class="cs-const-hit" cx="30" cy="205" r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="205" r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="205" r="3"/>
+    <g class="cs-const-g" data-snav="cs-s-testing">
+      <circle class="cs-const-hit" cx="30" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="252" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:13px"  data-label="cs-s-hero">Overview</span>
-  <span class="cs-const-label-el" style="top:83px"  data-label="cs-s-concept">Concept</span>
-  <span class="cs-const-label-el" style="top:148px" data-label="cs-s-code">Code</span>
-  <span class="cs-const-label-el" style="top:198px" data-label="cs-s-testing">Testing</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-concept">Concept</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-code">Code</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-testing">Testing</span>
 </nav>
 
 <!-- HERO -->
@@ -338,7 +361,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
 
   <div class="utw-hero-split">
     <div class="utw-hero-img-col">
-      <div class="utw-hero-img-wrap">
+      <div class="utw-hero-img-wrap border-beam">
         <img src="assets/undertheweather/cover.png"
              alt="Under the Weather app: title screen with check weather button and NYC timestamp"
              fetchpriority="high" />
@@ -386,29 +409,6 @@ details[open] .tr-panel-icon { color: var(--sky); }
   </div>
 </section>
 
-<div class="cs-body">
-
-  <!-- CONCEPT INTRO -->
-  <div id="cs-s-concept" class="utw-concept" data-cs-reveal>
-    <p class="utw-concept-label">Intentionally useless</p>
-    <h2 class="utw-concept-h">Real data.<br><em>Nothing helpful.</em></h2>
-    <div class="utw-concept-body">
-      <p>My first p5.js project. The brief: build something that works perfectly and does absolutely nothing useful.</p>
-      <p>Under the Weather fetches live NYC weather from the OpenWeatherMap API, then responds with sassy one-liners instead of temperatures. It was an excuse to learn API calls, async JavaScript, and p5.js — wrapped in a concept about how people treat weather reports as emotional verdicts.</p>
-    </div>
-  </div>
-
-  <!-- ACCORDION SECTIONS -->
-  <div class="cs-body-inner">
-    <div class="tr-accordion">
-
-      <!-- 01 · CONCEPT -->
-      <details class="tr-panel" open>
-        <summary>
-          <span class="tr-panel-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" stroke-width="1.5"/>
-            </svg>
 <section class="case-clarity" aria-label="Role, process, and impact">
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
@@ -426,6 +426,29 @@ details[open] .tr-panel-icon { color: var(--sky); }
   </div>
 </section>
 
+<div class="cs-body">
+
+  <!-- CONCEPT INTRO -->
+  <div id="cs-s-concept" class="utw-concept" data-cs-reveal>
+    <p class="utw-concept-label">Intentionally useless</p>
+    <h2 class="utw-concept-h">Real data.<br>Nothing helpful.</h2>
+    <div class="utw-concept-body">
+      <p>My first p5.js project. The brief: build something that works perfectly and does absolutely nothing useful.</p>
+      <p>Under the Weather fetches live NYC weather from the OpenWeatherMap API, then responds with sassy one-liners instead of temperatures. It was an excuse to learn API calls, async JavaScript, and p5.js — wrapped in a concept about how people treat weather reports as emotional verdicts.</p>
+    </div>
+  </div>
+
+  <!-- ACCORDION SECTIONS -->
+  <div class="cs-body-inner">
+    <div class="tr-accordion">
+
+      <!-- 01 · CONCEPT -->
+      <details class="tr-panel" open>
+        <summary>
+          <span class="tr-panel-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" stroke-width="1.5"/>
+            </svg>
           </span>
           <span class="tr-panel-num">01</span>
           <span class="tr-panel-title">Concept</span>
@@ -555,7 +578,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
 </main>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Next project</p>
     <a class="cs-next-link" href="trance.html">
@@ -563,7 +586,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
       <span class="cs-next-arrow">↗</span>
     </a>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
 
@@ -587,7 +610,34 @@ details[open] .tr-panel-icon { color: var(--sky); }
   }
 
   const nav = document.getElementById('cs-section-nav');
-  const sectionIds = ['cs-s-hero','cs-s-concept','cs-s-code','cs-s-testing'];
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
+  const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
+    });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
   const nodes = document.querySelectorAll('[data-snav]');
   const labels = document.querySelectorAll('[data-label]');
 
@@ -605,7 +655,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
 
   if ('IntersectionObserver' in window) {
     const navIo = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+      if (entries.some(e => e.isIntersecting)) computeActive();
     }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
     sectionIds.forEach(id => { const el = document.getElementById(id); if (el) navIo.observe(el); });
   }
@@ -618,5 +668,8 @@ details[open] .tr-panel-icon { color: var(--sky); }
 })();
 </script>
 
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

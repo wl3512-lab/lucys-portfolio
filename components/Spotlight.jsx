@@ -43,10 +43,17 @@ function Spotlight(props) {
 
   // WebGL effects (LaserFlow + ASCIIText) are desktop-only: they're GPU-heavy and the
   // primary audience views on desktop. Mobile gets the text heading + plain card list.
+  const sectionRef = useRef(null);
+  // Defer the two WebGL contexts (LaserFlow backdrop + ASCIIText heading) until the
+  // section nears the viewport, so boot only spins up the hero backdrop. rootMargin
+  // mounts them ~well before visible, so the plain-heading -> ascii swap happens offscreen.
+  const nearView = typeof useInView === 'function' ? useInView(sectionRef) : true;
   const heavyOk =
     typeof window !== 'undefined' &&
     window.innerWidth >= 760 &&
-    typeof THREE !== 'undefined';
+    typeof THREE !== 'undefined' &&
+    window.__webglOK !== false &&
+    nearView;
   const showLaser = heavyOk && typeof LaserFlow !== 'undefined';
   const showAscii = heavyOk && typeof AsciiText !== 'undefined';
 
@@ -54,6 +61,9 @@ function Spotlight(props) {
     const scroller = stackRef.current;
     if (!scroller) return;
     if (spReducedMotion()) return; // plain list, no pinning
+    // Phones get the plain list too: per-scroll-frame pinning math fights touch
+    // scrolling (the "glitchy" feel) and the stack needs a tall viewport anyway.
+    if (window.innerWidth < 760) return;
 
     const cards = Array.prototype.slice.call(scroller.querySelectorAll('.spotlight-card'));
     const endEl = scroller.querySelector('.scroll-stack-end');
@@ -167,7 +177,7 @@ function Spotlight(props) {
   }
 
   return (
-    <section className="spotlight" id="spotlight" data-screen-label="01 Spotlight">
+    <section ref={sectionRef} className="spotlight" id="spotlight" data-screen-label="01 Spotlight">
       <div className="spotlight-atmos" aria-hidden="true">
         {showLaser && (
           <LaserFlow
@@ -211,43 +221,72 @@ function Spotlight(props) {
         <div className="scroll-stack" ref={stackRef}>
           {standout.map(function (p, i) {
             const num = String(i + 1).padStart(2, '0');
+            const cardInner = [
+              <div className="spotlight-card-cover" key="cover">
+                {p.cover ? (
+                  /* eager + sync decode: the ScrollStack transforms cards, so covers must be ready (not lazy/async) before a card peeks into the stack */
+                  <img src={p.cover} alt={p.title} loading="eager" decoding="sync" />
+                ) : (
+                  <div className="spotlight-card-cover-fallback"><span>{p.title[0]}</span></div>
+                )}
+                <div className="spotlight-card-aura" aria-hidden="true" />
+              </div>,
+              <div className="spotlight-card-body" key="body">
+                <div className="spotlight-card-top">
+                  <span className="spotlight-card-num">{num}</span>
+                  {p.spotlight && <span className="spotlight-card-live">live</span>}
+                </div>
+                <h3 className="spotlight-card-title">{p.title}</h3>
+                <p className="spotlight-card-desc">{p.subtitle || p.description}</p>
+                <div className="spotlight-card-tags">
+                  {(p.tags || []).slice(0, 3).map(function (t) {
+                    return <span key={t} className="tag tag-sm">{t}</span>;
+                  })}
+                </div>
+                <div className="spotlight-card-foot">
+                  <span className="spotlight-card-year">
+                    {p.year}{p.role ? ' · ' + p.role : ''}
+                  </span>
+                  <span className="spotlight-card-arrow" aria-hidden="true">↗</span>
+                </div>
+              </div>
+            ];
+            // BorderGlow (React Bits): cursor-reactive gradient border on each card.
+            // Renders as the <a class="spotlight-card"> the ScrollStack transforms; the
+            // 2-col grid lives on the inner wrapper. Falls back to a plain card if absent.
+            if (typeof BorderGlow !== 'undefined') {
+              return (
+                <BorderGlow
+                  key={p.id}
+                  as="a"
+                  className="spotlight-card"
+                  innerClassName="spotlight-card-inner"
+                  href={cardHref(p)}
+                  ariaLabel={'View project: ' + p.title}
+                  dataCursor="view ↗"
+                  onClick={function () { if (onOpen) onOpen(p); }}
+                  backgroundColor="var(--navy-mid)"
+                  glowColor="215 100 72"
+                  colors={['#72ADFF', '#C4B0FF', '#A0C8FF']}
+                  borderRadius={20}
+                  glowRadius={34}
+                  glowIntensity={0.85}
+                  coneSpread={22}
+                >
+                  {cardInner}
+                </BorderGlow>
+              );
+            }
             return (
               <a
                 key={p.id}
                 href={cardHref(p)}
-                className="spotlight-card"
+                className="spotlight-card spotlight-card--plain"
                 data-cursor="view ↗"
                 aria-label={'View project: ' + p.title}
                 onClick={function () { if (onOpen) onOpen(p); }}
               >
-                <div className="spotlight-card-cover">
-                  {p.cover ? (
-                    /* eager + sync decode: the ScrollStack transforms cards, so covers must be ready (not lazy/async) before a card peeks into the stack */
-                    <img src={p.cover} alt={p.title} loading="eager" decoding="sync" />
-                  ) : (
-                    <div className="spotlight-card-cover-fallback"><span>{p.title[0]}</span></div>
-                  )}
-                  <div className="spotlight-card-aura" aria-hidden="true" />
-                </div>
-                <div className="spotlight-card-body">
-                  <div className="spotlight-card-top">
-                    <span className="spotlight-card-num">{num}</span>
-                    {p.spotlight && <span className="spotlight-card-live">live</span>}
-                  </div>
-                  <h3 className="spotlight-card-title">{p.title}</h3>
-                  <p className="spotlight-card-desc">{p.subtitle || p.description}</p>
-                  <div className="spotlight-card-tags">
-                    {(p.tags || []).slice(0, 3).map(function (t) {
-                      return <span key={t} className="tag tag-sm">{t}</span>;
-                    })}
-                  </div>
-                  <div className="spotlight-card-foot">
-                    <span className="spotlight-card-year">
-                      {p.year}{p.role ? ' · ' + p.role : ''}
-                    </span>
-                    <span className="spotlight-card-arrow" aria-hidden="true">↗</span>
-                  </div>
-                </div>
+                {cardInner}
               </a>
             );
           })}

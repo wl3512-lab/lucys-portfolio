@@ -148,6 +148,11 @@ function Waves(props) {
     }
     let raf = 0;
     function tick(t) {
+      raf = requestAnimationFrame(tick);
+      // Waves is a viewport-fixed backdrop toggled via the `is-active` class (opacity).
+      // While faded out (not in the Spotlight zone) skip the grid redraw entirely — the
+      // loop idles for near-zero cost instead of drawing a full line field every frame.
+      if (!host.classList.contains('is-active')) return;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
       const dx = mouse.x - mouse.lx, dy = mouse.y - mouse.ly;
@@ -155,7 +160,6 @@ function Waves(props) {
       mouse.v = d; mouse.vs += (d - mouse.vs) * 0.1; mouse.vs = Math.min(100, mouse.vs);
       mouse.lx = mouse.x; mouse.ly = mouse.y; mouse.a = Math.atan2(dy, dx);
       movePoints(t); drawLines();
-      raf = requestAnimationFrame(tick);
     }
     function updateMouse(x, y) {
       bounding = host.getBoundingClientRect();   // fresh each move so it tracks through scroll

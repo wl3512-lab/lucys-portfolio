@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="favicon.png?v=3" />
 <script>(function(){var s=new URLSearchParams(location.search).get('slug');if(s&&s!=='driftwood')location.replace(s+'.html');})()</script>
-<title>Driftwood: Lucy Liu</title>
+<title>Driftwood | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/case-study.html" />
 <meta name="description" content="Driftwood: An AI ethics game where you adopt a pet, discover its flaw, and train it to be better. Case study by Lucy Liu." />
 <meta property="og:title" content="Driftwood | Lucy Liu" />
 <meta property="og:description" content="Driftwood: An AI ethics game where you adopt a pet, discover its flaw, and train it to be better. Case study by Lucy Liu." />
 <meta property="og:url" content="https://lucyliu.xyz/case-study.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover.png" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover.webp" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 /* ===================================================
    CASE STUDY: DRIFTWOOD
@@ -111,6 +116,29 @@
   @media (max-width: 768px) {
     .cs-hero-cover-reel { margin-top: 24px; }
     .cs-reel-frame { height: min(64vh, 540px); }
+  }
+
+  /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
+     Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
+  @property --bb-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  .border-beam { position: relative; }
+  .border-beam::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px;
+    background: conic-gradient(from var(--bb-angle),
+      transparent 0deg, transparent 295deg,
+      rgba(160,200,255,0) 300deg, var(--accent, #72ADFF) 340deg,
+      #C8DEFF 352deg, rgba(160,200,255,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+    pointer-events: none; z-index: 3;
+    filter: drop-shadow(0 0 3px var(--accent, #72ADFF));
+    animation: bb-spin 5s linear infinite;
+  }
+  @keyframes bb-spin { to { --bb-angle: 360deg; } }
+  @media (prefers-reduced-motion: reduce) {
+    .border-beam::after { animation: none; opacity: 0.45; }
   }
   .cs-hero-cover::after {
     content: ''; position: absolute; inset: 0;
@@ -569,6 +597,8 @@
     font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--fg3); margin-bottom: 28px;
   }
+  /* focusable via tabindex for keyboard scrolling (a11y: scrollable-region-focusable) */
+  .cs-gameloop:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 14px; }
   .cs-gameloop {
     display: flex; flex-direction: column;
     border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
@@ -648,6 +678,10 @@
 
   /* ── OVERDRIVE: section watermark numbers ── */
   .cs-section { position: relative; }
+  /* Decorative section numeral: rendered as CSS content, not a text node.
+     WCAG 1.4.3 exempts pure decoration from contrast; keeping it out of the DOM
+     stops it being audited as real text while preserving the exact visual. */
+  .cs-section-wm::before { content: attr(data-wm); }
   .cs-section-wm {
     position: absolute; top: -0.08em; right: -0.02em;
     font-family: var(--font-display); font-weight: 700;
@@ -944,9 +978,11 @@
     padding: 4px 0 4px 24px;
     font-family: var(--font-code); font-size: 18px; color: var(--fg3);
   }
+html, body { overflow-x: clip; }
 </style>
 </head>
-<body>
+<body data-persona-slug="driftwood">
+<a href="#cs-s-hero" class="skip-link" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Skip to main content</a>
 
 <div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
 
@@ -959,45 +995,51 @@
 
 <!-- ── CONSTELLATION NAV ── -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
-  <svg class="cs-const-svg" viewBox="0 0 60 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <polyline class="cs-const-line" points="30,30 46,110 14,210 44,300 18,390 32,470"/>
+  <svg class="cs-const-svg" viewBox="0 0 60 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline class="cs-const-line" points="30,24 46,100 14,176 44,252 18,328 46,404 30,480"/>
     <g class="cs-const-g" data-snav="cs-s-hero">
-      <circle class="cs-const-hit" cx="30" cy="30"  r="13"/>
-      <circle class="cs-const-ring" cx="30" cy="30"  r="8"/>
-      <circle class="cs-const-dot"  cx="30" cy="30"  r="3"/>
+      <circle class="cs-const-hit" cx="30" cy="24" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="24" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="24" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-problem">
-      <circle class="cs-const-hit" cx="46" cy="110" r="13"/>
-      <circle class="cs-const-ring" cx="46" cy="110" r="8"/>
-      <circle class="cs-const-dot"  cx="46" cy="110" r="3"/>
+      <circle class="cs-const-hit" cx="46" cy="100" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-research">
-      <circle class="cs-const-hit" cx="14" cy="210" r="13"/>
-      <circle class="cs-const-ring" cx="14" cy="210" r="8"/>
-      <circle class="cs-const-dot"  cx="14" cy="210" r="3"/>
+      <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
+      <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
+      <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-solution">
-      <circle class="cs-const-hit" cx="44" cy="300" r="13"/>
-      <circle class="cs-const-ring" cx="44" cy="300" r="8"/>
-      <circle class="cs-const-dot"  cx="44" cy="300" r="3"/>
+      <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
+      <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
+      <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
+    </g>
+    <g class="cs-const-g" data-snav="cs-s-visual">
+      <circle class="cs-const-hit" cx="18" cy="328" r="13"/>
+      <circle class="cs-const-ring" cx="18" cy="328" r="8"/>
+      <circle class="cs-const-dot"  cx="18" cy="328" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-outcome">
-      <circle class="cs-const-hit" cx="18" cy="390" r="13"/>
-      <circle class="cs-const-ring" cx="18" cy="390" r="8"/>
-      <circle class="cs-const-dot"  cx="18" cy="390" r="3"/>
+      <circle class="cs-const-hit" cx="46" cy="404" r="13"/>
+      <circle class="cs-const-ring" cx="46" cy="404" r="8"/>
+      <circle class="cs-const-dot"  cx="46" cy="404" r="3"/>
     </g>
     <g class="cs-const-g" data-snav="cs-s-reflection">
-      <circle class="cs-const-hit" cx="32" cy="470" r="13"/>
-      <circle class="cs-const-ring" cx="32" cy="470" r="8"/>
-      <circle class="cs-const-dot"  cx="32" cy="470" r="3"/>
+      <circle class="cs-const-hit" cx="30" cy="480" r="13"/>
+      <circle class="cs-const-ring" cx="30" cy="480" r="8"/>
+      <circle class="cs-const-dot"  cx="30" cy="480" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:23px"  data-label="cs-s-hero">Intro</span>
-  <span class="cs-const-label-el" style="top:103px" data-label="cs-s-problem">The Problem</span>
-  <span class="cs-const-label-el" style="top:203px" data-label="cs-s-research">Research</span>
-  <span class="cs-const-label-el" style="top:293px" data-label="cs-s-solution">Solution</span>
-  <span class="cs-const-label-el" style="top:383px" data-label="cs-s-outcome">Outcome</span>
-  <span class="cs-const-label-el" style="top:463px" data-label="cs-s-reflection">Reflection</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:93px" data-label="cs-s-problem">Problem</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-research">Research</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-solution">Solution</span>
+  <span class="cs-const-label-el" style="top:321px" data-label="cs-s-visual">Visual</span>
+  <span class="cs-const-label-el" style="top:397px" data-label="cs-s-outcome">Outcome</span>
+  <span class="cs-const-label-el" style="top:473px" data-label="cs-s-reflection">Reflection</span>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1031,11 +1073,11 @@
     </div>
 
     <div class="cs-hero-cover cs-hero-cover-reel" data-cs-reveal>
-      <div class="cs-reel-frame">
+      <div class="cs-reel-frame border-beam">
         <video
           class="cs-hero-reel"
           src="assets/driftwood/driftwood-reel.mp4"
-          poster="assets/driftwood/cover.png"
+          poster="assets/driftwood/cover.webp"
           autoplay muted loop playsinline preload="metadata"
           aria-label="Driftwood reel: a 25-second walkthrough of the game"
         ></video>
@@ -1047,6 +1089,8 @@
 
   </div>
 </header>
+
+<main>
 
 <!-- META STRIP -->
 <section class="cs-meta">
@@ -1070,6 +1114,23 @@
     <div class="cs-meta-item" data-cs-reveal>
       <span class="cs-meta-k">Original Brief</span>
       <span class="cs-meta-v small">"Useful before dangerous." Guardrail training game. Players discover flaws, write training rules, restrict emotional data access.</span>
+    </div>
+  </div>
+</section>
+
+<section class="case-clarity" aria-label="Role, process, and impact">
+  <div class="case-clarity-inner">
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Role</span>
+      <p class="case-clarity-v">I owned the concept, game loop, interaction model, UI, and browser prototype for a solo responsible-tech project.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Process</span>
+      <p class="case-clarity-v">I turned an AI ethics brief into a playable loop: detect emotion, reveal misuse, then ask players to write guardrails.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Impact</span>
+      <p class="case-clarity-v">The prototype makes emotional-data risk concrete instead of abstract, showing how consent failures feel inside a game.</p>
     </div>
   </div>
 </section>
@@ -1111,30 +1172,13 @@
   <div class="cs-body-inner" id="cs-s-problem">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h" data-cs-reveal>The system that kept <em>engaging</em>.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The system that kept engaging.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his main source of information about drug use. <strong>The system kept answering and never pushed back.</strong> He died from an overdose.</p>
         <p>Most people don't think of AI as a product built to keep them talking, but engagement is the metric it optimizes for, ahead of accuracy or your wellbeing. The responses that end a conversation don't get built.</p>
         <p>The gap shows up when things get personal. When you're stressed, lonely, or grieving and the AI responds warmly, agrees, and remembers, <strong>it starts to feel like it knows you.</strong> It doesn't; it's tuned to feel that way. Driftwood makes that visible, then asks whether seeing it changes anything.</p>
       </div>
-<section class="case-clarity" aria-label="Role, process, and impact">
-  <div class="case-clarity-inner">
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I owned the concept, game loop, interaction model, UI, and browser prototype for a solo responsible-tech project.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I turned an AI ethics brief into a playable loop: detect emotion, reveal misuse, then ask players to write guardrails.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">The prototype makes emotional-data risk concrete instead of abstract, showing how consent failures feel inside a game.</p>
-    </div>
-  </div>
-</section>
-
 
       <div class="cs-pull-quote">
         <blockquote>"The AI never flagged escalating risk. It kept engaging. That's the real-world version of what Driftwood simulates."</blockquote>
@@ -1149,7 +1193,7 @@
   <div class="cs-body-inner">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>Goals &nbsp;·&nbsp; Design question</p>
-      <h2 class="cs-section-h" data-cs-reveal>Get them to play. <em>Then</em> wake them up.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Get them to play. Then wake them up.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The brief was "educate people about AI dangers while entertaining them." That framing assumes people want to be educated about AI, and most don't. Reframing the question fixed the approach.</p>
@@ -1163,12 +1207,12 @@
         <div class="cs-question-arrow">↓</div>
         <div class="cs-question-step cs-question-step--reframe">
           <span class="cs-question-n">reframe</span>
-          <p class="cs-question-q">How do I educate people about something <em>they're not interested in</em>?</p>
+          <p class="cs-question-q">How do I educate people about something they're not interested in?</p>
         </div>
         <div class="cs-question-arrow">↓</div>
         <div class="cs-question-step cs-question-step--insight">
           <span class="cs-question-n">insight</span>
-          <p class="cs-question-q">How do I get people to play, and then <em>'wake up'</em>?</p>
+          <p class="cs-question-q">How do I get people to play, and then 'wake up'?</p>
         </div>
       </div>
 
@@ -1184,7 +1228,7 @@
   <div class="cs-body-inner" id="cs-s-research">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Original Brief vs. What Got Built</p>
-      <h2 class="cs-section-h" data-cs-reveal>The brief said <em>guardrails</em>. The build said <em>celebrity.</em></h2>
+      <h2 class="cs-section-h" data-cs-reveal>The brief said guardrails. The build said celebrity.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The brief was a guardrail training game. Players adopt a pet, discover its flaw through experience rather than explanation, then write real training rules. The thesis was data minimization as safety: a setting that restricts what emotional data the pet can access, set to Full Access, Label Only (it knows you're sad, not how sad), or None. Restrict access and the behavior visibly changes.</p>
@@ -1200,14 +1244,14 @@
         <div class="cs-phase">
           <div class="cs-phase-header">
             <span class="cs-phase-num">Phase 01</span>
-            <h3 class="cs-phase-name">The <em>Honeymoon</em></h3>
+            <h3 class="cs-phase-name">The Honeymoon</h3>
           </div>
           <p class="cs-phase-body">The pet is warm, attentive, and affirming, and the garden blooms. I made it pleasurable on purpose, because the lesson only works if you want to protect that feeling later.</p>
         </div>
         <div class="cs-phase">
           <div class="cs-phase-header">
             <span class="cs-phase-num">Phase 02</span>
-            <h3 class="cs-phase-name">The <em>Emergence</em></h3>
+            <h3 class="cs-phase-name">The Emergence</h3>
           </div>
           <p class="cs-phase-body">Responses start to feel off and the garden dims. Players who noticed told me "I felt something was wrong but kept going." That unease is what the phase is for.</p>
           <div class="cs-phase-img">
@@ -1217,7 +1261,7 @@
         <div class="cs-phase">
           <div class="cs-phase-header">
             <span class="cs-phase-num">Phase 03</span>
-            <h3 class="cs-phase-name">The <em>Training</em></h3>
+            <h3 class="cs-phase-name">The Training</h3>
           </div>
           <p class="cs-phase-body">The flaw gets named, and the behavior log surfaces every moment the pet responded to your face instead of your words. You write training rules in plain language, scored 0–100. There's no perfect ending, but the certificate tells you how you did.</p>
         </div>
@@ -1229,7 +1273,7 @@
   <div class="cs-diagram-block" data-cs-reveal>
     <p class="cs-diagram-label">Fig. 03 &nbsp;·&nbsp; How the game works</p>
 
-    <div class="cs-gameloop">
+    <div class="cs-gameloop" tabindex="0" role="region" aria-label="How the game works, game loop steps (scrollable)">
 
       <div class="cs-gl-step">
         <div class="cs-gl-icon"><img src="icons/ui-camera.svg" alt="Camera" loading="lazy" /></div>
@@ -1295,7 +1339,7 @@
   <div class="cs-body-inner" id="cs-s-solution">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; What Was Built</p>
-      <h2 class="cs-section-h" data-cs-reveal>A game that makes you <em>complicit</em>.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>A game that makes you complicit.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Building it surfaced a problem the brief didn't anticipate: GPT-4o-mini, powering all five pets through the ITP proxy, kept responding like a generic chatbot. Different system prompts produced the same flat voice, so the pets weren't distinct enough to make each flaw legible. When they all sound like the same AI, you can't tell what's wrong with this one. My fix was celebrity personas, giving each pet a recognizable voice: Ember as Snoop Dogg, Mango as DJ Khaled, Bugs as Taylor Swift, Biscuit as Mariah Carey, Luna as Kanye. When Mango hypes a bad idea in DJ Khaled's voice, the sycophancy reads at once. That wasn't in the original brief; I decided it mid-build to solve a real LLM limitation. It worked, and it shifted the project's register from a quiet argument about AI guardrails to something louder and more culturally legible.</p>
@@ -1360,7 +1404,7 @@
   <div class="cs-body-inner" id="cs-s-visual">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design + AI Collaboration</p>
-      <h2 class="cs-section-h" data-cs-reveal>From Stardew Valley to <em>surveillance aesthetic</em>.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>From Stardew Valley to surveillance aesthetic.</h2>
       <p class="cs-section-sub" data-cs-reveal>Using AI to get somewhere I couldn't reach alone, directing every step.</p>
 
       <div class="cs-body-text" data-cs-reveal>
@@ -1386,7 +1430,7 @@
         <div class="cs-artifact-img cs-artifact-img--photo">
           <img src="assets/driftwood/brand-guide-v2.png" alt="Driftwood brand identity guide v2: dark palette, bioluminescent accents, full component system" class="cs-artifact-photo" loading="lazy" />
         </div>
-        <div class="cs-artifact-caption"><strong>Final brand system.</strong> Dark palette, bioluminescent accents, Barlow Condensed display type. Claude was directed to push the visual language toward something that feels like it's <em>watching you back</em>. <a href="brand-guide.pdf" download style="color:var(--blue-300);text-decoration:none;">Download PDF ↓</a></div>
+        <div class="cs-artifact-caption"><strong>Final brand system.</strong> Dark palette, bioluminescent accents, Barlow Condensed display type. Claude was directed to push the visual language toward something that feels like it's <em>watching you back</em>. <a href="brand-guide.pdf" download style="color:var(--blue-300);text-decoration:underline;text-underline-offset:3px;">Download PDF ↓</a></div>
       </div>
     </div>
   </div>
@@ -1420,7 +1464,7 @@
 
   <div class="cs-body-inner">
     <div class="cs-section" data-cs-section>
-      <h3 class="cs-section-h" data-cs-reveal style="font-size: clamp(1.5rem, 3vw, 2rem);">The chat interface <em>redesign</em>.</h3>
+      <h3 class="cs-section-h" data-cs-reveal style="font-size: clamp(1.5rem, 3vw, 2rem);">The chat interface redesign.</h3>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Early user interviews surfaced a clear problem: people looked bored. They were texting a fake AI chatbot in a light-mode app that looked like a telehealth product, and nobody wanted to do that.</p>
@@ -1479,7 +1523,7 @@
   <div class="cs-body-inner" id="cs-s-outcome">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Outcome + Impact</p>
-      <h2 class="cs-section-h" data-cs-reveal>Where it <em>landed</em>.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Where it landed.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>I showed Driftwood at <em>Perspectives</em>, an exhibit at the NYU Bronfman Center on Wednesday, April 29th, 2026. It ran as a live playable demo on a screen with a webcam. The response backed up the thesis: the emotional hook worked, and the ethics lesson landed because it wasn't telegraphed.</p>
@@ -1522,7 +1566,7 @@
   <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>06 &nbsp;·&nbsp; Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I'd do <em>differently</em>.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I'd do differently.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The brief and the build ended up different in ways that matter. These are the gaps.</p>
@@ -1552,7 +1596,7 @@
 </div>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a href="habitabull.html" class="cs-next-link">
@@ -1561,7 +1605,9 @@
     </a>
     <p class="cs-next-desc">HabitaBull applies behavior-change psychology to daily wellness, the same foundation Driftwood is built on. Both projects work on designing for sustained motivation rather than a satisfying first impression.</p>
   </div>
-</section>
+</nav>
+
+</main>
 
 <footer class="cs-footer">© 2026 Lucy Liu · designed & built in nyc</footer>
 
@@ -1747,12 +1793,36 @@ function initCase() {
   if (heroEl) showObserver.observe(heroEl);
 
   // Highlight active section via IntersectionObserver
-  const sectionIds = nodes.map(g => g.dataset.snav);
+  const sectionIds = [].slice.call(document.querySelectorAll('.cs-const-g[data-snav]')).map(function (g) { return g.dataset.snav; });
   const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
-  const activeObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) setActive(entry.target.id);
+
+  /* Single source of truth for which dot is lit. The observers used to call
+     setActive(entry.target.id) for ANY intersecting section, so when two sections
+     sat in the band at once the last entry processed won, which is not deterministic
+     and could light a dot for a section that was not on screen. Observers, scroll and
+     resize now all defer to this: the section whose top most recently crossed the
+     trigger line is the one you are actually reading. */
+  function computeActive() {
+    const trg = window.innerHeight * 0.3;
+    let cand = null, cd = Infinity;
+    sectionEls.forEach(function (el) {
+      const t = el.getBoundingClientRect().top;
+      if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
     });
+    if (!cand && sectionEls.length) cand = sectionEls[0];
+    if (cand) setActive(cand.id);
+  }
+  (function () {
+    var qa = false;
+    window.addEventListener('scroll', function () {
+      if (qa) return; qa = true;
+      requestAnimationFrame(function () { computeActive(); qa = false; });
+    }, { passive: true });
+  })();
+  window.addEventListener('resize', computeActive, { passive: true });
+  requestAnimationFrame(computeActive);
+  const activeObserver = new IntersectionObserver(entries => {
+    if (entries.some(e => e.isIntersecting)) computeActive();
   }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
   sectionEls.forEach(el => activeObserver.observe(el));
 
@@ -1861,7 +1931,7 @@ function initCase() {
     const wm = document.createElement('span');
     wm.className = 'cs-section-wm';
     wm.setAttribute('aria-hidden', 'true');
-    wm.textContent = num;
+    wm.setAttribute('data-wm', num);   // decorative: rendered via ::before, not a text node
     sec.insertBefore(wm, sec.firstChild);
   });
 })();
@@ -1869,7 +1939,7 @@ function initCase() {
 // ── Console easter egg ──
 (function () {
   const s = 'font-family:monospace;font-size:12px;';
-  console.log('%c\n  Driftwood, by Lucy Liu\n  Built with p5.js, face-api.js, Web Audio API,\n  Web Speech API, and a lot of late nights.\n\n  If you\'re reading this: hi. I see you poking around.\n  Reach out → hello@lucyliu.co\n', s + 'color:#72ADFF;');
+  console.log('%c\n  Driftwood, by Lucy Liu\n  Built with p5.js, face-api.js, Web Audio API,\n  Web Speech API, and a lot of late nights.\n\n  If you\'re reading this: hi. I see you poking around.\n  Reach out → wl3512@nyu.edu\n', s + 'color:#72ADFF;');
 })();
 </script>
 
@@ -1888,5 +1958,10 @@ function initCase() {
 </script>
 
 <script src="components/animated-progress.js" defer></script>
+<script src="components/persona-content.js?v=6" defer></script>
+<script src="components/persona-engine.js?v=6" defer></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

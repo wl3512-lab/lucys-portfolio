@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
+<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="apple-touch-icon" href="favicon.png?v=3" />
 <meta name="description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
 <meta property="og:title" content="SoundCloud App Critique | Lucy Liu" />
 <meta property="og:description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
@@ -15,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=10" />
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<link rel="stylesheet" href="styles.css?v=88" />
 <style>
 
 .sc-page {
@@ -114,7 +118,7 @@
 }
 .sc-cap-text {
   font-family: var(--font-body); font-size: 13.5px; line-height: 1.6;
-  color: oklch(0.55 0.012 285);
+  color: oklch(0.60 0.012 285);   /* a11y: 5.27 on page bg (was 0.55 => 4.29, just under AA 4.5) */
 }
 
 @media (max-width: 600px) {
@@ -146,7 +150,7 @@
     <ul class="nav-links">
       <li><a href="work.html" class="nav-link">all work</a></li>
       <li><a href="index.html#about" class="nav-link">about</a></li>
-      <li><a href="index.html#contact" class="nav-link">contact ↗</a></li>
+      <li><a href="mailto:wl3512@nyu.edu" class="nav-link">contact ↗</a></li>
     </ul>
   </div>
 </nav>
@@ -157,7 +161,7 @@
     <a href="work.html" class="sc-back">← All work</a>
     <p class="sc-eyebrow">UX Design &nbsp;·&nbsp; 2023</p>
     <h1 class="sc-heading">SoundCloud<br><em>App Critique</em></h1>
-    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app (brand identity, home screen widgets, and playlist management) with proposed redesigns for each.</p>
+    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app (the 2023 logo rebrand, in-app widget customization, and playlist cover hierarchy) with a proposed redesign for each.</p>
     <div class="sc-meta-row">
       <div class="sc-meta-item">
         <span class="sc-meta-k">Type</span>
@@ -169,7 +173,7 @@
       </div>
       <div class="sc-meta-item">
         <span class="sc-meta-k">Focus areas</span>
-        <span class="sc-meta-v">Branding, widget customization, playlist UI</span>
+        <span class="sc-meta-v">Rebrand critique, widget customization, playlist covers</span>
       </div>
       <div class="sc-meta-item">
         <span class="sc-meta-k">Year</span>
@@ -178,10 +182,6 @@
     </div>
   </div>
 
-  <div class="sc-grid-wrap">
-    <div class="sc-grid">
-
-      <div class="sc-item">
   <section class="case-clarity" aria-label="Role, process, and impact">
     <div class="case-clarity-inner">
       <div class="case-clarity-item">
@@ -199,6 +199,10 @@
     </div>
   </section>
 
+  <div class="sc-grid-wrap">
+    <div class="sc-grid">
+
+      <div class="sc-item">
         <div class="sc-paper">
           <img src="assets/soundcloud/page-01.jpg"
                alt="Page 1: SoundCloud logo color critique and solution"
@@ -206,7 +210,7 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">01</span>
-          <p class="sc-cap-text">SoundCloud's orange carries nostalgia but leaves little room for personal taste. A color you pick yourself would let the app feel like yours.</p>
+          <p class="sc-cap-text">SoundCloud dropped the orange it had carried since 2007 for a plain black logo, breaking the nostalgic association users had with it and blending into every other app. The proposal: an orange cloud on the black background, keeping the traditional color inside the modern look.</p>
         </div>
       </div>
 
@@ -218,7 +222,7 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">02</span>
-          <p class="sc-cap-text">Competitors offer more flexible home screen widgets. Expanded customization would surface liked content and give SoundCloud a stronger foothold on the lock screen.</p>
+          <p class="sc-cap-text">Formatting options for the whole app, similar to customizing an iPhone home screen: add, remove, replace, or resize the icons in the toolbar. Competitor apps don't offer this, so it doubles as a retention edge while giving users ownership of their listening space.</p>
         </div>
       </div>
 
@@ -242,7 +246,7 @@
         </div>
         <div class="sc-caption">
           <span class="sc-cap-num">04</span>
-          <p class="sc-cap-text">Auto-generated playlist covers flatten personal curation. User-controlled cover art better reflects the taste and intent behind each collection.</p>
+          <p class="sc-cap-text">The customizable playlist cover renders too small against the surrounding icons, so personal curation gets visually buried. Enlarging the cover and moving the description into the dead space beside it puts the user's own art at the top of the hierarchy.</p>
         </div>
       </div>
 
@@ -252,7 +256,7 @@
 </main>
 
 <!-- NEXT PROJECT -->
-<section class="cs-next">
+<nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a class="cs-next-link" href="habitabull.html">
@@ -261,9 +265,12 @@
     </a>
     <p class="cs-next-desc">HabitaBull came out of the same kind of user research: watch how people actually behave, find where intention and action drift apart, and redesign around that gap.</p>
   </div>
-</section>
+</nav>
 
 <footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
 
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

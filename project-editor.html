@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
 <title>Project Editor | Lucy Liu</title>
-<link rel="stylesheet" href="colors_and_type.css" />
+<meta name="description" content="Internal project editor for the Lucy Liu portfolio." />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--void); color: var(--fg1); font-family: var(--font-body); padding: 40px 0; min-height: 100vh; }
@@ -175,7 +179,7 @@
     <a class="back" href="index.html">← portfolio</a>
   </header>
 
-  <div class="grid">
+  <main class="grid">
     <section class="panel" id="form-panel">
       <h2 id="form-title">New project <small id="form-sub"></small></h2>
 
@@ -332,7 +336,7 @@
       <p class="hint">Storage</p>
       <p style="font-size:11.5px;color:var(--fg2);line-height:1.5;margin:0">Everything saves to <code>localStorage</code> (images as base64). To publish, download the JSON and paste into <code>index.html</code>'s <code>DEFAULT_PROJECTS</code>, or keep them here and reviewers see the live version.</p>
     </section>
-  </div>
+  </main>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -744,5 +748,8 @@
   renderList();
 </script>
 
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
