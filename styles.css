@@ -3154,3 +3154,40 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 :root.theme-light .hero-name-row--role,
 :root.theme-light .morphing-text { color: var(--fg-accent) !important; }
 :root.theme-light .hero-name-caret { background: var(--fg-accent); }
+
+/* ── Light-mode contrast corrections ────────────────────────────────────────
+   These all hard-code a pale accent tuned for the dark "Lit Archive" surface.
+   In light mode the background flips but the text colour does not, so each one
+   lands between 1.1:1 and 3.6:1 (AA needs 4.5:1 for body, 3:1 for large text).
+   Verified against dark mode first: every rule below is a light-mode-only
+   regression, so the dark presentation is deliberately left untouched. */
+
+/* Constellation rail: signal blue reads on the void, not on paper. */
+:root.theme-light .pf-label.is-active { color: var(--fg-accent); }
+/* Decorative wordmark under the rail. Kept as a whisper, but a perceivable one. */
+:root.theme-light .pf-name { color: rgba(21, 82, 184, 0.42); }
+
+/* Tool badges carry each vendor's brand hue; the existing light filter was too
+   gentle for the pale ones (Illustrator orange, Premiere lilac). */
+:root.theme-light .skill-tool-abbr { filter: brightness(0.45) saturate(1.5); }
+
+/* "LIVE" pip on spotlight cards. */
+:root.theme-light .spotlight-card-live { color: oklch(0.48 0.19 30); }
+
+/* Percent labels on the case-study stat blocks. This one fails in BOTH themes
+   (1.24 light, 3.54 dark), so the dark value is corrected here too. */
+.acp-label { --acp-label-color: rgba(160, 200, 255, 0.78); }
+:root.theme-light .acp-label { --acp-label-color: rgba(18, 46, 100, 0.86); }
+
+/* ── Somped section contrast ────────────────────────────────────────────────
+   The gem block leans on low-alpha violet, which reads as texture but drops
+   below AA as body-size text (2.1:1 to 4.2:1 dark, 3.5:1 light). Raising
+   lightness and alpha keeps the violet identity while clearing 4.5:1. */
+.gem-left-idx    { color: oklch(0.82 0.14 285 / 0.96); }
+.gem-left-cat    { color: oklch(0.80 0.11 285 / 0.95); }
+.gem-lmk         { color: oklch(0.78 0.08 285 / 0.94); }
+.gem-site-cta-url{ color: oklch(0.84 0.10 285 / 0.96); }
+:root.theme-light .gem-left-idx    { color: oklch(0.42 0.17 285 / 0.95); }
+:root.theme-light .gem-left-cat    { color: oklch(0.40 0.14 285 / 0.95); }
+:root.theme-light .gem-lmk         { color: oklch(0.38 0.10 285 / 0.95); }
+:root.theme-light .gem-site-cta-url{ color: oklch(0.36 0.13 285 / 0.96); }

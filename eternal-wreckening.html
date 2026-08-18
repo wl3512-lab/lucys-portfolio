@@ -524,6 +524,13 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(18px, 2.2vw, 26px); line-height: 1.35; letter-spacing: -0.01em;
   color: var(--fg2); max-width: 36ch; margin-bottom: 28px;
 }
+
+/* light-mode contrast correction: skip link put --void (light in this theme)
+   on --ember, giving 3.6:1. Pin the text light so it stays on the ember chip. */
+:root.theme-light .skip-link { background: oklch(0.42 0.16 35); color: #FFFFFF; }
+/* dark-mode only: section label sat at 3.15:1. Scoped, because applying it
+   unconditionally pushed the light theme down to 1.64:1. */
+:root:not(.theme-light) .cs-section-label { color: oklch(0.78 0.10 205); }
 </style>
 </head>
 <body data-persona-slug="eternal-wreckening">

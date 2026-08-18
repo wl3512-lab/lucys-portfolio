@@ -506,6 +506,9 @@ a { color: inherit; text-decoration: none; }
   .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; }
 }
 html, body { overflow-x: clip; }
+
+/* light-mode contrast correction: pale cyan marker reads on the void, not on paper */
+:root.theme-light .cs-hmw-n { color: oklch(0.45 0.10 200); }
 </style>
 </head>
 <body data-persona-slug="habitabull">

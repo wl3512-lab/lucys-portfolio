@@ -361,6 +361,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
 .cs-section-label[data-cs-reveal]::after { transform: scaleX(0); transform-origin: left; transition: transform .9s cubic-bezier(.16,1,.3,1) .25s; }
 .cs-section-label[data-cs-reveal].is-revealed::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) { .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; } }
+
+/* tr-panel-num contrast: --cyan-a40 at 0.40 alpha rendered the step numbers at
+   1.9:1 to 3.2:1. Same hue, enough alpha to clear AA. */
+.tr-panel-num { color: oklch(0.88 0.13 192 / 0.92); }
 </style>
 </head>
 <body data-persona-slug="loop">
