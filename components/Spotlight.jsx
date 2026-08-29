@@ -70,11 +70,42 @@ function Spotlight(props) {
     if (!cards.length || !endEl) return;
 
     // Tuning
-    const itemStackDistance = 26;
+    // Stack offset tightens on short viewports: the card floors at 300px, so on a
+    // ~600px window the deck (offsets + card) cannot fit above the centre line and
+    // the front card stays stranded low. A smaller offset shortens the deck enough
+    // for the lift below to actually apply.
+    const itemStackDistance = window.innerHeight < 720 ? 13 : 26;
     const itemScale = 0.022;
     const baseScale = 0.9;
-    const stackPositionPct = 22; // % of viewport height
     const scaleEndPct = 12;
+
+    /* Where the deck parks vertically.
+       This used to be a flat 22% of viewport height. That reads fine on a tall
+       window, but the card has a 300px floor (clamp(300px, 44vh, 400px)), so on a
+       short window one card is already over half the viewport: 22% + card height +
+       the per-card stack offsets pushed the whole deck into the bottom third
+       (measured centres at 66% to 85% on a 577px viewport).
+       Instead, centre the deck: measure its real height and split the leftover
+       space. On a tall window this lands near 24%, so the original look is
+       preserved; on a short one it lifts the deck back to the middle. */
+    let cardH = 0;
+    function stackTopPx(ch) {
+      const h = cardH || 0.44 * ch;
+      // Centre the FRONT card, not the deck. Cards stack downward at
+      // itemStackDistance each, so the last one (the card actually being read) sits
+      // itemStackDistance * (n - 1) below the deck top. Centring the deck therefore
+      // still left the readable card low: its centre landed near 58% of the
+      // viewport. Subtracting the stack offset puts that card on the centre line
+      // and lets the earlier cards peek above it, which is the intended look.
+      const frontOffset = itemStackDistance * (cards.length - 1);
+      // The cards render scaled (baseScale + i * itemScale) about their top edge, and
+      // the section's own rhythm adds a further constant offset, so the analytic
+      // centre is about 92px low in practice. Measured across 600/800/1000px
+      // viewports the correction was near-constant (92 to 97px) rather than
+      // proportional, so it is applied as a flat lift rather than a ratio.
+      const renderLift = 92;
+      return Math.max(0.04 * ch, (ch - h) / 2 - frontOffset - renderLift);
+    }
 
     cards.forEach(function (card) {
       card.style.willChange = 'transform';
@@ -94,6 +125,8 @@ function Spotlight(props) {
       baseTops = cards.map(function (c) {
         return c.getBoundingClientRect().top + window.scrollY;
       });
+      // read height here, while transforms are cleared, so scale() cannot skew it
+      cardH = cards[0] ? cards[0].getBoundingClientRect().height : 0;
       endTop = endEl.getBoundingClientRect().top + window.scrollY;
       // Clearing transforms above invalidates the per-card cache: drop it so the
       // next update() re-applies every card (otherwise unchanged cards stay blank).
@@ -109,7 +142,7 @@ function Spotlight(props) {
     function update() {
       const scrollTop = window.scrollY;
       const ch = window.innerHeight;
-      const stackPx = (stackPositionPct / 100) * ch;
+      const stackPx = stackTopPx(ch);
       const endPx = (scaleEndPct / 100) * ch;
       const pinEnd = endTop - ch / 2;
 
