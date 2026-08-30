@@ -10,7 +10,7 @@
 <link rel="shortcut icon" href="favicon.ico?v=3" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
 <title>Under the Weather | Lucy Liu</title>
-<meta name="description" content="Under the Weather — an intentionally useless p5.js weather app that responds to real data with sassy one-liners. By Lucy Liu." />
+<meta name="description" content="Under the Weather, an intentionally useless p5.js weather app that responds to real data with sassy one-liners. By Lucy Liu." />
 <meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
@@ -440,7 +440,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
     <h2 class="utw-concept-h">Real data.<br>Nothing helpful.</h2>
     <div class="utw-concept-body">
       <p>My first p5.js project. The brief: build something that works perfectly and does absolutely nothing useful.</p>
-      <p>Under the Weather fetches live NYC weather from the OpenWeatherMap API, then responds with sassy one-liners instead of temperatures. It was an excuse to learn API calls, async JavaScript, and p5.js — wrapped in a concept about how people treat weather reports as emotional verdicts.</p>
+      <p>Under the Weather fetches live NYC weather from the OpenWeatherMap API, then responds with sassy one-liners instead of temperatures. It was an excuse to learn API calls, async JavaScript, and p5.js, wrapped in a concept about how people treat weather reports as emotional verdicts.</p>
     </div>
   </div>
 
@@ -466,7 +466,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
         </summary>
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
-            <p>Most weather apps give you data. Under the Weather gives you attitude. "Rain" becomes "At least you have an excuse to cancel plans now." The question driving every decision: does this app feel <strong>unnecessary</strong> — not broken, just unhelpful by design?</p>
+            <p>Most weather apps give you data. Under the Weather gives you attitude. "Rain" becomes "At least you have an excuse to cancel plans now." The question driving every decision: does this app feel <strong>unnecessary</strong>, not broken, just unhelpful by design?</p>
           </div>
           <div class="utw-moods">
             <div class="utw-mood-item">
@@ -510,7 +510,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
             <p><strong>getWeather()</strong> hits the OpenWeatherMap API and pulls live NYC conditions. <strong>generateMood()</strong> maps the weather string to a sassy response and a background color. A Date object locked to America/New_York handles the timestamp.</p>
-            <p>The entire emotional logic is eight lines of if/else. All the infrastructure — async fetch, timezone math, error handling, global state for p5.js — exists to serve eight sarcastic strings. That ratio is the joke.</p>
+            <p>The entire emotional logic is eight lines of if/else. All the infrastructure (async fetch, timezone math, error handling, global state for p5.js) exists to serve eight sarcastic strings. That ratio is the joke.</p>
           </div>
           <div class="utw-code-pair">
             <div class="utw-code-item">
@@ -519,7 +519,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
                      alt="getWeather() function: OpenWeatherMap fetch, condition extraction, emoji and color assignment"
                      loading="lazy"  width="743" height="901" />
               </div>
-              <p class="utw-code-cap">getWeather() — API fetch + state</p>
+              <p class="utw-code-cap">getWeather(), API fetch + state</p>
             </div>
             <div class="utw-code-item">
               <div class="utw-code-img">
@@ -527,7 +527,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
                      alt="Date and time logic with America/New_York timezone"
                      loading="lazy"  width="792" height="430" />
               </div>
-              <p class="utw-code-cap">NYC timestamp — Date object</p>
+              <p class="utw-code-cap">NYC timestamp, Date object</p>
             </div>
           </div>
         </div>
@@ -567,7 +567,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
             </div>
             <div class="utw-finding">
               <p class="utw-finding-head">Suggested lat/long input for humor</p>
-              <p class="utw-finding-body">Letting users type coordinates to check the weather somewhere they'll never go — absurdity that fits the tone.</p>
+              <p class="utw-finding-body">Letting users type coordinates to check the weather somewhere they'll never go: absurdity that fits the tone.</p>
             </div>
           </div>
           <div class="cs-pull-quote">

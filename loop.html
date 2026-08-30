@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
 <title>LOOP | Lucy Liu</title>
 <link rel="canonical" href="https://lucyliu.xyz/loop.html" />
-<meta name="description" content="LOOP — A browser-based psychological thriller told through text messages. You receive a text from an unknown number. They claim to be you — 24 hours from now. By Lucy Liu." />
+<meta name="description" content="LOOP, A browser-based psychological thriller told through text messages. You receive a text from an unknown number. They claim to be you, 24 hours from now. By Lucy Liu." />
 <meta property="og:image" content="https://lucyliu.xyz/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://lucyliu.xyz/og-image.png" />
@@ -443,7 +443,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
       </p>
       <h1 class="lp-hero-title">LOOP</h1>
       <p class="lp-hero-tagline">You were always on both ends.</p>
-      <p class="lp-hero-sub">A narrative phone-simulation game. You receive a text from an unknown number. They claim to be you — 24 hours from now. There is no first version.</p>
+      <p class="lp-hero-sub">A narrative phone-simulation game. You receive a text from an unknown number. They claim to be you, 24 hours from now. There is no first version.</p>
       <div class="cs-tags">
         <span class="tag">p5.js</span>
         <span class="tag">GPT-4o-mini</span>
@@ -468,7 +468,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
     </div>
     <div class="cs-meta-item" data-cs-reveal>
       <span class="cs-meta-k">Context</span>
-      <span class="cs-meta-v small">NYU ITP — Chatbots for Art's Sake</span>
+      <span class="cs-meta-v small">NYU ITP · Chatbots for Art's Sake</span>
     </div>
     <div class="cs-meta-item" data-cs-reveal>
       <span class="cs-meta-k">Stack</span>
@@ -505,7 +505,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
     <p class="lp-concept-label">Chatbots for Art's Sake</p>
     <h2 class="lp-concept-h">The interface<br>is the narrative.</h2>
     <div class="lp-concept-body">
-      <p>Every visual choice in LOOP is part of the story. The monospace clock. The reminders widget with "call dr. about appointment." The bedroom camera that stays offline for the entire game — until it doesn't. None of that is in the chat. The environment creates dread before the bot says a word.</p>
+      <p>Every visual choice in LOOP is part of the story. The monospace clock. The reminders widget with "call dr. about appointment." The bedroom camera that stays offline for the entire game, until it doesn't. None of that is in the chat. The environment creates dread before the bot says a word.</p>
       <p>LOOP looks 95% like a real iPhone. That 5% is where it lives. Dread comes from familiarity. The design principle is restraint over spectacle: the scariest version of this interface is the one that almost passes as normal. Cheap horror uses distorted fonts. LOOP uses mundane reminders and a camera feed that says "Last Updated: 3 seconds ago."</p>
     </div>
   </div>
@@ -519,7 +519,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
              alt="LOOP Home Cameras screen: Front Door live, Back Door infrared night vision, Bedroom Window offline with a MOTION alert in red"
              loading="lazy"  width="584" height="1266" />
       </div>
-      <p class="cs-image-caption">Home Cameras — CAM 04 offline. Motion detected.</p>
+      <p class="cs-image-caption">Home Cameras, CAM 04 offline. Motion detected.</p>
     </div>
 
   </div><!-- /interface: camera -->
@@ -545,7 +545,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </summary>
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
-            <p>Every screen in LOOP is built from scratch in p5.js and HTML. The lock screen shows a real ticking time and a notification from "Unknown." The home screen has a reminders widget with items like "call dr. about appointment" — mundane enough to feel real.</p>
+            <p>Every screen in LOOP is built from scratch in p5.js and HTML. The lock screen shows a real ticking time and a notification from "Unknown." The home screen has a reminders widget with items like "call dr. about appointment", mundane enough to feel real.</p>
             <p>The home camera app shows three feeds: <strong>Front Door</strong> (live, night vision), <strong>Back Door</strong> (last updated 3 seconds ago), and <strong>Bedroom Window</strong>, offline with a red MOTION alert. That camera goes offline as a design choice. Something is there. The game never explains it.</p>
             <p>Screen cracks run down the right side of the phone frame. The audio layer adds glitch sounds, a pulsing alarm, and an iOS-style text ping. None of it is labeled. The wrongness is in the details.</p>
           </div>
@@ -554,14 +554,14 @@ details[open] .tr-panel-icon { color: var(--cyan); }
                  alt="LOOP home screen: reminders widget showing 'call dr. about appointment' and 'pick up prescription', dock with Messages (4 unread), Reminders, and Home Camera"
                  loading="lazy"  width="1044" height="1900" />
           </div>
-          <p class="tr-inline-img-cap">Home screen — reminders widget, dock, LOOP wordmark</p>
+          <p class="tr-inline-img-cap">Home screen, reminders widget, dock, LOOP wordmark</p>
 
           <div class="tr-inline-img" style="margin-top:28px; max-width:220px;">
             <img src="assets/loop/betrayal-response.png"
                  alt="LOOP betrayal UI: notification banner reads 'Unknown: i know you're trying to text Jess. don't. i am you. i know.' appearing over the open Jess conversation"
                  loading="lazy"  width="864" height="560" />
           </div>
-          <p class="tr-inline-img-cap">When you tap any other contact and try to message them — Unknown fires a notification instantly. The code watches the messages list. Every contact click is intercepted.</p>
+          <p class="tr-inline-img-cap">When you tap any other contact and try to message them, Unknown fires a notification instantly. The code watches the messages list. Every contact click is intercepted.</p>
         </div>
       </details>
 
@@ -586,8 +586,8 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         </summary>
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
-            <p>The bot is GPT-4o-mini on the NYU ITP/IMA proxy. A 200-line system prompt drives three acts, each with its own voice rules and advancement conditions. The hardest design problem was the chatbot voice: it had to feel like a scared person texting at midnight — not a bot, not a philosopher.</p>
-            <p>That meant hard constraints: <strong>no metaphors, no exclamation points, no therapy-speak, never start with a capital letter, two sentences maximum.</strong> The prompt is more about what it cannot say than what it should. Act advancement is tracked in JavaScript — turn counts, silence timers, betrayal state — and the bot receives a tagged response; the code handles state transitions.</p>
+            <p>The bot is GPT-4o-mini on the NYU ITP/IMA proxy. A 200-line system prompt drives three acts, each with its own voice rules and advancement conditions. The hardest design problem was the chatbot voice: it had to feel like a scared person texting at midnight, not a bot, not a philosopher.</p>
+            <p>That meant hard constraints: <strong>no metaphors, no exclamation points, no therapy-speak, never start with a capital letter, two sentences maximum.</strong> The prompt is more about what it cannot say than what it should. Act advancement is tracked in JavaScript, turn counts, silence timers, betrayal state, and the bot receives a tagged response; the code handles state transitions.</p>
           </div>
           <div class="tr-phases">
             <div class="tr-phase">
@@ -636,7 +636,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
         <div class="tr-panel-body">
           <div class="tr-panel-body-text">
             <p>The game tracks not just what the player says in the main chat, but whether they opened the camera app, whether they tried texting a contact, whether they went silent. Four endings, each triggered by a different kind of behavior.</p>
-            <p>Ending D — the betrayal path — is the one players find by accident. The contacts list is fully interactive. You can open Jess, Tyler, Maya, and type. <strong>The game watches.</strong> If you try to warn someone else, the unknown number already knows.</p>
+            <p>Ending D, the betrayal path, is the one players find by accident. The contacts list is fully interactive. You can open Jess, Tyler, Maya, and type. <strong>The game watches.</strong> If you try to warn someone else, the unknown number already knows.</p>
           </div>
           <div class="lp-endings">
             <div class="lp-ending">
@@ -652,7 +652,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
             <div class="lp-ending">
               <p class="lp-ending-letter">Ending C</p>
               <p class="lp-ending-name">You Became the Sender</p>
-              <p class="lp-ending-desc">Three silence timeouts. The bedroom window camera — offline, motion detected — comes to life. The horror sequence begins without you.</p>
+              <p class="lp-ending-desc">Three silence timeouts. The bedroom window camera, offline, motion detected, comes to life. The horror sequence begins without you.</p>
             </div>
             <div class="lp-ending">
               <p class="lp-ending-letter">Ending D</p>
@@ -662,10 +662,10 @@ details[open] .tr-panel-icon { color: var(--cyan); }
           </div>
           <div class="tr-inline-img" style="margin-top:32px; max-width:220px;">
             <img src="assets/loop/ending-c.png"
-                 alt="Ending C — SOMEONE IS HERE: camera app turns deep red, Front Door shows SIGNAL LOST, Back Door shows BREACH DETECTED, Bedroom Window shows MOTION — RECORDING"
+                 alt="Ending C, SOMEONE IS HERE: camera app turns deep red, Front Door shows SIGNAL LOST, Back Door shows BREACH DETECTED, Bedroom Window shows MOTION, RECORDING"
                  loading="lazy"  width="864" height="1864" />
           </div>
-          <p class="tr-inline-img-cap">Ending C — silence triggers the camera horror sequence. The bedroom window, offline all game, starts recording.</p>
+          <p class="tr-inline-img-cap">Ending C, silence triggers the camera horror sequence. The bedroom window, offline all game, starts recording.</p>
         </div>
       </details>
 
@@ -682,7 +682,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
           <span class="lp-principle-num">01</span>
           <div class="lp-principle-content">
             <p class="lp-principle-head">The interface is the narrative.</p>
-            <p class="lp-principle-body">Every visual choice — the monospace font, the dark field, the cyan accent — is part of the story, not decoration around it. The game doesn't have a theme applied to a chat app. The chat app is the story.</p>
+            <p class="lp-principle-body">Every visual choice, the monospace font, the dark field, the cyan accent, is part of the story, not decoration around it. The game doesn't have a theme applied to a chat app. The chat app is the story.</p>
           </div>
         </div>
         <div class="lp-principle">
@@ -703,7 +703,7 @@ details[open] .tr-panel-icon { color: var(--cyan); }
           <span class="lp-principle-num">04</span>
           <div class="lp-principle-content">
             <p class="lp-principle-head">The paradox must be felt, not explained.</p>
-            <p class="lp-principle-body">LOOP never uses the words "time loop." The visual design makes you feel the loop before the text tells you about it — because if it had to be explained, it wouldn't land.</p>
+            <p class="lp-principle-body">LOOP never uses the words "time loop." The visual design makes you feel the loop before the text tells you about it, because if it had to be explained, it wouldn't land.</p>
           </div>
         </div>
         <div class="lp-principle">
@@ -723,15 +723,15 @@ details[open] .tr-panel-icon { color: var(--cyan); }
     <div class="cs-section lp-section-gap" data-cs-section>
       <span class="cs-section-wm">R</span>
       <p class="cs-section-label" data-cs-reveal>Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>What I took away.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Constraining the voice was the hard part.</h2>
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Constraining the bot's voice was the hardest design problem.</p>
-          <p class="cs-reflection-body">Every LLM wants to be helpful, verbose, emotionally validating. Every line in the LOOP prompt had to fight that. The result — two sentences, lowercase, no metaphors, never say "I understand" — was more about prohibition than prescription. The voice only worked once I stopped writing what the bot should say and started writing what it could never say.</p>
+          <p class="cs-reflection-body">Every LLM wants to be helpful, verbose, emotionally validating. Every line in the LOOP prompt had to fight that. The result, two sentences, lowercase, no metaphors, never say "I understand", was more about prohibition than prescription. The voice only worked once I stopped writing what the bot should say and started writing what it could never say.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Behavioral tracking is what makes interactive fiction feel authored.</p>
-          <p class="cs-reflection-body">Players who find Ending D almost always think the betrayal path was written just for them. That recognition — "it knew I would try that" — is the game's best moment. It only exists because the code watches the messages list, the contacts, the silence timer. The feeling of being observed is produced entirely by observation.</p>
+          <p class="cs-reflection-body">Players who find Ending D almost always think the betrayal path was written just for them. That recognition, "it knew I would try that", is the game's best moment. It only exists because the code watches the messages list, the contacts, the silence timer. The feeling of being observed is produced entirely by observation.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">The audience and the protagonist are the same person.</p>
