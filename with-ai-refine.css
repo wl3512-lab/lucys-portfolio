@@ -1,0 +1,81 @@
+/* Finishing layer for the With AI page. Kept separate while its content is edited. */
+
+/* The headline can gain weight without losing the space between words. */
+.ft-space { width: 0.26em; }
+
+/* Give the receipt one clear entry point, then let the other facts recede. The entry point is the
+   streak (its number is already accent in with-ai.html): Lucy's call, 2026-09-29, after the total
+   and the streak both read blue side by side. */
+.receipt-cell--streak {
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+}
+.receipt-cell { min-width: 0; }
+.receipt-label { max-width: 25ch; }
+
+/* Keep the interactive deck's supporting text and action close to the card. */
+.deck-btn { min-height: 48px; }
+.deck-btn:focus-visible, .build-link:focus-visible,
+.wa-nav-link:focus-visible, .wa-foot-links a:focus-visible {
+  outline: 2px solid var(--fg-accent); outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .wa-nav-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 8px;
+  }
+  .wa-back { justify-self: start; min-width: 44px; min-height: 44px; }
+  .wa-logo { justify-self: center; }
+  .wa-nav-right { justify-self: end; gap: 14px; }
+  .wa-nav-link { display: inline-flex; align-items: center; min-height: 44px; }
+
+  .flex-title { font-size: clamp(32px, 9vw, 57px); line-height: 1; }
+  .ft-line:last-child .ft-space { width: 0.42em; }
+  .wa-hero-lede { gap: 20px; margin-top: clamp(32px, 5vh, 48px); }
+  .wa-hero-lede p + p { line-height: 1.6; }
+
+  .sec { padding-top: clamp(64px, 9vh, 88px); }
+  .sec-head { gap: 16px; margin-bottom: 28px; }
+  .eyebrow { color: var(--fg2); }
+}
+
+@media (max-width: 560px) {
+  /* Two by two reads as a receipt; four full-width tiles made the numbers feel endless. */
+  .receipt { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .receipt-cell {
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 16px; min-height: 152px; padding: 18px 16px;
+    border-bottom: 0;
+  }
+  .receipt-cell:nth-child(odd) { border-right: 1px solid var(--border); }
+  .receipt-cell:nth-child(even) { border-right: 0; }
+  .receipt-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .receipt-num { font-size: clamp(29px, 8vw, 34px); }
+  .receipt-label { font-size: 13px; line-height: 1.4; }
+
+  .deck-stage { min-height: 284px; }
+  .rule-card { padding: 24px; }
+  .rule-q { font-size: clamp(23px, 6vw, 29px); }
+  .rule-why { font-size: 14px; }
+  .deck-btn { width: 100%; justify-content: center; }
+
+  .steps { border-top-color: var(--border-strong); }
+  .step { padding-top: 22px; padding-bottom: 22px; }
+  .step h3 { font-size: 20px; }
+  .builds { gap: 64px; }
+  .build { gap: 24px; }
+  .build h3 { font-size: clamp(31px, 8.4vw, 40px); }
+}
+
+@media (max-width: 360px) {
+  .ft-line:first-child { font-size: 0.86em; }
+  .wa-nav-right { gap: 8px; }
+  .wa-nav-link { font-size: 12px; }
+  .receipt-cell { padding-inline: 13px; }
+  .model { grid-template-columns: 86px minmax(0, 1fr) 42px; gap: 7px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-nav-link, .deck-btn { transition: none; }
+}

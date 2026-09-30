@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>With AI | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/with-ai.html" />
+<meta name="description" content="How Lucy Liu builds with Claude Code and Codex: she designs it first and sets the rules, the agents write most of the code, and every build is tested. This site included." />
+<meta property="og:title" content="With AI | Lucy Liu" />
+<meta property="og:description" content="The site you're on was built with Claude. So were a planner, an internship agent, a gym app and a game." />
+<meta property="og:url" content="https://lucyliu.xyz/with-ai.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta property="og:image:alt" content="Lucy Liu, design system and portfolio 2026. Oversized Lucy Liu lettering with a gem-shaped i under panes of navy glass and blue and lavender light." />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=63" />
+<link rel="stylesheet" href="styles.css?v=134" />
+<style>
+/* The headline's face: the same self-hosted Anybody the wordmark uses (wordmark.js injects
+   it too; declaring it here means the headline never waits on that deferred script). */
+@font-face {
+  font-family: 'Anybody'; font-style: normal; font-weight: 100 900; font-stretch: 50% 150%;
+  font-display: block; src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2');
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--void); color: var(--fg1);
+  font-family: var(--font-body); -webkit-font-smoothing: antialiased;
+  min-height: 100vh; overflow-x: clip;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link:focus { position: fixed; left: 16px; top: 16px; width: auto; height: auto; clip: auto; z-index: 100; background: var(--navy-mid); padding: 10px 14px; border: 1px solid var(--border-strong); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.wrap { width: min(1280px, calc(100vw - 32px)); margin: 0 auto; }
+
+/* NAV (same pattern as work.html) */
+.wa-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40; padding: 10px 0;
+  background: color-mix(in srgb, var(--void) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+}
+.wa-nav-inner { display: flex; justify-content: space-between; align-items: center; }
+.wa-back, .wa-nav-link { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); transition: color .25s; }
+.wa-back, .wa-nav-link, .wa-logo { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.wa-back { display: flex; align-items: center; gap: 8px; }
+.wa-back:hover, .wa-nav-link:hover { color: var(--fg1); }
+.wa-nav-right { display: flex; align-items: center; gap: 32px; }
+.wa-logo { font-family: var(--font-display); font-size: 18px; letter-spacing: -0.02em; color: var(--fg1); }
+
+/* shared bits */
+.eyebrow {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3);
+}
+.sec { padding: clamp(72px, 11vh, 128px) 0 0; }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(24px, 5vw, 72px); align-items: end; margin-bottom: clamp(32px, 5vh, 56px); }
+.sec-title {
+  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em;
+  font-size: clamp(34px, 4.6vw, 64px); line-height: 0.98; margin-top: 14px;
+}
+.sec-lede { color: var(--fg2); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; max-width: 58ch; }
+
+/* HERO: the fun sentence */
+.wa-hero { padding: clamp(120px, 18vh, 180px) 0 0; }
+.flex-title {
+  font-family: 'Anybody', var(--font-display); font-style: normal;
+  font-size: clamp(46px, 8.6vw, 128px); line-height: 0.94; letter-spacing: -0.01em;
+  color: var(--fg1); margin-top: 22px;
+}
+.ft-line { display: block; white-space: nowrap; }
+/* Phones: a line may break between words. Letter boxes reserve the peak weight, so the break points
+   never move while the weight does. */
+@media (max-width: 700px) {
+  .ft-line { white-space: normal; }
+  .flex-title { font-size: clamp(28px, 8.8vw, 60px); }
+}
+.ft-w { display: inline-block; white-space: nowrap; }
+.ft-ch {
+  display: inline-block; text-align: center;
+  font-variation-settings: 'wdth' 96, 'wght' 440;
+}
+.ft-space { display: inline-block; width: 0.26em; }
+.flex-hint { margin-top: 18px; }
+.wa-hero-lede {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px); margin-top: clamp(40px, 7vh, 72px);
+  padding-top: 28px; border-top: 1px solid var(--border);
+}
+.wa-hero-lede p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; color: var(--fg1); max-width: 40ch; }
+.wa-hero-lede p + p { color: var(--fg2); font-size: clamp(15px, 1.15vw, 17px); }
+
+/* RECEIPT: real numbers */
+.receipt {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+}
+.receipt-cell { padding: clamp(18px, 2.4vw, 30px); border-right: 1px solid var(--border); background: var(--surface); }
+.receipt-cell:last-child { border-right: 0; }
+.receipt-num {
+  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em;
+  font-size: clamp(34px, 4vw, 58px); line-height: 1; color: var(--fg1);
+}
+.receipt-label { margin-top: 10px; color: var(--fg2); font-size: 14px; line-height: 1.45; }
+.receipt-row + .receipt-row { margin-top: 12px; }
+.receipt-cap { display: flex; justify-content: space-between; gap: 16px; margin: 0 0 12px; }
+.receipt-models { margin-top: 12px; display: grid; gap: 8px; }
+.model { display: grid; grid-template-columns: 120px minmax(0, 1fr) 52px; gap: 12px; align-items: center; font-size: 14px; color: var(--fg2); }
+.model b { font-weight: 500; color: var(--fg1); }
+.model-bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.model-bar span { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+.model-bar.is-codex span { background: var(--lavender); }
+.model-n { font-family: var(--font-code); font-size: 12px; text-align: right; color: var(--fg3); }
+.receipt-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; margin-top: 1px; background: var(--border); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 4px 4px; overflow: hidden; }
+.receipt-foot > div { background: var(--surface); padding: clamp(18px, 2.4vw, 30px); }
+
+.receipt-unit { font-size: 0.42em; letter-spacing: 0; margin-left: 0.25em; color: var(--fg2); font-weight: 600; }
+.receipt-cell--streak .receipt-num { color: var(--fg-accent); }
+.heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 4px; width: max-content; max-width: 100%; }
+.heat i, .heat-key i { display: block; width: clamp(10px, 1.25vw, 16px); aspect-ratio: 1; border-radius: 3px; background: var(--border); }
+/* The squares grow with their column (up to 14 week columns, 13 gaps), capped so the grid
+   balances the split beside it. Browsers without container units keep the line above. */
+.receipt-foot > div:first-child { container-type: inline-size; }
+.heat i { width: clamp(10px, calc((100cqi - 52px) / 14), 22px); }
+.heat i.is-pad { background: transparent; }
+.heat i[data-l="1"], .heat-key i[data-l="1"] { background: color-mix(in srgb, var(--accent) 28%, var(--navy-mid)); }
+.heat i[data-l="2"], .heat-key i[data-l="2"] { background: color-mix(in srgb, var(--accent) 50%, var(--navy-mid)); }
+.heat i[data-l="3"], .heat-key i[data-l="3"] { background: color-mix(in srgb, var(--accent) 74%, var(--navy-mid)); }
+.heat i[data-l="4"], .heat-key i[data-l="4"] { background: var(--accent); }
+.heat i.is-streak, .heat-streak-key i { box-shadow: inset 0 -2px 0 var(--lavender); }
+.heat i.is-busiest { outline: 1.5px solid var(--fg1); outline-offset: 1px; }
+.heat-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 14px; }
+.heat-legend[hidden] { display: none; }
+.heat-key { display: inline-flex; gap: 3px; }
+.heat-key i { width: 10px; }
+.heat-streak-key { display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; }
+.heat-streak-key i { display: block; width: 10px; height: 10px; border-radius: 2px; background: var(--border); }
+.site-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.site-counts dt { font-size: 13px; color: var(--fg2); }
+.site-counts dd { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--fg1); margin-top: 4px; }
+@media (max-width: 560px) { .site-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* RULES DECK (fun): real lines, quoted verbatim, from the skills Claude Code loads (~/.claude/skills) */
+.deck { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+.deck-stage { position: relative; display: grid; min-height: clamp(220px, 26vw, 300px); }
+.rule-card {
+  position: relative; grid-area: 1 / 1; min-width: 0;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+  padding: clamp(22px, 3vw, 40px);
+  background: var(--navy-mid); border: 1px solid var(--border-strong); border-radius: 6px;
+  transform-origin: 50% 120%;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .35s ease;
+}
+.rule-q {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
+  font-size: clamp(22px, 2.6vw, 36px); line-height: 1.15; color: var(--fg1); max-width: 30ch;
+}
+.rule-why { color: var(--fg2); font-size: 15px; line-height: 1.55; max-width: 60ch; }
+.rule-meta { display: flex; justify-content: space-between; gap: 16px; }
+.rule-meta span:last-child { text-align: right; }
+.rule-card[data-pos="0"] { transform: none; opacity: 1; z-index: 3; }
+.rule-card[data-pos="1"] { transform: translate(6px, -10px) rotate(1deg); opacity: .55; z-index: 2; }
+.rule-card[data-pos="2"] { transform: translate(12px, -20px) rotate(2deg); opacity: .25; z-index: 1; }
+.rule-card[data-pos="hide"] { transform: translate(12px, -20px) rotate(2deg); opacity: 0; z-index: 0; visibility: hidden; }
+.rule-card[data-pos="out"] { transform: translate(-40px, 30px) rotate(-7deg); opacity: 0; z-index: 4; }
+.rule-card[data-pos="1"] > *, .rule-card[data-pos="2"] > * { visibility: hidden; }
+.deck-btn {
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg1); background: transparent; border: 1px solid var(--border-strong);
+  border-radius: 2px; padding: 14px 18px; min-height: 44px; cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.deck-btn:hover { border-color: var(--accent); color: var(--fg-accent); }
+/* without JS every rule is a plain list, all readable */
+.no-deck .deck-stage { min-height: 0; display: grid; gap: 12px; }
+.no-deck .rule-card { grid-area: auto; position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+.no-deck .rule-card > * { visibility: visible !important; }
+.no-deck .deck-btn { display: none; }
+
+/* STEPS */
+.steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--border); }
+.step { padding: 24px clamp(14px, 1.6vw, 22px) 0 0; border-right: 1px solid var(--border); padding-left: clamp(14px, 1.6vw, 22px); }
+.step:first-child { padding-left: 0; }
+.step:last-child { border-right: 0; }
+.step-n { font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); letter-spacing: 0.1em; }
+.step h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(19px, 1.6vw, 23px); letter-spacing: -0.01em; margin: 12px 0 10px; line-height: 1.15; }
+.step p { color: var(--fg2); font-size: 15px; line-height: 1.55; }
+.step code { font-family: var(--font-code); font-size: 12.5px; color: var(--fg3); word-break: break-word; }
+.step a { color: var(--fg-accent); border-bottom: 1px solid currentColor; transition: color .2s; }
+.step a:hover { color: var(--fg1); }
+.step a code { color: inherit; }
+.step--lead h3 { color: var(--fg-accent); }
+
+/* BUILDS */
+.builds { display: grid; gap: clamp(56px, 9vh, 104px); }
+.build { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(24px, 4vw, 64px); align-items: start; padding-top: 28px; border-top: 1px solid var(--border); }
+.build:nth-child(even) .build-media { order: -1; }
+/* The screenshots always get the wide track. Flipping only the order handed builds 02 and 04 the
+   narrow one, and the Driftwood pair shrank to 250px a shot. */
+@media (min-width: 801px) { .build:nth-child(even) { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+.build-idx { font-family: var(--font-code); font-size: 12px; color: var(--fg3); letter-spacing: 0.14em; }
+.build h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -0.03em; line-height: 1; margin: 12px 0 16px; }
+.build-what { font-size: 17px; line-height: 1.55; color: var(--fg1); max-width: 46ch; }
+.build-facts { margin-top: 22px; display: grid; gap: 0; border-top: 1px solid var(--border); }
+.fact { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
+.fact dt { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); padding-top: 3px; }
+.fact dd { color: var(--fg2); }
+.build-link { display: inline-flex; gap: 8px; align-items: center; margin-top: 22px; font-family: var(--font-ui); font-size: 14px; color: var(--fg-accent); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.build-link:hover { color: var(--fg1); }
+.build-private { margin-top: 22px; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
+
+/* Before sits above after, like the stacked builds: side by side each shot got half a column, too
+   small to read the hand-drawn flows or either Driftwood screen. */
+.pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.pair-arrow { font-family: var(--font-code); color: var(--fg3); font-size: 18px; line-height: 1; justify-self: center; }
+.shot { margin: 0; }
+.shot-frame { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.shot-frame img { width: 100%; height: auto; }
+.shot figcaption { margin-top: 10px; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); }
+.shot--phone .shot-frame { max-width: 220px; margin: 0 auto; border-radius: 18px; }
+.shot--phone figcaption { text-align: center; }
+.shots-stack { display: grid; gap: 14px; }
+
+/* Enlarge: the script turns each frame into a button that opens the shot in a dialog. */
+.shot-zoom { position: relative; display: block; width: 100%; padding: 0; font: inherit; color: inherit; cursor: zoom-in; transition: border-color .2s; }
+.shot-zoom:hover { border-color: var(--border-strong); }
+.shot-zoom-hint {
+  position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center;
+  width: 32px; height: 32px; border-radius: 4px; color: var(--fg1);
+  background: color-mix(in srgb, var(--void) 80%, transparent); border: 1px solid var(--border-strong);
+  opacity: 0; transition: opacity .2s;
+}
+.shot-zoom:hover .shot-zoom-hint, .shot-zoom:focus-visible .shot-zoom-hint { opacity: 1; }
+@media (hover: none) { .shot-zoom-hint { opacity: .9; } }
+.zoom {
+  width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0;
+  padding: 72px clamp(16px, 4vw, 48px) clamp(16px, 4vh, 40px);
+  background: color-mix(in srgb, var(--void) 94%, transparent); color: var(--fg1);
+}
+.zoom[open] { display: grid; place-items: center; }
+.zoom::backdrop { background: transparent; }
+.zoom-fig { display: grid; justify-items: center; gap: 12px; max-width: 100%; }
+.zoom-pan { max-width: 100%; }
+.zoom-fig img {
+  width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 150px);
+  background: var(--navy-mid); border: 1px solid var(--border-strong); border-radius: 6px; cursor: zoom-out;
+}
+.zoom-fig figcaption { text-align: center; }
+.zoom-close {
+  position: fixed; top: 14px; right: 16px;
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg1); background: transparent; border: 1px solid var(--border-strong);
+  border-radius: 2px; padding: 0 16px; min-height: 44px; cursor: pointer;
+}
+.zoom-close:hover { border-color: var(--accent); color: var(--fg-accent); }
+/* Phones: fitting a landscape shot to the screen width is no bigger than the page already shows it,
+   so it opens at its own size (capped by the screen height) and pans sideways. */
+@media (max-width: 700px) {
+  .zoom { padding-inline: 0; }
+  .zoom-fig { width: 100%; }
+  .zoom-pan { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  .zoom-fig img { max-width: none; margin-inline: auto; }
+  .zoom-fig figcaption { padding-inline: 16px; }
+}
+.zoom[open] .zoom-fig { animation: zoom-in .32s cubic-bezier(.16,1,.3,1); }
+@keyframes zoom-in { from { opacity: 0; transform: scale(.97); } }
+html:has(.zoom[open]) { overflow: hidden; }
+
+/* SETUP + LIMITS */
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); }
+.ledger { list-style: none; border-top: 1px solid var(--border); }
+.ledger li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
+.ledger .k { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); padding-top: 3px; }
+.ledger .v { color: var(--fg2); }
+.ledger .v a { color: var(--fg-accent); border-bottom: 1px solid currentColor; }
+.never { list-style: none; border-top: 1px solid var(--border); counter-reset: never; }
+.never li { padding: 16px 0 16px 44px; border-bottom: 1px solid var(--border); position: relative; font-size: 17px; line-height: 1.45; color: var(--fg1); }
+.never li::before { counter-increment: never; content: '0' counter(never); position: absolute; left: 0; top: 19px; font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); }
+.never li span { display: block; margin-top: 4px; font-size: 14px; color: var(--fg2); }
+
+/* FOOTER */
+.wa-foot { margin-top: clamp(96px, 14vh, 160px); padding: 40px 0 56px; border-top: 1px solid var(--border); }
+.wa-foot-inner { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.wa-foot-line { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 48px); letter-spacing: -0.03em; line-height: 1.02; max-width: 16ch; }
+.wa-foot-links { display: flex; gap: 28px; flex-wrap: wrap; font-family: var(--font-ui); font-size: 14px; }
+.wa-foot-links a { color: var(--fg2); border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
+.wa-foot-links a:hover { color: var(--fg1); }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .step { border-right: 0; padding-left: 0; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .step--lead { grid-column: 1 / -1; }
+  .receipt { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .receipt-cell:nth-child(2) { border-right: 0; }
+  .receipt-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 800px) {
+  .sec-head, .wa-hero-lede, .build, .two, .receipt-foot { grid-template-columns: minmax(0, 1fr); }
+  .build:nth-child(even) .build-media { order: 0; }
+  .deck { grid-template-columns: minmax(0, 1fr); }
+  .deck-btn { justify-self: start; }
+  .deck-stage { margin-right: 18px; }
+  .wa-nav-right { gap: 20px; }
+}
+@media (max-width: 560px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .receipt { grid-template-columns: minmax(0, 1fr); }
+  .receipt-cell { border-right: 0; border-bottom: 1px solid var(--border); }
+  .receipt-cell:last-child { border-bottom: 0; }
+  .fact, .ledger li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .model { grid-template-columns: 96px minmax(0, 1fr) 44px; }
+  .deck-stage { min-height: 330px; }
+  .wa-back span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rule-card { transition: none; }
+  .zoom[open] .zoom-fig { animation: none; }
+}
+@media print {
+  .wa-nav, .deck-btn, .flex-hint, .shot-zoom-hint { display: none; }
+  .deck-stage { min-height: 0; display: grid; gap: 12px; }
+  .rule-card { grid-area: auto; position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+  .rule-card > * { visibility: visible !important; }
+}
+</style>
+<link rel="stylesheet" href="with-ai-refine.css?v=1" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+</head>
+<body>
+
+<a href="#main" class="skip-link visually-hidden">Skip to main content</a>
+
+<nav class="wa-nav" aria-label="Site navigation">
+  <div class="wrap wa-nav-inner">
+    <a href="index.html" class="wa-back" aria-label="Back to home">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>home</span>
+    </a>
+    <a href="index.html" class="wa-logo" aria-label="Lucy Liu" data-wordmark>lucy liu</a>
+    <div class="wa-nav-right">
+      <a href="work.html" class="wa-nav-link">work</a>
+      <a href="mailto:wl3512@nyu.edu" class="wa-nav-link">contact ↗</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+
+  <!-- HERO -->
+  <header class="wa-hero wrap">
+    <p class="eyebrow">With AI · Claude Code + Codex</p>
+    <h1 class="flex-title" data-flex-title aria-label="The site you're on was built with Claude.">
+      <span class="ft-line">The site you're on</span>
+      <span class="ft-line">was built</span>
+      <span class="ft-line">with Claude.</span>
+    </h1>
+    <p class="eyebrow flex-hint" data-flex-hint hidden>Move your cursor through it</p>
+    <div class="wa-hero-lede">
+      <p>So were the planner I run my day on, an internship agent, a gym app and a game.</p>
+      <p>I design each one first and write the rules. Claude Code and Codex write most of the code. Then I test it, have one model review the other, and decide what ships.</p>
+    </div>
+  </header>
+
+  <!-- RECEIPT -->
+  <section class="sec wrap" aria-labelledby="receipt-title">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">The receipt</p>
+        <h2 class="sec-title" id="receipt-title">Thirteen weeks in numbers.</h2>
+      </div>
+      <p class="sec-lede">Read from the logs Claude Code and Codex keep on my laptop, refreshed every time this site deploys; only daily totals leave it. Most of those tokens are cache: the agents rereading the codebase and its rules on every turn, which is how they keep to them.</p>
+    </div>
+
+    <div class="receipt" data-usage>
+      <div class="receipt-cell">
+        <p class="receipt-num" data-u="total">6.1B</p>
+        <p class="receipt-label">tokens through Claude Code and Codex in 13 weeks</p>
+      </div>
+      <div class="receipt-cell receipt-cell--streak">
+        <p class="receipt-num"><span data-u="streak">33</span><span class="receipt-unit">days</span></p>
+        <p class="receipt-label" data-streak="live">in a row, and counting, as of <span data-u="asof">29 September</span></p>
+        <p class="receipt-label" data-streak="best" hidden>in a row, my longest run so far, ending on <span data-u="longestEnd">29 September</span></p>
+      </div>
+      <div class="receipt-cell">
+        <p class="receipt-num" data-u="active">55</p>
+        <p class="receipt-label">active days out of the <span data-u="span">91</span></p>
+      </div>
+      <div class="receipt-cell">
+        <p class="receipt-num" data-u="busiest">543M</p>
+        <p class="receipt-label">tokens on the busiest day, <span data-u="busiestDate">28 September</span></p>
+      </div>
+    </div>
+    <div class="receipt-foot">
+      <div>
+        <p class="receipt-cap eyebrow"><span>Activity</span><span>13 weeks</span></p>
+        <div class="heat" data-heat aria-hidden="true"></div>
+        <p class="heat-legend eyebrow" data-heat-legend hidden><span>Less</span><span class="heat-key"><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i></span><span>More</span><span class="heat-streak-key"><i></i>the streak</span></p>
+      </div>
+      <div>
+        <p class="receipt-cap eyebrow"><span>Split</span><span>tokens</span></p>
+        <div class="receipt-models">
+          <div class="model"><b>Claude Code</b><span class="model-bar"><span data-u="claudeBar" style="width:96%"></span></span><span class="model-n" data-u="claude">5.9B</span></div>
+          <div class="model"><b>Codex</b><span class="model-bar is-codex"><span data-u="codexBar" style="width:4%"></span></span><span class="model-n" data-u="codex">248M</span></div>
+        </div>
+        <p class="receipt-cap eyebrow" style="margin-top: 26px;"><span>This site</span><span>counted</span></p>
+        <dl class="site-counts">
+          <div><dt>Pages</dt><dd data-u="pages">27</dd></div>
+          <div><dt>Components</dt><dd data-u="components">32</dd></div>
+          <div><dt>Checks</dt><dd data-u="checks">113</dd></div>
+          <div><dt>Lines of rules</dt><dd data-u="rules">175</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES DECK -->
+  <section class="sec wrap" aria-labelledby="rules-title">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">From my skills</p>
+        <h2 class="sec-title" id="rules-title">Some rules I gave it.</h2>
+      </div>
+      <p class="sec-lede">I set strict rules so Claude and Codex get it right the first time. These come from the skills in my Claude Code setup, rule files it loads on every project I open. I wrote one of them.</p>
+    </div>
+    <div class="deck no-deck" data-deck>
+      <div class="deck-stage" aria-live="polite">
+        <article class="rule-card">
+          <p class="rule-q">“If someone could look at this interface and say ‘AI made that’ without doubt, it's failed.”</p>
+          <div>
+            <p class="rule-why">I hold this site to that test, this page included. The same skill bans gradient text, decorative glass and grids of identical cards.</p>
+            <p class="rule-meta eyebrow"><span>Design</span><span>impeccable</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“Do not … write any code … until you have presented a design and the user has approved it.”</p>
+          <div>
+            <p class="rule-why">Before a single file exists, Claude pitches the design and waits for my yes. I catch wrong ideas here, while they are still a paragraph long.</p>
+            <p class="rule-meta eyebrow"><span>Design first</span><span>brainstorming</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“No production code without a failing test first.”</p>
+          <div>
+            <p class="rule-why">The test has to fail before the fix exists. If I never saw it fail, I have no proof it can catch anything.</p>
+            <p class="rule-meta eyebrow"><span>Tests</span><span>test-driven-development</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“No fixes without root cause investigation first.”</p>
+          <div>
+            <p class="rule-why">When something breaks, Claude has to show me why before it touches the code. A guessed fix moves the bug somewhere I haven't looked yet.</p>
+            <p class="rule-meta eyebrow"><span>Debugging</span><span>systematic-debugging</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“No completion claims without fresh verification evidence.”</p>
+          <div>
+            <p class="rule-why">“Done” has to arrive with the command Claude ran and what it printed. “Should work now” doesn't count.</p>
+            <p class="rule-meta eyebrow"><span>Shipping</span><span>verification-before-completion</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“Verify before implementing. Ask before assuming.”</p>
+          <div>
+            <p class="rule-why">When Codex reviews Claude's plan, Claude checks each note against the code before acting on it and argues back when the reviewer is wrong. The same skill bans “You're absolutely right!”</p>
+            <p class="rule-meta eyebrow"><span>Review</span><span>receiving-code-review</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“Touch only what you must. Clean up only your own mess.”</p>
+          <div>
+            <p class="rule-why">Every changed line should trace back to what I asked for. If I ask for one colour, I get one colour, and the rest of the file stays as I left it.</p>
+            <p class="rule-meta eyebrow"><span>Code</span><span>karpathy-guidelines</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“If it sounds like a pull-quote, rewrite it.”</p>
+          <div>
+            <p class="rule-why">It covers everything Claude drafts for me, this page included. These cards are the one place I let a pull-quote through.</p>
+            <p class="rule-meta eyebrow"><span>Writing</span><span>stop-slop</span></p>
+          </div>
+        </article>
+        <article class="rule-card">
+          <p class="rule-q">“One honest gap beats a smooth sentence that is not true.”</p>
+          <div>
+            <p class="rule-why">From the internship agent, the skill I wrote. When a form asks for something my résumé can't back up, it leaves a blank and asks me.</p>
+            <p class="rule-meta eyebrow"><span>Honesty</span><span>intern-agent</span></p>
+          </div>
+        </article>
+      </div>
+      <button type="button" class="deck-btn" data-deck-next>Deal another rule <span data-deck-count></span></button>
+    </div>
+  </section>
+
+  <!-- HOW I WORK -->
+  <section class="sec wrap" aria-labelledby="how-title">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">How I work</p>
+        <h2 class="sec-title" id="how-title">Five steps, every build.</h2>
+      </div>
+      <p class="sec-lede">The code is the part I hand over. The design, the rules and the final call stay with me.</p>
+    </div>
+    <ol class="steps">
+      <li class="step step--lead">
+        <span class="step-n">00</span>
+        <h3>Design it first, by hand</h3>
+        <p>Driftwood started as my designs in Figma. HabitaBull started as low-fi flows I drew by hand in Photoshop. The internship agent started from a large iOS design reference, which Claude read through the Figma MCP.</p>
+      </li>
+      <li class="step">
+        <span class="step-n">01</span>
+        <h3>Write the brief</h3>
+        <p>A plan with tasks and tests before any code. The planner has ten of them in <a href="https://github.com/wl3512-lab/today-planner-plans/tree/main/docs/superpowers/plans" target="_blank" rel="noopener"><code>docs/superpowers/plans</code> <span aria-hidden="true">↗</span></a>.</p>
+      </li>
+      <li class="step">
+        <span class="step-n">02</span>
+        <h3>Set rules it can't break</h3>
+        <p>Never submit an application. Never invent a fact. This site's rule file is <span data-u="rules">175</span> lines long.</p>
+      </li>
+      <li class="step">
+        <span class="step-n">03</span>
+        <h3>Build and test</h3>
+        <p>HabitaBull runs 695 tests, the internship agent 166, and this site <span data-u="checks">113</span> checks.</p>
+      </li>
+      <li class="step">
+        <span class="step-n">04</span>
+        <h3>Get a second opinion</h3>
+        <p>Codex reviews Claude's plan before the build. On the planner's study helper it caught that the assignment link was being dropped from its context. I decide what to take.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- BUILDS -->
+  <section class="sec wrap" aria-labelledby="builds-title">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Four builds</p>
+        <h2 class="sec-title" id="builds-title">What I made first, and what shipped.</h2>
+      </div>
+      <p class="sec-lede">Each one: what it does, where it started, the rule it runs on, and the proof.</p>
+    </div>
+
+    <div class="builds">
+      <article class="build">
+        <div>
+          <p class="build-idx">01 · Daily planner</p>
+          <h3>Today</h3>
+          <p class="build-what">A menubar app that turns Gmail, Calendar, Brightspace and Gradescope into one day. A study session opens an AI helper that already knows the assignment.</p>
+          <dl class="build-facts">
+            <div class="fact"><dt>The rule</dt><dd>The helper gets the assignment it was opened for and nothing else from my planner.</dd></div>
+            <div class="fact"><dt>Proof</dt><dd>Ten written plans, one reviewed by Codex before the build; 35 test files.</dd></div>
+            <div class="fact"><dt>Note</dt><dd>Screenshots use an invented student. Nothing here is mine.</dd></div>
+          </dl>
+          <p class="build-private">Private · runs on my laptop</p>
+        </div>
+        <div class="build-media shots-stack">
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/today.webp" alt="The planner's Today view for an invented student: classes, deadlines and emails arranged into one day." loading="lazy" width="1600" height="1000"></div>
+            <figcaption>Today, demo data</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/study.webp" alt="A study session with the AI helper drawer open beside an invented assignment." loading="lazy" width="1600" height="1000"></div>
+            <figcaption>A study session with the helper open, demo data</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="build">
+        <div>
+          <p class="build-idx">02 · Internship agent</p>
+          <h3>Internship agent</h3>
+          <p class="build-what">Finds postings on company job boards and in alert emails, ranks them by fit, tailors my résumé in my own design, and fills the application form.</p>
+          <dl class="build-facts">
+            <div class="fact"><dt>Started from</dt><dd>A large iOS design reference I gave Claude, which it read through the Figma MCP. Its Internships screen is built on it: grouped lists, a segmented control, one blue button.</dd></div>
+            <div class="fact"><dt>The rule</dt><dd>It stops before the submit button. It only reorders my own sentences, and asks me instead of inventing an answer.</dd></div>
+            <div class="fact"><dt>Proof</dt><dd>166 tests, run on a made-up student. Public as a Claude Code plugin anyone can install.</dd></div>
+          </dl>
+          <a class="build-link" href="https://github.com/wl3512-lab/internship-agent" target="_blank" rel="noopener">See the repo <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="build-media shots-stack">
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/internships.webp" alt="The agent's Internships screen for an invented student, styled like iOS Settings: a segmented control across the top, grouped lists with labels on the left, and one blue Run agent now button." loading="lazy" width="1600" height="1000"></div>
+            <figcaption>Its Internships screen, demo data</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/resume-designed.webp" alt="Part of the designed résumé the agent tailors: numbered sections, blue rules and a dash before each line." loading="lazy" width="1000" height="650"></div>
+            <figcaption>The résumé it tailors, set in my design</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="build">
+        <div>
+          <p class="build-idx">03 · HabitaBull</p>
+          <h3>HabitaBull</h3>
+          <p class="build-what">A gym habit app for people who keep stopping. Rebuilt in 2026 with Claude Code as an offline web app: no account, and your history never leaves your phone.</p>
+          <dl class="build-facts">
+            <div class="fact"><dt>Made first</dt><dd>Low-fi flows I drew by hand in Photoshop. The shipped welcome screen still asks the same first question.</dd></div>
+            <div class="fact"><dt>The rule</dt><dd>The bull notices you were gone and never punishes you for it. The list of things he is banned from saying lives in the code.</dd></div>
+            <div class="fact"><dt>Proof</dt><dd>695 tests across 34 files.</dd></div>
+          </dl>
+          <a class="build-link" href="habitabull.html">Read the case study <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="build-media pair">
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/habitabull-lofi.webp" alt="Four hand-drawn phone screens: Welcome to Habitabull with a sketched bull asking your name, then weights, favourite exercises and training days." loading="lazy" width="910" height="430"></div>
+            <figcaption>Drawn by hand</figcaption>
+          </figure>
+          <span class="pair-arrow" aria-hidden="true">↓</span>
+          <figure class="shot shot--phone">
+            <div class="shot-frame"><img src="assets/with-ai/habitabull-shipped.webp" alt="The shipped welcome screen: the bull, Welcome to HabitaBull, and What's your name?" loading="lazy" width="520" height="1125"></div>
+            <figcaption>Shipped</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="build">
+        <div>
+          <p class="build-idx">04 · Driftwood</p>
+          <h3>Driftwood</h3>
+          <p class="build-what">An AI ethics game: adopt a pet with a hidden flaw, notice it, name it, and write the rules that train it. Here AI is both the tool and the subject.</p>
+          <dl class="build-facts">
+            <div class="fact"><dt>Made first</dt><dd>My designs in Figma, then built out with Claude Code.</dd></div>
+            <div class="fact"><dt>The rule</dt><dd>No account, no key, no server. The camera is disclosed up front and face detection runs in the browser.</dd></div>
+            <div class="fact"><dt>Proof</dt><dd>Played by 100+ visitors at the IMA Spring Show 2026; about 76% named their pet's flaw unprompted.</dd></div>
+          </dl>
+          <a class="build-link" href="case-study.html">Read the case study <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="build-media pair">
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/driftwood-early.webp" alt="An early Driftwood design: a light chat screen with the pet's stats on the left and training notes on the right." loading="lazy" width="1280" height="831"></div>
+            <figcaption>Early design</figcaption>
+          </figure>
+          <span class="pair-arrow" aria-hidden="true">↓</span>
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/driftwood/chat.webp" alt="The shipped Driftwood chat: a pixel fox in its garden with stats and the conversation below." loading="lazy" width="1280" height="800"></div>
+            <figcaption>Shipped</figcaption>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SETUP + LIMITS -->
+  <section class="sec wrap" aria-labelledby="setup-title">
+    <div class="two">
+      <div>
+        <p class="eyebrow">My setup</p>
+        <h2 class="sec-title" id="setup-title">What I work with.</h2>
+        <ul class="ledger" style="margin-top: 32px;">
+          <li><span class="k">Agents</span><span class="v">Claude Code for most builds; Codex for reviews and second passes.</span></li>
+          <li><span class="k">Skills I wrote</span><span class="v">The internship agent and a Brightspace reader for my classes.</span></li>
+          <li><span class="k">Connectors</span><span class="v">Gmail, Google Calendar and Figma, through MCP.</span></li>
+          <li><span class="k">On a schedule</span><span class="v">A morning internship scan and LinkedIn drafts.</span></li>
+          <li><span class="k">Code</span><span class="v"><a href="https://github.com/wl3512-lab" target="_blank" rel="noopener">github.com/wl3512-lab ↗</a></span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">What I don't let it do</p>
+        <h2 class="sec-title" id="never-title">The lines it doesn't cross.</h2>
+        <ol class="never" style="margin-top: 32px;" aria-labelledby="never-title">
+          <li>Submit an application.<span>It fills the form and stops. I read it and press send.</span></li>
+          <li>Invent a fact about me.<span>If it can't answer honestly, it asks.</span></li>
+          <li>Publish anything.<span>It drafts LinkedIn posts; I post them, or don't.</span></li>
+          <li>Act outward without asking.<span>Anything that leaves my laptop waits for a yes.</span></li>
+          <li>Have the last word on design.<span>It builds from my designs, and when something doesn't look right to me, I overrule it.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<dialog class="zoom" data-zoom aria-label="Enlarged screenshot">
+  <button type="button" class="zoom-close">Close</button>
+  <figure class="zoom-fig">
+    <div class="zoom-pan" data-zoom-pan><img data-zoom-img alt=""></div>
+    <figcaption class="eyebrow" data-zoom-cap></figcaption>
+  </figure>
+</dialog>
+
+<footer class="wa-foot">
+  <div class="wrap wa-foot-inner">
+    <p class="wa-foot-line">Want to see one running? Ask me.</p>
+    <nav class="wa-foot-links" aria-label="Contact">
+      <a href="mailto:wl3512@nyu.edu">wl3512@nyu.edu</a>
+      <a href="https://github.com/wl3512-lab" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="work.html">All work</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* Flexing headline. Each letter sits on Anybody's wdth/wght axes; a crest of weight follows
+   the pointer on a fine pointer and otherwise sweeps slowly along the sentence. Letter boxes
+   reserve the widest animated weight, so letters stay readable and lines never reflow
+   as the weight moves. Reduced motion leaves it at rest. */
+(function () {
+  var title = document.querySelector('[data-flex-title]');
+  if (!title) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  var fine = matchMedia('(hover: hover) and (pointer: fine)');
+  var chars = [];
+
+  title.querySelectorAll('.ft-line').forEach(function (line) {
+    var words = line.textContent.split(' ');
+    line.textContent = '';
+    line.setAttribute('aria-hidden', 'true');
+    words.forEach(function (w, wi) {
+      if (wi) { var sp = document.createElement('span'); sp.className = 'ft-space'; line.appendChild(sp); }
+      var ws = document.createElement('span'); ws.className = 'ft-w';
+      Array.from(w).forEach(function (c) {
+        var s = document.createElement('span'); s.className = 'ft-ch'; s.textContent = c;
+        ws.appendChild(s); chars.push({ el: s, x: 0, y: 0 });
+      });
+      line.appendChild(ws);
+    });
+  });
+  function measure() {
+    chars.forEach(function (c) { c.el.style.width = ''; c.el.style.fontVariationSettings = "'wdth' 96, 'wght' 820"; });
+    var r = title.getBoundingClientRect();
+    var boxes = chars.map(function (c) { return c.el.getBoundingClientRect(); });
+    chars.forEach(function (c, i) {
+      var b = boxes[i];
+      c.el.style.width = b.width + 'px';
+      c.el.style.fontVariationSettings = '';
+      c.x = b.left - r.left + b.width / 2; c.y = b.top - r.top + b.height / 2;
+    });
+    size = r.height / 3;
+  }
+  var size = 100, pointer = null, lastMove = 0, t0 = performance.now(), raf = 0, visible = true;
+  var cur = chars.map(function () { return 0; });
+
+  function frame(now) {
+    raf = 0;
+    if (reduce.matches || !visible || document.hidden) return;
+    raf = requestAnimationFrame(frame);
+    var r = title.getBoundingClientRect();
+    var usePointer = pointer && now - lastMove < 2500;
+    var sweep = (Math.sin((now - t0) / 1800) * 0.5 + 0.5); // 0..1 along the sentence
+    var n = chars.length;
+    chars.forEach(function (c, i) {
+      var target;
+      if (usePointer) {
+        var dx = (pointer.x - r.left) - c.x, dy = (pointer.y - r.top) - c.y;
+        var d = Math.sqrt(dx * dx + dy * dy) / (size * 1.25);
+        target = Math.max(0, 1 - d * d);
+      } else {
+        var d2 = (i / (n - 1) - sweep) * 7;
+        target = Math.max(0, Math.cos(Math.max(-Math.PI, Math.min(Math.PI, d2))) * 0.5 + 0.5) * 0.85;
+      }
+      cur[i] += (target - cur[i]) * 0.12;
+      var v = cur[i];
+      var wdth = 96; // Keep the width axis fixed; the weight carries the crest.
+      var wght = Math.round(320 + v * 500); // 320..820, within the reserved letter boxes
+      c.el.style.fontVariationSettings = "'wdth' " + wdth + ", 'wght' " + wght;
+    });
+  }
+
+  var ready = false;
+  function syncMotion() {
+    cancelAnimationFrame(raf); raf = 0;
+    var hint = document.querySelector('[data-flex-hint]');
+    if (hint) hint.hidden = reduce.matches || !fine.matches;
+    if (reduce.matches) {
+      chars.forEach(function (c, i) { c.el.style.fontVariationSettings = ''; cur[i] = 0; });
+    } else if (ready && visible && !document.hidden) {
+      raf = requestAnimationFrame(frame);
+    }
+  }
+  function start() {
+    measure(); ready = true; syncMotion();
+  }
+  title.addEventListener('pointermove', function (e) {
+    if (!fine.matches || reduce.matches) return;
+    pointer = { x: e.clientX, y: e.clientY }; lastMove = performance.now();
+  }, { passive: true });
+  title.addEventListener('pointerleave', function () { pointer = null; });
+  var rt = 0;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(measure, 120); });
+  new IntersectionObserver(function (es) { visible = es[0].isIntersecting; syncMotion(); }).observe(title);
+  document.addEventListener('visibilitychange', syncMotion);
+  reduce.addEventListener('change', syncMotion);
+  fine.addEventListener('change', syncMotion);
+  (document.fonts && document.fonts.load ? document.fonts.load("500 40px 'Anybody'") : Promise.resolve()).then(start, start);
+})();
+
+/* Usage receipt: fills the numbers and draws the 13-week grid from assets/with-ai/usage.json,
+   which scripts/usage-snapshot.mjs writes from the local Claude Code and Codex logs on every
+   deploy, along with this site's counts. The numbers already in the markup are the fallback if
+   the file cannot load. days holds the whole history as [date, claude, codex]. */
+(function () {
+  var root = document.querySelector('[data-usage]');
+  if (!root || !window.fetch) return;
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function day(iso) { var p = iso.split('-'); return +p[2] + ' ' + MONTHS[+p[1] - 1]; }
+  function big(n) {
+    if (n >= 1e9) return (n / 1e9).toFixed(n >= 1e10 ? 0 : 1) + 'B';
+    if (n >= 1e6) return Math.round(n / 1e6) + 'M';
+    if (n >= 1e3) return Math.round(n / 1e3) + 'K';
+    return String(n);
+  }
+  function set(k, v) { document.querySelectorAll('[data-u="' + k + '"]').forEach(function (el) { el.textContent = v; }); }
+  fetch('assets/with-ai/usage.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (u) {
+    if (!u || !u.days || !u.days.length) return;
+    var win = u.days.slice(-(u.weeks || 13) * 7);
+    function used(d) { return (d[1] || 0) + (d[2] || 0); }
+    set('total', big(u.totalTokens));
+    set('asof', day(u.asOf));
+    set('active', String(u.activeDays));
+    set('span', String(win.length));
+    if (u.busiest) { set('busiest', big(u.busiest.tokens)); set('busiestDate', day(u.busiest.date)); }
+    set('claude', big(u.claudeTokens)); set('codex', big(u.codexTokens));
+    var tot = u.claudeTokens + u.codexTokens || 1;
+    var cb = document.querySelector('[data-u="claudeBar"]'), xb = document.querySelector('[data-u="codexBar"]');
+    if (cb) cb.style.width = (u.claudeTokens / tot * 100).toFixed(1) + '%';
+    if (xb) xb.style.width = Math.max(1.5, u.codexTokens / tot * 100).toFixed(1) + '%';
+    if (u.site) ['pages', 'components', 'checks', 'rules'].forEach(function (k) { if (u.site[k] != null) set(k, String(u.site[k])); });
+
+    // While a streak runs it is the number; once it breaks, the longest run stands in, so the
+    // receipt never reads "0 days in a row, and counting".
+    var live = u.streak >= 2 || !u.longest || u.longest.days < 2;
+    var run = live ? u.streak : u.longest.days;
+    set('streak', String(run));
+    if (!live) {
+      set('longestEnd', day(u.longest.end));
+      document.querySelector('[data-streak="live"]').hidden = true;
+      document.querySelector('[data-streak="best"]').hidden = false;
+    }
+
+    // Grid: one column per calendar week, Sunday on top, like the dashboard.
+    var heat = document.querySelector('[data-heat]');
+    if (!heat) return;
+    var vals = win.map(used).filter(Boolean).sort(function (a, b) { return a - b; });
+    function q(f) { return vals[Math.min(vals.length - 1, Math.floor(vals.length * f))] || 0; }
+    var cuts = [q(0.25), q(0.5), q(0.75)];
+    var runEnd = -1;
+    win.forEach(function (d, i) { if (live ? used(d) : d[0] === u.longest.end) runEnd = i; });
+    var runFrom = runEnd - run + 1;
+    var first = win[0][0].split('-');
+    var pad = new Date(+first[0], +first[1] - 1, +first[2]).getDay();
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < pad; i++) { var e = document.createElement('i'); e.className = 'is-pad'; frag.appendChild(e); }
+    win.forEach(function (d, i) {
+      var c = document.createElement('i'), t = used(d);
+      c.dataset.l = !t ? 0 : t <= cuts[0] ? 1 : t <= cuts[1] ? 2 : t <= cuts[2] ? 3 : 4;
+      if (t && i >= runFrom && i <= runEnd) c.classList.add('is-streak');
+      if (u.busiest && d[0] === u.busiest.date) c.classList.add('is-busiest');
+      c.title = day(d[0]) + (t ? ': ' + big(t) + ' tokens' : ': no sessions');
+      frag.appendChild(c);
+    });
+    heat.appendChild(frag);
+    var legend = document.querySelector('[data-heat-legend]');
+    if (legend) legend.hidden = false;
+  }).catch(function () {});
+})();
+
+/* Rules deck: one card up, two peeking behind; "Deal another rule" throws the top one off
+   and brings the next up. Without JS the cards are a plain readable list. */
+(function () {
+  var deck = document.querySelector('[data-deck]');
+  if (!deck) return;
+  var cards = Array.from(deck.querySelectorAll('.rule-card'));
+  var btn = deck.querySelector('[data-deck-next]');
+  var count = deck.querySelector('[data-deck-count]');
+  var top = 0, n = cards.length;
+  deck.classList.remove('no-deck');
+  function lay() {
+    cards.forEach(function (c, i) {
+      var pos = (i - top + n) % n;
+      c.dataset.pos = pos < 3 ? String(pos) : 'hide';
+      c.setAttribute('aria-hidden', pos === 0 ? 'false' : 'true');
+    });
+    count.textContent = '(' + String(top + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') + ')';
+  }
+  btn.addEventListener('click', function () {
+    var leaving = cards[top];
+    top = (top + 1) % n;
+    lay();
+    leaving.dataset.pos = 'out';
+    setTimeout(function () { if (leaving !== cards[top]) lay(); }, 380);
+  });
+  lay();
+})();
+
+/* Four builds: every screenshot opens larger in a dialog, never past its own pixel size. The frames
+   become buttons only when this runs, so without it they stay plain images. Esc, Close or a click
+   anywhere off the image shuts it, and focus goes back to the shot that opened it. */
+(function () {
+  var dlg = document.querySelector('[data-zoom]');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var big = dlg.querySelector('[data-zoom-img]');
+  var cap = dlg.querySelector('[data-zoom-cap]');
+  var pan = dlg.querySelector('[data-zoom-pan]');
+  var opener = null;
+  var ICON = '<span class="shot-zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">' +
+    '<path d="M8.5 1.5h4v4M5.5 12.5h-4v-4M12.5 1.5L8 6M1.5 12.5L6 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+
+  document.querySelectorAll('.builds .shot').forEach(function (fig) {
+    var frame = fig.querySelector('.shot-frame');
+    var img = frame && frame.querySelector('img');
+    if (!img) return;
+    var caption = fig.querySelector('figcaption');
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'shot-frame shot-zoom';
+    btn.setAttribute('aria-haspopup', 'dialog');
+    btn.setAttribute('aria-label', 'Enlarge: ' + img.alt);
+    frame.replaceWith(btn);
+    btn.appendChild(img);
+    btn.insertAdjacentHTML('beforeend', ICON);
+    btn.addEventListener('click', function () {
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      big.width = img.naturalWidth || +img.getAttribute('width');
+      big.height = img.naturalHeight || +img.getAttribute('height');
+      cap.textContent = caption ? caption.textContent : '';
+      opener = btn;
+      dlg.showModal();
+      pan.scrollLeft = 0;
+    });
+  });
+
+  dlg.addEventListener('click', function (e) { if (e.target !== big) dlg.close(); });
+  dlg.addEventListener('close', function () { if (opener) opener.focus(); });
+})();
+</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>
