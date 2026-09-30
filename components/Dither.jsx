@@ -139,6 +139,28 @@ function Dither(props) {
   const mouseReact = p.enableMouseInteraction != null ? p.enableMouseInteraction : true;
   const mouseRadius = p.mouseRadius != null ? p.mouseRadius : 1.0;
 
+  /* Wave params are eased toward, not applied. They used to sit in the mount effect's dep
+     array, so every change tore down the renderer and built a new WebGL context: fine for a
+     value set once, ruinous for one that follows a hover. The mount effect now runs once;
+     these refs carry the target, and the frame loop lerps the live uniforms toward it. */
+  const targetRef = useRef({ speed: waveSpeed, frequency: waveFrequency, amplitude: waveAmplitude, color: waveColor.slice() });
+  const liveRef = useRef(null);   // { uniforms, renderOnce, reduced }, set on mount
+
+  useEffect(function () {
+    targetRef.current = { speed: waveSpeed, frequency: waveFrequency, amplitude: waveAmplitude, color: waveColor.slice() };
+    // With reduced motion the frame loop is not running, so there is nothing to ease with:
+    // apply the target and repaint once so the section still responds, just without motion.
+    const live = liveRef.current;
+    if (live && live.reduced) {
+      const u = live.uniforms;
+      u.uWaveSpeed.value = waveSpeed;
+      u.uWaveFrequency.value = waveFrequency;
+      u.uWaveAmplitude.value = waveAmplitude;
+      u.uWaveColor.value.set(waveColor[0], waveColor[1], waveColor[2]);
+      live.renderOnce();
+    }
+  }, [waveSpeed, waveFrequency, waveAmplitude, waveColor.join(',')]);
+
   useEffect(function () {
     const host = hostRef.current;
     if (!host || typeof THREE === 'undefined') return;
@@ -151,7 +173,8 @@ function Dither(props) {
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: 'low-power' });
     } catch (e) { return; }
-    const dpr = Math.min(window.devicePixelRatio || 1, reduced ? 1 : 2);
+    // pixelSize is 3, so DPR 1 is visually identical and a quarter of the fragments on retina.
+    const dpr = 1;
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 0);
 
@@ -208,11 +231,29 @@ function Dither(props) {
     }, { threshold: 0 });
     io.observe(host);
 
+    liveRef.current = { uniforms: uniforms, reduced: reduced, renderOnce: function () { try { renderer.render(scene, camera); } catch (e) {} } };
+
+    // Critically damped-ish easing toward the target. 0.055 per frame reads as "the field
+    // settles into the capability you are reading" rather than as a cut.
+    const EASE = 0.055;
+    function ease(u, to) { u.value += (to - u.value) * EASE; }
+    function stepParams() {
+      const t = targetRef.current;
+      ease(uniforms.uWaveSpeed, t.speed);
+      ease(uniforms.uWaveFrequency, t.frequency);
+      ease(uniforms.uWaveAmplitude, t.amplitude);
+      const c = uniforms.uWaveColor.value;
+      c.x += (t.color[0] - c.x) * EASE;
+      c.y += (t.color[1] - c.y) * EASE;
+      c.z += (t.color[2] - c.z) * EASE;
+    }
+
     function frame(t) {
       if (disposed) return;
       if (!visible) { raf = 0; return; }
       raf = requestAnimationFrame(frame);
       uniforms.uTime.value = t * 0.001;
+      stepParams();
       renderer.render(scene, camera);
     }
     if (reduced) renderer.render(scene, camera);
@@ -220,6 +261,7 @@ function Dither(props) {
 
     return function () {
       disposed = true;
+      liveRef.current = null;
       cancelAnimationFrame(raf);
       try { ro.disconnect(); } catch (e) {}
       try { io.disconnect(); } catch (e) {}
@@ -230,7 +272,9 @@ function Dither(props) {
       if (lose) lose.loseContext();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [waveColor.join(','), waveSpeed, waveFrequency, waveAmplitude, colorNum, pixelSize, mouseReact, mouseRadius]);
+    // Wave params are deliberately absent: they are eased through targetRef above, and
+    // listing them here would rebuild the WebGL context on every hover.
+  }, [colorNum, pixelSize, mouseReact, mouseRadius]);
 
   return <div ref={hostRef} className={'dither ' + (p.className || '')} aria-hidden="true" />;
 }

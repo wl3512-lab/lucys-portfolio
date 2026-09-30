@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lucy Liu — the archive</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400&family=Space+Mono:wght@400;700&display=swap" />
+<link rel="stylesheet" href="colors_and_type.css?v=62" />
+<style>
+/* ── The journey shell ─────────────────────────────────────────────────────
+   The canvas is fixed for the whole document: one scene the page travels
+   through. The scroll track behind it is what gives the flight its length,
+   and every waypoint is an ordinary absolutely-positioned block over it, so
+   the content is still real text in document order. */
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+#jy-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  display: block; z-index: 0;
+}
+/* The scroll track. Its height is the length of the flight. */
+#jy-track { position: relative; z-index: 1; }
+
+/* ── waypoints ── */
+.wp {
+  position: absolute; left: 0; right: 0;
+  padding: 0 clamp(20px, 5vw, 64px);
+  pointer-events: none;
+}
+.wp-inner { max-width: 560px; pointer-events: auto; }
+.wp--right .wp-inner { margin-left: auto; }
+.wp--mid .wp-inner { margin: 0 auto; text-align: center; }
+.wp-idx {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--fg3); display: block; margin-bottom: 14px;
+}
+.wp-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2rem, 5.4vw, 4.2rem); line-height: 1.02; letter-spacing: -0.03em;
+  margin: 0 0 18px; color: var(--fg1);
+}
+.wp-body {
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.65;
+  color: var(--fg2); margin: 0; max-width: 46ch;
+}
+
+/* ── HUD ──
+   The instrument layer over the scene: corner registration brackets, a live
+   readout rail, and leader-line labels pinned to the archive nodes. */
+#jy-hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+.hud-corner { position: absolute; width: 22px; height: 22px; border: 1px solid var(--border-strong); opacity: 0.5; }
+.hud-corner.tl { top: 22px; left: 22px; border-right: 0; border-bottom: 0; }
+.hud-corner.tr { top: 22px; right: 22px; border-left: 0; border-bottom: 0; }
+.hud-corner.bl { bottom: 22px; left: 22px; border-right: 0; border-top: 0; }
+.hud-corner.br { bottom: 22px; right: 22px; border-left: 0; border-top: 0; }
+.hud-rail {
+  position: absolute; left: 22px; bottom: 22px;
+  display: flex; gap: 22px; align-items: baseline;
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg3);
+}
+.hud-rail b { font-weight: 400; color: var(--fg2); font-variant-numeric: tabular-nums; }
+.hud-progress {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  width: 1px; height: 180px; background: var(--border);
+}
+.hud-progress-fill {
+  position: absolute; top: 0; left: 0; width: 100%; height: 0%;
+  background: var(--accent); box-shadow: 0 0 8px var(--accent);
+}
+.hud-progress-pct {
+  position: absolute; right: 8px; top: 0; transform: translateY(-50%);
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.1em;
+  color: var(--fg3); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+/* Leader labels, positioned per frame from the scene's projection of each node. */
+.hud-node {
+  position: absolute; transform: translate(14px, -50%);
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg2); white-space: nowrap;
+  opacity: 0; transition: opacity .35s var(--ease-out-quart);
+}
+.hud-node::before {
+  content: ''; position: absolute; left: -14px; top: 50%;
+  width: 10px; height: 1px; background: var(--accent);
+}
+.hud-node.on { opacity: 1; }
+
+/* ── fallback ──
+   No WebGL, reduced motion, or touch: the canvas and HUD go, the track
+   collapses, and the waypoints become an ordinary readable page. */
+body.jy-flat #jy-canvas, body.jy-flat #jy-hud { display: none; }
+body.jy-flat #jy-track { height: auto !important; }
+body.jy-flat .wp {
+  position: static; padding: clamp(56px, 11vh, 110px) clamp(20px, 5vw, 64px);
+}
+body.jy-flat .wp-inner { max-width: 640px; margin: 0; text-align: left; }
+</style>
+</head>
+<body>
+<canvas id="jy-canvas" aria-hidden="true"></canvas>
+
+<div id="jy-hud" aria-hidden="true">
+  <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+  <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+  <div class="hud-rail">
+    <span>Lucy Liu</span>
+    <span>40.7128&deg; N / 74.0060&deg; W</span>
+    <span>T<b id="hud-time">+00:00</b></span>
+  </div>
+  <div class="hud-progress"><div class="hud-progress-fill" id="hud-fill"></div></div>
+  <div class="hud-progress-pct" id="hud-pct" style="top:50%">00</div>
+</div>
+
+<main id="jy-track">
+  <section class="wp" data-at="0.02">
+    <div class="wp-inner">
+      <span class="wp-idx">00 / Entry</span>
+      <h1 class="wp-title">Lucy Liu</h1>
+      <p class="wp-body">Design engineer studying Interactive Media Arts at NYU. Scroll to travel the archive.</p>
+    </div>
+  </section>
+
+  <section class="wp wp--right" data-at="0.20">
+    <div class="wp-inner">
+      <span class="wp-idx">01 / Standout work</span>
+      <h2 class="wp-title">Driftwood</h2>
+      <p class="wp-body">An AI ethics game: adopt a pet, discover its flaw, train it to be better.</p>
+    </div>
+  </section>
+
+  <section class="wp" data-at="0.38">
+    <div class="wp-inner">
+      <span class="wp-idx">02 / Standout work</span>
+      <h2 class="wp-title">HabitaBull</h2>
+      <p class="wp-body">A gym app for the psychology of showing up.</p>
+    </div>
+  </section>
+
+  <section class="wp wp--right" data-at="0.56">
+    <div class="wp-inner">
+      <span class="wp-idx">03 / Standout work</span>
+      <h2 class="wp-title">rep.tools</h2>
+      <p class="wp-body">Brand and UX/IA redesign for a 6,900-item storefront and a 300k+ audience.</p>
+    </div>
+  </section>
+
+  <section class="wp" data-at="0.74">
+    <div class="wp-inner">
+      <span class="wp-idx">04 / Capabilities</span>
+      <h2 class="wp-title">What I do</h2>
+      <p class="wp-body">Strategy and research, product design, interaction and motion, code, live performance.</p>
+    </div>
+  </section>
+
+  <section class="wp wp--mid" data-at="0.93">
+    <div class="wp-inner">
+      <span class="wp-idx">05 / Contact</span>
+      <h2 class="wp-title">I read everything.</h2>
+      <p class="wp-body">wl3512@nyu.edu</p>
+    </div>
+  </section>
+</main>
+
+<script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script defer src="components/journey-scene.js"></script>
+<script>
+window.addEventListener('load', function () {
+  var canvas = document.getElementById('jy-canvas');
+  var track  = document.getElementById('jy-track');
+  var hud    = document.getElementById('jy-hud');
+  var wps    = Array.prototype.slice.call(document.querySelectorAll('.wp'));
+
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse  = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+
+  // Flat mode is the honest fallback, not a degraded one: the same words, as a page.
+  if (reduced || coarse || typeof THREE === 'undefined' || !window.JourneyScene) {
+    document.body.classList.add('jy-flat');
+    return;
+  }
+
+  // The flight is this long. Each waypoint is parked at its data-at fraction of it.
+  var LEN = Math.round(window.innerHeight * 11);
+  track.style.height = LEN + 'px';
+  // Park each waypoint against the SCROLLABLE range, not the track height. Progress runs
+  // over (scrollHeight - innerHeight), so measuring against LEN left every waypoint
+  // at*innerHeight lower than the one before it and pushed the last ones off screen.
+  function placeWaypoints() {
+    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    wps.forEach(function (w) {
+      var at = parseFloat(w.getAttribute('data-at')) || 0;
+      w.style.top = Math.round(at * max + window.innerHeight * 0.32) + 'px';
+    });
+  }
+  placeWaypoints();
+
+  var nodes = wps.map(function (w) {
+    return {
+      t: parseFloat(w.getAttribute('data-at')) || 0,
+      label: (w.querySelector('.wp-idx') || {}).textContent || '',
+    };
+  });
+
+  var jy = window.JourneyScene.mount({ canvas: canvas, nodes: nodes });
+  if (!jy) { document.body.classList.add('jy-flat'); return; }
+
+  // One label element per node, positioned each frame from the scene's projection.
+  var labels = nodes.map(function () {
+    var el = document.createElement('span');
+    el.className = 'hud-node';
+    hud.appendChild(el);
+    return el;
+  });
+
+  var fill = document.getElementById('hud-fill');
+  var pct  = document.getElementById('hud-pct');
+  var time = document.getElementById('hud-time');
+
+  function frame() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? window.scrollY / max : 0;
+    jy.setProgress(p);
+
+    fill.style.height = (p * 100).toFixed(1) + '%';
+    pct.style.top = 'calc(50% - 90px + ' + (p * 180).toFixed(1) + 'px)';
+    pct.textContent = String(Math.round(p * 100)).padStart(2, '0');
+    var secs = Math.round(p * 660);
+    time.textContent = '+' + String((secs / 60) | 0).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
+
+    for (var i = 0; i < labels.length; i++) {
+      var pr = jy.project(i);
+      // Look-ahead gate, not a proximity gate. Distant nodes all project onto the
+      // vanishing point, so without a gate every label in the flight stacked up in the
+      // first frame. But a symmetric proximity test showed nothing at all: a node is set
+      // off to the side of the path, so at the moment you are closest it is square beside
+      // the camera and outside the 62 degree frustum. Label it while it is still ahead.
+      var ahead = nodes[i].t - p;
+      var near = ahead > -0.015 && ahead < 0.14;
+      if (!near || !pr || pr.x < -0.1 || pr.x > 1.1 || pr.y < -0.1 || pr.y > 1.1) {
+        labels[i].classList.remove('on');
+      } else {
+        labels[i].style.left = (pr.x * 100).toFixed(2) + '%';
+        labels[i].style.top  = (pr.y * 100).toFixed(2) + '%';
+        labels[i].textContent = pr.label;
+        labels[i].classList.add('on');
+      }
+    }
+
+    // Waypoint copy fades with its own distance from the camera's position on the path.
+    for (var k = 0; k < wps.length; k++) {
+      var at = parseFloat(wps[k].getAttribute('data-at')) || 0;
+      var d = Math.abs(p - at);
+      var o = Math.max(0, Math.min(1, 1 - d / 0.075));
+      wps[k].style.opacity = o.toFixed(3);
+      wps[k].style.transform = 'translateY(' + ((1 - o) * 26).toFixed(1) + 'px)';
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  window.addEventListener('resize', function () {
+    jy.resize();
+    track.style.height = Math.round(window.innerHeight * 11) + 'px';
+    placeWaypoints();
+  }, { passive: true });
+});
+</script>
+</body>
+</html>
