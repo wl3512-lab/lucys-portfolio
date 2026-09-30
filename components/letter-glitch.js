@@ -151,20 +151,17 @@
           if (s && e) { l.color = lerp(s, e, l.colorProgress); redraw = true; }
         }
       }
-      if (redraw) draw();
+      return redraw;
     }
     function tick() {
       if (disposed) return;
       var t = now();
-      if (t - lastGlitch >= glitchSpeed) { update(); draw(t); lastGlitch = t; }
-      if (smooth) smoothT();
-      if (decode) {
-        stepDecode(t);
-        frame++;
-        // Heat and the brightness wave change every frame, so decode mode needs a redraw on
-        // every tick rather than only on the glitch/smooth cadence above.
-        draw(t);
-      }
+      var needsDraw = false;
+      if (t - lastGlitch >= glitchSpeed) { update(); needsDraw = true; lastGlitch = t; }
+      if (smooth && smoothT()) needsDraw = true;
+      if (decode) { stepDecode(t); frame++; needsDraw = true; }
+      // Combine all state updates before painting, rather than repainting for each effect.
+      if (needsDraw) draw(t);
       rafId = raf(tick);
     }
 
@@ -222,15 +219,16 @@
       try { llReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
       var llLoader = document.getElementById('ll-loader');
       var llHost = document.getElementById('ll-glitch');
+      // Repeat visits (window.__loaderFast, set by the loader IIFE) run the same sequence on a
+      // compressed clock: the counter is 1.5s instead of 2.6s, so the dissolve runs 0.4s to 1.3s.
+      var llFast = !!window.__loaderFast;
       if (llLoader && llHost && !llReduced && !document.body.classList.contains('loader-done')) {
-        // Repeat visits (window.__loaderFast, set by the loader IIFE) exit at ~1s, before the
-        // dissolve window: run the old unmasked glitch and skip the field.
         var llField = null;
         try {
-          if (!window.__loaderFast && typeof window.RevealFieldMount === 'function') {
+          if (typeof window.RevealFieldMount === 'function') {
             var coarse = false;
             try { coarse = window.matchMedia('(pointer: coarse)').matches; } catch (e) {}
-            llField = window.RevealFieldMount(llLoader, { cw: CW, ch: CH, radius: coarse ? 110 : 140, healMs: 3000 });
+            llField = window.RevealFieldMount(llLoader, { cw: CW, ch: CH, radius: coarse ? 150 : 200, healMs: 5000, edge: 1.7 });
           }
         } catch (e) { llField = null; try { console.warn('[Loader] RevealField failed, running without wipe', e); } catch (_) {} }
 
@@ -271,7 +269,7 @@
           }, 700);
         }, { once: true });
 
-        try { if (llField) llField.dissolve(1100, 2300); } catch (e) {}
+        try { if (llField) llField.dissolve(250, 950); } catch (e) {}   /* clears before the outline traces on (850-1650ms) */
       }
     } catch (e) { try { console.warn('[Loader] glitch boot failed', e); } catch (_) {} }
   })();
