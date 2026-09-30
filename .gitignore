@@ -19,3 +19,10 @@ Final Loop game/
 
 # Unreferenced full-res stray at project root
 driftwood.JPG
+
+# Stray phone photos, screenshots and backups dropped into the tree. Never referenced, never
+# shipped, and a phone photo can carry the GPS of where it was taken.
+components/IMG_*
+components/Screenshot *
+assets/Screenshot *
+*.pre-decode-backup
