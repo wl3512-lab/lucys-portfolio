@@ -16,7 +16,7 @@
 <meta property="og:title" content="CV | Lucy Liu" />
 <meta property="og:description" content="Interaction designer, design engineer, and creative technologist in New York. NYU Tisch IMA." />
 <meta property="og:url" content="https://lucyliu.xyz/cv.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-preview.png" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +25,10 @@
 <link rel="stylesheet" href="styles.css?v=121" />
 <link rel="stylesheet" href="cv.css?v=1" />
 
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body>
 
@@ -32,7 +36,7 @@
 
 <nav class="cv-nav" aria-label="Site navigation">
   <div class="cv-nav-inner">
-    <a href="index.html" class="cv-logo" aria-label="Lucy Liu, home">lucy liu</a>
+    <a href="index.html" class="cv-logo" aria-label="Lucy Liu, home" data-wordmark>lucy liu</a>
     <div class="cv-nav-links">
       <a href="work.html" class="cv-nav-link">all work</a>
       <a href="index.html#about" class="cv-nav-link">about</a>
@@ -76,7 +80,7 @@
 
       <p class="cv-switch">
         This is the full CV. If you want the short version, the
-        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">one-page resume (PDF) &#8599;</a>
+        <a href="assets/Lucy_Liu_Resume.pdf" target="_blank" rel="noopener noreferrer">one-page resume (PDF) &#8599;</a>
         covers education, experience, four projects, and skills.
       </p>
     </header>

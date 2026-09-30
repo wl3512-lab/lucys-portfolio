@@ -48,7 +48,7 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   font-size: clamp(44px, 8vw, 88px); line-height: var(--lh-tight);
   letter-spacing: -0.03em; margin-bottom: 14px;
 }
-.cv-name em { font-style: italic; color: var(--fg-accent); }
+.cv-name em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cv-roles {
   font-size: clamp(16px, 2.2vw, 21px); line-height: var(--lh-snug);
   color: var(--fg2); max-width: 32ch; margin-bottom: 26px;
@@ -104,7 +104,7 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   font-size: clamp(19px, 2.4vw, 24px); line-height: var(--lh-snug);
   letter-spacing: -0.015em;
 }
-.cv-entry-title em { font-style: italic; color: var(--fg-accent); }
+.cv-entry-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cv-entry-date {
   font-family: var(--font-code); font-size: var(--text-xs);
   letter-spacing: 0.06em; color: var(--fg3); white-space: nowrap;
@@ -185,7 +185,7 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   .cv-entry { break-inside: avoid; }
   .cv-points li, .cv-ledger-v, .cv-entry-sub { color: #333333; }
   .cv-name, .cv-entry-title strong, .cv-points strong, .cv-ledger-v strong { color: #101010; }
-  .cv-name em, .cv-entry-title em { color: #101010; }
+  .cv-name em, .cv-entry-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   a { color: inherit; }
 }
 

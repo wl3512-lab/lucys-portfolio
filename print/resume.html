@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lucy Liu, Resume</title>
+<meta name="robots" content="noindex" />
+<!--
+  Print source for the designed one-page resume, set in lucyliu.xyz's identity
+  (Syne / DM Sans / Space Mono, the site's numbered mono labels, light-theme accent)
+  on white paper. Lives in print/ so deploy.sh, which ships only root-level *.html,
+  never publishes it as a page: the resume is a PDF, never a page.
+  Single column of live text in reading order, so parsers read it cleanly.
+  Export (from ui_kits/portfolio):
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+      --no-pdf-header-footer --virtual-time-budget=8000 \
+      --print-to-pdf="$PWD/assets/Lucy_Liu_Resume.pdf" "file://$PWD/print/resume.html"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+
+  :root {
+    /* Light-theme values from colors_and_type.css, fixed for paper. */
+    --paper: #FFFFFF;
+    --ink: #0B1330;
+    --ink-2: #3A4260;
+    --ink-3: #5A6A8C;
+    --accent: #1552B8;
+    --rule: #D5DEEE;
+    --rule-strong: #1552B8;
+    --font-display: 'Syne', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-code: 'Space Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); }
+  body {
+    width: 8.5in;
+    padding: 0.38in 0.5in 0.21in;  /* bottom trimmed from 0.3in to fit the AI skills row */
+    color: var(--ink-2);
+    font-family: var(--font-body);
+    font-size: 8.1pt; line-height: 1.27;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+  p, li { text-wrap: pretty; }
+
+  /* ── MASTHEAD: name left, portfolio link given the weight it earns on the right ── */
+  .head {
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 24px;
+    padding-bottom: 8pt; border-bottom: 1.5pt solid var(--ink);
+  }
+  .name {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 25pt; line-height: 0.95; letter-spacing: -0.03em; color: var(--ink);
+  }
+  .role {
+    margin-top: 4pt;
+    font-family: var(--font-display); font-weight: 600; font-size: 10.5pt;
+    letter-spacing: -0.005em; color: var(--ink);
+  }
+  .pitch { margin-top: 1.5pt; font-size: 8.8pt; color: var(--ink-3); }
+  .folio { text-align: right; }
+  .folio-label {
+    display: block; font-family: var(--font-code); font-size: 6.4pt;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 3pt;
+  }
+  .folio-link {
+    font-family: var(--font-display); font-weight: 700; font-size: 15pt;
+    letter-spacing: -0.02em; color: var(--accent);
+  }
+  .folio-link span { font-weight: 500; }
+
+  .contact {
+    margin-top: 4pt; line-height: 1.55;
+    font-family: var(--font-code); font-size: 6.7pt; letter-spacing: 0.01em; color: var(--ink-3);
+  }
+  .contact a { color: var(--ink-2); }
+
+  /* ── SECTIONS: numbered mono label in a left rail, as on the site ── */
+  .sec { margin-top: 9pt; }
+  .sec-label {
+    display: flex; align-items: center; gap: 7pt; margin-bottom: 5pt;
+    font-family: var(--font-code); font-size: 6.6pt; font-weight: 400; line-height: 1;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  }
+  .sec-label b { font-weight: 700; color: var(--accent); }
+  .sec-label::after { content: ''; flex: 1; height: 0.75pt; background: var(--rule); }
+
+  .entry + .entry { margin-top: 5.5pt; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  .entry-title {
+    font-family: var(--font-display); font-weight: 700; font-size: 9.7pt;
+    letter-spacing: -0.01em; color: var(--ink);
+  }
+  .entry-title .kind { font-weight: 500; color: var(--ink-3); }
+  .date {
+    font-family: var(--font-code); font-size: 6.9pt; letter-spacing: 0.02em;
+    color: var(--ink-3); white-space: nowrap;
+  }
+  .sub { margin-top: 0.5pt; font-size: 8.1pt; color: var(--ink-3); }
+
+  .points { list-style: none; margin-top: 1.5pt; display: grid; gap: 0.8pt; }
+  /* No positioning on the bullets: Chrome paints positioned boxes in a later
+     pass and writes their text to the PDF after everything else, which put
+     every bullet below SKILLS & TOOLS for any parser. The dash is inline. */
+  .points li { padding-left: 10pt; }
+  .points li::before {
+    content: ''; display: inline-block; vertical-align: 0.28em;
+    width: 5pt; height: 0.75pt; margin: 0 5pt 0 -10pt; background: var(--accent);
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 2.5pt 3pt; margin-top: 2.5pt; }
+  .tag {
+    font-family: var(--font-code); font-size: 6.2pt; letter-spacing: 0.02em;
+    color: var(--ink-3); padding: 0.8pt 5pt; border: 0.6pt solid var(--rule); border-radius: 99px;
+  }
+
+  .ledger { display: grid; gap: 1.5pt; }
+  .ledger-row { display: grid; grid-template-columns: 0.72in 1fr; gap: 8pt; }
+  .ledger-k {
+    font-family: var(--font-code); font-size: 6.6pt; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink); padding-top: 1pt;
+  }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div>
+    <h1 class="name">Lucy Liu</h1>
+    <p class="role">Design Engineer · UX Research · Design + Code</p>
+    <p class="pitch">Research, design, and code, shipped by one person.</p>
+  </div>
+  <div class="folio">
+    <span class="folio-label">Portfolio</span>
+    <a class="folio-link" href="https://lucyliu.xyz">lucyliu.xyz <span>↗</span></a>
+    <p class="contact">
+      <a href="mailto:wl3512@nyu.edu">wl3512@nyu.edu</a> · <a href="tel:+17788835388">(778) 883-5388</a><br>
+      <a href="https://www.linkedin.com/in/lucyliuxyz/">linkedin.com/in/lucyliuxyz</a> · New York, NY
+    </p>
+  </div>
+</header>
+
+<section class="sec">
+  <h2 class="sec-label"><b>01</b>Education</h2>
+  <div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">New York University, Tisch School of the Arts</h3>
+        <span class="date">Expected May 2029</span>
+      </div>
+      <p class="sub">BFA, Interactive Media Arts · Minor, Business of Entertainment, Media and Technology (NYU Stern) · Major GPA 3.93</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="sec-label"><b>02</b>Experience</h2>
+  <div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">UX/UI Team Lead</h3>
+        <span class="date">Sep 2026 – Present</span>
+      </div>
+      <p class="sub">AStudio, NYU's student-led design studio · Client: Chance AI · New York, NY</p>
+      <ul class="points">
+        <li>Lead a four-designer team on a semester-long client engagement for Chance AI, a vision-language-model startup, owning the brief, the weekly client meetings, and delivery against the founders' product roadmap.</li>
+        <li>Scope: reposition the brand across social and design a component system for the app's new "visual skills" surface, from competitive audit and direction-setting through high-fidelity Figma components.</li>
+        <li>Run the team's process end to end: research plan, task split, critique cadence, and design reviews with the studio's Adobe professional mentors.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">Resident VJ / Visual Artist</h3>
+        <span class="date">May 2026 – Present</span>
+      </div>
+      <p class="sub">Studio Maison Nur · New York, NY</p>
+      <ul class="points">
+        <li>Hold a weekly Thursday residency performing live audio-reactive visuals for Demon Nights, hosted by DJ Diablo.</li>
+        <li>Built a custom TouchDesigner network projected venue-wide, recalibrating frequency and kick-detection thresholds on-site weekly so visuals track each set in real time.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">Founder &amp; Creative Director</h3>
+        <span class="date">Jun 2024 – Present</span>
+      </div>
+      <p class="sub">Somped (@sompednyc), Licensed Tooth Gem Studio · New York, NY</p>
+      <ul class="points">
+        <li>Founded and operate a licensed cosmetic design studio; designed 80+ bespoke client looks with a referral-driven client base.</li>
+        <li>Built the brand system, booking flow, marketing, and client management process end to end as a solo operator.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="sec-label"><b>03</b>Selected Projects</h2>
+  <div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">HabitaBull <span class="kind">· Gym Habit App · Solo Designer &amp; Developer, Shipped PWA</span></h3>
+        <span class="date">Fall 2023 – 2026</span>
+      </div>
+      <ul class="points">
+        <li>Researched and designed a weightlifting app around the drop-off problem (71–80% quit fitness apps within 3 months): 6 competitor teardowns, 6 interviews, 3 behavioral archetypes, lo-fi flows for 4 core tasks.</li>
+        <li>Rebuilt it in 2026 with Claude Code as an offline-first PWA (Next.js, TypeScript, Supabase): 39 components, 535 tests, AI-assisted week setup, a progression engine that raises load on clean sets and deloads after three misses, 53 lifts with form cues.</li>
+        <li>Designed crew sharing with no accounts or rankings (join by code) and replaced the planned leaderboard with a monthly challenge after live sessions showed ranking beginners contradicted the research.</li>
+        <li>Ran three accessibility audits (WCAG target size, contrast, Apple HIG) and closed 12 findings; now in a live tester wave.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">Driftwood <span class="kind">· AI Ethics Game · Solo Designer &amp; Developer · NYU IMA</span></h3>
+        <span class="date">Spring – Sep 2026</span>
+      </div>
+      <ul class="points">
+        <li>Shipped a 15-minute browser game where players adopt an AI companion with a hidden flaw, notice it, name it, and write the rules that constrain it; the pets read the player's face (locally, disclosed up front) or ask how they feel.</li>
+        <li>Built five companions, each mapped to a real failure mode (reckless advice, sycophancy, gaslighting, hallucination) that fires in one vulnerability mood; a mood-access dial (all / label / none) makes data minimization a visible trade-off.</li>
+        <li>Ran mid-build interviews revealing the chatbot format felt clinical; rebuilt it as a full-screen pixel pet environment, improving session retention.</li>
+        <li>Exhibited as a playable demo at the NYU Bronfman Center and IMA Spring Show 2026 to 100+ visitors; ~76% named their pet's flaw unprompted. Rebuilt Jun–Sep 2026 as an offline PWA with a kiosk mode: no account, key, or server.</li>
+      </ul>
+      <p class="tags"><span class="tag">p5.js</span> <span class="tag">face-api.js</span> <span class="tag">Web Audio API</span> <span class="tag">Web Speech API</span> <span class="tag">Figma</span> <span class="tag">Interaction Design</span> <span class="tag">Usability Testing</span> <span class="tag">AI Safety</span> <span class="tag">Claude Code</span></p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">Eternal Wreckening <span class="kind">· Mobile Horror Game · Interaction Design &amp; Art Direction</span></h3>
+        <span class="date">2024</span>
+      </div>
+      <ul class="points">
+        <li>Designed a 4v1 multiplayer mobile horror game on gyroscope-driven full-body movement, making device orientation the primary input instead of thumb controls.</li>
+        <li>Designed the full UI system (joystick placement, button ergonomics, inventory, wayfinding) around the constraint that both hands control orientation.</li>
+      </ul>
+      <p class="tags"><span class="tag">Figma</span> <span class="tag">Photoshop</span> <span class="tag">InDesign</span> <span class="tag">Gyroscope UX</span> <span class="tag">Game UI</span> <span class="tag">Design Systems</span> <span class="tag">Ergonomics</span> <span class="tag">Art Direction</span></p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3 class="entry-title">H2Know <span class="kind">· IoT Plant Care System · UX Research &amp; Product Design</span></h3>
+        <span class="date">2024</span>
+      </div>
+      <ul class="points">
+        <li>Designed an IoT plant care system pairing Arduino moisture sensors with a companion social app; research drove plant thought bubbles tied to live moisture data, a friend leaderboard, and a rewards loop.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="sec-label"><b>04</b>Skills &amp; Tools</h2>
+  <div class="ledger">
+    <p class="ledger-row"><span class="ledger-k">Design</span><span>Figma, Adobe Creative Suite, TouchDesigner, interactive prototyping, micro-interactions, design systems, WCAG accessibility</span></p>
+    <p class="ledger-row"><span class="ledger-k">Research</span><span>User interviews, usability testing, competitive analysis, personas, user flows, journey mapping, design critique</span></p>
+    <p class="ledger-row"><span class="ledger-k">Technical</span><span>JavaScript, TypeScript, React, Next.js, Supabase, HTML/CSS, p5.js, Python, C++, Arduino, Git, LLM APIs</span></p>
+    <p class="ledger-row"><span class="ledger-k">AI</span><span>Claude Code, Codex, custom agent skills, MCP connectors, scheduled agents</span></p>
+    <p class="ledger-row"><span class="ledger-k">Languages</span><span>English (Native), Mandarin (Native)</span></p>
+  </div>
+</section>
+
+</body>
+</html>
