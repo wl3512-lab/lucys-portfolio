@@ -100,6 +100,8 @@ img { display: block; max-width: 100%; }
 }
 .wa-hero-lede p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; color: var(--fg1); max-width: 40ch; }
 .wa-hero-lede p + p { color: var(--fg2); font-size: clamp(15px, 1.15vw, 17px); }
+/* The answer to "does she just prompt it?", lit for readers who skim. */
+.wa-hero-lede strong { font-weight: 500; color: var(--fg1); }
 
 /* RECEIPT: real numbers */
 .receipt {
@@ -219,6 +221,12 @@ img { display: block; max-width: 100%; }
 .build-link { display: inline-flex; gap: 8px; align-items: center; margin-top: 22px; font-family: var(--font-ui); font-size: 14px; color: var(--fg-accent); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
 .build-link:hover { color: var(--fg1); }
 .build-private { margin-top: 22px; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
+/* What a build does that's worth a second look, numbered like the "never" list. */
+.build-feats { list-style: none; margin-top: 22px; border-top: 1px solid var(--border); counter-reset: feat; }
+.build-feats li { position: relative; padding: 14px 0 14px 36px; border-bottom: 1px solid var(--border); }
+.build-feats li::before { counter-increment: feat; content: '0' counter(feat); position: absolute; left: 0; top: 17px; font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); }
+.build-feats h4 { font-family: var(--font-ui); font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--fg1); }
+.build-feats p { margin-top: 6px; max-width: 52ch; font-size: 15px; line-height: 1.55; color: var(--fg2); }
 
 /* Before sits above after, like the stacked builds: side by side each shot got half a column, too
    small to read the hand-drawn flows or either Driftwood screen. */
@@ -373,8 +381,8 @@ html:has(.zoom[open]) { overflow: hidden; }
     </h1>
     <p class="eyebrow flex-hint" data-flex-hint hidden>Move your cursor through it</p>
     <div class="wa-hero-lede">
-      <p>So were the planner I run my day on, an internship agent, a gym app and a game.</p>
-      <p>I design each one first and write the rules. Claude Code and Codex write most of the code. Then I test it, have one model review the other, and decide what ships.</p>
+      <p>So were the planner I run my day on, an internship agent, a gym app and a game. If you're hiring, that agent may be how I found your posting.</p>
+      <p><strong>AI never writes without me.</strong> I design each one first and write the rules. Claude Code and Codex write most of the code. Then I test it, have one model review the other, and decide what ships.</p>
     </div>
   </header>
 
@@ -562,10 +570,20 @@ html:has(.zoom[open]) { overflow: hidden; }
         <div>
           <p class="build-idx">01 · Daily planner</p>
           <h3>Today</h3>
-          <p class="build-what">A menubar app that turns Gmail, Calendar, Brightspace and Gradescope into one day. A study session opens an AI helper that already knows the assignment.</p>
+          <p class="build-what">Every one of my classes posts homework somewhere different, so I stopped trying to remember where. Today is a menubar app that reads all of it, plus Gmail and my Google Calendar, and lays out one day. A study session opens an AI helper that already knows the assignment.</p>
+          <ol class="build-feats">
+            <li>
+              <h4>Every class, from wherever it posts</h4>
+              <p>One class uses Brightspace, one a schedule spreadsheet, one a GitHub wiki, one its own website, one Discord. I list each class's sources once. Every two hours the planner reads them all and files what it finds under that class, each item tagged with where it came from.</p>
+            </li>
+            <li>
+              <h4>My real Google Calendar, inside it</h4>
+              <p>The Week page shows my Google Calendar with each deadline on the hour it's due. I drag homework onto a free hour and the study block is written back to Google Calendar. Seven days for the overview, or three, enlarged, to read.</p>
+            </li>
+          </ol>
           <dl class="build-facts">
             <div class="fact"><dt>The rule</dt><dd>The helper gets the assignment it was opened for and nothing else from my planner.</dd></div>
-            <div class="fact"><dt>Proof</dt><dd>Ten written plans, one reviewed by Codex before the build; 35 test files.</dd></div>
+            <div class="fact"><dt>Proof</dt><dd>Ten written plans, one reviewed by Codex before the build; 30 test files.</dd></div>
             <div class="fact"><dt>Note</dt><dd>Screenshots use an invented student. Nothing here is mine.</dd></div>
           </dl>
           <p class="build-private">Private · runs on my laptop</p>
@@ -610,7 +628,7 @@ html:has(.zoom[open]) { overflow: hidden; }
         <div>
           <p class="build-idx">03 · HabitaBull</p>
           <h3>HabitaBull</h3>
-          <p class="build-what">A gym habit app for people who keep stopping. Rebuilt in 2026 with Claude Code as an offline web app: no account, and your history never leaves your phone.</p>
+          <p class="build-what">A gym habit app for people who keep stopping. I'm still learning to code, and in 2026 I rebuilt it with Claude Code as a complete, working app. It runs offline with no account, and your history never leaves your phone.</p>
           <dl class="build-facts">
             <div class="fact"><dt>Made first</dt><dd>Low-fi flows I drew by hand in Photoshop. The shipped welcome screen still asks the same first question.</dd></div>
             <div class="fact"><dt>The rule</dt><dd>The bull notices you were gone and never punishes you for it. The list of things he is banned from saying lives in the code.</dd></div>
@@ -681,6 +699,7 @@ html:has(.zoom[open]) { overflow: hidden; }
           <li>Publish anything.<span>It drafts LinkedIn posts; I post them, or don't.</span></li>
           <li>Act outward without asking.<span>Anything that leaves my laptop waits for a yes.</span></li>
           <li>Have the last word on design.<span>It builds from my designs, and when something doesn't look right to me, I overrule it.</span></li>
+          <li>Do my reading.<span>I don't use it to summarize articles and readings. I read them myself.</span></li>
         </ol>
       </div>
     </div>
