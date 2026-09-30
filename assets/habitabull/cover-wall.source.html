@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- HabitaBull cover, screen-wall version (2026-09-29). Real app screens from app/, tilted and staggered
+     on the terracotta field. Export:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
+       --window-size=2448,1584 --virtual-time-budget=8000 --screenshot=cover-wall.png "file://$PWD/cover-wall.source.html" -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap">
+<style>
+html,body{margin:0;background:#d57e5c}
+.cover{position:relative;width:2448px;height:1584px;overflow:hidden;font-family:'Barlow',sans-serif;color:#16181d;
+  background:
+    radial-gradient(1400px 1100px at 12% 18%, #e0906f 0%, transparent 70%),
+    radial-gradient(1200px 900px at 92% 96%, #c46d4c 0%, transparent 70%),
+    #d57e5c}
+/* fine grain so the flat field reads as printed, not filled */
+.cover::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .08  0 0 0 0 .07  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+.wall{position:absolute;left:1050px;top:-330px;display:flex;gap:44px;transform:rotate(-14deg);transform-origin:0 0}
+.col{display:flex;flex-direction:column;gap:44px}
+.col:nth-child(1){margin-top:300px}
+.col:nth-child(2){margin-top:40px}
+.col:nth-child(3){margin-top:470px}
+.col:nth-child(4){margin-top:150px}
+.ph{width:356px;height:771px;border-radius:52px;background:#0e1013;padding:10px;box-sizing:border-box;
+  box-shadow:0 2px 0 rgba(255,255,255,.08) inset, 0 60px 90px -30px rgba(60,22,8,.55), 0 18px 30px -12px rgba(60,22,8,.35)}
+.ph img{width:100%;height:100%;display:block;border-radius:42px;object-fit:cover;object-position:top}
+
+.copy{position:absolute;left:144px;top:0;bottom:0;width:820px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-family:'Barlow Condensed';font-weight:600;font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:#16181d;opacity:.72;margin-bottom:56px}
+.icon{width:132px;height:132px;border-radius:32px;background:#16181d;display:flex;align-items:center;justify-content:center;margin-bottom:52px;
+  box-shadow:0 30px 50px -20px rgba(60,22,8,.55)}
+/* Reverse the app mark for a dark cover tile; screen removes its original field. */
+.icon img{width:100%;height:100%;display:block;border-radius:inherit;filter:grayscale(1) invert(1) contrast(8);mix-blend-mode:screen}
+.name{font-family:'Barlow Condensed';font-weight:700;font-size:250px;line-height:.84;letter-spacing:-.02em;margin:0 0 48px -10px}
+.tag{font-size:48px;line-height:1.3;font-weight:500;margin:0 0 72px;max-width:780px}
+.meta{display:flex;gap:16px;flex-wrap:wrap}
+.pill{font-family:'Barlow Condensed';font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;padding:16px 26px;border-radius:999px;border:2px solid rgba(22,24,29,.55)}
+.pill.on{background:#16181d;border-color:#16181d;color:#f4f6f7}
+</style></head><body>
+<div class="cover">
+  <div class="wall">
+    <div class="col">
+      <div class="ph"><img src="app/02-onboarding-why.png"></div>
+      <div class="ph"><img src="app/00-welcome.png"></div>
+      <div class="ph"><img src="app/10-crew.png"></div>
+    </div>
+    <div class="col">
+      <div class="ph"><img src="app/01-today.png"></div>
+      <div class="ph"><img src="app/04-logging.png"></div>
+      <div class="ph"><img src="app/04c-set-logged-best.png"></div>
+    </div>
+    <div class="col">
+      <div class="ph"><img src="app/06-pr-celebration.png"></div>
+      <div class="ph"><img src="app/08-progress.png"></div>
+      <div class="ph"><img src="app/05-rest-timer.png"></div>
+    </div>
+    <div class="col">
+      <div class="ph"><img src="app/09-bull-coach.png"></div>
+      <div class="ph"><img src="app/03-week-setup.png"></div>
+      <div class="ph"><img src="app/01b-arrival-rest.png"></div>
+    </div>
+  </div>
+  <div class="copy">
+    <div class="eyebrow">Case study &nbsp;·&nbsp; 2023 study, 2026 build</div>
+    <div class="icon"><img src="icon-512.png" alt="HabitaBull app logo" width="512" height="512"></div>
+    <div class="name">HabitaBull</div>
+    <p class="tag">A gym companion for when you keep losing the habit by week three.</p>
+    <div class="meta"><span class="pill">6 interviews</span><span class="pill">6-app audit</span><span class="pill on">Installable PWA</span></div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap">
+<style>
+html,body{margin:0;background:#16181d}
+.cover{position:relative;width:2448px;height:1584px;background:#16181d;overflow:hidden;color:#f4f6f7;font-family:'Barlow',sans-serif}
+.field{position:absolute;right:0;top:0;bottom:0;width:1180px;background:#d57e5c}
+.field::before{content:'';position:absolute;left:-2px;top:0;bottom:0;width:2px;background:#333a45}
+.bull{position:absolute;right:120px;bottom:0;height:1280px;filter:drop-shadow(0 60px 80px rgba(14,16,19,.35))}
+.eyebrow{position:absolute;left:144px;top:144px;font-family:'Barlow Condensed';font-weight:600;font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:#9aa3ae}
+.eyebrow b{color:#b8b898;font-weight:600}
+.name{position:absolute;left:132px;top:440px;font-family:'Barlow Condensed';font-weight:700;font-size:270px;line-height:.86;letter-spacing:-.02em;color:#f4f6f7;white-space:nowrap}
+.tag{position:absolute;left:144px;top:760px;width:1000px;font-size:46px;line-height:1.35;color:#f4f6f7;font-weight:400}
+.tag em{font-style:normal;color:#9aa3ae}
+.meta{position:absolute;left:144px;bottom:130px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;width:1080px}
+.pill{font-family:'Barlow Condensed';font-weight:600;font-size:30px;letter-spacing:.14em;text-transform:uppercase;padding:18px 28px;border-radius:1998px;border:2px solid #6a788f;color:#f4f6f7}
+.pill.on{background:#6bb88d;border-color:#6bb88d;color:#16181d}
+.week{position:absolute;left:144px;top:1010px;display:flex;gap:24px}
+.d{width:76px;height:76px;border-radius:50%;border:3px solid #6a788f;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:600;font-size:28px;color:#9aa3ae}
+.d.done{background:#6bb88d;border-color:#6bb88d;color:#16181d}
+.d.today{border-color:#f4f6f7;color:#f4f6f7}
+.d.next{border-color:#d57e5c;color:#d57e5c}
+.by{position:absolute;right:1120px;bottom:144px;font-family:'Barlow Condensed';font-weight:600;font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:#9aa3ae}
+</style></head><body>
+<div class="cover">
+  <div class="field"></div>
+  <img class="bull" src="mascot.png" alt="">
+  <div class="eyebrow">Case study &nbsp;·&nbsp; <b>2023 study, 2026 build</b></div>
+  <div class="name">HabitaBull</div>
+  <div class="tag">A gym companion for when you keep losing the habit by week three. <em>Interviews and an app audit in 2023; designed, built and shipped in 2026.</em></div>
+  <div class="week"><div class="d">S</div><div class="d done">M</div><div class="d">T</div><div class="d today">W</div><div class="d">T</div><div class="d next">F</div><div class="d">S</div></div>
+  <div class="meta"><span class="pill">UX research · 6 interviews</span><span class="pill">6-app audit</span><span class="pill on">Installable PWA</span><span class="pill">Next.js · Supabase</span><span class="pill">Designer and developer</span></div>
+</div>
+</body></html>
