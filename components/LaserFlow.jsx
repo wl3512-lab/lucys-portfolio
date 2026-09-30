@@ -298,7 +298,7 @@ function LaserFlow(props) {
       preserveDrawingBuffer: false, failIfMajorPerformanceCaveat: false
     });
 
-    const baseDpr = Math.min(dpr || window.devicePixelRatio || 1, 2);
+    const baseDpr = Math.min(dpr || window.devicePixelRatio || 1, 1.5);
     let curDpr = baseDpr;
     renderer.setPixelRatio(curDpr);
     renderer.shadowMap.enabled = false;

@@ -149,7 +149,10 @@ class AT_AsciiFilter {
       }
       str += '\n';
     }
-    this.pre.innerHTML = str;
+    if (str !== this.lastText) {
+      this.pre.textContent = str;
+      this.lastText = str;
+    }
   }
 
   dispose() {}
@@ -297,17 +300,29 @@ class AT_CanvAscii {
   }
 
   animate() {
+    // Only render while on screen and the tab is visible: this used to run a Three.js
+    // frame forever once mounted, even with the heading scrolled far away.
+    const self = this;
+    this.inView = true;
+    this.paused = document.hidden;
     const loop = () => {
-      this.animationFrameId = requestAnimationFrame(loop);
-      this.render();
+      self.animationFrameId = requestAnimationFrame(loop);
+      if (self.paused || !self.inView) return;
+      self.render();
     };
+    if (typeof IntersectionObserver !== 'undefined' && this.container) {
+      this.io = new IntersectionObserver((entries) => { self.inView = entries[0] ? entries[0].isIntersecting : true; }, { threshold: 0 });
+      this.io.observe(this.container);
+    }
+    this.onVis = () => { self.paused = document.hidden; };
+    document.addEventListener('visibilitychange', this.onVis, { passive: true });
     loop();
   }
 
   render() {
     const time = new Date().getTime() * 0.001;
-    this.textCanvas.render();
-    this.texture.needsUpdate = true;
+    // The text texture is static and was uploaded in setMesh().
+    // Rotation and waves only change the mesh uniforms, not the source lettering.
     this.mesh.material.uniforms.uTime.value = Math.sin(time);
     if (!this.reduced) this.updateRotation();
     this.filter.render(this.scene, this.camera);
@@ -332,6 +347,8 @@ class AT_CanvAscii {
 
   dispose() {
     cancelAnimationFrame(this.animationFrameId);
+    if (this.io) this.io.disconnect();
+    if (this.onVis) document.removeEventListener('visibilitychange', this.onVis);
     if (this.filter) {
       this.filter.dispose();
       if (this.filter.domElement.parentNode) {

@@ -116,7 +116,7 @@ function Aurora(props) {
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, premultipliedAlpha: true, antialias: true, powerPreference: 'low-power' });
     } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.5));
     renderer.setClearColor(0x000000, 0);
 
     scene = new THREE.Scene();

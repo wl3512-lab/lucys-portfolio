@@ -253,7 +253,10 @@ void main() {
     var reduced = ftReducedMotion();
     // Cap DPR at 1.5: on a 2x/3x retina display, full DPR renders 4-9x the pixels for a
     // soft digit-rain effect that doesn't need it — 1.5 nearly halves GPU load on the hero.
-    var dpr = Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.5);
+    // The effect is a coarse digit grid, so DPR 1 is visually identical and renders 2.25x
+    // fewer fragments than 1.5 on a retina display.
+    var mobile = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+    var dpr = mobile ? 0.65 : 1;
 
     var scale = num(opts.scale, 1);
     var gridMul = opts.gridMul || [2, 1];
@@ -354,9 +357,12 @@ void main() {
     var timeOffset = Math.random() * 100;
     var loadStart = performance.now();
 
+    var lastFrame = 0;
     function frame(t) {
       if (disposed) return;
       raf = requestAnimationFrame(frame);
+      if (document.hidden || (mobile && t - lastFrame < 1000 / 24)) return;
+      lastFrame = t;
       uniforms.iTime.value = (t * 0.001 + timeOffset) * timeScale;
       if (!reduced) {
         if (animateLoad) uniforms.uPageLoadProgress.value = Math.min((t - loadStart) / 2000, 1);

@@ -13,24 +13,32 @@ function FaultyTerminal(props) {
 
   useEffect(function () {
     if (!ref.current || typeof window.FaultyTerminalMount !== 'function') return;
-    const dispose = window.FaultyTerminalMount(ref.current, {
-      scale: p.scale,
-      gridMul: p.gridMul,
-      digitSize: p.digitSize,
-      timeScale: p.timeScale,
-      scanlineIntensity: p.scanlineIntensity,
-      glitchAmount: p.glitchAmount,
-      flickerAmount: p.flickerAmount,
-      noiseAmp: p.noiseAmp,
-      chromaticAberration: p.chromaticAberration,
-      dither: p.dither,
-      curvature: p.curvature,
-      tint: p.tint,
-      mouseReact: p.mouseReact,
-      mouseStrength: p.mouseStrength,
-      brightness: p.brightness
-    });
-    return dispose;
+    let dispose;
+    function mount() {
+      dispose = window.FaultyTerminalMount(ref.current, {
+        scale: p.scale,
+        gridMul: p.gridMul,
+        digitSize: p.digitSize,
+        timeScale: p.timeScale,
+        scanlineIntensity: p.scanlineIntensity,
+        glitchAmount: p.glitchAmount,
+        flickerAmount: p.flickerAmount,
+        noiseAmp: p.noiseAmp,
+        chromaticAberration: p.chromaticAberration,
+        dither: p.dither,
+        curvature: p.curvature,
+        tint: p.tint,
+        mouseReact: p.mouseReact,
+        mouseStrength: p.mouseStrength,
+        brightness: p.brightness
+      });
+    }
+    if (document.body.classList.contains('loader-done') || !document.getElementById('ll-loader')) mount();
+    else window.addEventListener('loader:exit', mount, { once: true });
+    return function () {
+      window.removeEventListener('loader:exit', mount);
+      if (dispose) dispose();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.scale, p.digitSize, p.timeScale, p.scanlineIntensity, p.glitchAmount,
       p.flickerAmount, p.noiseAmp, p.chromaticAberration, p.dither, p.curvature,
