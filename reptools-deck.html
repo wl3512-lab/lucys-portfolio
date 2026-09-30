@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rep.tools | Project summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--ground:#0b0d10;--ink:#f2f5f7;--muted:#aeb7c2;--cyan:#22e6ff;--rule:#32383f;--display:"Anton","Arial Narrow",Impact,sans-serif;--mono:"Space Mono",monospace;--body:"Inter",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#171b21;color:var(--ink);font-family:var(--body)}
+.summary{width:2448px;height:1584px;margin:24px auto;padding:90px 104px 64px;background:var(--ground);display:flex;flex-direction:column;zoom:var(--fit,1)}
+.topline,footer,.label{font:24px var(--mono);text-transform:uppercase;letter-spacing:.1em}.topline{display:flex;justify-content:space-between;color:var(--muted);padding-bottom:30px;border-bottom:2px solid var(--rule)}.topline strong{color:var(--cyan);font-weight:400}
+header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding:48px 0 46px}h1{font:190px/.95 var(--display);text-transform:uppercase;margin:0;letter-spacing:-.025em}h1 span{color:var(--cyan)}.intro h2{font:62px/1.05 var(--display);text-transform:uppercase;margin:0 0 20px}.intro p{font-size:28px;line-height:1.5;color:var(--muted);margin:0;max-width:1050px}
+.content{display:grid;grid-template-columns:530px 1fr;gap:64px;flex:1;min-height:0}.brief{padding-right:40px;border-right:2px solid var(--rule)}.label{color:var(--cyan);margin:0 0 16px}.brief p:not(.label){font-size:26px;line-height:1.4;color:var(--muted);margin:0 0 24px}.brief strong{color:var(--ink);font-weight:500}.scope{border-top:2px solid var(--rule);padding-top:24px}.scope p:not(.label){font-size:23px;margin-bottom:0}
+.visuals{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-content:start}figure{margin:0;min-width:0}figcaption{display:flex;align-items:center;gap:18px;font:22px var(--mono);color:var(--muted);margin:0 0 18px}.badge{color:var(--ink);border:2px solid var(--rule);padding:8px 14px;text-transform:uppercase}.after .badge{background:var(--cyan);border-color:var(--cyan);color:var(--ground)}.screenshot{height:550px;overflow:hidden;border:2px solid var(--rule);background:#171b21}.screenshot img{display:block;width:100%;height:auto}.after .screenshot img{margin-top:-190px}.caption{font-size:25px;line-height:1.4;margin:18px 0 0;color:var(--muted)}
+.decisions{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:22px;border-top:2px solid var(--rule);padding-top:27px}.decision h3{font:32px/1.1 var(--display);text-transform:uppercase;margin:0 0 14px}.decision h3 span{font:20px var(--mono);color:var(--cyan);margin-right:12px}.decision p{font-size:24px;line-height:1.45;color:var(--muted);margin:0}
+footer{display:flex;justify-content:space-between;align-items:center;padding-top:24px;margin-top:32px;border-top:2px solid var(--rule);font-size:21px;color:var(--muted)}a{color:inherit;text-decoration:none}footer a{color:var(--cyan)}
+@media screen and (max-width:700px){.summary{width:auto;height:auto;margin:12px;padding:28px;zoom:1}.topline{font-size:10px;gap:16px;padding-bottom:20px}header{grid-template-columns:1fr;gap:24px;padding:28px 0}h1{font-size:88px}.intro h2{font-size:34px}.intro p,.brief p:not(.label){font-size:16px}.content{grid-template-columns:1fr;gap:28px}.brief{padding:0;border:0}.label{font-size:12px}.brief p:not(.label){margin-bottom:20px}.visuals{gap:22px;grid-template-columns:1fr}figcaption{font-size:11px}.screenshot{height:auto;max-height:380px}.after .screenshot img{margin-top:0}.caption{font-size:14px}.decisions{grid-template-columns:1fr;gap:24px;margin-top:4px}.decision h3{font-size:24px}.decision p{font-size:16px}footer{font-size:10px;gap:18px;flex-wrap:wrap;margin-top:28px}}
+@media print{@page{size:2448px 1584px;margin:0}html,body{background:var(--ground);print-color-adjust:exact;-webkit-print-color-adjust:exact}.summary{margin:0;zoom:1}}
+</style>
+</head>
+<body>
+<main class="summary">
+<div class="topline"><strong>rep.tools / Project summary</strong><span>Brand · UX / IA · Frontend</span><span>Lucy Liu / 2026</span></div>
+<header><h1>rep<span>.</span>tools</h1><div class="intro"><h2>From landing page<br>to browsable storefront.</h2><p>A brand and experience redesign for a replica-fashion toolkit, bringing its growing catalogue to the front and giving its utilities one coherent home.</p></div></header>
+<div class="content">
+<aside class="brief">
+<p class="label">The problem</p><p>The catalogue had grown to <strong>6,900+ items</strong>, but the homepage still pitched the product. Visitors had to click through to reach what they came to browse.</p>
+<p class="label">The response</p><p><strong>Make the homepage the catalogue.</strong> Put browsing first, design for visitors arriving on phones, and pair a streetwear identity with clear, readable logistics data.</p>
+<p class="label">My contribution</p><p>Brand identity, information architecture, responsive interface design and frontend implementation. The founder built and maintains the product.</p>
+<div class="scope"><p class="label">Delivery</p><p>38 files updated. One shared stylesheet and reusable navigation and footer. Impact measurement is the next step.</p></div>
+</aside>
+<div class="visuals">
+<figure><figcaption><span class="badge">Before</span>Marketing-led homepage</figcaption><div class="screenshot"><img src="assets/reptools/before-home.webp" alt="Original rep.tools homepage with a promotional hero and category tiles."></div><p class="caption">The catalogue sat behind “Browse Products.”</p></figure>
+<figure class="after"><figcaption><span class="badge">After</span>Catalogue-first homepage</figcaption><div class="screenshot"><img src="assets/reptools/after-home.webp" alt="Redesigned rep.tools homepage with visible product rows and category navigation."></div><p class="caption">Products and categories become the starting point.</p></figure>
+<div class="decisions">
+<section class="decision"><h3><span>01</span>Browse immediately</h3><p>Scrollable category rows, visible counts and filters put the catalogue within reach on mobile.</p></section>
+<section class="decision"><h3><span>02</span>Speak the culture</h3><p>Condensed poster type, cyan and hard edges establish the identity; mono keeps data legible.</p></section>
+<section class="decision"><h3><span>03</span>Unify the toolkit</h3><p>Tracking, QC photos, converters, calculators and search come together in one tabbed surface.</p></section>
+</div>
+</div>
+</div>
+<footer><span>Brand & experience redesign</span><a href="https://lucyliu.xyz/reptools.html">Full case study / lucyliu.xyz/reptools.html ↗</a><span>wl3512@nyu.edu</span></footer>
+</main>
+<script>function fit(){document.documentElement.style.setProperty('--fit',window.innerWidth<=700?1:Math.min(1,(window.innerWidth-48)/2448))}fit();window.addEventListener('resize',fit);</script>
+</body>
+</html>

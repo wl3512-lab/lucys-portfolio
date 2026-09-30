@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HabitaBull Lifting Cover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #050710; }
+body {
+  display: grid;
+  place-items: center;
+  font-family: "Barlow", system-ui, sans-serif;
+  color: #f7f8f3;
+}
+.cover {
+  position: relative;
+  width: 2448px;
+  height: 1584px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, #14181f 0 51%, transparent 51%),
+    linear-gradient(90deg, transparent 0 51%, #d77d58 51% 100%);
+  isolation: isolate;
+}
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(247, 248, 243, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247, 248, 243, 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(90deg, #000 0 56%, transparent 76%);
+  pointer-events: none;
+  z-index: 0;
+}
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 24%, rgba(120, 206, 161, 0.16), transparent 28%),
+    radial-gradient(circle at 72% 32%, rgba(20, 24, 31, 0.2), transparent 34%),
+    linear-gradient(180deg, transparent 55%, rgba(5, 7, 16, 0.22));
+  pointer-events: none;
+  z-index: 1;
+}
+.left {
+  position: absolute;
+  left: 144px;
+  top: 144px;
+  bottom: 144px;
+  width: 965px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+.eyebrow {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a8bcc8;
+  font-weight: 700;
+}
+.eyebrow strong {
+  color: #d9d7bb;
+  font-weight: 700;
+}
+h1 {
+  margin: 132px 0 0;
+  color: #f7f8f3;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 238px;
+  line-height: 0.78;
+  letter-spacing: 0;
+  font-weight: 800;
+  text-transform: none;
+}
+h1 span {
+  display: block;
+  color: #78cea1;
+}
+.dek {
+  width: 900px;
+  margin: 56px 0 0;
+  font-size: 50px;
+  line-height: 1.16;
+  color: #f3f5f0;
+  font-weight: 500;
+}
+.dek span { color: #9aa3b3; }
+/* bottom group: anchored, separated from the title group by whatever space is left */
+.method {
+  margin: auto 0 0;
+  padding: 0;
+  border-top: 2px solid rgba(168, 188, 200, 0.16);
+}
+.method div {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  column-gap: 40px;
+  align-items: baseline;
+  padding: 34px 0 32px;
+  border-bottom: 2px solid rgba(168, 188, 200, 0.16);
+}
+.method dt {
+  margin: 0;
+  color: #f19165;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.method dd {
+  margin: 0;
+  color: #f7f8f3;
+  font-size: 38px;
+  line-height: 1.22;
+  font-weight: 500;
+}
+.method dd em {
+  font-style: normal;
+  color: #78cea1;
+  font-weight: 600;
+}
+.method dd small {
+  display: block;
+  margin-top: 4px;
+  font-size: 28px;
+  color: #9aa3b3;
+  font-weight: 400;
+}
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 51%;
+  width: 4px;
+  background: rgba(20, 24, 31, 0.72);
+  z-index: 4;
+}
+.phone-stage {
+  position: absolute;
+  right: 112px;
+  top: 104px;
+  bottom: 86px;
+  width: 1100px;
+  z-index: 3;
+}
+.phone {
+  position: absolute;
+  width: 410px;
+  border-radius: 54px;
+  overflow: hidden;
+  background: #11151d;
+  border: 8px solid #11151d;
+  box-shadow: 0 38px 80px rgba(17, 21, 29, 0.28);
+}
+.phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.phone.one {
+  left: 96px;
+  top: 300px;
+  width: 420px;
+  transform: rotate(-6deg);
+}
+.phone.two {
+  left: 560px;
+  top: 36px;
+  width: 440px;
+  transform: rotate(3deg);
+  z-index: 2;
+}
+.phone.three {
+  right: 34px;
+  top: 470px;
+  width: 356px;
+  transform: rotate(7deg);
+}
+.mascot {
+  position: absolute;
+  right: 84px;
+  bottom: -36px;
+  width: 340px;
+  height: auto;
+  z-index: 4;
+  filter: drop-shadow(0 22px 34px rgba(17, 21, 29, 0.22));
+}
+.cover { zoom: var(--fit, 1); }
+</style>
+</head>
+<body>
+  <script>
+    (function fit() {
+      var f = Math.min(1, window.innerWidth / 2448);
+      document.documentElement.style.setProperty('--fit', f);
+      window.addEventListener('resize', fit, { once: true });
+    })();
+  </script>
+  <main class="cover" aria-label="HabitaBull Lifting cover page">
+    <section class="left">
+      <div class="eyebrow">case study / <strong>2023 study, 2026 build</strong></div>
+      <h1>HabitaBull <span>Lifting</span></h1>
+      <p class="dek">A gym companion for when you keep losing the habit by week three.</p>
+      <dl class="method" aria-label="How the project was made">
+        <div><dt>Research</dt><dd>6 interviews, 3 cohorts, Vancouver</dd></div>
+        <div><dt>Audit</dt><dd>6 fitness apps and <em>I Am Sober</em></dd></div>
+        <div><dt>Build</dt><dd>Installable PWA, 3 accessibility audits</dd></div>
+      </dl>
+    </section>
+    <div class="divider" aria-hidden="true"></div>
+    <section class="phone-stage" aria-label="HabitaBull app screens">
+      <figure class="phone one">
+        <img src="assets/habitabull/app/02-onboarding-why.png" alt="HabitaBull onboarding screen asking why do you lift, borrowed from I Am Sober" width="780" height="1688" />
+      </figure>
+      <figure class="phone two">
+        <img src="assets/habitabull/app/04-logging.png" alt="HabitaBull back squat set logging screen" width="780" height="1688" />
+      </figure>
+      <img class="mascot" src="assets/habitabull/mascot.png" alt="HabitaBull bull mascot" width="531" height="634" />
+    </section>
+  </main>
+</body>
+</html>

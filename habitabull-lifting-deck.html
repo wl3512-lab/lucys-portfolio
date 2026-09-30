@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HabitaBull Lifting Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* ------------------------------------------------------------------
+   HabitaBull Lifting deck. 2448 x 1584 pages, same system as the cover
+   (habitabull-lifting-cover.html). Export: node shot.js ... or print to
+   PDF with @page below. Palette follows the app's Oxide pass.
+   ------------------------------------------------------------------ */
+:root {
+  --ground: #14181f;
+  --ground-2: #1c2129;
+  --card: #1f232b;
+  --ink: #f7f8f3;
+  --ink-2: #b8c2cc;
+  --ink-3: #8e98a6;
+  --action: #d77d58;
+  --done: #78cea1;
+  --cyan: #8eb4bd;
+  --horn: #d9d7bb;
+  --rule: rgba(168, 188, 200, 0.18);
+  --old-1: #8eb4bd;
+  --old-2: #c1d4d9;
+  --old-3: #361a22;
+  --display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --body: "Barlow", system-ui, sans-serif;
+  --fit: 1;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; background: #050710; }
+body { font-family: var(--body); color: var(--ink); }
+.deck { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; zoom: var(--fit); }
+.slide {
+  position: relative;
+  width: 2448px;
+  height: 1584px;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  padding: 144px 144px 190px;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  counter-increment: page;
+}
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(247, 248, 243, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247, 248, 243, 0.028) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, #000 0 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.slide > * { position: relative; z-index: 1; }
+
+/* folio */
+.folio {
+  position: absolute;
+  left: 144px;
+  right: 144px;
+  bottom: 84px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--display);
+  font-size: 26px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-3);
+  z-index: 2;
+}
+.folio span:last-child::after { content: counter(page, decimal-leading-zero); }
+.divider .folio { color: rgba(20, 24, 31, 0.62); }
+
+/* type */
+.eyebrow {
+  font-family: var(--display);
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--cyan);
+}
+.eyebrow strong { color: var(--horn); font-weight: 700; }
+h1, h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.9;
+  color: var(--ink);
+}
+h2 { font-size: 156px; margin-top: 56px; max-width: 1700px; }
+h2 em { font-style: normal; color: var(--done); }
+h2 .o { color: var(--action); }
+.lede {
+  margin: 56px 0 0;
+  max-width: 1500px;
+  font-size: 50px;
+  line-height: 1.24;
+  font-weight: 500;
+  color: var(--ink);
+}
+.lede span { color: var(--ink-2); }
+.body {
+  margin: 40px 0 0;
+  max-width: 1400px;
+  font-size: 40px;
+  line-height: 1.34;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.body b { color: var(--ink); font-weight: 600; }
+.body p { margin: 0 0 32px; }
+.body p:last-child { margin-bottom: 0; }
+.quote {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.3;
+  font-style: italic;
+  color: var(--ink);
+}
+.quote small { display: block; margin-top: 18px; font-style: normal; font-family: var(--display); font-size: 28px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
+.note { margin-top: auto; font-size: 30px; line-height: 1.4; color: var(--ink-3); max-width: 1500px; }
+.note b { color: var(--ink-2); font-weight: 500; }
+
+/* layouts */
+.split { flex-direction: row; padding: 0; }
+.split .text { width: 51%; padding: 144px 120px 190px 144px; display: flex; flex-direction: column; }
+.split .plate {
+  width: 49%;
+  background: var(--action);
+  display: grid;
+  place-items: center;
+  padding: 120px;
+}
+.split .plate.cool { background: var(--cyan); }
+.split .plate.paper { background: var(--old-2); }
+.split .plate img { width: 100%; height: auto; display: block; border-radius: 28px; box-shadow: 0 40px 90px rgba(17, 21, 29, 0.28); }
+.split .plate img.raw { border-radius: 0; box-shadow: none; }
+.split .plate figcaption {
+  margin-top: 36px;
+  font-family: var(--display);
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(20, 24, 31, 0.62);
+  justify-self: start;
+}
+.split .plate figure { margin: 0; width: 100%; }
+
+.divider { background: var(--action); color: #14181f; justify-content: flex-end; }
+.divider::before { mask-image: none; background-image:
+    linear-gradient(rgba(20, 24, 31, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 24, 31, 0.06) 1px, transparent 1px); }
+.divider .eyebrow { color: rgba(20, 24, 31, 0.62); }
+.divider h2 { color: #14181f; font-size: 260px; margin-top: 40px; }
+.divider .mascot { position: absolute; right: 144px; bottom: -30px; width: 360px; height: auto; }
+.divider .lede { color: rgba(20, 24, 31, 0.78); max-width: 1300px; }
+
+/* definition rows (the cover's method list) */
+.rows { margin: 72px 0 0; padding: 0; border-top: 2px solid var(--rule); max-width: 1900px; }
+.rows > div {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  column-gap: 48px;
+  align-items: baseline;
+  padding: 36px 0 34px;
+  border-bottom: 2px solid var(--rule);
+}
+.rows.wide > div { grid-template-columns: 560px 1fr; }
+.rows dt {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--action);
+}
+.rows dt.g { color: var(--done); }
+.rows dd { margin: 0; font-size: 40px; line-height: 1.3; color: var(--ink); font-weight: 500; }
+.rows dd small { display: block; margin-top: 8px; font-size: 32px; font-weight: 400; color: var(--ink-3); }
+.rows dd em { font-style: italic; color: var(--ink-2); }
+
+.rows.compact > div { padding: 22px 0 20px; }
+.rows.compact dd { font-size: 36px; }
+.rows.compact dd small { font-size: 28px; margin-top: 4px; }
+
+/* two and three column text */
+.cols { display: grid; gap: 96px; margin-top: 88px; }
+.cols.two { grid-template-columns: 1fr 1fr; }
+.cols.three { grid-template-columns: 1fr 1fr 1fr; gap: 72px; }
+.col h3 {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+}
+.col h3 span { color: var(--action); margin-right: 20px; }
+.col p { margin: 0; font-size: 36px; line-height: 1.36; color: var(--ink-2); }
+.col p b { color: var(--ink); font-weight: 600; }
+.col ul { margin: 0; padding: 0; list-style: none; }
+.col li { font-size: 36px; line-height: 1.36; color: var(--ink-2); padding-left: 40px; position: relative; margin-bottom: 14px; }
+.col li::before { content: "·"; position: absolute; left: 6px; color: var(--action); font-weight: 700; }
+
+/* numbered list (findings, HMWs) */
+.numbered { margin: 72px 0 0; padding: 0; list-style: none; counter-reset: n; max-width: 1900px; }
+.numbered li {
+  counter-increment: n;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  column-gap: 40px;
+  align-items: baseline;
+  padding: 30px 0;
+  border-bottom: 2px solid var(--rule);
+  font-size: 44px;
+  line-height: 1.24;
+  font-weight: 500;
+  color: var(--ink);
+}
+.numbered li::before {
+  content: counter(n, decimal-leading-zero);
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--action);
+  letter-spacing: 0.04em;
+}
+.numbered li small { grid-column: 2; display: block; margin-top: 8px; font-size: 32px; font-weight: 400; color: var(--ink-3); font-style: italic; }
+.numbered.compact li { padding: 17px 0; font-size: 40px; }
+.numbered.compact li small { font-size: 29px; margin-top: 4px; }
+
+/* stat pair */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; margin-top: 120px; max-width: 2000px; }
+.stat b { display: block; font-family: var(--display); font-size: 360px; line-height: 0.82; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+.stat b.g { color: var(--done); }
+.stat p { margin: 36px 0 0; font-size: 44px; line-height: 1.3; color: var(--ink-2); max-width: 760px; }
+.stat p b { display: inline; font: inherit; color: var(--ink); font-weight: 600; letter-spacing: 0; }
+
+/* swatches */
+.swatches { display: flex; gap: 20px; margin-top: 40px; }
+.sw { width: 168px; height: 200px; border-radius: 20px; display: flex; align-items: flex-end; padding: 14px; font-family: var(--display); font-size: 22px; letter-spacing: 0.06em; font-weight: 700; color: rgba(247,248,243,0.85); border: 2px solid rgba(247,248,243,0.08); }
+.sw.light { color: rgba(20,24,31,0.7); }
+
+/* phones */
+.phones { display: flex; gap: 72px; align-items: flex-start; justify-content: center; width: 100%; }
+.phones img { width: 380px; height: auto; border-radius: 48px; border: 8px solid #11151d; background: #11151d; box-shadow: 0 38px 80px rgba(17,21,29,0.28); }
+.phones figure { margin: 0; text-align: center; }
+.phones figcaption { margin-top: 26px; font-family: var(--display); font-size: 26px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: rgba(20,24,31,0.62); }
+
+/* plate grid */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 88px; }
+.grid2 figure { margin: 0; }
+.grid2 img { width: 100%; height: auto; display: block; border-radius: 24px; }
+.grid2 figcaption { margin-top: 20px; font-family: var(--display); font-size: 28px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: var(--ink-3); }
+
+.cover-page { padding: 0; }
+.cover-page img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+/* ring charts */
+.rings { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; margin-top: 96px; max-width: 2000px; }
+.ring { display: grid; grid-template-columns: 380px 1fr; column-gap: 56px; align-items: center; }
+.ring .disc {
+  width: 380px; height: 380px; border-radius: 50%;
+  background: conic-gradient(var(--c) calc(var(--v) * 1%), var(--c2, rgba(168,188,200,0.16)) 0 calc(var(--v2, var(--v)) * 1%), rgba(168,188,200,0.16) 0);
+  display: grid; place-items: center;
+}
+.ring .disc::after { content: ""; width: 270px; height: 270px; border-radius: 50%; background: var(--ground); }
+.ring b { display: block; font-family: var(--display); font-size: 176px; line-height: 0.85; font-weight: 800; color: var(--ink); white-space: nowrap; }
+.ring b.g { color: var(--done); }
+.ring p { margin: 24px 0 0; font-size: 40px; line-height: 1.3; color: var(--ink-2); max-width: 620px; }
+.ring p b { display: inline; font: inherit; color: var(--ink); font-weight: 600; }
+
+/* plates with a single tall artifact */
+.split .plate img.tall { width: auto; max-height: 1180px; margin: 0 auto; }
+.split .plate img.icons { width: 520px; }
+.split .plate img.book { width: 560px; border-radius: 12px; }
+.split .plate .cap { margin-top: 36px; font-family: var(--display); font-size: 28px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: rgba(20, 24, 31, 0.62); text-align: center; }
+.split .plate .quote { margin-top: 56px; color: #14181f; font-size: 40px; max-width: 760px; text-align: center; }
+.split .plate .quote small { color: rgba(20,24,31,0.62); }
+.split .plate.brand { display: flex; flex-direction: column; justify-content: center; gap: 40px; }
+.split .plate.brand img { width: 100%; }
+.split .plate.brand .cap { text-align: left; margin-top: 0; }
+
+/* 4-up screens on an orange field */
+.field { background: var(--action); color: #14181f; }
+.field::before { mask-image: none; background-image:
+    linear-gradient(rgba(20, 24, 31, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 24, 31, 0.06) 1px, transparent 1px); }
+.field .eyebrow, .field .folio { color: rgba(20, 24, 31, 0.62); }
+.field h2 { color: #14181f; }
+.field .phones { margin-top: 72px; gap: 56px; justify-content: space-between; }
+/* Body copy and rows on the terracotta ground. `.field` only ever carried a
+   headline and phones before, so the light-on-dark defaults had never met it:
+   --ink-3 on --action computes to about 1.6:1, which is not text. */
+.field .body, .field .body p { color: rgba(20, 24, 31, 0.86); }
+.field .body b { color: #14181f; }
+.field .body em { color: rgba(20, 24, 31, 0.7); }
+.field .quiet, .field .quiet p { color: rgba(20, 24, 31, 0.66); }
+.field .rows, .field .rows > div { border-color: rgba(20, 24, 31, 0.2); }
+.field .rows dt { color: rgba(20, 24, 31, 0.6); }
+.field .rows dd { color: #14181f; }
+.field .rows dd small { color: rgba(20, 24, 31, 0.62); }
+.field figcaption { color: rgba(20, 24, 31, 0.62); }
+.field .phones img { width: 400px; }
+.rows.tight > div { padding: 18px 0 16px; }
+.rows.tight dd { font-size: 34px; }
+.rows.tight dd small { font-size: 27px; margin-top: 2px; }
+.split .text h2 { font-size: 136px; }
+.split .text .rows { max-width: none; }
+.split .text .numbered { max-width: none; }
+.split .text .numbered li { font-size: 38px; padding: 20px 0; }
+.split .text .numbered li small { font-size: 28px; }
+
+
+/* September 2026 competitive review; coordinates follow the approved PDF slides. */
+@font-face { font-family: AuditBarlow; src: url('assets/habitabull/audit-2026/Barlow-Regular.ttf'); font-weight:400; }
+@font-face { font-family: AuditBarlow; src: url('assets/habitabull/audit-2026/Barlow-Medium.ttf'); font-weight:500; }
+@font-face { font-family: AuditDisplay; src: url('assets/habitabull/audit-2026/BarlowCondensed-Bold.ttf'); font-weight:700; }
+@font-face { font-family: AuditDisplay; src: url('assets/habitabull/audit-2026/BarlowCondensed-ExtraBold.ttf'); font-weight:800; }
+.slide.audit-slide { padding:0; }
+.slide.audit-slide::before { display:none; }
+.slide.audit-slide .audit-canvas { position:absolute; inset:0; width:1836px; height:1188px; transform:scale(1.3333333333); transform-origin:top left; font-family:AuditBarlow,sans-serif; }
+.audit-canvas > * { position:absolute; margin:0; }
+.audit-canvas h2 { font-family:AuditDisplay,sans-serif; font-size:101px; font-weight:800; line-height:1.18; }
+.audit-canvas .audit-label { font-family:AuditDisplay,sans-serif; font-weight:700; font-size:25px; letter-spacing:.22em; line-height:1.3; text-transform:uppercase; }
+.audit-canvas a { color:inherit; text-decoration:none; }
+.audit-canvas a:hover { text-decoration:underline; }
+.audit-canvas img { height:auto; display:block; }
+.audit-canvas .audit-row { left:108px; width:738px; height:130px; border-top:1.5px solid #303640; }
+.audit-row > * { position:absolute; margin:0; }
+.audit-row .audit-label { top:16px; width:290px; font-size:23px; color:#d77d58; }
+.audit-row p { left:297px; top:16px; width:445px; font-size:26px; font-weight:500; line-height:1.18; }
+.audit-row small { left:297px; top:88px; width:445px; font-size:24px; line-height:1.18; color:#8e99a6; }
+.audit-canvas .audit-footnote { font-size:22px; line-height:1.18; color:#8e99a6; }
+.audit-slide.audit-orange { background:#d77d58; color:#14181f; }
+.audit-orange .folio { color:#694b3b; }
+.audit-slide .folio { font-family:AuditDisplay,sans-serif; }
+.audit-canvas .audit-lesson { top:314px; width:510px; height:735px; }
+.audit-lesson > * { position:absolute; margin:0; }
+.audit-lesson img { left:121px; top:0; width:250px; }
+.audit-lesson .audit-label { top:565px; font-size:21px; color:#694b3b; }
+.audit-lesson h3 { top:609px; font-family:AuditDisplay,sans-serif; font-size:43px; font-weight:800; line-height:1.18; }
+.audit-lesson p { top:669px; font-size:27px; line-height:1.18; }
+
+@media print {
+  @page { size: 2448px 1584px; margin: 0; }
+  html, body { background: var(--ground); }
+  .deck { gap: 0; padding: 0; zoom: 1; }
+  .slide { page-break-after: always; break-after: page; }
+  /* Quartz (Preview) rasterizes shadows, filters and masked gradients as solid
+     blocks. Print flat: no texture, no shadows. */
+  .slide::before { display: none; }
+  .split .plate img, .phones img, .grid2 img { box-shadow: none; }
+  .divider .mascot, .mascot { filter: none; }
+}
+</style>
+</head>
+<body>
+<script>
+  (function fit() {
+    var f = Math.min(1, (window.innerWidth - 32) / 2448);
+    document.documentElement.style.setProperty('--fit', f);
+    window.addEventListener('resize', fit, { once: true });
+  })();
+</script>
+<main class="deck">
+
+<!-- 01 cover -->
+<section class="slide cover-page" aria-label="Cover">
+  <img src="assets/habitabull/cover-lifting.webp" alt="HabitaBull Lifting cover" width="2448" height="1584" />
+</section>
+
+<!-- 02 the numbers -->
+<section class="slide">
+  <div class="eyebrow">why this project / <strong>retention</strong></div>
+  <h2>Most people quit<br>within three months.</h2>
+  <div class="rings">
+    <div class="ring" style="--v:71;--v2:80;--c:var(--ink);--c2:rgba(247,248,243,0.45)"><div class="disc"></div><div><b>71–80%</b><p>of users <b>abandon their fitness app</b> within 3 months of installing it.</p></div></div>
+    <div class="ring" style="--v:90;--c:var(--done)"><div class="disc"></div><div><b class="g">90%</b><p>of people <b>quit their fitness goals entirely</b> after three months.</p></div></div>
+  </div>
+  <p class="note">Sources from the 2023 deck: Dr. Muscle, fitness app statistics (usage, growth and user engagement); StriveCloud, how Strava keeps its users active and engaged. Retrieved May 2024.</p>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 03 problem statement -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">problem statement</div>
+    <h2>Motivation fades<br>before the habit forms.</h2>
+    <div class="body">
+      <p>Many people begin a workout regimen <b>but lose focus and motivation after a short amount of time.</b></p>
+      <p>Conventional gym apps frequently lack elements for goal-setting and habit-building, which are essential for continuous motivation and long-term involvement. In the absence of functional tools for establishing goals and forming habits, users will encounter difficulties in establishing their exercise routines. This undermines the possible advantages of regular exercise due to high drop-off rates and decreased retention.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-04.png" alt="The 2023 problem statement slide" width="1224" height="792" />
+      <figcaption>Original slide, Fall 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 04 brief -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">project brief</div>
+    <h2>A habit-building partner<br>for people who lift.</h2>
+    <p class="lede" style="font-size:40px;margin-top:36px">Goal-setting, community support, and a reminder of why you started, every time you open the app.</p>
+    <dl class="rows tight">
+      <div><dt>Who</dt><dd>15 to 35 year olds; weightlifters who struggle with discipline; people who want to improve in the gym long term</dd></div>
+      <div><dt>Why lifting</dt><dd>General fitness apps are one-size-fits-all, and beginners' weightlifting is intimidating enough that many people never start</dd></div>
+      <div><dt>2023</dt><dd>Solo designer<small>Figma, InDesign, Photoshop</small></dd></div>
+      <div><dt>2026</dt><dd>Designer and developer<small>Next.js, Supabase, installable PWA, 107 commits</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool">
+    <figure>
+      <img class="tall" src="assets/habitabull/crops/crop-2023-phone.png" alt="2023 concept screen: I workout because I want to be strong and feel good" width="297" height="646" />
+      <div class="cap">2023 concept: your reason, shown back to you</div>
+    </figure>
+  </div>
+</section>
+
+<!-- 05 divider -->
+<section class="slide divider">
+  <div class="eyebrow">part 1</div>
+  <h2>Desk<br>research</h2>
+  <p class="lede">Six fitness apps, one sobriety app, and one book about habits.</p>
+  <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 06 app critique -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">desk research / <strong>app critique</strong></div>
+    <h2>Six apps, four<br>shared problems.</h2>
+    <dl class="rows tight">
+      <div><dt>01</dt><dd>Complex user interface<small>Nike Training Club and Workout Trainer bury workouts under nested menus and unclear navigation</small></dd></div>
+      <div><dt>02</dt><dd>Lack of customization<small>7 Minute Workout and Sworkit ship pre-set routines with no way to adapt to level, preference or goal</small></dd></div>
+      <div><dt>03</dt><dd>Motivation issues<small>Self-motivation is harder in an app than in a class; Zombies, Run! gamification fades with the novelty</small></dd></div>
+      <div><dt>04</dt><dd>Inadequate instruction<small>Workout Trainer and Freeletics give routines without enough guidance on form, raising injury risk</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool">
+    <figure>
+      <img class="icons" src="assets/habitabull/crops/crop-app-icons.png" alt="Icons of the six audited apps" width="320" height="485" />
+      <div class="cap">Sworkit · Nike Training Club · Skimble · Freeletics · 7 Minute Workout · Zombies, Run!</div>
+    </figure>
+  </div>
+</section>
+
+<!-- 07 I Am Sober -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">desk research / <strong>I Am Sober</strong></div>
+    <h2>Sobriety apps keep<br>people for <em>years</em>.</h2>
+    <p class="lede" style="font-size:42px;margin-top:40px">I Am Sober had already solved the retention problem I was working on, with CBT-based behaviour change; it just talked about it in recovery terms.</p>
+    <dl class="rows tight">
+      <div><dt>Support</dt><dd>Coping tips, motivational quotes, daily encouragement<small>Supportive communities matter most for people without internal motivation</small></dd></div>
+      <div><dt>Milestones</dt><dd>Celebrate success; track progress down to the second<small>Goals and milestones show progress from an objective perspective</small></dd></div>
+      <div><dt>Autonomy</dt><dd>Ask <em>why</em> you want it, to separate intrinsic from extrinsic motivation<small>Became the "why do you lift?" screen</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-09.png" alt="How do sobriety apps motivate users: support, milestones, autonomy theory, and takeaways" width="1224" height="792" />
+      <figcaption>How sobriety apps motivate users, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 08 habit building -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">desk research / <strong>habit building</strong></div>
+    <h2>Six features<br>build a habit.</h2>
+    <dl class="rows compact">
+      <div><dt>01</dt><dd>Identify the behaviour you want to establish<small>a consistent workout routine</small></dd></div>
+      <div><dt>02</dt><dd>Establish when you will do it<small>log the days you want to train each week</small></dd></div>
+      <div><dt>03</dt><dd>Be flexible<small>customizable routines, in case of injury</small></dd></div>
+      <div><dt>04</dt><dd>Set a goal<small>shown every time the app opens</small></dd></div>
+      <div><dt>05</dt><dd>Repeat consistently<small>notification reminders</small></dd></div>
+      <div><dt>06</dt><dd>Reward the repetition<small>a gamified experience</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="book" src="assets/habitabull/crops/crop-atomic-habits.png" alt="Atomic Habits by James Clear, book cover" width="360" height="560" style="margin:0 auto" />
+      <blockquote class="quote">"A routine or behavior that is performed regularly, and, in many cases, automatically."<small>James Clear, Atomic Habits (2018)</small></blockquote>
+    </figure>
+  </div>
+</section>
+
+<!-- 09 divider -->
+<section class="slide divider">
+  <div class="eyebrow">part 2</div>
+  <h2>Qualitative<br>research</h2>
+  <p class="lede">Six in-person interviews in Vancouver, three cohorts, one question tree.</p>
+  <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 10 interview design -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">interviews / <strong>design</strong></div>
+    <h2>One question<br>decided the branch.</h2>
+    <div class="body">
+      <p>The purpose was to understand the <b>experiences, motivations and app-specific critiques</b> of people trying to meet physical goals with the workout apps already on the market.</p>
+      <p>Every interview opened with "Do you or have you used workout apps?" and followed a different branch for <b>yes</b>, <b>I used to</b>, and <b>no</b>, so lapsed users could talk about why they stopped and new users about what held them back.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-15.png" alt="Interview question tree with yes, used to, and no branches" width="1224" height="792" />
+      <figcaption>Question tree, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 11 participants -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">interviews / <strong>participants</strong></div>
+    <h2>Six people,<br>three cohorts.</h2>
+    <dl class="rows tight">
+      <div><dt>Used to</dt><dd>Ryder, Cathy, Sofia<small>used gym apps, then stopped</small></dd></div>
+      <div><dt class="g">Uses</dt><dd>Marklin, Miles<small>current gym app users</small></dd></div>
+      <div><dt>Never</dt><dd>Erin<small>has never used one</small></dd></div>
+      <div><dt>Ryder, 17</dt><dd>2 years lifting, 3 times a week<small>tracked progress in a journal</small></dd></div>
+      <div><dt>Miles, 35</dt><dd>20 years lifting, 6 times a week<small>tracks progress in a gym app</small></dd></div>
+      <div><dt>Cathy, 28</dt><dd>4 years lifting, twice a week<small>tracks progress in a to-do list</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-17.png" alt="Interviewees grouped by cohort" width="1224" height="792" />
+      <figcaption>Participants by cohort, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 12 clustering -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">interviews / <strong>insight clustering</strong></div>
+    <h2>Three things<br>everyone said.</h2>
+    <dl class="rows">
+      <div><dt>01</dt><dd>They prefer simple, easy-to-navigate interfaces<small>no distractions on screen; no clutter, payment walls, or intrusive ads</small></dd></div>
+      <div><dt>02</dt><dd>Progress tracking and goal setting keep them engaged<small>they want to see improvement over time, and wish apps offered something new</small></dd></div>
+      <div><dt>03</dt><dd>They are motivated by competition<small>leaderboards or shared goals, and seeing their own improvement</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-18.png" alt="Sticky-note clustering of interview insights across all six participants" width="1224" height="792" />
+      <figcaption>Clustering across all 6 participants</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 13 archetypes -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">interviews / <strong>behavioural archetypes</strong></div>
+    <h2>Who I was<br>designing for.</h2>
+    <dl class="rows">
+      <div><dt class="g">Competitor</dt><dd>Miles. Motivated by competition and rankings; wants community and a seamless interface<small>dislikes touching the phone mid-workout</small></dd></div>
+      <div><dt style="color:var(--horn)">Organizer</dt><dd>Cathy. Minimalist and highly organized; motivated by progress pictures<small>avoids overwhelming or complex interfaces</small></dd></div>
+      <div><dt>Self-disciplinarian</dt><dd>Ryder. Values unique features and a personal touch; motivated by pictures and accountability<small>wants a personalized routine he can build on</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-21.png" alt="Behavioural archetypes: the Competitor, the Organizer, the Self-Disciplinarian" width="1224" height="792" />
+      <figcaption>Archetypes: traits, motivation, needs, challenges</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 14 top findings -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">interviews / <strong>top findings</strong></div>
+    <h2>Six findings from<br>the clustering.</h2>
+    <ol class="numbered compact" style="margin-top:48px">
+      <li>Cluttered and complex interfaces<small>"Nobody wants to be struggling through an app on their rest."</small></li>
+      <li>Lack of personalized goal tracking<small>"I didn't used to track my weights and set, so I could never build from the past."</small></li>
+      <li>All have the same feature: tracking a routine<small>"It takes a long time to log in info when I can just remember it."</small></li>
+      <li>Lacks community support<small>"I got this app because my friend uses it."</small></li>
+      <li>Inadequate instructions for new users<small>"Programs are unrealistic and won't have motivation to do them."</small></li>
+      <li>Too many features unrelated to personal needs<small>"Programs weren't tailored to what I wanted."</small></li>
+    </ol>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-22.png" alt="Top six findings from insight clustering" width="1224" height="792" />
+      <figcaption>Top findings, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 15 HMW -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">synthesis / <strong>how might we</strong></div>
+    <h2>Six questions<br>set the direction.</h2>
+    <ol class="numbered" style="margin-top:48px">
+      <li>Make it easy for new users to navigate the app?</li>
+      <li>Help new users feel confident and informed when they start?</li>
+      <li>Incorporate community support within the interface?</li>
+      <li>Motivate youth to be disciplined and build healthy habits?</li>
+      <li>Add features that make the platform more engaging and supportive?</li>
+      <li>Cater to an individual's specific fitness goals and needs?</li>
+    </ol>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-24.png" alt="The six How Might We questions" width="1224" height="792" />
+      <figcaption>How might we, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 16 opportunities -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">synthesis / <strong>opportunities</strong></div>
+    <h2>From findings<br>to features.</h2>
+    <div class="body">
+      <p>Each finding became an opportunity, and each opportunity a set of candidate features. The ones that made it into the 2023 prototype: <b>favourite exercises</b>, <b>progress photos</b> compared month to month, <b>animated instruction</b> for every lift, <b>shareable workouts</b>, a written <b>"reason I want to workout"</b> shown back on the interface, and a <b>weekly training calendar</b>.</p>
+      <p>Held for later: auto-generated routines from preferences and equipment, and suggested exercises based on favourites. Both shipped in 2026.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="raw" src="assets/habitabull/slides/slide-25.png" alt="Opportunities and ideas board mapped to the six findings" width="1224" height="792" />
+      <figcaption>Opportunities and ideas, 2023</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 16b what each finding became -->
+<section class="slide">
+  <div class="eyebrow">synthesis / <strong>findings to build</strong></div>
+  <h2>What each finding<br>became, three years on.</h2>
+  <ol class="numbered compact" style="margin-top:48px">
+    <li>One thing per screen, made structural<small>Exactly one orange action per screen and never two, because orange is the only fill that isn't a shade of the ground. The tab bar is absent during a workout: mid-session there is one thing to do.</small></li>
+    <li>History is the engine, not a feature beside it<small>Clear every target rep and the weight goes up one increment; miss on three consecutive sessions and it cuts 10% and rebuilds; anything else repeats. Repeating is a valid outcome.</small></li>
+    <li>Logging survives one thumb, mid-set<small>56px targets with 44px as a floor, tabular figures so columns don't jitter, and a keyboard that is opt-in: it appears only after a deliberate tap on the number, never on entering the screen.</small></li>
+  </ol>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 16b-ii findings four to six -->
+<section class="slide">
+  <div class="eyebrow">synthesis / <strong>findings to build</strong></div>
+  <h2>And the three that<br>reshaped the frame.</h2>
+  <!-- The count continues rather than restarting: these are findings 4, 5 and
+       6 of the same six, not a new list. -->
+  <ol class="numbered compact" style="margin-top:48px;counter-reset:n 3">
+    <li>A crew joined by a code somebody reads out<small>No account and no password anywhere in the product. What a crew sees is who trained on which day and a photo they chose to share.</small></li>
+    <li>Every lift teaches itself<small>All 53 carry a form cue, three or four ordered steps and at least two named mistakes, enforced by a test rather than by diligence. Shown once, on the set where it usually goes wrong.</small></li>
+    <li>The week is built from her, not from a catalogue<small>Generated from level, the days she can actually keep and the equipment she has. "Something hurts today" rebuilds the day and changes only today.</small></li>
+  </ol>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 16c the finding that was overruled -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">synthesis / <strong>the one that was overruled</strong></div>
+    <h2>Miles wanted a<br>leaderboard. He<br>didn't get one.</h2>
+    <div class="body">
+      <p>Finding 04 asked for community, and the loudest form of it in the interviews was ranking. The 2023 flow built exactly that. The 2026 build took it out, because <b>ranked by absolute load a leaderboard shames the beginner this product was written for, and beginners quit ladders</b>: finding 05 arguing against finding 04.</p>
+      <p>What replaced it came from I Am Sober: a monthly target that is her own schedule counted, and a week of dots per person. Presence, not performance.</p>
+      <p>There is no weight and no ranking in the crew, and <b>the database has no column for one</b>.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="tall" src="assets/habitabull/app/10-crew.png" alt="The crew screen: a week of dots per person, no ranking" width="780" height="1688" />
+      <figcaption>A target, not a ranking</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 17 divider -->
+<section class="slide divider">
+  <div class="eyebrow">part 3</div>
+  <h2>Design</h2>
+  <p class="lede">Four user flows, eight lo-fi prototypes, one HMW pinned to each.</p>
+  <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 18 flows a -->
+<section class="slide">
+  <div class="eyebrow">design / <strong>user flows</strong></div>
+  <h2>Four flows: start,<br>then build.</h2>
+  <div class="grid2">
+    <figure><img src="assets/habitabull/slides/slide-27.png" alt="User flow: creating a new account and home" width="1224" height="792" /><figcaption>A · New account and home</figcaption></figure>
+    <figure><img src="assets/habitabull/slides/slide-28.png" alt="User flow: creating a new workout routine" width="1224" height="792" /><figcaption>B · Create a new workout routine</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 18 flows b -->
+<section class="slide">
+  <div class="eyebrow">design / <strong>user flows</strong></div>
+  <h2>Reuse a routine,<br>or let it generate.</h2>
+  <div class="grid2">
+    <figure><img src="assets/habitabull/slides/slide-29.png" alt="User flow: picking a past workout routine" width="1224" height="792" /><figcaption>C · Pick a past routine</figcaption></figure>
+    <figure><img src="assets/habitabull/slides/slide-30.png" alt="User flow: using the auto-generate feature" width="1224" height="792" /><figcaption>D · Auto-generate a routine</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 19 lo-fi 1 -->
+<section class="slide">
+  <div class="eyebrow">design / <strong>low-fidelity prototypes</strong></div>
+  <h2>Every sketch answers<br>one HMW.</h2>
+  <div class="grid2">
+    <figure><img src="assets/habitabull/slides/slide-32.png" alt="Lo-fi prototype: set up a new account" width="1224" height="792" /><figcaption>Set up a new account · HMW 02</figcaption></figure>
+    <figure><img src="assets/habitabull/slides/slide-33.png" alt="Lo-fi prototype: create a new lower body workout routine" width="1224" height="792" /><figcaption>Create a workout routine · HMW 01</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 20 lo-fi 2 -->
+<section class="slide">
+  <div class="eyebrow">design / <strong>low-fidelity prototypes</strong></div>
+  <h2>Reuse, generate,<br>look back.</h2>
+  <div class="grid2">
+    <figure><img src="assets/habitabull/slides/slide-34.png" alt="Lo-fi prototype: choose a past workout routine" width="1224" height="792" /><figcaption>Choose a past routine · HMW 06</figcaption></figure>
+    <figure><img src="assets/habitabull/slides/slide-35.png" alt="Lo-fi prototype: auto-generate a workout routine" width="1224" height="792" /><figcaption>Auto-generate a routine · HMW 05</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 21 lo-fi 3 -->
+<section class="slide">
+  <div class="eyebrow">design / <strong>low-fidelity prototypes</strong></div>
+  <h2>Photos, form,<br>and a lesson.</h2>
+  <div class="grid2">
+    <figure><img src="assets/habitabull/slides/slide-36.png" alt="Lo-fi prototype: past photos on a calendar" width="1224" height="792" /><figcaption>Past photos on the calendar · HMW 04</figcaption></figure>
+    <figure><img src="assets/habitabull/slides/slide-38.png" alt="Lo-fi prototype: workout tutorial with common mistakes" width="1224" height="792" /><figcaption>Workout tutorial · HMW 02</figcaption></figure>
+  </div>
+  <p class="note"><b>Also sketched in 2023: a leaderboard</b> (HMW 03). It was deliberately replaced in 2026 by a monthly challenge and a private crew feed, because ranking beginners against each other risks shame more than it builds motivation.</p>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 22 brand -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">brand / <strong>2023 to 2026</strong></div>
+    <h2>Same bull,<br>new palette.</h2>
+    <div class="body" style="margin-top:36px">
+      <p><b>2023.</b> Montserrat display, Adelle Sans body. Two muted blues for calm, one dark earth tone for contrast. A grinning bull.</p>
+    </div>
+    <div class="swatches" style="margin-top:20px">
+      <div class="sw light" style="background:#8eb4bd">#8EB4BD</div>
+      <div class="sw light" style="background:#c1d4d9">#C1D4D9</div>
+      <div class="sw" style="background:#361a22">#361A22</div>
+    </div>
+    <div class="body" style="margin-top:56px">
+      <p><b>2026, the Oxide pass.</b> Barlow Condensed display, Barlow body. Dark ground, terracotta for action, green for done, every control boundary at 3:1 or better. The bull redrawn with a closed, easy smile.</p>
+    </div>
+    <div class="swatches" style="margin-top:20px">
+      <div class="sw" style="background:#16181d">#16181D</div>
+      <div class="sw" style="background:#1f232b">#1F232B</div>
+      <div class="sw light" style="background:#d57e5c">#D57E5C</div>
+      <div class="sw light" style="background:#6bb88d">#6BB88D</div>
+      <div class="sw light" style="background:#8eb4bd">#8EB4BD</div>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper brand">
+    <img class="raw" src="assets/habitabull/crops/crop-brand-2023.png" alt="2023 brand guide page: type, app icons, palette" width="1224" height="792" />
+    <div class="cap">2023 brand guide</div>
+    <div class="phones" style="justify-content:flex-start;gap:40px">
+      <figure><img src="assets/habitabull/app/00-welcome.png" alt="2026 welcome screen" width="780" height="1688" style="width:300px;border-radius:36px" /></figure>
+      <figure><img src="assets/habitabull/app/09-bull-coach.png" alt="2026 bull coach screen" width="780" height="1688" style="width:300px;border-radius:36px" /></figure>
+      <!-- The 2023 sheet opposite shows its two app icons; without this the
+           2026 half had no icon to answer them with. -->
+      <figure style="align-self:center"><img src="assets/habitabull/icon-512.png" alt="The 2026 app icon: the bull head on brand terracotta" width="512" height="512" style="width:190px;border-radius:42px" /></figure>
+      <div class="cap" style="align-self:center;margin:0 0 0 24px;text-align:left">2026 app icon, welcome and coach screens</div>
+    </div>
+  </div>
+</section>
+
+<!-- 22b the mascot -->
+<section class="slide field">
+  <div class="eyebrow">brand / <strong>the mascot</strong></div>
+  <h2>Five poses,<br>one rule each.</h2>
+  <div class="body" style="margin-top:40px;max-width:1950px">
+    <p>He turns up where there is something to react to, and nowhere else. Which pose is decided by what just happened, never by which screen it is. The confused one carries the rule that matters: it is for when <b>the app</b> cannot answer, never for when you got something wrong.</p>
+  </div>
+  <div style="display:flex;gap:56px;align-items:flex-end;justify-content:space-between;width:100%;margin-top:64px">
+    <figure style="margin:0;text-align:center;width:380px">
+      <img src="assets/habitabull/mascot.png" alt="The bull standing" width="531" height="634" style="height:250px;width:auto;display:block;margin:0 auto" />
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Stand<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Simply present</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Booting, Welcome, Today, day detail, stopped early</span></figcaption>
+    </figure>
+    <figure style="margin:0;text-align:center;width:380px">
+      <img src="assets/habitabull/mascot-cheer.png" alt="The bull giving a thumbs up and winking" width="505" height="468" style="height:250px;width:auto;display:block;margin:0 auto" />
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Cheer<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Something went well and he saw it</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Arrival, set logged, finished, personal record, comeback</span></figcaption>
+    </figure>
+    <figure style="margin:0;text-align:center;width:380px">
+      <img src="assets/habitabull/mascot-rest.png" alt="The bull lying down with his eyes shut" width="632" height="560" style="height:250px;width:auto;display:block;margin:0 auto" />
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Rest<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Nothing is being asked of anybody</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">A rest day</span></figcaption>
+    </figure>
+    <figure style="margin:0;text-align:center;width:380px">
+      <img src="assets/habitabull/mascot-show.png" alt="The bull with one hoof raised, looking back over his shoulder" width="597" height="634" style="height:250px;width:auto;display:block;margin:0 auto" />
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Show<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Pointing at the thing beside him</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Explaining a lift</span></figcaption>
+    </figure>
+    <figure style="margin:0;text-align:center;width:380px">
+      <img src="assets/habitabull/mascot-confused.png" alt="The bull with question marks over his head" width="425" height="467" style="height:250px;width:auto;display:block;margin:0 auto" />
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Confused<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">The app cannot answer</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Crew with no signal, a day that would not load</span></figcaption>
+    </figure>
+  </div>
+  <div class="body quiet" style="margin-top:56px;max-width:1950px;font-size:32px">
+    <p>Each pose carries its own aspect ratio rather than sharing one number: standing is 0.84, lying down is 1.13. One shared constant squashed four of them, which is the bug that stretched him the last time the artwork changed.</p>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 23 divider -->
+<section class="slide divider">
+  <div class="eyebrow">part 4</div>
+  <h2>Built<br>in 2026</h2>
+  <p class="lede">Three years later I rebuilt the app against the same research, with help from Claude Code. 107 commits between August 30 and September 10.</p>
+  <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 29–30: September 2026 public-documentation review. Existing implementation, not a measured retention result. -->
+<section class="slide audit-slide" id="competitive-review" aria-label="Current AI fitness app competitive review">
+ <div class="audit-canvas">
+  <div style="left:936px;top:0;width:900px;height:1188px;background:#8eb4bd"></div>
+  <div class="audit-label" style="left:108px;top:106px;color:#8eb4bd">2026 / competitive review</div>
+  <h2 style="left:108px;top:169px;width:790px">AI plans are now<br>part of the baseline</h2>
+  <div class="audit-row" style="top:427px"><div class="audit-label"><a href="https://stanceapp.app/">STANCE</a></div><p>Users approve coach-built changes.</p><small>Control should stay visible.</small></div>
+  <div class="audit-row" style="top:557px"><div class="audit-label"><a href="https://fitbod.me/blog/fitbod-algorithm/">FITBOD + PLANFIT</a></div><p>Plans respond to history and equipment.</p><small>Personalization should reduce effort.</small></div>
+  <div class="audit-row" style="top:687px"><div class="audit-label"><a href="https://gravl.ai/">HEVY + GRAVL</a></div><p>Logging sits at the center of training.</p><small>Speed matters between sets.</small></div>
+  <div class="audit-row" style="top:817px"><div class="audit-label"><a href="https://apps.apple.com/us/app/ray-ai-personal-trainer/id6474633735">GRAVL + RAY</a></div><p>Consistency and return support already exist.</p><small>Habit-building alone is not unique.</small></div>
+  <p class="audit-footnote" style="left:108px;top:978px;width:735px">11 apps reviewed. Selected comparisons shown.<br>Public product documentation, September 2026.</p>
+  <div class="audit-label" style="left:1058px;top:107px;color:#14181f">Stance / AI coach</div>
+  <a href="https://stanceapp.app/" style="left:1155px;top:205px;width:460px"><img src="assets/habitabull/audit-2026/stance-coach.webp" alt="Stance AI coach proposing a workout for the user to approve" style="width:460px"></a>
+  <p style="left:1028px;top:1022px;width:715px;text-align:center;font-size:29px;font-weight:500;color:#14181f">A request becomes a proposed workout.</p>
+ </div>
+ <div class="folio"><span>HabitaBull Lifting</span><span style="color:#14181f"></span></div>
+</section>
+<section class="slide audit-slide audit-orange" id="audit-lessons" aria-label="What the audit reinforced in HabitaBull">
+ <div class="audit-canvas">
+  <div class="audit-label" style="left:108px;top:106px;color:#543f33">2026 / lessons in the app</div>
+  <h2 style="left:108px;top:174px;width:1620px;color:#14181f">What the audit reinforced in HabitaBull</h2>
+  <div class="audit-lesson" style="left:108px"><img src="assets/habitabull/audit-2026/04-logging.png" alt="HabitaBull set logging with large controls and last-attempt context"><div class="audit-label">HEVY + GRAVL</div><h3>Faster set logging</h3><p>Large controls, last-attempt context,<br>and one clear Log set action.</p></div>
+  <div class="audit-lesson" style="left:660px"><img src="assets/habitabull/audit-2026/14-routine-editor.png" alt="HabitaBull routine editor and exercise swap controls"><div class="audit-label">STANCE + FITBOD</div><h3>A plan you can shape</h3><p>Editable routines and exercise swaps<br>keep the user in control.</p></div>
+  <div class="audit-lesson" style="left:1212px"><img src="assets/habitabull/audit-2026/04d-comeback.png" alt="HabitaBull welcome-back screen"><div class="audit-label">GRAVL + RAY</div><h3>A welcoming return</h3><p>A welcome-back moment and<br>comebacks counted in Progress.</p></div>
+  <p style="left:108px;top:1072px;width:1620px;font-size:21px;color:#543f33">Existing implementation reviewed against the audit. Retention impact still needs user testing.</p>
+ </div>
+ <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 24 shipped screens 1 -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>what shipped</strong></div>
+    <h2>Habit first,<br>load second.</h2>
+    <dl class="rows">
+      <div><dt>Why</dt><dd>One question before day one, borrowed from I Am Sober. Your answer comes back on the days you don't feel like it, never rewritten.</dd></div>
+      <div><dt>Week</dt><dd>Pick your days, or describe your week and let the app set it up.</dd></div>
+      <div><dt>Log</dt><dd>One-handed set logging with a rest timer that rings and buzzes, and a confirmation that escalates with the result.</dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate">
+    <div class="phones">
+      <figure><img src="assets/habitabull/app/02-onboarding-why.png" alt="Why do you lift screen" width="780" height="1688" /><figcaption>Why</figcaption></figure>
+      <figure><img src="assets/habitabull/app/04-logging.png" alt="Set logging screen" width="780" height="1688" /><figcaption>Log a set</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 25 four screens -->
+<section class="slide field">
+  <div class="eyebrow">2026 / <strong>what shipped</strong></div>
+  <h2 style="white-space:nowrap">The week, the rest, the record.</h2>
+  <div class="phones">
+    <figure><img src="assets/habitabull/app/03-week-setup.png" alt="Week setup screen" width="780" height="1688" /><figcaption>Week setup</figcaption></figure>
+    <figure><img src="assets/habitabull/app/05-rest-timer.png" alt="Rest timer screen" width="780" height="1688" /><figcaption>Rest timer</figcaption></figure>
+    <figure><img src="assets/habitabull/app/04c-set-logged-best.png" alt="Set logged confirmation, personal best" width="780" height="1688" /><figcaption>Set logged, new best</figcaption></figure>
+    <figure><img src="assets/habitabull/app/08-progress.png" alt="Progress charts screen" width="780" height="1688" /><figcaption>Progress</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 25b the daily beat -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>motion</strong></div>
+    <h2>Rest or training,<br>told apart.</h2>
+    <div class="body" style="margin-top:36px">
+      <p>The app opens on one of two days. Same layout, four differences.</p>
+    </div>
+    <dl class="rows compact" style="margin-top:44px">
+      <div><dt>Direction</dt><dd>Training rises. Rest comes down and lands.</dd></div>
+      <div><dt>Tempo</dt><dd>60ms a step against 140ms.</dd></div>
+      <div><dt>The bull</dt><dd>He braces, or he lies down.</dd></div>
+      <div><dt>The subject</dt><dd>Training names the day ahead. Rest draws the week already banked.</dd></div>
+    </dl>
+    <div class="body" style="margin-top:40px;font-size:34px;color:var(--ink-3)">
+      <p>Giving rest its own colour was refused. Two screens in this system are drenched, and the most frequent moment in the app is not where you spend them.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate">
+    <div class="phones" style="gap:64px">
+      <figure><img src="assets/habitabull/app/01a-arrival-training.png" alt="Opening on a training day: the day is named Push day and the bull braces" width="780" height="1688" /><figcaption>Training day</figcaption></figure>
+      <figure><img src="assets/habitabull/app/01b-arrival-rest.png" alt="Opening on a rest day: the bull lies down and the week already trained is drawn beneath him" width="780" height="1688" /><figcaption>Rest day</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 26 shipped screens 2 -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>what shipped</strong></div>
+    <h2>Community without<br>a scoreboard.</h2>
+    <dl class="rows">
+      <div><dt>Crew</dt><dd>Shared days, photos, likes and replies on a real backend. Open a friend's workout and copy it without copying their numbers.</dd></div>
+      <div><dt>Comeback</dt><dd>A different first screen when you return after a gap. No streak lost, no guilt.</dd></div>
+      <div><dt>Yours</dt><dd>Export and import: one file holding every session, note and photo.</dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate">
+    <div class="phones">
+      <figure><img src="assets/habitabull/app/10d-crew-feed.png" alt="Crew feed screen" width="780" height="1688" /><figcaption>Crew</figcaption></figure>
+      <figure><img src="assets/habitabull/app/01d-today-comeback.png" alt="Comeback screen after a gap" width="780" height="1688" /><figcaption>Comeback</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 26b offline -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>what shipped</strong></div>
+    <h2>Most gyms are<br>a dead spot.</h2>
+    <div class="body">
+      <p>Weight rooms are in basements. Everything the app knows already lived on the phone, but it still could not <em>open</em> without a network, because the page itself had to be fetched.</p>
+      <p>A service worker caches the shell at install, so one visit at home is enough. <b>The document is still fetched network-first</b>, the rule that stops this becoming the usual installed-app failure of serving a build from three weeks ago.</p>
+      <p>Underground the plan, logging, the timer and the record all work. Two things need a signal, so two things say so: the crew screen used to report <em>"Just you, for now."</em> to somebody with five people in her crew.</p>
+    </div>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate paper">
+    <figure>
+      <img class="tall" src="assets/habitabull/app/29-offline-crew.png" alt="The crew screen with no signal: it says it cannot reach them, and that her training is still being kept" width="780" height="1688" />
+      <figcaption>No signal, and the app says which part of it that costs</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 27 audits -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>accessibility and audit</strong></div>
+    <h2>Three audits, each<br>ending in a commit.</h2>
+    <dl class="rows tight">
+      <div><dt>01 · PWA</dt><dd>Every control clears 44 by 44<small>The set segments were the worst offender at 107 by 6 px. Contrast computed for all 21 tokens. No maximum-scale lock: locking zoom is a WCAG 1.4.4 failure</small></dd></div>
+      <div><dt>02 · HIG</dt><dd>Regressions the palette swap caused<small>Secondary text on the PR celebration fell to 4.39:1 on Oxide; raised to 5.17:1</small></dd></div>
+      <div><dt>03 · a11y</dt><dd>3 P1s, 5 P2s, 4 P3s<small>A modal claimed aria-modal while 218 elements outside it stayed tabbable. Focus now trapped both ways and returned on close</small></dd></div>
+    </dl>
+    <p class="note">No retention or usage numbers are claimed for the 2026 build. It has not launched to users.</p>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate">
+    <div class="phones">
+      <figure><img src="assets/habitabull/app/06-pr-celebration.png" alt="PR celebration screen after the contrast fix" width="780" height="1688" /><figcaption>PR celebration, 5.17:1</figcaption></figure>
+      <figure><img src="assets/habitabull/app/18-your-data.png" alt="Your data screen with export and import" width="780" height="1688" /><figcaption>Your data</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 27b the bug -->
+<section class="slide field">
+  <div class="eyebrow">2026 / <strong>shipped software</strong></div>
+  <h2>One day added.<br>The whole week gone.</h2>
+  <div class="body" style="margin-top:44px;max-width:1900px">
+    <p>A tester wanted a cardio day in the middle of a week she had already built. She reported it as <em>&ldquo;it defaults to leg day and doesn&rsquo;t save&rdquo;</em>. Reproducing it showed something worse.</p>
+  </div>
+  <dl class="rows compact" style="margin-top:52px;max-width:2000px">
+    <div><dt>What happened</dt><dd>Adding one day to Push / Pull / Legs rebuilt all four as Full body, and replaced every lift she had chosen.</dd></div>
+    <div><dt>Why</dt><dd>The plan generator took day types as a list aligned to the sorted days, so which day was which lived in an array index. Insert a Tuesday and everything after it shifts.</dd></div>
+    <div><dt>The rule now</dt><dd>Editing which days you train does not touch the days you kept. Only a new day is generated.</dd></div>
+    <div><dt>Then the class</dt><dd>Scanning for the same shape found two more: the Full body A/B variant was also positional, and two days of one type shared a single saved shape.</dd></div>
+  </dl>
+  <div class="body quiet" style="margin-top:48px;max-width:1900px;font-size:34px">
+    <p>Nine tests hold it, including the insert-in-the-middle case that failed before. Four more candidates were checked and found safe, which is the half of a scan worth writing down.</p>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 27 close -->
+<section class="slide divider">
+  <div class="eyebrow">habitabull lifting</div>
+  <h2>Thank you.</h2>
+  <dl class="rows" style="border-color:rgba(20,24,31,0.18);max-width:1500px">
+    <div style="border-color:rgba(20,24,31,0.18)"><dt style="color:#14181f">Case study</dt><dd style="color:#14181f">lucyliu.xyz/habitabull.html</dd></div>
+    <div style="border-color:rgba(20,24,31,0.18)"><dt style="color:#14181f">The app</dt><dd style="color:#14181f">habitabull.vercel.app</dd></div>
+    <div style="border-color:rgba(20,24,31,0.18)"><dt style="color:#14181f">Contact</dt><dd style="color:#14181f">Lucy Liu · wl3512@nyu.edu</dd></div>
+  </dl>
+  <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+</main>
+</body>
+</html>
