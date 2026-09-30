@@ -1,0 +1,93 @@
+/* Shared case-study touch presentation. Loaded after each page's own styles. */
+@media (max-width: 760px), (pointer: coarse) {
+  html { scroll-padding-top: 88px; }
+  body { overflow-wrap: break-word; }
+  .cs-nav, .ar-nav, .nav { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .cs-hero-orb, .cs-hero-orb-2, .cs-spotlight-fog, .ar-waves,
+  .cs-constellation-nav, .cs-section-wm { display: none; }
+  .border-beam::after { animation: none; filter: none; opacity: .3; }
+  [data-cs-reveal], [data-cs-stagger] > *, .cs-goal[data-goal] {
+    opacity: 1 !important; visibility: visible !important;
+    transform: none !important; clip-path: none !important;
+    transition: none !important; will-change: auto !important;
+  }
+  .cs-section-label[data-cs-reveal]::after { transform: scaleX(1); transition: none; }
+  .cs-hero, .ar-hero { padding-top: 104px; padding-bottom: 40px; }
+  .cs-hero--cover { display: flex; flex-direction: column; gap: 24px; }
+  .cs-hero-below { order: 1; padding: 0 !important; gap: 16px; }
+  .cs-hero-cover-full { order: 2; }
+  .cs-hero-cover-full img { max-height: 300px; object-fit: contain; object-position: center; background: var(--surface); }
+  .cs-hero-cover img { max-height: 300px; object-fit: contain; }
+  .cs-hero h1.visually-hidden, .cs-hero-below > h1[style] {
+    position: static !important; width: auto !important; height: auto !important;
+    clip: auto !important; clip-path: none !important; overflow: visible !important;
+    white-space: normal !important; margin: 0 !important;
+    font: 600 clamp(30px, 8vw, 44px)/1.08 var(--font-display);
+    letter-spacing: -.03em; color: var(--fg1);
+  }
+  .cs-hero > h1.visually-hidden { width: calc(100% - 40px) !important; margin: 0 auto !important; }
+  .cs-title, .ar-title { font-size: clamp(36px, 11vw, 64px); overflow-wrap: anywhere; }
+  .cs-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .cs-hero-foot, .cs-hero-actions { gap: 12px; flex-wrap: wrap; }
+  .cs-hero-foot > *, .cs-hero-actions > * { min-width: 0; max-width: 100%; }
+  .btn { min-height: 44px; white-space: normal; text-align: center; }
+  .cs-meta-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .cs-meta-v { overflow-wrap: anywhere; }
+  .cs-body-inner, .cs-hero-inner, .cs-hero-below, .cs-hero-cover-full,
+  .cs-meta-inner { width: calc(100% - 40px); }
+  .cs-section { padding-top: 40px; padding-bottom: 40px; }
+  .cs-section-h { font-size: clamp(28px, 7.5vw, 38px); line-height: 1.15; }
+  .cs-body-text p { font-size: 16px; line-height: 1.7; }
+  .cs-pull-quote { margin-left: 0; margin-right: 0; padding: 24px 20px; }
+  .cs-phase { padding: 22px 18px; }
+  .cs-phase-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cs-phase-body, .cs-phase-detail { padding-left: 0; }
+  .cs-phase-name { font-size: 23px; }
+  .cs-gameloop { display: flex; flex-direction: column; overflow: hidden; }
+  .cs-gl-step { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 20px 16px; min-width: 0; }
+  .cs-gl-step > * { min-width: 0; }
+  .cs-gl-step + .cs-gl-step { border-left: 0; border-top: 1px solid var(--border); }
+  .cs-gl-flaw-strip { grid-column: 1 / -1; }
+  .cs-gl-flaw-strip span { white-space: normal; }
+  .cs-gl-title, .cs-gl-desc { width: auto; min-width: 0; }
+  .cs-gl-arrow { min-width: 0; transform: none; }
+  .cs-gl-arrow::after { content: '↓'; }
+  .cs-method-list { display: flex; flex-direction: column; overflow: visible; }
+  .cs-method { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; gap: 10px; padding: 22px 0; }
+  .cs-method-name { min-width: 0; }
+  .cs-method + .cs-method { border-left: 0; border-top: 1px solid var(--border); }
+  .cs-artifact-grid, .cs-two-col, .rt-fig--pair { grid-template-columns: minmax(0, 1fr); }
+  .cs-artifact.span-2 { grid-column: auto; }
+  .cs-artifact, .cs-artifact-caption, .cs-metric, .cs-reflection-item { min-width: 0; }
+  .cs-artifact-caption { padding: 16px; font-size: 14px; }
+  .cs-next-link { font-size: clamp(27px, 8vw, 42px); gap: 16px; }
+  .lb-close, .ar-fs-close { min-width: 44px; min-height: 44px; }
+  .lb-overlay img { max-width: 94vw; max-height: 80svh; object-fit: contain; }
+  .ar-card, .ar-title, .ar-eyebrow, .ar-sub, .ar-tags, .ar-platform,
+  .ar-status, .ar-fact-grid, .ar-divider, .ar-section-label {
+    opacity: 1; transform: none; clip-path: none; will-change: auto;
+  }
+}
+@media (max-width: 380px) {
+  .cs-pet-grid, .cs-stat-grid { grid-template-columns: minmax(0, 1fr); }
+  .cs-hero-actions > .btn, .cs-hero-foot .btn { width: 100%; }
+  .cs-phase-name { overflow-wrap: anywhere; }
+}
+@media (max-width: 760px), (pointer: coarse) {
+  .nav { mix-blend-mode: normal; }
+  .cs-hero:has(> .cs-hero-cover-full) { display: flex; flex-direction: column; gap: 24px; }
+  .cs-hero-cover-full { height: auto !important; }
+  .cs-hero-cover-full img { height: auto !important; max-height: 300px; }
+  .cs-hero-below .cs-kicker, .cs-hero-below .cs-subtitle { margin: 0; }
+  .cs-body { padding: 48px 0; }
+  .cs-section { padding: 0; margin-bottom: 56px; }
+  .cs-goal[data-goal] .cs-goal-n { opacity: 1; transform: none; }
+  .cs-goal[data-goal] .cs-goal-q { color: var(--fg2); }
+  .cs-lightbox-close { min-width: 44px; min-height: 44px; }
+  .lp-hero-split { display: flex; flex-direction: column; gap: 28px; padding: 104px 20px 40px; }
+  .lp-hero-text-col { order: 1; width: 100%; padding: 0; }
+  .lp-hero-img-col { order: 2; width: 100%; }
+  .lp-hero-img-wrap { width: fit-content; max-width: 100%; margin: auto; }
+  .lp-hero-img-wrap img { width: auto; max-width: 100%; height: auto; max-height: 340px; }
+  .lp-hero-title { font-size: clamp(40px, 13vw, 64px); }
+}

@@ -5,22 +5,22 @@
 <script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <title>Demon Nights: VJ Residency | Lucy Liu</title>
 <meta name="description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights, the Thursday party from DJ and diamond-certified producer Diablo. Custom audio-reactive visuals designed every Thursday for Demon Nights, the weekly party thrown by Diablo (Sebastian Baldeon) and friends who DJ." />
 <meta property="og:title" content="Demon Nights: VJ Residency | Lucy Liu" />
 <meta property="og:description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights. Custom audio-reactive generative visuals every Thursday, for the weekly party thrown by Diablo and friends who DJ." />
 <meta property="og:url" content="https://lucyliu.xyz/live-visuals-nyc.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-preview.png" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<link rel="stylesheet" href="styles.css?v=89" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -125,10 +125,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.03em; color: var(--fg1);
   clip-path: inset(0 0 100% 0);
 }
-.ar-title em {
-  font-style: italic; color: var(--blue-300);
-  animation: ar-em-breathe 6s ease-in-out infinite;
-}
+.ar-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 @keyframes ar-em-breathe {
   0%, 100% { color: var(--blue-300); }
   50%       { color: var(--fg1); }
@@ -687,7 +684,7 @@ a { color: inherit; text-decoration: none; }
   }
   .ar-card { transition: border-color .2s, opacity .2s; }
   .ar-card:hover { transform: none; }
-  .ar-title em { animation: none; color: var(--blue-300); }
+  .ar-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   .ar-td-logo  { animation: none; opacity: 0.65; }
   .ar-card.is-playing { animation: none; border-color: oklch(from var(--blue-400) l c h / 0.45); }
   .ar-grid:has(.ar-card.is-playing) .ar-card:not(.is-playing) { opacity: 0.5; }
@@ -723,7 +720,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
 .cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); font-style: italic; }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
@@ -812,6 +809,11 @@ a { color: inherit; text-decoration: none; }
   .ar-card .ar-card-title, .ar-card--featured .ar-card-title { font-size: 22px; text-shadow: none; }
 }
 </style>
+<link rel="stylesheet" href="case-mobile.css?v=1" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body>
 
@@ -826,7 +828,7 @@ a { color: inherit; text-decoration: none; }
       </svg>
       all work
     </a>
-    <a href="index.html" class="cs-logo" aria-label="lucy liu home">lucy liu</a>
+    <a href="index.html" class="cs-logo" aria-label="lucy liu home" data-wordmark>lucy liu</a>
     <div class="cs-nav-right">
       <a href="index.html#about" class="cs-nav-link">about</a>
       <a href="mailto:wl3512@nyu.edu" class="cs-nav-link">contact ↗</a>
@@ -1156,7 +1158,7 @@ a { color: inherit; text-decoration: none; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 (function () {
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches;
 
   /* ── Entrance animations ── */
   if (!reducedMotion && window.gsap) {
@@ -1457,7 +1459,7 @@ a { color: inherit; text-decoration: none; }
   var host = document.querySelector('.ar-waves');
   if (!host) return;
   var reduced = false;
-  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches; } catch (e) {}
 
   var CONFIG = {
     lineColor: '#169eff',

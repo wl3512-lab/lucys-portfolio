@@ -25,8 +25,37 @@
     solution: 'Solution', visual: 'Visual System', outcome: 'Outcome', reflection: 'Reflection',
     interaction: 'Interaction', technical: 'Technical', impact: 'Impact',
     design: 'Design', mechanics: 'Mechanics', storyboard: 'Storyboard',
-    interface: 'Interface', engine: 'Engine', endings: 'Endings', principles: 'Design Principles'
+    interface: 'Interface', engine: 'Engine', endings: 'Endings', principles: 'Design Principles',
+    build: 'Build + Ship', audit: 'Accessibility + Audit', brand: 'Brand'
   };
+
+  /* The page's own label wins over the table: "04 · Brand" on one page is
+     "04 · Solution" on another, and the table cannot know which. */
+  function sectionLabel(key, groups) {
+    var g = groups && groups[key];
+    var lbl = g && g[0] && g[0].querySelector('.cs-section-label');
+    if (lbl) {
+      var t = (lbl.textContent || '').replace(/^\s*\d{2}\s*[·\u00b7]\s*/, '').replace(/\s+/g, ' ').trim();
+      if (t) return t;
+    }
+    return SECTION_LABELS[key] || key;
+  }
+
+  /* After a persona re-sequences the sections, "05" sitting above "01" reads as
+     if nothing moved. Renumber the numbered labels and the watermarks in the new
+     order; unnumbered labels (sub-headings, pages without numbers) are untouched. */
+  function renumberSections(bodyWrap) {
+    var n = 0;
+    [].slice.call(bodyWrap.querySelectorAll('[id^="cs-s-"]')).forEach(function (sec) {
+      var lbl = sec.querySelector('.cs-section-label');
+      var wm  = sec.querySelector('.cs-section-wm[data-wm]');
+      if (!lbl || !/^\s*\d{2}\s*[·\u00b7]/.test(lbl.textContent || '')) return;
+      n++;
+      var num = (n < 10 ? '0' : '') + n;
+      lbl.innerHTML = lbl.innerHTML.replace(/^(\s*)\d{2}/, '$1' + num);
+      if (wm) wm.setAttribute('data-wm', num);
+    });
+  }
 
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -238,7 +267,7 @@
         p.order.forEach(function (k) {
           if (!groups[k]) return;
           var li = el('li', null, '');
-          var a = el('a', 'persona-jump', SECTION_LABELS[k] || k);
+          var a = el('a', 'persona-jump', sectionLabel(k, groups));
           a.href = '#cs-s-' + k;
           if (p.emphasize && p.emphasize.indexOf(k) >= 0) a.className += ' is-key';
           li.appendChild(a);
@@ -305,6 +334,7 @@
           groupKeys.forEach(function (k) {
             if (p.order.indexOf(k) < 0 && groups[k]) groups[k].forEach(function (node) { bodyWrap.appendChild(node); });
           });
+          renumberSections(bodyWrap);
         }
         // intro card on top
         if (bodyWrap) bodyWrap.insertBefore(buildIntro(key, p), bodyWrap.firstChild);
@@ -351,17 +381,16 @@
 
     window.PersonaEngine = { open: openModal, apply: applyPersona };
 
-    // Once per session per case study: pop the terminal on first visit, then remember
-    // the choice. On later visits this session, silently re-apply the lens (no popup);
-    // if it was dismissed, show a "tailor this" chip so it's still reachable.
+    // Never gate the page: the full study renders by default and the "tailor this" chip
+    // opens the lens picker on request. A lens chosen earlier this session is re-applied
+    // silently. (The auto-open modal cost a first-time reader a decision before a single
+    // line of the case study was readable, which is the wrong trade for a 90-second visit.)
     var seen = null;
     try { seen = sessionStorage.getItem(SKEY); } catch (e) {}
     if (seen && seen !== '__skip__' && data[seen]) {
       applyPersona(seen, true);
-    } else if (seen === '__skip__') {
-      setChip(null);
     } else {
-      openModal();
+      setChip(null);
     }
   });
 })();

@@ -5,8 +5,8 @@
   ESM imports / Tailwind classes removed, hooks from global React, exposed as
   window.MorphingText. The upstream "gooey" SVG threshold filter (great only on huge
   text) is OPTIONAL via the `gooey` prop — default is a clean blur cross-fade that
-  reads at any size. The morph intentionally runs under prefers-reduced-motion too (see note
-  in the effect): it is blur + opacity only, no movement.
+  reads at any size. Reduced motion keeps a static role; touch devices retain
+  the liquid morph at a capped frame rate while the hero is visible.
 */
 function MorphingText(props) {
   const p = props || {};
@@ -14,7 +14,11 @@ function MorphingText(props) {
   const texts = p.texts && p.texts.length ? p.texts : ['Design', 'Code'];
   const morphTime = p.morphTime != null ? p.morphTime : 1.4;
   const cooldownTime = p.cooldownTime != null ? p.cooldownTime : 1.4;
-  const gooey = !!p.gooey;
+  // Per-word hold multiplier, e.g. { ai: 2 } keeps that word up twice as long.
+  const hold = p.hold || {};
+  const lightMotion = window.matchMedia('(max-width: 760px), (pointer: coarse), (prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const gooey = !!p.gooey && !reducedMotion;
 
   const t1 = useRef(null);
   const t2 = useRef(null);
@@ -27,12 +31,14 @@ function MorphingText(props) {
     const a = t1.current, b = t2.current;
     if (!a || !b) return;
     if (onIdxRef.current) onIdxRef.current(0);
-    // Deliberate product decision: the morph runs even under prefers-reduced-motion.
-    // It was previously disabled there, which stripped the blur entirely and left a plain
-    // opacity cross-fade ("fade, not morph") for anyone with Reduce Motion on. This effect
-    // is blur + opacity only, with no translation, scale or parallax, so it avoids the
-    // movement that actually triggers vestibular discomfort.
-
+    if (reducedMotion) {
+      a.textContent = texts[0]; a.style.opacity = '1';
+      b.textContent = ''; b.style.opacity = '0';
+      return;
+    }
+    let visible = true;
+    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; });
+    observer.observe(a.parentElement);
     let idx = 0, morph = 0, cooldown = 0, last = performance.now(), raf = 0, disposed = false;
     a.textContent = texts[0];
     b.textContent = texts[1 % texts.length];
@@ -51,7 +57,7 @@ function MorphingText(props) {
         if (fs > 0) {
           const k = fs / REF_FS;
           blurUnit = Math.max(1, REF_BLUR * k);
-          maxBlur = Math.max(12, REF_MAX * k);
+          maxBlur = lightMotion ? 18 : Math.max(12, REF_MAX * k);
         }
       } catch (e) {}
     }
@@ -71,7 +77,7 @@ function MorphingText(props) {
     function doMorph() {
       morph -= cooldown; cooldown = 0;
       let frac = morph / morphTime;
-      if (frac > 1) { cooldown = cooldownTime; frac = 1; }
+      if (frac > 1) { cooldown = cooldownTime * (hold[texts[(idx + 1) % texts.length]] || 1); frac = 1; }
       setStyles(frac);
       if (frac === 1) { idx++; if (onIdxRef.current) onIdxRef.current(idx % texts.length); }
     }
@@ -105,6 +111,8 @@ function MorphingText(props) {
       if (disposed) return;
       raf = requestAnimationFrame(animate);
       const now = performance.now();
+      if (!visible || document.hidden) { last = now; return; }
+      if (lightMotion && now - last < 1000 / 30) return;
       tune(now);
       const dt = (now - last) / 1000; last = now;
       cooldown -= dt;
@@ -115,9 +123,10 @@ function MorphingText(props) {
       disposed = true;
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', measure);
+      observer.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [texts.join('|'), morphTime, cooldownTime]);
+  }, [texts.join('|'), morphTime, cooldownTime, lightMotion, reducedMotion]);
 
   /* Safari/iOS hardening for the gooey filter. When it silently no-ops the morph
      degrades to a plain blur cross-fade, which is what "not fluid, just a fade" looks like:

@@ -118,28 +118,28 @@ window.PERSONA_CONTENT = {
 
   habitabull: {
     recruiter: {
-      blurb: "A solo product-design concept for a gym app that fights the week-three drop-off (most people abandon fitness apps within three months). Researched against six fitness apps, sobriety apps, and six interviews, then designed around habit-building, not just tracking. Solution and role first.",
-      order: ["solution", "problem", "research", "design", "reflection"],
-      emphasize: ["solution", "problem"],
+      blurb: "A gym app I researched and designed as a student in 2023, then rebuilt and shipped myself in 2026: Next.js, a Supabase backend, an installable PWA, and three measured accessibility audits. Build and brand first, then the research it was built on.",
+      order: ["build", "solution", "audit", "problem", "research", "design", "reflection"],
+      emphasize: ["build", "solution"],
       dim: ["reflection"]
     },
     designer: {
-      blurb: "The design first: the screens and the habit model, built for the lapsed user rather than the already-motivated one. Then the reframe behind it: borrowing retention mechanics from sobriety apps, which hold users far longer than fitness apps.",
-      order: ["design", "solution", "research", "problem", "reflection"],
-      emphasize: ["design", "solution"],
+      blurb: "The brand and the shipped screens first, built for the lapsed user rather than the already-motivated one. Then the 2023 process behind them: borrowing retention mechanics from sobriety apps, and the lo-fi finding that flipped the hierarchy and survived into the build.",
+      order: ["solution", "build", "design", "research", "problem", "audit", "reflection"],
+      emphasize: ["solution", "build", "design"],
       dim: []
     },
     engineer: {
-      blurb: "Heads up: this one is a product-design concept (Figma), not a build. If you're here for systems thinking, the design-logic and solution sections show how the habit model and the screens fit together.",
-      order: ["design", "solution", "research", "problem", "reflection"],
-      emphasize: ["design", "solution"],
+      blurb: "This one is a build. Next.js 16, React 19, TypeScript, Tailwind v4, Supabase for the crew routes, Vitest with a smoke test against a stand-in backend, shipped as a PWA. The audit section has the measured contrast and target-size numbers; the design sections are the 2023 study it was built from.",
+      order: ["build", "audit", "solution", "design", "research", "problem", "reflection"],
+      emphasize: ["build", "audit"],
       dim: ["reflection"]
     },
     browsing: {
-      blurb: "Short version: a gym app for people who always quit by week three. It leans on the streak-and-recovery tricks that keep sobriety apps sticky, instead of guilt-tripping you into the gym.",
-      order: ["solution", "problem", "design", "research", "reflection"],
-      emphasize: ["solution"],
-      dim: ["research", "reflection"]
+      blurb: "Short version: a gym app for people who always quit by week three. Designed in 2023, actually built in 2026. It leans on the streak-and-recovery tricks that keep sobriety apps sticky, instead of guilt-tripping you into the gym.",
+      order: ["build", "solution", "problem", "design", "research", "audit", "reflection"],
+      emphasize: ["build", "solution"],
+      dim: ["research", "audit", "reflection"]
     }
   },
 

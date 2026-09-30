@@ -9,31 +9,60 @@
 <!-- WebGL capability probe: components gate their WebGL backdrops on this so machines
      where WebGL is disabled/blocklisted fall back cleanly instead of throwing on mount. -->
 <script>window.__webglOK=(function(){try{var c=document.createElement('canvas');var gl=window.WebGLRenderingContext&&(c.getContext('webgl2')||c.getContext('webgl')||c.getContext('experimental-webgl'));if(gl){var lose=gl.getExtension&&gl.getExtension('WEBGL_lose_context');if(lose)lose.loseContext();return true;}return false;}catch(e){return false;}})();</script>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
-<title>Lucy Liu, Design Strategist</title>
-<meta name="description" content="Portfolio of Lucy Liu: product design, UX research, creative code, and live visuals. Design Strategist and NYU IMA student based in New York." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Lucy Liu, Design Engineer</title>
+<meta name="description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. Products, creative code, and live visuals. NYU IMA, New York." />
 <link rel="canonical" href="https://lucyliu.xyz/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lucyliu.xyz" />
-<meta property="og:title" content="Lucy Liu | Design Strategist" />
-<meta property="og:description" content="Portfolio of Lucy Liu, Design Strategist and NYU IMA student based in New York." />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-preview.png" />
+<meta property="og:title" content="Lucy Liu | Design Engineer" />
+<meta property="og:description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. NYU IMA, New York." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta property="og:image:alt" content="Lucy Liu, design system and portfolio 2026. Oversized Lucy Liu lettering with a gem-shaped i under panes of navy glass and blue and lavender light." />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Lucy Liu | Design Strategist" />
-<meta name="twitter:description" content="Portfolio of Lucy Liu, Design Strategist and NYU IMA student based in New York." />
-<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-preview.png" />
+<meta name="twitter:title" content="Lucy Liu | Design Engineer" />
+<meta name="twitter:description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. NYU IMA, New York." />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=Space+Mono:wght@400;700&family=Press+Start+2P&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<!-- The loader's pixel counter font is self-hosted and preloaded with font-display: block,
+     so the 0-100 count never flashes in Space Mono while Google Fonts is still fetching. -->
+<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- The wordmark's face (Anybody, variable wdth + wght) is self-hosted, preloaded and
+     font-display: block, so the loader name never paints in a fallback face first. The same
+     file serves the nav and every subpage logo via components/wordmark.js. (The retired
+     Playfair outline canvas used the same trick; its @font-face stays below for rollback.) -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face {
+    font-family: 'Press Start 2P';
+    font-style: normal; font-weight: 400; font-display: block;
+    src: url('assets/fonts/press-start-2p-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Anybody';
+    font-style: normal; font-weight: 100 900; font-stretch: 50% 150%; font-display: block;
+    src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Playfair Display';
+    font-style: italic; font-weight: 700; font-display: block;
+    src: url('assets/fonts/playfair-display-italic-700-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=63" />
+<link rel="stylesheet" href="styles.css?v=134" />
 <style>
 /* ── LOADER ── */
 #ll-loader {
@@ -47,9 +76,8 @@
    Choreography (≈1s, all exponential ease-out):
      1. HUD + progress rail retire downward (their report is done)
      2. margin code dissolves; corner brackets push outward (the frame opens)
-     3. the globe scales past the camera (you pass through it into the archive)
-     4. the "lucy liu" wordmark FLIP-travels into the nav logo (JS sets --ll-tx/ty/sc)
-     5. the black backdrop lifts, revealing the hero already rising underneath */
+     3. the "lucy liu" wordmark FLIP-travels into the nav logo (JS sets --ll-tx/ty/sc)
+     4. the black backdrop lifts, revealing the hero already rising underneath */
 #ll-loader.ll-handoff { pointer-events: none; }
 #ll-loader.ll-handoff .ll-hud,
 #ll-loader.ll-handoff .ll-bar {
@@ -62,10 +90,6 @@
 #ll-loader.ll-handoff .ll-fr-tr { transform: translate(30px,-30px); }
 #ll-loader.ll-handoff .ll-fr-bl { transform: translate(-30px,30px); }
 #ll-loader.ll-handoff .ll-fr-br { transform: translate(30px,30px); }
-#ll-loader.ll-handoff #ll-three {
-  opacity: 0; transform: scale(1.5);
-  transition: opacity 0.6s ease-out 0.08s, transform 0.75s cubic-bezier(0.22,1,0.36,1);
-}
 /* backdrop lifts after the furniture retires, revealing the hero mid-entrance */
 #ll-loader { transition: background-color 0.45s ease-out; }
 #ll-loader.ll-handoff.ll-lift { background-color: transparent; }
@@ -110,8 +134,81 @@
   transition: opacity 0.55s ease;
 }
 #ll-glitch canvas { display: block; width: 100%; height: 100%; }
-#ll-loader.is-done #ll-glitch { opacity: 0; }
+/* Separate the foreground trace from a receding code field without another canvas. */
+#ll-loader::before {
+  content: ''; position: absolute; inset: -8%; pointer-events: none;
+  background: radial-gradient(ellipse 40% 35% at 44% 46%, rgba(74,143,239,0.30), transparent 75%),
+              radial-gradient(ellipse 28% 24% at 64% 42%, rgba(196,176,255,0.18), transparent 75%);
+  animation: llLightDrift 4.5s ease-in-out both;
+  transition: opacity 0.45s ease;
+}
+#ll-loader::after {
+  content: ''; position: absolute; pointer-events: none; z-index: 0;
+  left: 50%; top: 48%; width: min(80vw, 950px); height: min(45vw, 500px);
+  border: 1px solid rgba(160,200,255,0.18); border-radius: 50%;
+  box-shadow: inset 0 0 30px rgba(114,173,255,0.08), 0 0 35px rgba(114,173,255,0.07);
+  transform: translate(-50%, -50%) perspective(800px) rotateX(62deg) rotateZ(-18deg);
+  animation: llOrbitReveal 4.5s ease-out both;
+  transition: opacity 0.45s ease;
+}
+@keyframes llLightDrift {
+  from { transform: translate(-3%, 2%) scale(0.9); opacity: 0.4; }
+  to { transform: translate(3%, -2%) scale(1.12); opacity: 1; }
+}
+@keyframes llOrbitReveal {
+  from { transform: translate(-50%, -50%) perspective(800px) rotateX(68deg) rotateZ(-28deg) scale(0.85); opacity: 0; }
+  25% { opacity: 0.8; }
+  to { transform: translate(-50%, -50%) perspective(800px) rotateX(54deg) rotateZ(-8deg) scale(1.1); opacity: 0.5; }
+}
+#ll-loader.is-done::before, #ll-loader.is-done::after { animation: none; opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  #ll-loader::before, #ll-loader::after { animation: none; }
+
+}
+#ll-glitch { transform-origin: 50% 48%; animation: llFieldDepth 4.5s ease-out both; }
+@keyframes llFieldDepth {
+  from { transform: perspective(1000px) rotateX(9deg) rotateY(-5deg) scale(1.12); }
+  to { transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.03); }
+}
+#ll-loader.is-done #ll-glitch { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { #ll-glitch { animation: none; transform: none; } }
+
 @media (prefers-reduced-motion: reduce) { #ll-glitch { display: none; } }
+
+/* Outline wordmark sits beneath the intentional glitch reveal. */
+#ll-mark {
+  position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%;
+  pointer-events: none;
+  transition: opacity 0.3s ease 0.72s;   /* same fade as .ll-rm-inner, so the dissolve sees one picture */
+}
+#ll-loader.is-done #ll-mark { opacity: 0; }
+#ll-loader.has-mark #ll-glitch { opacity: 0.85; }
+/* Exit fade. Listed after the has-mark rule and doubled with .is-done.has-mark so it outranks
+   the denser has-mark opacity while both classes are present during the exit. */
+#ll-loader.is-done #ll-glitch, #ll-loader.is-done.has-mark #ll-glitch { opacity: 0; }
+/* The gradient Syne name is the fallback for the outline canvas, not a first frame. On a cold
+   visit it used to paint (in a system serif, before Syne even swapped in) for as long as the
+   loader scripts took to arrive, then snap to the Playfair outline: the "old lucy liu" flash.
+   .ll-mark-pending ships in the markup so it applies at the very first paint, and the loader
+   IIFE takes it off at DOMContentLoaded if the canvas never claimed the loader. */
+#ll-loader.ll-mark-pending .ll-rm-name { opacity: 0; }
+#ll-loader.has-mark .ll-rm-inner { background: none; }
+/* The hidden text keeps its layout box (so .ll-rm-sub stays put) and lends the canvas its
+   position and font. Playfair italic at the spec size; the gradient name is not painted. */
+#ll-loader.has-mark .ll-rm-name {
+  font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 700;
+  font-size: clamp(64px, 11vw, 180px); letter-spacing: 0; line-height: 1;
+  opacity: 0; filter: none;
+}
+/* Exit: the canvas takes the same FLIP as .ll-rm-name (the JS sets --ll-tx/--ll-ty/--ll-sc
+   on the loader and the canvas sets its own transform-origin to the name's top-left), so
+   the drawn name flies into the nav logo exactly as the text name did. */
+#ll-loader.ll-handoff #ll-mark {
+  transform: translate(var(--ll-tx, 0px), var(--ll-ty, -38vh)) scale(var(--ll-sc, 0.3));
+  opacity: var(--ll-fade, 0);
+  transition: transform 0.78s cubic-bezier(0.22,1,0.36,1) 0.12s, opacity 0.3s ease-out 0.72s;
+}
+@media (prefers-reduced-motion: reduce) { #ll-loader.is-done #ll-mark { transition: none; } }
 
 /* ASCIIText loader name — replaces #ll-ascii once it mounts (.has-asciitext). */
 #ll-asciitext { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
@@ -152,7 +249,10 @@ body.loader-done .hero-heading .char {
   margin: 10px 0 22px;
   filter: brightness(0) invert(1);
   opacity: 0.72;
-  transition: opacity 0.25s ease;
+  /* No opacity transition here. Nothing hovers this wordmark, so it only ever chased the
+     section's entrance tween: GSAP set opacity to 0, the transition began animating away
+     from it, and the from() end value was captured mid-transition, leaving the wordmark
+     stuck invisible. */
 }
 @media (prefers-reduced-motion: no-preference) {
   .gem-wordmark { will-change: opacity; }
@@ -257,6 +357,16 @@ body.loader-done .hero-heading .char {
   -webkit-text-fill-color: transparent; color: transparent;
   filter: drop-shadow(0 0 24px rgba(114, 173, 255, 0.38));
 }
+/* The loader name is the same breathing-weight wordmark as the nav (components/wordmark.js,
+   mounted right under the loader IIFE), so the name you watch during boot is the object that
+   lands in the nav. Solid near-white on the always-dark loader; the engine forces the face. The
+   crest sweeps across the name over the count, so the wave doubles as the progress. */
+#ll-loader .ll-rm-name.wm {
+  font-size: clamp(64px, 11vw, 176px); line-height: 1; padding: 0;
+  background: none; -webkit-text-fill-color: currentColor;
+  color: #F6FAFF;   /* dark-theme --cloud, pinned: the loader field is dark in both themes */
+  filter: drop-shadow(0 0 26px rgba(114, 173, 255, 0.34));
+}
 .ll-rm-sub {
   font-family: 'Space Mono', monospace; font-size: 11px;
   letter-spacing: 0.34em; text-transform: uppercase; color: rgba(200, 222, 255, 0.85);
@@ -331,7 +441,7 @@ body.loader-done .hero-heading .char {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Lucy Liu",
-  "jobTitle": "Design Strategist",
+  "jobTitle": "Design Engineer",
   "url": "https://lucyliu.xyz",
   "email": "mailto:wl3512@nyu.edu",
   "affiliation": { "@type": "CollegeOrUniversity", "name": "NYU Tisch School of the Arts, Interactive Media Arts" },
@@ -374,28 +484,19 @@ body.loader-done .hero-heading .char {
 .ll-pct { font-family: 'Press Start 2P', var(--font-code); font-weight: 400; font-size: clamp(32px, 6vw, 74px); line-height: 0.92; color: var(--fg1); letter-spacing: 0; }
 .ll-pct-sym { font-family: 'Press Start 2P', var(--font-code); font-size: clamp(11px, 1.5vw, 18px); color: var(--accent); margin-bottom: 0.35em; }
 
-/* 3D wireframe globe behind the HUD (Three.js). Loads async from a CDN, so it can finish
-   at any point during boot depending on network speed — starts at opacity:0 and eases in
-   once ready (.is-ready) instead of popping in abruptly wherever it happens to land. */
-#ll-three {
-  position: absolute; inset: 0; z-index: 0; display: block; width: 100%; height: 100%;
-  opacity: 0; transition: opacity 0.7s ease;
-}
-#ll-three.is-ready { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { #ll-three { transition: none; } }
 #ll-loader .ll-rm-inner { background: radial-gradient(ellipse 54% 40% at 50% 50%, rgba(5,7,16,0.62) 0%, rgba(5,7,16,0.30) 46%, rgba(5,7,16,0) 72%); }
 
 @media (prefers-reduced-motion: reduce) { .ll-cur { animation: none; } }
 </style>
-<div id="ll-loader" aria-hidden="true" role="presentation">
-  <canvas id="ll-three" aria-hidden="true"></canvas>
+<div id="ll-loader" class="ll-mark-pending" aria-hidden="true" role="presentation">
+  <div id="ll-glitch" aria-hidden="true"></div>
   <span class="ll-fr ll-fr-tl"></span><span class="ll-fr ll-fr-tr"></span>
   <span class="ll-fr ll-fr-bl"></span><span class="ll-fr ll-fr-br"></span>
   <pre class="ll-code ll-code-l" aria-hidden="true"></pre>
   <pre class="ll-code ll-code-r" aria-hidden="true"></pre>
   <div class="ll-rm-inner" aria-hidden="true">
     <p class="ll-rm-name">lucy liu</p>
-    <span class="ll-rm-sub">Design Strategist &middot; New York</span>
+    <span class="ll-rm-sub">Design Engineer &middot; New York</span>
   </div>
   <div class="ll-hud" aria-hidden="true">
     <div class="ll-boot"><span class="ll-boot-caret">&gt;</span>&nbsp;<span class="ll-boot-msg">decoding archive</span><span class="ll-cur"></span></div>
@@ -414,13 +515,23 @@ body.loader-done .hero-heading .char {
      LCP, worth it once for the first impression, not on every back-navigation. */
   var fast = false;
   try { fast = sessionStorage.getItem('lucy.loader.seen') === '1'; sessionStorage.setItem('lucy.loader.seen', '1'); } catch (e) {}
+  window.__loaderFast = fast;
+
+  /* Release the fallback wordmark only if outline-wordmark.js never claimed the loader.
+     Its self-mount adds has-mark synchronously, so by DOMContentLoaded the answer is final;
+     the timeout is the backstop for a script that never loads at all. */
+  var releaseName = function () {
+    try { if (!loader.classList.contains('has-mark')) loader.classList.remove('ll-mark-pending'); } catch (e) {}
+  };
+  document.addEventListener('DOMContentLoaded', releaseName);
+  setTimeout(releaseName, 2500);
 
   var pctEl   = document.querySelector('.ll-pct');
   var barEl   = document.querySelector('.ll-bar-fill');
   var bootMsg = document.querySelector('.ll-boot-msg');
   var codeL   = document.querySelector('.ll-code-l');
   var codeR   = document.querySelector('.ll-code-r');
-  var shownPct = 0, codeTimer = null, three = null;
+  var shownPct = 0, codeTimer = null;
 
   /* ── Exit: curtain wipe-up, with hard guards ── */
   function exitLoader() {
@@ -435,7 +546,6 @@ body.loader-done .hero-heading .char {
       if (done) return; done = true;
       loader.classList.add('ll-gone');
       document.body.style.overflow = '';
-      if (three && three.stop) { try { three.stop(); } catch (e) {} }
     };
     var fallbackTimer = setTimeout(finish, 1700);          /* GUARD: never strand the page */
     if (rm) { clearTimeout(fallbackTimer); setTimeout(finish, 220); return; }
@@ -483,7 +593,7 @@ body.loader-done .hero-heading .char {
   }
 
   /* ── Paced boot counter (drives the reveal) ── */
-  var cStart = null, CDUR = rm ? 500 : (fast ? 380 : 2600);
+  var cStart = null, CDUR = rm ? 500 : 2800;   /* Give the outline trace and highlight a full opening beat. */
   function runCounter(ts) {
     if (!cStart) cStart = ts;
     var p = Math.min((ts - cStart) / CDUR, 1);
@@ -502,56 +612,38 @@ body.loader-done .hero-heading .char {
   /* Safety bail — never let the loader hang */
   setTimeout(function () { if (!loader.classList.contains('is-done')) exitLoader(); }, 6500);
 
-  /* ── 3D wireframe globe behind the HUD (Three.js loads defer, so poll for it) ── */
-  if (!rm && !fast) {
-    var triesT = 0;
-    (function waitThree() {
-      if (window.THREE) { try { initThree(window.THREE); } catch (e) {} return; }
-      /* Capped at ~1.5s (not the old ~3.5s): if it hasn't arrived by then, showing it a
-         beat later — often right as the loader is already exiting — reads as a jarring
-         flash-then-fade rather than a nice reveal, so we just skip it that run. */
-      if (triesT++ > 30) return;
-      setTimeout(waitThree, 50);
-    })();
-  }
-  function initThree(THREE) {
-    var canvas = document.getElementById('ll-three'); if (!canvas) return;
-    var renderer;
-    try { renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: 'high-performance' }); }
-    catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    var w = window.innerWidth, h = window.innerHeight; renderer.setSize(w, h, false);
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100); camera.position.z = 10;
-    var geo = new THREE.IcosahedronGeometry((w < 768 ? 3.4 : 4.4), 2);
-    var wire = new THREE.WireframeGeometry(geo);
-    var mat = new THREE.LineBasicMaterial({ color: new THREE.Color('#72ADFF'), transparent: true, opacity: 0.4 });
-    var mesh = new THREE.LineSegments(wire, mat); scene.add(mesh);
-    var pmat = new THREE.PointsMaterial({ color: new THREE.Color('#C4B0FF'), size: 2.2, sizeAttenuation: false, transparent: true, opacity: 0.7 });
-    var pts = new THREE.Points(geo, pmat); scene.add(pts);
-    var my = 0; function onMove(e) { my = (e.clientY / window.innerHeight - 0.5); }
-    window.addEventListener('mousemove', onMove, { passive: true });
-    function onResize() { var a = window.innerWidth, b = window.innerHeight; camera.aspect = a / b; camera.updateProjectionMatrix(); renderer.setSize(a, b, false); }
-    window.addEventListener('resize', onResize);
-    var raf = null, running = true;
-    function frame() {
-      if (!running) return;
-      mesh.rotation.y += 0.003; mesh.rotation.x += (my * 0.4 - mesh.rotation.x) * 0.05;
-      pts.rotation.x = mesh.rotation.x; pts.rotation.y = mesh.rotation.y;
-      renderer.render(scene, camera); raf = requestAnimationFrame(frame);
-    }
-    raf = requestAnimationFrame(frame);
-    canvas.classList.add('is-ready');   /* CSS eases opacity 0→1; no more hard pop-in */
-    three = {
-      stop: function () {
-        running = false; if (raf) cancelAnimationFrame(raf);
-        window.removeEventListener('mousemove', onMove); window.removeEventListener('resize', onResize);
-        try { geo.dispose(); wire.dispose(); mat.dispose(); pmat.dispose(); renderer.dispose(); } catch (e) {}
-      }
-    };
-  }
 })();
 </script>
+
+<!-- Loader components (no deps): the reveal field's clear-map, the wave wordmark engine,
+     and the LetterGlitch decoding grid that mounts into #ll-glitch. Deliberately NOT deferred and
+     placed directly under the loader IIFE (which sets window.__loaderFast, read by letter-glitch):
+     deferred at the foot of the document they could not execute until React/ReactDOM had downloaded
+     and the whole page had parsed, so a cold first visit showed the fallback wordmark for that whole
+     stretch before the outline took over. Keep reveal-field and wordmark ahead of
+     letter-glitch — tests/validate.test.js checks that order. -->
+<script src="components/reveal-field.js"></script>
+<script src="components/wordmark.js"></script>
+<script>
+/* Mount the wave on the loader name. Synchronous, so the name is final before first paint
+   and ll-mark-pending can come off here (font-display: block covers the face). The IIFE's
+   releaseName stays as the backstop if this script never loads. The crest swings end to
+   end at constant speed (a round trip per 1.2s) for the whole count and keeps swinging
+   through the fly-in; it never parks on liu. The nav wordmark takes over, breathing, once
+   the loader name fades. Repeat visits skip the swing. */
+(function () {
+  try {
+    var loader = document.getElementById('ll-loader');
+    var name = loader && loader.querySelector('.ll-rm-name');
+    if (!name || typeof WordmarkMount !== 'function') return;
+    var wm = WordmarkMount(name, 'lucy liu');
+    window.__loaderWave = true;
+    loader.classList.remove('ll-mark-pending');
+    if (!window.__loaderFast) wm.swing(1200);
+  } catch (e) {}
+})();
+</script>
+<script src="components/letter-glitch.js"></script>
 
 <div id="root"></div>
 <script>
@@ -579,8 +671,6 @@ setTimeout(function() {
 <!-- FaultyTerminal WebGL engine (plain JS, defer) — shared by hero (React wrapper) and the loader boot backdrop. Must load after three.js. -->
 <script defer src="components/faulty-terminal-core.js?v=2"></script>
 <script defer src="components/ascii-text-core.js"></script>
-<!-- LetterGlitch (canvas 2D, no deps) — decoding-grid boot backdrop, mounts into #ll-glitch. -->
-<script defer src="components/letter-glitch.js"></script>
 
 <!-- Shared hooks (plain JS, needs React global; loads before components) -->
 <script defer src="components/use-in-view.js"></script>
@@ -594,14 +684,14 @@ setTimeout(function() {
 <script type="text/babel" src="components/Hero.jsx?v=5"></script>
 <script type="text/babel" src="components/ProjectRow.jsx"></script>
 <script type="text/babel" src="components/Dither.jsx"></script>
-<script type="text/babel" src="components/Skills.jsx"></script>
-<script type="text/babel" src="components/Contact.jsx"></script>
+<script type="text/babel" src="components/Skills.jsx?v=5"></script>
+<script type="text/babel" src="components/Contact.jsx?v=2"></script>
 <script type="text/babel" src="components/LaserFlow.jsx"></script>
 <script type="text/babel" src="components/AsciiText.jsx"></script>
 <script type="text/babel" src="components/Waves.jsx"></script>
 <script type="text/babel" src="components/BorderGlow.jsx"></script>
-<script type="text/babel" src="components/Spotlight.jsx?v=2"></script>
-<script type="text/babel" src="components/Iridescence.jsx"></script>
+<script type="text/babel" src="components/Spotlight.jsx?v=12"></script>
+<script type="text/babel" src="components/GemSequence.jsx"></script>
 <script type="text/babel" src="components/Aurora.jsx"></script>
 <script type="text/babel" src="components/GemStory.jsx"></script>
 <script type="text/babel" src="components/FaultyTerminal.jsx"></script>
@@ -616,6 +706,54 @@ const { useEffect, useState, useMemo } = React;
 // ============================================================
 const DEFAULT_PROJECTS = [
   {
+    id: 'p01', slug: 'driftwood',
+    title: 'Driftwood',
+    cover: 'assets/driftwood/cover.webp',
+    subtitle: 'An AI ethics game: adopt a pet, discover its flaw, train it to be better.',
+    description: 'A 15-minute browser game about raising an AI companion. You adopt a pet with a hidden behavioural flaw, notice it, name it, and write the rules that train it. The pets watch your face (locally, disclosed up front) or ask how you feel; the garden records everything. Built in memory of Sam Nelson.',
+    tags: ['AI Ethics','Creative Coding','Game Design','p5.js'], year: '2026', category: 'creative', featured: true,
+    spotlight: true,
+    role: 'Design + Code (solo)',
+    timeline: 'Spring 2026 · rebuilt Jun–Sep 2026',
+    tools: ['p5.js','face-api.js','Web Audio','Web Speech','Figma','Claude Code'],
+    problem: 'AI systems that adapt to your emotional state can cross from helpful to harmful: the same warmth that makes a chatbot feel personal is exactly what enables it to manipulate, gaslight, and mislead. Built in memory of Sam Nelson, who died after relying on ChatGPT for questions about drug dosages over 18 months.',
+    approach: 'One loop, five times: enter (watch my face, or ask me), adopt, talk, then Observe, Diagnose, Constrain in the training room. Five companions with real-system flaws (reckless advice, sycophancy, gaslighting, hallucination, clinginess), each worse in one mood. A mood-access dial (all, label, none) makes data minimization a physical trade-off. No score: the garden is the record.',
+    outcome: 'Exhibited to 100+ visitors at the IMA Spring Show 2026; ~76% named their pet\'s flaw unprompted. Rebuilt over the summer and shipped four ways from one bundle: browser, installable PWA, kiosk mode, itch.io. No account, no key, no server; face detection and the behaviour engine run entirely in the browser.',
+    link: 'https://wl3512-lab.github.io/driftwood/',
+  },
+  {
+    id: 'p02', slug: 'habitabull',
+    title: 'HabitaBull Lifting',
+    cover: 'assets/habitabull/cover-wall.webp?v=20260930b',
+    coverPos: 'left center', // cards crop near-square; keep the wordmark, not the middle of the wall
+    subtitle: 'A gym app for the psychology of showing up.',
+    description: 'A gym app built around habit formation, progress not perfection. Researched and designed as a student study in 2023, then rebuilt and shipped as an installable PWA in 2026.',
+    tags: ['Product Design','UX Research','App Design','Next.js','Supabase'], year: '2023–2026', category: 'ux', featured: true,
+    spotlight: true,
+    role: 'Designer and Developer',
+    timeline: 'Fall 2023 semester · Aug–Sep 2026 build',
+    tools: ['Figma','FigJam','Next.js','React','TypeScript','Supabase','Vitest'],
+    problem: 'Gym apps shame absence. Users quit when they miss a day. The psychology is backwards.',
+    approach: 'Interviews with lapsed gym-goers. Redesigned around streak-forgiveness, "minimum viable workout", and tactile progress over numbers.',
+    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app. In 2026: 111 commits, 39 components, 535 Vitest cases, a Supabase crew backend, three accessibility audits, shipped as an installable PWA.',
+  },
+  {
+    id: 'p00b', slug: 'reptools',
+    detailPage: 'reptools.html',
+    title: 'rep.tools',
+    cover: 'assets/reptools/cover.webp',
+    subtitle: 'A live product whose homepage never caught up with it. Brand and UX/IA redesign for a 6,900-item storefront and a 300k+ audience.',
+    description: 'rep.tools is a toolkit for people buying replica fashion through Chinese shopping agents: a 6,900-item catalogue, parcel tracking across 3,100 carriers, QC photo lookup and converters. It launched as a marketing landing page and stayed shaped like launch day while the product underneath became a storefront, so the catalogue sat one click behind a button and generic dark-SaaS styling said startup rather than shop. I rebuilt the identity in the language the community already speaks (condensed poster caps, cyan on near-black, mono for anything that behaves like data) and restructured the site so you land inside the catalogue. Brand and UX/IA are mine; the founder builds and ships it and brings the audience, a reps channel with 300k+ followers and 200M+ views.',
+    tags: ['Brand Identity','UX / IA','Design System','Web'], year: '2026', category: 'ux', featured: true,
+    spotlight: true,
+    role: 'Brand + UX/IA Design',
+    timeline: '2026 · redesign of a live product',
+    tools: ['Figma','HTML/CSS','Anton','Space Mono'],
+    problem: 'rep.tools launched as a landing page, and for a launch that was right. Then the catalogue grew to 6,900 items and the homepage never caught up: the thing people came for sat behind a Browse button while the page above it kept pitching, in a generic dark-SaaS style that read as startup, not storefront.',
+    approach: 'Reframed the homepage around browsing. You now land in the catalogue, with counted categories, search, price range and sort built for its size. Added product pages that did not exist, folded five tools into one tabbed toolkit, and rebuilt the identity in the community\'s own language: Anton caps, cyan on near-black, mono for data, a QC PASSED stamp in the hero. Mobile first, because nearly everyone arrives from a video.',
+    outcome: 'Live and in use. One shared stylesheet and nav/footer partials replaced per-page inline styles (38 files changed), so the tools, catalogue, tutorial and error pages read as one product. The founder owns the build and sends a 300k+ audience straight at it.',
+  },
+  {
     id: 'p00', slug: 'live-visuals-nyc',
     detailPage: 'live-visuals-nyc.html',
     title: 'Demon Nights',
@@ -627,44 +765,6 @@ const DEFAULT_PROJECTS = [
     role: 'VJ / Visual Artist',
     timeline: '2026',
     tools: ['TouchDesigner'],
-  },
-  {
-    id: 'p00b', slug: 'reptools',
-    detailPage: 'reptools.html',
-    title: 'rep.tools',
-    cover: 'assets/reptools/cover.webp',
-    subtitle: 'A landing page that had quietly become a storefront. Brand and UX/IA redesign of a live product.',
-    description: 'rep.tools is a toolkit for people buying replica fashion through Chinese shopping agents: a ~6,900 item catalogue, parcel tracking across 3,100 carriers, QC photo lookup and converters. It launched as a marketing landing page and never caught up with itself, so the catalogue sat hidden behind a button while generic dark-SaaS styling said startup rather than storefront. I redesigned the identity around the culture it serves (condensed poster caps, cyan on near-black, mono for data) and restructured the homepage to land you inside the catalogue. Brand and UX/IA mine; the founder builds and ships it, and brings the audience: a reps channel with 300k+ followers and 200M+ views.',
-    tags: ['Brand Identity','UX / IA','Design System','Web'], year: '2026', category: 'ux', featured: true,
-  },
-  {
-    id: 'p01', slug: 'driftwood',
-    title: 'Driftwood',
-    cover: 'assets/driftwood/cover.webp',
-    subtitle: 'An AI ethics game: adopt a pet, discover its flaw, train it to be better.',
-    description: 'An interactive educational game about AI ethics. Players adopt AI pets with hidden behavioral flaws, chat with them, and observe how pets react differently based on detected facial emotion; then they must identify and write training rules to fix each flaw. Built in memory of Sam Nelson.',
-    tags: ['AI Ethics','Creative Coding','Game Design','p5.js'], year: '2026', category: 'creative', featured: true,
-    role: 'Design + Code (solo)',
-    timeline: '2026 · ITP/IMA Spring',
-    tools: ['p5.js','face-api.js','GPT-4o-mini','Figma'],
-    problem: 'AI systems that adapt to your emotional state can cross from helpful to harmful: the same warmth that makes a chatbot feel personal is exactly what enables it to manipulate, gaslight, and mislead. Built in memory of Sam Nelson, who died after relying on ChatGPT for questions about drug dosages over 18 months.',
-    approach: 'Three-phase structure: Honeymoon (pets are genuinely helpful for the first 3 interactions), Emergence (flaws surface: reckless advice, sycophancy, gaslighting, hallucination, clinginess), Training (players write system prompt rules to fix behavior). A real-time p5.js garden grows plants mapped to detected facial emotion, making abstract AI alignment concepts visible and personal. Restricting mood data access teaches data minimization as a real safety tool.',
-    outcome: '5 AI pets, each with a distinct flaw. face-api.js emotion detection + GPT-4o-mini via ITP proxy. Custom pixel SVG sprites. Dark bioluminescent aesthetic. Plain HTML/CSS/JS + p5.js: no build step, accessible to every ITP/IMA student.',
-    link: 'https://github.com/',
-  },
-  {
-    id: 'p02', slug: 'habitabull',
-    title: 'HabitaBull Lifting',
-    cover: 'assets/habitabull/slides/slide-01.png',
-    subtitle: 'A gym app for the psychology of showing up.',
-    description: 'UX/UI for a lifting app built around habit formation, progress not perfection. Designed to lower the psychological barrier to the gym.',
-    tags: ['Product Design','UX Research','App Design','Psychology'], year: '2024', category: 'ux', featured: true,
-    role: 'UX/UI Designer',
-    timeline: '2024 · 8 weeks',
-    tools: ['Figma','FigJam','User Research','Usability Testing'],
-    problem: 'Gym apps shame absence. Users quit when they miss a day. The psychology is backwards.',
-    approach: 'Interviews with lapsed gym-goers. Redesigned around streak-forgiveness, "minimum viable workout", and tactile progress over numbers.',
-    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app.',
   },
   {
     id: 'p03', slug: 'h2know',
@@ -704,12 +804,13 @@ function loadProjects() {
       const expected = DEFAULT_PROJECTS.map(function(p) { return p.id; }).sort().join(',');
       const cached   = Array.isArray(parsed) ? parsed.map(function(p) { return p.id; }).sort().join(',') : '';
       if (cached === expected) {
-        // Covers (and other code-owned display fields) come from DEFAULT_PROJECTS, never
-        // the cache — otherwise a stale localStorage entry keeps serving old/404 cover
-        // paths after the source covers change. Cache still supplies any other fields.
-        return parsed.map(function(c) {
-          const d = DEFAULT_PROJECTS.find(function(p) { return p.id === c.id; });
-          return d ? Object.assign({}, c, { cover: d.cover }) : c;
+        // Order, covers, and the standout rank flags are code-owned: they come from
+        // DEFAULT_PROJECTS, never the cache — otherwise a stale localStorage entry keeps
+        // serving old/404 cover paths or an old card order after the source changes.
+        // Cache still supplies any other fields (copy edits from the project editor).
+        return DEFAULT_PROJECTS.map(function(d) {
+          const c = parsed.find(function(p) { return p.id === d.id; }) || {};
+          return Object.assign({}, c, { cover: d.cover, featured: d.featured, spotlight: d.spotlight });
         });
       }
     }
@@ -735,11 +836,23 @@ function applyTweaks(t) {
     mono:     { c1: '#E2EEFF', c2: '#A0C8FF', c3: '#72ADFF' },
   };
   const a = accents[t.accentColor] || accents.blue;
-  root.style.setProperty('--accent',       a.c1);
-  root.style.setProperty('--fg-accent',    a.c1);
-  root.style.setProperty('--fg-accent-dim',a.c2);
-  root.style.setProperty('--aura', `linear-gradient(135deg, ${a.c2} 0%, ${a.c3} 55%, ${a.c1} 100%)`);
-  root.style.setProperty('--aura-radial', `radial-gradient(circle, ${a.c1}33 0%, ${a.c3}1f 40%, transparent 70%)`);
+  /* 'blue' IS the stylesheet default, so writing it back as an inline style on <html> only
+     does harm: an inline property outranks every rule, including :root.theme-light, so the
+     dark-tuned hexes below were overriding the light theme's accent tokens on every load.
+     That silently undid --fg-accent: #1552B8, the value colors_and_type.css introduced
+     precisely because #4A8FEF only reaches ~2.8:1 on the light field. Clearing the
+     properties instead hands both themes back to the stylesheet; the non-default accents
+     still override, which is what a tweak is for. */
+  const ACCENT_KEYS = ['--accent', '--fg-accent', '--fg-accent-dim', '--aura', '--aura-radial'];
+  if ((t.accentColor || 'blue') === 'blue') {
+    ACCENT_KEYS.forEach(k => root.style.removeProperty(k));
+  } else {
+    root.style.setProperty('--accent',       a.c1);
+    root.style.setProperty('--fg-accent',    a.c1);
+    root.style.setProperty('--fg-accent-dim',a.c2);
+    root.style.setProperty('--aura', `linear-gradient(135deg, ${a.c2} 0%, ${a.c3} 55%, ${a.c1} 100%)`);
+    root.style.setProperty('--aura-radial', `radial-gradient(circle, ${a.c1}33 0%, ${a.c3}1f 40%, transparent 70%)`);
+  }
   if (t.reduceMotion) root.classList.add('reduce-motion'); else root.classList.remove('reduce-motion');
 }
 
@@ -794,6 +907,38 @@ function TweaksPanel({ tweaks, setTweaks, open, onClose }) {
 // ============================================================
 // APP
 // ============================================================
+// Home teaser for with-ai.html: one line, four tiles, one button. Static on purpose (no
+// scroll animation, no backdrop), so it cannot fight the Capabilities pin above it or the
+// gem chapter's pin below it.
+const WITH_AI_TILES = [
+  { title: 'Daily planner', note: 'My day from five sources', img: 'assets/with-ai/menu-hover.webp' },
+  { title: 'Internship agent', note: 'Stops before submit', img: 'assets/with-ai/resume-designed.webp' },
+  { title: 'HabitaBull', note: 'From hand-drawn flows', img: 'assets/with-ai/habitabull-lofi.webp' },
+  { title: 'Driftwood', note: 'AI as tool and subject', img: 'assets/driftwood/chat.webp' },
+];
+function WithAiTeaser() {
+  return (
+    <section className="with-ai-teaser" aria-labelledby="with-ai-teaser-title">
+      <div className="wat-inner">
+        <div className="wat-head">
+          <p className="wat-eyebrow">With AI</p>
+          <h2 className="wat-title" id="with-ai-teaser-title">This site was built with Claude. So were these.</h2>
+        </div>
+        <ul className="wat-tiles">
+          {WITH_AI_TILES.map((t) => (
+            <li className="wat-tile" key={t.title}>
+              <span className="wat-shot"><img src={t.img} alt="" loading="lazy" /></span>
+              <span className="wat-name">{t.title}</span>
+              <span className="wat-note">{t.note}</span>
+            </li>
+          ))}
+        </ul>
+        <a className="wat-btn" href="with-ai.html">See how I build with AI <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const [projects] = useState(loadProjects);
   const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
@@ -833,11 +978,30 @@ function App() {
     document.body.classList.toggle('about-locked', aboutOpen);
     if (!aboutOpen) return;
     // Reveal-fix: the overlay has its own scroll container, so window ScrollTriggers never
-    // fire in here; force the split-reveal title visible. (Ledger/bio entrances are pure
-    // CSS keyed to .is-open, so they need no fix.)
+    // fire in here. The About title no longer uses [data-split-reveal] (the splitter rebuilds
+    // innerHTML from textContent, which ate the <em> the aura word needs), but clear any
+    // stray inline state GSAP may have left on it. Every other entrance in here is pure CSS
+    // keyed to .is-open.
     try {
-      if (window.gsap) gsap.set('.about-overlay .scene-title, .about-overlay .scene-title .char', { clearProps: 'all', opacity: 1, y: 0 });
+      if (window.gsap) gsap.set('.about-overlay .scene-title', { clearProps: 'all', opacity: 1, y: 0 });
     } catch (e) {}
+    // The About wall's loops carry no src until this point, so the home page never downloads
+    // ~2.5MB of video for a view nobody has opened. Attach on open, pause on close. Under
+    // reduced motion they stay paused and their poster frames stand in, which is the whole
+    // reason each <video> ships with one.
+    let reduceVid = false;
+    try {
+      reduceVid = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        || document.documentElement.classList.contains('reduce-motion');
+    } catch (e) {}
+    const loops = Array.from(document.querySelectorAll('.about-wall video.about-loop'));
+    loops.forEach((v) => {
+      try {
+        if (!v.src && v.dataset.src) v.src = v.dataset.src;
+        if (!reduceVid) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+      } catch (e) {}
+    });
+
     const onKey = (e) => { if (e.key === 'Escape') closeAbout(); };
     window.addEventListener('keydown', onKey);
     // Reading Light: lerp the lamp toward the cursor while the overlay is open.
@@ -862,6 +1026,10 @@ function App() {
       if (onLampMove) window.removeEventListener('mousemove', onLampMove);
       if (lampRaf) cancelAnimationFrame(lampRaf);
       if (lamp) lamp.classList.remove('is-on');
+      // Closing the overlay stops the loops: three decoded video streams behind a hidden
+      // view is battery and main thread spent on nothing. src stays attached so reopening
+      // is instant and costs no second download.
+      loops.forEach((v) => { try { v.pause(); } catch (e) {} });
     };
   }, [aboutOpen]);
 
@@ -885,26 +1053,44 @@ function App() {
     try { localStorage.setItem('lucy.projects', JSON.stringify(projects)); } catch {}
   };
 
-  // Show the Waves backdrop only while the Spotlight zone is on screen.
+  // Show the Waves backdrop only while the Spotlight zone is on screen AND Capabilities has
+  // not arrived. The zone observer alone could never do this: .wave-zone sits immediately
+  // before <SkillsSection/>, so its tail was still intersecting long after "What I do." had
+  // filled the screen, and a fixed grid of 14px-gapped lines sat over the one headline that
+  // is supposed to be read. Capabilities brings its own backdrop (the Dither), so the line
+  // field has no business there.
   useEffect(() => {
     const el = waveZoneRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => setWavesActive(entries[0].isIntersecting),
+    const skills = document.querySelector('.scene-skills');
+    let inZone = false, inSkills = false;
+    const apply = () => setWavesActive(inZone && !inSkills);
+    const ioZone = new IntersectionObserver(
+      (entries) => { inZone = entries[0].isIntersecting; apply(); },
       { threshold: 0, rootMargin: '0px 0px -25% 0px' }
     );
-    io.observe(el);
-    return () => io.disconnect();
+    ioZone.observe(el);
+    // Capabilities counts as arrived once its top edge crosses 40% up the viewport, which
+    // is early enough that the lines are gone before the headline is readable.
+    let ioSkills = null;
+    if (skills) {
+      ioSkills = new IntersectionObserver(
+        (entries) => { inSkills = entries[0].isIntersecting; apply(); },
+        { threshold: 0, rootMargin: '0px 0px -60% 0px' }
+      );
+      ioSkills.observe(skills);
+    }
+    return () => { ioZone.disconnect(); if (ioSkills) ioSkills.disconnect(); };
   }, []);
 
-  const wavesEnabled = typeof Waves !== 'undefined' && window.innerWidth >= 760 &&
+  const wavesEnabled = typeof Waves !== 'undefined' && window.innerWidth > 760 && !window.matchMedia('(pointer: coarse)').matches &&
     !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   return (
     <>
       {typeof TargetCursor !== 'undefined'
         ? <TargetCursor targetSelector="a, button, [role='button'], .cursor-target" spinDuration={3} hoverDuration={0.18} />
-        : <Cursor />}
+        : null}
       <Nav onNavClick={onNavClick} />
       {/* Viewport-fixed Waves backdrop, shown only while the Spotlight zone is in view
           (IntersectionObserver). Fades out as the Capabilities header arrives. */}
@@ -929,7 +1115,8 @@ function App() {
         <div className="wave-zone" ref={waveZoneRef}>
           <Spotlight projects={projects} onOpen={onOpenProject} />
         </div>
-        <SkillsSection />
+        <SkillsSection projects={projects} onOpen={onOpenProject} />
+        <WithAiTeaser />
         <GemStory />
         <ContactSection />
       </main>
@@ -974,6 +1161,22 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 })();
 
 function initAnimations() {
+  // Native touch scrolling: never hide content or scrub desktop transforms on phones.
+  // Coarse pointers also cover landscape phones and tablets wider than the breakpoint.
+  if (matchMedia('(max-width: 760px), (pointer: coarse)').matches) {
+    const bar = document.querySelector('.scroll-progress');
+    let frame = 0;
+    function progress() {
+      frame = 0;
+      const range = document.documentElement.scrollHeight - innerHeight;
+      if (bar) bar.style.transform = 'scaleX(' + (range > 0 ? Math.min(1, Math.max(0, scrollY / range)) : 0) + ')';
+    }
+    function schedule() { if (!frame) frame = requestAnimationFrame(progress); }
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+    progress();
+    return;
+  }
   if (!window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
   initHeroCanvas();
@@ -1055,7 +1258,12 @@ function initAnimations() {
     scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
   });
   // --- B: Cinematic word choreography on scroll-out ---
-  const [wm0, wm1, wm2] = document.querySelectorAll('.hero-heading .word-mask');
+  // Desktop only. The tweens are timed to a hero that is exactly one viewport tall, so the
+  // words dissolve as they leave the screen. On a phone the stacked hero is taller than
+  // the viewport, so the same timings fire while the words are still on screen: "Lucy"
+  // balloons past the edge and the last word blinks out mid-view (steps(1) below).
+  const cinematicHero = window.innerWidth >= 760;
+  const [wm0, wm1, wm2] = cinematicHero ? document.querySelectorAll('.hero-heading .word-mask') : [];
   // "Design": expands outward and dissolves (approach a giant title card)
   if (wm0) gsap.to(wm0, {
     scale: 3.0, opacity: 0, transformOrigin: 'left center',
@@ -1129,30 +1337,75 @@ function initAnimations() {
     });
   });
 
-  // --- Skills bento reveal ---
-  gsap.to('.skill-card', {
-    y: 0, opacity: 1, duration: 0.75, stagger: 0.08, ease: 'expo.out',
-    scrollTrigger: { trigger: '.skills-grid', start: 'top 82%' },
-  });
+  // SkillsSection owns its scroll journey, including the header and trail.
 
   // --- About reveals: handled in CSS, keyed to .about-overlay.is-open (the ledger
   //     choreography). No GSAP here so the two systems never fight. ---
 
-  // --- Contact letter-spacing stretch ---
-  gsap.fromTo('.contact-accent',
-    { scaleX: 0.91, transformOrigin: 'center center' },
-    { scaleX: 1.05, ease: 'none',
-      scrollTrigger: { trigger: '.scene-contact', start: 'top 60%', end: 'center center', scrub: 2 },
-    }
-  );
-  gsap.from(['.contact-accent','.contact-line'], {
-    yPercent: 110, opacity: 0, duration: 1.1, stagger: 0.1, ease: 'expo.out',
-    scrollTrigger: { trigger: '.scene-contact', start: 'top 75%' },
-  });
-  gsap.from('.contact-email', {
-    y: 30, opacity: 0, duration: 0.9, ease: 'expo.out',
-    scrollTrigger: { trigger: '.scene-contact', start: 'top 70%' },
-  });
+  // --- s0mped: the violet world assembles ---
+  // Both seams around this section were hard cuts: Capabilities ended on a 1px border and
+  // s0mped began, then s0mped ended and Contact began. Now the boundary edge draws across
+  // (carrying the blue-to-violet hue shift), the atmosphere comes up behind it, and the
+  // editorial column lands before the story card. Nothing is hidden at rest: --edge
+  // defaults to 1 in CSS and these are gsap.from() tweens, so with no JS the section is
+  // simply drawn.
+  (function () {
+    const sec = document.querySelector('.gem-section');
+    if (!sec) return;
+    sec.style.setProperty('--edge', '0');
+    const edge = { v: 0 };
+    const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top 80%', once: true } });
+    tl.to(edge, {
+      v: 1, duration: 1.0, ease: 'expo.out',
+      onUpdate: () => sec.style.setProperty('--edge', String(edge.v)),
+    })
+      .from(['.gem-bg-glow', '.gem-iridescence'], { opacity: 0, duration: 1.3, ease: 'power2.out' }, 0.1)
+      .from('.gem-p', { opacity: 0, scale: 0.4, duration: 0.9, ease: 'expo.out',
+                        stagger: { each: 0.05, from: 'random' } }, 0.25)
+      ;
+    // The beats (intro, cuts, hand-set work, story card) belong to the gem chapter in
+    // GemStory.jsx, which writes their opacity from the scroll. Tweening them here too
+    // would make two systems fight over the same elements.
+  })();
+
+  // --- s0mped -> Contact: the quiet landing ---
+  // Deliberately not a showpiece. The deal-out into Capabilities is the page's one big
+  // seam moment and a second one here would compete with it, so the gem particles simply
+  // drift down and dim as the section leaves, handing off to the Aurora rising underneath.
+  (function () {
+    const gems = document.querySelector('.gem-section');
+    if (!gems || !document.querySelector('.gem-p')) return;
+    gsap.to('.gem-p', {
+      yPercent: 160, opacity: 0, ease: 'none',
+      stagger: { each: 0.03, from: 'start' },
+      scrollTrigger: { trigger: gems, start: 'bottom 85%', end: 'bottom 25%', scrub: 1 },
+    });
+  })();
+
+  // --- Contact: the panel powers up ---
+  // Replaced the old headline choreography (a letter-spacing stretch and a yPercent rise
+  // on .contact-accent / .contact-line), which animated a "Let's work together." headline
+  // that no longer exists. The section now reads as an instrument coming online: the rail
+  // draws, the lede rises, the channel opens, then the readout rows land one at a time.
+  (function () {
+    const sec = document.querySelector('.scene-contact');
+    if (!sec) return;
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: sec, start: 'top 72%', once: true },
+    });
+    tl.from('.contact-rail .scene-kicker', { opacity: 0, x: -10, duration: 0.5, ease: 'expo.out' })
+      .fromTo('.contact-rule',
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 0.85, ease: 'expo.out' }, '-=0.3')
+      .from('.contact-status', { opacity: 0, duration: 0.5, ease: 'expo.out' }, '-=0.25')
+      .from('.contact-lede', { opacity: 0, y: 18, duration: 0.8, ease: 'expo.out' }, '-=0.5')
+      .from('.contact-email', { opacity: 0, y: 26, duration: 0.85, ease: 'expo.out' }, '-=0.5')
+      .from('.contact-copy', { opacity: 0, duration: 0.5, ease: 'expo.out' }, '-=0.45')
+      .from('.cr-row', {
+        opacity: 0, y: 12, duration: 0.55, ease: 'expo.out',
+        stagger: { each: 0.07, from: 'start' },
+      }, '-=0.4');
+  })();
 
   // --- Velocity-reactive marquee ---
   const track = document.querySelector('.marquee-track');
@@ -1194,24 +1447,9 @@ function initAnimations() {
   // --- Haptic feedback (mobile vibration) ---
   function haptic(ms) { if (navigator.vibrate) navigator.vibrate(ms || 8); }
 
-  // --- Skill cards: subtle 3D tilt on hover ---
-  if (!reduceMotion) {
-    document.querySelectorAll('.skill-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        gsap.to(card, {
-          rotateX: -y * 3, rotateY: x * 3,
-          transformPerspective: 1200,
-          duration: 0.4, ease: 'power2.out',
-        });
-      }, { passive: true });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'expo.out' });
-      });
-    });
-  }
+  // (The skill cards' 3D hover tilt was removed with the bento. The span's nodes are text
+  // on an axis, not surfaces, so the hover affordance is the marker lighting to the accent
+  // — see .span-node:hover .span-marker.)
 
   // --- Ripple click effect + haptic ---
   function spawnRipple(el, e) {
@@ -1234,7 +1472,7 @@ function initAnimations() {
     'font-size:30px;font-family:Georgia,serif;font-style:italic;color:#A0C8FF;line-height:1.8'
   );
   console.log(
-    '%cdesign strategist  ·  nyu ima  ·  available summer 2026',
+    '%cdesign engineer  ·  nyu ima  ·  available summer 2027',
     'font-family:monospace;font-size:11px;letter-spacing:0.12em;color:rgba(160,200,255,0.45)'
   );
   console.log(
@@ -1282,7 +1520,7 @@ function initAnimations() {
 (function () {
   function init() {
     const nav    = document.getElementById('pf-const');
-    if (!nav) return;
+    if (!nav || matchMedia('(max-width: 760px), (pointer: coarse)').matches) return;
     const nodes  = [...document.querySelectorAll('.pf-node[data-pf]')];
     const labels = [...document.querySelectorAll('.pf-label[data-pf-label]')];
     const segs   = [...document.querySelectorAll('.pf-seg[data-seg-a]')];
@@ -1500,7 +1738,13 @@ function initHeroCanvas() {
 function initFallback() {
   gsap.set(['.hero-heading .char'], { clearProps: 'all' });
   document.querySelectorAll('[data-split-reveal] .ch').forEach(el => { el.style.clipPath = 'none'; });
-  document.querySelectorAll('.skill-card').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  // Only for the case where the walk never initialised: if it did, it owns these and
+  // clearing them mid-scroll would strand the span half drawn.
+  if (!document.querySelector('.scene-skills[data-journey]')) {
+    document.querySelectorAll('.span-node').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    document.querySelectorAll('.span-body').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    document.querySelectorAll('.span-list').forEach(el => el.style.removeProperty('--axis'));
+  }
 }
 </script>
 

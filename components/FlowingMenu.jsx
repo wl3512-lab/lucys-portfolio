@@ -135,6 +135,29 @@ function FlowMenu(props) {
   const openRef = useRef(false);
   const overlayRef = useRef(null);
   const tlRef = useRef(null);
+  const wordmarkRef = useRef(null);
+
+  // The wordmark engine (components/wordmark.js) owns this span's children, which is
+  // why it renders empty below. Without the engine the name falls back to plain text.
+  // The one-time sweep waits for the loader handoff, so it plays where you can see it.
+  useEffect(function () {
+    const el = wordmarkRef.current;
+    if (!el) return;
+    if (typeof WordmarkMount === 'undefined') { el.textContent = logoText; return; }
+    const wm = WordmarkMount(el, logoText);
+    let timer = 0;
+    // When the loader wore the same wordmark, it already swept and flies in at rest, so the
+    // nav only picks up the breath. Otherwise the nav does its own sweep.
+    const start = window.__loaderWave ? wm.breathe : wm.sweep;
+    const sweep = function () { timer = setTimeout(start, window.__loaderFast ? 200 : 900); };
+    if (window.__loaderExited) sweep();
+    else window.addEventListener('loader:exit', sweep, { once: true });
+    return function () {
+      clearTimeout(timer);
+      window.removeEventListener('loader:exit', sweep);
+      wm();
+    };
+  }, [logoText]);
 
   const animate = useCallback(function (opening) {
     const overlay = overlayRef.current;
@@ -188,8 +211,7 @@ function FlowMenu(props) {
     <div className="flow-menu-root">
       <header className="flow-menu-header">
         <a href="/" className="flow-menu-logo" aria-label="Lucy Liu, back to top">
-          <span className="flow-menu-logo-mark" aria-hidden="true">✶</span>
-          <span className="flow-menu-logo-text">{logoText}</span>
+          <span className="flow-menu-logo-text" ref={wordmarkRef} />
         </a>
         <div className="flow-menu-header-actions">
           {typeof AnimatedThemeToggler !== 'undefined' && <AnimatedThemeToggler />}

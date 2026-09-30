@@ -7,9 +7,9 @@
 <meta name="theme-color" content="#050710" />
 <title>Project | Lucy Liu</title>
 <meta name="description" content="Project detail: interaction design, creative coding, and accessibility-focused work by Lucy Liu." />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
@@ -69,7 +69,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: -0.03em; line-height: 1.05;
   margin-bottom: 24px;
 }
-.pj-title em { font-style: italic; color: var(--fg2); }
+.pj-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .pj-subtitle {
   font-family: var(--font-body); font-size: 18px;
   color: var(--fg2); line-height: 1.6;
@@ -158,13 +158,17 @@ img { display: block; max-width: 100%; }
 }
 .pj-foot-back:hover { color: var(--fg1); border-color: var(--fg2); }
 </style>
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body>
 
 <nav class="pj-nav">
   <div class="pj-nav-inner">
-    <a class="pj-logo" href="index.html">lucy liu</a>
-    <a class="pj-back" href="index.html#work">← all work</a>
+    <a class="pj-logo" href="index.html" data-wordmark>lucy liu</a>
+    <a class="pj-back" href="work.html">← all work</a>
   </div>
 </nav>
 
@@ -219,7 +223,7 @@ const slug = new URLSearchParams(location.search).get('slug');
 const p = PROJECTS.find(x => x.slug === slug);
 
 if (!p) {
-  location.replace('index.html#work');
+  location.replace('work.html');
 } else {
   document.title = p.title + ' ' + p.titleEm + ' | Lucy Liu';
   renderProject(p);
@@ -271,8 +275,8 @@ function renderProject(p) {
     <div class="pj-slides" id="pj-slides-container"></div>
 
     <footer class="pj-foot">
-      <span class="pj-foot-logo">lucy liu</span>
-      <a class="pj-foot-back" href="index.html#work">← back to all work</a>
+      <span class="pj-foot-logo" data-wordmark>lucy liu</span>
+      <a class="pj-foot-back" href="work.html">← back to all work</a>
     </footer>
   `;
 

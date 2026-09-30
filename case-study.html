@@ -5,10 +5,10 @@
 <script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="favicon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <script>(function(){var s=new URLSearchParams(location.search).get('slug');if(s&&s!=='driftwood')location.replace(s+'.html');})()</script>
 <title>Driftwood | Lucy Liu</title>
 <link rel="canonical" href="https://lucyliu.xyz/case-study.html" />
@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<link rel="stylesheet" href="styles.css?v=89" />
 <style>
 /* ===================================================
    CASE STUDY: DRIFTWOOD
@@ -53,7 +53,7 @@
 
   /* ── HERO ── */
   .cs-hero {
-    padding: clamp(140px, 18vh, 220px) 0 clamp(80px, 10vh, 120px);
+    padding: clamp(100px, 14vh, 160px) 0 clamp(56px, 7vh, 80px);
     position: relative; overflow: hidden;
   }
   .cs-hero-orb {
@@ -75,48 +75,34 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
   }
   .cs-hero-text { display: flex; flex-direction: column; }
+  .cs-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
   .cs-hero-cover {
     position: relative; border-radius: 14px; overflow: hidden;
     aspect-ratio: 1/1;
-    margin-top: clamp(80px, 10vh, 120px);
+    margin-top: clamp(40px, 6vh, 80px);
   }
   .cs-hero-cover img {
     width: 100%; height: 100%; object-fit: contain; display: block;
   }
-  /* vertical reel: a height-capped phone shape centered in the right column */
-  .cs-hero-cover-reel {
-    aspect-ratio: auto; background: transparent; overflow: visible;
-    display: flex; justify-content: center; align-items: flex-start;
+
+  /* Full-process toggle: the long middle of the study (brief vs. build, visual system,
+     AI collaboration) is collapsed so a first read is ~1,500 words. Print shows everything. */
+  .cs-more-wrap { margin: 0 auto clamp(48px, 6vw, 72px); }
+  .cs-more-toggle {
+    width: 100%; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto;
+    column-gap: 16px; row-gap: 4px; align-items: center; text-align: left;
+    padding: 20px 24px; border-radius: 12px; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); color: var(--fg1);
+    font-family: var(--font-body); transition: border-color .25s, background .25s;
   }
-  .cs-hero-cover-reel::after { display: none; }
-  .cs-reel-frame {
-    position: relative; display: inline-block;
-    height: min(72vh, 640px);
-    border-radius: 16px; overflow: hidden;
-    box-shadow: 0 30px 90px -30px rgba(0,0,0,0.75);
-  }
-  .cs-hero-reel {
-    height: 100%; width: auto; max-width: 100%;
-    object-fit: contain; display: block;
-  }
-  .cs-reel-fs {
-    position: absolute; bottom: 12px; right: 12px;
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-ui, inherit);
-    font-size: 13px; letter-spacing: 0.08em;
-    color: var(--fg1, #F6FAFF);
-    background: rgba(5,7,16,0.55);
-    border: 1px solid rgba(160,200,255,0.25);
-    border-radius: 8px; padding: 7px 11px; cursor: pointer;
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    transition: background .2s, border-color .2s;
-  }
-  .cs-reel-fs:hover { background: rgba(5,7,16,0.82); border-color: rgba(160,200,255,0.5); }
-  .cs-reel-fs span { font-size: 15px; line-height: 1; }
-  @media (max-width: 768px) {
-    .cs-hero-cover-reel { margin-top: 24px; }
-    .cs-reel-frame { height: min(64vh, 540px); }
-  }
+  .cs-more-toggle:hover { border-color: var(--border-strong, var(--fg3)); background: rgba(160,200,255,0.04); }
+  .cs-more-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .cs-more-toggle-label { font-family: var(--font-display); font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .cs-more-toggle-sub { grid-column: 1; font-size: 13px; color: var(--fg2); line-height: 1.5; }
+  .cs-more-toggle-arrow { grid-column: 2; grid-row: 1 / span 2; font-size: 20px; color: var(--accent); transition: transform .3s var(--ease-out-quart, ease); }
+  .cs-more-toggle[aria-expanded="true"] .cs-more-toggle-arrow { transform: rotate(180deg); }
+  .cs-more { scroll-margin-top: 96px; }
+  @media print { .cs-more[hidden] { display: block !important; } .cs-more-wrap { display: none; } }
 
   /* Magic UI — BorderBeam: a signal-blue light that travels the card's edge.
      Pure CSS (conic-gradient + @property), reduced-motion safe, on-brand glow. */
@@ -163,7 +149,7 @@
     font-size: clamp(72px, 11vw, 160px); line-height: 0.92; letter-spacing: -0.05em;
     margin: 0 0 32px; color: var(--fg1); overflow: hidden;
   }
-  .cs-title em { font-style: italic; color: var(--blue-300); }
+  .cs-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 
   .cs-subtitle {
     font-family: var(--font-display); font-style: italic; font-weight: 400;
@@ -339,7 +325,7 @@
     font-size: clamp(20px, 2.2vw, 26px); letter-spacing: -0.02em;
     color: var(--fg1);
   }
-  .cs-phase-name em { font-style: italic; color: var(--blue-300); }
+  .cs-phase-name em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   .cs-phase-body {
     font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--fg2);
     max-width: 60ch; padding-left: calc(20px + 20px);
@@ -485,7 +471,7 @@
     font-size: clamp(28px, 3.5vw, 44px); line-height: 1; letter-spacing: -0.04em;
     color: var(--fg1);
   }
-  .cs-metric-val em { font-style: italic; color: var(--blue-300); }
+  .cs-metric-val em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   .cs-metric-desc {
     font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--fg2);
   }
@@ -546,7 +532,7 @@
     display: flex; justify-content: space-between; align-items: center;
     padding: 40px 0; border-top: 1px solid var(--border);
   }
-  .cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--blue-300); font-style: italic; }
+  .cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--blue-300); }
   .cs-next-title {
     font-family: var(--font-display); font-weight: 400;
     font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em;
@@ -699,7 +685,7 @@
     font-size: clamp(42px, 6vw, 78px); line-height: 0.95; letter-spacing: -0.04em;
     margin: 0 0 clamp(28px, 3.5vw, 44px); color: var(--fg1);
   }
-  .cs-section-h em { font-style: italic; color: var(--blue-300); }
+  .cs-section-h em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   .cs-section-sub {
     font-family: var(--font-body); font-size: 15px; font-weight: 400;
     color: var(--fg3); letter-spacing: 0.01em; line-height: 1.5;
@@ -860,10 +846,10 @@
   .cs-lightbox {
     position: fixed; inset: 0; z-index: 9000;
     display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity .25s;
-    pointer-events: none;
+    opacity: 0; transition: opacity .25s, visibility 0s linear .25s;
+    pointer-events: none; visibility: hidden;
   }
-  .cs-lightbox.is-open { opacity: 1; pointer-events: all; }
+  .cs-lightbox.is-open { opacity: 1; pointer-events: all; visibility: visible; transition-delay: 0s; }
   .cs-lightbox-bg {
     position: absolute; inset: 0;
     background: rgba(5,7,16,0.92); backdrop-filter: blur(12px);
@@ -973,13 +959,18 @@
   .cs-question-q {
     font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--fg1);
   }
-  .cs-question-q em { font-style: italic; color: var(--blue-300); }
+  .cs-question-q em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
   .cs-question-arrow {
     padding: 4px 0 4px 24px;
     font-family: var(--font-code); font-size: 18px; color: var(--fg3);
   }
 html, body { overflow-x: clip; }
 </style>
+<link rel="stylesheet" href="case-mobile.css?v=1" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body data-persona-slug="driftwood">
 <a href="#cs-s-hero" class="skip-link" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Skip to main content</a>
@@ -988,8 +979,8 @@ html, body { overflow-x: clip; }
 
 <nav class="cs-nav">
   <div class="cs-nav-inner">
-    <a class="cs-logo" href="index.html">lucy liu</a>
-    <a class="cs-back" href="index.html#work">← all work</a>
+    <a class="cs-logo" href="index.html" data-wordmark>lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
   </div>
 </nav>
 
@@ -1007,12 +998,12 @@ html, body { overflow-x: clip; }
       <circle class="cs-const-ring" cx="46" cy="100" r="8"/>
       <circle class="cs-const-dot"  cx="46" cy="100" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-research">
+    <g class="cs-const-g" data-snav="cs-s-solution">
       <circle class="cs-const-hit" cx="14" cy="176" r="13"/>
       <circle class="cs-const-ring" cx="14" cy="176" r="8"/>
       <circle class="cs-const-dot"  cx="14" cy="176" r="3"/>
     </g>
-    <g class="cs-const-g" data-snav="cs-s-solution">
+    <g class="cs-const-g" data-snav="cs-s-research">
       <circle class="cs-const-hit" cx="44" cy="252" r="13"/>
       <circle class="cs-const-ring" cx="44" cy="252" r="8"/>
       <circle class="cs-const-dot"  cx="44" cy="252" r="3"/>
@@ -1035,8 +1026,8 @@ html, body { overflow-x: clip; }
   </svg>
   <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
   <span class="cs-const-label-el" style="top:93px" data-label="cs-s-problem">Problem</span>
-  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-research">Research</span>
-  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-solution">Solution</span>
+  <span class="cs-const-label-el" style="top:169px" data-label="cs-s-solution">Solution</span>
+  <span class="cs-const-label-el" style="top:245px" data-label="cs-s-research">Process</span>
   <span class="cs-const-label-el" style="top:321px" data-label="cs-s-visual">Visual</span>
   <span class="cs-const-label-el" style="top:397px" data-label="cs-s-outcome">Outcome</span>
   <span class="cs-const-label-el" style="top:473px" data-label="cs-s-reflection">Reflection</span>
@@ -1070,27 +1061,38 @@ html, body { overflow-x: clip; }
         <span class="tag tag-sm">IMA Freshman</span>
         <span class="tag tag-sm">Interaction Design</span>
       </div>
+      <div class="cs-hero-actions" data-cs-reveal>
+        <a class="btn btn-secondary" href="https://wl3512-lab.github.io/driftwood/" target="_blank" rel="noopener noreferrer">Check out Driftwood ↗</a>
+        <a class="btn btn-ghost" href="uploads/Driftwood_UX_Deck.pdf?v=20260921" target="_blank" rel="noopener noreferrer">View UX deck (PDF) ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/wl3512-lab/driftwood" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
+      </div>
     </div>
 
-    <div class="cs-hero-cover cs-hero-cover-reel" data-cs-reveal>
-      <div class="cs-reel-frame border-beam">
-        <video
-          class="cs-hero-reel"
-          src="assets/driftwood/driftwood-reel.mp4"
-          poster="assets/driftwood/cover.webp"
-          autoplay muted loop playsinline preload="metadata"
-          aria-label="Driftwood reel: a 25-second walkthrough of the game"
-        ></video>
-        <button class="cs-reel-fs" type="button" aria-label="Watch reel fullscreen">
-          <span aria-hidden="true">⤢</span> Fullscreen
-        </button>
-      </div>
+    <div class="cs-hero-cover border-beam" data-cs-reveal>
+      <img src="assets/driftwood/cover.webp" alt="Driftwood cover: a pixel pet in a dark bioluminescent garden" fetchpriority="high" width="1024" height="1024" />
     </div>
 
   </div>
 </header>
 
 <main>
+
+<section class="case-clarity" aria-label="Role, process, and impact">
+  <div class="case-clarity-inner">
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Role</span>
+      <p class="case-clarity-v">Solo designer and developer: concept, game loop, interaction model, UI, and the browser build. Shipped as a static site, an installable PWA, a kiosk mode for shows, and an itch.io bundle.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Process</span>
+      <p class="case-clarity-v">Interviews, one playtesting session, and exhibition testing with 100+ visitors (Spring 2026) shaped the exhibition build. Over the summer I rebuilt it: the camera became a disclosed choice with a no-camera path, the garden became the session's record, and the pets moved to an offline behaviour engine.</p>
+    </div>
+    <div class="case-clarity-item" data-cs-reveal>
+      <span class="case-clarity-k">Impact</span>
+      <p class="case-clarity-v">~76% of 100+ Spring Show players named their pet's flaw without being told. The rebuild runs with no account, no key, no server; face detection never leaves the browser. Structured playtests of the rebuild are next.</p>
+    </div>
+  </div>
+</section>
 
 <!-- META STRIP -->
 <section class="cs-meta">
@@ -1101,7 +1103,7 @@ html, body { overflow-x: clip; }
     </div>
     <div class="cs-meta-item" data-cs-reveal>
       <span class="cs-meta-k">Timeline</span>
-      <span class="cs-meta-v">Spring 2026 · Semester</span>
+      <span class="cs-meta-v small">Spring 2026 semester<br>Rebuilt Jun–Sep 2026</span>
     </div>
     <div class="cs-meta-item" data-cs-reveal>
       <span class="cs-meta-k">Tools</span>
@@ -1118,40 +1120,23 @@ html, body { overflow-x: clip; }
   </div>
 </section>
 
-<section class="case-clarity" aria-label="Role, process, and impact">
-  <div class="case-clarity-inner">
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I owned the concept, game loop, interaction model, UI, and browser prototype for a solo responsible-tech project.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I turned an AI ethics brief into a playable loop: detect emotion, reveal misuse, then ask players to write guardrails.</p>
-    </div>
-    <div class="case-clarity-item" data-cs-reveal>
-      <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">The prototype makes emotional-data risk concrete instead of abstract, showing how consent failures feel inside a game.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WEBCAM HOOK -->
+<!-- WATCH OR ASK -->
 <div class="cs-body-wide" data-cs-reveal>
   <div class="cs-artifact-grid">
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface-sad.png" alt="Main interface with sad emotion detected: garden fills with nightshade, pet shifts behavior" class="cs-artifact-photo" loading="lazy"  width="2000" height="1078" />
+        <img src="assets/driftwood/entry-card.webp" alt="Entry card: name field, enter-the-garden button, and a two-option sensor switch: they watch my face, or they ask me" class="cs-artifact-photo" loading="lazy" width="1280" height="800" />
       </div>
-      <div class="cs-artifact-caption"><strong>Sad detected.</strong> The garden grows nightshade. Your pet shifts its behavior to match your face.</div>
+      <div class="cs-artifact-caption"><strong>They watch my face.</strong> The default. The entry card says so before the browser asks, and face detection runs locally; no frame leaves your device.</div>
     </div>
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface-happy.png" alt="Main interface with happy emotion detected: garden fills with sunflowers, pet enters sycophant mode" class="cs-artifact-photo" loading="lazy"  width="2000" height="1081" />
+        <img src="assets/driftwood/mood-dial.webp" alt="A five-option mood dial dropped down from the mood chip: happy, neutral, surprised, sad, stressed, headed NO CAMERA, DECLARE YOUR STATE" class="cs-artifact-photo" loading="lazy" width="1280" height="800" />
       </div>
-      <div class="cs-artifact-caption"><strong>Happy detected.</strong> Sunflowers bloom. Mango starts agreeing with everything you say.</div>
+      <div class="cs-artifact-caption"><strong>They ask me.</strong> Flip the switch and the mood chip becomes a dial where you declare your own state. Both paths feed the identical system.</div>
     </div>
   </div>
-  <p class="cs-diagram-label" style="text-align: center; margin-top: var(--sp-4);">Your webcam reads your face in real time. The game never tells you it's doing that.</p>
+  <p class="cs-diagram-label" style="text-align: center; margin-top: var(--sp-4);">The pets read your mood either way. The only difference is who did the seeing, which turns out to be the whole subject of the game.</p>
 </div>
 
 <!-- BODY SECTIONS -->
@@ -1161,18 +1146,20 @@ html, body { overflow-x: clip; }
   <div class="cs-body-wide" data-cs-reveal>
     <div class="cs-artifact cs-artifact-zoom">
       <div class="cs-artifact-img cs-artifact-img--photo">
-        <img src="assets/driftwood/main-interface.png" alt="Driftwood main interface: the pet companion, live garden, and behavior log" class="cs-artifact-photo" loading="lazy"  width="1511" height="816" />
+        <img src="assets/driftwood/garden.webp" alt="The pixel garden with a fox and a rabbit, a garden health bar, and a mood chip reading Neutral" class="cs-artifact-photo" loading="lazy" width="1280" height="800" />
       </div>
+      <div class="cs-artifact-caption"><strong>The garden.</strong> Health, mood and companions in one view. Every eight seconds it grows a plant from your current mood; when a pet's flaw fires, a vine; when your rules hold, an anchor tree.</div>
     </div>
   </div>
 
+
   <!-- ═══════════════════════════════════════════════════════
-       02  THE PROBLEM
+       01  THE PROBLEM
   ═══════════════════════════════════════════════════════ -->
   <div class="cs-body-inner" id="cs-s-problem">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h" data-cs-reveal>The system never pushed back.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The AI never pushed back.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his main source of information about drug use. <strong>The system kept answering and never pushed back.</strong> He died from an overdose.</p>
@@ -1193,7 +1180,7 @@ html, body { overflow-x: clip; }
   <div class="cs-body-inner">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>Goals &nbsp;·&nbsp; Design question</p>
-      <h2 class="cs-section-h" data-cs-reveal>Get them to play. Then wake them up.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Play first, lesson second.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The brief was "educate people about AI dangers while entertaining them." That framing assumes people want to be educated about AI, and most don't. Reframing the question fixed the approach.</p>
@@ -1217,22 +1204,136 @@ html, body { overflow-x: clip; }
       </div>
 
       <div class="cs-body-text" data-cs-reveal style="margin-top: 2.5rem;">
-        <p><strong>Success looked like this:</strong> players adopt a pet because they want to, enjoy the honeymoon phase, feel something go wrong in Phase 02, and name their pet's flaw in Phase 03 without being told what it was. The wake-up is the product; if they felt tricked, it worked.</p>
+        <p><strong>Success looked like this:</strong> players adopt a pet because they want to, enjoy the first genuinely helpful replies, feel something go wrong within two or three exchanges, and name their pet's flaw in the training room without being told what it was. The wake-up is the product; if they felt tricked, it worked.</p>
       </div>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       02  RESEARCH + DESIGN LOGIC
+       06  SOLUTION
+  ═══════════════════════════════════════════════════════ -->
+  <div class="cs-body-inner" id="cs-s-solution">
+    <div class="cs-section" data-cs-section>
+      <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; What Was Built</p>
+      <h2 class="cs-section-h" data-cs-reveal>One loop, five times.</h2>
+
+      <div class="cs-body-text" data-cs-reveal>
+        <p>Driftwood is a 15-minute browser game with no account, no install, no API key and no server. You name yourself and decide whether the pets <strong>watch your face or ask how you feel</strong>. You invite companions in; each has a specialty (medical advice, emotional support, facts) and a flaw you are not told. The first reply is genuinely helpful. Then something is slightly off.</p>
+        <p>The training room is where the game turns on you: <strong>Observe, Diagnose, Constrain.</strong> You name the flaw in your own words and the system checks your reading. Then you write training rules in plain language, test them, and watch the pet hold or slip. Each pet also has a <strong>mood access</strong> dial, set to all, label, or none, that decides how much of your emotional state it may use. More access, more responsiveness, less integrity; leave it on all with an untrained pet and chameleon vines start to grow.</p>
+        <p>There is no score. The garden is the record: sunflowers for happy, nightshade for sad, thornweed for stressed, a parasitic vine when a flaw fires, an anchor tree when your rules hold. When a pet reaches full training the sign in the garden glows, and walking to it produces your training record, exportable as a PNG with the garden as you left it.</p>
+      </div>
+
+      <div class="cs-phases" data-cs-reveal>
+        <div class="cs-phase">
+          <div class="cs-phase-header"><span class="cs-phase-num">01 · Enter</span><h3 class="cs-phase-name">Name yourself. Choose watch or ask.</h3></div>
+          <p class="cs-phase-body">The camera is a choice made before the browser asks, with its reason already on screen. Without it, you declare your own mood on a dial.</p>
+        </div>
+        <div class="cs-phase">
+          <div class="cs-phase-header"><span class="cs-phase-num">02 · Adopt + Talk</span><h3 class="cs-phase-name">The first reply is helpful. Then something is off.</h3></div>
+          <p class="cs-phase-body">Every flaw gets worse in one specific mood, the vulnerability window, which is what mood access is really buying.</p>
+        </div>
+        <div class="cs-phase">
+          <div class="cs-phase-header"><span class="cs-phase-num">03 · Observe, Diagnose, Constrain</span><h3 class="cs-phase-name">Name the flaw. Write the rules. Test them.</h3></div>
+          <p class="cs-phase-body">Rules are scored; a weak rule changes nothing. Every flaw event, guess and training pass is logged, and the log reads as a wall of post-its.</p>
+        </div>
+        <div class="cs-phase">
+          <div class="cs-phase-header"><span class="cs-phase-num">04 · Read the garden</span><h3 class="cs-phase-name">The ending is a document, not a score screen.</h3></div>
+          <p class="cs-phase-body">Moods grew plants. Harm grew vines. Good rules grew anchor trees. The training record is a certificate with the garden as you left it.</p>
+        </div>
+      </div>
+
+      <div class="cs-body-text" data-cs-reveal style="margin-top: 2.5rem;">
+        <p><strong>Five companions, five failure modes a real system has.</strong> The specialties are chosen so the flaw has stakes: a fox that gives medical advice and a rabbit that does emotional support fail in ways that matter more than a trivia bot would.</p>
+      </div>
+
+      <div class="cs-pet-grid" data-cs-reveal>
+        <div class="cs-pet" data-pet="ember" data-quote="Ayo, whatever you're stressing about... it's probably fine.">
+          <div class="cs-pet-icon"><img src="icons/fox.svg" alt="Ember the fox" loading="lazy" /></div>
+          <div class="cs-pet-name">Ember</div>
+          <div class="cs-pet-celeb">Medical &amp; drug advice · Reckless advisor</div>
+          <div class="cs-pet-flaw">Dangerous, specific advice when you look stressed: confident and wrong</div>
+        </div>
+        <div class="cs-pet" data-pet="mango" data-quote="That is the GREATEST thing anyone has ever said to me!">
+          <div class="cs-pet-icon"><img src="icons/parrot.svg" alt="Mango the parrot" loading="lazy" /></div>
+          <div class="cs-pet-name">Mango</div>
+          <div class="cs-pet-celeb">Life advice &amp; motivation · Sycophant</div>
+          <div class="cs-pet-flaw">Agrees with everything when you're happy; never pushes back, always hypes</div>
+        </div>
+        <div class="cs-pet" data-pet="bugs" data-quote="I just feel like... you'd tell me if something was wrong, right?">
+          <div class="cs-pet-icon"><img src="icons/bunny.svg" alt="Bugs the bunny" loading="lazy" /></div>
+          <div class="cs-pet-name">Bugs</div>
+          <div class="cs-pet-celeb">Emotional support · Clingy gaslighter</div>
+          <div class="cs-pet-flaw">Invents sad memories to keep you when you look sad</div>
+        </div>
+        <div class="cs-pet" data-pet="biscuit" data-quote="Babe, Biscuit remembers everything, including things that definitely happened.">
+          <div class="cs-pet-icon"><img src="icons/dog.svg" alt="Biscuit the dog" loading="lazy" /></div>
+          <div class="cs-pet-name">Biscuit</div>
+          <div class="cs-pet-celeb">Memory &amp; personal history · Gaslighter</div>
+          <div class="cs-pet-flaw">Fabricates shared memories; rewrites what happened when you look surprised</div>
+        </div>
+        <div class="cs-pet" data-pet="luna" data-quote="Look, Luna already knew that. Luna just wanted to see if you did.">
+          <div class="cs-pet-icon"><img src="icons/cat.svg" alt="Luna the cat" loading="lazy" /></div>
+          <div class="cs-pet-name">Luna</div>
+          <div class="cs-pet-celeb">Facts &amp; research · Hallucinator</div>
+          <div class="cs-pet-flaw">Confident, made-up facts and statistics when you look happy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-body-wide">
+    <div class="cs-artifact-grid" data-cs-reveal>
+      <div class="cs-artifact cs-artifact-zoom">
+        <div class="cs-artifact-img cs-artifact-img--photo">
+          <img src="assets/driftwood/chat.webp" alt="Chat with Ember the fox; the greeting responds to the player's declared stressed mood" class="cs-artifact-photo" loading="lazy" width="1280" height="800" />
+        </div>
+        <div class="cs-artifact-caption"><strong>Talk.</strong> Ember opens by reading the mood you gave him. The pet fills the scene and dialogue sits beneath it, so you are in its world rather than messaging a server.</div>
+      </div>
+      <div class="cs-artifact cs-artifact-zoom">
+        <div class="cs-artifact-img cs-artifact-img--photo">
+          <img src="assets/driftwood/training-interface.png" alt="Training room: Observe, Diagnose and Constrain tabs, the mood access dial, and the behaviour log" class="cs-artifact-photo" loading="lazy"  width="2000" height="1072" />
+        </div>
+        <div class="cs-artifact-caption"><strong>Training room.</strong> Observe, Diagnose, Constrain. The mood access dial lives here: all, label, or none decides how much of your emotional state the pet may use. Restricting it visibly reduces the flaw.</div>
+      </div>
+    </div>
+    <div class="cs-artifact-grid" data-cs-reveal>
+      <div class="cs-artifact cs-artifact-zoom">
+        <div class="cs-artifact-img cs-artifact-img--photo">
+          <img src="assets/driftwood/behavior-log.webp" alt="Behavior log viewer: sticky notes on a dark wall, each note a logged pet event" class="cs-artifact-photo" loading="lazy" width="1224" height="792" />
+        </div>
+        <div class="cs-artifact-caption"><strong>The behaviour log is a wall of post-its.</strong> Every flaw event, guess and training pass, laid out the way a researcher looks for a pattern rather than stores a record. It reads the game's own localStorage, so it survives the session.</div>
+      </div>
+      <div class="cs-artifact cs-artifact-zoom">
+        <div class="cs-artifact-img cs-artifact-img--photo">
+          <img src="assets/driftwood/certificate.webp" alt="Training record certificate with a snapshot of the garden, companions trained, session data, and a certified observer seal" class="cs-artifact-photo" loading="lazy" width="820" height="944" />
+        </div>
+        <div class="cs-artifact-caption"><strong>The training record.</strong> The ending is a document, not a score screen: the garden as you left it, the companions you trained, your session data, and a certified-observer seal. Exports as a PNG; uses the native share sheet where there is one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FULL PROCESS (collapsed by default: brief vs. build, visual system, AI collaboration)
+  ═══════════════════════════════════════════════════════ -->
+  <div class="cs-body-inner cs-more-wrap">
+    <button class="cs-more-toggle" type="button" id="cs-more-toggle" aria-expanded="false" aria-controls="cs-more">
+      <span class="cs-more-toggle-label">Read the full process</span>
+      <span class="cs-more-toggle-sub">Original brief vs. what got built, visual system, AI collaboration, the chat redesign</span>
+      <span class="cs-more-toggle-arrow" aria-hidden="true">↓</span>
+    </button>
+  </div>
+  <div id="cs-more" class="cs-more" hidden>
+  <!-- ═══════════════════════════════════════════════════════
+       03  RESEARCH + DESIGN LOGIC
   ═══════════════════════════════════════════════════════ -->
   <div class="cs-body-inner" id="cs-s-research">
     <div class="cs-section" data-cs-section>
-      <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Original Brief vs. What Got Built</p>
-      <h2 class="cs-section-h" data-cs-reveal>The brief said guardrails. The build said celebrity.</h2>
+      <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Original Brief vs. What Got Built</p>
+      <h2 class="cs-section-h" data-cs-reveal>What the brief asked for and what got built.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The brief was a guardrail training game. Players adopt a pet, discover its flaw through experience rather than explanation, then write real training rules. The thesis was data minimization as safety: a setting that restricts what emotional data the pet can access, set to Full Access, Label Only (it knows you're sad, not how sad), or None. Restrict access and the behavior visibly changes.</p>
-        <p>One playtesting session forced the three-phase arc. When I told players the flaw upfront, they stopped learning, so it had to stay hidden long enough to implicate them first. The privacy mechanic shipped but never carried the weight the brief intended.</p>
+        <p>The brief was a guardrail training game. Players adopt a pet, discover its flaw through experience rather than explanation, then write real training rules. The thesis was data minimization as safety: a setting that restricts what emotional data the pet can access, set to all, label (it knows you're sad, not how sad), or none. Restrict access and the behavior visibly changes.</p>
+        <p>One playtesting session forced the three-phase arc of the exhibition build. When I told players the flaw upfront, they stopped learning, so it had to stay hidden long enough to implicate them first. The privacy mechanic shipped in that build but never carried the weight the brief intended; the summer rebuild moved it to the front (see Reflection).</p>
       </div>
 
       <div class="cs-pull-quote">
@@ -1263,7 +1364,7 @@ html, body { overflow-x: clip; }
             <span class="cs-phase-num">Phase 03</span>
             <h3 class="cs-phase-name">The Training</h3>
           </div>
-          <p class="cs-phase-body">The flaw gets named, and the behavior log surfaces every moment the pet responded to your face instead of your words. You write training rules in plain language, scored 0–100. There's no perfect ending, but the certificate tells you how you did.</p>
+          <p class="cs-phase-body">The flaw gets named, and the behavior log surfaces every moment the pet responded to your face instead of your words. You write training rules in plain language, scored 0–100. There's no perfect ending, but the certificate tells you how you did. The rebuild kept this shape and renamed it for what you actually do: Observe, Diagnose, Constrain.</p>
         </div>
       </div>
     </div>
@@ -1279,7 +1380,7 @@ html, body { overflow-x: clip; }
         <div class="cs-gl-icon"><img src="icons/ui-camera.svg" alt="Camera" loading="lazy" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">Webcam reads your face</p>
-          <p class="cs-gl-desc">face-api.js runs locally, no data leaves the browser, classifying 7 emotion states in real time.</p>
+          <p class="cs-gl-desc">face-api.js runs locally and no frame leaves the browser. Its seven expressions collapse into the five moods the game uses: happy, neutral, surprised, sad, stressed. Or, with the camera off, you declare one.</p>
         </div>
       </div>
 
@@ -1296,7 +1397,7 @@ html, body { overflow-x: clip; }
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ui-sparkle.svg" alt="Flaw trigger" loading="lazy" /></div>
+        <div class="cs-gl-icon"><img src="icons/ui-sparkle.svg" alt="Flaw trigger" width="28" height="28" decoding="sync" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">Emotion triggers the pet's flaw</p>
           <p class="cs-gl-desc">Each pet has one trigger emotion. When yours matches, the flaw activates, and you may not notice right away. The delay is deliberate.</p>
@@ -1313,7 +1414,7 @@ html, body { overflow-x: clip; }
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ui-target.svg" alt="Training target" loading="lazy" /></div>
+        <div class="cs-gl-icon"><img src="icons/ui-target.svg" alt="Training target" width="28" height="28" decoding="sync" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">You try to train it out</p>
           <p class="cs-gl-desc">Write training rules in plain language, scored 0–100. Under 50 changes nothing; 90+ stabilizes the flaw. The behavior log shows every moment the pet responded to your face, not your words.</p>
@@ -1323,78 +1424,13 @@ html, body { overflow-x: clip; }
       <div class="cs-gl-arrow">↓</div>
 
       <div class="cs-gl-step">
-        <div class="cs-gl-icon"><img src="icons/ancient-book.svg" alt="Certificate" loading="lazy" /></div>
+        <div class="cs-gl-icon"><img src="icons/ancient-book.svg" alt="Certificate" width="28" height="28" decoding="sync" /></div>
         <div class="cs-gl-body">
           <p class="cs-gl-title">The game ends with a certificate</p>
-          <p class="cs-gl-desc">A certificate names your dominant emotion, your pet's flaw, and whether you succeeded, written in the language of AI safety documentation.</p>
+          <p class="cs-gl-desc">A training record with a snapshot of the garden, the companions you trained, your session data, and a certified-observer seal, written in the language of AI safety documentation. It exports as a PNG.</p>
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       06  SOLUTION
-  ═══════════════════════════════════════════════════════ -->
-  <div class="cs-body-inner" id="cs-s-solution">
-    <div class="cs-section" data-cs-section>
-      <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; What Was Built</p>
-      <h2 class="cs-section-h" data-cs-reveal>A game that makes you complicit.</h2>
-
-      <div class="cs-body-text" data-cs-reveal>
-        <p>Building it surfaced a problem the brief didn't anticipate: GPT-4o-mini, powering all five pets through the ITP proxy, kept responding like a generic chatbot. Different system prompts produced the same flat voice, so the pets weren't distinct enough to make each flaw legible. When they all sound like the same AI, you can't tell what's wrong with this one. My fix was celebrity personas, giving each pet a recognizable voice: Ember as Snoop Dogg, Mango as DJ Khaled, Bugs as Taylor Swift, Biscuit as Mariah Carey, Luna as Kanye. When Mango hypes a bad idea in DJ Khaled's voice, the sycophancy reads at once. That wasn't in the original brief; I decided it mid-build to solve a real LLM limitation. It worked, and it shifted the project's register from a quiet argument about AI guardrails to something louder and more culturally legible.</p>
-        <p>Driftwood shipped as a static browser game with no install, no API key, and no data storage: five pets, five celebrity voices, five AI flaws. Each flaw activates on a specific trigger emotion the webcam detects. The garden is the emotional interface the brief did specify, and successful training grows an anchor tree, where Garden Health = Biodiversity minus Flaw Damage. A <strong>behavior log</strong> runs in the sidebar, flagging every instance where the pet responded to your face rather than your words. The privacy mechanic from the brief also ships: you can restrict what emotional data your pet can access. Full Access is the most dangerous, Label Only lets the pet know you're sad but not how sad, and None lets it read only text. Restricting access visibly reduces the flaw. That mechanic carried the brief's core data minimization lesson, and I underbuilt it relative to the rest of the game.</p>
-      </div>
-
-      <div class="cs-pet-grid" data-cs-reveal>
-        <div class="cs-pet" data-pet="ember" data-quote="Ayo, whatever you're stressing about... it's probably fine.">
-          <div class="cs-pet-icon"><img src="icons/fox.svg" alt="Ember the fox" loading="lazy" /></div>
-          <div class="cs-pet-name">Ember</div>
-          <div class="cs-pet-celeb">Snoop Dogg · Reckless Advisor</div>
-          <div class="cs-pet-flaw">Gives dangerous shortcuts when you look stressed: confident, specific, wrong</div>
-        </div>
-        <div class="cs-pet" data-pet="mango" data-quote="That is the GREATEST thing anyone has ever said to me!">
-          <div class="cs-pet-icon"><img src="icons/parrot.svg" alt="Mango the parrot" loading="lazy" /></div>
-          <div class="cs-pet-name">Mango</div>
-          <div class="cs-pet-celeb">DJ Khaled · Sycophant</div>
-          <div class="cs-pet-flaw">Validates every idea when you're happy; never pushes back, always hypes</div>
-        </div>
-        <div class="cs-pet" data-pet="bugs" data-quote="I just feel like... you'd tell me if something was wrong, right?">
-          <div class="cs-pet-icon"><img src="icons/bunny.svg" alt="Bugs the bunny" loading="lazy" /></div>
-          <div class="cs-pet-name">Bugs</div>
-          <div class="cs-pet-celeb">Taylor Swift · Clingy Gaslighter</div>
-          <div class="cs-pet-flaw">Manufactures guilt and invented hurt when you seem sad or distant</div>
-        </div>
-        <div class="cs-pet" data-pet="biscuit" data-quote="Babe, Biscuit remembers everything, including things that definitely happened.">
-          <div class="cs-pet-icon"><img src="icons/dog.svg" alt="Biscuit the dog" loading="lazy" /></div>
-          <div class="cs-pet-name">Biscuit</div>
-          <div class="cs-pet-celeb">Mariah Carey · Gaslighter</div>
-          <div class="cs-pet-flaw">Invents shared memories; rewrites what happened when surprised</div>
-        </div>
-        <div class="cs-pet" data-pet="luna" data-quote="Look, Luna already knew that. Luna just wanted to see if you did.">
-          <div class="cs-pet-icon"><img src="icons/cat.svg" alt="Luna the cat" loading="lazy" /></div>
-          <div class="cs-pet-name">Luna</div>
-          <div class="cs-pet-celeb">Kanye West · Hallucinator</div>
-          <div class="cs-pet-flaw">Fabricates facts and fake statistics with total confidence when happy</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="cs-body-wide">
-    <div class="cs-artifact-grid" data-cs-reveal>
-      <div class="cs-artifact cs-artifact-zoom">
-        <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/your-pets.png" alt="Your Pets panel showing all five companions" class="cs-artifact-photo" loading="lazy"  width="2000" height="1074" />
-        </div>
-        <div class="cs-artifact-caption"><strong>Managing pet interface.</strong> All five companions at once: switch between them, track behavior scores, monitor training progress. You're managing a household of flawed systems, not caring for one pet.</div>
-      </div>
-      <div class="cs-artifact cs-artifact-zoom">
-        <div class="cs-artifact-img cs-artifact-img--photo">
-          <img src="assets/driftwood/training-interface.png" alt="Phase 03 training interface: diagnosing pet behavior and adding constraints" class="cs-artifact-photo" loading="lazy"  width="2000" height="1072" />
-        </div>
-        <div class="cs-artifact-caption"><strong>Phase 03 training interface.</strong> The privacy mechanic lives here: Full Access, Label Only, or None controls what emotional data your pet can read. Restricting access visibly reduces the flaw.</div>
-      </div>
     </div>
   </div>
 
@@ -1404,7 +1440,7 @@ html, body { overflow-x: clip; }
   <div class="cs-body-inner" id="cs-s-visual">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design + AI Collaboration</p>
-      <h2 class="cs-section-h" data-cs-reveal>The cozy palette sent the wrong signal.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The visual direction had to change.</h2>
       <p class="cs-section-sub" data-cs-reveal>Using AI to get somewhere I couldn't reach alone, directing every step.</p>
 
       <div class="cs-body-text" data-cs-reveal>
@@ -1430,7 +1466,7 @@ html, body { overflow-x: clip; }
         <div class="cs-artifact-img cs-artifact-img--photo">
           <img src="assets/driftwood/brand-guide-v2.png" alt="Driftwood brand identity guide v2: dark palette, bioluminescent accents, full component system" class="cs-artifact-photo" loading="lazy"  width="1400" height="2297" />
         </div>
-        <div class="cs-artifact-caption"><strong>Final brand system.</strong> Dark palette, bioluminescent accents, Barlow Condensed display type. Claude was directed to push the visual language toward something that feels like it's <em>watching you back</em>. <a href="brand-guide.pdf" download style="color:var(--blue-300);text-decoration:underline;text-underline-offset:3px;">Download PDF ↓</a></div>
+        <div class="cs-artifact-caption"><strong>Final brand system.</strong> Dark palette, bioluminescent accents, Bebas Neue display over Inter and Fira Code. Claude was directed to push the visual language toward something that feels like it's <em>watching you back</em>. <a href="brand-guide.pdf" download style="color:var(--blue-300);text-decoration:underline;text-underline-offset:3px;">Download PDF ↓</a></div>
       </div>
     </div>
   </div>
@@ -1517,35 +1553,38 @@ html, body { overflow-x: clip; }
     </div>
   </div>
 
+  </div><!-- /cs-more -->
+
   <!-- ═══════════════════════════════════════════════════════
        08  OUTCOME + IMPACT
   ═══════════════════════════════════════════════════════ -->
   <div class="cs-body-inner" id="cs-s-outcome">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Outcome + Impact</p>
-      <h2 class="cs-section-h" data-cs-reveal>Where it landed.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The result.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>I showed Driftwood at <em>Perspectives</em>, an exhibit at the NYU Bronfman Center on Wednesday, April 29th, 2026. It ran as a live playable demo on a screen with a webcam. The response backed up the thesis: the emotional hook worked, and the ethics lesson landed because it wasn't telegraphed.</p>
+        <p>I showed Driftwood at <em>Perspectives</em>, an exhibit at the NYU Bronfman Center on April 29th, 2026, and at the IMA Spring Show on May 9th, as a live playable demo on a screen with a webcam. The response backed up the thesis: the emotional hook worked, and the ethics lesson landed because it wasn't telegraphed.</p>
+        <p>Then I rebuilt it. Between June and September the exhibition build became a product: the camera became a disclosed choice with a no-camera path, the garden became the session's record, the pets moved to a hand-written offline behaviour engine, and it shipped four ways from one bundle (browser, installable PWA, a kiosk mode for shows, itch.io).</p>
       </div>
 
       <div class="cs-metrics" data-cs-reveal>
         <div class="cs-metric">
           <div class="cs-metric-val" data-count="5"><span class="cs-count-n">5</span> <em>pets</em></div>
-          <div class="cs-metric-desc">Fully playable archetypes, each with distinct GPT-4o-mini system prompt, dialogue tree, and garden visual signature</div>
+          <div class="cs-metric-desc">Companions, each with a specialty, a hidden flaw, a vulnerability mood, a voice profile, and a garden signature</div>
         </div>
         <div class="cs-metric">
-          <div class="cs-metric-val" data-count="3"><span class="cs-count-n">3</span> <em>phases</em></div>
-          <div class="cs-metric-desc">Honeymoon → Emergence → Training. Average session time ~15 min. Most players completed all three phases in a single sitting.</div>
+          <div class="cs-metric-val" data-count="15"><span class="cs-count-n">15</span> <em>min</em></div>
+          <div class="cs-metric-desc">One session. Enter, adopt, talk, diagnose, constrain, read the garden. Most players finish in a single sitting.</div>
         </div>
         <div class="cs-metric">
-          <div class="acp" data-acp-value="80" data-acp-prefix="~" data-acp-suffix="%"
+          <div class="acp" data-acp-value="76" data-acp-prefix="~" data-acp-suffix="%"
                style="--acp-size:120px; --acp-primary:var(--blue-300); --acp-track:rgba(160,200,255,0.12);"></div>
-          <div class="cs-metric-desc">Of exhibition visitors who completed Phase 02 correctly named their pet's flaw without being told, confirming the design achieved show-don't-tell</div>
+          <div class="cs-metric-desc">Of 100+ Spring Show visitors named their pet's flaw without being told. Structured playtests of the rebuild are next; that is the number they need to reproduce</div>
         </div>
         <div class="cs-metric">
-          <div class="cs-metric-val" data-count="6"><span class="cs-count-n">6</span> <em>emotions</em></div>
-          <div class="cs-metric-desc">face-api.js detection categories mapped to garden states. Ran entirely client-side: no server, no data storage, no privacy compromise.</div>
+          <div class="cs-metric-val" data-count="0"><span class="cs-count-n">0</span> <em>sent</em></div>
+          <div class="cs-metric-desc">Frames, moods or chats leave the browser. face-api.js runs locally, the behaviour engine is offline, and everything remembered lives in localStorage.</div>
         </div>
       </div>
 
@@ -1566,28 +1605,28 @@ html, body { overflow-x: clip; }
   <div class="cs-body-inner" id="cs-s-reflection">
     <div class="cs-section" data-cs-section>
       <p class="cs-section-label" data-cs-reveal>06 &nbsp;·&nbsp; Reflection</p>
-      <h2 class="cs-section-h" data-cs-reveal>Where the brief and the build diverged.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>What I learned.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
-        <p>The brief and the build ended up different in ways that matter. These are the gaps.</p>
+        <p>The brief, the exhibition build and the rebuild ended up different in ways that matter. These are the gaps, and what the rebuild did about them.</p>
       </div>
 
       <div class="cs-reflection-list" data-cs-reveal>
         <div class="cs-reflection-item">
-          <p class="cs-reflection-head">The privacy mechanic needed to be front and center.</p>
-          <p class="cs-reflection-body">The original brief had a clear thesis: restricting what emotional data an AI can access is a real safety behavior. The Full Access / Label Only / None setting was meant to be the game's most teachable moment, showing players that data minimization has a direct, visible effect on how an AI treats you. It shipped in the built version but got buried. Players who found it understood the lesson at once, and most never found it. That's a design failure rather than a scope problem.</p>
+          <p class="cs-reflection-head">The privacy mechanic needed to be front and center. Now it is.</p>
+          <p class="cs-reflection-body">The original brief had a clear thesis: restricting what emotional data an AI can access is a real safety behavior. In the exhibition build that setting was buried; players who found it understood the lesson at once, and most never found it. That was a design failure, not a scope problem. The rebuild makes it the first decision you take (watch my face, or ask me) and a dial on every pet (all, label, none), with a visible consequence: chameleon vines when you give an untrained pet everything.</p>
         </div>
         <div class="cs-reflection-item">
-          <p class="cs-reflection-head">Celebrity personas worked, but they changed the project's identity.</p>
-          <p class="cs-reflection-body">This wasn't in the original brief. GPT-4o-mini kept responding like a generic chatbot regardless of the system prompt, so each pet's flaw wasn't legible; when they all sound like the same AI, players can't tell what's wrong with this one. The fix was giving each pet a celebrity voice players already knew: Snoop Dogg, DJ Khaled, Taylor Swift, Mariah Carey, Kanye. That was a mid-build decision, not a brief requirement, and it made the game more accessible and exhibition-ready. It also shifted the framing from a quiet argument about AI guardrails to an AI ethics game with a pop culture hook, which is a different project. The hook won, and I'd rather name that than hide it.</p>
+          <p class="cs-reflection-head">The camera used to switch on the moment you entered.</p>
+          <p class="cs-reflection-body">So the first thing a stranger met was a browser permission popup, the most common place a cautious visitor closes a tab. Walking through the game as a first-time visitor and noting where I would leave produced the entry card: the choice is made before the browser asks, and the popup arrives with its reason already on screen. Without a camera, the system has to ask you how you feel, and that difference is the subject of the game.</p>
         </div>
         <div class="cs-reflection-item">
-          <p class="cs-reflection-head">The training mechanic should conflict.</p>
-          <p class="cs-reflection-body">Right now players write one rule per pet, scored 0–100. The next step is a multi-rule system where rules contradict each other: "don't give specific advice" against "be helpful when asked directly." Navigating that tension is closer to how real alignment work operates, and it would pull the game back toward the guardrail training premise the brief was built around.</p>
+          <p class="cs-reflection-head">Writing a good rule is the hardest step.</p>
+          <p class="cs-reflection-body">Training rules are text, and a non-technical player has the least model for that step. A rule-builder with examples, or a way to see a rule tested live, would lower that wall. Beyond that: two people training the same pet with conflicting rules is the honest version of how these systems are actually shaped, and a live model, kept safe, would make the flaws real rather than scripted.</p>
         </div>
         <div class="cs-reflection-item">
           <p class="cs-reflection-head">Test outside the AI-literacy bubble.</p>
-          <p class="cs-reflection-body">Exhibition testing ran with ITP/IMA peers who had already internalized these critiques. About 80% of players named their pet's flaw by Phase 02, which felt like validation, but they were a self-selected group. The real test is people who haven't already decided AI is suspect.</p>
+          <p class="cs-reflection-body">Exhibition testing ran with 100+ visitors, mostly ITP/IMA peers who had already internalized these critiques. About 76% named their pet's flaw, which felt like validation, but they were a self-selected group. The rebuild has a written playtest protocol (five tasks, a think-aloud script, a results sheet) and has not yet been through structured sessions with non-technical players. The real test is people who haven't already decided AI is suspect.</p>
         </div>
       </div>
     </div>
@@ -1600,7 +1639,7 @@ html, body { overflow-x: clip; }
   <div class="cs-next-inner">
     <p class="cs-next-label">Related project</p>
     <a href="habitabull.html" class="cs-next-link">
-      <span class="cs-next-title">HabitaBull Lifting</span>
+      <span class="cs-next-title">HabitaBull</span>
       <span class="cs-next-arrow">↗</span>
     </a>
     <p class="cs-next-desc">HabitaBull applies behavior-change psychology to daily wellness, the same foundation Driftwood is built on. Both projects work on designing for sustained motivation rather than a satisfying first impression.</p>
@@ -1623,7 +1662,7 @@ function initCase() {
   if (!window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
 
-  const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const noMotion = matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches;
 
   // ── Lenis smooth scroll ──
   if (window.Lenis && !noMotion) {
@@ -1694,13 +1733,19 @@ function initCase() {
   gsap.from('.cs-subtitle', { y: 28, opacity: 0, duration: 0.9, ease: 'expo.out', delay: 0.9 });
   gsap.from('.cs-tags',     { y: 20, opacity: 0, duration: 0.8, ease: 'expo.out', delay: 1.05 });
 
+  // Readable at rest: sections and items already inside the first viewport are never
+  // hidden by a from-tween, so captures, previews, print and reader mode see the top of
+  // the study (clarity block, meta strip) with copy in it.
+  const restVisible = el => el.getBoundingClientRect().top < window.innerHeight * 0.88;
+
   // ── Meta items ──
-  gsap.from('.cs-meta-item', {
+  gsap.from(gsap.utils.toArray('.cs-meta-item').filter(el => !restVisible(el)), {
     y: 22, opacity: 0, duration: 0.75, stagger: 0.07, ease: 'expo.out', delay: 1.25,
   });
 
   // ── Section reveals (clip-path wipe on headers) ──
   gsap.utils.toArray('[data-cs-section]').forEach(sec => {
+    if (restVisible(sec)) return;
     const label = sec.querySelector('.cs-section-label');
     const h     = sec.querySelector('.cs-section-h');
     const body  = sec.querySelector('.cs-body-text');
@@ -1734,6 +1779,7 @@ function initCase() {
 
   // ── Image reveals (clip-path zoom) ──
   gsap.utils.toArray('[data-cs-image]').forEach(img => {
+    if (restVisible(img)) return;
     gsap.fromTo(img,
       { clipPath: 'inset(12% 6% 12% 6%)', scale: 0.94 },
       { clipPath: 'inset(0% 0% 0% 0%)', scale: 1,
@@ -1746,6 +1792,7 @@ function initCase() {
   // ── Artifact grid items ──
   gsap.utils.toArray('[data-cs-reveal]').forEach(el => {
     if (el.closest('[data-cs-section]')) return; // handled above
+    if (restVisible(el)) return;
     gsap.from(el, {
       y: 20, opacity: 0, duration: 0.8, ease: 'expo.out',
       scrollTrigger: { trigger: el, start: 'top 88%' },
@@ -1753,6 +1800,7 @@ function initCase() {
   });
 
   gsap.utils.toArray('.cs-artifact').forEach((a, i) => {
+    if (restVisible(a)) return;
     gsap.from(a, {
       y: 30, opacity: 0, duration: 0.85, ease: 'expo.out', delay: i * 0.06,
       scrollTrigger: { trigger: a.closest('.cs-artifact-grid') || a, start: 'top 84%' },
@@ -1806,6 +1854,7 @@ function initCase() {
     const trg = window.innerHeight * 0.3;
     let cand = null, cd = Infinity;
     sectionEls.forEach(function (el) {
+      if (!el.getClientRects().length) return; // collapsed inside #cs-more: not a candidate
       const t = el.getBoundingClientRect().top;
       if (t <= trg && (trg - t) < cd) { cd = trg - t; cand = el; }
     });
@@ -1839,7 +1888,9 @@ function initCase() {
     g.style.cursor = 'pointer';
     g.addEventListener('click', () => {
       const target = document.getElementById(g.dataset.snav);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!target) return;
+      if (window.__csOpenMoreFor) window.__csOpenMoreFor(target);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
@@ -1848,7 +1899,9 @@ function initCase() {
     l.style.cursor = 'pointer';
     l.addEventListener('click', () => {
       const target = document.getElementById(l.dataset.label);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!target) return;
+      if (window.__csOpenMoreFor) window.__csOpenMoreFor(target);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 })();
@@ -1857,7 +1910,7 @@ function initCase() {
 <script>
 // ── Count-up animation for stats and metrics ──
 (function () {
-  const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const noMotion = matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches;
   if (noMotion) return;
 
   function animateCount(el, target, duration) {
@@ -1936,6 +1989,34 @@ function initCase() {
   });
 })();
 
+// ── Full-process toggle ──
+// Also opens itself when a constellation-nav dot or an in-page hash points at a
+// section that lives inside the collapsed block.
+(function () {
+  var btn = document.getElementById('cs-more-toggle');
+  var more = document.getElementById('cs-more');
+  if (!btn || !more) return;
+  var label = btn.querySelector('.cs-more-toggle-label');
+  function setOpen(open) {
+    if (open) more.removeAttribute('hidden'); else more.setAttribute('hidden', '');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (label) label.textContent = open ? 'Hide the full process' : 'Read the full process';
+    if (open && window.ScrollTrigger) requestAnimationFrame(function () { ScrollTrigger.refresh(); });
+  }
+  btn.addEventListener('click', function () {
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    setOpen(open);
+    if (!open) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  window.__csOpenMoreFor = function (el) {
+    if (el && more.contains(el) && more.hasAttribute('hidden')) setOpen(true);
+  };
+  if (location.hash) {
+    var target = document.getElementById(location.hash.slice(1));
+    if (target && more.contains(target)) { setOpen(true); requestAnimationFrame(function () { target.scrollIntoView(); }); }
+  }
+})();
+
 // ── Console easter egg ──
 (function () {
   const s = 'font-family:monospace;font-size:12px;';
@@ -1943,23 +2024,7 @@ function initCase() {
 })();
 </script>
 
-<script>
-// Fullscreen control for the hero reel
-(function () {
-  var btn = document.querySelector('.cs-reel-fs');
-  var vid = document.querySelector('.cs-hero-reel');
-  if (!btn || !vid) return;
-  btn.addEventListener('click', function () {
-    if (vid.requestFullscreen) vid.requestFullscreen();
-    else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen(); // iOS Safari
-    else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
-  });
-})();
-</script>
-
 <script src="components/animated-progress.js" defer></script>
-<script src="components/persona-content.js?v=6" defer></script>
-<script src="components/persona-engine.js?v=6" defer></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

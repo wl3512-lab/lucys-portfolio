@@ -5,10 +5,10 @@
 <script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <title>Work | Lucy Liu</title>
 <link rel="canonical" href="https://lucyliu.xyz/work.html" />
 <meta name="description" content="All work by Lucy Liu: interaction design, creative coding, and accessibility-focused projects." />
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<link rel="stylesheet" href="styles.css?v=89" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 .wk-glitch {
@@ -90,9 +90,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.04em; color: var(--fg1);
   clip-path: inset(0 0 100% 0);
 }
-.wk-heading em {
-  font-style: italic; font-weight: 400;
-}
+.wk-heading em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .wk-count {
   font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--fg3);
@@ -331,6 +329,10 @@ a { color: inherit; text-decoration: none; }
   .wk-eyebrow, .wk-heading, .wk-count, .wk-filters { opacity: 1 !important; clip-path: none !important; transform: none !important; }
 }
 </style>
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body>
 
@@ -348,7 +350,7 @@ a { color: inherit; text-decoration: none; }
       </svg>
       home
     </a>
-    <a href="index.html" class="wk-logo" aria-label="Lucy Liu">lucy liu</a>
+    <a href="index.html" class="wk-logo" aria-label="Lucy Liu" data-wordmark>lucy liu</a>
     <div class="wk-nav-right">
       <a href="index.html#about" class="wk-nav-link">about</a>
       <a href="mailto:wl3512@nyu.edu" class="wk-nav-link">contact ↗</a>
@@ -378,7 +380,34 @@ a { color: inherit; text-decoration: none; }
   <div class="wk-grid-wrap">
     <ul class="wk-grid" role="list" id="wk-grid" aria-label="Project covers">
 
-      <li class="cover-item pl-a" data-cat="coding design" role="listitem">
+      <li class="cover-item pl-b" data-cat="coding ux" role="listitem">
+        <a href="case-study.html" aria-label="Driftwood, AI ethics game, design and code, 2026">
+          <span class="plate">
+            <img class="cover-img" src="assets/driftwood/cover.webp" alt="Driftwood: AI pet guardian game, five celebrity-persona pets on a void background" loading="eager"  width="1024" height="1024" />
+            <span class="cover-arrow" aria-hidden="true">↗</span>
+          </span>
+          <span class="cover-cap" aria-hidden="true">
+            <span class="cap-idx">01</span>
+            <span class="cap-title">Driftwood</span>
+            <span class="cap-meta">AI Ethics Game · Design + Code · 2026</span>
+          </span>
+        </a>
+      </li>
+      <li class="cover-item pl-a" data-cat="coding ux" role="listitem">
+        <a href="habitabull.html" aria-label="HabitaBull Lifting, Coding and UX Design, 2023 to 2026">
+          <span class="plate">
+            <img class="cover-img" src="assets/habitabull/cover-wall.webp?v=20260930b" alt="HabitaBull: the wordmark beside a tilted wall of app screens on brand terracotta" loading="eager" width="2000" height="1294" style="object-position: left center" />
+            <span class="cover-arrow" aria-hidden="true">↗</span>
+          </span>
+          <span class="cover-cap" aria-hidden="true">
+            <span class="cap-idx">02</span>
+            <span class="cap-title">HabitaBull Lifting</span>
+            <span class="cap-meta">Coding + UX Design · 2023–2026</span>
+          </span>
+        </a>
+      </li>
+
+      <li class="cover-item pl-b" data-cat="coding design" role="listitem">
         <a href="live-visuals-nyc.html" aria-label="VJ Performance, Coding / Design, 2026">
           <span class="plate">
             <img class="cover-img" src="assets/live-visuals-nyc/cover.jpg" alt="VJ Performance — ceiling projection at private NYC event" loading="eager"  width="646" height="1400" />
@@ -386,7 +415,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">01</span>
+            <span class="cap-idx">03</span>
             <span class="cap-title">VJ Performance</span>
             <span class="cap-meta">Coding / Design · 2026</span>
           </span>
@@ -400,26 +429,13 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">02</span>
+            <span class="cap-idx">04</span>
             <span class="cap-title">rep.tools</span>
             <span class="cap-meta">Brand / UX · 2026</span>
           </span>
         </a>
       </li>
 
-      <li class="cover-item pl-b" data-cat="coding" role="listitem">
-        <a href="case-study.html" aria-label="Driftwood, Coding, 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/driftwood/cover.webp" alt="Driftwood: AI pet guardian game, five celebrity-persona pets on a void background" loading="eager"  width="1024" height="1024" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">02</span>
-            <span class="cap-title">Driftwood</span>
-            <span class="cap-meta">Coding · 2026</span>
-          </span>
-        </a>
-      </li>
 
       <li class="cover-item pl-c" data-cat="coding" role="listitem">
         <a href="loop.html" aria-label="LOOP, Coding, 2025">
@@ -428,7 +444,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">03</span>
+            <span class="cap-idx">05</span>
             <span class="cap-title">LOOP</span>
             <span class="cap-meta">Coding · 2025</span>
           </span>
@@ -443,23 +459,9 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">04</span>
+            <span class="cap-idx">06</span>
             <span class="cap-title">audio reactive</span>
             <span class="cap-meta">Coding · 2026</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-e" data-cat="ux" role="listitem">
-        <a href="habitabull.html" aria-label="HabitaBull, UX Design, 2024">
-          <span class="plate">
-            <img class="cover-img" src="assets/habitabull/mascot.png" alt="HabitaBull: gym habit tracker, illustrated bull mascot in workout gear" loading="eager"  width="1882" height="2000" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">05</span>
-            <span class="cap-title">HabitaBull</span>
-            <span class="cap-meta">UX Design · 2024</span>
           </span>
         </a>
       </li>
@@ -471,7 +473,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">06</span>
+            <span class="cap-idx">07</span>
             <span class="cap-title">H2Know</span>
             <span class="cap-meta">Coding / UX · 2024</span>
           </span>
@@ -485,7 +487,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">07</span>
+            <span class="cap-idx">08</span>
             <span class="cap-title">Eternal Wreckening</span>
             <span class="cap-meta">UX Design · 2024</span>
           </span>
@@ -499,7 +501,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">08</span>
+            <span class="cap-idx">09</span>
             <span class="cap-title">Anticipation</span>
             <span class="cap-meta">Fine Arts · 2024</span>
           </span>
@@ -509,11 +511,11 @@ a { color: inherit; text-decoration: none; }
       <li class="cover-item pl-i" data-cat="fineart" role="listitem">
         <a href="handpainting.html" aria-label="Arrested Motion, Fine Arts, 2023">
           <span class="plate">
-            <img class="cover-img" src="assets/handpainting/cover.jpg" alt="Arrested Motion: oil on canvas, hands washing dishes" loading="lazy"  width="1648" height="2000" />
+            <img class="cover-img" src="assets/handpainting/cover.webp" alt="Arrested Motion: oil on canvas, hands washing dishes" loading="lazy"  width="1648" height="2000" />
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">09</span>
+            <span class="cap-idx">10</span>
             <span class="cap-title">Arrested Motion</span>
             <span class="cap-meta">Fine Arts · 2023</span>
           </span>
@@ -527,7 +529,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">10</span>
+            <span class="cap-idx">11</span>
             <span class="cap-title">SoundCloud Critique</span>
             <span class="cap-meta">UX Design · 2023</span>
           </span>
@@ -541,7 +543,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">11</span>
+            <span class="cap-idx">12</span>
             <span class="cap-title">Agar Alphabet</span>
             <span class="cap-meta">Design · 2025</span>
           </span>
@@ -555,7 +557,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">12</span>
+            <span class="cap-idx">13</span>
             <span class="cap-title">Telnex</span>
             <span class="cap-meta">Design · 2024</span>
           </span>
@@ -569,7 +571,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">13</span>
+            <span class="cap-idx">14</span>
             <span class="cap-title">Under the Weather</span>
             <span class="cap-meta">Design · 2025</span>
           </span>
@@ -583,7 +585,7 @@ a { color: inherit; text-decoration: none; }
             <span class="cover-arrow" aria-hidden="true">↗</span>
           </span>
           <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">14</span>
+            <span class="cap-idx">15</span>
             <span class="cap-title">Trance</span>
             <span class="cap-meta">Coding · 2025</span>
           </span>

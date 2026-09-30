@@ -5,10 +5,10 @@
 <script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="favicon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <meta name="description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
 <meta property="og:title" content="Eternal Wreckening | Lucy Liu" />
 <meta property="og:description" content="Mid-fidelity prototype for a narrative adventure game built around social anxiety and quiet heroism. UX case study by Lucy Liu." />
@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<link rel="stylesheet" href="styles.css?v=89" />
 <link rel="preload" as="image" href="assets/eternal-wreckening/slides/slide-01.jpg" fetchpriority="high" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -154,7 +154,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(42px, 6vw, 78px); line-height: 0.95; letter-spacing: -0.04em;
   margin: 0 0 clamp(28px, 3.5vw, 44px); color: var(--fg1);
 }
-.cs-section-h em { font-style: italic; color: var(--ember); }
+.cs-section-h em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cs-body-text { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--fg2); max-width: 72ch; }
 .cs-body-text p { margin-bottom: 18px; }
 .cs-body-text p:first-child { color: var(--fg1); }
@@ -293,7 +293,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(30px, 3.2vw, 42px); line-height: 1;
   letter-spacing: -0.04em; color: var(--fg1); padding-top: 2px;
 }
-.cs-metric-val em { font-style: italic; color: var(--ember); }
+.cs-metric-val em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cs-metric-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--fg2); }
 @media (max-width: 480px) { .cs-metric { grid-template-columns: 1fr; gap: 6px; } }
 
@@ -318,7 +318,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
 .cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--ember); font-style: italic; }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: var(--ember); }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
@@ -426,9 +426,9 @@ a { color: inherit; text-decoration: none; }
   position: fixed; inset: 0; z-index: 200;
   background: var(--void-a92); backdrop-filter: blur(12px) saturate(120%);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity .3s cubic-bezier(.16,1,.3,1);
+  opacity: 0; pointer-events: none; visibility: hidden; transition: opacity .3s cubic-bezier(.16,1,.3,1), visibility 0s linear .3s;
 }
-.lb-overlay.is-open { opacity: 1; pointer-events: auto; }
+.lb-overlay.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .lb-img-wrap { position: relative; max-width: min(92vw, 1200px); max-height: 90vh; }
 .lb-img-wrap img { display: block; max-width: 100%; max-height: 88vh; object-fit: contain; border-radius: 8px; }
 .lb-close {
@@ -472,11 +472,9 @@ a { color: inherit; text-decoration: none; }
   0%   { text-shadow: 0 0 24px var(--ember-a70), 0 0 60px var(--ember-a30); }
   100% { text-shadow: none; }
 }
-.cs-section-h.is-revealed em {
-  animation: cs-em-arrive 900ms 250ms cubic-bezier(.16,1,.3,1) both;
-}
+.cs-section-h.is-revealed em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 @media (prefers-reduced-motion: reduce) {
-  .cs-section-h.is-revealed em { animation: none; }
+  .cs-section-h.is-revealed em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 }
 
 /* LIGHTBOX IMAGE — scale in */
@@ -532,6 +530,11 @@ a { color: inherit; text-decoration: none; }
    unconditionally pushed the light theme down to 1.64:1. */
 :root:not(.theme-light) .cs-section-label { color: oklch(0.78 0.10 205); }
 </style>
+<link rel="stylesheet" href="case-mobile.css?v=1" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body data-persona-slug="eternal-wreckening">
 
@@ -549,8 +552,8 @@ a { color: inherit; text-decoration: none; }
 
 <nav class="cs-nav" aria-label="Site navigation">
   <div class="cs-nav-inner">
-    <a class="cs-logo" href="index.html">lucy liu</a>
-    <a class="cs-back" href="index.html#work">← all work</a>
+    <a class="cs-logo" href="index.html" data-wordmark>lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
   </div>
 </nav>
 
@@ -604,7 +607,7 @@ a { color: inherit; text-decoration: none; }
   <h1 class="visually-hidden">Eternal Wreckening: Mobile Horror Game</h1>
   <div class="cs-hero-cover-full border-beam">
     <img src="assets/eternal-wreckening/slides/slide-01.jpg" alt="Eternal Wreckening: mobile horror game cover" fetchpriority="high"
-          srcset="assets/eternal-wreckening/slides/sm/slide-01.png 1200w, assets/eternal-wreckening/slides/slide-01.jpg 2280w"
+          srcset="assets/eternal-wreckening/slides/sm/slide-01.webp 1200w, assets/eternal-wreckening/slides/slide-01.jpg 2280w"
           sizes="(max-width: 1200px) 100vw, 1100px"
           width="2280" height="1530">
   </div>
@@ -685,7 +688,7 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="01" aria-hidden="true"></span>
       <p class="cs-section-label">01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h">Mobile games forget you have a body.</h2>
+      <h2 class="cs-section-h">Mobile games only use your thumbs.</h2>
 
       <div class="cs-body-text">
         <p>Standard mobile controls hand you two thumbs: left thumb moves, right thumb aims. Your torso, your hands, the instinct to flinch all wait outside the screen. For most genres that tradeoff works fine.</p>
@@ -786,7 +789,7 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="03" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Storyboard</p>
-      <h2 class="cs-section-h" data-cs-reveal>Four hunters, one monster, earned map.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Four hunters and one monster.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>Eternal Wreckening is a 4v1 asymmetric multiplayer game inspired by Dead by Daylight, the survival horror game that defined the predator-versus-survivors model. Bringing that to mobile meant rethinking how the structure feels when the controller is your whole body. Four Guardians have to find and destroy five Abyssal Amulets scattered across the map, release the gem fragment from each, and throw them into the portal to close it and eliminate the Entity. One player controls the Entity and tries to knock down all four Guardians and throw them into the portal before it closes.</p>
@@ -800,7 +803,7 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-filmstrip-rail" id="cs-filmstrip-storyboard" tabindex="0" role="region" aria-label="Storyboard frames (scrollable)">
         <figure class="cs-filmstrip-frame">
           <img src="assets/eternal-wreckening/frames/frame-01.jpg" alt="Main menu: Start and Guide buttons over a dark forest background"
-               srcset="assets/eternal-wreckening/frames/sm/frame-01.png 900w, assets/eternal-wreckening/frames/frame-01.jpg 2110w"
+               srcset="assets/eternal-wreckening/frames/sm/frame-01.webp 900w, assets/eternal-wreckening/frames/frame-01.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">01 · Main menu</p>
         </figure>
@@ -824,19 +827,19 @@ a { color: inherit; text-decoration: none; }
         </figure>
         <figure class="cs-filmstrip-frame">
           <img src="assets/eternal-wreckening/frames/frame-11.jpg" alt="Gadget selection screen: empty equipped slots, three gadgets in inventory"
-               srcset="assets/eternal-wreckening/frames/sm/frame-11.png 900w, assets/eternal-wreckening/frames/frame-11.jpg 2110w"
+               srcset="assets/eternal-wreckening/frames/sm/frame-11.webp 900w, assets/eternal-wreckening/frames/frame-11.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">05 · Gadget loadout</p>
         </figure>
         <figure class="cs-filmstrip-frame">
           <img src="assets/eternal-wreckening/frames/frame-17.jpg" alt="Gadget selection: three gadgets fully equipped, ready for match"
-               srcset="assets/eternal-wreckening/frames/sm/frame-17.png 900w, assets/eternal-wreckening/frames/frame-17.jpg 2110w"
+               srcset="assets/eternal-wreckening/frames/sm/frame-17.webp 900w, assets/eternal-wreckening/frames/frame-17.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">06 · Loadout ready</p>
         </figure>
         <figure class="cs-filmstrip-frame">
           <img src="assets/eternal-wreckening/frames/frame-18.jpg" alt="Loading screen: dark atmospheric forest with LOADING text"
-               srcset="assets/eternal-wreckening/frames/sm/frame-18.png 900w, assets/eternal-wreckening/frames/frame-18.jpg 2110w"
+               srcset="assets/eternal-wreckening/frames/sm/frame-18.webp 900w, assets/eternal-wreckening/frames/frame-18.jpg 2110w"
                sizes="(max-width: 768px) 85vw, 380px" width="2110" height="975" loading="lazy">
           <p class="cs-filmstrip-step">07 · Match loading</p>
         </figure>
@@ -922,7 +925,7 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/frames/frame-14.jpg" alt="Harper Stone Guardian character select screen with backstory and gadget loadout entry" loading="lazy"
-          srcset="assets/eternal-wreckening/frames/sm/frame-14.png 900w, assets/eternal-wreckening/frames/frame-14.jpg 2110w"
+          srcset="assets/eternal-wreckening/frames/sm/frame-14.webp 900w, assets/eternal-wreckening/frames/frame-14.jpg 2110w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2110" height="975">
         </div>
@@ -946,7 +949,7 @@ a { color: inherit; text-decoration: none; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="04" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; Visual Design</p>
-      <h2 class="cs-section-h" data-cs-reveal>The environment carries mood, the interface carries function.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The environment sets the mood and the interface stays readable.</h2>
 
       <div class="cs-body-text" data-cs-reveal>
         <p>The visual language had to carry atmosphere and stay legible at the same time. Horror aesthetics lean on obscurity; game UI demands that you read it instantly. I split the registers to settle the conflict: the environment carries mood, the interface carries function, and color stitches them together.</p>
@@ -968,7 +971,7 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-13.jpg" alt="Typography: Martyric headings for atmosphere, Blood Crow body for legibility" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-13.png 1200w, assets/eternal-wreckening/slides/slide-13.jpg 2280w"
+          srcset="assets/eternal-wreckening/slides/sm/slide-13.webp 1200w, assets/eternal-wreckening/slides/slide-13.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -1045,7 +1048,7 @@ a { color: inherit; text-decoration: none; }
       <div class="cs-artifact">
         <div class="cs-artifact-img--photo">
           <img class="cs-artifact-photo lb-trigger" src="assets/eternal-wreckening/slides/slide-15.jpg" alt="Gadget collection UI: backpack metaphor, matchup button, gadget selection flow" loading="lazy"
-          srcset="assets/eternal-wreckening/slides/sm/slide-15.png 1200w, assets/eternal-wreckening/slides/slide-15.jpg 2280w"
+          srcset="assets/eternal-wreckening/slides/sm/slide-15.webp 1200w, assets/eternal-wreckening/slides/slide-15.jpg 2280w"
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 540px"
           width="2280" height="1530">
         </div>
@@ -1154,7 +1157,10 @@ a { color: inherit; text-decoration: none; }
   const ro = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); ro.unobserve(e.target); } });
   }, { rootMargin: '-6% 0px -6% 0px', threshold: 0.01 });
-  revealEls.forEach(el => ro.observe(el));
+  // Readable at rest: anything already inside the first viewport is revealed synchronously,
+  // so captures, previews, print and reader mode never see the above-the-fold copy blank.
+  revealEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-revealed'); });
+  revealEls.forEach(el => { if (!el.classList.contains('is-revealed')) ro.observe(el); });
 
   // Stagger reveal — children of [data-cs-stagger] enter one by one
   const staggerEls = document.querySelectorAll('[data-cs-stagger]');
@@ -1176,6 +1182,7 @@ a { color: inherit; text-decoration: none; }
   })).filter(o => o.section);
 
   function updateWatermarks() {
+    if (matchMedia('(max-width: 760px), (pointer: coarse)').matches) return;
     const vy = window.innerHeight;
     watermarks.forEach(({ el, section }) => {
       const r = section.getBoundingClientRect();
@@ -1362,7 +1369,7 @@ a { color: inherit; text-decoration: none; }
   addDragScroll(document.getElementById('cs-filmstrip-storyboard'));
 
   // Ember cursor trail (non-touch, reduced-motion respected)
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches;
   const isTouch = window.matchMedia('(hover: none)').matches;
   if (!prefersReduced && !isTouch) {
     const cvs = document.createElement('canvas');
@@ -1417,8 +1424,6 @@ a { color: inherit; text-decoration: none; }
 
 })();
 </script>
-<script src="components/persona-content.js?v=6" defer></script>
-<script src="components/persona-engine.js?v=6" defer></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

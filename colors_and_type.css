@@ -183,10 +183,7 @@
   letter-spacing: var(--tracking-tight);
   color: var(--fg1);
 }
-.h-display em {
-  font-style: italic;
-  color: var(--blue-300);
-}
+.h-display em { font-style: normal; font-weight: inherit; color: inherit; }
 
 .h1 {
   font-family: var(--font-display);
@@ -271,4 +268,4 @@
 .lucy-typography h4 { font-family: var(--font-ui);      font-size: var(--text-lg);  font-weight: 600; }
 .lucy-typography p  { font-family: var(--font-body);    font-size: var(--text-base); font-weight: 400; line-height: var(--lh-relaxed); color: var(--fg2); }
 .lucy-typography code, .lucy-typography kbd, .lucy-typography pre { font-family: var(--font-code); }
-.lucy-typography em { font-style: italic; font-family: var(--font-display); }
+.lucy-typography em { font-style: normal; font-weight: 500; }  /* emphasis without italics, site rule */

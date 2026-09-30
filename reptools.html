@@ -5,10 +5,10 @@
 <script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050710%22/%3E%3Cpath d=%22M32 8 L37.5 26.5 L56 32 L37.5 37.5 L32 56 L26.5 37.5 L8 32 L26.5 26.5 Z%22 fill=%22%2372ADFF%22/%3E%3C/svg%3E" />
-<link rel="icon" href="favicon.ico?v=3" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon.png?v=3" />
-<link rel="apple-touch-icon" href="favicon.png?v=3" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <title>rep.tools: brand &amp; UX redesign | Lucy Liu</title>
 <meta name="description" content="rep.tools: a brand and UX/IA redesign turning a marketing landing page into a product-forward storefront for the reps community. Case study by Lucy Liu." />
 <link rel="canonical" href="https://lucyliu.xyz/reptools.html" />
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=88" />
+<link rel="stylesheet" href="styles.css?v=89" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: auto; }
@@ -157,7 +157,7 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(42px, 6vw, 78px); line-height: 0.95; letter-spacing: -0.04em;
   margin: 0 0 clamp(28px, 3.5vw, 44px); color: var(--fg1);
 }
-.cs-section-h em { font-style: italic; color: var(--blue-300); }
+.cs-section-h em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cs-body-text { font-family: var(--font-body); font-size: 17px; line-height: 1.7; color: var(--fg2); max-width: 72ch; }
 .cs-body-text p { margin-bottom: 18px; }
 .cs-body-text p:first-child { color: var(--fg1); }
@@ -205,7 +205,7 @@ a { color: inherit; text-decoration: none; }
 .cs-phase-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 16px; }
 .cs-phase-num { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3); flex-shrink: 0; }
 .cs-phase-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 2.2vw, 26px); letter-spacing: -0.02em; color: var(--fg1); }
-.cs-phase-name em { font-style: italic; color: oklch(0.78 0.13 205); }
+.cs-phase-name em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cs-phase-body { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--fg2); max-width: 60ch; padding-left: calc(20px + 20px); }
 .cs-phase-detail { margin-top: 12px; padding-left: calc(20px + 20px); display: flex; flex-wrap: wrap; gap: 8px; }
 .cs-chip { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-accent); border: 1px solid rgba(114,173,255,0.25); border-radius: 4px; padding: 4px 10px; }
@@ -262,7 +262,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.04em; color: var(--fg1);
   padding-top: 2px;
 }
-.cs-metric-val em { font-style: italic; color: oklch(0.78 0.13 205); }
+.cs-metric-val em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cs-metric-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--fg2); }
 @media (max-width: 480px) {
   .cs-metric { grid-template-columns: 1fr; gap: 6px; }
@@ -310,7 +310,7 @@ a { color: inherit; text-decoration: none; }
 .cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
 .cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
 .cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(0.78 0.13 205); font-style: italic; }
+.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(0.78 0.13 205); }
 .cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
 .cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
@@ -449,10 +449,10 @@ a { color: inherit; text-decoration: none; }
   position: fixed; inset: 0; z-index: 200;
   background: rgba(5,7,16,0.92); backdrop-filter: blur(12px) saturate(120%);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s cubic-bezier(.16,1,.3,1);
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity .3s cubic-bezier(.16,1,.3,1), visibility 0s linear .3s;
 }
-.lb-overlay.is-open { opacity: 1; pointer-events: auto; }
+.lb-overlay.is-open { opacity: 1; pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .lb-img-wrap {
   max-width: min(92vw, 1400px); max-height: 90vh;
   position: relative;
@@ -522,6 +522,11 @@ html, body { overflow-x: clip; }
 .rt-fig--pair .rt-cap { grid-column: 1 / -1; }
 @media (max-width: 700px) { .rt-fig--pair { grid-template-columns: 1fr; } }
 </style>
+<link rel="stylesheet" href="case-mobile.css?v=1" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
 </head>
 <body data-persona-slug="reptools">
 
@@ -537,8 +542,8 @@ html, body { overflow-x: clip; }
 
 <nav class="cs-nav">
   <div class="cs-nav-inner">
-    <a class="cs-logo" href="index.html">lucy liu</a>
-    <a class="cs-back" href="index.html#work">← all work</a>
+    <a class="cs-logo" href="index.html" data-wordmark>lucy liu</a>
+    <a class="cs-back" href="work.html">← all work</a>
   </div>
 </nav>
 
@@ -597,7 +602,7 @@ html, body { overflow-x: clip; }
     <div class="cs-kicker">
       <span class="cs-kicker-dot"></span>Brand &amp; UX &nbsp;·&nbsp; Redesign
     </div>
-    <p class="cs-subtitle">A toolkit for the reps community that had outgrown its own homepage.</p>
+    <p class="cs-subtitle">A live toolkit for the reps community. The homepage was still shaped like launch day; the product underneath had become a storefront.</p>
     <div class="cs-hero-foot">
       <div class="cs-tags">
         <span class="tag tag-sm">Brand Identity</span>
@@ -607,6 +612,7 @@ html, body { overflow-x: clip; }
       </div>
       <div class="cs-hero-actions">
         <a class="btn btn-secondary" href="https://rep.tools" target="_blank" rel="noopener noreferrer">Visit rep.tools ↗</a>
+        <a class="btn btn-ghost" href="uploads/RepTools_Summary.pdf" target="_blank" rel="noopener noreferrer">Download project summary (PDF) ↗</a>
       </div>
     </div>
   </div>
@@ -640,15 +646,15 @@ html, body { overflow-x: clip; }
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I led the brand, IA, and UX redesign while the founder kept ownership of the live product build.</p>
+      <p class="case-clarity-v">Brand, information architecture and UX for a live product. The founder built v1 and owns the build; I redesigned what it looks like and how it is organized.</p>
     </div>
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I reframed the homepage around browsing behavior, then redesigned navigation, product surfaces, and visual language.</p>
+      <p class="case-clarity-v">Started from how people actually arrive (on a phone, from a video, already fluent), reframed the homepage around browsing, then rebuilt navigation, catalogue, tools and visual language to match.</p>
     </div>
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">The site shifted from a pitch page to a product-forward storefront for about 6,900 items and a 300k+ audience channel.</p>
+      <p class="case-clarity-v">The 6,900-item catalogue moved from one click away to the landing screen. Product pages exist now. Five tools became one. One stylesheet replaced per-page styles across 38 files.</p>
     </div>
   </div>
 </section>
@@ -660,10 +666,11 @@ html, body { overflow-x: clip; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="01" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>01 &nbsp;·&nbsp; The Problem</p>
-      <h2 class="cs-section-h" data-cs-reveal>The site was still selling the idea.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The homepage never caught up with the product.</h2>
       <div class="cs-body-text" data-cs-reveal>
-        <p>rep.tools launched as a landing page, and for a launch that was the right call: a hero, six category tiles, a row of stats, a button to the catalogue.</p>
-        <p>Then the catalogue grew to roughly <strong>6,900 items</strong> and the homepage never caught up. The thing people actually came for sat one click behind <strong>Browse Products</strong>, while the page above it kept pitching. The visual language had drifted to generic dark-SaaS too: a gradient headline, pill buttons, emoji category tiles, a 3,100+ / 9 / 3 / ∞ metric row. It read as a startup landing page for a product that had quietly become a storefront.</p>
+        <p>rep.tools launched as a landing page, and for a launch that was the right call: a hero, six category tiles, a row of stats, a button to the catalogue. It had one job, which was to explain a new thing.</p>
+        <p>Then the catalogue grew to roughly <strong>6,900 items</strong> and the homepage never caught up. The thing people actually came for sat one click behind <strong>Browse Products</strong>, while the page above it kept pitching to people who had already decided. The visual language had drifted to generic dark-SaaS too: a gradient headline, pill buttons, emoji category tiles, a 3,100+ / 9 / 3 / ∞ metric row. It read as a startup landing page for a product that had quietly become a storefront.</p>
+        <p>The brief, once I had looked at it properly, was not "make it prettier." It was: make the site behave like what it had become.</p>
       </div>
       <figure class="rt-fig" data-cs-reveal>
         <img src="assets/reptools/before-home.webp" alt="Before: a marketing landing page. The 6,900-item catalogue is not on it." loading="lazy"  width="1400" height="2200" />
@@ -678,11 +685,12 @@ html, body { overflow-x: clip; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="02" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>02 &nbsp;·&nbsp; Direction</p>
-      <h2 class="cs-section-h" data-cs-reveal>The audience already speaks logistics.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The audience already knows the language.</h2>
       <div class="cs-body-text" data-cs-reveal>
         <p>The audience is people who buy replica fashion through Chinese shopping agents: they trade QC photos, compare batches, track parcels across 3,100 carriers. That is logistics culture crossed with streetwear drop culture, and none of it looks like a SaaS dashboard.</p>
         <p>They also arrive already fluent. The founder runs a TikTok channel about reps with <strong>300k+ followers and over 200 million views</strong>, so most visitors land here from that, knowing what QC, batches, agents and hauls mean. Nobody needs the vocabulary explained, which frees the interface to speak plainly in it instead of onboarding people into it.</p>
-      <p>So the identity leans into the subject rather than away from it. <strong>Anton</strong> in oversized condensed caps for headlines, electric cyan on near-black, <strong>Space Mono</strong> reserved for anything that behaves like data (prices, batch names, tracking numbers, counts). Hard edges instead of soft pills. A <strong>QC PASSED</strong> stamp in the hero, because a QC pass is the moment this community actually cares about.</p>
+        <p>Two easier directions were on the table. Keep the SaaS look and just surface the catalogue, which fixes the structure but leaves the site looking like a tool for someone else. Or go fully hype-drop, all poster and no chrome, which fits the streetwear half of the culture and fails the logistics half, where a tracking number or a price has to be legible at a glance.</p>
+        <p>So the identity leans into the subject and keeps the data readable. <strong>Anton</strong> in oversized condensed caps for headlines, electric cyan on near-black, <strong>Space Mono</strong> reserved for anything that behaves like data (prices, batch names, tracking numbers, counts). Hard edges instead of soft pills. A <strong>QC PASSED</strong> stamp in the hero, because a QC pass is the moment this community actually cares about.</p>
       </div>
       <figure class="rt-fig" data-cs-reveal>
         <img src="assets/reptools/after-home.webp" alt="After: the same page rebuilt around the product, with the identity carrying the logistics language." loading="lazy"  width="1400" height="2200" />
@@ -697,13 +705,13 @@ html, body { overflow-x: clip; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="03" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>03 &nbsp;·&nbsp; Structure</p>
-      <h2 class="cs-section-h" data-cs-reveal>You land in the catalogue.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>The homepage is now the catalogue.</h2>
       <div class="cs-body-text" data-cs-reveal>
         <p>The homepage was rebuilt product-forward. Instead of six tiles that lead somewhere else, you land in the catalogue itself: category rows you can scroll immediately (shoes, hoodies, jackets, pants, shirts, accessories, sets, shorts), with filter chips at the top for jumping straight to one.</p>
         <p>The catalogue itself got the same treatment. Categories moved from a left sidebar into a top bar that carries <strong>live counts</strong> (6,907 items, 1,545 shirts, 1,445 shoes), so the size of the thing is legible before you click anything. The grid went from three columns to five, and gained the controls a catalogue that size actually needs: search, a price range, sort, currency, reset, and a favourite toggle per item.</p>
-      <p>Individual <strong>product pages did not exist before</strong>, so I added them, giving each item somewhere to live. The five tools were consolidated into a single tabbed surface: <strong>track, QC photos, convert, calculators, find</strong>, so the utilities read as one toolkit rather than five separate features competing on a page.</p>
+        <p>Individual <strong>product pages did not exist before</strong>, so I added them, giving each item somewhere to live and something to link to. The five tools were consolidated into a single tabbed surface: <strong>track, QC photos, convert, calculators, find</strong>, so the utilities read as one toolkit rather than five features competing on a page.</p>
+        <p>One constraint shaped every call here: <strong>almost everyone arrives on a phone</strong>, straight from a video. Mobile is the primary surface, not a fallback. The category rows scroll horizontally by thumb, the filter chips wrap instead of collapsing into a menu, and the counted category bar stays visible rather than hiding behind a hamburger.</p>
       </div>
-      <p>One more thing shaped every call here: <strong>almost everyone arrives on a phone</strong>, straight from a video. Mobile is the primary surface, not a fallback, so the category rows scroll horizontally by thumb, the filter chips wrap instead of collapsing into a menu, and the counted category bar stays visible rather than hiding behind a hamburger.</p>
       <figure class="rt-fig rt-fig--pair" data-cs-reveal>
         <img src="assets/reptools/before-home-mobile.webp" alt="Before, on a phone: a hero and category tiles, with the catalogue still a tap away" loading="lazy"  width="760" height="2600" />
         <img src="assets/reptools/after-home-mobile.webp" alt="After, on a phone: the catalogue itself, browsable immediately" loading="lazy"  width="760" height="2600" />
@@ -723,10 +731,10 @@ html, body { overflow-x: clip; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="04" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>04 &nbsp;·&nbsp; System</p>
-      <h2 class="cs-section-h" data-cs-reveal>One system instead of a stylesheet per page.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>One design system for every page.</h2>
       <div class="cs-body-text" data-cs-reveal>
-        <p>Before the redesign, every template carried its own styles inline, so a colour or type change meant editing each page and hoping they stayed in sync.</p>
-        <p>I moved the identity into a single shared stylesheet and pulled the navigation and footer into partials, so the surface is defined once and every page inherits it. <strong>38 files changed</strong>; the homepage alone was a near-total rewrite. That is what makes the tools, the catalogue, the tutorial and the error pages feel like the same product. The work was scoped to the front end: the founder built and owns the app, and I redesigned what it looks like and how it is organized.</p>
+        <p>Before the redesign, every template carried its own styles inline, so a colour or type change meant editing each page and hoping they stayed in sync. A new identity applied that way would have drifted apart within a month.</p>
+        <p>I moved the identity into a single shared stylesheet and pulled the navigation and footer into partials, so the surface is defined once and every page inherits it. That is what makes the tools, the catalogue, the tutorial and the error pages feel like the same product, and it is what lets the founder ship new pages without re-deciding the design each time. <strong>38 files changed</strong>; the homepage alone was a near-total rewrite. The work was scoped to the front end: the founder built and owns the app.</p>
       </div>
       <figure class="rt-fig rt-fig--pair" data-cs-reveal>
         <img src="assets/reptools/before-tools.webp" alt="The tools surface, before and after: five features on a page become one tabbed toolkit." loading="lazy"  width="1400" height="1347" />
@@ -742,9 +750,10 @@ html, body { overflow-x: clip; }
     <div class="cs-section" data-cs-section>
       <span class="cs-section-wm" data-wm="05" aria-hidden="true"></span>
       <p class="cs-section-label" data-cs-reveal>05 &nbsp;·&nbsp; Outcome</p>
-      <h2 class="cs-section-h" data-cs-reveal>Live, and taking real traffic.</h2>
+      <h2 class="cs-section-h" data-cs-reveal>Live and in use.</h2>
       <div class="cs-body-text" data-cs-reveal>
         <p>rep.tools is live, and the redesign is what visitors land on today. It is not discovered cold either: the founder's channel sends a steady, already-invested audience straight at it, which is exactly the case where a homepage that only pitches is a wasted screen.</p>
+        <p>What I want from it next is a number. The founder's analytics can show catalogue click-through and mobile time-on-site before and after, and that is the comparison the redesign was built to win.</p>
         <p>The lesson I keep from it: the original design was not bad work, it was <strong>work that had been outgrown</strong>. The site was still shaped like the day it launched while the product underneath had turned into something else. Most of the job was noticing that gap, then making the interface behave like what the thing had actually become.</p>
       </div>
 
@@ -783,7 +792,10 @@ html, body { overflow-x: clip; }
   const ro = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); ro.unobserve(e.target); } });
   }, { rootMargin: '-6% 0px -6% 0px', threshold: 0.01 });
-  revealEls.forEach(el => ro.observe(el));
+  // Readable at rest: anything already inside the first viewport is revealed synchronously,
+  // so captures, previews, print and reader mode never see the above-the-fold copy blank.
+  revealEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-revealed'); });
+  revealEls.forEach(el => { if (!el.classList.contains('is-revealed')) ro.observe(el); });
 
   // Stagger reveal
   const staggerEls = document.querySelectorAll('[data-cs-stagger]');
@@ -804,6 +816,7 @@ html, body { overflow-x: clip; }
     el: wm, section: wm.closest('.cs-section')
   })).filter(o => o.section);
   function updateWatermarks() {
+    if (matchMedia('(max-width: 760px), (pointer: coarse)').matches) return;
     const vy = window.innerHeight;
     watermarks.forEach(({ el, section }) => {
       const r = section.getBoundingClientRect();
@@ -907,7 +920,7 @@ html, body { overflow-x: clip; }
     setTimeout(() => { lbImg.src = ''; }, 350);
   }
 
-  document.querySelectorAll('.cs-artifact-photo, .cs-slide-img').forEach(img => {
+  document.querySelectorAll('.cs-artifact-photo, .cs-slide-img, .rt-fig img').forEach(img => {
     img.classList.add('lb-trigger');
     img.addEventListener('click', () => lbOpen(img.src, img.alt));
   });
@@ -926,8 +939,6 @@ document.querySelectorAll('[data-scroll-to]').forEach(el => {
 });
 </script>
 <script src="components/animated-progress.js" defer></script>
-<script src="components/persona-content.js?v=6" defer></script>
-<script src="components/persona-engine.js?v=6" defer></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

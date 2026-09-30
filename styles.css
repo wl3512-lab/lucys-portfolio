@@ -346,6 +346,12 @@ img { display: block; max-width: 100%; }
   margin: 0; color: var(--fg1); max-width: 16ch; font-weight: 400;
 }
 .scene-title em { font-style: normal; color: inherit; }
+/* No aura word in the About title. DESIGN.md's One Flame Rule would put one here, but a
+   gradient-filled last word in a sentence is decoration reading as meaning, and it is the
+   single clearest tell of a generated interface. The triplet already emphasises "code" by
+   putting it last; it does not need colour to do the same job twice. The gradient stays on
+   the loader wordmark (.ll-rm-name), where it belongs to a logotype rather than to
+   running copy. */
 .scene-about .scene-title { font-size: clamp(2.4rem, 6.6vw, 5.4rem); line-height: 1.02; letter-spacing: -0.03em; }
 
 /* ========== HERO ========== */
@@ -524,26 +530,20 @@ body.about-locked { overflow: hidden; }
   font-family: var(--font-body);
   font-weight: 400; letter-spacing: 0.005em;
 }
-/* Each capability card carries the tools it uses, as chips pinned to the card's foot.
-   The relationship reads at a glance, no interaction required. */
-.skill-tools {
-  display: flex; flex-wrap: wrap; gap: 7px;
-  margin-top: 22px; padding-top: 18px;
-  border-top: 1px solid var(--border, rgba(160, 200, 255, 0.10));
-}
-.skill-tool {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.03em;
-  color: var(--fg2);
-  padding: 4px 10px;
-  border: 1px solid var(--border, rgba(160, 200, 255, 0.12));
-  border-radius: 4px;
-  background: rgba(160, 200, 255, 0.03);
+/* Tools, as a quiet inline run rather than chips. Boxed chips stacked one per line in the
+   span's narrow columns (three rows under Code alone), which put more visual weight on the
+   tooling than on the capability it belongs to, and twelve bordered boxes fought the
+   Restrained colour decision. The brand-hue abbreviation is kept as the only mark. */
+.span-tool {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  font-family: var(--font-code); font-size: 10.5px; letter-spacing: 0.04em;
+  color: var(--fg3);
   white-space: nowrap;
-  transition: border-color 0.25s var(--ease-out-quart), background 0.25s var(--ease-out-quart);
 }
-.skill-card:hover .skill-tool { border-color: rgba(160, 200, 255, 0.22); }
-.skill-tool-abbr { font-weight: 700; font-size: 12px; line-height: 1; } /* color is the tool's brand hue, set inline */
+/* No separator glyph between tools. A '·' set as a leading ::before landed at the start of
+   the line whenever the run wrapped in these narrow columns; the brand-hue abbreviation
+   already marks where each tool begins, so the gap alone does the job. */
+.span-tool-abbr { font-weight: 700; font-size: 11px; line-height: 1; } /* colour is the tool's brand hue, set inline */
 
 /* ========== EDITORIAL CORNER STAMPS ========== */
 .hero-stamp {
@@ -697,6 +697,10 @@ body.about-locked { overflow: hidden; }
 }
 .marquee-track > * { flex-shrink: 0; }
 .marquee-dot { color: var(--fg-accent); opacity: 0.6; }
+@media (max-width: 640px) {
+  .scene-marquee { padding: 9px 0; }
+  .marquee-track { gap: 18px; font-size: 9.5px; letter-spacing: 0.12em; animation-duration: 26s; }
+}
 @keyframes marquee { to { transform: translateX(-33.333%); } }
 
 /* ========== WORK — 2-COLUMN GRID ========== */
@@ -805,7 +809,7 @@ body.about-locked { overflow: hidden; }
   color: var(--fg1); margin: 0 0 0.65rem;
   transition: color 0.35s var(--var(--ease-out-quart)-expo);
 }
-.work-card:hover .work-card-title { color: var(--blue-300); font-style: italic; }
+.work-card:hover .work-card-title { color: var(--blue-300); }
 .work-card-sub {
   font-family: var(--font-body); font-size: clamp(0.85rem, 1.1vw, 0.975rem);
   color: var(--fg2); line-height: 1.65; margin: 0 0 auto;
@@ -897,7 +901,7 @@ body.about-locked { overflow: hidden; }
   letter-spacing: -0.03em; line-height: 0.95; color: var(--fg1);
   transition: color 0.35s var(--var(--ease-out-quart)-expo);
 }
-.work-spotlight:hover .work-spotlight-title { color: var(--blue-300); font-style: italic; }
+.work-spotlight:hover .work-spotlight-title { color: var(--blue-300); }
 
 .work-spotlight-sub {
   font-family: var(--font-body); font-size: clamp(0.85rem, 1.1vw, 0.975rem);
@@ -925,85 +929,313 @@ body.about-locked { overflow: hidden; }
   .work-spotlight-img-overlay { background: linear-gradient(0deg, var(--bg) 0%, rgba(5,7,16,0.4) 50%, transparent 80%); }
 }
 
-/* ========== SKILLS BENTO ========== */
-.skills-grid {
+/* ========== THE SPAN (capabilities) ==========
+   Replaced the skills bento. The section's job is to show the width of the range, so the
+   layout states it structurally: one axis from upstream thinking to live performance, with
+   the capabilities plotted along it. Nodes alternate above and below the rule so each gets
+   roughly double the reading width a 5-column row would allow.
+   Colour is Restrained: the accent fires on one marker at a time, on hover, and nowhere
+   else, so the One Flame Rule survives and this section stays quieter than the work above. */
+.span {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(180px, auto);
-  gap: 0;
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 22px);
 }
-.skill-card {
-  background: transparent; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  border-radius: 0;
-  padding: 36px 32px; display: flex; flex-direction: column; justify-content: space-between;
-  opacity: 0; transform: translateY(40px);
-  transition: background .4s var(--ease-out-expo), transform .5s var(--ease-out-expo);
-  position: relative; overflow: hidden;
+.span-end {
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg3);
+  white-space: nowrap;
 }
-.skill-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--aura-radial); opacity: 0; transition: opacity .5s var(--ease-out-expo);
+.span-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  position: relative;
+}
+/* The axis itself. Drawn behind the markers, brightest in the middle so it reads as a
+   measured span rather than a border that ran out of ideas. */
+.span-list::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong) 12%, var(--border-strong) 88%, transparent);
+  /* --axis is driven 0 -> 1 by the entrance in index.html. It defaults to 1 so the axis is
+     simply drawn when that script never runs (reduced motion, touch, print, no JS). */
+  transform: translateY(-0.5px) scaleX(var(--axis, 1));
+  transform-origin: left center;
+}
+/* The playhead. --play is driven 0 -> 1 by the section's own ScrollTrigger (Skills.jsx),
+   so scrolling the page walks a light along the span from upstream to on stage. It is
+   purely additive: --play defaults to 0 and the dot is invisible at 0, so with no JS,
+   reduced motion, or print, the axis is just a drawn line as before. */
+.span-list::after {
+  content: ''; position: absolute; top: 50%;
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px 3px color-mix(in oklch, var(--accent) 50%, transparent);
+  left: calc(var(--play, 0) * 100%);
+  /* The travel itself is scrubbed, so the only thing transitioned is coming and going. */
+  opacity: clamp(0, calc(var(--play, 0) * 40), 1);
+  pointer-events: none; z-index: 2;
+}
+/* A trail behind it, so the line reads as travelled rather than merely pointed at. */
+.span-list::before { z-index: 1; }
+.span-trail {
+  position: absolute; top: 50%; left: 0; height: 1px; z-index: 1;
+  width: calc(var(--play, 0) * 100%);
+  transform: translateY(-0.5px);
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--accent) 55%, transparent));
   pointer-events: none;
 }
-.skill-card:hover::before { opacity: 0.5; }
-.skill-card:hover { background: rgba(160,200,255,0.018); }
-.skill-lg { grid-column: span 2; grid-row: span 2; }
-.skill-lg .skill-title { font-size: clamp(2rem, 3.6vw, 3.2rem); font-weight: 600; letter-spacing: -0.03em; }
-.skill-md { grid-column: span 2; }
-.skill-sm { grid-column: span 1; }
-.skill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-.skill-meta { font-family: var(--font-code); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg3); font-weight: 400; }
-.skill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue-400); box-shadow: 0 0 12px var(--blue-400); }
-.skill-title {
-  font-family: var(--font-display); font-weight: 300;
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem); letter-spacing: -0.02em;
-  margin: 0 0 14px; color: var(--fg1); line-height: 1.1;
+@media (prefers-reduced-motion: reduce) {
+  .span-list::after, .span-trail { display: none; }
 }
-.skill-desc { font-size: 13px; line-height: 1.85; color: var(--fg2); margin: 0; font-family: var(--font-body); letter-spacing: 0.005em; }
+:root.reduce-motion .span-list::after,
+:root.reduce-motion .span-trail { display: none; }
+
+.span-node {
+  position: relative;
+  display: grid; grid-template-rows: 1fr auto 1fr;
+  min-height: clamp(186px, 21vh, 244px);
+  padding: 0 clamp(10px, 1.3vw, 20px);
+}
+.span-marker {
+  grid-row: 2; justify-self: start;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--border-strong);
+  transition: border-color .35s var(--ease-out-quart), background .35s var(--ease-out-quart),
+              box-shadow .35s var(--ease-out-quart);
+}
+.span-node { outline: none; }
+.span-node.is-active .span-marker,
+.span-node:hover .span-marker {
+  border-color: var(--accent); background: var(--accent);
+  box-shadow: 0 0 14px 1px color-mix(in oklch, var(--accent) 45%, transparent);
+}
+/* The active capability lifts out of the field; the others recede, so it is legible which
+   one the backdrop is answering to. */
+.span-node .span-body { transition: opacity .4s var(--ease-out-quart), transform .4s var(--ease-out-quart); }
+.span:has(.span-node.is-active) .span-node:not(.is-active) .span-body { opacity: 0.44; }
+/* Near-zero, not merely dim. A capability's panel always opens into the half its even/odd
+   neighbours use for their bodies, so the overlap is structural rather than a positioning
+   mistake; at 0.2 the neighbour still read as a broken word beside the panel. The axis and
+   markers stay, so the section keeps its shape while you look. */
+/* Must out-specify the :has() rule above it, which scores 0,6,0; this one has to carry the
+   same :has() clause or it silently loses and the siblings stay at 0.44. */
+.scene-skills.is-probing .span:has(.span-node.is-active) .span-node:not(.is-active) .span-body { opacity: 0.09; }
+.span-node.is-active .span-label { color: var(--fg1); }
+.span-node.is-active .span-line { color: var(--fg1); }
+/* ── Related work ────────────────────────────────────────────
+   Sits in the half of the column the label does not use, so the evidence lands directly
+   opposite the claim. Absolutely positioned: the cards are taller than the half they start
+   in, and letting them affect layout would shift the axis every time the pointer moved.
+   Horizontal cards, not stacked covers: the columns are ~210px, and a full-width cover per
+   card came to ~180px each, which overflowed into the headline on the two nodes whose work
+   grows upward. A 76px shot still reads as a picture and keeps the stack short enough to
+   open in either direction. */
+.span-work {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 11px 12px;
+  /* Wider than its column on purpose. Pinned to the column's 213px, the text got ~90px next
+     to the shot and every description clamped to "A gym app for the...", which tells a
+     reader nothing. Only one panel is ever open, so it can borrow the empty column beside
+     it; the last two flip to the right edge so they never leave the container. */
+  position: absolute; left: clamp(10px, 1.3vw, 20px); width: min(278px, 128%);
+  display: grid; gap: 2px; z-index: 3;
+  opacity: 0; transform: translateY(6px); pointer-events: none;
+  transition: opacity .34s var(--ease-out-quart), transform .34s var(--ease-out-quart);
+}
+.span-node:nth-child(odd) .span-work { top: calc(50% + 26px); }
+.span-node:nth-child(even) .span-work { bottom: calc(50% + 26px); }
+.span-node:nth-last-child(-n+2) .span-work { left: auto; right: clamp(10px, 1.3vw, 20px); }
+.span-node.is-active .span-work { opacity: 1; transform: none; pointer-events: auto; }
+.span-work-cap {
+  font-family: var(--font-code); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--fg3);
+  padding: 0 4px 6px;
+}
+.span-work-card {
+  display: grid; grid-template-columns: 64px 1fr; gap: 11px;
+  align-items: center; text-decoration: none;
+  padding: 6px; border-radius: 4px;
+  border: 1px solid transparent; background: transparent;
+  transition: border-color .3s var(--ease-out-quart), transform .3s var(--ease-out-quart),
+              background-color .3s var(--ease-out-quart);
+}
+.span-work-card:hover, .span-work-card:focus-visible {
+  border-color: var(--border-strong); background: var(--surface-2); transform: translateX(3px);
+}
+.span-work-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.span-work-shot {
+  display: block; aspect-ratio: 1 / 1; border-radius: 2px;
+  overflow: hidden; background: var(--navy);
+}
+.span-work-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.span-work-txt { display: block; min-width: 0; }
+.span-work-title {
+  display: block; font-family: var(--font-ui); font-weight: 600;
+  font-size: 12.5px; line-height: 1.2; color: var(--fg1);
+}
+/* Two lines is the whole promise of "quick look": enough to know whether to click. */
+.span-work-desc {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; margin-top: 3px;
+  font-family: var(--font-body); font-size: 11px; line-height: 1.45; color: var(--fg2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .span-work, .span-work-card { transition: none; }
+}
+
+.span-node:focus-visible .span-body {
+  outline: 2px solid var(--accent); outline-offset: 10px; border-radius: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .span-node .span-body { transition: none; }
+}
+/* Alternating sides. Odd nodes sit above the rule, even below, which doubles the column
+   width each one gets to read in. */
+.span-node:nth-child(odd) .span-body { grid-row: 1; align-self: end; padding-bottom: 24px; }
+.span-node:nth-child(even) .span-body { grid-row: 3; align-self: start; padding-top: 24px; }
+.span-label {
+  font-family: var(--font-ui); font-weight: 600;
+  font-size: clamp(1.05rem, 1.45vw, 1.35rem); letter-spacing: -0.01em;
+  line-height: 1.15; margin: 0 0 10px; color: var(--fg1);
+}
+.span-line {
+  font-family: var(--font-body); font-size: 0.875rem; line-height: 1.6;
+  /* --fg2, not --fg3: this is reading-weight text and --fg3 does not clear WCAG AA. */
+  color: var(--fg2); margin: 0 0 16px; max-width: 30ch;
+}
+.span-tools { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 14px; }
+
+/* Stacked: the axis rotates vertical, every node sits to one side of it, and nothing
+   depends on hover. Also the layout phones and tablets get, where the 5-column row and
+   the alternating stagger both stop working. */
+@media (max-width: 900px) {
+  .span { grid-template-columns: 1fr; gap: 14px; }
+  .span-end { padding-left: 26px; }
+  .span-list { grid-template-columns: 1fr; }
+  .span-list::before {
+    left: 4px; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
+    background: linear-gradient(180deg, transparent, var(--border-strong) 6%, var(--border-strong) 94%, transparent);
+    transform: scaleY(var(--axis, 1));
+    transform-origin: top center;
+  }
+  .span-node {
+    grid-template-rows: auto; grid-template-columns: auto 1fr;
+    min-height: 0; padding: 0 0 clamp(26px, 5vw, 38px) 0;
+    align-items: start; gap: 18px;
+  }
+  .span-node .span-marker { grid-row: 1; grid-column: 1; margin-top: 7px; }
+  /* Vertical span: nothing is "opposite" any more, so the work sits under its capability
+     in normal flow and is always open (there is no hover on touch to reveal it). */
+  .span-work {
+    position: static; opacity: 1; transform: none; pointer-events: auto;
+    grid-column: 2; margin-top: 14px; max-width: 420px;
+  }
+  .span-work-card { grid-template-columns: 64px 1fr; }
+  .span-node:nth-child(odd) .span-body,
+  .span-node:nth-child(even) .span-body {
+    grid-row: 1; grid-column: 2; align-self: start; padding: 0;
+  }
+  .span-line { max-width: 46ch; }
+}
 
 /* ========== ABOUT ========== */
 .about-grid {
   display: grid; grid-template-columns: 1fr 1.2fr; gap: 100px;
   align-items: start;
 }
-.about-left { position: sticky; top: 120px; }
-.about-mark-wrap {
-  margin-top: 48px;
-  width: 48px;
+/* ── ABOUT: the ledger as spine ──────────────────────────────
+   The section used to be a sticky text column beside a portrait-and-bio column, with a
+   48px logo parked under the headline doing no work. Now the facts ARE the structure:
+   full-width ruled rows carry the composition, the portrait interrupts them, and the
+   prose lands underneath as a note. (.about-grid above is kept for design-system.html,
+   which still uses it via app.jsx.) */
+.about-spread { display: block; }
+/* Top band: headline left, portrait and bio right. The two sit opposite each other above
+   the spine, so the section opens on a person rather than on six ruled facts. */
+.about-top {
+  display: grid; grid-template-columns: 1.32fr 1fr;
+  gap: clamp(30px, 4vw, 66px); align-items: start;
+  margin: 0 0 clamp(38px, 5.5vw, 68px);
 }
-.about-mark {
-  width: 100%; height: auto; display: block;
-  border-radius: 6px;
-  opacity: 0.85;
-}
+.about-head { margin: 0; }
+/* Smaller than the full scene-title clamp: the note now takes the right third, and at
+   5.4rem "I do the research," no longer fits its column and broke across two lines. */
+.about-head .scene-title { max-width: 20ch; font-size: clamp(2.1rem, 5vw, 4.3rem); }
 
-/* Portrait + bio share a row. The portrait is an editorial plate (4:5), not an avatar. */
-.about-intro {
-  display: grid; grid-template-columns: clamp(150px, 17vw, 210px) 1fr;
-  gap: clamp(24px, 3.4vw, 48px); align-items: start;
+.about-body { position: relative; }
+
+/* The wall crosses the rules instead of sitting in a column: a 2x2 of vertical tiles,
+   one portrait and three silent loops from the residency. Centred on the spine rather
+   than pinned below a specific row, so it survives rows being added or removed. */
+.about-wall {
+  position: absolute; right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: var(--about-plate, clamp(168px, 17.5vw, 244px));
+  z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 9px;
 }
-.about-headshot-wrap {
-  width: 100%; aspect-ratio: 4 / 5;
-  border-radius: 2px; overflow: hidden;
-  border: 1px solid var(--border);
-  flex-shrink: 0;
+.about-tile {
+  margin: 0; position: relative;
+  aspect-ratio: 9 / 16;            /* the loops are 720x1280 phone captures */
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;              /* a printed plate, not an avatar */
+  background: var(--bg);           /* opaque, so the wall genuinely interrupts the rules */
 }
-@media (max-width: 640px) {
-  .about-intro { grid-template-columns: 1fr; gap: 22px; }
-  .about-headshot-wrap { width: 148px; }
+.about-tile > img,
+.about-tile > video {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover;
 }
-.about-headshot {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
-  filter: contrast(1.04) saturate(0.88);
-}
+/* The headshot has a bright studio backdrop and the loops are already dark and saturated.
+   Both get pulled toward the void so the wall reads as one surface, not four pasted-on
+   pictures, and so the ruled type beside it stays the brighter thing on screen. */
+.about-tile-portrait > img { object-position: center 18%; filter: contrast(1.02) saturate(0.72) brightness(0.86); }
+.about-tile > video { filter: saturate(0.94) brightness(0.9); }
+:root.theme-light .about-tile-portrait > img { filter: contrast(1.02) saturate(0.86); }
+:root.theme-light .about-tile > video { filter: none; }
 
 .about-para {
   font-size: 18px; line-height: 1.78; color: var(--fg1);
   margin: 0 0 24px; max-width: 50ch;
   font-family: var(--font-body); letter-spacing: 0.003em;
+}
+/* The bio follows the spine, indented to sit under the value column so it reads as a note
+   against the rules rather than a new block starting over at the margin. The portrait rides
+   with it: next to a first-person paragraph a face is the subject, where inside the wall of
+   loops it was just the one tile that did not match. */
+.about-note {
+  display: grid; grid-template-columns: clamp(86px, 7.6vw, 118px) 1fr;
+  gap: clamp(16px, 1.9vw, 26px); align-items: start;
+  margin: clamp(6px, 1vw, 14px) 0 0;   /* optical align to the kicker, not the title cap */
+}
+.about-portrait {
+  margin: 0; aspect-ratio: 4 / 5; overflow: hidden;
+  border: 1px solid var(--border-strong); border-radius: 2px;
+}
+.about-portrait img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: center 18%;
+  filter: contrast(1.02) saturate(0.74) brightness(0.88);
+}
+:root.theme-light .about-portrait img { filter: contrast(1.02) saturate(0.88); }
+.about-spread .about-para {
+  margin: 0; max-width: 46ch; font-size: 15.5px; line-height: 1.72; color: var(--fg2);
+}
+.about-spread .about-para strong { color: var(--fg1); }
+@media (max-width: 899px) {
+  .about-top { grid-template-columns: 1fr; gap: clamp(26px, 5vw, 38px); }
+  .about-head .scene-title { font-size: clamp(2.1rem, 8vw, 3.4rem); }
+  .about-note { grid-template-columns: clamp(88px, 22vw, 116px) 1fr; gap: 18px; margin: 0; }
+  .about-spread .about-para { max-width: 62ch; }
+}
+@media (max-width: 520px) {
+  .about-note { grid-template-columns: 1fr; gap: 18px; }
+  .about-portrait { width: clamp(96px, 30vw, 132px); }
 }
 .about-para:nth-child(n+2) { color: var(--fg2); font-size: 15px; }
 .about-para em { font-family: var(--font-display); font-style: italic; color: var(--blue-300); font-size: 1.15em; font-weight: 400; }
@@ -1013,16 +1245,23 @@ body.about-locked { overflow: hidden; }
    Facts as an editorial index: hairline rules, mono keys, oversized italic values.
    Replaces the old 2x2 card grid (cards were the lazy affordance here). */
 .about-ledger {
-  margin: clamp(44px, 6vw, 76px) 0 0;
+  margin: 0;
   border-top: 1px solid var(--border);
 }
+/* Third track is the portrait's lane. It stays empty in the flow: the portrait is
+   positioned over it, so the row's rule still spans the full width and runs behind the
+   plate, while values never collide with it. */
 .ledger-row {
   --i: 0;
   position: relative;
-  display: grid; grid-template-columns: minmax(76px, 12ch) 1fr;
+  display: grid;
+  grid-template-columns: minmax(76px, 12ch) 1fr var(--about-plate, 0px);
   align-items: baseline;
   gap: 6px clamp(18px, 3.2vw, 56px);
   padding: clamp(15px, 2.2vw, 24px) 0;
+}
+@media (min-width: 900px) {
+  .about-body { --about-plate: clamp(228px, 25vw, 366px); }
 }
 /* rule as a pseudo-element so it can draw in from the left */
 .ledger-row::after {
@@ -1042,6 +1281,34 @@ body.about-locked { overflow: hidden; }
   letter-spacing: -0.025em; color: var(--fg1);
   transition: transform 0.5s var(--ease-out-expo);
 }
+/* The one ledger value that is a destination rather than a fact. It keeps the row's
+   display type and rise animation; the arrow and the accent on hover are what mark it
+   as clickable, since an underline would fight the hairline rules above and below. */
+.ledger-link {
+  color: inherit; text-decoration: none;
+  transition: color 0.3s var(--ease-out-expo);
+}
+.ledger-link span { display: inline-block; font-style: normal; font-size: 0.62em; opacity: 0.55; transition: transform 0.3s var(--ease-out-expo), opacity 0.3s var(--ease-out-expo); }
+.ledger-link:hover, .ledger-link:focus-visible { color: var(--fg-accent); }
+.ledger-link:hover span, .ledger-link:focus-visible span { opacity: 1; transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) { .ledger-link, .ledger-link span { transition: none; } }
+
+/* The live marker. Text label as well as the dot: colour alone never carries meaning. */
+.ledger-live {
+  grid-column: 2; justify-self: start; align-self: baseline;
+  margin: 3px 0 0; display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-code); font-size: 9.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg3); white-space: nowrap;
+}
+.ledger-live-dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+  background: var(--accent);
+  animation: contact-pulse 2.4s var(--ease-out-quart) infinite;
+}
+@media (prefers-reduced-motion: reduce) { .ledger-live-dot { animation: none; } }
+:root.reduce-motion .ledger-live-dot { animation: none; }
+
+
 .ledger-minor {
   grid-column: 2; margin: 2px 0 0;
   font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
@@ -1057,6 +1324,10 @@ body.about-locked { overflow: hidden; }
 }
 .ledger-note::before { content: '\2514  '; opacity: 0.6; }
 .ledger-row:hover .ledger-note { opacity: 1; transform: none; }
+/* The live row's note is the AS OF stamp: a reader judges freshness with it, so unlike
+   the archival footnotes on the fixed rows it is always on. */
+.ledger-row-live .ledger-note { opacity: 0.75; transform: none; }
+.ledger-row-live:hover .ledger-note { opacity: 1; }
 @media (hover: none), (max-width: 640px) { .ledger-note { opacity: 0.8; transform: none; } }
 
 /* hover: the row leans toward the reader; no extra colour (one flame per screen) */
@@ -1081,9 +1352,23 @@ body.about-locked { overflow: hidden; }
 }
 .about-overlay.is-open .about-lamp.is-on { opacity: 1; }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) { .about-lamp { display: none; } }
+/* Below the plate breakpoint the portrait leaves the absolute lane and leads the spine,
+   because a face reads better before six ruled facts than after them on a small screen. */
+@media (max-width: 899px) {
+  .about-body { display: flex; flex-direction: column; }
+  .about-wall {
+    order: -1; position: static; transform: none;
+    width: 100%; grid-template-columns: repeat(4, 1fr); gap: 7px;
+    margin: 0 0 clamp(26px, 5vw, 40px);
+  }
+}
 @media (max-width: 640px) {
   .ledger-row { grid-template-columns: 1fr; gap: 4px; }
-  .ledger-minor { grid-column: 1; }
+  /* All four of these must come back to column 1. Leaving .ledger-note at column 2 kept
+     conjuring an implicit second column, so the row stayed two-up and the values ran off
+     the right edge even though the template said 1fr. */
+  .ledger-minor, .ledger-note, .ledger-live { grid-column: 1; }
+  .ledger-live { justify-self: start; margin-top: 2px; }
 }
 
 /* ── Entrance choreography ──
@@ -1105,89 +1390,209 @@ body.about-locked { overflow: hidden; }
   animation: ledgerFade 0.7s ease-out both;
   animation-delay: calc(260ms + var(--i) * 85ms);
 }
-.about-overlay.is-open .about-headshot-wrap,
-.about-overlay.is-open .about-para {
+.about-overlay.is-open .about-title {
+  animation: ledgerFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.about-overlay.is-open .ledger-live {
+  animation: ledgerFade 0.7s ease-out both;
+  animation-delay: 420ms;
+}
+.about-overlay.is-open .about-wall,
+.about-overlay.is-open .about-note {
   animation: ledgerFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.about-overlay.is-open .about-headshot-wrap { animation-delay: 60ms; }
-.about-overlay.is-open .about-para { animation-delay: 130ms; }
+.about-overlay.is-open .about-wall { animation-delay: 300ms; }
+.about-overlay.is-open .about-note { animation-delay: 140ms; }
 @media (prefers-reduced-motion: reduce) {
   .about-overlay.is-open .ledger-row::after,
   .about-overlay.is-open .ledger-v-in,
   .about-overlay.is-open .ledger-k,
   .about-overlay.is-open .ledger-minor,
-  .about-overlay.is-open .about-headshot-wrap,
-  .about-overlay.is-open .about-para { animation: none; }
+  .about-overlay.is-open .ledger-live,
+  .about-overlay.is-open .about-title,
+  .about-overlay.is-open .about-wall,
+  .about-overlay.is-open .about-note { animation: none; }
   .ledger-row:hover .ledger-v-in { transform: none; }
 }
 
 /* ========== CONTACT ========== */
-.scene-contact { padding-top: 160px; padding-bottom: 0; text-align: center; position: relative; overflow: hidden; }
-.contact-inner { display: flex; flex-direction: column; align-items: center; gap: 36px; padding-bottom: 140px; position: relative; z-index: 1; }
+/* ========== CONTACT: the open channel ==========
+   Rebuilt from a centred stack (kicker / giant "Let's work together." / email / copy /
+   socials, all dead-centre with a gradient blob behind) into an instrument panel. That
+   layout is the single most template-like arrangement on the web, the headline is the one
+   line every portfolio template closes on, and none of it spoke the site's own sci-fi
+   language: Space Mono readouts, decode text, coordinate labels, HUD tags.
+   The email is now the display element, because getting someone to send it is the only
+   thing this section exists to do. */
+.scene-contact {
+  padding-top: clamp(96px, 13vh, 150px); padding-bottom: 0;
+  position: relative; overflow: hidden;
+}
+.contact-inner {
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding-bottom: clamp(90px, 12vh, 140px);
+  position: relative; z-index: 1;
+}
 
-/* Aurora backdrop behind the "Let's work together" CTA — masked clear in the centre
-   so the headline + email stay legible; the ribbons glow around them. */
+/* Aurora backdrop. Re-masked: the old mask cleared an ellipse dead-centre for centred
+   text. The content now sits left, so the clearing follows it and the ribbons glow out
+   to the right where there is nothing to read. */
 .scene-contact .contact-aurora {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.6;
-  -webkit-mask-image: radial-gradient(ellipse 78% 58% at 50% 40%, transparent 12%, #000 70%);
-          mask-image: radial-gradient(ellipse 78% 58% at 50% 40%, transparent 12%, #000 70%);
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(ellipse 72% 62% at 26% 42%, transparent 14%, #000 74%);
+          mask-image: radial-gradient(ellipse 72% 62% at 26% 42%, transparent 14%, #000 74%);
 }
 .scene-contact .contact-aurora canvas { display: block; width: 100%; height: 100%; }
-.contact-head {
+/* The Aurora mounts the moment its in-view gate latches, which popped a lit canvas in
+   just as the violet s0mped section was leaving. Fading it lets the two atmospheres hand
+   off instead of cutting. */
+.scene-contact .contact-aurora { animation: contact-aurora-in 1.8s var(--ease-out-expo) both; }
+@keyframes contact-aurora-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .scene-contact .contact-aurora { animation: none; }
+}
+:root.reduce-motion .scene-contact .contact-aurora { animation: none; }
+
+/* ---- header rail ---- */
+.contact-rail {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; margin-bottom: clamp(34px, 5vh, 56px);
+}
+.contact-rail .scene-kicker { margin: 0; flex-shrink: 0; }
+.contact-rule { flex: 1; height: 1px; background: var(--border); }
+.contact-status {
+  display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg3);
+}
+.contact-status-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 1px color-mix(in oklch, var(--accent) 55%, transparent);
+  animation: contact-pulse 2.4s var(--ease-out-quart) infinite;
+}
+@keyframes contact-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+/* An infinite pulse is exactly what reduced motion is asking us not to run. The dot stays,
+   it just stops breathing. */
+@media (prefers-reduced-motion: reduce) {
+  .contact-status-dot { animation: none; }
+}
+:root.reduce-motion .contact-status-dot { animation: none; }
+
+/* ---- lede ---- */
+.contact-lede {
   font-family: var(--font-display); font-weight: 300;
-  font-size: clamp(4rem, 12vw, 13rem); line-height: 0.9; letter-spacing: -0.02em;
-  margin: 0; color: var(--fg1);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: clamp(1.6rem, 3.4vw, 2.9rem); line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--fg1); margin: 0 0 clamp(26px, 4vh, 44px); max-width: 18ch;
 }
-.contact-accent { display: inline-block; will-change: transform; }
-.contact-line { display: inline-block; will-change: transform; }
-/* ASCII / dot-matrix accent word — texture, not a colour split (shared treatment). */
-.ascii-word {
-  color: transparent;
-  background-image: radial-gradient(var(--fg1) 44%, transparent 48%);
-  background-size: 0.085em 0.085em;
-  background-position: center;
-  -webkit-background-clip: text; background-clip: text;
-}
-@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-  .ascii-word { color: var(--fg1); background: none; }
+
+/* ---- the channel: email as the display element ---- */
+.contact-channel {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: clamp(14px, 2vw, 28px);
+  margin-bottom: clamp(48px, 8vh, 92px);
 }
 .contact-email {
-  font-family: var(--font-display); font-style: italic;
-  font-size: clamp(28px, 4vw, 52px); letter-spacing: -0.02em;
-  display: inline-flex; align-items: center; gap: 12px;
-  color: var(--fg1); will-change: transform;
-  padding-bottom: 6px; border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-code); font-weight: 400;
+  font-size: clamp(1.5rem, 5.2vw, 4.1rem); letter-spacing: -0.02em;
+  display: inline-flex; align-items: baseline; gap: 0.3em;
+  color: var(--fg1); text-decoration: none;
+  padding-bottom: 0.14em; border-bottom: 1px solid var(--border-strong);
   transition: color .3s var(--ease-out-quart), border-color .3s var(--ease-out-quart);
 }
-.contact-email:hover { color: var(--blue-300); border-color: var(--blue-300); text-shadow: 0 0 48px rgba(114,173,255,0.28); }
-.contact-arrow { font-size: 0.6em; }
-.contact-copy {
-  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.1em; text-transform: lowercase;
-  color: var(--fg2); border-bottom: 1px dashed var(--border);
-  padding: 10px 8px;
-  transition: color 0.2s var(--ease-out-quart);
+/* Reserve the width the resolved address needs, so the hover decode cannot reflow the
+   line while characters are scrambling through wider glyphs. */
+.contact-email-text { display: inline-block; white-space: nowrap; }
+.contact-email:hover {
+  color: var(--blue-300); border-color: var(--blue-300);
+  text-shadow: 0 0 46px rgba(114,173,255,0.3);
 }
-.contact-copy:hover { color: var(--fg1); }
+.contact-arrow { font-size: 0.42em; }
+.contact-copy {
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--fg3);
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  transition: color .25s var(--ease-out-quart), border-color .25s var(--ease-out-quart);
+}
+.contact-copy:hover { color: var(--fg1); border-color: var(--border-strong); }
 .contact-copy.is-copied {
-  color: var(--fg-accent);
+  color: var(--accent); border-color: var(--accent);
   animation: copy-confirm 0.45s var(--ease-spring);
 }
 @keyframes copy-confirm {
   0%   { transform: scale(1); }
-  45%  { transform: scale(1.09); }
+  45%  { transform: scale(1.06); }
   100% { transform: scale(1); }
 }
-.contact-copy:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 4px; border-radius: 2px; }
+.contact-copy:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 4px; }
 .contact-email:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 6px; border-radius: 2px; }
-.contact-socials {
-  margin-top: 16px;
-  font-family: var(--font-ui); font-size: 13px; letter-spacing: 0.04em;
-  color: var(--fg2); display: flex; gap: 18px; align-items: center;
+
+/* ---- readout ---- */
+.contact-readout {
+  margin: 0; width: 100%;
+  /* Capped. Left to the full container the three columns spread across 1440px, which put
+     half a screen between a label and its own value and pushed the right-hand column under
+     the constellation sidebar. A panel reads as a panel at this width. */
+  max-width: min(820px, 100%);
+  border-top: 1px solid var(--border);
 }
-.contact-sep { color: var(--fg3); }
-.contact-socials a { display: inline-block; padding: 13px 6px; margin: -13px -6px; } /* touch target */
+.cr-row {
+  display: grid;
+  grid-template-columns: clamp(96px, 11vw, 132px) minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: baseline; gap: clamp(12px, 2vw, 28px);
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+.cr-row dt {
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg3);
+}
+.cr-row dd {
+  margin: 0;
+  font-family: var(--font-body); font-size: 0.9rem; color: var(--fg1);
+}
+.cr-aux {
+  font-family: var(--font-code) !important; font-size: 10.5px !important;
+  letter-spacing: 0.06em; color: var(--fg3) !important;
+}
+.cr-clock {
+  font-family: var(--font-code); letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+.cr-links { display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--font-ui) !important; font-size: 0.85rem !important; }
+.cr-links a { display: inline-block; padding: 9px 4px; margin: -9px -4px; color: var(--fg2); }
+.cr-links a:hover { color: var(--fg1); }
+
+@media (max-width: 720px) {
+  .contact-rail { gap: 10px; }
+  .contact-status { font-size: 9px; letter-spacing: 0.14em; }
+  .contact-email { font-size: clamp(1.15rem, 7vw, 2rem); }
+  .cr-row {
+    grid-template-columns: 1fr;
+    gap: 4px; padding: 14px 0;
+  }
+  .cr-aux { padding-top: 2px; }
+}
+
+.site-footer {
+  border-top: 1px solid var(--border); padding: 28px 0;
+  background: var(--surface);
+}
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em;
+  color: var(--fg3);
+}
+.footer-mid { color: var(--fg2); }
+.footer-inner a { display: inline-block; padding: 12px 8px; margin: -12px -8px; } /* touch target */
 
 .site-footer {
   border-top: 1px solid var(--border); padding: 28px 0;
@@ -1233,10 +1638,7 @@ body.about-locked { overflow: hidden; }
   .hero-content { grid-template-columns: 1fr; gap: 48px; padding: 0 0 80px; align-items: start; }
   .hero-orb { width: 420px; height: 420px; right: -20%; }
   .nav-links { gap: 20px; }
-  .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  .skill-lg, .skill-md { grid-column: span 2; }
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-left { position: static; }
   .scene { padding: 6rem 0; }
   .hero-heading { font-size: clamp(2rem, 9vw, 6rem); }
   .hero-photo-caption { display: none; }
@@ -1273,10 +1675,10 @@ body.about-locked { overflow: hidden; }
   .scene { padding: 5rem 0; }
 }
 
-/* ── Skill cards: tighten padding on narrow phones ── */
+/* ── The span: tighten on narrow phones ── */
 @media (max-width: 480px) {
-  .skill-card { padding: 24px 18px; }
-  .skill-title { font-size: clamp(1.2rem, 4.8vw, 1.6rem); }
+  .span-label { font-size: clamp(1rem, 4.4vw, 1.2rem); }
+  .span-node { gap: 14px; }
 }
 
 /* ── Mobile hero: gutter + button layout ── */
@@ -1340,8 +1742,24 @@ body.about-locked { overflow: hidden; }
 .gem-section {
   position: relative;
   padding: clamp(100px, 13vh, 160px) 0;
-  border-top: 1px solid var(--border);
   overflow: hidden;
+}
+/* The boundary as an event rather than a hard rule. This was a plain
+   `border-top: 1px solid var(--border)`, so the blue Capabilities world simply stopped and
+   the violet one started with a line between them. Now the edge draws across as you
+   arrive, and it carries the hue shift: signal blue at the left, where you came from,
+   resolving to the gem violet on the right, where you are going.
+   --edge is driven 0 -> 1 by the entrance in index.html and defaults to 1, so with no JS
+   the edge is simply present. */
+.gem-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    color-mix(in oklch, var(--accent) 55%, transparent) 0%,
+    var(--border-strong) 38%,
+    oklch(0.62 0.20 292 / 0.55) 100%);
+  transform: scaleX(var(--edge, 1));
+  transform-origin: left center;
+  z-index: 2; pointer-events: none;
 }
 
 /* Iridescent shimmer backdrop — gems refract light. Subtle, masked so the
@@ -1352,7 +1770,30 @@ body.about-locked { overflow: hidden; }
   -webkit-mask-image: radial-gradient(ellipse 95% 85% at 62% 50%, #000 22%, transparent 82%);
           mask-image: radial-gradient(ellipse 95% 85% at 62% 50%, #000 22%, transparent 82%);
 }
-.gem-iridescence canvas { display: block; width: 100%; height: 100%; }
+
+/* The gem sequence occupies the slot the Iridescence shader used to. It keeps that class so
+   the section's entrance timeline (which fades .gem-iridescence in) needs no retargeting,
+   but it overrides the two values that were tuned for a shader:
+     screen blend drops blacks, which on a rendered stone erases every dark facet and leaves
+     only the dispersion as loose rainbow streaks. A rendered object needs normal blend.
+     0.34 was right for additive light; at normal blend it reads as a smudge. */
+/* Bold pass (2026-09-29): the stone is the section's subject, not a backdrop. Full
+   opacity, a wider mask so its wings reach past the story card, and a grade on the canvas
+   element because the Cycles renders come out slate-grey: contrast pulls the facets apart
+   and saturation brings the dispersion fire forward. The filter is on the element, so it
+   is composited once per drawn frame and costs nothing between scroll steps. */
+.gem-iridescence.gem-sequence {
+  opacity: 1; mix-blend-mode: normal;
+  -webkit-mask-image: radial-gradient(ellipse 130% 120% at 58% 46%, #000 48%, transparent 90%);
+          mask-image: radial-gradient(ellipse 130% 120% at 58% 46%, #000 48%, transparent 90%);
+}
+/* No filter here any more: the grade is baked into the frames by blender/render_grid.sh.
+   A live filter (with a 48px drop-shadow) re-rasterised on every redraw of a full-screen
+   canvas was the main stutter risk while scrolling. The halo comes from .gem-bg-glow. */
+.gem-sequence { position: absolute; inset: 0; pointer-events: none; }
+.gem-seq-canvas { position: absolute; display: block; }   /* square box around the stone, placed by GemSequence */
+
+.gem-iridescence:not(.gem-sequence) canvas { display: block; width: 100%; height: 100%; }
 
 /* Animated circular progress gauge (Magic UI AnimatedCircularProgressBar, vanilla).
    Driven by components/animated-progress.js. Sized/colored via custom props. */
@@ -1388,7 +1829,7 @@ body.about-locked { overflow: hidden; }
 .gem-bg-glow {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 90% at 72% 50%, oklch(0.48 0.18 295 / 0.20) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 90% at 62% 48%, oklch(0.50 0.20 292 / 0.34) 0%, transparent 65%),
     radial-gradient(ellipse 40% 55% at 76% 28%, oklch(0.56 0.22 285 / 0.14) 0%, transparent 60%),
     radial-gradient(ellipse 50% 50% at 30% 70%, oklch(0.36 0.10 305 / 0.07) 0%, transparent 70%);
 }
@@ -1419,7 +1860,155 @@ body.about-locked { overflow: hidden; }
   .gem-p { animation: none; }
 }
 
-/* Two-column editorial layout */
+/* ── s0mped gem chapter (components/GemStory.jsx) ────────────────────────────
+   At rest (phones, reduced motion, short screens, no JS) the beats are a plain stacked
+   section. When the chapter runs, GemStory sets data-chapter and the section becomes a
+   100vh pinned stage: the rendered stone in the middle, beats absolutely placed left and
+   right, their opacity and lift written by the scroll timeline. */
+.gem-chapter {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(56px, 9vh, 104px) clamp(48px, 7vw, 120px); align-items: start;
+}
+.gem-beat { max-width: 380px; }
+.gem-beat--right { justify-self: end; }
+.gem-kicker {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: oklch(0.74 0.15 285 / 0.85); margin: 0 0 14px;
+}
+.gem-beat-title {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(22px, 2.3vw, 32px); line-height: 1.12; letter-spacing: -0.02em;
+  color: var(--fg1); margin: 0 0 26px; text-wrap: balance;
+}
+.gem-cuts, .gem-sets { list-style: none; margin: 0; padding: 0; display: grid; }
+.gem-cuts { grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.gem-cut { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.gem-cut img {
+  width: 100%; aspect-ratio: 1; object-fit: contain; display: block;
+  filter: drop-shadow(0 0 14px oklch(0.62 0.20 290 / 0.35));
+}
+.gem-cut span {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg3);
+}
+.gem-sets { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 26px; }
+.gem-sets img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 10px; display: block; }
+.gem-hint {
+  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg3); margin: 28px 0 0;
+}
+.gem-still { display: block; width: min(300px, 72%); margin-top: 8px; }
+.gem-beat--card { display: flex; flex-direction: column; align-items: flex-start; gap: 30px; }
+@media (max-width: 760px) {
+  .gem-chapter { grid-template-columns: 1fr; }
+  .gem-beat--right { justify-self: start; }
+}
+
+.gem-section[data-chapter] { height: 100vh; padding: 0; }
+.gem-section[data-chapter] .gem-chapter {
+  position: absolute; inset: 0; max-width: none; padding: 0; display: block;
+}
+.gem-section[data-chapter] .gem-beat {
+  position: absolute; top: 50%; transform: translateY(calc(-50% + var(--beat-lift, 0px)));
+  width: min(290px, 21vw); will-change: opacity, transform;
+}
+/* The right inset clears the page-flow rail, whose active label ("04 side project") slides
+   in 90 to ~220px from the right edge while this section is on screen. */
+.gem-section[data-chapter] .gem-beat--left  { left:  clamp(24px, 5vw, 96px); }
+.gem-section[data-chapter] .gem-beat--right { right: clamp(24px, 14vw, 220px); }
+.gem-section[data-chapter] .gem-beat--card { width: auto; }
+.gem-section[data-chapter] .gem-story-card { width: min(290px, 22vw, calc((100vh - 150px) * 9 / 16)); min-height: 0; }
+/* Centred stage: the stone sits in the middle, so the mask and glow follow it there. */
+.gem-section[data-chapter] .gem-iridescence.gem-sequence {
+  -webkit-mask-image: radial-gradient(ellipse 50% 70% at 47% 50%, #000 58%, transparent 96%);
+          mask-image: radial-gradient(ellipse 50% 70% at 47% 50%, #000 58%, transparent 96%);
+}
+.gem-section[data-chapter] .gem-bg-glow {
+  background: radial-gradient(ellipse 36% 56% at 47% 50%, oklch(0.50 0.20 292 / 0.30) 0%, transparent 66%);
+}
+
+/* Compact chapter (phones): the stone owns the upper part of the screen, each beat is a
+   panel pinned to the bottom edge. svh, so the stage does not jump with the address bar. */
+.gem-section[data-chapter="compact"] { height: 100svh; }
+.gem-section[data-chapter="compact"] .gem-beat,
+.gem-section[data-chapter="compact"] .gem-beat--left,
+.gem-section[data-chapter="compact"] .gem-beat--right {
+  top: auto; left: 20px; right: 20px; width: auto; max-width: 440px; margin-inline: auto;
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  transform: translateY(var(--beat-lift, 0px));
+}
+.gem-section[data-chapter="compact"] .gem-iridescence.gem-sequence {
+  -webkit-mask-image: radial-gradient(ellipse 80% 42% at 50% 31%, #000 60%, transparent 98%);
+          mask-image: radial-gradient(ellipse 80% 42% at 50% 31%, #000 60%, transparent 98%);
+}
+.gem-section[data-chapter="compact"] .gem-bg-glow {
+  background: radial-gradient(ellipse 70% 34% at 50% 31%, oklch(0.50 0.20 292 / 0.32) 0%, transparent 70%);
+}
+.gem-section[data-chapter="compact"] .gem-left-top { margin-bottom: 16px; }
+.gem-section[data-chapter="compact"] .gem-left-desc { margin-bottom: 0; }
+.gem-section[data-chapter="compact"] .gem-beat-title { font-size: 22px; margin-bottom: 18px; }
+.gem-section[data-chapter="compact"] .gem-sets { margin-bottom: 18px; }
+.gem-section[data-chapter="compact"] .gem-sets img { aspect-ratio: 1; }
+.gem-section[data-chapter="compact"] .gem-left-metas { flex-direction: row; flex-wrap: wrap; gap: 8px 20px; }
+.gem-section[data-chapter="compact"] .gem-lmk { min-width: 0; }
+/* Last beat: a small card beside the site link, so it fits under the stone. */
+.gem-section[data-chapter="compact"] .gem-beat--card { flex-direction: row; align-items: flex-end; gap: 20px; }
+.gem-section[data-chapter="compact"] .gem-story-card { width: min(160px, 40vw); min-height: 0; }
+.gem-section[data-chapter="compact"] .gem-site-cta { margin-top: 0; }
+/* At card width 160 the "also:" eyebrow sits under the story bars and reads as struck out. */
+.gem-section[data-chapter="compact"] .gem-eyebrow { display: none; }
+
+body.gem-stage .pf-label { opacity: 0 !important; pointer-events: none; }
+
+/* Refracted light: a beam from the stone and a soft spot with a dispersion ring, landing on
+   the active beat (or wherever the pointer aims). Both are moved by transform only, so they
+   are composited once and never repaint; screen blend lets them light the text they cross.
+   Shown only while the stage is pinned (body.gem-stage). */
+.gem-light {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
+  opacity: 0; transition: opacity 0.6s var(--ease-out-quart);
+  /* The blend lives on the layer, not its children: this layer is its own group (opacity),
+     so a child's screen blend only met an empty backdrop and its dark pixels showed black. */
+  mix-blend-mode: screen;
+}
+body.gem-stage .gem-light { opacity: 1; }
+.gem-beam {
+  position: absolute; left: 0; top: 0; width: 1000px; height: 160px; margin-top: -80px;
+  transform-origin: 0 50%; will-change: transform;
+}
+/* Light is only visible in air where it catches haze: a very faint cone, and over it a fan of
+   thin shafts that fade as they travel, each tinted by the part of the spectrum it carries. */
+.gem-haze {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 47%, 100% 8%, 100% 92%, 0 53%);
+  background: linear-gradient(90deg, rgba(196,176,255,0) 0%, rgba(196,176,255,0.07) 30%, rgba(160,200,255,0.02) 80%, transparent 100%);
+  filter: blur(8px);
+}
+.gem-ray {
+  position: absolute; left: 3%; right: 0; top: 50%; height: 2px; margin-top: -1px;
+  transform-origin: 0 50%; filter: blur(1.4px);
+}
+.gem-ray:nth-child(2) { transform: rotate(-2.2deg); background: linear-gradient(90deg, transparent, rgba(255,190,140,0.30) 18%, rgba(255,190,140,0.10) 70%, transparent 100%); }
+.gem-ray:nth-child(3) { transform: rotate(-0.7deg); height: 3px; background: linear-gradient(90deg, transparent, rgba(240,246,255,0.42) 14%, rgba(240,246,255,0.12) 72%, transparent 100%); }
+.gem-ray:nth-child(4) { transform: rotate(0.8deg);  background: linear-gradient(90deg, transparent, rgba(190,150,255,0.30) 20%, rgba(190,150,255,0.10) 70%, transparent 100%); }
+.gem-ray:nth-child(5) { transform: rotate(2.1deg);  background: linear-gradient(90deg, transparent, rgba(130,220,255,0.26) 22%, rgba(130,220,255,0.08) 68%, transparent 100%); }
+.gem-seq-canvas { transform-origin: 50% 50%; will-change: transform; }
+/* Light theme: screen blend on a pale field is nearly invisible, which is the right amount. */
+/* Narrow side columns: five cut labels must fit one row ("NAVETTE" is the longest). */
+.gem-section[data-chapter="wide"] .gem-cuts { gap: 4px; }
+.gem-section[data-chapter="wide"] .gem-cut span { font-size: 8.5px; letter-spacing: 0.06em; white-space: nowrap; }
+
+/* The catch: the nav navette answers when the stone flies into it. */
+.flow-menu-logo.wm-catch .wm-gem { animation: wmCatch 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes wmCatch {
+  0%   { transform: translateX(-50%) scale(calc(var(--wm-gem, 1) * 2.8));
+         filter: drop-shadow(0 0 5px #C4B0FF) drop-shadow(0 0 12px #72ADFF); }
+  100% { transform: translateX(-50%) scale(var(--wm-gem, 1)); filter: none; }
+}
+
+/* Two-column editorial layout (retired by the gem chapter; kept for the old markup) */
 .gem-layout {
   position: relative; z-index: 1;
   display: grid;
@@ -1705,7 +2294,8 @@ body.about-locked { overflow: hidden; }
 /* Breathing aura halo — only on active node */
 .pf-halo {
   fill: rgba(114,173,255,0);
-  pointer-events: none;
+  /* The halo (r=20) is the hit target: the visible node alone is 18px, under the 24px minimum. */
+  pointer-events: fill;
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -1932,8 +2522,8 @@ body.about-locked { overflow: hidden; }
 .waves canvas { display: block; width: 100%; height: 100%; }
 
 /* Capabilities (Skills) section header */
-.skills-header { margin-bottom: clamp(40px, 6vw, 76px); }
-.skills-meta { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.skills-header { margin-bottom: clamp(56px, 7vw, 96px); }
+.skills-meta { display: inline-flex; align-items: center; gap: 12px; margin-bottom: clamp(22px, 2.4vw, 34px); }
 .skills-idx, .skills-label {
   font-family: var(--font-code); font-size: 11px;
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg3);
@@ -1941,19 +2531,50 @@ body.about-locked { overflow: hidden; }
 .skills-rule { width: 40px; height: 1px; background: var(--border-strong); display: block; }
 .skills-head-title {
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(32px, 4.5vw, 56px); line-height: 1.05; color: var(--fg1); margin: 0;
+  font-size: clamp(2.6rem, 7.4vw, 5.6rem); line-height: 0.98;
+  letter-spacing: -0.03em; color: var(--fg1); margin: 0;
 }
 
 /* Dither backdrop behind the Capabilities bento — masked so the cards/text stay clear. */
 .scene-skills { position: relative; overflow: hidden; }
+/* The field is light, not line work. Two earlier passes only dimmed it, which kept the
+   contour lines legible behind the type and just made them fainter; the structure itself
+   was the distraction. Now it is blurred into glow and masked out of the middle entirely,
+   so the reading area is plain void and the field lives at the perimeter, where it still
+   carries the whole reaction (amplitude, speed and hue all read as shifting light).
+     blur softens an element's own edges inward, so scale() pushes the soft edge off-canvas.
+   Amount and mask were picked by rendering four treatments and comparing, not by eye. */
 .scene-skills .skills-dither {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 110% 85% at 50% 50%, #000 28%, transparent 92%);
-          mask-image: radial-gradient(ellipse 110% 85% at 50% 50%, #000 28%, transparent 92%);
+  opacity: 0.62;
+  filter: blur(22px);
+  transform: scale(1.10);
+  /* The clear zone has to cover the whole reading band, not just the middle of it: at the
+     loudest capability the glow was bleeding back over the upper row of labels and eating
+     their contrast. Held out to 50% and ramped late so the light stays at the perimeter. */
+  -webkit-mask-image: radial-gradient(ellipse 72% 58% at 50% 46%, transparent 0%, transparent 50%, #000 92%);
+          mask-image: radial-gradient(ellipse 72% 58% at 50% 46%, transparent 0%, transparent 50%, #000 92%);
 }
 .scene-skills .skills-dither canvas { display: block; width: 100%; height: 100%; }
-.scene-skills > .container { position: relative; z-index: 1; }
+:root.theme-light .scene-skills .skills-dither { opacity: 0.38; mix-blend-mode: multiply; }
+/* Backdrop dim. Sits above the field (z0) and below the content (z2), so deliberately
+   reaching for a capability drops the whole background out and leaves the project previews
+   as the only lit thing, without touching the legibility of any text. Driven by .is-probing
+   (hover/focus) rather than .is-active, because the scroll playhead sets active too and the
+   section would strobe on every scroll. */
+.scene-skills::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: var(--bg); opacity: 0;
+  transition: opacity .4s var(--ease-out-quart);
+}
+.scene-skills.is-probing::after { opacity: 0.55; }
+@media (prefers-reduced-motion: reduce) { .scene-skills::after { transition: none; } }
+
+.scene-skills > .container { position: relative; z-index: 2; }
+/* The axis and its end labels are background too once a panel is open. */
+.scene-skills.is-probing .span-list::before,
+.scene-skills.is-probing .span-end,
+.scene-skills.is-probing .span-trail { opacity: 0.45; transition: opacity .4s var(--ease-out-quart); }
 .laser-flow-container { width: 100%; height: 100%; position: relative; pointer-events: none; }
 
 .spotlight-inner {
@@ -2053,8 +2674,8 @@ body.about-locked { overflow: hidden; }
 }
 .spotlight-card-live {
   display: inline-flex; align-items: center; gap: 5px;
-  font-family: var(--font-code); font-size: 10px;
-  letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.72 0.18 30);
+  font-family: var(--font-code); font-size: 11px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.78 0.16 30);
 }
 .spotlight-card-live::before {
   content: '●'; font-size: 6px; animation: spotlight-dot 2.2s ease-in-out infinite;
@@ -2086,6 +2707,84 @@ body.about-locked { overflow: hidden; }
 
 .scroll-stack-end { width: 100%; height: 1px; }
 
+/* ---- deal-out: the seam from Spotlight into Capabilities ----
+   The runway is the scroll distance Spotlight.jsx flings the deck over; it measures
+   this element's height, so switching the runway off here (mobile / reduced motion)
+   switches the deal off in JS too. Only the first ~62% is spent dealing, the rest is
+   tail so the cards clear before .spotlight's overflow:hidden clips them. */
+.spotlight-deal {
+  position: relative;
+  /* Sized to the deal itself plus a short safety tail. It used to carry a much longer
+     tail, which just pushed Capabilities down the document so the bento only crested the
+     fold after the deck had gone. The cards are already at zero opacity by the end of the
+     deal, so the tail only has to keep a mid-flight card off the section's clip edge. */
+  height: 56vh;
+  display: flex; flex-direction: column; align-items: center;
+  pointer-events: none;
+}
+/* Seam collapse. `.deal-live` is set by Spotlight.jsx only once the deal is actually
+   running, so this never touches the mobile / reduced-motion layout. Without it the
+   runway's tail, the stack's own bottom padding and both sections' section-padding stack
+   up to ~1.3 viewports of dead air, and the deck finishes a screen and a half before
+   the bento arrives. Collapsing them lands the grid at the fold as the deck empties —
+   the runway is the breathing room here, so this removes duplication, not air. */
+:root.deal-live .spotlight { padding-bottom: 0; }
+:root.deal-live .scroll-stack { padding-bottom: 0; }
+:root.deal-live .scene-skills { padding-top: clamp(64px, 7.5vw, 112px); }
+/* Tightened with the rest of the seam so the bento sits close behind its own header and
+   both crest the fold together, rather than the grid trailing most of a screen later. */
+:root.deal-live .skills-header { margin-bottom: clamp(52px, 6vw, 88px); }
+/* Hairline that draws down as the deck empties, carrying the eye to the next section
+   through the beat where the deck has gone and the bento has not yet arrived.
+   On --border-strong (rgba(160,200,255,0.2)) this was invisible against the Waves
+   backdrop, so it is drawn in the accent with a faint bloom instead — still 1px, but
+   it actually reads. */
+.spotlight-deal-line {
+  display: block; width: 1px; flex: 1;
+  background: linear-gradient(180deg, var(--accent), transparent 88%);
+  box-shadow: 0 0 10px 0 color-mix(in oklch, var(--accent) 32%, transparent);
+  transform: scaleY(var(--deal, 0)); transform-origin: top center;
+  opacity: calc(var(--deal, 0) * 0.55);
+}
+.spotlight-deal-tick {
+  font-family: var(--font-code); font-size: 11px;
+  letter-spacing: 0.18em; color: var(--accent);
+  opacity: calc(var(--deal, 0) * 0.6);
+  margin-top: 10px;
+}
+/* The deck is mid-flight: kill the hover affordances so a card sailing past the cursor
+   does not light up, and drop the BorderGlow halo that would trail behind it. */
+.spotlight.is-dealing .spotlight-card { transition: none; }
+.spotlight.is-dealing .spotlight-card-aura { opacity: 0.7 !important; }
+
+/* The bento's own arrival is a scrubbed GSAP tween (index.html), not CSS: it has to be
+   tied to the grid's travel up the viewport rather than played on a timer, or the whole
+   assembly finishes below the fold. Nothing is hidden here at rest by design — if that
+   script never runs the grid is simply visible.
+
+   The Dither backdrop mounts the moment its in-view gate latches, which popped a lit
+   canvas in behind the still-empty grid. Fading it lets the section come up as a whole. */
+.scene-skills .skills-dither { animation: skills-dither-in 1.4s var(--ease-out-expo) both; }
+@keyframes skills-dither-in { from { opacity: 0; } }
+
+/* The grid's own top/left rules would otherwise sit under the header as an empty
+   scaffold while the tiles are still below. Held back until the entrance starts (JS adds
+   .is-dealt in the tween's onStart) and only while that entrance is actually going to
+   run — deal-live means desktop with motion allowed, so nothing is ever hidden at rest. */
+
+/* No deal on touch/short viewports or under reduced motion: the runway collapses (so
+   there is no dead scroll), and the grid is simply present. Mirrors the early return
+   in Spotlight.jsx, which bails on the same conditions. */
+@media (max-width: 760px), (pointer: coarse) {
+  .spotlight-deal { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-deal { display: none; }
+  .scene-skills .skills-dither { animation: none; }
+}
+:root.reduce-motion .spotlight-deal { display: none; }
+:root.reduce-motion .scene-skills .skills-dither { animation: none; }
+
 @media (max-width: 760px) {
   .spotlight-atmos { display: none; }
   .spotlight-card { height: auto; }
@@ -2110,44 +2809,28 @@ body.about-locked { overflow: hidden; }
   padding: 26px clamp(20px, 5vw, 48px); pointer-events: none;
 }
 .flow-menu-header > * { pointer-events: auto; }
-/* Signature lockup: a signal-blue ✶ mark (brand motif) + gradient wordmark with an
-   underline that wipes in on hover (affordance cue for the home/back-to-top link). */
+/* Signature lockup: the "breathing weight" wordmark (components/wordmark.js). Each
+   letter rides Anybody's wdth/wght axes; the heavy crest rests on the i of liu, whose
+   dot is a small solid navette (a stone from the s0mped case). Solid --fg1 so both
+   themes flip with the text tokens and no gradient override is needed. */
 .flow-menu-logo {
-  display: inline-flex; align-items: baseline; gap: 0.4em;
-  font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: 19px; letter-spacing: -0.01em; text-decoration: none;
+  display: inline-flex; align-items: baseline;
+  font-family: 'Anybody', var(--font-display); font-size: 22px; line-height: 1;
+  letter-spacing: -0.01em; color: var(--fg1); text-decoration: none;
   user-select: none;
 }
-.flow-menu-logo-mark {
-  font-style: normal; font-size: 0.7em; line-height: 1;
-  color: var(--accent); display: inline-block;
-  transform: translateY(-0.05em);
-  filter: drop-shadow(0 0 6px rgba(114, 173, 255, 0.55));
-  transition: transform .45s var(--ease-out-quint), filter .25s var(--ease-out-quart);
-}
-.flow-menu-logo-text {
-  position: relative;
-  padding-right: 0.12em; /* italic overhang room (background-clip:text would clip it) */
-  background: linear-gradient(118deg, #F6FAFF 0%, #A0C8FF 55%, #72ADFF 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  filter: drop-shadow(0 0 9px rgba(114, 173, 255, 0.30));
-  transition: filter .25s var(--ease-out-quart);
-}
+.flow-menu-logo-text { position: relative; display: inline-block; }
+/* Letter, navette and label styles ship inside components/wordmark.js. */
 .flow-menu-logo-text::after {
-  content: ''; position: absolute; left: 0; right: 0.12em; bottom: -0.1em; height: 1.5px;
+  content: ''; position: absolute; left: 0; right: 0; bottom: -0.22em; height: 1.5px;
   background: var(--accent); border-radius: 1px; opacity: 0.9;
   transform: scaleX(0); transform-origin: left;
   transition: transform .35s var(--ease-out-quint);
 }
-.flow-menu-logo:hover .flow-menu-logo-text { filter: drop-shadow(0 0 15px rgba(114, 173, 255, 0.55)); }
-.flow-menu-logo:hover .flow-menu-logo-text::after { transform: scaleX(1); }
-.flow-menu-logo:hover .flow-menu-logo-mark {
-  transform: translateY(-0.05em) rotate(135deg);
-  filter: drop-shadow(0 0 11px rgba(114, 173, 255, 0.9));
-}
+.flow-menu-logo:hover .flow-menu-logo-text::after,
+.flow-menu-logo:focus-visible .flow-menu-logo-text::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) {
-  .flow-menu-logo-mark, .flow-menu-logo-text::after { transition: none var(--ease-out-quart); }
+  .flow-menu-logo-text::after { transition: none; }
 }
 
 .flow-menu-toggle {
@@ -2395,12 +3078,6 @@ body.about-locked { overflow: hidden; }
 }
 
 /* ── Light-mode fixes for elements that hardcode light/white values ─────────── */
-/* Nav wordmark gradient starts at cloud-white (invisible on a light field) — deepen it. */
-:root.theme-light .flow-menu-logo-text {
-  background: linear-gradient(118deg, #2E5FB0 0%, #4A8FEF 55%, #72ADFF 100%);
-  -webkit-background-clip: text; background-clip: text;
-  filter: drop-shadow(0 0 7px rgba(74, 143, 239, 0.22));
-}
 /* Hero block-caret + role dots keep the accent; nothing to change there. */
 /* Frosted-glass overlays read as faint dark on light instead of faint white. */
 :root.theme-light .glass,
@@ -2423,6 +3100,28 @@ body.about-locked { overflow: hidden; }
 :root.theme-light .gem-iridescence {
   opacity: 0.18; mix-blend-mode: multiply;
 }
+/* The rendered stone is an object, not light: keep it solid on the light field too. */
+:root.theme-light .gem-iridescence.gem-sequence { opacity: 1; mix-blend-mode: normal; }
+/* Light mode: the frames are graded for the void, and on a pale field the stone read as a
+   heavy electric-blue sticker. This lifts it toward clear crystal catching daylight while the
+   fire keeps its colour. Colour-matrix filters only (no blur), so a redraw costs nothing
+   extra. Mocked at three strengths on the light field; this is the middle one. */
+:root.theme-light .gem-sequence .gem-seq-canvas { filter: contrast(0.88) saturate(0.38) brightness(1.45); }
+/* ...and it rests on something: a soft contact shadow under the stone, placed from the
+   --stone-* vars GemSequence writes. Static, so it is painted once. */
+:root.theme-light .gem-sequence::before {
+  content: ''; position: absolute; pointer-events: none;
+  left: var(--stone-x, 50%); top: calc(var(--stone-y, 50%) + var(--stone-s, 400px) * 0.33);
+  width: calc(var(--stone-s, 400px) * 0.55); height: calc(var(--stone-s, 400px) * 0.07);
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(30, 40, 90, 0.22), transparent 70%);
+  filter: blur(6px);
+}
+/* The s0mped wordmark is dark ink forced to white for the void; on the light field, unforce it. */
+:root.theme-light .gem-wordmark { filter: none; opacity: 0.86; }
+:root.theme-light .gem-kicker { color: oklch(0.45 0.17 285); }
+/* Clear stones on a pale field need an edge to read. */
+:root.theme-light .gem-cut img { filter: drop-shadow(0 2px 6px rgba(30, 40, 90, 0.28)); }
 :root.theme-light .spotlight-atmos {
   opacity: 0.22; mix-blend-mode: multiply;
 }
@@ -2521,6 +3220,17 @@ body.about-locked { overflow: hidden; }
   color: var(--fg2);
 }
 .hero-lede-body b { color: var(--fg1); font-weight: 500; }
+.hero-mobile-meta { display: none; }
+.hero-lede-links {
+  margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px 18px;
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.hero-lede-link { color: var(--fg2); text-decoration: none; padding: 6px 0; min-height: 24px; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; }
+.hero-lede-link:hover { color: var(--fg1); }
+.hero-lede-link--primary { color: var(--accent); }
+.hero-lede-link--primary:hover { color: var(--blue-300, #A0C8FF); }
+.hero-lede-link:focus-visible { outline: 2px solid var(--accent, #72ADFF); outline-offset: 4px; border-radius: 2px; }
+.hero-lede-link[href^="mailto:"] { text-transform: none; letter-spacing: 0.04em; }
 @media (max-width: 900px) { .hero-lede { max-width: 28ch; } }
 
 @media (max-width: 640px) {
@@ -2588,6 +3298,36 @@ body.about-locked { overflow: hidden; }
 .hero-name-morph .morphing-text-a,
 .hero-name-morph .morphing-text-b { text-align: left; }
 
+/* The ai beat's link to with-ai.html: sits where the other rows keep their small spec
+   block, fades in only while the morph reads "ai", and is not focusable otherwise. */
+.hero-ai-link {
+  flex: 0 0 auto; align-self: center;
+  font-family: var(--font-code); font-size: clamp(10px, 0.9vw, 12.5px);
+  font-weight: 700; font-style: normal; letter-spacing: 0.12em; text-transform: uppercase;
+  line-height: 1.4; color: var(--fg-accent, var(--accent)); text-decoration: none;
+  border-bottom: 1px solid currentColor; padding-bottom: 2px;
+  opacity: 0; visibility: hidden; transform: translateY(4px);
+  transition: opacity .45s ease, transform .45s ease, visibility 0s linear .45s;
+}
+.hero-ai-link.is-on {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .45s ease .2s, transform .45s ease .2s, visibility 0s;
+}
+.hero-ai-link:hover { color: var(--fg1); }
+.hero-ai-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+/* Phones: the morph reserves the width of its longest role ("interaction"), so one line of link
+   beside it ran ~60px off a 390px screen. It wraps into a right-aligned block instead, like the
+   spec blocks on the other rows, underlined per line so every line still reads as a link. */
+@media (max-width: 760px) {
+  .hero-ai-link {
+    font-size: 10px; letter-spacing: 0.08em;
+    flex: 0 1 auto; min-width: 0; max-width: 11ch; white-space: normal; text-align: right;
+    border-bottom: 0; padding-bottom: 0;
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .hero-ai-link { display: none; } }
+
 /* Blinking block caret — terminal-cursor cue. Subtle glow (no neon halo). */
 .hero-name-caret {
   flex: 0 0 auto;
@@ -2611,38 +3351,83 @@ body.about-locked { overflow: hidden; }
   .hero-name-caret { animation: none; opacity: 0.9; }
 }
 
-/* Phones: keep the editorial masthead but distribute the four rows as equal bands so
-   they fill the viewport (no dead space at the bottom), left-aligned, spec beneath each
-   word. Backdrop is quieted so the name and morphing role read cleanly over it. */
+/* Phone masthead: two generous name bands, then one tightly grouped role/title.
+   Metadata lives with the practice note so it never interrupts the job title. */
 @media (max-width: 640px) {
-  /* The generic `.scene { padding: 6rem 0 }` mobile rule overrides .scene-hero's own
-     padding, pooling ~96px of dead space under the hero. Give the hero back a small bottom
-     pad: the freed height flows into .hero-name, whose four bands are flex:1 and split it
-     evenly, so the masthead fills the screen instead of stacking at the top. */
-  .scene-hero { padding-bottom: clamp(18px, 3.5vh, 34px); }
-  .hero-content { gap: 0; padding-bottom: clamp(6px, 1.2vh, 14px); }
+  .scene-hero {
+    --hero-space-close: var(--space-2);
+    --hero-space-row: var(--space-3);
+    --hero-space-section: var(--space-6);
+    --hero-gutter: clamp(var(--space-5), 6vw, var(--space-8));
+    padding: var(--space-20) 0 var(--hero-space-section);
+  }
+  .hero-content {
+    width: 100%; padding: 0 var(--hero-gutter); gap: 0;
+    min-height: min-content;
+  }
   .hero-name {
-    flex: 1 1 auto; min-height: 0;
-    font-size: clamp(2.7rem, 14.5vw, 4.8rem);
+    flex: 1 0 auto; min-height: min-content;
+    font-size: clamp(3rem, 18vw, 5rem);
     letter-spacing: -0.04em;
   }
   .hero-row, .hero-row--rev {
-    flex: 1 1 0; min-height: 0;
-    flex-direction: column; align-items: flex-start; justify-content: center;
-    gap: 8px;
-    padding: clamp(6px, 1.4vh, 14px) 0;
+    flex: 1 0 auto; min-height: min-content;
+    align-items: center; justify-content: space-between;
+    gap: var(--space-5); padding: var(--hero-space-row) 0;
   }
+  .hero-name .word-mask { flex: 0 0 auto; }
   .hero-name-aside, .hero-name-aside--end {
-    max-width: none; text-align: left; align-self: flex-start;
-    line-height: 1.6; font-size: 11px; letter-spacing: 0.13em;
+    flex: 1 1 auto; min-width: 0;
+    max-width: none; text-align: left; align-self: center;
+    line-height: 1.6; font-size: 11px; letter-spacing: 0.06em;
   }
-  .scene-hero .faulty-terminal { opacity: 0.2; }
-  .hero-name-row--role { font-size: 0.9em; }
+  .hero-discipline, .hero-location, .hero-availability { display: block; }
+  .hero-name-aside > .dot { display: none; }
+  .hero-row--role {
+    flex: 0 0 auto;
+    padding-top: var(--hero-space-section);
+    padding-bottom: var(--hero-space-close);
+  }
+  .hero-row--title {
+    flex: 0 0 auto; justify-content: flex-end;
+    border-top: 0;
+    padding-top: 0; padding-bottom: var(--hero-space-section);
+  }
+  .hero-name-aside--loc { display: none; }
+  .hero-row--title .word-mask {
+    font-size: clamp(2.4rem, 14vw, 4rem);
+  }
+  .hero-name-row--role { font-size: clamp(2rem, 11vw, 3.2rem); }
+  .hero-lede {
+    flex: 0 0 auto; margin-top: 0; padding-top: var(--space-4);
+  }
+  .hero-lede-eyebrow { font-size: 10px; margin-bottom: var(--hero-space-close); }
+  .hero-lede-body { font-size: 15px; line-height: 1.55; }
+  .hero-mobile-meta {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex: 0 0 auto; gap: var(--space-4);
+    padding-top: var(--hero-space-section);
+    font-family: var(--font-code); font-size: 10px; line-height: 1.6;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg2);
+  }
+  .hero-mobile-meta > span { max-width: 50%; }
+  .hero-mobile-meta > span:last-child { text-align: right; }
+  .hero-mobile-meta .dot { color: var(--fg-accent); }
+  .scene-hero .faulty-terminal { opacity: 0.16; }
   .hero-support { flex-direction: column; align-items: stretch; gap: 16px; }
   .hero-support .hero-sub { max-width: none; }
 }
-@media (max-width: 480px) {
-  .hero-name-row--role { font-size: 0.82em; }
+@media (max-width: 360px), (max-width: 640px) and (max-height: 650px) {
+  .scene-hero {
+    --hero-space-row: var(--space-2);
+    --hero-space-section: var(--space-4);
+    --hero-gutter: var(--space-5);
+    padding-top: calc(var(--space-16) + var(--space-2));
+  }
+  .hero-name { font-size: clamp(3rem, 16vw, 4rem); }
+  .hero-name-aside { font-size: 10px; }
+  .hero-lede { padding-top: var(--space-3); }
+  .hero-lede-body { font-size: 14px; }
 }
 
 /* ============================================================
@@ -3045,10 +3830,10 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
   /* desktop footnote tile reads as a stray icon alone on a phone */
   .about-mark-wrap { display: none; }
 
-  /* portrait: same editorial 4:5 plate as desktop, lit by its own aura
+  /* portrait: same circle as desktop, lit by its own aura
      (glow sits on the wrap's ::before and breathes outside the frame) */
   .about-headshot-wrap {
-    width: min(52vw, 200px); aspect-ratio: 4 / 5; height: auto;
+    width: min(52vw, 200px); aspect-ratio: 1 / 1; height: auto;
     margin: 10px 0 6px;
     position: relative; overflow: visible; border: none;
   }
@@ -3057,7 +3842,7 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
     background: radial-gradient(circle, rgba(160, 200, 255, 0.15) 0%, rgba(196, 176, 255, 0.07) 46%, transparent 70%);
     pointer-events: none;
   }
-  .about-headshot { border-radius: 2px; border: 1px solid var(--border); }
+  .about-headshot { border-radius: 50%; border: 1px solid var(--border); }
 
   .about-para { font-size: 16px; }
 }
@@ -3083,12 +3868,6 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 /* The reading lamp screen-blends toward white — invisible and washing on a light field. */
 :root.theme-light .about-lamp { mix-blend-mode: multiply; opacity: 0.5; }
 
-/* Gradient wordmark: the dark-mode ramp is near-white, so it vanishes on light.
-   Use background-image (not the shorthand) or it resets background-clip:text and the
-   gradient paints the whole box instead of the letterforms. */
-:root.theme-light .flow-menu-logo-text {
-  background-image: linear-gradient(118deg, #0B1330 0%, #244A86 55%, #1552B8 100%);
-}
 
 /* Accent TEXT must use the deepened token (--fg-accent = blue-500), not the fill
    accent, which is intentionally identical across themes and too pale to read. */
@@ -3106,7 +3885,7 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 :root.theme-light .skills-label { color: var(--fg-accent); }
 
 /* Brand tool glyphs are tuned for the void; darken them to hold contrast on light. */
-:root.theme-light .skill-tool-abbr { filter: brightness(0.62) saturate(1.35); }
+:root.theme-light .span-tool-abbr { filter: brightness(0.62) saturate(1.35); }
 
 /* Accent text that resists the cascade (inline styles / page-level rules). !important is
    appropriate here: this is the theme-correction layer, and these are WCAG AA failures. */
@@ -3123,7 +3902,7 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 :root.theme-light .tr-panel-num,
 :root.theme-light .ar-process-label,
 :root.theme-light .ar-process-chain-label,
-:root.theme-light .ar-title em { color: var(--fg-accent) !important; }
+:root.theme-light .ar-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 
 /* Labels printed on their own dark pill stay light (their surface does not flip). */
 :root.theme-light .yk-label { color: #F6FAFF !important; }
@@ -3169,7 +3948,7 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 
 /* Tool badges carry each vendor's brand hue; the existing light filter was too
    gentle for the pale ones (Illustrator orange, Premiere lilac). */
-:root.theme-light .skill-tool-abbr { filter: brightness(0.45) saturate(1.5); }
+:root.theme-light .span-tool-abbr { filter: brightness(0.45) saturate(1.5); }
 
 /* "LIVE" pip on spotlight cards. */
 :root.theme-light .spotlight-card-live { color: oklch(0.48 0.19 30); }
@@ -3191,3 +3970,217 @@ body[data-persona-active] [data-cs-reveal] { opacity: 1 !important; transform: n
 :root.theme-light .gem-left-cat    { color: oklch(0.40 0.14 285 / 0.95); }
 :root.theme-light .gem-lmk         { color: oklch(0.38 0.10 285 / 0.95); }
 :root.theme-light .gem-site-cta-url{ color: oklch(0.36 0.13 285 / 0.96); }
+
+/* Phone/touch: drop compositor hints only. Everything visual stays exactly as it is on
+   desktop's small breakpoints, so the mobile masthead matches the rest of the site.
+   will-change on a dozen always-on elements pins layers for the whole session, which is
+   what made scrolling stutter; releasing them costs nothing visually. */
+@media (max-width: 760px), (pointer: coarse) {
+  /* Safari also displays content behind its translucent browser controls. Hero.jsx
+     measures that extra area; the spacer extends only the backdrop into it, keeping
+     the masthead and Practice text inside the readable viewport. */
+  .scene-hero {
+    min-height: calc(100vh + var(--hero-browser-inset, 0px));
+    min-height: calc(100dvh + var(--hero-browser-inset, 0px));
+  }
+  .scene-hero::after {
+    content: '';
+    flex: 0 0 var(--hero-browser-inset, 0px);
+  }
+  .hero-name .word-mask, .hero-name .word, .hero-name .char,
+  .hero-name-row--role, .hero-lede,
+  .contact-email, .cr-row, .span-node, .spotlight-card { will-change: auto; }
+  .morphing-text-a, .morphing-text-b { will-change: auto; }
+}
+
+/* Capabilities journey. The enhanced scene is opt-in after GSAP has initialized;
+   without it the semantic capability list above stays readable in normal flow. */
+.journey-route, .skills-journey-footer { display: none; }
+.scene-skills[data-journey], :root.deal-live .scene-skills[data-journey] {
+  height: 100svh; min-height: 640px;
+  padding: clamp(72px, 9vh, 104px) 0 24px;
+  background: var(--bg);
+}
+.scene-skills[data-journey] > .container {
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%; max-width: none;
+}
+.scene-skills[data-journey] .skills-header {
+  flex: 0 0 auto; margin: 0;
+  padding-inline: clamp(24px, 5vw, 80px);
+}
+.scene-skills[data-journey] .skills-meta { margin-bottom: 12px; }
+.scene-skills[data-journey] .skills-head-title { font-size: clamp(36px, 4.5vw, 64px); }
+.scene-skills[data-journey] .skills-viewport {
+  position: relative; flex: 1 1 auto; min-height: 0;
+  perspective: 1000px; perspective-origin: 50% 50%;
+  /* Clip the wide world at the section, not here: perspective needs depth to survive. */
+}
+.scene-skills[data-journey] .span {
+  position: absolute; top: 0; left: 0;
+  display: block; width: 3200px; height: 520px;
+  transform-style: preserve-3d; will-change: transform;
+}
+.scene-skills[data-journey] .span-list {
+  position: absolute; inset: 0; display: block;
+  transform-style: preserve-3d;
+}
+.scene-skills[data-journey] .span-list::before,
+.scene-skills[data-journey] .span-list::after,
+.scene-skills[data-journey] .span-end { display: none; }
+.scene-skills[data-journey] .journey-route {
+  display: block; position: absolute; inset: 0;
+  width: 3200px; height: 520px; overflow: visible;
+  pointer-events: none;
+}
+.journey-route path { fill: none; stroke-linecap: round; }
+.journey-route-base { stroke: var(--border-strong); stroke-width: 1; stroke-dasharray: 3 10; }
+.journey-path { stroke: var(--fg-accent); stroke-width: 2; }
+.journey-contour {
+  stroke: var(--border); stroke-width: 1;
+  transform: translateY(48px) scaleY(0.9); transform-origin: center;
+}
+.journey-waypoint { fill: var(--bg); stroke: var(--border-strong); stroke-width: 1; }
+.journey-light { fill: var(--fg-accent); filter: drop-shadow(0 0 8px var(--fg-accent)); }
+.scene-skills[data-journey] .span-node {
+  position: absolute; left: var(--stop-x); top: var(--stop-y);
+  display: block; padding: 0; min-height: 0; height: 0;
+  width: clamp(300px, 32vw, 400px);
+  transform-style: preserve-3d;
+}
+.scene-skills[data-journey] .span-marker { display: none; }
+.scene-skills[data-journey] .span-node .span-body {
+  position: absolute; left: 0; bottom: 28px; width: 100%;
+  padding: 0; opacity: 1; transform: none; transition: none;
+}
+.scene-skills[data-journey] .span-label {
+  font-size: clamp(26px, 2.6vw, 38px); line-height: 1.08;
+  letter-spacing: -0.035em; margin-bottom: 12px; max-width: 15ch;
+}
+.scene-skills[data-journey] .span-line { font-size: 15px; line-height: 1.5; margin-bottom: 12px; }
+.scene-skills[data-journey] .span-tools { gap: 4px 12px; }
+.scene-skills[data-journey] .span-node .span-work {
+  position: absolute; top: 28px; bottom: auto; left: 0; right: auto;
+  width: 100%; max-width: none; margin: 0; padding: 0;
+  background: transparent; border: 0; border-radius: 0;
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+}
+.scene-skills[data-journey] .span-work[aria-hidden="false"] {
+  opacity: 1; transform: none; pointer-events: auto;
+}
+.scene-skills[data-journey] .span-work-cap { padding: 0 0 8px; }
+.scene-skills[data-journey] .span-work-card {
+  grid-template-columns: 56px 1fr; padding: 4px 0; gap: 12px;
+}
+.scene-skills[data-journey] .span-work-title { font-size: 13px; }
+.scene-skills[data-journey] .span-work-desc { font-size: 12px; }
+.scene-skills[data-journey] .skills-journey-footer {
+  position: relative; display: flex; align-items: center; justify-content: space-between;
+  flex: 0 0 auto; gap: 24px;
+  margin-inline: clamp(24px, 5vw, 80px); padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.skills-journey-footer::before {
+  content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+  background: var(--fg-accent); transform: scaleX(var(--journey-progress, 0));
+  transform-origin: left center;
+}
+.journey-instruction, .journey-destination {
+  font-family: var(--font-code); font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg2);
+}
+.skills-journey-nav { display: flex; gap: 4px; }
+.skills-journey-nav button {
+  min-width: 44px; min-height: 44px;
+  font-family: var(--font-code); font-size: 11px; color: var(--fg2);
+  border-bottom: 1px solid transparent;
+}
+.skills-journey-nav button[aria-current] { color: var(--fg-accent); border-color: currentColor; }
+.skills-journey-nav button:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: -4px; }
+@media (max-width: 640px) {
+  .scene-skills[data-journey] { padding-top: 72px; padding-bottom: 16px; }
+  .scene-skills[data-journey] .skills-meta { margin-bottom: 8px; }
+  .scene-skills[data-journey] .skills-idx,
+  .scene-skills[data-journey] .skills-label { font-size: 9px; }
+  .scene-skills[data-journey] .span-node { width: calc(100vw - 48px); }
+  .scene-skills[data-journey] .span-label { font-size: 28px; max-width: 18ch; }
+  .scene-skills[data-journey] .span-node .span-body { bottom: 24px; }
+  .scene-skills[data-journey] .span-node .span-work { top: 24px; }
+  .scene-skills[data-journey] .span-work-card { grid-template-columns: 48px 1fr; }
+  .scene-skills[data-journey] .skills-journey-footer { gap: 8px; margin-inline: 24px; }
+  .journey-instruction { max-width: 12ch; line-height: 1.5; font-size: 10px; }
+  .journey-destination { display: none; }
+}
+@media print {
+  .pin-spacer:has(> .scene-skills) { height: auto !important; padding: 0 !important; }
+  .scene-skills[data-journey] { height: auto !important; min-height: 0; padding: 24px 0 !important; position: static !important; transform: none !important; }
+  .scene-skills[data-journey] .skills-viewport,
+  .scene-skills[data-journey] .span,
+  .scene-skills[data-journey] .span-list,
+  .scene-skills[data-journey] .span-node,
+  .scene-skills[data-journey] .span-node .span-body,
+  .scene-skills[data-journey] .span-node .span-work {
+    position: static; width: auto; height: auto; transform: none !important; opacity: 1 !important;
+  }
+  .scene-skills[data-journey] .journey-route,
+  .scene-skills[data-journey] .skills-journey-footer { display: none; }
+  .scene-skills[data-journey] .span-node { break-inside: avoid; padding: 24px 0; }
+}
+
+/* Touch reading focus mirrors the desktop hover without requiring a first tap. */
+@media (max-width: 760px), (pointer: coarse) {
+  .spotlight-card.is-scroll-active { border-color: var(--accent); }
+  .spotlight-card.is-scroll-active .spotlight-card-title { color: var(--fg-accent); }
+  .spotlight-card.is-scroll-active .spotlight-card-aura { opacity: 1; }
+  .spotlight-card.is-scroll-active .spotlight-card-cover img { transform: scale(1.035); }
+  .spotlight-card.is-scroll-active .spotlight-card-arrow { transform: translate(3px, -3px); color: var(--fg-accent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card.is-scroll-active .spotlight-card-cover img,
+  .spotlight-card.is-scroll-active .spotlight-card-arrow { transform: none; }
+}
+
+/* Media changes must restore readable nodes immediately, including during a scrub. */
+@media (prefers-reduced-motion: reduce) {
+  .scene-skills .span-node { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+@media (max-width: 360px) {
+  .journey-instruction { display: none; }
+  .skills-journey-nav { width: 100%; justify-content: space-between; }
+}
+
+/* ── With AI home teaser (index.html WithAiTeaser) ─────────────────────────
+   Plain, static block between Capabilities and the gem chapter. Opaque background so the
+   viewport-fixed .zone-waves field can never read through it. */
+.with-ai-teaser {
+  position: relative; z-index: 2; background: var(--void);
+  padding: clamp(72px, 11vh, 128px) 0;
+  border-top: 1px solid var(--border);
+}
+.wat-inner { width: min(1240px, 92vw); margin: 0 auto; }
+.wat-head { margin-bottom: clamp(28px, 4vh, 44px); }
+.wat-eyebrow {
+  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--fg3); margin: 0 0 12px;
+}
+.wat-title {
+  font-family: var(--font-display); font-weight: 700; font-style: normal;
+  font-size: clamp(30px, 4vw, 58px); line-height: 1; letter-spacing: -0.03em;
+  color: var(--fg1); max-width: 20ch; margin: 0;
+}
+.wat-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 22px); }
+.wat-tile { display: grid; gap: 6px; }
+.wat-shot { display: block; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--border); border-radius: 4px; background: var(--navy-mid); }
+.wat-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.wat-name { font-family: var(--font-ui); font-weight: 600; font-size: 15px; color: var(--fg1); margin-top: 6px; }
+.wat-note { font-size: 13px; color: var(--fg2); }
+.wat-btn {
+  display: inline-flex; gap: 10px; align-items: center; margin-top: clamp(28px, 4vh, 40px);
+  min-height: 44px; padding: 12px 20px; border: 1px solid var(--border-strong); border-radius: 2px;
+  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg1); text-decoration: none; transition: border-color .2s, color .2s;
+}
+.wat-btn:hover { border-color: var(--accent); color: var(--fg-accent); }
+.wat-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 800px) { .wat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

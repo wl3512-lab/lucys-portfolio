@@ -6,12 +6,13 @@ function Nav(props) {
   // FlowingMenu rows: each reveals an image marquee on hover. text + link + image.
   const items = [
     { text: 'Work', ariaLabel: 'View all work', link: 'work.html', image: 'assets/live-visuals-nyc/cover.jpg' },
+    { text: 'With AI', ariaLabel: 'How I build with AI', link: 'with-ai.html', image: 'assets/with-ai/menu-hover.webp' },
     { text: 'About', ariaLabel: 'About Lucy Liu', link: '#about', image: 'assets/headshot.jpg' },
     { text: 'Contact', ariaLabel: 'Email Lucy Liu', link: 'mailto:wl3512@nyu.edu', image: 'assets/lucy-tooth-gem.webp' },
-    { text: 'Resume', ariaLabel: 'View resume (opens in new tab)', link: 'assets/resume.pdf', external: true, image: 'assets/driftwood/cover.webp' },
+    { text: 'Resume', ariaLabel: 'View resume PDF (opens in new tab)', link: 'assets/Lucy_Liu_Resume.pdf', external: true, image: 'assets/driftwood/cover.webp' },
   ];
   const socialItems = [
-    { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lucy-liu-9b812127b/' },
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lucyliuxyz/' },
     { label: 'GitHub', link: 'https://github.com/wl3512-lab' },
     { label: 'Instagram', link: 'https://www.instagram.com/lucyy.liuu/' },
   ];

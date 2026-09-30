@@ -28,7 +28,7 @@ function WorkSection({ projects, onOpen }) {
           >
             <div className="work-spotlight-img">
               {spotlight.cover
-                ? <img src={spotlight.cover} alt={spotlight.title} loading="lazy" />
+                ? <img src={spotlight.cover} alt={spotlight.title} loading="lazy" style={spotlight.coverPos ? { objectPosition: spotlight.coverPos } : undefined} />
                 : <div className="work-spotlight-img-fallback"><span>{spotlight.title[0]}</span></div>
               }
               <div className="work-spotlight-img-overlay" aria-hidden="true" />
@@ -68,7 +68,7 @@ function WorkSection({ projects, onOpen }) {
               >
                 <div className="work-card-cover">
                   {p.cover
-                    ? <img src={p.cover} alt={p.title} loading="lazy" />
+                    ? <img src={p.cover} alt={p.title} loading="lazy" style={p.coverPos ? { objectPosition: p.coverPos } : undefined} />
                     : <div className="work-card-cover-fallback"><span>{p.title[0]}</span></div>
                   }
                   <div className="work-card-aura" aria-hidden="true" />

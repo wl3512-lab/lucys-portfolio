@@ -5,6 +5,11 @@
   enhancer: any <div class="acp" data-acp-value="71" ...> becomes an SVG ring gauge that
   fills its arc and counts up when scrolled into view.
 
+  The gauge renders its FINAL state first (full arc, real number) and only rewinds to 0
+  to play the count-up once it is actually on screen. Anything that reads the page at
+  rest (full-page captures, link previews, print, reader mode, a recruiter's PDF export)
+  therefore sees the real result, never "~0%".
+
   Data attributes:
     data-acp-value   0-100 target (required)
     data-acp-label   small caption under the number (optional)
@@ -32,10 +37,10 @@
       '<svg class="acp-svg" viewBox="0 0 100 100" aria-hidden="true">' +
         '<circle class="acp-track" cx="50" cy="50" r="' + R + '"></circle>' +
         '<circle class="acp-bar" cx="50" cy="50" r="' + R + '" ' +
-          'style="stroke-dasharray:' + C.toFixed(2) + ';stroke-dashoffset:' + C.toFixed(2) + '"></circle>' +
+          'style="stroke-dasharray:' + C.toFixed(2) + ';stroke-dashoffset:' + (C * (1 - value / 100)).toFixed(2) + '"></circle>' +
       '</svg>' +
       '<div class="acp-center">' +
-        '<span class="acp-num">' + prefix + '0' + suffix + '</span>' +
+        '<span class="acp-num">' + prefix + Math.round(value) + suffix + '</span>' +
         (label ? '<span class="acp-label">' + label + '</span>' : '') +
       '</div>';
 
@@ -47,11 +52,14 @@
     var target = C * (1 - value / 100);
 
     function run() {
-      if (reduced) {
-        bar.style.strokeDashoffset = target.toFixed(2);
-        num.textContent = prefix + Math.round(value) + suffix;
-        return;
-      }
+      // Already showing the final state; reduced motion keeps it there.
+      if (reduced) return;
+      // Rewind without a transition, then let the arc ease back to the target.
+      var prevTransition = bar.style.transition;
+      bar.style.transition = 'none';
+      bar.style.strokeDashoffset = C.toFixed(2);
+      void bar.getBoundingClientRect();
+      bar.style.transition = prevTransition;
       requestAnimationFrame(function () { bar.style.strokeDashoffset = target.toFixed(2); });
       var start = 0, dur = 1400;
       function tick(t) {
@@ -64,7 +72,7 @@
       requestAnimationFrame(tick);
     }
 
-    if (!('IntersectionObserver' in window)) { run(); return; }
+    if (!('IntersectionObserver' in window)) return;
     var io = new IntersectionObserver(function (entries) {
       if (entries[0].isIntersecting) { run(); io.disconnect(); }
     }, { threshold: 0.4 });
