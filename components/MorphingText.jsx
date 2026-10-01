@@ -49,7 +49,13 @@ function MorphingText(props) {
     // Deliberately linear. An earlier version damped small text (exponent 1.25) to keep
     // letterforms crisper, but that made the phone a different animation from the laptop.
     // Proportional is also ~4x cheaper on a phone, since blur cost scales with radius squared.
-    const REF_FS = 92, REF_BLUR = 8, REF_MAX = 100;
+    // REF_MAX is 24, down from 100: Lucy's call (2026-10-01) after a side-by-side, trading a
+    // little of the opening swell for far less blur work. It is a visible change, not a free
+    // one: the two words' alpha is summed before the gooey threshold, so the heavily blurred
+    // incoming word swells the outgoing one, and every cap below 100 changed the first ~20%
+    // of each morph (measured up to 7,000 pixels at 24, 500 at 80). Do not "restore" 100
+    // without asking her.
+    const REF_FS = 92, REF_BLUR = 8, REF_MAX = 24;
     let blurUnit = REF_BLUR, maxBlur = REF_MAX;
     function measure() {
       try {
@@ -74,7 +80,10 @@ function MorphingText(props) {
       a.textContent = texts[idx % texts.length];
       b.textContent = texts[(idx + 1) % texts.length];
     }
+    // The rest state is written once when a morph lands, not every frame of the hold.
+    let resting = false;
     function doMorph() {
+      resting = false;
       morph -= cooldown; cooldown = 0;
       let frac = morph / morphTime;
       if (frac > 1) { cooldown = cooldownTime * (hold[texts[(idx + 1) % texts.length]] || 1); frac = 1; }
@@ -83,6 +92,8 @@ function MorphingText(props) {
     }
     function doCooldown() {
       morph = 0;
+      if (resting) return;
+      resting = true;
       b.style.filter = 'none'; b.style.opacity = '100%';
       a.style.filter = 'none'; a.style.opacity = '0%';
     }

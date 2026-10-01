@@ -357,18 +357,26 @@ void main() {
     var timeOffset = Math.random() * 100;
     var loadStart = performance.now();
 
-    var lastFrame = 0;
+    /* A decorative backdrop, so 30 fps on desktop and 24 on phones rather than the
+       display's rate (60, or 120 on ProMotion). The cadence keeps 3-2-3 frames at 60 Hz
+       instead of rounding down to 20; the cursor ease is on elapsed time, so it follows at
+       the speed it did at 60. */
+    var FRAME = 1000 / (mobile ? 24 : 30);
+    var due = 0, lastFrame = 0;
     function frame(t) {
       if (disposed) return;
       raf = requestAnimationFrame(frame);
-      if (document.hidden || (mobile && t - lastFrame < 1000 / 24)) return;
+      if (document.hidden || t < due - 1) return;
+      due += FRAME; if (due < t) due = t + FRAME;
+      var dt = lastFrame ? Math.min(t - lastFrame, 100) : FRAME;
       lastFrame = t;
       uniforms.iTime.value = (t * 0.001 + timeOffset) * timeScale;
       if (!reduced) {
         if (animateLoad) uniforms.uPageLoadProgress.value = Math.min((t - loadStart) / 2000, 1);
         if (mouseReact) {
-          smooth.x += (mouse.x - smooth.x) * 0.08;
-          smooth.y += (mouse.y - smooth.y) * 0.08;
+          var k = 1 - Math.pow(0.92, dt / (1000 / 60));
+          smooth.x += (mouse.x - smooth.x) * k;
+          smooth.y += (mouse.y - smooth.y) * k;
           uniforms.uMouse.value.set(smooth.x, smooth.y);
         }
       }

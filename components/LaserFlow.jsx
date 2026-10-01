@@ -298,7 +298,9 @@ function LaserFlow(props) {
       preserveDrawingBuffer: false, failIfMajorPerformanceCaveat: false
     });
 
-    const baseDpr = Math.min(dpr || window.devicePixelRatio || 1, 1.5);
+    // Density 1, not up to 1.5: the beam is fog and glow, so the extra 125% of fragments on
+    // a retina screen bought nothing you can see.
+    const baseDpr = Math.min(dpr || window.devicePixelRatio || 1, 1);
     let curDpr = baseDpr;
     renderer.setPixelRatio(curDpr);
     renderer.shadowMap.enabled = false;
@@ -384,11 +386,11 @@ function LaserFlow(props) {
     let paused = document.hidden;
     let inView = true;
     const io = new IntersectionObserver(
-      entries => { inView = entries[0] ? entries[0].isIntersecting : true; },
+      entries => { inView = entries[0] ? entries[0].isIntersecting : true; if (inView) wake(); },
       { root: null, threshold: 0 }
     );
     io.observe(mount);
-    const onVis = () => { paused = document.hidden; };
+    const onVis = () => { paused = document.hidden; if (!paused) wake(); };
     document.addEventListener('visibilitychange', onVis, { passive: true });
 
     const clock = new THREE.Clock();
@@ -409,10 +411,19 @@ function LaserFlow(props) {
     canvas.addEventListener('pointerenter', onMove, { passive: true });
     canvas.addEventListener('pointerleave', onLeave, { passive: true });
 
-    let raf = 0;
-    const animate = () => {
-      raf = requestAnimationFrame(animate);
+    /* 30 fps, a decorative backdrop. Off screen or in a hidden tab the loop stops outright
+       (it used to keep ticking empty) and the observer or visibilitychange wakes it. The
+       flow and fog already advance on elapsed time, capped at 33 ms a step, so 30 fps keeps
+       their speed. */
+    const FRAME = 1000 / 30;
+    let raf = 0, due = 0;
+    function wake() { if (!raf) raf = requestAnimationFrame(animate); }
+    function animate(now) {
+      raf = 0;
       if (paused || !inView) return;
+      raf = requestAnimationFrame(animate);
+      if (now < due - 1) return;
+      due += FRAME; if (due < now) due = now + FRAME;
       const t = clock.getElapsedTime();
       const dt = Math.max(0, t - prevTime);
       prevTime = t;
@@ -429,8 +440,8 @@ function LaserFlow(props) {
       mouseSmooth.lerp(mouseTarget, al);
       uniforms.iMouse.value.set(mouseSmooth.x, mouseSmooth.y, 0, 0);
       renderer.render(scene, camera);
-    };
-    animate();
+    }
+    wake();
 
     return () => {
       cancelAnimationFrame(raf);

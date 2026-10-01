@@ -114,9 +114,11 @@ function Aurora(props) {
     let visible = true, disposed = false;
 
     try {
-      renderer = new THREE.WebGLRenderer({ alpha: true, premultipliedAlpha: true, antialias: true, powerPreference: 'low-power' });
+      // No antialias: it is one full-screen triangle with no edges to smooth, and MSAA only
+      // multiplied the framebuffer. Density 1: a soft gradient field gains nothing at 1.5.
+      renderer = new THREE.WebGLRenderer({ alpha: true, premultipliedAlpha: true, antialias: false, powerPreference: 'low-power' });
     } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, reduced ? 1 : 1.5));
+    renderer.setPixelRatio(1);
     renderer.setClearColor(0x000000, 0);
 
     scene = new THREE.Scene();
@@ -170,10 +172,15 @@ function Aurora(props) {
     }, { threshold: 0 });
     io.observe(host);
 
+    // 30 fps: a slow decorative field, and time-based, so the drift keeps its speed.
+    const FRAME = 1000 / 30;
+    let due = 0;
     function frame(t) {
       if (disposed) return;
       if (!visible) { raf = 0; return; }
       raf = requestAnimationFrame(frame);
+      if (t < due - 1) return;
+      due += FRAME; if (due < t) due = t + FRAME;
       uniforms.uTime.value = t * 0.001 * speed;
       renderer.render(scene, camera);
     }

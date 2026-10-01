@@ -233,27 +233,37 @@ function Dither(props) {
 
     liveRef.current = { uniforms: uniforms, reduced: reduced, renderOnce: function () { try { renderer.render(scene, camera); } catch (e) {} } };
 
-    // Critically damped-ish easing toward the target. 0.055 per frame reads as "the field
-    // settles into the capability you are reading" rather than as a cut.
+    // Critically damped-ish easing toward the target. 0.055 per 60 fps frame reads as "the
+    // field settles into the capability you are reading" rather than as a cut; it is scaled
+    // to elapsed time so the settle keeps that pace at the 30 fps the field now runs at.
     const EASE = 0.055;
-    function ease(u, to) { u.value += (to - u.value) * EASE; }
-    function stepParams() {
+    let k = EASE;
+    function ease(u, to) { u.value += (to - u.value) * k; }
+    function stepParams(dt) {
+      k = 1 - Math.pow(1 - EASE, dt / (1000 / 60));
       const t = targetRef.current;
       ease(uniforms.uWaveSpeed, t.speed);
       ease(uniforms.uWaveFrequency, t.frequency);
       ease(uniforms.uWaveAmplitude, t.amplitude);
       const c = uniforms.uWaveColor.value;
-      c.x += (t.color[0] - c.x) * EASE;
-      c.y += (t.color[1] - c.y) * EASE;
-      c.z += (t.color[2] - c.z) * EASE;
+      c.x += (t.color[0] - c.x) * k;
+      c.y += (t.color[1] - c.y) * k;
+      c.z += (t.color[2] - c.z) * k;
     }
 
+    // 30 fps: the field sits behind a 22px blur, so the extra frames were blurred away.
+    const FRAME = 1000 / 30;
+    let due = 0, last = 0;
     function frame(t) {
       if (disposed) return;
-      if (!visible) { raf = 0; return; }
+      if (!visible) { raf = 0; last = 0; return; }
       raf = requestAnimationFrame(frame);
+      if (t < due - 1) return;
+      due += FRAME; if (due < t) due = t + FRAME;
+      const dt = last ? Math.min(t - last, 100) : FRAME;
+      last = t;
       uniforms.uTime.value = t * 0.001;
-      stepParams();
+      stepParams(dt);
       renderer.render(scene, camera);
     }
     if (reduced) renderer.render(scene, camera);

@@ -101,26 +101,32 @@ function Waves(props) {
         lines.push(pts);
       }
     }
-    function movePoints(time) {
+    // steps: how many 60 Hz frames of cursor spring to run. The noise is a function of time,
+    // so it is computed once whatever the frame rate; the spring was tuned per 60th of a
+    // second, so at 30 fps it takes two steps a frame and keeps its feel.
+    function movePoints(time, steps) {
+      steps = steps || 1;
       lines.forEach(function (pts) {
         pts.forEach(function (pt) {
           const move = noise.perlin2((pt.x + time * cfg.waveSpeedX) * 0.002, (pt.y + time * cfg.waveSpeedY) * 0.0015) * 12;
           pt.wave.x = Math.cos(move) * cfg.waveAmpX;
           pt.wave.y = Math.sin(move) * cfg.waveAmpY;
-          const dx = pt.x - mouse.sx, dy = pt.y - mouse.sy;
-          const dist = Math.hypot(dx, dy), l = Math.max(175, mouse.vs);
-          if (dist < l) {
-            const s = 1 - dist / l;
-            const f = Math.cos(dist * 0.001) * s;
-            pt.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
-            pt.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
+          for (let k = 0; k < steps; k++) {
+            const dx = pt.x - mouse.sx, dy = pt.y - mouse.sy;
+            const dist = Math.hypot(dx, dy), l = Math.max(175, mouse.vs);
+            if (dist < l) {
+              const s = 1 - dist / l;
+              const f = Math.cos(dist * 0.001) * s;
+              pt.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
+              pt.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
+            }
+            pt.cursor.vx += (0 - pt.cursor.x) * cfg.tension;
+            pt.cursor.vy += (0 - pt.cursor.y) * cfg.tension;
+            pt.cursor.vx *= cfg.friction; pt.cursor.vy *= cfg.friction;
+            pt.cursor.x += pt.cursor.vx * 2; pt.cursor.y += pt.cursor.vy * 2;
+            pt.cursor.x = Math.min(cfg.maxCursorMove, Math.max(-cfg.maxCursorMove, pt.cursor.x));
+            pt.cursor.y = Math.min(cfg.maxCursorMove, Math.max(-cfg.maxCursorMove, pt.cursor.y));
           }
-          pt.cursor.vx += (0 - pt.cursor.x) * cfg.tension;
-          pt.cursor.vy += (0 - pt.cursor.y) * cfg.tension;
-          pt.cursor.vx *= cfg.friction; pt.cursor.vy *= cfg.friction;
-          pt.cursor.x += pt.cursor.vx * 2; pt.cursor.y += pt.cursor.vy * 2;
-          pt.cursor.x = Math.min(cfg.maxCursorMove, Math.max(-cfg.maxCursorMove, pt.cursor.x));
-          pt.cursor.y = Math.min(cfg.maxCursorMove, Math.max(-cfg.maxCursorMove, pt.cursor.y));
         });
       });
     }
@@ -147,19 +153,31 @@ function Waves(props) {
       ctx.stroke();
     }
     let raf = 0;
+    // 30 fps: a full-viewport line field redrawn every frame was paint the eye never needed
+    // at 60. The cursor still behaves as it did (see movePoints), because the smoothing and
+    // the pointer speed are stepped per 60th of a second too.
+    const FRAME = 1000 / 30;
+    let due = 0, last = 0;
     function tick(t) {
       raf = requestAnimationFrame(tick);
       // Waves is a viewport-fixed backdrop toggled via the `is-active` class (opacity).
       // While faded out (not in the Spotlight zone) skip the grid redraw entirely — the
       // loop idles for near-zero cost instead of drawing a full line field every frame.
-      if (!host.classList.contains('is-active')) return;
-      mouse.sx += (mouse.x - mouse.sx) * 0.1;
-      mouse.sy += (mouse.y - mouse.sy) * 0.1;
+      if (!host.classList.contains('is-active')) { last = 0; return; }
+      if (t < due - 1) return;
+      due += FRAME; if (due < t) due = t + FRAME;
+      const steps = last ? Math.max(1, Math.min(4, Math.round((t - last) / (1000 / 60)))) : 1;
+      last = t;
       const dx = mouse.x - mouse.lx, dy = mouse.y - mouse.ly;
-      const d = Math.hypot(dx, dy);
-      mouse.v = d; mouse.vs += (d - mouse.vs) * 0.1; mouse.vs = Math.min(100, mouse.vs);
+      const d = Math.hypot(dx, dy) / steps;
+      for (let k = 0; k < steps; k++) {
+        mouse.sx += (mouse.x - mouse.sx) * 0.1;
+        mouse.sy += (mouse.y - mouse.sy) * 0.1;
+        mouse.vs += (d - mouse.vs) * 0.1;
+      }
+      mouse.v = d; mouse.vs = Math.min(100, mouse.vs);
       mouse.lx = mouse.x; mouse.ly = mouse.y; mouse.a = Math.atan2(dy, dx);
-      movePoints(t); drawLines();
+      movePoints(t, steps); drawLines();
     }
     function updateMouse(x, y) {
       bounding = host.getBoundingClientRect();   // fresh each move so it tracks through scroll
