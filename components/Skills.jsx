@@ -426,16 +426,17 @@ function AboutSection() {
 
           {/* Breaks out of the ledger's third column and crosses the rules. Centred on the
               spine rather than pinned to a row, so it keeps working as rows change.
-              The loops are silent, lazy, and carry no src until the overlay opens (see the
-              aboutOpen effect in index.html): About is a menu view, so the home page should
-              pay nothing for three videos nobody has asked to see yet. */}
+              The loops are silent, lazy, and carry no src or poster until the overlay opens
+              (see the aboutOpen effect in index.html): About is a menu view, so the home page
+              should pay nothing for videos nobody has asked to see yet. The posters alone were
+              ~200KB of every fresh visit. */}
           <div className="about-wall" role="group" aria-label="Live visuals from the Thursday residency at Maison Nur">
             {ABOUT_LOOPS.map((v) => (
               <figure className="about-tile" key={v.src}>
                 <video
                   className="about-loop"
                   data-src={v.src}
-                  poster={v.poster}
+                  data-poster={v.poster}
                   preload="none"
                   muted loop playsInline aria-hidden="true" tabIndex={-1}
                 />

@@ -79,6 +79,9 @@ class AT_AsciiFilter {
     this.domElement.appendChild(this.pre);
 
     this.canvas = document.createElement('canvas');
+    // Not willReadFrequently: that keeps this canvas on the CPU, so drawImage below would
+    // read the whole full-size WebGL frame back instead of letting the GPU shrink it to the
+    // glyph grid first. Measured: ~10% more main-thread time with it on.
     this.context = this.canvas.getContext('2d');
     this.domElement.appendChild(this.canvas);
 
@@ -300,39 +303,61 @@ class AT_CanvAscii {
   }
 
   animate() {
-    // Only render while on screen and the tab is visible: this used to run a Three.js
-    // frame forever once mounted, even with the heading scrolled far away.
+    // Only on screen, only with the tab visible, and at most 24 frames a second. Every
+    // frame renders the plane, reads it back off the GPU and rebuilds the glyph grid, and
+    // it used to do that at the display's full rate. The shimmer (the fragment shader's
+    // sin(time) offsets, live even with waves off) is slow and lands on a character grid,
+    // so 24 reads the same as 60. The tilt eases on elapsed time, so it keeps its speed.
+    // Off screen or hidden the loop stops outright rather than ticking empty.
     const self = this;
+    const FRAME = 1000 / 24;
     this.inView = true;
     this.paused = document.hidden;
-    const loop = () => {
-      self.animationFrameId = requestAnimationFrame(loop);
+    this.due = 0;
+    this.last = 0;
+    const loop = (now) => {
+      self.animationFrameId = 0;
       if (self.paused || !self.inView) return;
-      self.render();
+      self.animationFrameId = requestAnimationFrame(loop);
+      if (now < self.due - 1) return;
+      // A steady 24 fps cadence (3-2-3 frames at 60 Hz); after a stall, start it over.
+      self.due += FRAME;
+      if (self.due < now) self.due = now + FRAME;
+      const dt = self.last ? Math.min(now - self.last, 100) : FRAME;
+      self.last = now;
+      self.render(dt);
+    };
+    this.wake = () => {
+      if (!self.animationFrameId && !self.paused && self.inView) self.animationFrameId = requestAnimationFrame(loop);
     };
     if (typeof IntersectionObserver !== 'undefined' && this.container) {
-      this.io = new IntersectionObserver((entries) => { self.inView = entries[0] ? entries[0].isIntersecting : true; }, { threshold: 0 });
+      this.io = new IntersectionObserver((entries) => {
+        self.inView = entries[0] ? entries[0].isIntersecting : true;
+        if (self.inView) self.wake();
+      }, { threshold: 0 });
       this.io.observe(this.container);
     }
-    this.onVis = () => { self.paused = document.hidden; };
+    this.onVis = () => { self.paused = document.hidden; if (!self.paused) self.wake(); };
     document.addEventListener('visibilitychange', this.onVis, { passive: true });
-    loop();
+    this.wake();
   }
 
-  render() {
+  render(dt) {
     const time = new Date().getTime() * 0.001;
     // The text texture is static and was uploaded in setMesh().
     // Rotation and waves only change the mesh uniforms, not the source lettering.
     this.mesh.material.uniforms.uTime.value = Math.sin(time);
-    if (!this.reduced) this.updateRotation();
+    if (!this.reduced) this.updateRotation(dt);
     this.filter.render(this.scene, this.camera);
   }
 
-  updateRotation() {
+  updateRotation(dt = 1000 / 60) {
     const x = Math.map(this.mouse.y, 0, this.height, 0.5, -0.5);
     const y = Math.map(this.mouse.x, 0, this.width, -0.5, 0.5);
-    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
-    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
+    // 0.05 a frame at 60 fps, scaled to the time that actually passed.
+    const k = 1 - Math.pow(0.95, dt / (1000 / 60));
+    this.mesh.rotation.x += (x - this.mesh.rotation.x) * k;
+    this.mesh.rotation.y += (y - this.mesh.rotation.y) * k;
   }
 
   clear() {

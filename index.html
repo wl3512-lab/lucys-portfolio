@@ -670,7 +670,9 @@ setTimeout(function() {
 <script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <!-- FaultyTerminal WebGL engine (plain JS, defer) — shared by hero (React wrapper) and the loader boot backdrop. Must load after three.js. -->
 <script defer src="components/faulty-terminal-core.js?v=2"></script>
-<script defer src="components/ascii-text-core.js"></script>
+<!-- components/ascii-text-core.js is retired: its loader mount is switched off and the Spotlight
+     heading uses AsciiText.jsx, so nothing called it, yet every visit downloaded and ran it.
+     Kept on disk (and in deploy.sh) for rollback, like outline-wordmark.js. -->
 
 <!-- Shared hooks (plain JS, needs React global; loads before components) -->
 <script defer src="components/use-in-view.js"></script>
@@ -985,10 +987,10 @@ function App() {
     try {
       if (window.gsap) gsap.set('.about-overlay .scene-title', { clearProps: 'all', opacity: 1, y: 0 });
     } catch (e) {}
-    // The About wall's loops carry no src until this point, so the home page never downloads
-    // ~2.5MB of video for a view nobody has opened. Attach on open, pause on close. Under
-    // reduced motion they stay paused and their poster frames stand in, which is the whole
-    // reason each <video> ships with one.
+    // The About wall's loops carry no src and no poster until this point, so the home page
+    // never downloads ~2.5MB of video, or ~200KB of poster frames, for a view nobody has
+    // opened. Attach on open, pause on close. Under reduced motion they stay paused and the
+    // poster frames stand in, so the poster goes on first.
     let reduceVid = false;
     try {
       reduceVid = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -997,6 +999,7 @@ function App() {
     const loops = Array.from(document.querySelectorAll('.about-wall video.about-loop'));
     loops.forEach((v) => {
       try {
+        if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
         if (!v.src && v.dataset.src) v.src = v.dataset.src;
         if (!reduceVid) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
       } catch (e) {}
@@ -1417,12 +1420,16 @@ function initAnimations() {
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(es => { marqueeInView = es[0].isIntersecting; }, { threshold: 0 }).observe(marqueeEl);
     }
+    // Only touch the style when the speed changes by a tenth of a second. Rewriting the same
+    // "22s" every frame was the largest piece of script work while the page sat still.
+    let lastDur = '';
     gsap.ticker.add(() => {
       if (!marqueeInView) return;
       const dy = Math.abs(window.scrollY - lastY);
       vel += (dy - vel) * 0.08;
       lastY = window.scrollY;
-      track.style.animationDuration = Math.max(6, 22 - vel * 0.35) + 's';
+      const dur = Math.max(6, 22 - vel * 0.35).toFixed(1) + 's';
+      if (dur !== lastDur) { track.style.animationDuration = dur; lastDur = dur; }
     });
   }
 
@@ -1659,14 +1666,23 @@ function initHeroCanvas() {
     if (dx * dx + dy * dy > 40) {
       blooms.push({ x: cx, y: cy, op: 0.10 + Math.random() * 0.07, r: 44 + Math.random() * 38 });
       lbx = cx; lby = cy;
+      wake();
     }
   }, { passive: true });
   hero.addEventListener('mouseleave', () => { cx = -1; cy = -1; });
 
-  let t = 0, alive = true;
+  /* One loop, and only while there is something to draw. With the particles (A) off, the
+     canvas is empty unless the cursor is leaving blooms, but this used to run twice (tick()
+     at start and again from the observer's first callback, and once more on every quick
+     re-entry) and clear a hero-sized canvas every frame with nothing on it. It now wakes
+     on a new bloom, sleeps a frame after the last one fades, and pauses off screen. */
+  let t = 0, raf = 0, visible = true;
+  const busy = () => pts.length > 0 || blooms.length > 0;
+  function wake() { if (!raf && visible && busy()) raf = requestAnimationFrame(tick); }
   function tick() {
-    if (!alive) return;
-    requestAnimationFrame(tick);
+    raf = 0;
+    if (!visible) return;
+    const had = busy();
     const W = canvas.width, H = canvas.height;
     ctx.clearRect(0, 0, W, H);
 
@@ -1726,12 +1742,15 @@ function initHeroCanvas() {
     });
 
     t += 0.0038;
+    // Keep going while anything is left; the frame after the last bloom clears it away.
+    if (busy() || had) raf = requestAnimationFrame(tick);
   }
 
-  tick();
+  wake();
   new IntersectionObserver(entries => {
-    alive = entries[0].isIntersecting;
-    if (alive) tick();
+    visible = entries[0].isIntersecting;
+    if (visible) wake();
+    else if (raf) { cancelAnimationFrame(raf); raf = 0; }
   }, { threshold: 0.01 }).observe(hero);
 }
 
