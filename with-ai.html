@@ -227,6 +227,7 @@ img { display: block; max-width: 100%; }
 .build-feats li::before { counter-increment: feat; content: '0' counter(feat); position: absolute; left: 0; top: 17px; font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); }
 .build-feats h4 { font-family: var(--font-ui); font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--fg1); }
 .build-feats p { margin-top: 6px; max-width: 52ch; font-size: 15px; line-height: 1.55; color: var(--fg2); }
+.build-feats + .build-facts { margin-top: 0; border-top: 0; }
 
 /* Before sits above after, like the stacked builds: side by side each shot got half a column, too
    small to read the hand-drawn flows or either Driftwood screen. */
@@ -590,8 +591,12 @@ html:has(.zoom[open]) { overflow: hidden; }
         </div>
         <div class="build-media shots-stack">
           <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/today.webp" alt="The planner's Today view for an invented student: classes, deadlines and emails arranged into one day." loading="lazy" width="1600" height="1000"></div>
-            <figcaption>Today, demo data</figcaption>
+            <div class="shot-frame"><img src="assets/with-ai/classes.webp" alt="The planner's page for an invented Creative Coding class: when it meets and how it's graded, the next three assignments from the class wiki, files that changed in the class repo, the week's content folders, and links to the repo, wiki, Discord and class site." loading="lazy" width="1600" height="1000"></div>
+            <figcaption>One class, gathered from everywhere it posts, demo data</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="shot-frame"><img src="assets/with-ai/week.webp" alt="The Week page for an invented student: seven days of calendar events, classes and commutes, green planned study blocks, red tags where work is due, and a Week or 3 days switch in the corner." loading="lazy" width="1600" height="1000"></div>
+            <figcaption>The week, from Google Calendar, demo data</figcaption>
           </figure>
           <figure class="shot">
             <div class="shot-frame"><img src="assets/with-ai/study.webp" alt="A study session with the AI helper drawer open beside an invented assignment." loading="lazy" width="1600" height="1000"></div>
