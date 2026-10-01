@@ -324,6 +324,8 @@ h2 .o { color: var(--action); }
 .rows.tight dd small { font-size: 27px; margin-top: 2px; }
 .split .text h2 { font-size: 136px; }
 .split .text .rows { max-width: none; }
+/* before and after, stacked on one plate (the how-I-build-with-Claude slide) */
+.split .plate .ba { display: grid; gap: 72px; width: 100%; }
 .split .text .numbered { max-width: none; }
 .split .text .numbered li { font-size: 38px; padding: 20px 0; }
 .split .text .numbered li small { font-size: 28px; }
@@ -1031,6 +1033,27 @@ h2 .o { color: var(--action); }
     <p>Nine tests hold it, including the insert-in-the-middle case that failed before. Four more candidates were checked and found safe, which is the half of a scan worth writing down.</p>
   </div>
   <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- 27c how I build with Claude: a real pass from September 30, 2026 -->
+<section class="slide split">
+  <div class="text">
+    <div class="eyebrow">2026 / <strong>how I build with claude</strong></div>
+    <h2>I design it.<br>Claude builds it.<br>I check it.</h2>
+    <dl class="rows tight" style="margin-top:56px">
+      <div><dt>I notice</dt><dd>The bar didn&rsquo;t look like a barbell.<small>My note from using the app: the loaded ends should be shorter than the bar.</small></dd></div>
+      <div><dt>Claude builds</dt><dd>Inside the rules I set.<small>44 px minimum tap targets, no shadows, one orange action per screen.</small></dd></div>
+      <div><dt>I check</dt><dd>Before and after, at phone size.<small>Then I approve it or send it back with notes.</small></dd></div>
+      <div><dt>Tests</dt><dd>701 tests pass.<small>Changes to the app&rsquo;s logic come with their own.</small></dd></div>
+    </dl>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool">
+    <div class="ba">
+      <figure><img src="assets/habitabull/app/plate-bar-before.png" alt="Before: plates stacked at one end, with bare bar running to the edge" width="1026" height="579" /><figcaption>Before · plates at one end</figcaption></figure>
+      <figure><img src="assets/habitabull/app/plate-bar-after.png" alt="After: a whole barbell, loaded at both ends with a long bare bar between them" width="1026" height="579" /><figcaption>After · a whole barbell</figcaption></figure>
+    </div>
+  </div>
 </section>
 
 <!-- 27 close -->
