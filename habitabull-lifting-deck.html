@@ -361,6 +361,25 @@ h2 .o { color: var(--action); }
 .audit-lesson h3 { top:609px; font-family:AuditDisplay,sans-serif; font-size:43px; font-weight:800; line-height:1.18; }
 .audit-lesson p { top:669px; font-size:27px; line-height:1.18; }
 
+
+/* October 2026 iteration slides: existing deck typography and phone scale. */
+.iteration .text h2 { font-size:132px; }
+.iteration .intro { font-size:38px; line-height:1.3; color:var(--ink-2); margin:42px 0 0; }
+.iteration .rows { margin-top:44px; }
+.iteration .rows > div { grid-template-columns:210px 1fr; gap:32px; padding:26px 0; }
+.iteration .rows dt { font-size:28px; }
+.iteration .rows dd { font-size:36px; }
+.iteration .note { font-size:28px; margin-top:36px; }
+.iteration .plate .phones { gap:52px; }
+.iteration .plate .phones img { width:390px; }
+.iteration .plate .phones figcaption { max-width:390px; line-height:1.3; letter-spacing:.08em; }
+.iteration-overview h2 { font-size:140px; margin-top:42px; max-width:none; }
+.iteration-overview .phones { margin-top:50px; justify-content:space-around; }
+.iteration-overview .phones img { width:390px; }
+.iteration-overview .phones figure { width:600px; }
+.iteration-overview .phones figcaption { font-size:32px; text-transform:none; letter-spacing:0; line-height:1.3; }
+.iteration-overview .phones figcaption b { display:block; font-size:42px; margin-bottom:12px; }
+
 @media print {
   @page { size: 2448px 1584px; margin: 0; }
   html, body { background: var(--ground); }
@@ -377,7 +396,7 @@ h2 .o { color: var(--action); }
 <body>
 <script>
   (function fit() {
-    var f = Math.min(1, (window.innerWidth - 32) / 2448);
+    var f = Math.min(1, (window.innerWidth - 32) / 2448, (window.innerHeight - 32) / 1584);
     document.documentElement.style.setProperty('--fit', f);
     window.addEventListener('resize', fit, { once: true });
   })();
@@ -430,7 +449,7 @@ h2 .o { color: var(--action); }
       <div><dt>Who</dt><dd>15 to 35 year olds; weightlifters who struggle with discipline; people who want to improve in the gym long term</dd></div>
       <div><dt>Why lifting</dt><dd>General fitness apps are one-size-fits-all, and beginners' weightlifting is intimidating enough that many people never start</dd></div>
       <div><dt>2023</dt><dd>Solo designer<small>Figma, InDesign, Photoshop</small></dd></div>
-      <div><dt>2026</dt><dd>Designer and developer<small>Next.js, Supabase, installable PWA, 107 commits</small></dd></div>
+      <div><dt>2026</dt><dd>Designer and developer<small>Next.js, Supabase, installable PWA · updated October 2026</small></dd></div>
     </dl>
     <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
   </div>
@@ -660,7 +679,7 @@ h2 .o { color: var(--action); }
     <h2>From findings<br>to features.</h2>
     <div class="body">
       <p>Each finding became an opportunity, and each opportunity a set of candidate features. The ones that made it into the 2023 prototype: <b>favourite exercises</b>, <b>progress photos</b> compared month to month, <b>animated instruction</b> for every lift, <b>shareable workouts</b>, a written <b>"reason I want to workout"</b> shown back on the interface, and a <b>weekly training calendar</b>.</p>
-      <p>Held for later: auto-generated routines from preferences and equipment, and suggested exercises based on favourites. Both shipped in 2026.</p>
+      <p>Held for later: auto-generated routines from preferences and equipment, and suggested exercises based on favourites. Both shipped in 2026. Custom workouts can now be saved and reused, and any two progress photos compared.</p>
     </div>
     <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
   </div>
@@ -677,7 +696,7 @@ h2 .o { color: var(--action); }
   <div class="eyebrow">synthesis / <strong>findings to build</strong></div>
   <h2>What each finding<br>became, three years on.</h2>
   <ol class="numbered compact" style="margin-top:48px">
-    <li>One thing per screen, made structural<small>Exactly one orange action per screen and never two, because orange is the only fill that isn't a shade of the ground. The tab bar is absent during a workout: mid-session there is one thing to do.</small></li>
+    <li>One thing per screen, made structural<small>Orange identifies the next action. Secondary settings wait behind Change, and selecting a lift temporarily hides Log set. The tab bar is absent during a workout: mid-session there is one thing to do.</small></li>
     <li>History is the engine, not a feature beside it<small>Clear every target rep and the weight goes up one increment; miss on three consecutive sessions and it cuts 10% and rebuilds; anything else repeats. Repeating is a valid outcome.</small></li>
     <li>Logging survives one thumb, mid-set<small>56px targets with 44px as a floor, tabular figures so columns don't jitter, and a keyboard that is opt-in: it appears only after a deliberate tap on the number, never on entering the screen.</small></li>
   </ol>
@@ -692,7 +711,7 @@ h2 .o { color: var(--action); }
        6 of the same six, not a new list. -->
   <ol class="numbered compact" style="margin-top:48px;counter-reset:n 3">
     <li>A crew joined by a code somebody reads out<small>No account and no password anywhere in the product. What a crew sees is who trained on which day and a photo they chose to share.</small></li>
-    <li>Every lift teaches itself<small>All 53 carry a form cue, three or four ordered steps and at least two named mistakes, enforced by a test rather than by diligence. Shown once, on the set where it usually goes wrong.</small></li>
+    <li>Every lift teaches itself<small>All 67 built-in exercises carry written guidance and common mistakes. Twenty-one also have a credited YouTube demonstration, loaded only when requested.</small></li>
     <li>The week is built from her, not from a catalogue<small>Generated from level, the days she can actually keep and the equipment she has. "Something hurts today" rebuilds the day and changes only today.</small></li>
   </ol>
   <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
@@ -797,7 +816,7 @@ h2 .o { color: var(--action); }
       <div class="sw" style="background:#361a22">#361A22</div>
     </div>
     <div class="body" style="margin-top:56px">
-      <p><b>2026, the Oxide pass.</b> Barlow Condensed display, Barlow body. Dark ground, terracotta for action, green for done, every control boundary at 3:1 or better. The bull redrawn with a closed, easy smile.</p>
+      <p><b>2026, the Oxide pass.</b> Barlow Condensed display, Barlow body. Dark ground, terracotta for action, green for done, control boundaries designed for 3:1 contrast. The bull redrawn with a closed, easy smile.</p>
     </div>
     <div class="swatches" style="margin-top:20px">
       <div class="sw" style="background:#16181d">#16181D</div>
@@ -816,8 +835,8 @@ h2 .o { color: var(--action); }
       <figure><img src="assets/habitabull/app/09-bull-coach.png" alt="2026 bull coach screen" width="780" height="1688" style="width:300px;border-radius:36px" /></figure>
       <!-- The 2023 sheet opposite shows its two app icons; without this the
            2026 half had no icon to answer them with. -->
-      <figure style="align-self:center"><img src="assets/habitabull/icon-512.png" alt="The 2026 app icon: the bull head on brand terracotta" width="512" height="512" style="width:190px;border-radius:42px" /></figure>
-      <div class="cap" style="align-self:center;margin:0 0 0 24px;text-align:left">2026 app icon, welcome and coach screens</div>
+      <figure style="align-self:center"><img src="assets/habitabull/icon-512.png" alt="The 2026 app icon: the bull head on brand terracotta" width="512" height="512" style="width:190px;border-radius:42px" /><figcaption style="max-width:200px;font-size:26px;letter-spacing:.08em;line-height:1.25">2026 app icon</figcaption></figure>
+
     </div>
   </div>
 </section>
@@ -836,7 +855,7 @@ h2 .o { color: var(--action); }
     </figure>
     <figure style="margin:0;text-align:center;width:380px">
       <img src="assets/habitabull/mascot-cheer.png" alt="The bull giving a thumbs up and winking" width="505" height="468" style="height:250px;width:auto;display:block;margin:0 auto" />
-      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Cheer<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Something went well and he saw it</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Arrival, set logged, finished, personal record, comeback</span></figcaption>
+      <figcaption style="margin-top:24px;font-family:var(--display);font-size:25px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700">Cheer<span style="display:block;margin-top:10px;letter-spacing:0.02em;text-transform:none;font-weight:500;font-size:27px">Something went well and he saw it</span><span style="display:block;margin-top:8px;letter-spacing:0.02em;text-transform:none;font-weight:400;font-size:24px;opacity:0.72">Arrival, finished, personal record, comeback</span></figcaption>
     </figure>
     <figure style="margin:0;text-align:center;width:380px">
       <img src="assets/habitabull/mascot-rest.png" alt="The bull lying down with his eyes shut" width="632" height="560" style="height:250px;width:auto;display:block;margin:0 auto" />
@@ -861,7 +880,7 @@ h2 .o { color: var(--action); }
 <section class="slide divider">
   <div class="eyebrow">part 4</div>
   <h2>Built<br>in 2026</h2>
-  <p class="lede">Three years later I rebuilt the app against the same research, with help from Claude Code. 107 commits between August 30 and September 10.</p>
+  <p class="lede">Three years later I rebuilt the app against the same research, with help from Claude Code. Iterated through October 2026, from the first set to the next visit.</p>
   <img class="mascot" src="assets/habitabull/mascot.png" alt="" width="531" height="634" />
   <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
 </section>
@@ -888,9 +907,9 @@ h2 .o { color: var(--action); }
   <div class="audit-label" style="left:108px;top:106px;color:#543f33">2026 / lessons in the app</div>
   <h2 style="left:108px;top:174px;width:1620px;color:#14181f">What the audit reinforced in HabitaBull</h2>
   <div class="audit-lesson" style="left:108px"><img src="assets/habitabull/audit-2026/04-logging.png" alt="HabitaBull set logging with large controls and last-attempt context"><div class="audit-label">HEVY + GRAVL</div><h3>Faster set logging</h3><p>Large controls, last-attempt context,<br>and one clear Log set action.</p></div>
-  <div class="audit-lesson" style="left:660px"><img src="assets/habitabull/audit-2026/14-routine-editor.png" alt="HabitaBull routine editor and exercise swap controls"><div class="audit-label">STANCE + FITBOD</div><h3>A plan you can shape</h3><p>Editable routines and exercise swaps<br>keep the user in control.</p></div>
-  <div class="audit-lesson" style="left:1212px"><img src="assets/habitabull/audit-2026/04d-comeback.png" alt="HabitaBull welcome-back screen"><div class="audit-label">GRAVL + RAY</div><h3>A welcoming return</h3><p>A welcome-back moment and<br>comebacks counted in Progress.</p></div>
-  <p style="left:108px;top:1072px;width:1620px;font-size:21px;color:#543f33">Existing implementation reviewed against the audit. Retention impact still needs user testing.</p>
+  <div class="audit-lesson" style="left:660px"><img src="assets/habitabull/audit-2026/14-routine-editor.png" alt="HabitaBull routine editor and exercise swap controls"><div class="audit-label">STANCE + FITBOD</div><h3>A plan you can shape</h3><p>A simpler editor and reusable workouts<br>keep the user in control.</p></div>
+  <div class="audit-lesson" style="left:1212px"><img src="assets/habitabull/audit-2026/04d-comeback.png" alt="HabitaBull welcome-back screen"><div class="audit-label">GRAVL + RAY</div><h3>A welcoming return</h3><p>A clear welcome-back moment and<br>comebacks counted in Progress.</p></div>
+  <p style="left:108px;top:1072px;width:1620px;font-size:21px;color:#543f33">Audit lessons carried into the October build. Screens use demonstration data; retention impact still needs user testing.</p>
  </div>
  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
 </section>
@@ -926,6 +945,101 @@ h2 .o { color: var(--action); }
     <figure><img src="assets/habitabull/app/08-progress.png" alt="Progress charts screen" width="780" height="1688" /><figcaption>Progress</figcaption></figure>
   </div>
   <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+
+<!-- October 2026: implemented changes, captured from build 43af3a4. -->
+<section class="slide field iteration-overview" id="editor-hierarchy">
+  <div class="eyebrow">October 2026 / <strong>less scrolling, fewer competing controls</strong></div>
+  <h2>The workout leads. Controls wait.</h2>
+  <div class="phones">
+<figure><img src="assets/habitabull/october-2026/30-compact-week-editor.png" alt="Compact workout editor with collapsed exercise rows" width="780" height="1688" /><figcaption><b>A short editor</b>Day types stay behind Change.<br>Each lift expands only when edited.</figcaption></figure><figure><img src="assets/habitabull/october-2026/31-add-one-lift-search.png" alt="Single exercise search showing Ab Crunch Machine" width="780" height="1688" /><figcaption><b>One lift at a time</b>Search, choose, return to the workout.<br>Extra options wait until needed.</figcaption></figure><figure><img src="assets/habitabull/october-2026/profile-compact.png" alt="Profile with settings presented as compact expandable rows" width="780" height="1688" /><figcaption><b>Settings stay secondary</b>Profile uses compact rows.<br>Crew target controls wait behind Change.</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+<section class="slide field iteration-overview" id="clearer-next-step">
+  <div class="eyebrow">October 2026 / <strong>the visual hierarchy pass</strong></div>
+  <h2>One clear next step.</h2>
+  <div class="phones">
+<figure><img src="assets/habitabull/october-2026/first-visit.png" alt="First visit Today screen with Start a quick workout as the primary action" width="780" height="1688" /><figcaption><b>Start before setup</b>The first visit leads with a quick workout.<br>Building a week comes second.</figcaption></figure><figure><img src="assets/habitabull/october-2026/best-set.png" alt="New best set confirmation on a dark background with a cyan disc" width="780" height="1688" /><figcaption><b>A best set gets a beat</b>A cyan check acknowledges the result.<br>The full celebration waits for the finish.</figcaption></figure><figure><img src="assets/habitabull/october-2026/after-workout.png" alt="After-workout recap with a single headline and compact supporting statistics" width="780" height="1688" /><figcaption><b>The recap stays quiet</b>Counts support one headline.<br>Notes and photos wait below.</figcaption></figure>
+  </div>
+  <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+</section>
+<section class="slide split iteration" id="workout-library">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>Build it once.<br>Use it again.</h2>
+    <p class="intro">A second leg day should start from the workout you already made.</p>
+    <dl class="rows"><div><dt>Save</dt><dd>Keep a named workout in Custom workouts, with its own lifts and order.</dd></div><div><dt>Reuse</dt><dd>Put that workout on another day without rebuilding it lift by lift.</dd></div><div><dt>Keep in sync</dt><dd>Edits reach the future days linked to that workout. Completed sessions keep their original record.</dd></div></dl>
+
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool"><div class="phones"><figure><img src="assets/habitabull/october-2026/34-custom-workout-library.png" alt="Saved custom workout library" width="780" height="1688" /><figcaption>Your named workouts</figcaption></figure><figure><img src="assets/habitabull/october-2026/38-reuse-on-another-day.png" alt="Selected saved workout ready to put on Friday" width="780" height="1688" /><figcaption>Put it on another day</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="workout-naming">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>Leg day can become<br>Legs and abs.</h2>
+    <p class="intro">Adding an ab exercise changes the workout. Its name and home should follow.</p>
+    <dl class="rows"><div><dt>Suggest</dt><dd>An off-type lift prompts an editable name. AI can suggest it, with a local fallback.</dd></div><div><dt>Save</dt><dd>Save the mixed workout under the name you choose. Rename changes the saved identity too.</dd></div><div><dt>Find</dt><dd>Legs and abs lives in Custom workouts, instead of being hidden under the generic Leg day type.</dd></div></dl>
+
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate"><div class="phones"><figure><img src="assets/habitabull/october-2026/32-mixed-workout-name.png" alt="Mixed workout name suggestion after adding an ab exercise" width="780" height="1688" /><figcaption>A suggestion you can edit</figcaption></figure><figure><img src="assets/habitabull/october-2026/33-saved-legs-and-abs.png" alt="Editor showing the saved workout named Legs and abs" width="780" height="1688" /><figcaption>Saved as Legs and abs</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="training-record">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>A short visit<br>still counts.</h2>
+    <p class="intro">Leaving before the final set should not erase the fact that you trained.</p>
+    <dl class="rows"><div><dt>Keep the visit</dt><dd>Logged activity is kept in the calendar even when the workout ends partway.</dd></div><div><dt>Keep both</dt><dd>Legs in the morning and core later remain separate workouts on the same date.</dd></div><div><dt>Count fairly</dt><dd>The calendar counts that date once for attendance, while preserving both workout records.</dd></div></dl>
+    <p class="note">Opening an empty workout alone does not count as a training visit.</p>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool"><div class="phones"><figure><img src="assets/habitabull/october-2026/36-calendar-attendance.png" alt="Calendar with saved training dates" width="780" height="1688" /><figcaption>Attendance stays visible</figcaption></figure><figure><img src="assets/habitabull/october-2026/37-two-workouts-partial.png" alt="Day detail showing Leg day and an unfinished Core workout" width="780" height="1688" /><figcaption>Two workouts, one day</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="progress-photos">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>Your progress,<br>side by side.</h2>
+    <p class="intro">Photos now have their own page, reachable from Calendar before the first upload.</p>
+    <dl class="rows"><div><dt>Compare</dt><dd>Start with first and latest, or open any photo and choose which side it belongs on.</dd></div><div><dt>Browse</dt><dd>See the full image and move through dated photos. The gallery groups them by month.</dd></div><div><dt>Keep control</dt><dd>Photos stay on the device unless shared. Removing one asks for confirmation.</dd></div></dl>
+    <p class="note">Preview images stand in for private progress photos.</p>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate"><div class="phones"><figure><img src="assets/habitabull/october-2026/photos-chosen-pair.png" alt="Progress photos showing a user-selected comparison pair" width="780" height="1688" /><figcaption>Choose any two</figcaption></figure><figure><img src="assets/habitabull/october-2026/photo-viewer.png" alt="Full photo viewer with Use as then and Use as now actions" width="780" height="1688" /><figcaption>Open the whole photo</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="load-the-bar">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>Try it before<br>you turn it on.</h2>
+    <p class="intro">A Profile switch explained a control you had not seen. Now it opens a working demo.</p>
+    <dl class="rows"><div><dt>Try</dt><dd>Tap a plate to add it to each end. The total includes the bar and updates immediately.</dd></div><div><dt>Remove</dt><dd>Tap the end of the loaded bar to remove its outer plate, using a full-size touch target.</dd></div><div><dt>Choose</dt><dd>Turn plate entry on for barbell lifts after trying it. Demo taps do not log a set.</dd></div></dl>
+
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool"><div class="phones"><figure><img src="assets/habitabull/october-2026/plate-demo.png" alt="Plate demo with one 45 pound plate per side" width="780" height="1688" /><figcaption>Start at 135 lb</figcaption></figure><figure><img src="assets/habitabull/october-2026/plate-demo-loaded.png" alt="Plate demo with 185 pound total after adding two plates" width="780" height="1688" /><figcaption>Add 25 lb each side</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="exercise-demos">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>See the lift<br>before the set.</h2>
+    <p class="intro">Watch the demo now opens a real, credited exercise video inside the form guide.</p>
+    <dl class="rows"><div><dt>On request</dt><dd>The YouTube player loads after a tap. Written cues and common mistakes stay with the exercise.</dd></div><div><dt>Matched</dt><dd>Twenty-one demonstrations map to exact exercises in the 67-lift built-in library.</dd></div><div><dt>A way back</dt><dd>Close the player, then return to the set. Open on YouTube is available if the embed fails.</dd></div></dl>
+    <p class="note">Video requires a connection. Creator credit is shown beside the player; custom lifts do not get an invented demo.</p>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate"><div class="phones"><figure><img src="assets/habitabull/october-2026/exercise-guide.png" alt="Back Squat form guide with Watch the demo button" width="780" height="1688" /><figcaption>Written guidance first</figcaption></figure><figure><img src="assets/habitabull/october-2026/exercise-demo-open.png" alt="Embedded ScottHermanFitness Back Squat demonstration" width="780" height="1688" /><figcaption>Video when you ask</figcaption></figure></div></div>
+</section>
+<section class="slide split iteration" id="ai-setup-and-next">
+  <div class="text">
+    <div class="eyebrow">October 2026 / <strong>what changed</strong></div>
+    <h2>Less work to start.<br>Your choices stay.</h2>
+    <p class="intro">The audit lesson: assistance earns its place by reducing setup while leaving the result editable.</p>
+    <dl class="rows"><div><dt>Shipped</dt><dd>Describe your week or paste a routine. Review the proposed structure before saving it.</dd></div><div><dt>Bounded</dt><dd>Imported lifts and sets are validated; starting loads come from the training rules. Names and plans stay editable.</dd></div><div><dt>Next</dt><dd>Import from screenshots, a notebook or another gym app, then review the extracted workout.</dd></div></dl>
+    <p class="note">Screenshot import and the proposed Shorter / preview / undo return flow remain future work.</p>
+    <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
+  </div>
+  <div class="plate cool"><div class="phones"><figure><img src="assets/habitabull/october-2026/describe-week.png" alt="Workout editor accepting a natural-language week description" width="780" height="1688" /><figcaption>Describe the week</figcaption></figure><figure><img src="assets/habitabull/october-2026/import-text.png" alt="Pasted-text workout import screen" width="780" height="1688" /><figcaption>Paste a routine</figcaption></figure></div></div>
 </section>
 
 <!-- 25b the daily beat -->
@@ -981,9 +1095,9 @@ h2 .o { color: var(--action); }
     <div class="eyebrow">2026 / <strong>what shipped</strong></div>
     <h2>Most gyms are<br>a dead spot.</h2>
     <div class="body">
-      <p>Weight rooms are in basements. Everything the app knows already lived on the phone, but it still could not <em>open</em> without a network, because the page itself had to be fetched.</p>
-      <p>A service worker caches the shell at install, so one visit at home is enough. <b>The document is still fetched network-first</b>, the rule that stops this becoming the usual installed-app failure of serving a build from three weeks ago.</p>
-      <p>Underground the plan, logging, the timer and the record all work. Two things need a signal, so two things say so: the crew screen used to report <em>"Just you, for now."</em> to somebody with five people in her crew.</p>
+      <p>After an online visit caches the app, <b>the saved plan, set logging, rest timer and local training history remain available without a signal.</b></p>
+      <p>The app checks the network for a fresh page first, then falls back to its saved copy. Local training data stays on the device.</p>
+      <p><b>Crew updates, AI services and video need a connection.</b> Written movement steps remain available. An unreachable crew is described as offline, instead of being mistaken for an empty one.</p>
     </div>
     <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
   </div>
@@ -1001,11 +1115,11 @@ h2 .o { color: var(--action); }
     <div class="eyebrow">2026 / <strong>accessibility and audit</strong></div>
     <h2>Three audits, each<br>ending in a commit.</h2>
     <dl class="rows tight">
-      <div><dt>01 · PWA</dt><dd>Every control clears 44 by 44<small>The set segments were the worst offender at 107 by 6 px. Contrast computed for all 21 tokens. No maximum-scale lock: locking zoom is a WCAG 1.4.4 failure</small></dd></div>
+      <div><dt>01 · PWA</dt><dd>Touch targets reviewed against 44 by 44<small>The set segments were the worst offender at 107 by 6 px. Contrast computed for all 21 tokens. No maximum-scale lock: locking zoom is a WCAG 1.4.4 failure</small></dd></div>
       <div><dt>02 · HIG</dt><dd>Regressions the palette swap caused<small>Secondary text on the PR celebration fell to 4.39:1 on Oxide; raised to 5.17:1</small></dd></div>
       <div><dt>03 · a11y</dt><dd>3 P1s, 5 P2s, 4 P3s<small>A modal claimed aria-modal while 218 elements outside it stayed tabbable. Focus now trapped both ways and returned on close</small></dd></div>
     </dl>
-    <p class="note">No retention or usage numbers are claimed for the 2026 build. It has not launched to users.</p>
+    <p class="note">No measured retention or usage outcome is claimed. These audits checked the interface and implementation.</p>
     <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
   </div>
   <div class="plate">
@@ -1018,7 +1132,7 @@ h2 .o { color: var(--action); }
 
 <!-- 27b the bug -->
 <section class="slide field">
-  <div class="eyebrow">2026 / <strong>shipped software</strong></div>
+  <div class="eyebrow">September 2026 / <strong>a repair that shaped the model</strong></div>
   <h2>One day added.<br>The whole week gone.</h2>
   <div class="body" style="margin-top:44px;max-width:1900px">
     <p>A tester wanted a cardio day in the middle of a week she had already built. She reported it as <em>&ldquo;it defaults to leg day and doesn&rsquo;t save&rdquo;</em>. Reproducing it showed something worse.</p>
@@ -1027,7 +1141,7 @@ h2 .o { color: var(--action); }
     <div><dt>What happened</dt><dd>Adding one day to Push / Pull / Legs rebuilt all four as Full body, and replaced every lift she had chosen.</dd></div>
     <div><dt>Why</dt><dd>The plan generator took day types as a list aligned to the sorted days, so which day was which lived in an array index. Insert a Tuesday and everything after it shifts.</dd></div>
     <div><dt>The rule now</dt><dd>Editing which days you train does not touch the days you kept. Only a new day is generated.</dd></div>
-    <div><dt>Then the class</dt><dd>Scanning for the same shape found two more: the Full body A/B variant was also positional, and two days of one type shared a single saved shape.</dd></div>
+    <div><dt>Then the class</dt><dd>The repair separated a scheduled day from its position. Sharing is now explicit: saving a named workout lets linked future days follow it.</dd></div>
   </dl>
   <div class="body quiet" style="margin-top:48px;max-width:1900px;font-size:34px">
     <p>Nine tests hold it, including the insert-in-the-middle case that failed before. Four more candidates were checked and found safe, which is the half of a scan worth writing down.</p>
@@ -1044,14 +1158,14 @@ h2 .o { color: var(--action); }
       <div><dt>I notice</dt><dd>The bar didn&rsquo;t look like a barbell.<small>My note from using the app: the loaded ends should be shorter than the bar.</small></dd></div>
       <div><dt>Claude builds</dt><dd>Inside the rules I set.<small>44 px minimum tap targets, no shadows, one orange action per screen.</small></dd></div>
       <div><dt>I check</dt><dd>Before and after, at phone size.<small>Then I approve it or send it back with notes.</small></dd></div>
-      <div><dt>Tests</dt><dd>706 tests pass.<small>Changes to the app&rsquo;s logic come with their own.</small></dd></div>
+      <div><dt>Tests</dt><dd>824 tests pass across 42 files.<small>Checked October 6, 2026. Engineering checks, not a retention result.</small></dd></div>
     </dl>
     <div class="folio"><span>HabitaBull Lifting</span><span></span></div>
   </div>
   <div class="plate cool">
     <div class="ba">
-      <figure><img src="assets/habitabull/app/plate-bar-before.png" alt="Before: plates loaded on the inner side of the collar, with bare bar running to the edge" width="1026" height="579" /><figcaption>Before · plates on the wrong side of the bar</figcaption></figure>
-      <figure><img src="assets/habitabull/app/plate-bar-after.png" alt="After: a whole barbell, loaded at both ends with a long bare bar between them" width="1026" height="579" /><figcaption>After · a whole barbell</figcaption></figure>
+      <figure><img src="assets/habitabull/app/plate-bar-before.png" alt="Before: plates loaded on the inner side of the collar, with bare bar running to the edge" width="1026" height="579" /><figcaption>September 30 · before the barbell repair</figcaption></figure>
+      <figure><img src="assets/habitabull/app/plate-bar-after.png" alt="After: a whole barbell, loaded at both ends with a long bare bar between them" width="1026" height="579" /><figcaption>September 30 · after the barbell repair</figcaption></figure>
     </div>
   </div>
 </section>
