@@ -63,7 +63,7 @@ The poster is frame 0 (the loop's rest frame), saved as `assets/portfolio-pet/re
   this all in blender and create it back to 2d style to understand the perspective, height, depth and placement"),
   then painted back to pixels; shipped 27 Oct as `assets/og-cover-curious-2026-10-27.png`. Lucy's reason for not
   rendering him straight from Blender: "too taxing". Note: the cover still reads "design engineer"; the home page
-  now says "product designer".
+  now says "product designer". Fixed in `../link-preview/` (26 Nov); the case study already uses the fixed cover.
 - **Who made what** (Lucy, 26 Nov): her sketches, anatomy rules, every motion idea and the Blender model; AI wrote
   the bones, actions and rig code; AI image tools drew the master illustration and key poses.
 
