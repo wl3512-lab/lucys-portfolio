@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Magnet Fishing | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/magnet-fishing.html" />
+<meta name="description" content="Magnet Fishing placed 2nd at JAMKADIUM 2026. I turned the CLUTTER theme into a calm fishing puzzle with Braxton Hauw." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/magnet-fishing/og-cover.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/magnet-fishing/og-cover.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The narrative case study (Lucy, 2026-11-26, after aaronjames.design): see the header of case-narrative.css. -->
+<link rel="stylesheet" href="case-narrative.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+<!-- Only for the hero trailer (main[data-case-spreads] video[data-cx-film]): it plays itself, muted, 2 s after the
+     page opens, once through, and never under reduced motion (Lucy, 2026-11-11). -->
+<script defer src="components/case-spreads.js?v=7a6d128f"></script>
+</head>
+<body data-persona-slug="magnet-fishing">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="nr" data-case-spreads>
+
+  <header class="nr-col nr-hero" data-nr="hero">
+    <h1 class="nr-title">Turning clutter into a calm fishing puzzle</h1>
+    <a class="nr-go" href="https://wl3512-lab.itch.io/magnet-fishing" target="_blank" rel="noopener">Play on itch.io <span aria-hidden="true">↗</span></a>
+    <div class="nr-hero-media">
+      <video id="mf-trailer-video" data-cx-film="auto" muted controls playsinline preload="none" width="1920" height="1080" poster="assets/magnet-fishing/trailer.webp" aria-label="46-second Magnet Fishing trailer: throw a magnet, pick apart the clutter, upgrade, and rebuild the town bell across three rivers">
+        <source src="assets/magnet-fishing/trailer.mp4" type="video/mp4">
+        <a href="assets/magnet-fishing/trailer.mp4">Watch the Magnet Fishing trailer</a>.
+      </video>
+    </div>
+  </header>
+
+  <section class="nr-col nr-sec nr-over" data-nr="over" aria-labelledby="mf-over-h">
+    <h2 class="nr-h" id="mf-over-h">Overview</h2>
+    <p class="nr-lead">For JAMKADIUM 2026, on the theme CLUTTER, Braxton Hauw and I made a calm fishing puzzle. You throw a magnet, pick apart the junk it pulls up, upgrade your tools and rebuild the town bell across three rivers. It placed 2nd of 20 entries.</p>
+    <dl class="nr-facts">
+      <div><dt>My role</dt><dd>Art direction<br>Build<br>With Braxton Hauw</dd></div>
+      <div><dt>Tools</dt><dd>JavaScript, Canvas<br>Web Audio API<br>Claude, Codex</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="prob" aria-labelledby="mf-prob-h">
+    <h2 class="nr-h" id="mf-prob-h">Problems</h2>
+    <!-- DRAFT for Lucy: the lead line and the three one-word names are new; each sentence is cut from the old lessons. -->
+    <p class="nr-lead" data-draft>Three problems shaped the game.</p>
+    <ol class="nr-three">
+      <li><h3 data-draft>1. Hidden</h3><p>An upgrade that only changes a number in a menu is easy to miss.</p></li>
+      <li><h3 data-draft>2. Overlap</h3><p>Our canal overlapped the other rivers on the map.</p></li>
+      <li><h3 data-draft>3. Distant</h3><p>One bell at the end of three rivers was too far away to pull anyone forward.</p></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="hmw" aria-label="The question">
+    <!-- DRAFT for Lucy: the old page's lesson heading ("Show progress where the player is already looking."), asked as a question. -->
+    <p class="nr-hmw" data-draft>How might we show <mark>progress</mark> where the player is <mark>already looking</mark>?</p>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="goal" aria-labelledby="mf-goal-h">
+    <h2 class="nr-h" id="mf-goal-h">Goals</h2>
+    <p class="nr-lead">Each problem became a goal.</p>
+    <!-- DRAFT for Lucy: the goal words are new; the sentences are cut from the old spreads. -->
+    <ul class="nr-three">
+      <li><h3 data-draft><span class="nr-was">Hidden</span><span class="nr-to" aria-hidden="true">→</span>Visible</h3><p>Every upgrade drawn on the tool in the angler's hand.</p></li>
+      <li><h3 data-draft><span class="nr-was">Overlap</span><span class="nr-to" aria-hidden="true">→</span>Separate</h3><p>Each river its own place, opened by a stronger rope.</p></li>
+      <li><h3 data-draft><span class="nr-was">Distant</span><span class="nr-to" aria-hidden="true">→</span>Close</h3><p>A part of the bell in every river.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-clump-h">
+    <h2 class="nr-h" id="mf-clump-h">One clump, one piece at a time</h2>
+    <p class="nr-lead">The magnet pulls up one tangled clump of junk. A piece comes free only when nothing above it overlaps it, so every pile is a small puzzle.</p>
+    <div class="nr-media nr-2">
+      <figure><img src="assets/magnet-fishing/pile-shallows.webp" width="960" height="600" loading="lazy" decoding="async" alt="Magnet Fishing's pick screen at the Shallows: a tangled pile of gears, a padlock and chain on wet sand, with the Treasure, Scrap and Recycling bins and the Undo and Haul it in buttons on the right"></figure>
+      <figure><img src="assets/magnet-fishing/pile-bridge.webp" width="960" height="600" loading="lazy" decoding="async" alt="Pick screen at the Old Bridge: a larger pile of gears, bolts, a green bottle, a tyre and a tangle of blue wire on sunlit paving stones, with an optional goal to recycle 2 in the first 4 pulls"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-rivers-h">
+    <h2 class="nr-h" id="mf-rivers-h">Three rivers, three times of day</h2>
+    <p class="nr-lead">Rope Strength opens the next river, and each one has its own scene, music and bigger piles.</p>
+    <div class="nr-media nr-2">
+      <figure><img src="assets/magnet-fishing/hub-shallows.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="Level 1, the Shallows in the morning: the angler on a wooden dock with a small red magnet on old twine, a lake of lily pads and a sandbar, and a row of pastel houses on the far shore"></figure>
+      <figure><img src="assets/magnet-fishing/hub-canal.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="Level 3, the Deep Canal at night in purple and yellow: lit windows, lamp posts, a narrowboat and brick walls under the moon, with the angler holding a bigger red magnet on a blue sailor's braid"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-upgrades-h">
+    <h2 class="nr-h" id="mf-upgrades-h">Upgrades you can see</h2>
+    <p class="nr-lead">Five tools, three levels each. The magnet grows and turns gold, and the rope goes from old twine to a golden braid.</p>
+    <div class="nr-media">
+      <figure><img src="assets/magnet-fishing/tiers.webp" width="1920" height="840" loading="lazy" decoding="async" alt="The magnet at levels 0 to 3, growing from a small red horseshoe to a large glowing gold one, above four rope coils: plain brown old twine, a cream braid with red twists, a blue and white sailor's braid and a gold and purple golden braid"><figcaption>The magnet and the rope at every level.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-bell-h">
+    <h2 class="nr-h" id="mf-bell-h">The bell, in three parts</h2>
+    <p class="nr-lead">One part waits in each river. Rebuild all three and the bell rings again at dawn.</p>
+    <div class="nr-media">
+      <figure><img src="assets/magnet-fishing/ending.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="The ending at dawn in the town square: the rebuilt bell with its clapper and yoke, confetti, and a card reading The town bell rings again! with treasures found 15 of 15, 31 clumps untangled, 24 junk recycled and 11 minutes on the river"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="res" aria-labelledby="mf-res-h">
+    <h2 class="nr-h" id="mf-res-h">Results</h2>
+    <div class="nr-results">
+      <div class="nr-result">
+        <div><h3>Placed at JAMKADIUM 2026.</h3><p>On the theme CLUTTER, with Braxton Hauw.</p></div>
+        <p class="nr-num">2nd<small>of 20 entries</small></p>
+      </div>
+      <div class="nr-result">
+        <div><h3>Playable on itch.io.</h3><p>Three rivers, five tools and a town bell to rebuild.</p></div>
+      </div>
+      <div class="nr-result">
+        <div><h3>No engine, no audio files.</h3><p>Plain JavaScript on one canvas. The music, the river ambience and every sound effect are synthesized as you play.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="learn" aria-labelledby="mf-learn-h">
+    <h2 class="nr-h" id="mf-learn-h">What I learned</h2>
+    <ul class="nr-three">
+      <li><h3>Upgrades have to be seen.</h3><p>Drawing the bigger magnet and the new braid in the angler's hand means every throw shows what the coins bought.</p></li>
+      <!-- DRAFT for Lucy: shorter heading for "A map fix turned the rope into the key between levels." -->
+      <li><h3 data-draft>Let a fix become a feature.</h3><p>The stronger rope started as a fix for the overlapping canal. It gave each river its own scene and became the key between levels.</p></li>
+      <li><h3>Split the goal so the next step is always close.</h3><p>Three parts, one per river, keep the next one in sight.</p></li>
+    </ul>
+  </section>
+
+  <div class="nr-col nr-credit" data-nr="credit"><p>Claude (Anthropic) adapted my artwork into SVG and generated the game code, item text and documentation. OpenAI Codex helped with testing, bug fixes and code improvements. No image-generation model was used, and the game's credits list every piece.</p></div>
+
+  <nav class="nr-col nr-next" data-nr="next" aria-label="Next project">
+    <p class="nr-next-k">Next project</p>
+    <a class="nr-next-link" href="reptools.html">rep.tools <span aria-hidden="true">→</span></a>
+    <p>Brand and shopping-flow redesign for a 6,900-item replica-fashion catalogue.</p>
+  </nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>
