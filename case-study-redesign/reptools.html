@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>rep.tools: e-commerce catalogue IA redesign | Lucy Liu</title>
+<meta name="description" content="A large e-commerce catalogue, about 6,900 items, given a clear information architecture and a brand: navigation, catalogue and product pages, then an identity and logo." />
+<link rel="canonical" href="https://lucyliu.xyz/reptools.html" />
+<meta property="og:title" content="rep.tools: e-commerce catalogue IA redesign | Lucy Liu" />
+<meta property="og:description" content="rep.tools looked vibe-coded: bland and forgettable. I gave it a brand identity and logo, then rebuilt its catalogue and shopping flow on them." />
+<meta property="og:url" content="https://lucyliu.xyz/reptools.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/reptools/after-home.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The reading layout (2026-11-26): one arc, top to bottom, nothing folded. See case-read.css. -->
+<link rel="stylesheet" href="case-read.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+</head>
+<body class="rd-page" data-persona-slug="reptools">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="rd">
+
+<header class="rd-wrap rd-head">
+  <h1 class="rd-title">rep.tools</h1>
+  <p class="rd-sub">A brand and catalogue redesign for a live replica-fashion shop.</p>
+  <div class="rd-actions">
+    <a class="rd-btn" href="uploads/RepTools_Summary.pdf" target="_blank" rel="noopener noreferrer">Download project summary <small>PDF ↗</small></a>
+    <a class="rd-link" href="https://rep.tools" target="_blank" rel="noopener noreferrer">Visit rep.tools ↗</a>
+    <img class="rd-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<section class="rd-wrap rd-overview" aria-labelledby="ov-h">
+  <div>
+    <h2 class="rd-label" id="ov-h">Overview</h2>
+    <p>rep.tools is a live catalogue of replica fashion, with tools and a buying guide around it. Most visitors arrive from the founder’s TikTok channel (300k+ followers, over 200 million views). I designed the brand, navigation, catalogue and product-page layouts, and wrote the front end. The founder built and owns the app.</p>
+  </div>
+  <dl class="rd-facts">
+    <div><dt>My role</dt><dd><span>Brand</span><span>UX and IA</span><span>Front end</span></dd></div>
+    <div><dt>Client</dt><dd>The founder</dd></div>
+    <div><dt>Platform</dt><dd><span>Web</span><span>Phone first</span></dd></div>
+    <div><dt>Scale</dt><dd><span>9,384 items</span><span>Oct 2026</span></dd></div>
+  </dl>
+</section>
+
+<figure class="rd-wrap rd-hero">
+  <img src="assets/reptools/live-top.webp" width="1600" height="900" alt="The live rep.tools homepage: the condensed headline Your all-in-one rep toolkit in white and cyan, two buttons, and a fan of QC photos" decoding="async">
+</figure>
+
+<section class="rd-wrap rd-sec" aria-labelledby="pr-h">
+  <div class="rd-row">
+    <div>
+      <h2 id="pr-h">Problems</h2>
+      <p class="rd-intro">rep.tools worked. It just had no face of its own, and it hid the products.</p>
+    </div>
+    <ol class="rd-points">
+      <li><h3>It looked like every vibe-coded site.</h3><p>A gradient lightning-bolt icon, a gradient headline, glowing orbs and pill badges. Bland, and gone from memory a minute later.</p></li>
+      <li><h3>The catalogue sat one click away.</h3><p>rep.tools launched as a landing page. As the catalogue grew to roughly 6,900 items, the thing people came for sat behind Browse Products.</p></li>
+      <li><h3>There were no product pages.</h3><p>An item had nowhere of its own to land.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-label="The question">
+  <p class="rd-hmw">How might a fast-growing catalogue get a face of its own, and put the products first?</p>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="go-h">
+  <h2 class="rd-label" id="go-h">Goals</h2>
+  <ul class="rd-goals">
+    <li><h3>Vibe-coded <i aria-hidden="true">→</i> A brand</h3><p>An identity that speaks the audience’s language.</p></li>
+    <li><h3>Landing page <i aria-hidden="true">→</i> Catalogue</h3><p>Land on the products, not a pitch.</p></li>
+    <li><h3>Desktop <i aria-hidden="true">→</i> Phone first</h3><p>Visitors come straight from a video, on a phone.</p></li>
+  </ul>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="br-h">
+  <div class="rd-row">
+    <h2 id="br-h">The brand speaks the audience’s language.</h2>
+    <div class="rd-body">
+      <p>Visitors arrive already fluent in QC, batches, agents and hauls. So the identity speaks that language: Anton in oversized condensed caps, electric cyan on near-black, and Space Mono for anything that behaves like data.</p>
+      <p>The BATCH logo comes from the same culture: one parametric R, the master RETAIL and nine runs, each with one documented tell. It is built into the site’s code and not released yet.</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <img src="assets/reptools/batch-sheet.webp" width="1400" height="710" alt="The BATCH sheet: the RETAIL master with its favicons, and the nine runs B01 to B09, each with its tell and where it is placed" loading="lazy" decoding="async">
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="ca-h">
+  <div class="rd-row">
+    <h2 id="ca-h">The homepage is now the product catalogue.</h2>
+    <div class="rd-body">
+      <p>You land in the catalogue itself: category rows you can scroll at once, with filter chips at the top. Product pages exist for the first time.</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <div class="rd-set" style="max-width:760px;margin-inline:auto">
+      <div style="--r:.636"><img src="assets/reptools/before-home.webp" width="1400" height="2200" alt="Before: a marketing landing page. The 6,900-item catalogue is not on it." loading="lazy" decoding="async"><span>Before</span></div>
+      <div style="--r:.693"><img src="assets/reptools/after-home.webp" width="1400" height="2020" alt="After: the same page rebuilt around the product, with the identity carrying the logistics language." loading="lazy" decoding="async"><span>After, November 2026</span></div>
+    </div>
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="ph-h">
+  <div class="rd-row">
+    <h2 id="ph-h">Almost everyone arrives on a phone.</h2>
+    <div class="rd-body">
+      <p>They come straight from a video, so the phone is the primary surface. Category rows scroll by thumb, and the counted category bar stays visible.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="ds-h">
+  <div class="rd-row">
+    <h2 id="ds-h">Every page now shares one design system.</h2>
+    <div class="rd-body">
+      <p>I moved the identity into one shared stylesheet and pulled the navigation and footer into partials: 38 files changed. The five tools already shared one tabbed page; I restyled and regrouped them, and the shop, the tools hub and the buying guide went into the same system.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="wp-h">
+  <div class="rd-row">
+    <h2 id="wp-h">The sign-up coupon shows its terms up front.</h2>
+    <div class="rd-body">
+      <p>rep.tools earns when a visitor signs up to KakoBuy through its link, so the welcome pack is the one place the site asks for something. The terms are on the card, two plain ways out sit under the button, and on a phone it rises as a bottom sheet.</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <div class="rd-panel">
+      <div class="rd-set" style="max-width:720px;margin-inline:auto">
+        <div style="--r:1.135"><img src="assets/reptools/welcome-desktop.webp" width="840" height="740" alt="The welcome pack on a laptop: four coupon tickets, the code LUDE15 on a stub, an orange claim button and two ways out" loading="lazy" decoding="async"><span>Laptop</span></div>
+        <div style="--r:.462"><img src="assets/reptools/welcome-mobile.webp" width="780" height="1688" alt="The welcome pack on a phone, as a bottom sheet with a handle" loading="lazy" decoding="async"><span>Phone</span></div>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="rs-h">
+  <h2 class="rd-label" id="rs-h">Where it stands</h2>
+  <ul class="rd-stats">
+    <li><span class="rd-num">9,384</span><b>items in one system</b><p>Up from 6,907 in August.</p></li>
+    <li><span class="rd-num">38</span><b>files changed</b><p>One shared stylesheet, with the navigation and footer as partials.</p></li>
+    <li><span class="rd-num">1<small>st</small></span><b>product pages</b><p>Before the redesign, items had none.</p></li>
+  </ul>
+  <p class="rd-after">The redesigned catalogue and product pages are live. Next, the founder’s analytics can show catalogue click-through and mobile time-on-site, before and after. <a href="https://rep.tools" target="_blank" rel="noopener noreferrer">Visit rep.tools ↗</a></p>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="le-h">
+  <div class="rd-row">
+    <h2 id="le-h">What I learned</h2>
+    <ol class="rd-points">
+      <li><h3>AI-generated default styling makes a site forgettable.</h3><p>The old site ran fine. It just looked like a hundred others, so nothing about it stayed with a visitor.</p></li>
+      <li><h3>The homepage should show products right away.</h3><p>The founder’s channel sends a steady, already-invested audience straight at it.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="rd-wrap rd-made" aria-labelledby="ma-h">
+  <h2 class="rd-label" id="ma-h">How it was made</h2>
+  <div class="rd-made-in">
+    <div><h3>Direction</h3><p>Two easier directions were on the table. Keeping the SaaS look fixed the structure but left the site looking like a tool for someone else. Going fully hype-drop failed the logistics half, where a tracking number or a price has to be legible at a glance.</p></div>
+    <div><h3>Logo</h3><p>Six numbers describe a version completely, so each run rebuilds exactly from code. RETAIL goes wherever recognition builds: the favicon, the share card, the nav. The batches appear only where someone has already arrived, so the logo never splits at first sight.</p></div>
+    <div><h3>Tools and guide</h3><p>Each of the five tools is a card that carries its own number in Space Mono (3,100 carriers, 25 agents, 86 countries). The buying guide takes a first-time buyer through an order in ten steps.</p></div>
+  </div>
+</section>
+
+<nav class="rd-wrap rd-next" aria-label="Next project">
+  <p class="rd-label">Next project</p>
+  <a class="rd-next-link" href="case-study.html">Driftwood <span aria-hidden="true">→</span></a>
+  <p>A short game that teaches you when to question AI.</p>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

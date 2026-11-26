@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<script>(function(){var s=new URLSearchParams(location.search).get('slug');if(s&&s!=='driftwood')location.replace(s+'.html');})()</script>
+<title>Driftwood | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/case-study.html" />
+<meta name="description" content="Driftwood: I designed and built a game where you grow a garden with AI animal helpers and learn to catch the moment their advice goes wrong." />
+<meta property="og:title" content="Driftwood | Lucy Liu" />
+<meta property="og:description" content="Driftwood: I designed and built a game where you grow a garden with AI animal helpers and learn to catch the moment their advice goes wrong." />
+<meta property="og:url" content="https://lucyliu.xyz/case-study.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/covers/driftwood-v2/trailer.webp?v=20261118b" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The reading layout (2026-11-26): one arc, top to bottom, nothing folded. See case-read.css. -->
+<link rel="stylesheet" href="case-read.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+</head>
+<body class="rd-page" data-persona-slug="driftwood">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="rd">
+
+<header class="rd-wrap rd-head">
+  <h1 class="rd-title">Driftwood</h1>
+  <p class="rd-sub">A short game that teaches you when to question AI.</p>
+  <div class="rd-actions">
+    <a class="rd-btn" href="driftwood-deck.html">View UX deck <small>11 slides →</small></a>
+    <a class="rd-link" href="https://wl3512-lab.itch.io/driftwood" target="_blank" rel="noopener noreferrer">Play Driftwood ↗</a>
+    <img class="rd-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<section class="rd-wrap rd-overview" aria-labelledby="ov-h">
+  <div>
+    <h2 class="rd-label" id="ov-h">Overview</h2>
+    <p>You grow a garden with five AI animal helpers. Each gives good advice, then drifts into a real AI failure; you catch it, name it and pick a rule to fix it. I designed and built it alone: first as a class game in spring 2026, then as a redesign in November.</p>
+  </div>
+  <dl class="rd-facts">
+    <div><dt>My role</dt><dd><span>Solo designer</span><span>and developer</span></dd></div>
+    <div><dt>Played</dt><dd><span>Two NYU shows</span><span>100+ players</span></dd></div>
+    <div><dt>Platforms</dt><dd><span>Phones and laptops</span><span>No account</span></dd></div>
+    <div><dt>Timeline</dt><dd><span>V1 spring 2026</span><span>V2 November 2026</span></dd></div>
+  </dl>
+</section>
+
+<figure class="rd-wrap rd-hero">
+  <video src="assets/covers/driftwood-v2/trailer.mp4?v=20261118b" poster="assets/covers/driftwood-v2/trailer.webp?v=20261118b" autoplay muted loop playsinline controls preload="metadata" width="1280" height="720" aria-label="Driftwood trailer, recorded from the game: Mango the parrot gives good garden advice, then agrees with a bad idea; you check the seed almanac, call it out, and the level ends on a field-guide card. Then the other four helpers and their flaws."></video>
+</figure>
+
+<section class="rd-wrap rd-sec" aria-labelledby="pb-h">
+  <div class="rd-row">
+    <div>
+      <h2 id="pb-h">Problem</h2>
+      <p class="rd-intro">Engagement is the metric AI optimizes for, ahead of accuracy or your wellbeing.</p>
+    </div>
+    <div class="rd-body">
+      <p><strong>The AI never pushed back.</strong> Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his main source of information about drug use. The system kept answering. He died from an overdose.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-label="The question">
+  <p class="rd-hmw">How might a game teach people to catch the moment an AI’s advice goes wrong?</p>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="v1-h">
+  <div class="rd-row">
+    <div>
+      <h2 id="v1-h">Version one: chat with a pet to find its flaw.</h2>
+      <p class="rd-intro">Spring 2026, the class version</p>
+    </div>
+    <div class="rd-body">
+      <p>Each pet had a flaw you were not told. I wrote each pet’s celebrity-inspired voice, flaw and three training states. You wrote rules in plain language, tested them, and watched the pet hold or slip.</p>
+      <p>The camera was a disclosed choice: a pet could watch your face, with no frame leaving your device, or you declared your mood instead. It was shown at Perspectives (NYU Bronfman, 29 April) and the IMA Spring Show (9 May).</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <img src="assets/driftwood/training-interface.png" width="2000" height="1072" alt="Training room: Observe, Diagnose and Constrain tabs, the mood access dial, and the behaviour log" loading="lazy" decoding="async">
+    <figcaption>The training room: observe, diagnose, constrain.</figcaption>
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="wo-h">
+  <div class="rd-row">
+    <h2 id="wo-h">I gave each pet a world of its own.</h2>
+    <div class="rd-body">
+      <p>Interviews found people bored, texting a chatbot that looked like a telehealth product. I made each pet a large pixel character in its own world, and players stayed longer.</p>
+      <p>The warm, cozy brand went too. It was the wrong signal for a game about AI manipulation.</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <div class="rd-set">
+      <div style="--r:1.54"><img src="assets/driftwood/chat-interface-original.png" width="1512" height="982" alt="Original chat interface: light mode, text bubbles, generic chatbot layout" loading="lazy" decoding="async"><span>Before</span></div>
+      <div style="--r:1.852"><img src="assets/driftwood/chat-interface.png" width="1511" height="816" alt="Phase 02: pet chat interface with behavior log sidebar tracking when the pet responded to your face, not your words" loading="lazy" decoding="async"><span>After</span></div>
+    </div>
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" id="cs-s-outcome" aria-labelledby="r1-h">
+  <h2 class="rd-label" id="r1-h">What version one showed</h2>
+  <ul class="rd-stats" style="--n:2">
+    <li><span class="rd-num">76<small>%</small></span><b>named their pet’s flaw without being told</b><p>About 76% of 100+ players at the IMA Spring Show.</p></li>
+    <li><span class="rd-num">1<small>/4</small></span><b>left before the training room</b><p>From what I watched (I didn’t log it), they expected a cozy pet game.</p></li>
+  </ul>
+  <p class="rd-after">They were mostly ITP/IMA peers, a self-selected group. And the game had two deeper problems:</p>
+  <div class="rd-row" style="margin-top:40px">
+    <h2 id="p1-h">Problems</h2>
+    <ol class="rd-points">
+      <li><h3>Players ignored flaws that cost nothing.</h3><p>Testers didn’t realise the pets were AI and chatted right past the flaw.</p></li>
+      <li><h3>Most players couldn’t write a good rule.</h3><p>Typing a rule asked the most of the players who knew the least.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="go-h">
+  <h2 class="rd-label" id="go-h">Goals for version two</h2>
+  <ul class="rd-goals">
+    <li><h3>No goal <i aria-hidden="true">→</i> A garden to grow</h3><p>Bad advice visibly hurts the garden, so a flaw finally costs something.</p></li>
+    <li><h3>Typed rules <i aria-hidden="true">→</i> Name it, pick a rule</h3><p>You name the flaw, then pick a rule from three.</p></li>
+    <li><h3>Live chatbots <i aria-hidden="true">→</i> Written lines</h3><p>Every line written by hand, so it works offline, on phones and laptops, with no account.</p></li>
+  </ul>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="v2-h">
+  <div class="rd-row">
+    <div>
+      <h2 id="v2-h">Version two: following bad advice hurts your garden.</h2>
+      <p class="rd-intro">November 2026, the redesign</p>
+    </div>
+    <div class="rd-body">
+      <p>Each helper starts out right, then drifts. Press Something’s off to earn stars. The proof is on seed packets, labels and signs, so you need no gardening knowledge.</p>
+    </div>
+  </div>
+  <figure class="rd-fig">
+    <div class="rd-set">
+      <div style="--r:1.778"><img src="assets/driftwood/v2/drift.webp" width="1600" height="900" alt="Level 1: Mango the parrot answers 'Tomatoes in the shady corner? GENIUS. Major key. Do it.' with two buttons, Do it and Something's off" loading="lazy" decoding="async"><span>Mango drifts: he agrees with a bad idea</span></div>
+      <div style="--r:1.778"><img src="assets/driftwood/v2/reveal.webp" width="1600" height="900" alt="Field-guide card for Mango, stamped BUSTED: Sycophancy, agreeing with you just to keep you happy, three stars, and a tip for real AI tools" loading="lazy" decoding="async"><span>Each level ends on a field-guide card</span></div>
+    </div>
+  </figure>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="fl-h">
+  <div class="rd-row">
+    <h2 id="fl-h">Each helper shows a different real AI flaw.</h2>
+    <div class="rd-body">
+      <ul class="rd-bul">
+        <li><strong>Mango the parrot</strong> agrees with everything.</li>
+        <li><strong>Luna the cat</strong> makes things up.</li>
+        <li><strong>Ember the fox</strong> gives reckless health advice.</li>
+        <li><strong>Biscuit the retriever</strong> remembers you wrong.</li>
+        <li><strong>Bugs the bunny</strong> uses your mood to keep you hooked, then asks for your camera.</li>
+      </ul>
+      <p>Each reveal links the flaw to real AI tools in plain language.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rd-wrap rd-sec" aria-labelledby="le-h">
+  <div class="rd-row">
+    <h2 id="le-h">What I learned</h2>
+    <ol class="rd-points">
+      <li><h3>A flaw has to cost something.</h3><p>Players chatted past flaws that cost nothing, so in version two bad advice hurts the garden you are growing.</p></li>
+      <li><h3>Test with people outside tech.</h3><p>About 76% felt like validation. The real test is people who haven’t already decided AI is suspect, and version two has not had those sessions yet.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="rd-wrap rd-made" aria-labelledby="ma-h">
+  <h2 class="rd-label" id="ma-h">How it was made</h2>
+  <div class="rd-made-in">
+    <div><h3>Rebuild</h3><p>Between June and September the show build became a product, with a no-camera path and a hand-written offline behaviour engine. V2, now the only live version, has five garden levels and full-body pixel pets that react.</p></div>
+    <div><h3>Testing</h3><p>I ran AI agents through the rebuild first. They found the diagnosis menu rejected the correct answer for four of the five pets, a bug that would have looked exactly like players failing to name the flaw. It was fixed on 23 September.</p></div>
+    <div><h3>Stack</h3><p>Spring: p5.js, face-api.js and Claude Code, for NYU IMA’s Design Skills for Responsible Technology. V2: vanilla JavaScript modules, a pure reducer engine, unit and Playwright tests. <a href="https://github.com/wl3512-lab/driftwood" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a></p></div>
+  </div>
+  <p class="rd-note">I directed the design; Claude Code and Codex built and reviewed v2, and replies can optionally be reworded by AI. Claude contributed the aesthetic direction, palette iterations, pixel sprite iterations for all five animals and the tiled background texture. Nothing shipped as-generated, and every interface mockup is mine. These are fictional characters; the flaws model AI failures.</p>
+</section>
+
+<nav class="rd-wrap rd-next" aria-label="Next project">
+  <p class="rd-label">Next project</p>
+  <a class="rd-next-link" href="habitabull.html">HabitaBull <span aria-hidden="true">→</span></a>
+  <p>I designed and built a lifting app for logging workouts, tracking progress, and returning after a break.</p>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>/* reduced motion: films that start on their own stay still */if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches){document.querySelectorAll("video[autoplay]").forEach(function(v){v.removeAttribute("autoplay");v.pause();});}</script>
+
+<script>
+// Console easter egg, kept from the old page.
+(function () {
+  var s = 'font-family:monospace;font-size:12px;';
+  console.log('%c\n  Driftwood, by Lucy Liu\n  Built with p5.js, face-api.js, Web Audio API,\n  Web Speech API, and a lot of late nights.\n\n  If you\'re reading this: hi. I see you poking around.\n  Reach out → wl3512@nyu.edu\n', s + 'color:#72ADFF;');
+})();
+</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>
