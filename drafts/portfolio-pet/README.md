@@ -1,38 +1,60 @@
 # Portfolio Pet: case study look test
 
-A drop-in for the live site source (`ui_kits/portfolio/`). Built 26 Nov 2026 against lucyliu.xyz's
-stage-and-board case-study template (`case-spreads.css`, `cover-reel.js`), following the 7 Nov portfolio
-audit: one hero item, one role line, one button, about 500 words, heading plus a sentence or two per tile.
+A drop-in for the live site source (`ui_kits/portfolio/`), built 26 Nov 2026. It is the first page on the
+**narrative case-study template** (`case-narrative.css`), modelled on aaronjames.design at Lucy's request: "easy to
+read, understand and digest, not overwhelming with pictures". The other case studies move to it in a separate
+session.
 
-**Status: look test, not shipped.** Five slots wait for files that only exist on Lucy's computer (see below).
+**Status: look test, not shipped.** Four slots wait for files that only exist on Lucy's computer (see below).
+
+## The narrative rules (case-narrative.css)
+
+One narrow column (920 px), a lot of air between sections, and the same order on every page:
+
+1. **Title** that says what was done ("Designing the dragon who lives in my portfolio"), one link, the hero media.
+2. **Overview**: label beside a 2-3 sentence paragraph; under it My role / Tools / Year.
+3. **Problems**: 2-3 numbered, one-word names, one or two sentences each, three across.
+4. **One big "How might …?" line**, its key words highlighted in the accent.
+5. **Goals**: the old problem word struck through, an arrow, the goal word; one sentence each.
+6. **Process sections**: a short heading, one or two sentences, then the pictures grouped after the words (never
+   between them). At most 2 pictures in a row. Captions only when a picture needs one.
+7. **Outcomes** ("What shipped"): plain statements of what changed. Big numbers only for real user or business
+   outcomes; never process counts (frames, scenes, tests, files). Lucy, 26 Nov: "recruiters aren't looking for that".
+8. **What I learned**: three short lessons.
+9. **Credits** (what AI did), then the **next project**.
+
+About 400-650 visible words. Pictures are never pixelated, filtered or cropped (only he is pixel art).
 
 ## Files
 
 | Path | What it is |
 | --- | --- |
 | `portfolio-pet.html` | The case study page. Copy to the site root. |
-| `assets/portfolio-pet/` | Its pictures and the 15 s reel (`reel.mp4`, poster `reel.webp`). |
+| `case-narrative.css` | The narrative template's styles (prefix `nr-`). Copy to the site root. |
+| `assets/portfolio-pet/` | Its pictures, the 15 s reel (`reel.mp4`, poster `reel.webp`) and the Blender desk loop (`blender-desk.mp4`, poster `.webp`). |
 | `_reel/reel.html` | The reel, drawn on one canvas; `renderAt(i)` draws frame i of 360 (24 fps). |
 | `tools/rig.cjs` | Captures 48 colour + 48 mesh turns of the Blender model from the rig viewer on `portfolio-creature.html` into `_reel/rig/`. |
 | `tools/reel.cjs` | Renders the reel's 360 frames to PNG. |
 | `tools/check.cjs` | Loads the page at 1440 x 900 and iPhone 14: words, errors, failed requests, sideways scroll, screenshots. |
 | `tools/cdn.cjs` | Sandbox only (`LOCAL_CDN=1`): serves unpkg/cdnjs libraries from local npm copies. |
 
-Every picture comes from the site's own files or from rendering Lucy's model; nothing is copied from the FigJam board.
+Every picture comes from the site's own files, Lucy's recordings or renders of her model; nothing is copied from
+the FigJam board.
 
 ## Open slots
 
-1. **Sketch, "Portfolio Pet Mock V1"** (notebook photo): tile "He started in my notebook", and the reel's first beat
+1. **Sketch, "Portfolio Pet Mock V1"** (notebook photo): "Sketches first", and the reel's first beat
    (`reel.html?sketch=<path>`).
-2. **v0 routes** (rabbit, lizard head): same tile.
-3. **Moodboard photos from Reel 2**: tile "I set his world before his style". Each photo needs its original
-   source found and linked.
+2. **v0 routes** (rabbit, lizard head): "Sketches first".
+3. **Moodboard photos from Reel 2**: "His world before his style". Each photo needs its original source found and
+   linked.
 4. **A rig-check overlay at full size** (cyan model, red invented, yellow missing) from
-   `docs/projects/portfolio-character/*/audits`: tile "The model catches what AI invents", and the reel's fourth
-   beat (`reel.html?audit=<path>`). The live archive only has thumbnails.
-5. **The cover scene in Blender**: tile "I staged the link preview in Blender". Lucy's screen recording of the
-   Blender desk ("Screen Recording 2026-11-26 at 11.09.07 AM"), cut to a short muted loop, goes here.
-6. Remove the `.pp-slot` style once the last slot is filled.
+   `docs/projects/portfolio-character/*/audits`: "Checking AI against the model", and the reel's fourth beat
+   (`reel.html?audit=<path>`). The live archive only has thumbnails.
+5. Remove the `.pp-slot` style once the last slot is filled.
+
+The Blender desk loop (Lucy's screen recording of 26 Nov, 11.19.41, cropped to the viewport, 7.4 s, crossfaded at
+the seam) fills the link-preview section.
 
 ## Re-render the reel
 
@@ -54,16 +76,12 @@ The poster is frame 0 (the loop's rest frame), saved as `assets/portfolio-pet/re
 
 ## Facts on the page, and where they come from
 
-- **10 animated scenes**: loaded in a browser on lucyliu.xyz, 26 Nov: opening heist; spotlight, wake, clip-toss and
-  peekaboo loading screens; hero room; With AI band; About drawer; closing scene; gallery wall.
-  **To confirm with Lucy:** that all ten were posed on the Blender model ("from one model" in the role line).
-- **7,008 saved frames, 47 concept images**: `creature-frames.html`.
+- **Where he appears** (hero, About drawer, loading screens): loaded in a browser on lucyliu.xyz, 26 Nov.
 - **Eight-blade takes, nine shipped; Blender render style rejected**: `portfolio-creature.html`.
 - **The cover**: built at real scale in Blender (`cover-pose-v1`, tools/cover_scene.py) at Lucy's direction ("render
   this all in blender and create it back to 2d style to understand the perspective, height, depth and placement"),
-  then painted back to pixels; shipped 27 Oct as `assets/og-cover-curious-2026-10-27.png`. Lucy's reason for not
-  rendering him straight from Blender: "too taxing". Note: the cover still reads "design engineer"; the home page
-  now says "product designer". Fixed in `../link-preview/` (26 Nov); the case study already uses the fixed cover.
+  then painted back to pixels. Lucy's reason for not rendering him straight from Blender: "too taxing". The page uses
+  the "product designer" cover from `../link-preview/`.
 - **Who made what** (Lucy, 26 Nov): her sketches, anatomy rules, every motion idea and the Blender model; AI wrote
   the bones, actions and rig code; AI image tools drew the master illustration and key poses.
 
