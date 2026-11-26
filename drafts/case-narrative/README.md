@@ -39,8 +39,9 @@ this copy for both.
 - **Kept**: title tag, description, canonical, link preview, the trailer and its label, Play on itch.io, every alt
   text used, the AI credits (visible), the next project (rep.tools), the shared header and footer, Vercel analytics,
   the edit-mode loader.
-- **New wording, marked `data-draft`**: the title ("Turning clutter into a calm fishing puzzle", from the page's own
-  description), the problems' lead line and one-word names, the "How might we" line (the old lesson heading "Show
+- **New title**: "Turning clutter into a calm fishing puzzle", from the page's own description ("I turned the CLUTTER
+  theme into a calm fishing puzzle").
+- **New wording, marked `data-draft`**: the problems' lead line and one-word names, the "How might we" line (the old lesson heading "Show
   progress where the player is already looking.", asked as a question), the goal words, and the lesson heading
   "Let a fix become a feature." (was "A map fix turned the rope into the key between levels."). Every sentence under
   them is cut from the old page.
