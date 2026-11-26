@@ -30,7 +30,9 @@ Every picture comes from the site's own files or from rendering Lucy's model; no
 4. **A rig-check overlay at full size** (cyan model, red invented, yellow missing) from
    `docs/projects/portfolio-character/*/audits`: tile "The model catches what AI invents", and the reel's fourth
    beat (`reel.html?audit=<path>`). The live archive only has thumbnails.
-5. Remove the `.pp-slot` style once the last slot is filled.
+5. **The cover scene in Blender**: tile "I staged the link preview in Blender". Lucy's screen recording of the
+   Blender desk ("Screen Recording 2026-11-26 at 11.09.07 AM"), cut to a short muted loop, goes here.
+6. Remove the `.pp-slot` style once the last slot is filled.
 
 ## Re-render the reel
 
@@ -57,6 +59,11 @@ The poster is frame 0 (the loop's rest frame), saved as `assets/portfolio-pet/re
   **To confirm with Lucy:** that all ten were posed on the Blender model ("from one model" in the role line).
 - **7,008 saved frames, 47 concept images**: `creature-frames.html`.
 - **Eight-blade takes, nine shipped; Blender render style rejected**: `portfolio-creature.html`.
+- **The cover**: built at real scale in Blender (`cover-pose-v1`, tools/cover_scene.py) at Lucy's direction ("render
+  this all in blender and create it back to 2d style to understand the perspective, height, depth and placement"),
+  then painted back to pixels; shipped 27 Oct as `assets/og-cover-curious-2026-10-27.png`. Lucy's reason for not
+  rendering him straight from Blender: "too taxing". Note: the cover still reads "design engineer"; the home page
+  now says "product designer".
 - **Who made what** (Lucy, 26 Nov): her sketches, anatomy rules, every motion idea and the Blender model; AI wrote
   the bones, actions and rig code; AI image tools drew the master illustration and key poses.
 
