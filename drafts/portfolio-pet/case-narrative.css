@@ -60,6 +60,7 @@
 /* pictures, always after the words */
 .nr-media { margin-top: clamp(24px, 3.4vw, 40px); display: grid; gap: clamp(12px, 1.6vw, 20px); }
 .nr-media.nr-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.nr-media.nr-2.nr-wt { grid-template-columns: minmax(0, 2.17fr) minmax(0, 1fr); }   /* a wide picture beside a tall one, same height */
 .nr-media figure { min-width: 0; }
 .nr-media img, .nr-media video { background: var(--navy); }
 .nr-media figcaption { margin-top: 8px; font-size: 13px; line-height: 1.45; color: var(--nr-dim); }
@@ -86,7 +87,7 @@
   .nr-over { grid-template-columns: 1fr; }
   .nr .nr-facts { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nr .nr-three { grid-template-columns: 1fr; }
-  .nr-media.nr-2 { grid-template-columns: 1fr; }
+  .nr-media.nr-2, .nr-media.nr-2.nr-wt { grid-template-columns: 1fr; }
   .nr-result { grid-template-columns: 1fr; }
   .nr-num { text-align: left; }
 }

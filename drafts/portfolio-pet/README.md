@@ -5,7 +5,7 @@ A drop-in for the live site source (`ui_kits/portfolio/`), built 26 Nov 2026. It
 read, understand and digest, not overwhelming with pictures". The other case studies move to it in a separate
 session.
 
-**Status: look test, not shipped.** Four slots wait for files that only exist on Lucy's computer (see below).
+**Status: look test, not shipped.** Two slots wait for files that only exist on Lucy's computer (see below).
 
 ## The narrative rules (case-narrative.css)
 
@@ -43,18 +43,17 @@ the FigJam board.
 
 ## Open slots
 
-1. **Sketch, "Portfolio Pet Mock V1"** (notebook photo): "Sketches first", and the reel's first beat
-   (`reel.html?sketch=<path>`).
-2. **v0 routes** (rabbit, lizard head): "Sketches first".
-3. **Moodboard photos from Reel 2**: "His world before his style". Each photo needs its original source found and
+1. **Moodboard photos from Reel 2**: "His world before his style". Each photo needs its original source found and
    linked.
-4. **A rig-check overlay at full size** (cyan model, red invented, yellow missing) from
+2. **A rig-check overlay at full size** (cyan model, red invented, yellow missing) from
    `docs/projects/portfolio-character/*/audits`: "Checking AI against the model", and the reel's fourth beat
    (`reel.html?audit=<path>`). The live archive only has thumbnails.
-5. Remove the `.pp-slot` style once the last slot is filled.
+3. Remove the `.pp-slot` style once the last slot is filled.
 
-The Blender desk loop (Lucy's screen recording of 26 Nov, 11.19.41, cropped to the viewport, 7.4 s, crossfaded at
-the seam) fills the link-preview section.
+Filled: Lucy's notebook sketches (26 Nov; `sketch-v1.webp` cropped to the page, `sketch-routes.webp`), shown in
+"Sketches first" and as the reel's opening beat (the reel loads `sketch-v1.webp` by default); the Blender desk
+loop (her screen recording of 26 Nov, 11.19.41, cropped to the viewport, 7.4 s, crossfaded at the seam) in the
+link-preview section.
 
 ## Re-render the reel
 
@@ -65,7 +64,7 @@ node drafts/portfolio-pet/tools/rig.cjs
 ```
 
 ```bash
-node drafts/portfolio-pet/tools/reel.cjs frames "?sketch=assets/portfolio-pet/sketch-v1.webp&audit=assets/portfolio-pet/audit.webp"
+node drafts/portfolio-pet/tools/reel.cjs frames "?audit=../assets/portfolio-pet/audit.webp"
 ```
 
 ```bash
