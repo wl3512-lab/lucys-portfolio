@@ -30,6 +30,7 @@
 <!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
 <script defer src="components/site-header.js?v=3a4711be"></script>
 <script defer src="components/site-footer.js?v=796356f1"></script>
+<script defer src="components/cover-reel.js?v=0612e7d3"></script>
 </head>
 <body data-persona-slug="habitabull">
 <a href="#main" class="skip-link">Skip to the case study</a>
@@ -38,19 +39,14 @@
 
 <main id="main" class="nr">
 
-  <header class="nr-col nr-hero" data-nr="hero">
-    <!-- DRAFT for Lucy: a new title, from the page's "I designed and built a lifting app" and "Comebacks are counted on purpose". -->
-    <h1 class="nr-title" data-draft>Designing and building a lifting app for comebacks</h1>
-    <a class="nr-go" href="uploads/HabitaBull_Lifting_Deck.pdf" target="_blank" rel="noopener noreferrer">View the slides (PDF) <span aria-hidden="true">↗</span></a>
-    <figure>
-      <div class="nr-hero-media">
-        <video controls playsinline preload="none" width="1440" height="1080" poster="assets/habitabull/walkthrough.webp" aria-label="Ten-second HabitaBull demo: build a habit with simple workout logging" aria-describedby="hb-walkthrough-caption">
-          <source src="assets/habitabull/walkthrough.mp4" type="video/mp4">
-          <a href="assets/habitabull/walkthrough.mp4">Watch the HabitaBull walkthrough</a>.
-        </video>
-      </div>
-      <figcaption id="hb-walkthrough-caption">Edited walkthrough with demo data.</figcaption>
-    </figure>
+  <header class="nr-hero" data-nr="hero">
+    <!-- The All Work reel behind the title: loops while in view, rests on its poster off screen and under reduced motion (cover-reel.js). -->
+    <div class="nr-hero-bg"><video data-cover-reel data-cover-always muted loop playsinline preload="none" width="1440" height="960" poster="assets/habitabull/cover-reel.webp?v=20261001" aria-hidden="true"><source src="assets/habitabull/cover-reel.mp4?v=20261001" type="video/mp4"></video></div>
+    <div class="nr-col">
+      <!-- DRAFT for Lucy: a new title, from the page's "I designed and built a lifting app" and "Comebacks are counted on purpose". -->
+      <h1 class="nr-title" data-draft>Designing and building a lifting app for comebacks</h1>
+      <a class="nr-go" href="uploads/HabitaBull_Lifting_Deck.pdf" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↗</span> View the slides (PDF)</a>
+    </div>
   </header>
 
   <section class="nr-col nr-sec nr-over" data-nr="over" aria-labelledby="hb-over-h">
@@ -74,7 +70,8 @@
     </ol>
   </section>
 
-  <section class="nr-col nr-sec" data-nr="hmw" aria-label="The question">
+  <section class="nr-col nr-sec" data-nr="hmw" aria-labelledby="hb-opp-h">
+    <h2 class="nr-h" id="hb-opp-h">Opportunity</h2>
     <!-- DRAFT for Lucy: built from the old lesson "Sobriety apps showed me how to keep people coming back." -->
     <p class="nr-hmw" data-draft>How might a lifting app keep people <mark>coming back</mark> after a break?</p>
   </section>
@@ -93,7 +90,7 @@
   <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-research-h">
     <h2 class="nr-h" id="hb-research-h">Research outside fitness</h2>
     <p class="nr-lead">I audited 6 fitness apps, studied sobriety apps and ran 6 in-person interviews in Vancouver, with people who formerly used, currently use and never used fitness apps.</p>
-    <div class="nr-media nr-2">
+    <div class="nr-media">
       <figure><img src="assets/habitabull/slides/slide-08.png" width="1224" height="792" loading="lazy" decoding="async" alt="Desk research: I Am Sober cross-industry motivation analysis"></figure>
       <figure><img src="assets/habitabull/slides/slide-18.png" width="1224" height="792" loading="lazy" decoding="async" alt="Interview insight clustering: sticky notes organized by theme: things they find important, info, habits, thoughts about apps"></figure>
     </div>
@@ -102,7 +99,7 @@
   <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-build-h">
     <h2 class="nr-h" id="hb-build-h">Straight to the workout</h2>
     <p class="nr-lead">Today is one button, and the steppers work one-handed between sets, with last time's numbers right there.</p>
-    <div class="nr-media nr-phones">
+    <div class="nr-media nr-grid3 nr-phones">
       <figure><img src="assets/habitabull/app/01-today.png" width="780" height="1688" loading="lazy" decoding="async" alt="Today screen: Full body A, the reason you lift, a Start workout button, this week's ring strip, and the goal"></figure>
       <figure><img src="assets/habitabull/app/04-logging.png" width="780" height="1688" loading="lazy" decoding="async" alt="Logging a set: weight and reps steppers, last time's numbers, and a Log set button"></figure>
     </div>
@@ -120,7 +117,7 @@
   <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-back-h">
     <h2 class="nr-h" id="hb-back-h">Comebacks are counted on purpose</h2>
     <p class="nr-lead">Your answer to “Why do you lift?” comes back on the days you do not feel like it. After a gap, the app says the gap does not undo anything.</p>
-    <div class="nr-media nr-phones">
+    <div class="nr-media nr-grid3 nr-phones">
       <figure><img src="assets/habitabull/app/02-onboarding-why.png" width="780" height="1688" loading="lazy" decoding="async" alt="Onboarding screen asking Why do you lift, with a free-text answer and five suggested reasons"></figure>
       <figure><img src="assets/habitabull/app/01d-today-comeback.png" width="780" height="1688" loading="lazy" decoding="async" alt="Today screen after a gap: your reason is shown with the line Still true. The gap does not undo it."></figure>
     </div>
@@ -134,6 +131,20 @@
     <div class="nr-media nr-match" style="max-width:780px">
       <figure style="--r:.8375"><img src="assets/habitabull/mascot.png" width="531" height="634" loading="lazy" decoding="async" style="background:#8a4a32" alt="HabitaBull mascot, 2026: a slate-grey bull with pale horns and a closed, easy smile"></figure>
       <figure style="--r:.462"><img src="assets/habitabull/app/06-pr-celebration.png" width="780" height="1688" loading="lazy" decoding="async" alt="Personal record screen on terracotta: the bull above the words 2.5 lb more than you have ever done"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-app-h">
+    <!-- DRAFT for Lucy: the heading is new; the line is the old hero caption. The walkthrough moved here from the hero. -->
+    <h2 class="nr-h" id="hb-app-h" data-draft>The app in ten seconds</h2>
+    <p class="nr-lead" id="hb-walkthrough-caption">An edited walkthrough, with demo data.</p>
+    <div class="nr-media">
+      <figure>
+        <video controls playsinline preload="none" width="1440" height="1080" poster="assets/habitabull/walkthrough.webp" aria-label="Ten-second HabitaBull demo: build a habit with simple workout logging" aria-describedby="hb-walkthrough-caption">
+          <source src="assets/habitabull/walkthrough.mp4" type="video/mp4">
+          <a href="assets/habitabull/walkthrough.mp4">Watch the HabitaBull walkthrough</a>.
+        </video>
+      </figure>
     </div>
   </section>
 

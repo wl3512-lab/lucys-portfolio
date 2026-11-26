@@ -29,8 +29,8 @@
 <!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
 <script defer src="components/site-header.js?v=3a4711be"></script>
 <script defer src="components/site-footer.js?v=796356f1"></script>
-<!-- Only for the hero trailer (main[data-case-spreads] video[data-cx-film]): it plays itself, muted, 2 s after the
-     page opens, once through, and never under reduced motion (Lucy, 2026-11-11). -->
+<!-- Only for the trailer (main[data-case-spreads] video[data-cx-film]): it plays itself, muted, 2 s after the page
+     opens, once through, while on screen, and never under reduced motion (Lucy, 2026-11-11). -->
 <script defer src="components/case-spreads.js?v=7a6d128f"></script>
 </head>
 <body data-persona-slug="magnet-fishing">
@@ -40,14 +40,11 @@
 
 <main id="main" class="nr" data-case-spreads>
 
-  <header class="nr-col nr-hero" data-nr="hero">
-    <h1 class="nr-title">Turning clutter into a calm fishing puzzle</h1>
-    <a class="nr-go" href="https://wl3512-lab.itch.io/magnet-fishing" target="_blank" rel="noopener">Play on itch.io <span aria-hidden="true">↗</span></a>
-    <div class="nr-hero-media">
-      <video id="mf-trailer-video" data-cx-film="auto" muted controls playsinline preload="none" width="1920" height="1080" poster="assets/magnet-fishing/trailer.webp" aria-label="46-second Magnet Fishing trailer: throw a magnet, pick apart the clutter, upgrade, and rebuild the town bell across three rivers">
-        <source src="assets/magnet-fishing/trailer.mp4" type="video/mp4">
-        <a href="assets/magnet-fishing/trailer.mp4">Watch the Magnet Fishing trailer</a>.
-      </video>
+  <header class="nr-hero" data-nr="hero">
+    <div class="nr-hero-bg"><img src="assets/magnet-fishing/cover.webp" width="1280" height="720" decoding="async" fetchpriority="high" alt="Magnet Fishing's cover: the glossy red and gold Magnet Fishing logo over a pastel riverside town, and a gold magnet on a golden rope lifting the town bell out of a heap of river junk"></div>
+    <div class="nr-col">
+      <h1 class="nr-title">Turning clutter into a calm fishing puzzle</h1>
+      <a class="nr-go" href="https://wl3512-lab.itch.io/magnet-fishing" target="_blank" rel="noopener"><span aria-hidden="true">↗</span> Play on itch.io</a>
     </div>
   </header>
 
@@ -71,7 +68,8 @@
     </ol>
   </section>
 
-  <section class="nr-col nr-sec" data-nr="hmw" aria-label="The question">
+  <section class="nr-col nr-sec" data-nr="hmw" aria-labelledby="mf-opp-h">
+    <h2 class="nr-h" id="mf-opp-h">Opportunity</h2>
     <p class="nr-hmw">How might we show <mark>progress</mark> where the player is <mark>already looking</mark>?</p>
   </section>
 
@@ -88,7 +86,7 @@
   <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-clump-h">
     <h2 class="nr-h" id="mf-clump-h">One clump, one piece at a time</h2>
     <p class="nr-lead">The magnet pulls up one tangled clump of junk. A piece comes free only when nothing above it overlaps it, so every pile is a small puzzle.</p>
-    <div class="nr-media nr-2">
+    <div class="nr-media">
       <figure><img src="assets/magnet-fishing/pile-shallows.webp" width="960" height="600" loading="lazy" decoding="async" alt="Magnet Fishing's pick screen at the Shallows: a tangled pile of gears, a padlock and chain on wet sand, with the Treasure, Scrap and Recycling bins and the Undo and Haul it in buttons on the right"></figure>
       <figure><img src="assets/magnet-fishing/pile-bridge.webp" width="960" height="600" loading="lazy" decoding="async" alt="Pick screen at the Old Bridge: a larger pile of gears, bolts, a green bottle, a tyre and a tangle of blue wire on sunlit paving stones, with an optional goal to recycle 2 in the first 4 pulls"></figure>
     </div>
@@ -97,7 +95,7 @@
   <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-rivers-h">
     <h2 class="nr-h" id="mf-rivers-h">Three rivers, three times of day</h2>
     <p class="nr-lead">Rope Strength opens the next river, and each one has its own scene, music and bigger piles.</p>
-    <div class="nr-media nr-2">
+    <div class="nr-media">
       <figure><img src="assets/magnet-fishing/hub-shallows.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="Level 1, the Shallows in the morning: the angler on a wooden dock with a small red magnet on old twine, a lake of lily pads and a sandbar, and a row of pastel houses on the far shore"></figure>
       <figure><img src="assets/magnet-fishing/hub-canal.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="Level 3, the Deep Canal at night in purple and yellow: lit windows, lamp posts, a narrowboat and brick walls under the moon, with the angler holding a bigger red magnet on a blue sailor's braid"></figure>
     </div>
@@ -116,6 +114,21 @@
     <p class="nr-lead">One part waits in each river. Rebuild all three and the bell rings again at dawn.</p>
     <div class="nr-media">
       <figure><img src="assets/magnet-fishing/ending.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="The ending at dawn in the town square: the rebuilt bell with its clapper and yoke, confetti, and a card reading The town bell rings again! with treasures found 15 of 15, 31 clumps untangled, 24 junk recycled and 11 minutes on the river"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="mf-game-h">
+    <h2 class="nr-h" id="mf-game-h">The finished game</h2>
+    <!-- DRAFT for Lucy: the heading and line are new; the trailer moved here from the hero. -->
+    <p class="nr-lead" data-draft>The whole game in 46 seconds.</p>
+    <div class="nr-media">
+      <figure>
+        <!-- Plays itself, muted, 2 s after the page opens once it is on screen; never under reduced motion (case-spreads.js, Lucy 2026-11-11). -->
+        <video id="mf-trailer-video" data-cx-film="auto" muted controls playsinline preload="none" width="1920" height="1080" poster="assets/magnet-fishing/trailer.webp" aria-label="46-second Magnet Fishing trailer: throw a magnet, pick apart the clutter, upgrade, and rebuild the town bell across three rivers">
+          <source src="assets/magnet-fishing/trailer.mp4" type="video/mp4">
+          <a href="assets/magnet-fishing/trailer.mp4">Watch the Magnet Fishing trailer</a>.
+        </video>
+      </figure>
     </div>
   </section>
 
@@ -144,7 +157,10 @@
     </ul>
   </section>
 
-  <div class="nr-col nr-credit" data-nr="credit"><p>Claude (Anthropic) adapted my artwork into SVG and generated the game code, item text and documentation. OpenAI Codex helped with testing, bug fixes and code improvements. No image-generation model was used, and the game's credits list every piece.</p></div>
+  <section class="nr-col nr-credit" data-nr="credit" aria-labelledby="mf-credit-h">
+    <h2 class="nr-h" id="mf-credit-h">Credits</h2>
+    <p>Claude (Anthropic) adapted my artwork into SVG and generated the game code, item text and documentation. OpenAI Codex helped with testing, bug fixes and code improvements. No image-generation model was used, and the game's credits list every piece.</p>
+  </section>
 
   <nav class="nr-col nr-next" data-nr="next" aria-label="Next project">
     <p class="nr-next-k">Next project</p>

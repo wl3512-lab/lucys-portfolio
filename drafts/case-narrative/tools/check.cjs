@@ -28,7 +28,8 @@ async function run(browserType, name) {
     pg.on('response', r => { if (r.status() >= 400 && !ignore(r.url())) fails.push(r.status() + ' ' + r.url()); });
     await pg.goto(`${BASE}/${page}`, { waitUntil: 'load' });
     await pg.waitForTimeout(2800);                      // past the trailer's 2 s start
-    const hero = await pg.evaluate(() => { const v = document.querySelector('main video'); return v && { paused: v.paused, t: +v.currentTime.toFixed(2), poster: !!v.poster }; });
+    // Every video on the page: under reduced motion each must rest on its poster.
+    const hero = await pg.evaluate(() => [...document.querySelectorAll('main video')].map(v => ({ paused: v.paused, t: +v.currentTime.toFixed(2), poster: !!v.poster })));
     const h = await pg.evaluate(() => document.documentElement.scrollHeight);
     for (let y = 0; y < h; y += 500) { await pg.evaluate(v => scrollTo(0, v), y); await pg.waitForTimeout(60); }
     await pg.evaluate(() => scrollTo(0, 0)); await pg.waitForTimeout(600);
@@ -38,8 +39,16 @@ async function run(browserType, name) {
       const sideways = document.documentElement.scrollWidth > innerWidth + 1;
       const wide = [...main.querySelectorAll('*')].filter(e => { const r = e.getBoundingClientRect(); return r.width && r.right > innerWidth + 1; }).slice(0, 3).map(e => e.tagName + '.' + e.className);
       const order = [...main.querySelectorAll('[data-nr]')].map(e => e.dataset.nr);
-      const rows = [...main.querySelectorAll('.nr-media')].map(g => g.children.length);
-      const imgs = [...main.querySelectorAll('img')].map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, alt: i.alt.length, ratio: i.naturalWidth ? Math.abs(i.getBoundingClientRect().width / i.getBoundingClientRect().height - i.naturalWidth / i.naturalHeight) < 0.02 : null }));
+      // Pictures in one row: figures of a .nr-media sharing a top edge. Small screens may go three across (.nr-grid3),
+      // a matched pair two; everything else is one picture per row, full width.
+      const rows = [...main.querySelectorAll('.nr-media')].map(g => {
+        const tops = {}; [...g.children].forEach(f => { const t = Math.round(f.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
+        const most = Math.max(0, ...Object.values(tops));
+        const max = g.classList.contains('nr-grid3') ? 3 : g.classList.contains('nr-match') ? 2 : 1;
+        return { most, max };
+      });
+      // The hero cover fills the first screen behind the title (object-fit: cover, as in the reference): not checked for cropping.
+      const imgs = [...main.querySelectorAll('img')].map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, alt: i.alt.length, ratio: i.closest('.nr-hero-bg') ? null : i.naturalWidth ? Math.abs(i.getBoundingClientRect().width / i.getBoundingClientRect().height - i.naturalWidth / i.naturalHeight) < 0.02 : null }));
       const marks = main.querySelectorAll('.nr-hmw mark').length;
       const h1 = main.querySelectorAll('h1').length;
       const drafts = main.querySelectorAll('[data-draft]').length;
@@ -50,13 +59,13 @@ async function run(browserType, name) {
     if (fails.length) bad.push('failed requests');
     if (m.sideways) bad.push('sideways scroll ' + JSON.stringify(m.wide));
     if (m.imgs.some(i => !i.ok)) bad.push('broken image');
-    if (motion === 'reduce' && hero && !(hero.paused && hero.t === 0)) bad.push('hero moves under reduced motion');
+    if (motion === 'reduce' && hero.some(v => !(v.paused && v.t === 0))) bad.push('a video moves under reduced motion');
     if (flag !== '--before') {
       if (m.words < 400 || m.words > 650) bad.push(`words ${m.words} (want 400-650)`);
       if (JSON.stringify(m.order.filter((v, i, a) => a.indexOf(v) === i)) !== JSON.stringify(ORDER.filter(k => m.order.includes(k)))) bad.push('section order ' + m.order.join(','));
       for (const k of ORDER) if (k !== 'credit' && !m.order.includes(k)) bad.push('missing ' + k);
       if (!m.order.includes('credit')) note.push('no credits section (the old page states no AI use)');
-      if (m.rows.some(n => n > 2)) bad.push('more than 2 pictures in a row');
+      if (m.rows.some(r => r.most > r.max)) bad.push('too many pictures in a row ' + JSON.stringify(m.rows));
       if (m.marks < 1 || m.marks > 2) bad.push(`HMW marks ${m.marks}`);
       if (m.h1 !== 1) bad.push('h1 count ' + m.h1);
       if (m.imgs.some(i => i.alt === 0 && i.src && !/him/.test(i.src))) bad.push('image without alt');

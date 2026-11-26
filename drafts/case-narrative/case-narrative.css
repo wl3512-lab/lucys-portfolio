@@ -1,24 +1,31 @@
-/* Case studies: the narrative (Lucy, 2026-11-26, after aaronjames.design: "easy to read, understand and digest,
-   not overwhelming with pictures"). One narrow column, a lot of air, and one order on every page:
+/* Case studies: the narrative (Lucy, 2026-11-26). The layout is copied from aaronjames.design's case studies, as
+   measured there at 1440 x 900 and 390 x 844; the colours, fonts, header and footer are the site's own.
 
-     title + one link → hero media → Overview (paragraph + My role / Tools / Year)
-     → Problems (2-3 numbered, one-word names) → one big "How might …?" line, its key words highlighted
-     → Goals (old word struck → new word) → process sections → Results (big numbers) → What I learned
-     → credits → next project.
+     full-screen hero: the project's cover behind the title, one pill button
+     → Overview (label | paragraph over two columns, then My role / Tools / Year)
+     → Problems (lead line, optional picture, three numbered columns)
+     → Opportunity: one huge "How might …?" line, its key words lit
+     → Goals (lead line, three columns: old word greyed → new word)
+     → process sections: heading, a lead line across the column, then its pictures, full width and stacked;
+       phone screens and thumbnails three across
+     → Results (a statement per row, a big number on the right only for a real outcome)
+     → What I learned (three columns) → Credits (label | text) → Next project
 
-   Rules the markup keeps: a process section is a short heading, one or two sentences, then its pictures grouped
-   after the words (never between them); at most 2 pictures in a row, 3 for small thumbnails; no captions unless a
-   picture needs one; about 400-650 visible words. Pictures are never pixelated, filtered or cropped (only he is
-   pixel art). Prefix nr-. Uses the site tokens in colors_and_type.css; no new colours. */
+   Reference measures at 1440: column 1156 px in a three-column grid (347 px columns, 56 px gaps); title and question
+   82 px / 1.3; section headings 33 px / 1.8; lead lines 25 px / 2.2; column text 21 px / 2.2; 144 px between sections;
+   58 px between words and pictures. Phone type is kept at 16 px or more for reading. Prefix nr-. */
 
 .nr {
   --nr-text: #ced6fc;          /* the case-study reading colour (case-spreads.css --cx-text) */
   --nr-dim: #8b95d6;
+  --nr-quiet: rgba(246, 250, 255, .3);   /* the old goal word, as greyed in the reference */
   --nr-rule: rgba(160, 200, 255, .10);
-  --nr-gap: clamp(88px, 11vw, 168px);
-  --nr-col: min(920px, calc(100% - 2 * max(20px, 5vw)));
+  --nr-gap: clamp(72px, 10vw, 144px);    /* between sections */
+  --nr-near: clamp(24px, 4vw, 58px);     /* between words and their pictures, and between pictures */
+  --nr-g: clamp(16px, 3.9vw, 56px);      /* grid gutter */
+  --nr-col: min(1156px, calc(100% - 2 * clamp(24px, 8vw, 142px)));
   display: block; position: relative; z-index: 2;
-  color: var(--nr-text); font: 400 18px/1.85 var(--font-body);
+  color: var(--nr-text); font: 400 clamp(16px, 1.43vw, 20.6px)/2.2 var(--font-body);
 }
 .nr *, .nr *::before, .nr *::after { box-sizing: border-box; }
 .nr h1, .nr h2, .nr h3, .nr p, .nr figure, .nr dl, .nr dd, .nr ol, .nr ul { margin: 0; }
@@ -28,77 +35,85 @@
 .nr a { color: var(--fg-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .nr-col { width: var(--nr-col); margin-inline: auto; }
 .nr-sec { margin-top: var(--nr-gap); }
+.nr [id] { scroll-margin-top: 96px; }   /* in-page links land below the fixed site header */
 
-/* hero: the title says what was done; one link; the hero media under it */
-.nr-hero { padding-top: clamp(120px, 16vh, 176px); }
-.nr-title { max-width: 15ch; font: 700 clamp(40px, 5.6vw, 76px)/1.02 var(--font-display); letter-spacing: -.02em; color: var(--fg1); text-wrap: balance; }
-.nr-go { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 18px; font: var(--type-link); letter-spacing: var(--track-link); color: var(--fg-accent); }
-.nr-hero-media { margin-top: clamp(32px, 5vw, 56px); background: var(--navy); clip-path: var(--notch); padding: 8px; }
+/* ── hero: the cover fills the first screen behind the title (the site header floats over it) ── */
+.nr-hero { position: relative; display: grid; align-content: center; min-height: 100vh; min-height: 100svh; padding-block: 96px 64px; overflow: hidden; }
+.nr-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.nr .nr-hero-bg img, .nr .nr-hero-bg video { width: 100%; height: 100%; object-fit: cover; }
+.nr-hero-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5, 7, 16, .74) 0%, rgba(5, 7, 16, .78) 72%, var(--void) 100%); }
+.nr-hero .nr-col { position: relative; z-index: 1; }
+.nr-title { max-width: 1100px; font: 600 clamp(39px, 5.71vw, 82px)/1.3 var(--font-display); letter-spacing: -.01em; color: var(--fg1); text-wrap: balance; }
+.nr .nr-go { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: clamp(20px, 2.5vw, 36px); padding: 12px 36px 10px 33px; border-radius: 60px; background: var(--void); color: var(--fg1); font: 500 clamp(16px, 1.71vw, 24.7px)/1.4 var(--font-body); text-decoration: none; }
+.nr .nr-go:hover, .nr .nr-go:focus-visible { color: var(--fg-accent); }
 
-/* section heading + its one or two sentences */
-.nr-h { font: 600 clamp(22px, 2.1vw, 28px)/1.2 var(--font-display); letter-spacing: -.01em; color: var(--fg1); text-wrap: balance; }
-.nr .nr-lead { margin-top: 10px; max-width: 62ch; }
+/* ── section heading, and the lead line under it ── */
+.nr-h { font: 600 clamp(23px, 2.29vw, 33px)/1.8 var(--font-display); letter-spacing: -.005em; color: var(--fg1); text-wrap: balance; }
+.nr .nr-lead { font: 500 clamp(17px, 1.71vw, 24.7px)/2.2 var(--font-body); color: var(--fg1); }
 
-/* overview: the label beside the paragraph, the role facts under it */
-.nr-over { display: grid; grid-template-columns: minmax(120px, 1fr) 3fr; gap: 16px 40px; }
-.nr .nr-over .nr-lead { margin-top: 0; }
-.nr .nr-facts { grid-column: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 18px; }
-.nr-facts dt { font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg1); font-weight: 600; }
-.nr-facts dd { margin-top: 6px; font-size: 15px; line-height: 1.7; color: var(--nr-dim); }
+/* ── overview: the label in the first column, the paragraph over the other two, the facts under it ── */
+.nr-over { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--nr-g); }
+.nr-over > .nr-h { grid-column: 1; }
+.nr-over > .nr-lead, .nr-over > .nr-facts { grid-column: 2 / span 2; }
+.nr .nr-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: var(--nr-near); }
+.nr-facts dt { font: 700 clamp(15px, 1.14vw, 16.5px)/1.8 var(--font-body); color: var(--fg1); }
+.nr-facts dd { font: 400 clamp(14px, 1vw, 14.4px)/2.2 var(--font-body); color: var(--fg1); }
 
-/* three across: problems, goals, lessons */
-.nr .nr-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px clamp(24px, 3vw, 40px); margin-top: clamp(28px, 4vw, 44px); }
-.nr-three h3 { font: 600 18px/1.35 var(--font-body); color: var(--fg1); }
-.nr .nr-three p { margin-top: 8px; font-size: 16px; line-height: 1.8; }
-.nr-was { color: var(--nr-dim); text-decoration: line-through; text-decoration-thickness: 1px; font-weight: 500; }
-.nr-to { color: var(--nr-dim); margin-inline: 6px; }
+/* ── three across: problems, goals, lessons ── */
+.nr .nr-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--nr-g); margin-top: var(--nr-near); }
+.nr-three h3 { font: 500 clamp(17px, 1.71vw, 24.7px)/1.8 var(--font-body); color: var(--fg1); }
+.nr-three p { color: var(--fg1); }
+.nr-was { color: var(--nr-quiet); }
+.nr-to { color: var(--fg1); margin-inline: .3em; }
 
-/* the one big question; its key words lit like the site's solid button */
-.nr-hmw { max-width: 20ch; font: 700 clamp(32px, 4.4vw, 58px)/1.14 var(--font-display); letter-spacing: -.015em; color: var(--fg1); text-wrap: balance; }
-.nr-hmw mark { background: var(--accent); color: var(--accent-on); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+/* ── opportunity: the label, then one huge question, its key words lit ── */
+.nr-hmw { margin-top: var(--nr-near); font: 600 clamp(39px, 5.71vw, 82px)/1.3 var(--font-display); letter-spacing: -.01em; color: var(--fg1); text-wrap: balance; }
+.nr-hmw mark { background: var(--accent); color: var(--accent-on); padding: 0 .04em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 
-/* pictures, always after the words */
-.nr-media { margin-top: clamp(24px, 3.4vw, 40px); display: grid; gap: clamp(12px, 1.6vw, 20px); }
-.nr-media.nr-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+/* ── pictures, always after the words: full width and stacked; small screens three across ── */
+.nr-media { margin-top: var(--nr-near); display: grid; gap: var(--nr-near); }
 .nr-media figure { min-width: 0; }
 .nr-media img, .nr-media video { background: var(--navy); }
-.nr-media figcaption, .nr-hero figcaption { margin-top: 8px; font-size: 13px; line-height: 1.45; color: var(--nr-dim); }
+.nr-media figcaption { margin-top: 10px; font: 400 14px/1.6 var(--font-body); color: var(--nr-dim); }
+.nr-media.nr-grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--nr-near) var(--nr-g); align-items: start; }
 .nr-pixel { image-rendering: pixelated; }
-/* two phone screens, sized so a pair stays shorter than a laptop screen */
-.nr-media.nr-phones { grid-template-columns: repeat(2, minmax(0, 300px)); }
 /* two pictures of different shapes at one height, uncropped: each grows by its own width / height (--r) */
-.nr-media.nr-match { display: flex; align-items: flex-start; }
+.nr-media.nr-match { display: flex; gap: var(--nr-g); align-items: flex-start; }
 .nr-match > figure { flex: var(--r, 1) 1 0; }
 
-/* results: plain statements, a rule above each; one big number only beside a real user or business outcome
-   (a placing, a metric), never beside a process count */
-.nr-results { margin-top: clamp(24px, 3.4vw, 40px); display: grid; gap: clamp(28px, 4vw, 48px); }
-.nr-result { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding-top: clamp(20px, 3vw, 32px); border-top: 1px solid var(--nr-rule); }
-.nr-result h3 { font: 600 clamp(20px, 1.9vw, 24px)/1.3 var(--font-display); letter-spacing: -.01em; color: var(--fg1); }
-.nr .nr-result p { margin-top: 6px; max-width: 46ch; }
-.nr-num { text-align: right; font: 700 clamp(44px, 5.4vw, 72px)/1 var(--font-code); letter-spacing: -.03em; color: var(--fg1); }
-.nr-num small { display: block; margin-top: 8px; font: var(--type-label); letter-spacing: var(--track-label); color: var(--nr-dim); }
+/* ── results: a statement per row; a big number on the right only beside a real outcome ── */
+.nr-results { margin-top: var(--nr-near); display: grid; gap: clamp(40px, 6vw, 88px); }
+.nr-result { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--nr-g); }
+.nr-result h3 { font: 600 clamp(23px, 2.29vw, 33px)/1.8 var(--font-display); color: var(--fg1); }
+.nr .nr-result p { font: 500 clamp(17px, 1.71vw, 24.7px)/2.2 var(--font-body); color: var(--fg1); }
+.nr .nr-result .nr-num { min-width: 220px; text-align: center; font: 600 clamp(48px, 5.71vw, 82px)/1.3 var(--font-display); color: var(--fg1); }
+.nr .nr-num small { display: block; font: 400 clamp(13px, 1vw, 14.4px)/2.2 var(--font-body); color: var(--fg1); }
 
-/* the end: what AI did, then the next project */
-.nr-credit { margin-top: var(--nr-gap); padding-top: 24px; border-top: 1px solid var(--nr-rule); font-size: 14px; line-height: 1.7; color: var(--nr-dim); }
-.nr-credit p { max-width: 78ch; }
-.nr-next { margin-top: clamp(40px, 6vw, 64px); padding-bottom: clamp(64px, 9vw, 112px); }
-.nr-next-k { font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
-.nr-next-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 8px; min-height: 44px; font: 700 clamp(28px, 3vw, 40px)/1.1 var(--font-display); color: var(--fg1) !important; text-decoration: none !important; }
+/* ── credits: the label in the first column, the text over the other two ── */
+.nr-credit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--nr-g); margin-top: var(--nr-gap); }
+.nr-credit > .nr-h { grid-column: 1; }
+.nr-credit > p { grid-column: 2 / span 2; color: var(--fg1); }
+
+/* ── the end: the next project ── */
+.nr-next { margin-top: var(--nr-gap); padding-bottom: var(--nr-gap); }
+.nr-next-k { font: 500 clamp(14px, 1vw, 16px)/1.8 var(--font-body); color: var(--fg3); }
+.nr-next-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font: 600 clamp(28px, 3.4vw, 49px)/1.3 var(--font-display); color: var(--fg1) !important; text-decoration: none !important; }
 .nr-next-link:hover, .nr-next-link:focus-visible { color: var(--fg-accent) !important; }
-.nr .nr-next p { margin-top: 6px; max-width: 60ch; font-size: 16px; }
+.nr .nr-next p { color: var(--fg1); }
 
 @media (max-width: 760px) {
-  .nr { font-size: 17px; line-height: 1.75; }
-  .nr-over { grid-template-columns: 1fr; }
-  .nr .nr-facts { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nr .nr-three { grid-template-columns: 1fr; }
-  .nr-media.nr-2 { grid-template-columns: 1fr; }
-  .nr-media.nr-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nr-hero { padding-block: 88px 48px; }
+  .nr-over, .nr-credit { grid-template-columns: 1fr; }
+  .nr-over > .nr-lead, .nr-over > .nr-facts, .nr-credit > p { grid-column: 1; }
+  .nr-over > .nr-lead, .nr-credit > p { margin-top: 8px; }
+  .nr .nr-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nr .nr-three { grid-template-columns: 1fr; gap: 28px; }
+  .nr-media.nr-grid3 { grid-template-columns: 1fr; }
+  .nr-media.nr-grid3.nr-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nr-result { grid-template-columns: 1fr; }
+  .nr .nr-result .nr-num { min-width: 0; text-align: left; }
   /* a wide picture beside a phone screen: stacked, the screen at half width, so it stays readable */
   .nr-media.nr-match.nr-stack { flex-wrap: wrap; }
   .nr-match.nr-stack > figure { flex: 1 1 100%; }
   .nr-match.nr-stack > figure.nr-tall { flex: 0 1 50%; }
-  .nr-result { grid-template-columns: 1fr; }
-  .nr-num { text-align: left; }
 }

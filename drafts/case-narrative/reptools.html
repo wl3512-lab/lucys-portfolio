@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>rep.tools: e-commerce catalogue IA redesign | Lucy Liu</title>
+<meta name="description" content="A large e-commerce catalogue, about 6,900 items, given a clear information architecture and a brand: navigation, catalogue and product pages, then an identity and logo." />
+<link rel="canonical" href="https://lucyliu.xyz/reptools.html" />
+<meta property="og:title" content="rep.tools: e-commerce catalogue IA redesign | Lucy Liu" />
+<meta property="og:description" content="rep.tools looked vibe-coded: bland and forgettable. I gave it a brand identity and logo, then rebuilt its catalogue and shopping flow on them." />
+<meta property="og:url" content="https://lucyliu.xyz/reptools.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/reptools/after-home.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The narrative case study (Lucy, 2026-11-26, the layout of aaronjames.design): see the header of case-narrative.css. -->
+<link rel="stylesheet" href="case-narrative.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+<script defer src="components/cover-reel.js?v=0612e7d3"></script>
+</head>
+<body data-persona-slug="reptools">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="nr">
+
+  <header class="nr-hero" data-nr="hero">
+    <!-- The All Work reel behind the title: loops while in view, rests on its poster off screen and under reduced motion (cover-reel.js). -->
+    <div class="nr-hero-bg"><video data-cover-reel data-cover-always muted loop playsinline preload="none" width="1440" height="960" poster="assets/covers/reptools/reel.webp?v=20261109" aria-hidden="true"><source src="assets/covers/reptools/reel.mp4?v=20261109" type="video/mp4"></video></div>
+    <div class="nr-col">
+      <!-- DRAFT for Lucy: a new title, from the page's "rep.tools looked vibe-coded … I gave it a brand identity". -->
+      <h1 class="nr-title" data-draft>Giving a vibe-coded catalogue a brand of its own</h1>
+      <a class="nr-go" href="uploads/RepTools_Summary.pdf" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↗</span> Download project summary (PDF)</a>
+    </div>
+  </header>
+
+  <section class="nr-col nr-sec nr-over" data-nr="over" aria-labelledby="rt-over-h">
+    <h2 class="nr-h" id="rt-over-h">Overview</h2>
+    <p class="nr-lead">rep.tools is a live replica-fashion catalogue that grew from about 6,900 items in August to 9,384 by October 2026. It worked, but it had no face of its own. I gave it a brand and a logo, then rebuilt its navigation, catalogue and product pages on them.</p>
+    <dl class="nr-facts">
+      <div><dt>My role</dt><dd>Brand<br>UX and IA redesign<br>Front end</dd></div>
+      <div><dt>Platforms</dt><dd>Web, phone first</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="prob" aria-labelledby="rt-prob-h">
+    <h2 class="nr-h" id="rt-prob-h">Problems</h2>
+    <!-- DRAFT for Lucy: the lead line and the one-word names are new; each sentence is cut from the old page. -->
+    <p class="nr-lead" data-draft>Three problems shaped the redesign.</p>
+    <ol class="nr-three">
+      <li><h3 data-draft>1. Forgettable</h3><p>A gradient lightning-bolt icon, a gradient headline, glowing orbs and pill badges: bland, and gone from memory a minute later.</p></li>
+      <li><h3 data-draft>2. Buried</h3><p>rep.tools launched as a landing page, and the thing people came for sat one click behind Browse Products.</p></li>
+      <li><h3 data-draft>3. Missing</h3><p>Products had no pages of their own.</p></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="hmw" aria-labelledby="rt-opp-h">
+    <h2 class="nr-h" id="rt-opp-h">Opportunity</h2>
+    <!-- DRAFT for Lucy: built from the old lessons "A working site still needs a brand of its own" and "The homepage should show products right away". -->
+    <p class="nr-hmw" data-draft>How might a working catalogue get a <mark>brand</mark> of its own and put its <mark>products</mark> first?</p>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="goal" aria-labelledby="rt-goal-h">
+    <h2 class="nr-h" id="rt-goal-h">Goals</h2>
+    <p class="nr-lead">Each problem became a goal.</p>
+    <!-- DRAFT for Lucy: the goal words are new; the sentences are cut from the old page. -->
+    <ul class="nr-three">
+      <li><h3 data-draft><span class="nr-was">Forgettable</span><span class="nr-to" aria-hidden="true">→</span>Distinct</h3><p>An identity that speaks its audience’s language.</p></li>
+      <li><h3 data-draft><span class="nr-was">Buried</span><span class="nr-to" aria-hidden="true">→</span>Upfront</h3><p>You land in the catalogue itself.</p></li>
+      <li><h3 data-draft><span class="nr-was">Missing</span><span class="nr-to" aria-hidden="true">→</span>Built</h3><p>Product pages, for the first time.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="rt-brand-h">
+    <h2 class="nr-h" id="rt-brand-h">A brand from the culture</h2>
+    <p class="nr-lead">Most visitors arrive from the founder’s TikTok channel (300k+ followers, over 200 million views), already fluent in QC, batches, agents and hauls. So the identity speaks that language: Anton in oversized condensed caps, electric cyan on near-black, Space Mono for anything that behaves like data.</p>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="rt-logo-h">
+    <h2 class="nr-h" id="rt-logo-h">The BATCH logo</h2>
+    <p class="nr-lead">One parametric R, the master RETAIL and nine runs, each with one documented tell. It is built into the site’s code and not released yet.</p>
+    <div class="nr-media">
+      <figure><img src="assets/reptools/batch-sheet.webp" width="1400" height="710" loading="lazy" decoding="async" alt="The BATCH sheet: the RETAIL master with its favicons, and the nine runs B01 to B09, each with its tell and where it is placed"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="rt-ia-h">
+    <h2 class="nr-h" id="rt-ia-h">The homepage is now the catalogue</h2>
+    <p class="nr-lead">You land in the catalogue itself: category rows you can scroll at once, with filter chips at the top. Almost everyone arrives on a phone, straight from a video, so the rows scroll by thumb and the counted category bar stays visible.</p>
+    <div class="nr-media nr-grid3">
+      <figure><img src="assets/reptools/before-home.webp" width="1400" height="2200" loading="lazy" decoding="async" alt="Before: a marketing landing page. The 6,900-item catalogue is not on it."><figcaption>Before</figcaption></figure>
+      <figure><img src="assets/reptools/after-home.webp" width="1400" height="2020" loading="lazy" decoding="async" alt="After: the same page rebuilt around the product, with the identity carrying the logistics language."><figcaption>After, November 2026</figcaption></figure>
+      <figure><img src="assets/reptools/after-products.webp" width="1400" height="2200" loading="lazy" decoding="async" alt="After: categories as a counted top bar, a five-column grid, and search, price, sort and currency controls"><figcaption>The catalogue after</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="rt-welcome-h">
+    <h2 class="nr-h" id="rt-welcome-h">The coupon shows its terms up front</h2>
+    <p class="nr-lead">rep.tools earns when a visitor signs up to KakoBuy through its link, so the welcome pack is the one place the site asks for something. The terms are on the card, two plain ways out sit under the button, and on a phone it rises as a bottom sheet.</p>
+    <div class="nr-media nr-match nr-stack" style="max-width:900px">
+      <figure style="--r:1.135"><img src="assets/reptools/welcome-desktop.webp" width="840" height="740" loading="lazy" decoding="async" alt="The welcome pack on a laptop: four coupon tickets, the code LUDE15 on a stub, an orange claim button and two ways out"></figure>
+      <figure class="nr-tall" style="--r:.462"><img src="assets/reptools/welcome-mobile.webp" width="780" height="1688" loading="lazy" decoding="async" alt="The welcome pack on a phone, as a bottom sheet with a handle"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="res" aria-labelledby="rt-res-h">
+    <h2 class="nr-h" id="rt-res-h">Results</h2>
+    <div class="nr-results">
+      <div class="nr-result">
+        <div><h3>The redesigned catalogue and product pages are live.</h3><p>Next, the founder’s analytics can show catalogue click-through and mobile time-on-site, before and after. <a href="https://rep.tools" target="_blank" rel="noopener noreferrer">Visit rep.tools <span aria-hidden="true">↗</span></a></p></div>
+      </div>
+      <div class="nr-result">
+        <div><h3>Every page shares one design system.</h3><p>The identity lives in one shared stylesheet, and the shop, the tools hub and the buying guide went into the same system.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="learn" aria-labelledby="rt-learn-h">
+    <h2 class="nr-h" id="rt-learn-h">What I learned</h2>
+    <ul class="nr-three">
+      <li><h3>AI-generated default styling makes a site forgettable.</h3><p>The old site ran fine. It just looked like a hundred others, so nothing about it stayed with a visitor.</p></li>
+      <li><h3>The homepage should show products right away.</h3><p>The founder’s channel sends a steady, already-invested audience straight at it.</p></li>
+      <!-- DRAFT for Lucy: a new heading over the old "Direction" note. -->
+      <li><h3 data-draft>A brand has to carry the logistics too.</h3><p>Going fully hype-drop would have failed the logistics half, where a tracking number or a price has to be legible at a glance.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-credit" data-nr="credit" aria-labelledby="rt-credit-h">
+    <h2 class="nr-h" id="rt-credit-h">Credits</h2>
+    <p>I designed the brand, navigation, catalogue, and product-page layouts, and wrote the front end. The founder built and owns the app.</p>
+  </section>
+
+  <nav class="nr-col nr-next" data-nr="next" aria-label="Next project">
+    <p class="nr-next-k">Next project</p>
+    <a class="nr-next-link" href="case-study.html">Driftwood <span aria-hidden="true">→</span></a>
+    <p>I designed and built a game where you spot AI pets’ hidden flaws, write training rules, and test whether their replies change.</p>
+  </nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

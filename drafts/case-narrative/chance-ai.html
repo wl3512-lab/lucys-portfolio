@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Chance AI | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/chance-ai.html" />
+<meta name="description" content="A redesign of the Chance AI app with my AStudio team: an audit of the result screen, wireframes, a create-a-skill flow and one brand pass." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/chance-ai/cover.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/chance-ai/cover.webp" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The narrative case study (Lucy, 2026-11-26, the layout of aaronjames.design): see the header of case-narrative.css. -->
+<link rel="stylesheet" href="case-narrative.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+</head>
+<body data-persona-slug="chance-ai">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="nr">
+
+  <header class="nr-hero" data-nr="hero">
+    <div class="nr-hero-bg"><img src="assets/chance-ai/cover.webp" width="2000" height="1125" decoding="async" fetchpriority="high" alt="The Chance AI app icon beside three phones in the final frosted style: Visual skills with full-photo cards, Home with the skill of the day and two equal buttons, and a result for a water bottle with its price"></div>
+    <div class="nr-col">
+      <!-- DRAFT for Lucy: a new title, from the page's "A redesign of the Chance AI app". -->
+      <h1 class="nr-title" data-draft>Redesigning the Chance AI app</h1>
+      <a class="nr-go" href="#cs-s-final"><span aria-hidden="true">↓</span> See the final design</a>
+    </div>
+  </header>
+
+  <section class="nr-col nr-sec nr-over" data-nr="over" aria-labelledby="ca-over-h">
+    <h2 class="nr-h" id="ca-over-h">Overview</h2>
+    <p class="nr-lead">Chance AI is a live app on iOS and Android that answers questions about a photo: people snap anything, get an answer, or run a visual skill another user made. Through AStudio at NYU IMA, I led our team of five in redesigning it with the client.</p>
+    <dl class="nr-facts">
+      <div><dt>My role</dt><dd>Team lead<br>The audit<br>Home</dd></div>
+      <div><dt>Platforms</dt><dd>iOS<br>Android</dd></div>
+      <div><dt>Year</dt><dd>Sep to Nov 2026</dd></div>
+    </dl>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="prob" aria-labelledby="ca-prob-h">
+    <h2 class="nr-h" id="ca-prob-h">Problems</h2>
+    <!-- DRAFT for Lucy: the lead line and the one-word names are new; each sentence is cut from the old page. -->
+    <p class="nr-lead" data-draft>Three problems shaped the redesign.</p>
+    <div class="nr-media nr-grid3 nr-phones">
+      <figure><img src="assets/chance-ai/old-result.webp" width="720" height="1561" loading="lazy" decoding="async" alt="The old result screen: a photo of a water bottle on a desk, then a long paragraph titled Hydration at the Desk before any product facts"></figure>
+      <figure><img src="assets/chance-ai/old-product.webp" width="720" height="1561" loading="lazy" decoding="async" alt="The old product card: a red bottle thumbnail, a price range bar and a Share this discovery bar"></figure>
+      <figure><img src="assets/chance-ai/old-home.webp" width="720" height="1561" loading="lazy" decoding="async" alt="The old Home: a red Try Pro button, a lamp photo titled Design Has Reasons, and round skill icons"></figure>
+    </div>
+    <ol class="nr-three">
+      <li><h3 data-draft>1. Chatbot</h3><p>The result screen read like a ChatGPT reply: a long paragraph first, the wrong colour on the product, an ask bar like a chat composer.</p></li>
+      <li><h3 data-draft>2. Catalog</h3><p>Visual skills looked like a catalog of tools, not a living gallery.</p></li>
+      <li><h3 data-draft>3. Lopsided</h3><p>The carousel of skills sat on one big Snap to know button, though the client also wants more people on visual skills.</p></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="hmw" aria-labelledby="ca-opp-h">
+    <h2 class="nr-h" id="ca-opp-h">Opportunity</h2>
+    <!-- DRAFT for Lucy: one question made from the page's two ("a living gallery rather than a catalog of tools", "give both equal weight"). -->
+    <p class="nr-hmw" data-draft>How might Chance AI answer like a <mark>product</mark>, not a chatbot, and give visual skills <mark>equal weight</mark>?</p>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="goal" aria-labelledby="ca-goal-h">
+    <h2 class="nr-h" id="ca-goal-h">Goals</h2>
+    <p class="nr-lead">Each problem became a goal.</p>
+    <!-- DRAFT for Lucy: the goal words are new; the sentences are cut from the old page. -->
+    <ul class="nr-three">
+      <li><h3 data-draft><span class="nr-was">Chatbot</span><span class="nr-to" aria-hidden="true">→</span>Product</h3><p>The result leads with the product, its price and Exact match.</p></li>
+      <li><h3 data-draft><span class="nr-was">Catalog</span><span class="nr-to" aria-hidden="true">→</span>Gallery</h3><p>Skills on full-photo cards, with their creators.</p></li>
+      <li><h3 data-draft><span class="nr-was">Lopsided</span><span class="nr-to" aria-hidden="true">→</span>Equal</h3><p>Snap to know and Create visual skill side by side, at the same size.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="ca-audit-h">
+    <h2 class="nr-h" id="ca-audit-h">An audit before anyone drew</h2>
+    <p class="nr-lead">I logged each problem on seven screens with a fix. River and Nina studied Google, Apple Visual Intelligence, Pinterest and Bing.</p>
+    <div class="nr-media">
+      <figure><img src="assets/chance-ai/audit-result.webp" width="1600" height="900" loading="lazy" decoding="async" alt="My audit of the result screen: three screenshots with numbered markers and six findings, from a huge paragraph before the answer to Share appearing twice and emoji instead of SF Symbols"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="ca-lofi-h">
+    <h2 class="nr-h" id="ca-lofi-h">Wireframes in grey first</h2>
+    <p class="nr-lead">Each low-fi screen carries numbered notes back to the audit, so the team agreed on structure before colour.</p>
+    <div class="nr-media">
+      <figure><img src="assets/chance-ai/lofi-results.webp" width="1511" height="1095" loading="lazy" decoding="async" alt="Low-fi wireframes of the audited screens in grey: the answer first, the product match, details and notes, Home and Visual skills, each with numbered notes"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="ca-skills-h">
+    <h2 class="nr-h" id="ca-skills-h">Visual skills, led by Jinho (David)</h2>
+    <p class="nr-lead">Week 8 was a list of tools and Week 9 tried a Community feed; Jinho (David) put the creators back on full-photo cards.</p>
+    <div class="nr-media nr-grid3 nr-phones">
+      <figure><img src="assets/chance-ai/skills-w8.webp" width="688" height="1500" loading="lazy" decoding="async" alt="Week 8 Visual skills: filter chips and white cards with a black Try it button"><figcaption>Week 8: tools</figcaption></figure>
+      <figure><img src="assets/chance-ai/skills-w9.webp" width="700" height="1500" loading="lazy" decoding="async" alt="Week 9 Community: a gallery of what people make, with creator handles and like counts on each photo"><figcaption>Week 9: community</figcaption></figure>
+      <figure><img src="assets/chance-ai/david-cards.webp" width="720" height="1440" loading="lazy" decoding="async" alt="Jinho’s cards: each skill is a full photo with a gradient, the creator, likes, a topic tag and a full-width Try it"><figcaption>Jinho’s cards</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" id="cs-s-carousel" data-nr="proc" aria-labelledby="ca-home-h">
+    <h2 class="nr-h" id="ca-home-h">Home, led by me</h2>
+    <p class="nr-lead">I gave the carousel its own Try it on each card, and put Snap to know and Create visual skill side by side, at the same size.</p>
+    <div class="nr-media nr-grid3 nr-phones">
+      <figure><img src="assets/chance-ai/home-w8.webp" width="720" height="1562" loading="lazy" decoding="async" alt="Week 8 Home: a smaller hero for today’s skill over a wide blue Snap to know button"><figcaption>Week 8</figcaption></figure>
+      <figure><img src="assets/chance-ai/home-w9.webp" width="596" height="1588" loading="lazy" decoding="async" alt="Week 9 Home: recent shots, Snap to Know and Create visual skill tiles, and the top four skills for college students"><figcaption>Week 9</figcaption></figure>
+      <figure><img src="assets/chance-ai/home-w10.webp" width="720" height="1562" loading="lazy" decoding="async" alt="Week 10 Home: the carousel on top, then Snap to Know in black and Create visual skill in blue, My visual skills and Try photos"><figcaption>Week 10</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" id="cs-s-final" data-nr="proc" aria-labelledby="ca-final-h">
+    <h2 class="nr-h" id="ca-final-h">The final design</h2>
+    <p class="nr-lead">The team chose Jinho’s frosted bubble style for every screen. Nina carried it into the result and Ask views, which now lead with the product, its price and Exact match.</p>
+    <div class="nr-media nr-grid3 nr-phones">
+      <figure><img src="assets/chance-ai/final-home.webp" width="720" height="1558" loading="lazy" decoding="async" alt="The final Home: the skill of the day, a chair, with a small Try it on its card, frosted Snap to Know and Create visual skill buttons side by side, a search bar, then My visual skills and Recent visual skills with their photos"><figcaption>Home</figcaption></figure>
+      <figure><img src="assets/chance-ai/final-skills.webp" width="720" height="1558" loading="lazy" decoding="async" alt="The final Visual skills page: full-photo skill cards with the creator, likes, a topic tag and a Try it button"><figcaption>Visual skills</figcaption></figure>
+      <figure><img src="assets/chance-ai/final-learn.webp" width="720" height="1554" loading="lazy" decoding="async" alt="The final result: the bottle in a frosted frame, a product card with $44 to 48, Store and Exact match, then a short summary"><figcaption>Result</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="res" aria-labelledby="ca-res-h">
+    <h2 class="nr-h" id="ca-res-h">Results</h2>
+    <div class="nr-results">
+      <div class="nr-result">
+        <div><h3>One style on every screen.</h3><p>Home, Visual skills, the result and Ask now share the frosted bubble style the team proposed on 30 October.</p></div>
+      </div>
+      <div class="nr-result">
+        <div><h3>A prototype of screens the app did not have.</h3><p>I built a hi-fi clickable prototype with Claude to test the camera and analyzing screens.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="learn" aria-labelledby="ca-learn-h">
+    <h2 class="nr-h" id="ca-learn-h">What I learned</h2>
+    <ul class="nr-three">
+      <li><h3>Tie each change to a finding.</h3><p>Every change in the wireframes carries the number of the audit finding it fixes, so anyone reviewing can see why it changed.</p></li>
+      <li><h3>Name the question before the screens.</h3><p>Writing each page’s How might we gave the team one test for every week’s version.</p></li>
+      <li><h3>Next is testing with students.</h3><p>Most users are college students, so the next round is sessions with them on the new Home and Visual skills.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-credit" data-nr="credit" aria-labelledby="ca-credit-h">
+    <h2 class="nr-h" id="ca-credit-h">Credits</h2>
+    <p>AStudio is a mentorship program at NYU IMA. I led Jinho (David), Nina and River, with Annie Yu producing. Jinho (David) led Visual skills and the frosted style, Nina refined my first Snap to know layout and carried the style into the result and Ask, and River worked on the Home proposal with me. Every frame is in Figma; I built the hi-fi prototype of the camera and analyzing screens with Claude.</p>
+  </section>
+
+  <nav class="nr-col nr-next" data-nr="next" aria-label="Next project">
+    <p class="nr-next-k">Next project</p>
+    <a class="nr-next-link" href="case-study.html">Driftwood <span aria-hidden="true">→</span></a>
+    <p>A short game that teaches you when to question AI.</p>
+  </nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>
