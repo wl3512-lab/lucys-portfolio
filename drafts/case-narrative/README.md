@@ -69,10 +69,10 @@ The outcomes heading is "Results" (Lucy, 26 Nov).
   lead and one-word names, the "How might" line, the goal words and two goal sentences, and the lesson heading
   "Designers should build the thing." (from "That is the strongest argument I have for designers building the
   thing."). The section headings are new; the sentences under them are cut from the old page.
-- **Cut**: the decorative dragon, five of nine app screens (set logged, rest timer, progress grid, crew feed, welcome),
-  the 2023 tutorial and 2026 form-cue pair with its sentence, four of five mascot poses, the name "Oxide", the
-  research and audit fold's detail (the app list, four Figma tasks, 21 token pairs), and "Every app I audited had the
-  same problems."
+- **Cut**: 11 of the old page's 21 pictures, 10 kept. The 11 are five app screens (set logged, rest timer, progress
+  grid, crew feed, welcome), the 2023 tutorial and 2026 form-cue pair (with its sentence) and four of five mascot
+  poses. Also cut: the decorative dragon beside the stage, the name "Oxide", the research and audit fold's detail (the
+  app list, four Figma tasks, 21 token pairs), and "Every app I audited had the same problems."
 - **No credits section**: the old page says nothing about AI use. Ask Lucy before adding one.
 - Words: 538 visible.
 
