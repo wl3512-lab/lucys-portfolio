@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>HabitaBull Lifting | Lucy Liu</title>
+<meta name="description" content="HabitaBull Lifting: I designed and built a lifting app for logging workouts, tracking progress, and returning after a break." />
+<meta property="og:title" content="HabitaBull Lifting | Lucy Liu" />
+<meta property="og:description" content="HabitaBull Lifting: I designed and built a lifting app for logging workouts, tracking progress, and returning after a break." />
+<meta property="og:url" content="https://lucyliu.xyz/habitabull.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/habitabull/og-cover.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The narrative case study (Lucy, 2026-11-26, after aaronjames.design): see the header of case-narrative.css. -->
+<link rel="stylesheet" href="case-narrative.css" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+</head>
+<body data-persona-slug="habitabull">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="nr">
+
+  <header class="nr-col nr-hero" data-nr="hero">
+    <!-- DRAFT for Lucy: a new title, from the page's "I designed and built a lifting app" and "Comebacks are counted on purpose". -->
+    <h1 class="nr-title" data-draft>Designing and building a lifting app for comebacks</h1>
+    <a class="nr-go" href="uploads/HabitaBull_Lifting_Deck.pdf" target="_blank" rel="noopener noreferrer">View the slides (PDF) <span aria-hidden="true">↗</span></a>
+    <figure>
+      <div class="nr-hero-media">
+        <video controls playsinline preload="none" width="1440" height="1080" poster="assets/habitabull/walkthrough.webp" aria-label="Ten-second HabitaBull demo: build a habit with simple workout logging" aria-describedby="hb-walkthrough-caption">
+          <source src="assets/habitabull/walkthrough.mp4" type="video/mp4">
+          <a href="assets/habitabull/walkthrough.mp4">Watch the HabitaBull walkthrough</a>.
+        </video>
+      </div>
+      <figcaption id="hb-walkthrough-caption">Edited walkthrough with demo data.</figcaption>
+    </figure>
+  </header>
+
+  <section class="nr-col nr-sec nr-over" data-nr="over" aria-labelledby="hb-over-h">
+    <h2 class="nr-h" id="hb-over-h">Overview</h2>
+    <p class="nr-lead">HabitaBull is a lifting app for logging workouts, tracking progress and returning after a break. I researched it in 2023 and designed and built it in 2026, first for the web, now as a native iPhone app. It is still in progress.</p>
+    <dl class="nr-facts">
+      <div><dt>My role</dt><dd>Designer<br>Developer</dd></div>
+      <div><dt>Platforms</dt><dd>Web<br>iPhone, in progress</dd></div>
+      <div><dt>Year</dt><dd>2023 research<br>2026 build</dd></div>
+    </dl>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="prob" aria-labelledby="hb-prob-h">
+    <h2 class="nr-h" id="hb-prob-h">Problems</h2>
+    <!-- DRAFT for Lucy: the lead line and the three one-word names are new; each sentence is cut from the old spreads. -->
+    <p class="nr-lead" data-draft>Three problems shaped the app.</p>
+    <ol class="nr-three">
+      <li><h3 data-draft>1. Quitting</h3><p>71–80% of users abandon their fitness app within 3 months of installing it (Dr. Muscle, StriveCloud, 2024).</p></li>
+      <li><h3 data-draft>2. Setup</h3><p>My first prototype opened with goal-setting and tested badly: people wanted to log a workout first.</p></li>
+      <li><h3 data-draft>3. Ranking</h3><p>A leaderboard ranked by absolute load shames the beginner the whole study was written for.</p></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="hmw" aria-label="The question">
+    <!-- DRAFT for Lucy: built from the old lesson "Sobriety apps showed me how to keep people coming back." -->
+    <p class="nr-hmw" data-draft>How might a lifting app keep people <mark>coming back</mark> after a break?</p>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="goal" aria-labelledby="hb-goal-h">
+    <h2 class="nr-h" id="hb-goal-h">Goals</h2>
+    <p class="nr-lead">Each problem became a goal.</p>
+    <!-- DRAFT for Lucy: the goal words and sentences are new, made from the old spread headings. -->
+    <ul class="nr-three">
+      <li><h3 data-draft><span class="nr-was">Quitting</span><span class="nr-to" aria-hidden="true">→</span>Returning</h3><p data-draft>Coming back after a gap counts.</p></li>
+      <li><h3 data-draft><span class="nr-was">Setup</span><span class="nr-to" aria-hidden="true">→</span>Logging</h3><p>The app opens straight to logging a workout.</p></li>
+      <li><h3 data-draft><span class="nr-was">Ranking</span><span class="nr-to" aria-hidden="true">→</span>Personal</h3><p data-draft>Progress measured against yourself.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-research-h">
+    <h2 class="nr-h" id="hb-research-h">Research outside fitness</h2>
+    <p class="nr-lead">I audited 6 fitness apps, studied sobriety apps and ran 6 in-person interviews in Vancouver, with people who formerly used, currently use and never used fitness apps.</p>
+    <div class="nr-media nr-2">
+      <figure><img src="assets/habitabull/slides/slide-08.png" width="1224" height="792" loading="lazy" decoding="async" alt="Desk research: I Am Sober cross-industry motivation analysis"></figure>
+      <figure><img src="assets/habitabull/slides/slide-18.png" width="1224" height="792" loading="lazy" decoding="async" alt="Interview insight clustering: sticky notes organized by theme: things they find important, info, habits, thoughts about apps"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-build-h">
+    <h2 class="nr-h" id="hb-build-h">Straight to the workout</h2>
+    <p class="nr-lead">Today is one button, and the steppers work one-handed between sets, with last time's numbers right there.</p>
+    <div class="nr-media nr-phones">
+      <figure><img src="assets/habitabull/app/01-today.png" width="780" height="1688" loading="lazy" decoding="async" alt="Today screen: Full body A, the reason you lift, a Start workout button, this week's ring strip, and the goal"></figure>
+      <figure><img src="assets/habitabull/app/04-logging.png" width="780" height="1688" loading="lazy" decoding="async" alt="Logging a set: weight and reps steppers, last time's numbers, and a Log set button"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-then-h">
+    <h2 class="nr-h" id="hb-then-h">No leaderboard</h2>
+    <p class="nr-lead">A monthly challenge measured against your own schedule replaced it. A crew sees who trained on which day, with no weights and no ranking.</p>
+    <div class="nr-media nr-match nr-stack">
+      <figure style="--r:1.545"><img src="assets/habitabull/slides/slide-37.png" width="1224" height="792" loading="lazy" decoding="async" alt="Lo-fi prototype from 2023: leaderboard with community competition by exercise, later replaced by a monthly challenge"><figcaption>2023: the leaderboard.</figcaption></figure>
+      <figure class="nr-tall" style="--r:.462"><img src="assets/habitabull/app/10-crew.png" width="780" height="1688" loading="lazy" decoding="async" alt="Crew screen before joining: Just you, for now. No rankings. No weights. Just who turned up. A monthly challenge of 13 sessions in October."><figcaption>2026: the crew.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-back-h">
+    <h2 class="nr-h" id="hb-back-h">Comebacks are counted on purpose</h2>
+    <p class="nr-lead">Your answer to “Why do you lift?” comes back on the days you do not feel like it. After a gap, the app says the gap does not undo anything.</p>
+    <div class="nr-media nr-phones">
+      <figure><img src="assets/habitabull/app/02-onboarding-why.png" width="780" height="1688" loading="lazy" decoding="async" alt="Onboarding screen asking Why do you lift, with a free-text answer and five suggested reasons"></figure>
+      <figure><img src="assets/habitabull/app/01d-today-comeback.png" width="780" height="1688" loading="lazy" decoding="async" alt="Today screen after a gap: your reason is shown with the line Still true. The gap does not undo it."></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="proc" aria-labelledby="hb-brand-h">
+    <h2 class="nr-h" id="hb-brand-h">A bull with an easy smile</h2>
+    <p class="nr-lead">The 2026 bull was redrawn with a closed, easy smile, because the app talks to you most on the days you nearly did not come. One colour pass matched every colour in chroma to the brand cyan, with one action colour per screen.</p>
+    <!-- Capped so the pair stands no taller than the phone pairs above (about 600 px). The mascot is a cut-out: it
+         sits on the project's terracotta, as on the old page (--pose-bg). -->
+    <div class="nr-media nr-match" style="max-width:780px">
+      <figure style="--r:.8375"><img src="assets/habitabull/mascot.png" width="531" height="634" loading="lazy" decoding="async" style="background:#8a4a32" alt="HabitaBull mascot, 2026: a slate-grey bull with pale horns and a closed, easy smile"></figure>
+      <figure style="--r:.462"><img src="assets/habitabull/app/06-pr-celebration.png" width="780" height="1688" loading="lazy" decoding="async" alt="Personal record screen on terracotta: the bull above the words 2.5 lb more than you have ever done"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="res" aria-labelledby="hb-res-h">
+    <h2 class="nr-h" id="hb-res-h">Results</h2>
+    <div class="nr-results">
+      <div class="nr-result">
+        <div><h3>The web version is live.</h3><p>It came first and is the design spec for the native iPhone app, headed for the App Store. <a href="https://habitabull.vercel.app" target="_blank" rel="noopener noreferrer">Open the web version <span aria-hidden="true">↗</span></a></p></div>
+      </div>
+      <div class="nr-result">
+        <div><h3>Every control clears 44 by 44.</h3><p>Three audits checked touch targets and contrast. One deviation is on purpose: missed days on the consistency grid stay below 3:1, so a skipped day is never as loud as a completed one.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" data-nr="learn" aria-labelledby="hb-learn-h">
+    <h2 class="nr-h" id="hb-learn-h">What I learned</h2>
+    <ul class="nr-three">
+      <li><h3>Sobriety apps showed me how to keep people coming back.</h3><p><em>I Am Sober</em> had already cracked the retention problem I was working on. Three years on, “why do you lift?” is still the second screen.</p></li>
+      <li><h3>The mascot did real UX work.</h3><p>The bull started as decoration and ended up giving the app a voice. He also had to survive 48px, which is how a grin became a smile and a bunny became a bull.</p></li>
+      <!-- DRAFT for Lucy: a shorter heading, from "That is the strongest argument I have for designers building the thing." -->
+      <li><h3 data-draft>Designers should build the thing.</h3><p>The research said beginners quit when they feel ranked, and the leaderboard survived that on paper for three years. It did not survive a week of real sessions.</p></li>
+    </ul>
+  </section>
+
+  <!-- No AI credit yet: the old page states none. Ask Lucy before adding one (the credit sets its own gap; without it, nr-sec does). -->
+  <nav class="nr-col nr-sec nr-next" data-nr="next" aria-label="Next project">
+    <p class="nr-next-k">Next project</p>
+    <a class="nr-next-link" href="magnet-fishing.html">Magnet Fishing <span aria-hidden="true">→</span></a>
+    <p>2nd place at JAMKADIUM 2026: a calm fishing puzzle inspired by Roblox fishing simulators.</p>
+  </nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

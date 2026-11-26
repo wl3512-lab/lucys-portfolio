@@ -45,7 +45,7 @@ async function run(browserType, name) {
       const drafts = main.querySelectorAll('[data-draft]').length;
       return { words, sideways, wide, order, rows, imgs, marks, h1, drafts, height: document.documentElement.scrollHeight };
     }, ORDER);
-    const bad = [];
+    const bad = [], note = [];
     if (errs.length) bad.push('console errors');
     if (fails.length) bad.push('failed requests');
     if (m.sideways) bad.push('sideways scroll ' + JSON.stringify(m.wide));
@@ -54,7 +54,8 @@ async function run(browserType, name) {
     if (flag !== '--before') {
       if (m.words < 400 || m.words > 650) bad.push(`words ${m.words} (want 400-650)`);
       if (JSON.stringify(m.order.filter((v, i, a) => a.indexOf(v) === i)) !== JSON.stringify(ORDER.filter(k => m.order.includes(k)))) bad.push('section order ' + m.order.join(','));
-      for (const k of ORDER) if (!m.order.includes(k)) bad.push('missing ' + k);
+      for (const k of ORDER) if (k !== 'credit' && !m.order.includes(k)) bad.push('missing ' + k);
+      if (!m.order.includes('credit')) note.push('no credits section (the old page states no AI use)');
       if (m.rows.some(n => n > 2)) bad.push('more than 2 pictures in a row');
       if (m.marks < 1 || m.marks > 2) bad.push(`HMW marks ${m.marks}`);
       if (m.h1 !== 1) bad.push('h1 count ' + m.h1);
@@ -62,7 +63,7 @@ async function run(browserType, name) {
       if (m.imgs.some(i => i.ratio === false)) bad.push('cropped or stretched image');
     }
     if (bad.length) ok = false;
-    console.log(`${name} ${size} motion=${motion}: words=${m.words} height=${m.height} drafts=${m.drafts || 0} hero=${JSON.stringify(hero)} ${bad.length ? 'FAIL ' + bad.join('; ') : 'ok'}`);
+    console.log(`${name} ${size} motion=${motion}: words=${m.words} height=${m.height} drafts=${m.drafts || 0} hero=${JSON.stringify(hero)} ${bad.length ? 'FAIL ' + bad.join('; ') : 'ok'}${note.length ? ' (note: ' + note.join('; ') + ')' : ''}`);
     if (errs.length) console.log('  errors:', JSON.stringify(errs.slice(0, 5)));
     if (fails.length) console.log('  fails:', JSON.stringify(fails.slice(0, 8)));
     if (motion === 'no-preference' && name === 'chromium') {

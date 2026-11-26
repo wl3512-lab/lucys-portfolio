@@ -12,8 +12,8 @@ that could not reach that folder, so they were checked against lucyliu.xyz as se
 
 | Page | Status |
 | --- | --- |
-| Magnet Fishing (`magnet-fishing.html`) | Draft. Waiting for Lucy's words (9 drafted lines). |
-| HabitaBull Lifting (`habitabull.html`) | Not started. |
+| Magnet Fishing (`magnet-fishing.html`) | Words approved by Lucy, 26 Nov. Ready to copy in; not shipped. |
+| HabitaBull Lifting (`habitabull.html`) | Draft. Waiting for Lucy's words (12 drafted lines) and an answer on AI credits. |
 | Chance AI (`chance-ai.html`) | Not started. |
 | Driftwood (`case-study.html`) | Not started. Keep the audience caveat beside its result. |
 | rep.tools (`reptools.html`) | Not started. |
@@ -21,8 +21,16 @@ that could not reach that folder, so they were checked against lucyliu.xyz as se
 ## Drop-in
 
 Copy `case-narrative.css` and the approved page into `ui_kits/portfolio/`, replacing the old page. The stylesheet is
-Portfolio Pet's copy plus one rule (`.nr-result h3`, the claim beside a result); if Portfolio Pet ships first, use
-this copy for both.
+Portfolio Pet's copy plus a few rules, so if Portfolio Pet ships first, use this copy for both:
+
+- `.nr-result h3`: the claim beside a result.
+- `.nr-hero figcaption`: a hero caption, only where the page needs one (HabitaBull's "demo data").
+- `.nr-phones`: two phone screens at most 300 px each, so a pair stays shorter than a laptop screen.
+- `.nr-match` with `--r` (width / height) on each figure: two pictures of different shapes at one height, uncropped.
+  Add `.nr-stack` and `.nr-tall` on the phone screen when a wide picture sits beside a phone screen: on phones the
+  pair stacks and the screen keeps half the width.
+
+The outcomes heading is "Results" (Lucy, 26 Nov).
 
 ## Markup the tests can rely on
 
@@ -51,6 +59,23 @@ this copy for both.
   process detail.
 - Words: 468 visible (the old page showed 337 with its fold closed, about 470 open).
 
+## HabitaBull: what moved where
+
+- **Kept**: title tag, description, Open Graph tags, the walkthrough and its label, "Edited walkthrough with demo
+  data." (as the hero caption), View the slides (PDF), Open the web version, every alt text used, the next project
+  (Magnet Fishing), the shared header and footer, Vercel analytics, the edit-mode loader. The walkthrough still plays
+  only when pressed, as on the live page.
+- **New wording, marked `data-draft`**: the title ("Designing and building a lifting app for comebacks"), the problems'
+  lead and one-word names, the "How might" line, the goal words and two goal sentences, and the lesson heading
+  "Designers should build the thing." (from "That is the strongest argument I have for designers building the
+  thing."). The section headings are new; the sentences under them are cut from the old page.
+- **Cut**: the decorative dragon, five of nine app screens (set logged, rest timer, progress grid, crew feed, welcome),
+  the 2023 tutorial and 2026 form-cue pair with its sentence, four of five mascot poses, the name "Oxide", the
+  research and audit fold's detail (the app list, four Figma tasks, 21 token pairs), and "Every app I audited had the
+  same problems."
+- **No credits section**: the old page says nothing about AI use. Ask Lucy before adding one.
+- Words: 538 visible.
+
 ## Checks
 
 `tools/check.cjs <page> <out-dir>` loads a page at 1440 x 900 and 390 x 844, with and without reduced motion, and
@@ -63,13 +88,15 @@ Run it against the source folder on Lucy's computer. Without that folder, `tools
 directory over a copy of lucyliu.xyz that fills itself from the live site. `edit-mode.js` (localhost only, never
 deployed) and Vercel's `/_vercel/` scripts are ignored.
 
-Magnet Fishing, 26 Nov 2026: Chromium passes at both sizes, both motion settings (468 words, no errors, no failed
-requests, no sideways scroll, trailer still under reduced motion). WebKit was not installed in that session.
+26 Nov 2026, Chromium, both sizes, both motion settings: Magnet Fishing passes (468 words, trailer still under
+reduced motion) and so does HabitaBull (538 words; its walkthrough never starts on its own). No errors, no failed
+requests, no sideways scroll on either. A page without a credits section gets a note, not a failure. WebKit was not
+installed in that session.
 
 ## Still to do
 
-1. Lucy approves Magnet Fishing's words; remove its `data-draft` marks.
-2. The other four pages, one at a time, each shown to Lucy.
+1. Lucy approves HabitaBull's words and says whether to credit AI; remove its `data-draft` marks.
+2. Chance AI, Driftwood and rep.tools, one at a time, each shown to Lucy.
 3. In `ui_kits/portfolio/`: update `npm test` and the case-spreads checks that expect the stage-and-board layout
    (they are not served on lucyliu.xyz, so they could not be read here), and run them in Chromium and WebKit.
 4. All Work links and Portfolio Pet's "next project" chain stay as they are unless Lucy says otherwise.

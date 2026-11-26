@@ -62,8 +62,13 @@
 .nr-media.nr-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 .nr-media figure { min-width: 0; }
 .nr-media img, .nr-media video { background: var(--navy); }
-.nr-media figcaption { margin-top: 8px; font-size: 13px; line-height: 1.45; color: var(--nr-dim); }
+.nr-media figcaption, .nr-hero figcaption { margin-top: 8px; font-size: 13px; line-height: 1.45; color: var(--nr-dim); }
 .nr-pixel { image-rendering: pixelated; }
+/* two phone screens, sized so a pair stays shorter than a laptop screen */
+.nr-media.nr-phones { grid-template-columns: repeat(2, minmax(0, 300px)); }
+/* two pictures of different shapes at one height, uncropped: each grows by its own width / height (--r) */
+.nr-media.nr-match { display: flex; align-items: flex-start; }
+.nr-match > figure { flex: var(--r, 1) 1 0; }
 
 /* results: plain statements, a rule above each; one big number only beside a real user or business outcome
    (a placing, a metric), never beside a process count */
@@ -89,6 +94,11 @@
   .nr .nr-facts { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nr .nr-three { grid-template-columns: 1fr; }
   .nr-media.nr-2 { grid-template-columns: 1fr; }
+  .nr-media.nr-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* a wide picture beside a phone screen: stacked, the screen at half width, so it stays readable */
+  .nr-media.nr-match.nr-stack { flex-wrap: wrap; }
+  .nr-match.nr-stack > figure { flex: 1 1 100%; }
+  .nr-match.nr-stack > figure.nr-tall { flex: 0 1 50%; }
   .nr-result { grid-template-columns: 1fr; }
   .nr-num { text-align: left; }
 }
