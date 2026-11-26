@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Portfolio Pet | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/portfolio-pet.html" />
+<meta name="description" content="How I designed the dragon who lives in my portfolio: my sketch, my Blender model, AI drawings checked against it, and ten animated scenes with no frame drawn by hand." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/portfolio-pet/live-hero.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/portfolio-pet/live-hero.webp" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<link rel="stylesheet" href="case-spreads.css?v=c409e6de" />
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js?v=81f293f1"></script>
+<script defer src="components/site-header.js?v=3a4711be"></script>
+<script defer src="components/site-footer.js?v=796356f1"></script>
+<script defer src="components/case-spreads.js?v=7a6d128f"></script>
+<script defer src="components/cover-reel.js?v=0612e7d3"></script>
+<style>
+  /* LOOK TEST ONLY: an empty slot for a file that is not here yet. Remove with the last slot. */
+  .pp-slot { display: grid; place-items: center; aspect-ratio: var(--r, 4 / 3); border: 2px dashed var(--cx-line); color: var(--cx-dim); font-size: 14px; text-align: center; padding: 16px; }
+</style>
+</head>
+<body class="cx-page" data-persona-slug="portfolio-pet">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="cx" data-case-spreads>
+
+<!-- The stage and the board: see docs/projects/case-study-looks/TEMPLATE.md -->
+<header class="cx-stage" id="cx-top" style="--lamp-a:#3b3f9c;--lamp-b:#8a7cf0">
+  <h1 class="cx-title cx-lit">Portfolio Pet</h1>
+  <figure class="cx-screen" id="pp-reel">
+    <!-- 15 s muted loop (Lucy, 2026-11-26): loops while in view, rests on its poster off screen and under
+         reduced motion (cover-reel.js, data-cover-always). Controls stay so it can be paused (WCAG 2.2.2). -->
+    <div class="cx-screen-in"><video data-cover-reel data-cover-always muted loop controls playsinline preload="none" width="1280" height="720" poster="assets/portfolio-pet/reel.webp" aria-label="15-second loop: my notebook sketch, the AI-drawn illustration, my Blender model turning in colour and mesh, the rig check, his pixel frames, and him on the lucyliu.xyz home page" aria-describedby="pp-hero-cap">
+        <source src="assets/portfolio-pet/reel.mp4" type="video/mp4">
+      </video></div>
+    <figcaption id="pp-hero-cap">The dragon who lives in my portfolio, from notebook to pixels.</figcaption>
+  </figure>
+  <div class="cx-stage-foot">
+    <a class="cx-deck" href="index.html">Meet him <small>→</small></a>
+    <p class="cx-role">Concept, character design + Blender model · 10 animated scenes from one model · 2026</p>
+    <img class="cx-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<div class="cx-board">
+  <section class="cx-say cx-s12" id="cs-s-why" aria-labelledby="pp-why-h"><h2 class="cx-h" id="pp-why-h" tabindex="-1">I wanted something on my portfolio no template could give it.</h2><p>Sites were starting to look vibe-coded. I'm a designer, not an animator, so I asked: how might I use AI as a workhorse for animation and concept art without letting it replace my hand?</p></section>
+
+  <section class="cx-say cx-s4" id="cs-s-sketch" aria-labelledby="pp-sketch-h"><h2 class="cx-h" id="pp-sketch-h" tabindex="-1">He started in my notebook.</h2><p>I sketched three routes: a rabbit whose tail grips like a hand, a lizard with a hard tail, and the one I kept, with reindeer horns, webbed ears, axolotl whiskers and a leaf-like tail.</p></section>
+  <figure class="cx-pic cx-s4 cx-half"><div class="pp-slot" style="--r:3/4">Slot: "Portfolio Pet Mock V1" notebook photo</div><figcaption>My first sketch, before any AI. October 2026.</figcaption></figure>
+  <figure class="cx-pic cx-s4 cx-half"><div class="pp-slot" style="--r:8/5">Slot: v0 routes photo (rabbit, lizard head)</div><figcaption>The routes I didn't take: a rabbit and a lizard.</figcaption></figure>
+
+  <section class="cx-say cx-s4" id="cs-s-world" aria-labelledby="pp-world-h"><h2 class="cx-h" id="pp-world-h" tabindex="-1">I set his world before his style.</h2><p>He lives in a desk drawer on a dark, smoked-glass site. Of six rendering studies, I kept pixel art because it matched the site's rooms.</p></section>
+  <figure class="cx-pic cx-s8"><div class="pp-slot" style="--r:16/7">Slot: moodboard photos from Reel 2, each credited to its source</div><figcaption>Moodboard. Each photo links to its source.</figcaption></figure>
+
+  <section class="cx-say cx-s12" id="cs-s-rules" aria-labelledby="pp-rules-h"><h2 class="cx-h" id="pp-rules-h" tabindex="-1">I wrote his anatomy down, because AI forgets it.</h2><p>Four toes on each hind paw, nine tail blades, whiskers above the mouth, three spines on each forearm. AI drew 47 concept images to those rules, and I directed every revision.</p></section>
+  <figure class="cx-pic cx-s7"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/ai-master.webp" aria-label="Show full size"><img src="assets/portfolio-pet/ai-master.webp" width="1536" height="1024" loading="lazy" alt="The master illustration: an ivory dragon seated in profile with lavender branched horns, cobalt webbed fin ears, whiskers above the mouth, short forearms and a long tail ending in a fan of cobalt blades"></a><figcaption>The master illustration, AI-drawn from my sketch and rules.</figcaption></figure>
+  <figure class="cx-pic cx-s5"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/concept-sheets.webp" aria-label="Show full size"><img src="assets/portfolio-pet/concept-sheets.webp" width="1280" height="520" loading="lazy" alt="A contact sheet of 47 concept images: face and whisker studies, tail and grip options, paw and spine studies, and seated drafts"></a><figcaption>47 concept images: faces, tails, paws.</figcaption></figure>
+
+  <section class="cx-say cx-s4" id="cs-s-model" aria-labelledby="pp-model-h"><h2 class="cx-h" id="pp-model-h" tabindex="-1">My Blender model is the answer key.</h2><p>I modelled his body in Blender; AI wrote the bones and actions. Every pose is set on the model first, so his body line and paw contacts are right before anything is drawn.</p></section>
+  <figure class="cx-pic cx-s4 cx-half"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/model-colour.webp" aria-label="Show full size"><img src="assets/portfolio-pet/model-colour.webp" width="976" height="792" loading="lazy" alt="The Blender model in colour, three-quarter view: ivory body, lavender horns, cobalt fin ears and tail blades"></a><figcaption>My model, shaded.</figcaption></figure>
+  <figure class="cx-pic cx-s4 cx-half"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/model-mesh.webp" aria-label="Show full size"><img src="assets/portfolio-pet/model-mesh.webp" width="976" height="792" loading="lazy" alt="The same pose as a lavender wireframe mesh, showing the quad edges of the body, paws, horns and tail blades"></a><figcaption>The same pose as a mesh.</figcaption></figure>
+
+  <section class="cx-say cx-s4" id="cs-s-check" aria-labelledby="pp-check-h"><h2 class="cx-h" id="pp-check-h" tabindex="-1">The model catches what AI invents.</h2><p>Each AI drawing is laid over the model from the same camera: red marks invented parts, yellow marks dropped ones. Two takes of one pose drew eight tail blades; only the take with nine shipped.</p></section>
+  <figure class="cx-pic cx-s8"><div class="pp-slot" style="--r:16/9">Slot: a rig-check overlay at full size (cyan model, red invented, yellow missing)</div><figcaption>A rig check: cyan is the model, red is invented, yellow is missing.</figcaption></figure>
+
+  <section class="cx-say cx-s12" id="cs-s-scenes" aria-labelledby="pp-scenes-h"><h2 class="cx-h" id="pp-scenes-h" tabindex="-1">One model, ten scenes, no frame drawn by hand.</h2><p>Approved drawings become pixel frames in the site's palette. He wakes in the hero, climbs out of the About drawer, plays four loading screens and sits under the gallery wall.</p></section>
+  <figure class="cx-pic cx-s7"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/wake-strip.webp" aria-label="Show full size"><img src="assets/portfolio-pet/wake-strip.webp" width="2416" height="326" loading="lazy" style="image-rendering: pixelated" alt="Six pixel frames of the dragon waking: head down asleep, lifting, opening his eyes, and sitting up alert"></a><figcaption>Six of the 60 frames he wakes up with.</figcaption></figure>
+  <figure class="cx-pic cx-s5"><a class="cx-shot" data-cx-zoom href="assets/portfolio-pet/live-hero.webp" aria-label="Show full size"><img src="assets/portfolio-pet/live-hero.webp" width="1440" height="900" loading="lazy" alt="The lucyliu.xyz home page: Lucy Liu, product designer, with the pixel dragon seated in the hero room above three project covers"></a><figcaption>Live on lucyliu.xyz.</figcaption></figure>
+
+  <section class="cx-lessons" id="cs-s-reflection" aria-labelledby="pp-learned-h">
+    <h2 class="cx-h" id="pp-learned-h" tabindex="-1">AI did the labour. The rules stayed mine.</h2>
+    <div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Write the rules down.</h3>
+        <p>AI never remembered his toe count. A written anatomy list and a model to check against did.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Check with geometry, then taste.</h3>
+        <p>Overlap with the model catches wrong poses and missing parts. Claws, pads and spines still get checked by eye.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Keep the drawn warmth.</h3>
+        <p>I tried rendering frames straight from Blender and dropped it: it lost the warmth of the drawing. The model guides; the drawing ships.</p></div>
+    </div>
+  </section>
+</div>
+
+<div class="cx-after">
+  <p class="cx-credit">AI image tools drew the master illustration and key poses from my sketch, anatomy rules and model poses. Claude and Codex wrote the rig, frame tools and site code. I made the sketches, the Blender model and every motion idea, and approved or rejected every frame. <a href="creature-frames.html">See all 7,008 saved frames →</a></p>
+</div>
+
+<nav class="cx-col cx-next" aria-label="Next project">
+  <div>
+    <p class="cx-k">Next project</p>
+    <a class="cx-next-link" href="chance-ai.html">Chance AI <span class="link-arrow" aria-hidden="true">→</span></a>
+    <p>A team redesign of a live visual-search app: an audit, Visual skills, and a Home I led that promotes both main actions equally.</p>
+  </div>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+</body>
+</html>
