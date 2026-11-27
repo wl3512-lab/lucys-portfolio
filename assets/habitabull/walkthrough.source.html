@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HabitaBull · 10-second app walkthrough</title>
+<style>
+@font-face{font-family:Barlow;src:url('audit-2026/Barlow-Regular.ttf');font-weight:400}@font-face{font-family:Barlow;src:url('audit-2026/Barlow-Medium.ttf');font-weight:500}@font-face{font-family:'Barlow Condensed';src:url('audit-2026/BarlowCondensed-Bold.ttf');font-weight:700}
+*{box-sizing:border-box}body{margin:0;background:#d57e5c;color:#16181d;font-family:Barlow,system-ui,sans-serif}.stage{width:720px;height:540px;position:relative;overflow:hidden}.brand{position:absolute;left:40px;top:34px;display:flex;align-items:center;gap:12px;font-size:18px;font-weight:500}.brand img{width:40px;height:40px;border-radius:10px}.intro{position:absolute;left:40px;top:100px;width:320px;font-size:17px;line-height:1.4;margin:0}.copy{position:absolute;left:40px;top:197px;width:335px}.step{font-size:13px;letter-spacing:.08em;margin:0 0 13px}.copy h1{font:700 51px/.98 'Barlow Condensed',sans-serif;letter-spacing:-.015em;margin:0 0 18px}.copy p:last-child{font-size:19px;line-height:1.35;margin:0;max-width:290px}.phone{position:absolute;left:435px;top:30px;width:224px;height:480px;background:#16181d;border:2px solid #393b3e;border-radius:25px;overflow:hidden;box-shadow:0 15px 24px #452b252e}.screen{position:absolute;inset:0;opacity:0}.screen img{width:220px;height:476.1px;display:block}.tap{position:absolute;width:24px;height:24px;border:2px solid #f4f6f7;border-radius:50%;box-shadow:0 0 0 1px #16181d55;opacity:0;pointer-events:none}.footer{position:absolute;left:40px;bottom:39px;width:327px}.track{display:flex;gap:5px;margin-bottom:15px}.segment{height:3px;background:#16181d30;flex:1;overflow:hidden}.fill{height:100%;background:#16181d;transform-origin:left;transform:scaleX(0)}.credit{display:flex;justify-content:space-between;font-size:12px;line-height:1.5}.credit span:last-child{text-align:right}#play{position:fixed;bottom:8px;left:8px;font:14px Barlow,sans-serif;padding:12px;border:0;border-radius:4px;background:#16181d;color:#f4f6f7;z-index:3}body.export #play{display:none}
+</style></head><body><main class="stage" aria-label="HabitaBull app walkthrough"><div class="brand"><img src="icon-512.png" alt="">HabitaBull Lifting</div><p class="intro">Build the habit.<br>Keep the workout simple.</p>
+<div class="copy"><p class="step" id="step"></p><h1 id="title"></h1><p id="description"></p></div>
+<div class="phone"><div class="screen"><img src="app/01d-today-comeback.png" alt="A welcome back and your own reason for lifting, above Start workout"></div><div class="screen"><img src="app/04-logging.png" alt="Weight, reps, last-set context and one Log set button"></div><div class="screen"><img src="app/05-rest-timer.png" alt="Rest timer with the next lift and one Start next set button"></div><div class="screen"><img src="app/08-progress.png" alt="Training days and comebacks together, with the weekday you return most often"></div><div class="tap" id="tap"></div></div>
+<div class="footer"><div class="track"><div class="segment"><div class="fill"></div></div><div class="segment"><div class="fill"></div></div><div class="segment"><div class="fill"></div></div></div><div class="credit"><span>Designed &amp; built by Lucy Liu<br>lucyliu.xyz</span><span>App walkthrough<br>10 seconds</span></div></div></main><button id="play" type="button">Play walkthrough</button>
+<script>
+const beats=[
+  {start:0,end:3.2,title:'Your reason.<br>Still here.',desc:'A reminder of why you started.'},
+  {start:3.2,end:6.9,title:'Log a set.<br>Keep going.',desc:'Weight, reps, one clear next step.'},
+  {start:6.9,end:10,title:'See the habit<br>take shape.',desc:'Training days and comebacks, together.'}
+];
+const scenes=[{start:0,end:3.2},{start:3.2,end:5.9},{start:5.9,end:6.9},{start:6.9,end:10}];
+const screens=[...document.querySelectorAll('.screen')],fills=[...document.querySelectorAll('.fill')],tap=document.getElementById('tap');
+const clamp=x=>Math.max(0,Math.min(1,x)),ease=x=>1-Math.pow(1-clamp(x),3);
+function render(t){
+  t=Math.max(0,Math.min(9.999,t));
+  const i=beats.findIndex(b=>t<b.end),b=beats[i];
+  document.getElementById('step').textContent=`0${i+1} / 03`;
+  document.getElementById('title').innerHTML=b.title;
+  document.getElementById('description').textContent=b.desc;
+  const a=i===0?1:ease((t-b.start)/.24);
+  document.querySelector('.copy').style.transform=`translateY(${(1-a)*6}px)`;
+  document.querySelector('.copy').style.opacity=a;
+  const scene=scenes.findIndex(s=>t<s.end),blend=scene===0?1:ease((t-scenes[scene].start)/.24);
+  screens.forEach((s,j)=>{
+    s.style.opacity=j===scene?blend:j===scene-1?1-blend:0;
+    s.style.transform=j===scene?`translateX(${(1-blend)*8}px)`:'none';
+  });
+  fills.forEach((f,j)=>f.style.transform=`scaleX(${clamp((t-beats[j].start)/(beats[j].end-beats[j].start))})`);
+  tap.style.opacity=0;
+  for(const [when,x,y] of [[2.8,110,267],[5.5,110,413]]){
+    const p=(t-when)/.35;
+    if(p>=0&&p<=1){tap.style.left=(x-12)+'px';tap.style.top=(y-12)+'px';tap.style.opacity=(1-p)*.95;tap.style.transform=`scale(${.65+ease(p)*.8})`;}
+  }
+}
+const ready=Promise.all([document.fonts.load('400 18px Barlow'),document.fonts.load('700 51px "Barlow Condensed"'),...Array.from(document.images,x=>x.decode())]);window.__reel={duration:10,fps:30,fonts:['Barlow','Barlow Condensed'],ready,render};render(0);
+const exporting=location.search.includes('export');document.body.classList.toggle('export',exporting);const button=document.getElementById('play');let raf=0,start=0,elapsed=0;function stop(){cancelAnimationFrame(raf);raf=0;button.textContent='Replay walkthrough'}function tick(now){elapsed=(now-start)/1000;render(elapsed);if(elapsed<10)raf=requestAnimationFrame(tick);else stop()}button.onclick=async()=>{if(raf){stop();return}await ready;start=performance.now();button.textContent='Pause walkthrough';raf=requestAnimationFrame(tick)};document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+// No automatic playback, including under reduced motion. The export is explicitly requested.
+</script></body></html>

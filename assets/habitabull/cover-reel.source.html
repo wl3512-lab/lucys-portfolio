@@ -1,0 +1,448 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  HabitaBull animated cover (2026-10-01). A 7.5 second loop in the app's own parts, on the
+  cover-wall's terracotta: the twelve-week grid draws itself and the comeback lands in cyan,
+  the bar is loaded a plate at a time, the set floods green, and the personal record screen
+  holds. Frame 0 is the record screen, which is also the poster and the still that reduced
+  motion sees.
+
+  Everything is a pure function of time (`render(t)`), so the export is frame-exact:
+    node scripts/cover-reel.mjs
+  writes assets/habitabull/cover-reel.mp4 and cover-reel.webp. Open this file over http to
+  watch it play in real time (it loops on requestAnimationFrame unless ?export is set).
+
+  Faithful to the app (~/Desktop/habitabull): tokens from app/globals.css, the plate drawing
+  from components/PlateBar.tsx, the grid from components/Progress.tsx (only the days she
+  trained arrive; the lattice is already there, so a gap is never animated), SetLogged's
+  flood + stamp + check-draw, Finished's record screen, and the app's one curve,
+  cubic-bezier(0.25, 1, 0.5, 1). The data is the Progress screenshot's: 31 sessions, one
+  comeback after a 14 day gap, 11 of them on Wednesdays, a 150 lb squat up from 147.5.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=block">
+<style>
+:root {
+  --deep: #0e1013; --ground: #16181d; --card: #1f232b; --raise: #2a2f39; --line: #333a45; --line-strong: #6a788f;
+  --fg: #f4f6f7; --dim: #9aa3ae; --cyan: #8eb4bd; --cyan-soft: #c1d4d9;
+  --action: #d57e5c; --action-press: #c27151; --done: #6bb88d;
+  --display: 'Barlow Condensed', system-ui, sans-serif;
+  --body: 'Barlow', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #d57e5c; }
+body { font-family: var(--body); color: var(--fg); -webkit-font-smoothing: antialiased; }
+
+/* 720 x 480 CSS px, exported at 2x (1440 x 960). The cards that show it crop hard: a
+   near-square Spotlight card keeps the middle 514px, a 200px phone strip keeps 400px of the
+   height, so everything that matters sits inside x 103-617, y 40-440. */
+.stage {
+  position: relative; width: 720px; height: 480px; overflow: hidden;
+  background:
+    radial-gradient(412px 323px at 12% 18%, #e0906f 0%, transparent 70%),
+    radial-gradient(353px 265px at 92% 96%, #c46d4c 0%, transparent 70%),
+    #d57e5c;
+}
+/* The cover-wall's grain, so the field reads as printed rather than filled. */
+.stage::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 9; opacity: .08; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .08  0 0 0 0 .07  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+.scene { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; will-change: transform, opacity; }
+.col { width: 354px; display: flex; flex-direction: column; }
+
+/* The app's type classes. */
+.label { font-family: var(--body); font-weight: 600; font-size: 11px; letter-spacing: .1em; line-height: 1; text-transform: uppercase; }
+.statement { font-family: var(--display); font-weight: 700; letter-spacing: -.005em; line-height: .95; }
+.head { font-family: var(--body); font-weight: 600; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Raised panels sit on the terracotta the way the cover-wall's phones do. */
+.card {
+  background: var(--card); border-radius: 16px; padding: 18px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 26px 44px -20px rgba(60,22,8,.55), 0 8px 16px -8px rgba(60,22,8,.32);
+}
+
+/* ---- Progress: the grid ---- */
+.lattice { display: flex; gap: 6px; }
+.week { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.cell { aspect-ratio: 1; width: 100%; border-radius: 5px; background: var(--line); position: relative; }
+.cell.is-future { background: rgba(42,47,57,.4); }
+.cell > i { position: absolute; inset: 0; border-radius: inherit; opacity: 0; }
+.cell.is-trained > i { background: var(--done); }
+.cell.is-comeback > i { background: var(--cyan); }
+.legend { list-style: none; display: flex; gap: 8px 20px; margin-top: 16px; font-size: 13px; color: var(--dim); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 12px; height: 12px; border-radius: 5px; display: block; }
+.stats { display: flex; gap: 10px; margin-top: 10px; }
+.stat { flex: 1; border-radius: 16px; background: var(--card); padding: 18px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 22px 36px -18px rgba(60,22,8,.5), 0 6px 12px -6px rgba(60,22,8,.3); }
+.stat .fig { font-size: 44px; color: var(--fg); display: inline-block; transform-origin: 20% 70%; }
+.stat .fig.is-accent { color: var(--cyan); }
+.stat .lab { margin-top: 4px; font-size: 15px; line-height: 1.25; color: var(--dim); }
+
+/* ---- Logging: the bar ---- */
+.ex-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.ex-name { font-size: 44px; color: var(--ground); }
+.ex-sub { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; padding-bottom: 3px; font-size: 15px; line-height: 1.1; }
+.plates { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+.pb-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.pb-total { font-size: 26px; color: var(--fg); }
+.pb-total small { font-family: var(--body); font-weight: 400; font-size: 15px; color: var(--dim); letter-spacing: 0; }
+.well { position: relative; display: flex; align-items: center; height: 96px; padding: 0 12px; border-radius: 12px; background: var(--ground); overflow: hidden; }
+.sleeve { position: relative; display: flex; align-items: center; gap: 2px; height: 100%; flex: 0 0 24%; }
+.sleeve.is-left { flex-direction: row-reverse; }
+.sleeve::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 10px; transform: translateY(-50%); background: var(--line-strong); }
+.sleeve.is-left::before { border-radius: 2px 0 0 2px; }
+.sleeve:not(.is-left)::before { border-radius: 0 2px 2px 0; }
+.collar { width: 6px; height: 28px; flex: none; border-radius: 2px; background: var(--dim); }
+.shaft { height: 6px; min-width: 32px; flex: 1; background: var(--line-strong); }
+.plate { position: relative; border-radius: 4px; flex: none; opacity: 0; }
+.pb-cap { font-size: 15px; color: var(--dim); line-height: 1.35; height: 40px; }
+.pills { display: flex; gap: 6px; }
+.pill { font-family: var(--body); font-weight: 600; font-size: 15px; color: var(--fg); min-width: 56px; padding: 12px 16px; border-radius: 999px; background: var(--raise); text-align: center; }
+/* Pill variant="onOrange", the way the app sets its one action on the orange field. */
+.logset { margin-top: 12px; height: 56px; border-radius: 999px; background: var(--ground); color: var(--action);
+  border: 1px solid var(--ground); display: grid; place-items: center; font-family: var(--body); font-weight: 600; font-size: 17px;
+  box-shadow: 0 18px 28px -16px rgba(60,22,8,.6); }
+
+/* ---- Set logged, a best: the whole field floods ---- */
+#s-best { background: var(--done); color: var(--ground); flex-direction: column; text-align: center; z-index: 3; }
+.nb-wrap { display: flex; flex-direction: column; align-items: center; }
+#s-best svg { width: 112px; height: 112px; }
+#s-best .nb { margin-top: 24px; font-size: 32px; }
+#s-best .nb-sum { margin-top: 4px; font-size: 20px; }
+#s-best .nb-foot { margin-top: 40px; font-size: 13px; color: rgba(22,24,29,.9); }
+
+/* ---- Finished, a record: the record screen is already this colour ---- */
+#s-pr { flex-direction: column; text-align: center; color: var(--ground); z-index: 2; }
+#s-pr .col { align-items: center; width: 342px; }
+/* On the orange field the app sets text in its ground ink (Finished: text-ground, secondary /90).
+   Cyan and dim are for the charcoal; on terracotta they measure under 1.5:1. */
+.on-field { color: rgba(22,24,29,.9); }
+.pr-label { color: rgba(22,24,29,.9); }
+.pr-bull { width: 128px; height: auto; margin-top: 12px; display: block; }
+.pr-head { margin-top: 14px; font-size: 44px; color: var(--ground); }
+.pr-card { margin-top: 18px; width: 100%; border-radius: 16px; background: var(--ground); padding: 24px 20px;
+  box-shadow: 0 26px 44px -20px rgba(60,22,8,.55), 0 8px 16px -8px rgba(60,22,8,.32); }
+.pr-card .label { color: var(--dim); }
+.pr-card .pr-fig { margin-top: 8px; font-size: 56px; color: var(--action); }
+.pr-card .pr-line { margin-top: 6px; font-size: 17px; color: var(--fg); }
+</style></head><body>
+<div class="stage" id="stage">
+
+  <!-- Progress: last 12 weeks -->
+  <section class="scene" id="s-grid">
+    <div class="col">
+      <p class="label on-field" id="g-label">Last 12 weeks</p>
+      <div class="card" id="g-card" style="margin-top: 10px">
+        <div class="lattice" id="lattice"></div>
+        <ul class="legend">
+          <li><i style="background: var(--done)"></i>Trained</li>
+          <li><i style="background: var(--cyan)"></i>Comeback</li>
+          <li><i style="background: var(--line)"></i>Missed</li>
+        </ul>
+      </div>
+      <div class="stats" id="g-stats">
+        <div class="stat"><div class="fig statement tabular" id="st-sessions">0</div><div class="lab">sessions</div></div>
+        <div class="stat"><div class="fig statement tabular is-accent" id="st-comebacks">0</div><div class="lab" id="st-comebacks-l">comebacks</div></div>
+        <div class="stat" id="st-gap"><div class="fig statement tabular">14</div><div class="lab">day gap, survived</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logging: Back Squat, set 3 of 3, loading the bar -->
+  <section class="scene" id="s-bar">
+    <div class="col">
+      <div id="b-head" class="ex-head">
+        <h2 class="statement ex-name">Back Squat</h2>
+        <p class="ex-sub on-field"><span>Set 3 of 3</span><span class="tabular">Best 147.5 lb</span></p>
+      </div>
+      <div class="card plates" id="b-card">
+        <div class="pb-top">
+          <p class="label" style="color: var(--dim)">On the bar</p>
+          <p class="statement tabular pb-total"><span id="pb-total">45</span> <small>lb</small></p>
+        </div>
+        <div class="well">
+          <div class="sleeve is-left" id="sl-left"></div>
+          <span class="collar"></span><span class="shaft"></span><span class="collar"></span>
+          <div class="sleeve" id="sl-right"></div>
+        </div>
+        <p class="pb-cap" id="pb-cap">Just the bar. Tap a plate below to put one on each end.</p>
+        <div class="pills" id="pills">
+          <span class="pill tabular">45</span><span class="pill tabular">25</span><span class="pill tabular">10</span><span class="pill tabular">5</span><span class="pill tabular">2.5</span>
+        </div>
+      </div>
+      <div class="logset" id="b-log">Log set</div>
+    </div>
+  </section>
+
+  <!-- Set logged, a best -->
+  <section class="scene" id="s-best">
+    <div class="nb-wrap" id="nb-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="nb-stamp">
+        <path id="nb-check" d="M5 13l4 4L19 7" stroke-dasharray="27" stroke-dashoffset="27" />
+      </svg>
+      <p class="statement nb" id="nb-title">New best</p>
+      <p class="tabular nb-sum" id="nb-sum">150 lb × 6</p>
+      <p class="nb-foot" id="nb-foot">That's the session · tap to finish</p>
+    </div>
+  </section>
+
+  <!-- Finished, a personal record -->
+  <section class="scene" id="s-pr">
+    <div class="col">
+      <p class="label pr-label" id="pr-label">Personal record</p>
+      <img class="pr-bull" id="pr-bull" src="mascot-cheer.png" alt="">
+      <h2 class="statement pr-head" id="pr-head">2.5 lb more than you've ever done.</h2>
+      <div class="pr-card" id="pr-card">
+        <p class="label">Back Squat</p>
+        <p class="statement tabular pr-fig">150 lb</p>
+        <p class="pr-line">Up from 147.5 lb. You beat it by 2.5.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  // ---- time ----
+  const L = 7.5;          // loop length, seconds
+  const FPS = 30;
+
+  // The app's one curve, and a symmetric one for the camera's drift.
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (u) => ((ax * u + bx) * u + cx) * u, Y = (u) => ((ay * u + by) * u + cy) * u;
+    const dX = (u) => (3 * ax * u + 2 * bx) * u + cx;
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let u = x;
+      for (let i = 0; i < 8; i++) { const d = X(u) - x; if (Math.abs(d) < 1e-6) break; const s = dX(u); if (Math.abs(s) < 1e-6) break; u -= d / s; }
+      let lo = 0, hi = 1;
+      for (let i = 0; i < 30 && Math.abs(X(u) - x) > 1e-6; i++) { if (X(u) < x) lo = u; else hi = u; u = (lo + hi) / 2; }
+      return Y(u);
+    };
+  }
+  const out = bezier(0.25, 1, 0.5, 1);          // --ease-out-quart
+  const inOut = bezier(0.45, 0, 0.55, 1);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  const p = (t, at, dur) => clamp((t - at) / dur);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const $ = (id) => document.getElementById(id);
+
+  // ---- the grid's data: rows are Sunday..Saturday, one column a week, oldest first ----
+  // 31 sessions, Wednesday 11 times, one comeback (week 8, 14 days after week 6's Wednesday).
+  const WEEKS = [[1,3,5],[1,3,5,6],[1,3,6],[2,3,5],[1,3,5,6],[1,3],[1,3],[],[3,5],[1,3,5],[1,3,5],[1,3]];
+  const COMEBACK = [8, 3];
+  const TODAY = [11, 5];                         // Friday of this week; Saturday is still ahead
+  const lattice = $('lattice');
+  const cells = [];                              // { el, w }
+  WEEKS.forEach((days, w) => {
+    const col = document.createElement('div'); col.className = 'week';
+    for (let d = 0; d < 7; d++) {
+      const c = document.createElement('div'); c.className = 'cell';
+      const isCb = w === COMEBACK[0] && d === COMEBACK[1];
+      if (w === TODAY[0] && d > TODAY[1]) c.classList.add('is-future');
+      if (days.includes(d)) {
+        c.classList.add(isCb ? 'is-comeback' : 'is-trained');
+        const fill = document.createElement('i'); c.appendChild(fill);
+        cells.push({ el: fill, w });
+      }
+      col.appendChild(c);
+    }
+    lattice.appendChild(col);
+  });
+  const perWeek = WEEKS.map((d) => d.length);
+
+  // ---- the bar: 150 lb is a 45 bar and 45 · 5 · 2.5 a side ----
+  const LOAD = [45, 5, 2.5];
+  function plateEl(pl) {
+    const e = document.createElement('span'); e.className = 'plate';
+    e.style.width = (pl >= 25 ? 15 : pl >= 10 ? 12 : 9) + 'px';
+    e.style.height = Math.max(30, Math.round((pl / 45) * 82)) + '%';
+    e.style.background = pl >= 25 ? 'var(--cyan)' : 'var(--cyan-soft)';
+    return e;
+  }
+  const plates = LOAD.map((pl) => {
+    const l = plateEl(pl), r = plateEl(pl);
+    $('sl-left').appendChild(l); $('sl-right').appendChild(r);
+    return { pl, l, r };
+  });
+  const pills = [...$('pills').children];
+  const pillFor = (pl) => pills.find((s) => s.textContent === String(pl));
+
+  // ---- the timeline (seconds) ----
+  const T = {
+    prOut: 0.9,                                   // the record screen holds from the last loop, then leaves
+    gridIn: 1.1, cells: 1.5, step: 0.105, gridOut: 3.45,
+    barIn: 3.62, taps: [4.05, 4.48, 4.86], log: 5.28,
+    best: 5.44, bestOut: 6.42,
+    prIn: 6.5,
+  };
+  const comebackAt = T.cells + COMEBACK[0] * T.step;
+
+  // Whole pounds while it rolls (every total here is whole); a half only if it lands on one.
+  function fmt(n, settled) { return settled && n % 1 ? n.toFixed(1) : String(Math.round(n)); }
+
+  // rise: the app's entrance, 10px and a fade on the one curve.
+  function rise(el, t, at, dur, dist) {
+    const k = out(p(t, at, dur || 0.3));
+    el.style.opacity = k;
+    el.style.transform = 'translateY(' + ((1 - k) * (dist == null ? 10 : dist)).toFixed(2) + 'px)';
+  }
+  // A scene's own envelope: in, a slow push while it holds, a lift as it leaves.
+  function envelope(el, t, inAt, outAt, push) {
+    const inK = out(p(t, inAt, 0.3));
+    const outK = inOut(p(t, outAt, 0.28));
+    const hold = inOut(p(t, inAt, outAt - inAt));
+    el.style.opacity = (inK * (1 - outK)).toFixed(4);
+    el.style.transform = 'translateY(' + (-12 * outK).toFixed(2) + 'px) scale(' + (1 + (push || 0) * hold).toFixed(4) + ')';
+    el.style.visibility = (t < inAt - 0.01 || t > outAt + 0.3) ? 'hidden' : 'visible';
+  }
+  // stamp: over then settle, 260ms.
+  function stamp(t, at, dur) {
+    const k = clamp((t - at) / (dur || 0.26));
+    if (k <= 0) return { o: 0, s: 0.4 };
+    if (k < 0.6) { const e = out(k / 0.6); return { o: e, s: lerp(0.4, 1.08, e) }; }
+    const e = out((k - 0.6) / 0.4); return { o: 1, s: lerp(1.08, 1, e) };
+  }
+  // nod: the bull's reaction, 620ms.
+  function nod(t, at) {
+    const k = clamp((t - at) / 0.62);
+    let y = 0, r = 0;
+    if (k > 0 && k < 0.35) { const e = out(k / 0.35); y = lerp(0, -8, e); r = lerp(0, -2, e); }
+    else if (k >= 0.35 && k < 0.7) { const e = out((k - 0.35) / 0.35); y = lerp(-8, 2, e); r = lerp(-2, 1, e); }
+    else if (k >= 0.7 && k < 1) { const e = out((k - 0.7) / 0.3); y = lerp(2, 0, e); r = lerp(1, 0, e); }
+    return 'translateY(' + y.toFixed(2) + 'px) rotate(' + r.toFixed(3) + 'deg)';
+  }
+
+  function render(tIn) {
+    const t = ((tIn % L) + L) % L;
+
+    // ---------- the record screen, which straddles the loop ----------
+    // Its own clock runs from prIn and wraps, so the frame at L is the frame at 0.
+    const tp = t >= T.prIn - 0.05 ? t - T.prIn : t + (L - T.prIn);
+    const pr = $('s-pr');
+    const prOutK = t < T.prIn - 0.05 ? inOut(p(t, T.prOut, 0.26)) : 0;
+    pr.style.visibility = (t > T.prOut + 0.3 && t < T.prIn - 0.05) ? 'hidden' : 'visible';
+    pr.style.opacity = (1 - prOutK).toFixed(4);
+    const prHold = L - T.prIn + T.prOut;              // how long it sits before leaving
+    pr.style.transform = 'translateY(' + (-12 * prOutK).toFixed(2) + 'px) scale(' + (1 + 0.022 * inOut(clamp(tp / prHold))).toFixed(4) + ')';
+    rise($('pr-label'), tp, 0.0, 0.3);
+    const bull = $('pr-bull');
+    const bk = out(p(tp, 0.05, 0.3));
+    bull.style.opacity = bk;
+    bull.style.transform = 'translateY(' + ((1 - bk) * 10).toFixed(2) + 'px) ' + nod(tp, 0.12);
+    rise($('pr-head'), tp, 0.13, 0.3);
+    rise($('pr-card'), tp, 0.21, 0.3);
+
+    // ---------- Progress: the grid draws itself ----------
+    const grid = $('s-grid');
+    envelope(grid, t, T.gridIn, T.gridOut, 0.03);
+    rise($('g-label'), t, T.gridIn, 0.3);
+    rise($('g-card'), t, T.gridIn + 0.04, 0.3);
+    rise($('g-stats'), t, T.gridIn + 0.08, 0.3);
+    // Only a day she trained arrives; the lattice is already there.
+    for (const c of cells) {
+      const k = out(p(t, T.cells + c.w * T.step, 0.26));
+      c.el.style.opacity = k.toFixed(4);
+      c.el.style.transform = 'scale(' + lerp(0.72, 1, k).toFixed(4) + ')';
+    }
+    let landed = 0;
+    for (let w = 0; w < WEEKS.length; w++) if (t >= T.cells + w * T.step + 0.06) landed += perWeek[w];
+    $('st-sessions').textContent = landed;
+    const cbOn = t >= comebackAt + 0.06;
+    $('st-comebacks').textContent = cbOn ? 1 : 0;
+    $('st-comebacks-l').textContent = cbOn ? 'comeback' : 'comebacks';
+    const st = cbOn ? stamp(t, comebackAt + 0.06) : { o: 1, s: 1 };
+    $('st-comebacks').style.transform = 'scale(' + st.s.toFixed(4) + ')';
+    // The gap stat only exists once a gap has been survived, as in the app.
+    rise($('st-gap'), t, comebackAt + 0.1, 0.3);
+
+    // ---------- Logging: loading the bar ----------
+    const bar = $('s-bar');
+    // It leaves under the flood, once the green has reached every corner.
+    envelope(bar, t, T.barIn, T.best + 0.4, 0.02);
+    rise($('b-head'), t, T.barIn, 0.3);
+    rise($('b-card'), t, T.barIn + 0.04, 0.3);
+    rise($('b-log'), t, T.barIn + 0.08, 0.3);
+    let total = 45, from = 45, cap = 'Just the bar. Tap a plate below to put one on each end.';
+    const onBar = [];
+    plates.forEach((pp, i) => {
+      const at = T.taps[i];
+      // The pill answers the tap first, then the pair goes on.
+      const pill = pillFor(pp.pl);
+      const press = p(t, at, 0.16);
+      const pressK = press > 0 && press < 1 ? Math.sin(press * Math.PI) : 0;
+      pill.style.background = pressK > 0 ? 'var(--line)' : 'var(--raise)';
+      pill.style.transform = 'scale(' + (1 - 0.04 * pressK).toFixed(4) + ')';
+      const k = out(p(t, at + 0.05, 0.32));
+      const travel = 44;
+      pp.l.style.opacity = clamp(k * 3).toFixed(4);
+      pp.r.style.opacity = clamp(k * 3).toFixed(4);
+      pp.l.style.transform = 'translateX(' + (-(1 - k) * travel).toFixed(2) + 'px)';
+      pp.r.style.transform = 'translateX(' + ((1 - k) * travel).toFixed(2) + 'px)';
+      if (t >= at + 0.05) {
+        onBar.push(pp.pl);
+        from = total;
+        const roll = out(p(t, at + 0.05, 0.26));
+        total = lerp(from, from + 2 * pp.pl, roll);
+      }
+    });
+    if (onBar.length) cap = onBar.map((x) => (x % 1 ? x : x.toFixed(0))).join(' · ') + ' a side';
+    $('pb-total').textContent = fmt(total, total === 45 + 2 * onBar.reduce((a, b) => a + b, 0));
+    $('pb-cap').textContent = cap;
+    const logK = p(t, T.log, 0.16);
+    const logPress = logK > 0 && logK < 1 ? Math.sin(logK * Math.PI) : 0;
+    $('b-log').style.background = logPress > 0 ? 'rgba(22,24,29,.9)' : 'var(--ground)';
+    $('b-log').style.transform = 'scale(' + (1 - 0.015 * logPress).toFixed(4) + ')';  // active:scale-[0.985]
+
+    // ---------- Set logged: a best floods the field ----------
+    const best = $('s-best');
+    // The app fades its flood in over a charcoal screen. Over this terracotta a fade passes
+    // through olive, so on the cover the green spreads from the thumb on Log set instead,
+    // and leaves by draining downward, top first, so the record screen underneath arrives
+    // in its own reading order.
+    const sr = $('stage').getBoundingClientRect(), lr = $('b-log').getBoundingClientRect();
+    const cx = lr.left + lr.width / 2 - sr.left, cy = lr.top + lr.height / 2 - sr.top;
+    const reach = Math.hypot(Math.max(cx, 720 - cx), Math.max(cy, 480 - cy)) + 4;
+    const spread = out(p(t, T.best, 0.34));
+    const drain = inOut(p(t, T.bestOut, 0.45));
+    best.style.opacity = t >= T.best ? 1 : 0;
+    best.style.clipPath = t < T.bestOut
+      ? 'circle(' + (reach * spread).toFixed(2) + 'px at ' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px)'
+      : 'inset(' + (100 * drain).toFixed(3) + '% 0 0 0)';
+    best.style.visibility = (t < T.best - 0.01 || t > T.bestOut + 0.46) ? 'hidden' : 'visible';
+    // The app spends this on a whole phone screen; on a cover it is held closer, with a slow push.
+    $('nb-wrap').style.transform = 'scale(' + (1.16 + 0.06 * inOut(p(t, T.best, T.bestOut + 0.45 - T.best))).toFixed(4) + ')';
+    const sb = stamp(t, T.best + 0.02);
+    $('nb-stamp').style.opacity = sb.o.toFixed(4);
+    $('nb-stamp').style.transform = 'scale(' + sb.s.toFixed(4) + ')';
+    $('nb-check').setAttribute('stroke-dashoffset', (27 * (1 - out(p(t, T.best + 0.13, 0.24)))).toFixed(3));
+    rise($('nb-title'), t, T.best + 0.06, 0.24);
+    rise($('nb-sum'), t, T.best + 0.11, 0.24);
+    rise($('nb-foot'), t, T.best + 0.16, 0.24);
+  }
+
+  const imgs = [...document.images].map((im) => im.decode ? im.decode().catch(() => {}) : Promise.resolve());
+  // Ask for every face by name: fonts.ready alone can resolve before a face is even requested.
+  const faces = ['700 44px "Barlow Condensed"', '600 15px "Barlow"', '400 15px "Barlow"', '500 15px "Barlow"']
+    .map((f) => document.fonts.load(f).catch(() => {}));
+  const ready = Promise.all([...faces, ...imgs]).then(() => document.fonts.ready).then(() => { render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, ready };
+
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => {
+      const t0 = performance.now();
+      const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    });
+  } else {
+    render(0);
+  }
+})();
+</script>
+</body></html>

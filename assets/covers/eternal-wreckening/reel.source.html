@@ -1,0 +1,171 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  Eternal Wreckening animated cover (2026-11-09). An 8 second loop from the game's own screens, which are
+  Lucy's hand-painted art (never filtered or recoloured; only framed, cropped and moved):
+  the title screen (frame-01), then four Guardians against one Entity (Harper Stone from frame-05, Sorcha
+  Nightshade from frame-20), the cards tilting the way the phone is tilted to look around; the three
+  gadgets dealt like cards (Stun, Amplify, Mask, frames 06 to 08); the portal turning on (frame-23); and
+  back to the title. Frame 0 is the title screen, whole.
+
+  Type is the game's: Martyric for headings, Blood Crow for the line (both installed on this Mac; the
+  reel ships as video, the fonts never do). One curve, cubic-bezier(0.25, 1, 0.5, 1).
+    node scripts/cover-reel.mjs --cover=eternal-wreckening --sheet
+-->
+<style>
+@font-face { font-family: 'Martyric'; src: local('Martyric'), url('file:///Users/lucyliu/Library/Fonts/Martyric_PersonalUse.ttf'); font-display: block; }
+@font-face { font-family: 'Blood Crow'; src: local('Blood Crow'), url('file:///Users/lucyliu/Library/Fonts/bloodcrow.ttf'); font-display: block; }
+:root { --bone: #e8dfcf; --blood: #b3262c; --ember: #c8571a; --night: #0f0909; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--night); }
+body { -webkit-font-smoothing: antialiased; color: var(--bone); }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden;
+  background: radial-gradient(420px 300px at 50% 46%, #3a1a17 0%, #1a0e0d 60%, var(--night) 100%); }
+.stage::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 30; opacity: .14; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .4  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+.abs { position: absolute; will-change: transform, opacity; }
+.crop { position: absolute; overflow: hidden; }
+.crop > img { position: absolute; max-width: none; display: block; }
+.card { box-shadow: 0 0 0 2px rgba(232,223,207,.12), 0 30px 50px -18px rgba(0,0,0,.9), 0 10px 18px -8px rgba(0,0,0,.7); }
+.head { font-family: 'Martyric', serif; color: var(--bone); text-shadow: 0 2px 0 rgba(0,0,0,.6), 0 0 18px rgba(0,0,0,.6); white-space: nowrap; }
+.crow { font-family: 'Blood Crow', serif; color: var(--bone); letter-spacing: .04em; white-space: nowrap; }
+
+/* poster: the title screen, whole height */
+#title { left: -160px; top: 0; }
+#title-line { left: 0; width: 720px; top: 432px; text-align: center; font-size: 18px; }
+#title-shade { left: 0; top: 380px; width: 720px; height: 100px; background: linear-gradient(180deg, transparent, rgba(10,6,6,.78)); }
+
+/* beat 1: four against one */
+#harper, #sorcha { top: 92px; }
+#harper { left: 90px; }
+#sorcha { left: 380px; }
+#vs { left: 0; width: 720px; top: 206px; text-align: center; font-size: 58px; color: var(--blood); }
+.who { top: 404px; font-size: 24px; width: 250px; text-align: center; }
+#who-g { left: 90px; }
+#who-e { left: 380px; color: #e0a39d; }
+
+/* beat 2: the gadgets */
+.gad { top: 102px; }
+#gad-tag { left: 0; width: 720px; top: 52px; text-align: center; font-size: 24px; }
+
+/* beat 3: the portal */
+#portal-off, #portal-on { left: 210px; top: 58px; }
+#glow { left: 160px; top: 40px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(closest-side, rgba(220,30,30,.55), rgba(160,20,20,.18) 55%, transparent); }
+#portal-tag { left: 0; width: 720px; top: 424px; text-align: center; font-size: 20px; }
+#black { left: 0; top: 0; width: 720px; height: 480px; background: var(--night); }
+</style></head><body>
+<div class="stage" id="stage">
+  <!-- beat 1 -->
+  <div class="crop abs card" id="harper" data-box="910,56,540,628" data-w="250"><img src="../../eternal-wreckening/frames/frame-05.jpg" alt=""></div>
+  <div class="crop abs card" id="sorcha" data-box="988,56,540,628" data-w="250"><img src="../../eternal-wreckening/frames/frame-20.jpg" alt=""></div>
+  <div class="abs head" id="vs">VS</div>
+  <div class="abs crow who" id="who-g">Four Guardians</div>
+  <div class="abs crow who" id="who-e">One Entity</div>
+
+  <!-- beat 2 -->
+  <div class="abs crow" id="gad-tag">Pick three gadgets</div>
+  <div class="crop abs card gad" id="g1" data-box="60,54,428,620" data-w="168"><img src="../../eternal-wreckening/frames/frame-06.jpg" alt=""></div>
+  <div class="crop abs card gad" id="g2" data-box="46,54,456,620" data-w="168"><img src="../../eternal-wreckening/frames/frame-07.jpg" alt=""></div>
+  <div class="crop abs card gad" id="g3" data-box="60,54,428,620" data-w="168"><img src="../../eternal-wreckening/frames/frame-08.jpg" alt=""></div>
+
+  <!-- beat 3 -->
+  <div class="abs" id="glow"></div>
+  <div class="crop abs card" id="portal-off" data-box="60,60,540,624" data-w="300"><img src="../../eternal-wreckening/frames/frame-23.jpg" alt=""></div>
+  <div class="crop abs card" id="portal-on" data-box="624,60,540,624" data-w="300"><img src="../../eternal-wreckening/frames/frame-23.jpg" alt=""></div>
+  <div class="abs crow" id="portal-tag">Throw the gems into the portal to close it</div>
+
+  <!-- poster -->
+  <div class="crop abs" id="title" data-box="0,0,1600,739" data-w="1040"><img src="../../eternal-wreckening/frames/frame-01.jpg" alt=""></div>
+  <div class="abs" id="title-shade"></div>
+  <div class="abs crow" id="title-line">Four versus one · mobile horror · motion controls</div>
+  <div class="abs" id="black"></div>
+</div>
+
+<script>
+(() => {
+  const L = 8, FPS = 30;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, a, d) => clamp((t - a) / d);
+  const out = (x) => 1 - Math.pow(1 - x, 4);
+  const inOut = (x) => x < .5 ? 8 * x ** 4 : 1 - Math.pow(-2 * x + 2, 4) / 2;
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const set = (el, o, x = 0, y = 0, s = 1, r = 0) => {
+    el.style.opacity = o.toFixed(4);
+    el.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(4)})`;
+    el.style.visibility = o < 0.002 ? 'hidden' : 'visible';
+  };
+  const env = (t, a, d, b, e) => { const i = out(p(t, a, d)), o = inOut(p(t, b, e)); return { o: i * (1 - o), k: i, ko: o }; };
+
+  function layout() {
+    document.querySelectorAll('.crop').forEach((el) => {
+      const [x, y, w, h] = el.dataset.box.split(',').map(Number);
+      const W = parseFloat(el.dataset.w), s = W / w;
+      el.style.width = W + 'px'; el.style.height = (h * s) + 'px';
+      const img = el.querySelector('img');
+      img.style.width = (img.naturalWidth * s) + 'px';
+      img.style.left = (-x * s) + 'px'; img.style.top = (-y * s) + 'px';
+    });
+  }
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+
+    // ---------- the title screen: poster, and where the loop lands ----------
+    const tOut = inOut(p(t, 0.95, 0.45));
+    const tIn = out(p(t, 7.2, 0.6));
+    const tk = t < 4 ? 1 - tOut : tIn;
+    // it falls back into the dark as the characters arrive, and comes up out of it at the end
+    set($('title'), tk, 0, 0, t < 4 ? 1 + 0.06 * tOut : 1 + 0.04 * (1 - tIn));
+    set($('title-shade'), tk);
+    const lk = t < 4 ? 1 - tOut : out(p(t, 7.4, 0.5));
+    set($('title-line'), lk, 0, (1 - lk) * 8);
+    // a short cut to black between the portal and the title
+    const blk = Math.sin(Math.PI * p(t, 6.85, 0.55));
+    $('black').style.opacity = (blk * 0.9).toFixed(4);
+
+    // ---------- beat 1: four Guardians, one Entity ----------
+    const b1 = env(t, 1.2, 0.55, 2.95, 0.4);
+    // the two cards tilt together, as the phone does when you look around
+    const tilt = Math.sin(Math.PI * 2 * p(t, 1.75, 1.2)) * 2.2;
+    set($('harper'), b1.o, -(1 - b1.k) * 60, -b1.ko * 14, 1, -2 + tilt);
+    set($('sorcha'), b1.o, (1 - b1.k) * 60, -b1.ko * 14, 1, 2 + tilt);
+    const v = env(t, 1.5, 0.35, 2.95, 0.35);
+    set($('vs'), v.o, 0, 0, lerp(1.6, 1, v.k));
+    const wg = env(t, 1.55, 0.45, 2.95, 0.35), we = env(t, 1.65, 0.45, 2.95, 0.35);
+    set($('who-g'), wg.o, 0, (1 - wg.k) * 12);
+    set($('who-e'), we.o, 0, (1 - we.k) * 12);
+
+    // ---------- beat 2: three gadgets, dealt ----------
+    const xs = [90, 276, 462], rs = [-6, 0, 6], ys = [14, 0, 14];
+    ['g1', 'g2', 'g3'].forEach((id, i) => {
+      const g = env(t, 3.15 + i * 0.16, 0.5, 4.95, 0.4);
+      const el = $(id); el.style.left = xs[i] + 'px';
+      set(el, g.o, (276 - xs[i]) * (1 - g.k), ys[i] + (1 - g.k) * 220 - g.ko * 16, 1, rs[i] * g.k);
+    });
+    const gt = env(t, 3.35, 0.45, 4.95, 0.35);
+    set($('gad-tag'), gt.o, 0, (1 - gt.k) * 10);
+
+    // ---------- beat 3: the portal turns on ----------
+    const b3 = env(t, 5.1, 0.5, 6.85, 0.3);
+    set($('portal-off'), b3.o, 0, (1 - b3.k) * 18, lerp(.96, 1, b3.k) + 0.03 * p(t, 5.1, 1.75));
+    const on = inOut(p(t, 5.75, 0.35));
+    set($('portal-on'), b3.o * on, 0, (1 - b3.k) * 18, lerp(.96, 1, b3.k) + 0.03 * p(t, 5.1, 1.75));
+    const pulse = on * (0.75 + 0.25 * Math.sin(Math.PI * 2 * p(t, 5.75, 0.55)));
+    set($('glow'), b3.o * pulse, 0, 0, 0.8 + 0.3 * on);
+    const pt = env(t, 5.4, 0.45, 6.75, 0.3);
+    set($('portal-tag'), pt.o, 0, (1 - pt.k) * 8);
+  }
+
+  const imgs = [...document.images].map((im) => im.decode ? im.decode().catch(() => {}) : Promise.resolve());
+  const faces = ['400 40px "Martyric"', '400 15px "Blood Crow"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const ready = Promise.all([...faces, ...imgs]).then(() => document.fonts.ready).then(() => { layout(); render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, fonts: ['Martyric', 'Blood Crow'], ready };
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  }
+})();
+</script>
+</body></html>

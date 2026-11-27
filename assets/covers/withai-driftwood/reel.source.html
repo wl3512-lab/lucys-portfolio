@@ -1,0 +1,124 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  With AI window preview: Driftwood (2026-11-13, cover redesign). 5 s loop, 30 fps, one family with
+  withai-creature, -habitabull, -today, -agent.
+  Poster (frame 0 = last frame): a composed cover. The garden green fills the frame; the fox, the game's
+  own sprite (../../../icons/fox.svg, 14 css px a sprite pixel, never redrawn or recoloured), sits on a
+  mint disc in the middle; six flat shapes in the pets' own colours sit round it, some cropped by the edge.
+  Hover: the shapes drift out and grow, the fox hops off, the mint disc floods the frame, a circle opens
+  from the centre on the game itself (2026-11-20, Lucy's pick B: "second one"): the real v2 garden on a laptop
+  (../../driftwood/v2/drift.webp) with the phone version in front (../../driftwood/v2/phone.webp), on the game's sky; the
+  screens only scaled and framed, the devices drawn in CSS like withai-habitabull's phones,
+  holds, closes, and everything settles back exactly to the cover. One curve: quart out
+  (~ cubic-bezier(0.25, 1, 0.5, 1)), plus a small spring on the fox's landing.
+    node scripts/cover-reel.mjs --cover=withai-driftwood --sheet
+-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #1e5236; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: #1e5236; }
+.abs { position: absolute; left: 0; top: 0; will-change: transform; }
+.shape { transform-origin: 50% 50%; }
+.c { border-radius: 50%; }
+.s { border-radius: 22%; }
+#disc { border-radius: 50%; background: #69f0ae; }
+#reveal { width: 720px; height: 480px; overflow: hidden; }
+#scene { position: absolute; inset: 0; transform-origin: 50% 50%;
+  background: radial-gradient(412px 323px at 12% 18%, #cdeef8 0%, transparent 70%), radial-gradient(353px 265px at 92% 96%, #6fbcd9 0%, transparent 70%), #9fd8ec; }
+.laptop { position: absolute; left: 50%; top: 50%; width: 470px; transform: translate(-50%,-50%) translate(-50px, -14px); }
+.lid { border-radius: 14px 14px 4px 4px; padding: 9px 9px 11px; background: #0e1013; box-shadow: 0 1px 0 rgba(255,255,255,.06) inset; }
+.lid img, .phone img { display: block; width: 100%; height: auto; }
+.lid img { border-radius: 4px; }
+.base { position: relative; height: 12px; margin: 0 -34px; border-radius: 2px 2px 12px 12px; background: linear-gradient(#c9ccd2, #8d9198); box-shadow: 0 26px 40px -18px rgba(8,40,20,.65); }
+.base::after { content: ''; position: absolute; left: 50%; top: 0; width: 80px; height: 5px; margin-left: -40px; border-radius: 0 0 6px 6px; background: #7c8088; }
+.phone { position: absolute; left: 50%; top: 50%; width: 128px; z-index: 2; border-radius: 30px; padding: 6px; background: #0e1013;
+  transform: translate(-50%,-50%) translate(210px, 44px) rotate(3deg);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 30px 50px -24px rgba(8,40,20,.6), 0 10px 18px -10px rgba(8,40,20,.35); }
+.phone img { border-radius: 24px; }
+#fox { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+</style></head><body>
+<div class="stage" id="stage">
+  <div id="shapes"></div>
+  <div class="abs" id="disc"></div>
+  <img class="abs" id="fox" src="../../../icons/fox.svg" alt="" width="168" height="182">
+  <div class="abs" id="reveal"><div id="scene"><div class="laptop"><div class="lid"><img src="../../driftwood/v2/drift.webp" alt=""></div><div class="base"></div></div><div class="phone"><img src="../../driftwood/v2/phone.webp" alt=""></div></div></div>
+</div>
+<script>
+(() => {
+  const L = 5, FPS = 30, CX = 360, CY = 240;
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, a, d) => clamp((t - a) / d);
+  const out = (x) => 1 - Math.pow(1 - x, 4);                       // ~ cubic-bezier(0.25, 1, 0.5, 1)
+  const back = (x) => { const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+  // there (0 to 1 over a..a+d) and back (1 to 0 over r..r+e), both on the one curve
+  const swing = (t, a, d, r, e) => out(p(t, a, d)) * (1 - out(p(t, r, e)));
+
+  // The cover. k: c circle, s rounded pixel block, r ring (w = stroke). dx/dy: drift on hover (px), g: growth.
+  const SHAPES = [
+    { k: 'c', x: 84,  y: 452, D: 300, col: '#ffd18a', dx: -26, dy: 20,  g: .16 },              // amber, cropped bottom left
+    { k: 'c', x: 70,  y: 46,  D: 150, col: '#173726', dx: -18, dy: -16, g: .22 },              // deep green, top left
+    { k: 'c', x: 178, y: 120, D: 34,  col: '#ffb4b4', dx: -30, dy: -22, g: .5 },               // pink dot
+    { k: 's', x: 640, y: 74,  D: 150, col: '#f08c32', dx: 26,  dy: -18, g: .18, rot: 14 },     // orange block, top right
+    { k: 'r', x: 664, y: 420, D: 220, col: '#69f0ae', w: 22, dx: 24, dy: 24, g: .2 },          // mint ring, bottom right
+    { k: 's', x: 560, y: 300, D: 40,  col: '#ffc864', dx: 30,  dy: 6,   g: .45, rot: -12 },    // small yellow block
+  ];
+  const DISC = 272, FLOOD = 900;
+  const shapes = SHAPES.map((s) => {
+    const el = document.createElement('div');
+    el.className = 'abs shape ' + (s.k === 'r' ? 'c' : s.k);
+    el.style.width = el.style.height = s.D + 'px';
+    if (s.k === 'r') el.style.boxShadow = `inset 0 0 0 ${s.w}px ${s.col}`; else el.style.background = s.col;
+    document.getElementById('shapes').appendChild(el);
+    return { s, el };
+  });
+  const disc = document.getElementById('disc');
+  const fox = document.getElementById('fox');
+  const reveal = document.getElementById('reveal');
+  const shot = document.getElementById('scene');
+  const FW = 168, FH = 182;
+  const FX = CX - FW / 2, FY = CY - FH / 2 - 4;   // whole pixels
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+    // shapes: drift out and grow, then settle back exactly
+    const ks = swing(t, .15, .95, 3.45, 1.05);
+    for (const { s, el } of shapes) {
+      const sc = 1 + s.g * ks;
+      const rot = (s.rot || 0) + 8 * ks * Math.sign(s.dx);
+      el.style.transform = `translate(${(s.x - s.D / 2 + s.dx * ks).toFixed(2)}px, ${(s.y - s.D / 2 + s.dy * ks).toFixed(2)}px) scale(${sc.toFixed(4)}) rotate(${rot.toFixed(2)}deg)`;
+    }
+    // the mint disc floods the frame and comes back
+    const kd = swing(t, .5, .85, 3.25, .9);
+    const D = DISC + (FLOOD - DISC) * kd;
+    disc.style.width = disc.style.height = D.toFixed(2) + 'px';
+    disc.style.transform = `translate(${(CX - D / 2).toFixed(2)}px, ${(CY - D / 2).toFixed(2)}px)`;
+    // the fox: a hop up and away (pixel art pops, never fades), and a drop back in with a small spring
+    let fy = 0, fv = true;
+    if (t >= .32 && t < 3.72) {
+      const h = p(t, .32, .3);
+      fy = -Math.sin(Math.PI * .5 * h) * 42; fv = h < .999;
+    } else if (t >= 3.72 && t < 4.3) {
+      fy = -44 * (1 - back(p(t, 3.72, .5)));
+    }
+    if (t >= .62 && t < 3.72) fv = false;
+    fox.style.visibility = fv ? 'visible' : 'hidden';
+    fox.style.transform = `translate(${FX}px, ${Math.round(FY + fy)}px)`;
+    // the game opens from the centre, holds, closes
+    const kr = swing(t, .78, .85, 3.05, .8);
+    const R = 440 * kr;
+    reveal.style.visibility = R < 6 ? 'hidden' : 'visible';
+    reveal.style.clipPath = `circle(${R.toFixed(2)}px at ${CX}px ${CY}px)`;
+    shot.style.transform = `scale(${(1.08 - .08 * out(p(t, .78, 2.2))).toFixed(4)})`;
+  }
+
+  const imgs = [...document.images];
+  const ready = Promise.all(imgs.map((im) => im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; })))
+    .then(() => Promise.all(imgs.map((im) => im.decode().catch(() => 0))));
+  window.__reel = { duration: L, fps: FPS, fonts: [], ready, render };
+  render(0);
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const loop = (n) => { render((n - t0) / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); });
+  }
+})();
+</script>
+</body></html>

@@ -36,7 +36,13 @@ html,body{margin:0;background:#d57e5c}
 .meta{display:flex;gap:16px;flex-wrap:wrap}
 .pill{font-family:'Barlow Condensed';font-weight:600;font-size:28px;letter-spacing:.14em;text-transform:uppercase;padding:16px 26px;border-radius:999px;border:2px solid rgba(22,24,29,.55)}
 .pill.on{background:#16181d;border-color:#16181d;color:#f4f6f7}
+/* ?layer=copy: only the copy, on a transparent page, for the animated hero in habitabull.html
+   (scripts/cover-wall-layers.mjs). The wall and the field are drawn live there. */
+html.layer-copy, html.layer-copy body { background: transparent; }
+html.layer-copy .cover { background: none; }
+html.layer-copy .cover::after, html.layer-copy .wall { display: none; }
 </style></head><body>
+<script>if (/[?&]layer=copy\b/.test(location.search)) document.documentElement.classList.add('layer-copy');</script>
 <div class="cover">
   <div class="wall">
     <div class="col">

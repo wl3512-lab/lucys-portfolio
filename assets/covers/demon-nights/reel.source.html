@@ -1,0 +1,212 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  Demon Nights animated cover (2026-11-09). An 8 second loop of the real ceiling footage
+  (assets/live-visuals-nyc/live-av-1..4.mp4, untouched, always whole at its own 9:16 shape),
+  framed as the ceiling's projection panels beside the page's own words. The meter on the
+  left is the page's four bands (kick, low, mid, high), read from the featured clip's own
+  audio track by a short numpy analysis (bands.js), so it moves with what is on screen.
+
+  Beats: three panels (the poster); the middle panel opens up to the room on the dance floor
+  (CH 02, The set, mid-night); a channel flicker to the drop (CH 03); back to three panels.
+  Channel changes use the page's own flicker, beat for beat. Frame 0 = the last frame: every
+  panel's clip time is continuous through the loop seam and only jumps while it is hidden.
+
+  Export: node scripts/cover-reel.mjs --cover=demon-nights --sheet
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=block">
+<style>
+:root {
+  --void: #05060f; --night: #090b1e; --deep: #0e122e; --line: #2f3352; --mute: #444a75; --dim: #5c649e;
+  --peri: #7681cc; --lav: #94a1ff; --ice: #ced6fc; --white: #ecf0ff;
+  --fg3: rgba(160, 200, 255, .65);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--void); }
+body { -webkit-font-smoothing: antialiased; color: var(--white); }
+.stage {
+  position: relative; width: 720px; height: 480px; overflow: hidden;
+  background:
+    radial-gradient(420px 300px at 66% 8%, rgba(118,129,204,.20) 0%, transparent 70%),
+    radial-gradient(380px 260px at 6% 100%, rgba(68,74,117,.28) 0%, transparent 70%),
+    var(--night);
+}
+.grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: .10; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .6  0 0 0 0 .65  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+/* The projector's spill on the wall behind the featured panel; it breathes with the kick. */
+.spill { position: absolute; width: 520px; height: 520px; left: 214px; top: -20px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(148,161,255,.30), rgba(148,161,255,.08) 55%, transparent 100%);
+  will-change: opacity, transform; }
+
+.col { position: absolute; left: 44px; top: 0; bottom: 0; width: 196px; display: flex; flex-direction: column; justify-content: center; }
+.kick { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--fg3); }
+.title { margin-top: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 44px; line-height: .92; letter-spacing: -.01em; color: var(--white); }
+.line { margin-top: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.35; color: rgba(235,243,255,.78); }
+.meter { margin-top: 26px; display: grid; grid-template-columns: 40px 1fr; row-gap: 9px; align-items: center; }
+.meter b { font-family: 'Space Mono', monospace; font-weight: 400; font-size: 9.5px; letter-spacing: .14em; color: var(--fg3); }
+.track { position: relative; height: 6px; background: rgba(47,51,82,.9); border-radius: 1px; overflow: hidden; }
+.track i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform-origin: 0 50%; background: var(--lav); }
+.track.is-kick i { background: var(--ice); }
+.ch { margin-top: 24px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ice); height: 14px; white-space: nowrap; }
+.ch span { color: var(--fg3); }
+
+/* A projection panel: the clip at its own 9:16 shape, never cropped. */
+.panel { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; will-change: transform, opacity;
+  background: var(--void); box-shadow: 0 0 0 1px rgba(148,161,255,.22), 0 30px 50px -24px rgba(0,0,0,.8); }
+.panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.panel .tag { position: absolute; left: 0; top: -17px; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .14em; color: var(--fg3); white-space: nowrap; }
+</style></head><body>
+<div class="stage" id="stage">
+  <div class="spill" id="spill"></div>
+  <div class="grain"></div>
+  <div class="col">
+    <p class="kick">TouchDesigner · live · NYC</p>
+    <h1 class="title">Demon<br>Nights</h1>
+    <p class="line">Thursdays, 11pm to 4am<br>on the ceiling at Maison Nur</p>
+    <div class="meter">
+      <b>KICK</b><div class="track is-kick"><i id="m0"></i></div>
+      <b>LOW</b><div class="track"><i id="m1"></i></div>
+      <b>MID</b><div class="track"><i id="m2"></i></div>
+      <b>HIGH</b><div class="track"><i id="m3"></i></div>
+    </div>
+    <p class="ch" id="ch"></p>
+  </div>
+  <div class="panel" id="pL"><canvas width="496" height="882"></canvas><p class="tag">CH 04</p></div>
+  <div class="panel" id="pR"><canvas width="496" height="882"></canvas><p class="tag">CH 03</p></div>
+  <div class="panel" id="pM"><canvas width="496" height="882"></canvas><p class="tag" id="pM-tag">CH 01</p></div>
+</div>
+<script src="bands.js"></script>
+<script>
+(function () {
+  const L = 8, FPS = 30;
+  const SRC = (n) => '../../live-visuals-nyc/live-av-' + n + '.mp4';
+
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (u) => ((ax * u + bx) * u + cx) * u, Y = (u) => ((ay * u + by) * u + cy) * u;
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let lo = 0, hi = 1, u = x;
+      for (let i = 0; i < 40; i++) { if (X(u) < x) lo = u; else hi = u; u = (lo + hi) / 2; }
+      return Y(u);
+    };
+  }
+  const out = bezier(0.25, 1, 0.5, 1), inOut = bezier(0.45, 0, 0.55, 1);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  const p = (t, at, dur) => clamp((t - at) / dur);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const $ = (id) => document.getElementById(id);
+
+  // ---- footage: one <video> per panel per clip, so two panels never fight over a seek ----
+  const vids = {};
+  function vid(key, n) {
+    if (!vids[key]) { const v = document.createElement('video'); v.src = SRC(n); v.muted = true; v.preload = 'auto'; v.playsInline = true; vids[key] = v; }
+    return vids[key];
+  }
+  function seek(v, time) {
+    const d = v.duration || 99;
+    time = Math.max(0, Math.min(d - 0.04, time));
+    if (Math.abs(v.currentTime - time) < 1e-3 && v.readyState >= 2) return Promise.resolve();
+    return new Promise((r) => { v.addEventListener('seeked', r, { once: true }); v.currentTime = time; });
+  }
+  async function paint(panel, key, n, time, alpha) {
+    const c = panel.querySelector('canvas'), g = c.getContext('2d');
+    const v = vid(key, n);
+    await seek(v, time);
+    g.globalAlpha = 1; g.fillStyle = '#05060f'; g.fillRect(0, 0, c.width, c.height);
+    g.globalAlpha = alpha; g.drawImage(v, 0, 0, c.width, c.height);   // every clip is 9:16, as is the canvas
+    g.globalAlpha = 1;
+  }
+
+  // The page's channel change, beat for beat ([0, 1, 0, swap, 1, 0, 1]), one beat a frame.
+  const BEATS = [0, 1, 0, 'swap', 1, 0, 1];
+  function flick(t, at) {
+    const i = Math.floor((t - at) * FPS);
+    if (i < 0) return { a: 1, swapped: false };
+    if (i >= BEATS.length) return { a: 1, swapped: true };
+    const b = BEATS[i];
+    return { a: b === 1 ? 1 : 0.18, swapped: i >= 3 };
+  }
+
+  // u: time around the seam, continuous through t = L -> 0, jumping at mid-loop (panels hidden).
+  const around = (t) => (t < L / 2 ? t : t - L);
+
+  const T = { open: 1.3, drop: 3.75, close: 6.1, morph: 0.55 };
+  const CX = 487, CY = 246;
+  const SMALL = { w: 132, h: 235 }, BIG = { w: 246, h: 437 };
+
+  function place(el, x, y, w, h, o, s) {
+    el.style.width = w + 'px'; el.style.height = h + 'px';
+    el.style.transform = 'translate(' + (x - w / 2).toFixed(2) + 'px,' + (y - h / 2).toFixed(2) + 'px) scale(' + (s || 1).toFixed(4) + ')';
+    el.style.opacity = o.toFixed(4);
+    el.style.visibility = o < 0.002 ? 'hidden' : 'visible';
+  }
+  const level = (clip, time, b) => {
+    const a = (window.BANDS || {})[clip]; if (!a) return 0;
+    const i = Math.max(0, Math.min(a.length - 1, Math.round(time * FPS)));
+    return a[i][b] / 99;
+  };
+
+  async function render(tIn) {
+    const t = ((tIn % L) + L) % L;
+    const u = around(t);
+
+    // how open the middle panel is: 0 three panels, 1 the one big panel
+    const open = t < L / 2 ? out(p(t, T.open, T.morph)) : 1 - inOut(p(t, T.close, T.morph));
+
+    // the middle panel's channel
+    let feat;
+    const fOpen = flick(t, T.open), fDrop = flick(t, T.drop), fClose = flick(t, T.close);
+    if (t < T.open || !fOpen.swapped) feat = { key: 'm1', n: 1, clip: 'live-av-1', time: 7.6 + u, a: fOpen.a, ch: ['01', 'How it works'] };
+    else if (t < T.drop || !fDrop.swapped) feat = { key: 'm2', n: 2, clip: 'live-av-2', time: 0.4 + (t - T.open), a: t < T.drop ? fOpen.a : fDrop.a, ch: ['02', 'The set, mid-night'] };
+    else if (t < T.close || !fClose.swapped) feat = { key: 'm3', n: 3, clip: 'live-av-3', time: 0.1 + (t - T.drop), a: t < T.close ? fDrop.a : fClose.a, ch: ['03', 'The drop'] };
+    else feat = { key: 'm1', n: 1, clip: 'live-av-1', time: 7.6 + u, a: fClose.a, ch: ['01', 'How it works'] };
+
+    // geometry
+    const mw = lerp(SMALL.w, BIG.w, open), mh = lerp(SMALL.h, BIG.h, open);
+    const my = lerp(CY - 14, CY, open);
+    place($('pM'), CX, my, mw, mh, 1);
+    $('pM-tag').textContent = 'CH ' + feat.ch[0];
+    const side = 1 - clamp(open * 1.6);
+    const gap = 12;
+    const off = SMALL.w + gap + 34 * (1 - side);
+    place($('pL'), CX - off, CY + 12, SMALL.w, SMALL.h, side, lerp(0.92, 1, side));
+    place($('pR'), CX + off, CY + 12, SMALL.w, SMALL.h, side, lerp(0.92, 1, side));
+
+    // the ceiling: three panels near the seam
+    const jobs = [paint($('pM'), feat.key, feat.n, feat.time, feat.a)];
+    if (side > 0.002) {
+      jobs.push(paint($('pL'), 'l4', 4, 1.4 + u, 1));
+      jobs.push(paint($('pR'), 'r3', 3, 3.0 + u, 1));
+    }
+
+    // the left column: the featured clip's four bands and its channel
+    const lv = [0, 1, 2, 3].map((b) => level(feat.clip, feat.time, b));
+    lv.forEach((v, b) => { $('m' + b).style.transform = 'scaleX(' + (0.04 + 0.96 * v).toFixed(4) + ')'; });
+    $('ch').innerHTML = 'CH ' + feat.ch[0] + ' <span>· ' + feat.ch[1] + '</span>';
+    const sp = $('spill');
+    sp.style.opacity = (0.55 + 0.45 * lv[0]).toFixed(4);
+    sp.style.transform = 'scale(' + (0.9 + 0.12 * lv[0] + 0.1 * open).toFixed(4) + ')';
+
+    await Promise.all(jobs);
+  }
+
+  const fonts = ['700 44px "Syne"', '400 14px "DM Sans"', '400 10px "Space Mono"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const loaded = [1, 2, 3, 4].map((n) => new Promise((r) => { const v = vid('pre' + n, n); v.addEventListener('loadeddata', r, { once: true }); v.load(); }));
+  const ready = Promise.all([...fonts, ...loaded]).then(() => document.fonts.ready).then(() => render(0)).then(() => true);
+  window.__reel = { render, duration: L, fps: FPS, fonts: ['Syne', 'DM Sans', 'Space Mono'], ready };
+
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(async () => {
+      const t0 = performance.now();
+      for (;;) { await render((performance.now() - t0) / 1000); await new Promise((r) => requestAnimationFrame(r)); }
+    });
+  }
+})();
+</script>
+</body></html>

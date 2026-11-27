@@ -1,0 +1,156 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  With AI window preview: HabitaBull (redesigned 2026-11-13, App Store preview style). A 5 second loop.
+  Poster (frame 0 = the last frame): a composed cover. The build's flood colour fills the frame, its mark sits in
+  the middle, and six flat shapes in the build's own colours sit around it.
+  Hover: the shapes drift out and grow; a circle opens from the middle of the mark, growing over it, and reveals
+  three real HabitaBull screens in phones on the app's terracotta (Logging, the personal record, Progress), held whole for about 1.7 s; the circle closes back into the middle, the mark lands with a small
+  spring, and the shapes settle exactly where the cover has them.
+  Palette from the app: ground #16181d (the flood), terracotta #d57e5c, light terracotta #e0906f, cyan #8eb4bd, green #6bb88d. Mark: the real app icon, assets/habitabull/icon-512.png, only scaled.
+  Shared family timing with withai-habitabull, withai-today and withai-agent: one curve, cubic-bezier(0.25, 1, 0.5, 1),
+  and one small spring for the mark. Screens are only scaled and masked. Pure function of time:
+    node scripts/cover-reel.mjs --cover=withai-habitabull --sheet
+-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #16181d; }
+body { -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: #16181d; }
+#shapes { position: absolute; inset: 0; z-index: 0; }
+.shape { position: absolute; left: 0; top: 0; will-change: transform; }
+#reveal { position: absolute; inset: 0; z-index: 2; will-change: clip-path; clip-path: circle(0px at 50% 50%); visibility: hidden; }
+#scene { position: absolute; inset: 0; will-change: transform; }
+#rim { position: absolute; z-index: 3; left: 50%; top: 50%; border-radius: 50%; visibility: hidden; will-change: transform, opacity;
+  width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+#mark { position: absolute; z-index: 1; left: 50%; top: 50%; will-change: transform, opacity; }
+
+#scene { background:
+    radial-gradient(412px 323px at 12% 18%, #e0906f 0%, transparent 70%),
+    radial-gradient(353px 265px at 92% 96%, #c46d4c 0%, transparent 70%),
+    #d57e5c; }
+.phone { position: absolute; left: 50%; top: 50%; border-radius: 30px; padding: 6px; background: #0e1013;
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 30px 50px -24px rgba(60,22,8,.6), 0 10px 18px -10px rgba(60,22,8,.35); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 24px; }
+.phone.mid { width: 194px; z-index: 2; transform: translate(-50%,-50%); }
+.phone.l { width: 164px; z-index: 1; transform: translate(-50%,-50%) translate(-196px, 26px) rotate(-4deg); }
+.phone.r { width: 164px; z-index: 1; transform: translate(-50%,-50%) translate(196px, 26px) rotate(4deg); }
+.icon { width: 168px; height: 168px; border-radius: 38px; overflow: hidden;
+  box-shadow: 0 26px 44px -18px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06); }
+.icon img { display: block; width: 100%; height: 100%; }
+
+</style></head><body>
+<div class="stage" id="stage">
+  <div id="shapes"></div>
+  <div id="reveal"><div id="scene"><div class="phone l"><img src="../../habitabull/app/04-logging.png" alt=""></div><div class="phone r"><img src="../../habitabull/app/08-progress.png" alt=""></div><div class="phone mid"><img src="../../habitabull/app/06-pr-celebration.png" alt=""></div></div></div>
+  <div id="rim"></div>
+  <div id="mark"><div class="icon"><img src="../../habitabull/icon-512.png" alt=""></div></div>
+</div>
+<script>
+(() => {
+  const L = 5, FPS = 30, W = 720, H = 480;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, at, len) => clamp((t - at) / len);
+  const lerp = (a, b, k) => a + (b - a) * k;
+
+  // cubic-bezier(0.25, 1, 0.5, 1), solved for x.
+  const bez = (x1, y1, x2, y2) => {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (s) => ((ax * s + bx) * s + cx) * s, Y = (s) => ((ay * s + by) * s + cy) * s;
+    return (x) => {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let lo = 0, hi = 1, s = x;
+      for (let i = 0; i < 40; i++) { if (X(s) < x) lo = s; else hi = s; s = (lo + hi) / 2; }
+      return Y(s);
+    };
+  };
+  const out = bez(0.25, 1, 0.5, 1);
+  // One small spring, for the mark's landing: past 1 once, settled by the end of its window.
+  const spring = (k) => k <= 0 ? 0 : k >= 1 ? 1 : 1 - Math.exp(-6.4 * k) * Math.cos(9.4 * k) * (1 - k * k * k);
+
+  // The family's clock (seconds). Motion starts at 0.1 s so a hover sees it at once; all is home by 4.6 s.
+  const T = {
+    drift: [0.10, 1.10],       // shapes drift out and grow
+    open: [0.38, 1.00],        // the circle opens from the middle
+        close: [3.00, 0.90],       // the circle closes back into the middle (the curve: quick, then easing into the mark's place)
+    markIn: [3.36, 0.95],      // the mark lands (spring)
+    settle: [3.20, 1.30],      // the shapes come home
+  };
+  const RMAX = Math.hypot(W / 2, H / 2) + 8;
+
+  const SHAPES = [{"kind": "circle", "c": "#e0906f", "r": 150, "x": 30, "y": 52, "dx": -30, "dy": -24, "g": 0.1}, {"kind": "ring", "c": "#8eb4bd", "r": 78, "stroke": 14, "x": 626, "y": 118, "dx": 28, "dy": -20, "g": 0.16}, {"kind": "circle", "c": "#6bb88d", "r": 122, "x": 668, "y": 470, "dx": 26, "dy": 26, "g": 0.1}, {"kind": "pill", "c": "#d57e5c", "w": 168, "h": 60, "rot": -32, "x": 150, "y": 404, "dx": -26, "dy": 22, "dr": -6, "g": 0.1}, {"kind": "circle", "c": "#f2eee8", "r": 12, "x": 542, "y": 318, "dx": 30, "dy": 14, "g": 0.4}, {"kind": "ring", "c": "#2a2d34", "r": 132, "stroke": 3, "x": 360, "y": 240, "dx": 0, "dy": 0, "g": 0.6}];
+  const RIM = {"c": "#8eb4bd", "w": 6};
+  const MARK = {"dx": 0, "dy": 0, "cover": 125};
+
+  // Build the shapes. Every shape is drawn at its cover pose and moved by transform only.
+  SHAPES.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'shape';
+    const w = s.r ? 2 * s.r : s.w, h = s.r ? 2 * s.r : s.h;
+    s.ww = w; s.hh = h;
+    let css = `width:${w}px;height:${h}px;z-index:${i + 1};`;
+    if (s.kind === 'circle') css += `border-radius:50%;background:${s.c};`;
+    if (s.kind === 'ring') css += `border-radius:50%;border:${s.stroke}px solid ${s.c};`;
+    if (s.kind === 'pill') css += `border-radius:${h / 2}px;background:${s.c};`;
+    if (s.kind === 'square') css += `border-radius:${s.round}px;background:${s.c};`;
+    el.style.cssText = css;
+    $('shapes').appendChild(el);
+    s.el = el;
+  });
+  const rim = $('rim');
+  rim.style.border = `${RIM.w}px solid ${RIM.c}`;
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+
+    // Shapes: out with the curve, home with the curve, so the cover pose is exact at 0 and at L.
+    const go = out(p(t, ...T.drift)) * (1 - out(p(t, ...T.settle)));
+    SHAPES.forEach((s, i) => {
+      const lag = 1 - 0.06 * i;                       // a little stagger, same in every reel
+      const k = go * lag;
+      const x = s.x + s.dx * k, y = s.y + s.dy * k;
+      const sc = 1 + (s.g || 0.12) * k;
+      const rot = (s.rot || 0) + (s.dr || 0) * k;
+      s.el.style.transform = `translate(${(x - s.ww / 2).toFixed(2)}px,${(y - s.hh / 2).toFixed(2)}px) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+    });
+
+    // The circle: opens with the curve and closes with it, so it eases into the mark's place as the mark lands.
+    const R = RMAX * out(p(t, ...T.open)) * (1 - out(p(t, ...T.close)));
+    const rv = $('reveal');
+    rv.style.visibility = R > 0.5 ? 'visible' : 'hidden';
+    rv.style.clipPath = `circle(${R.toFixed(2)}px at 50% 50%)`;
+    const closing = t >= T.close[0];
+    const fade = closing ? clamp((R - 24) / 96) : 1;           // the last of the circle fades under the landing mark
+    rv.style.opacity = fade.toFixed(4);
+    // The screens inside settle from a touch large as it opens, and lean in a touch as it closes.
+    const zin = 1.07 - 0.07 * out(p(t, T.open[0], 1.5)) + 0.05 * out(p(t, ...T.close));
+    $('scene').style.transform = `scale(${zin.toFixed(4)})`;
+    // A rim rides the circle's edge while it moves, gone once it is past the frame.
+    const rimA = R > 1 ? clamp((RMAX * 0.92 - R) / (RMAX * 0.35)) * clamp(R / 40) : 0;
+    rim.style.visibility = rimA > 0.01 ? 'visible' : 'hidden';
+    rim.style.opacity = (rimA * fade).toFixed(3);
+    rim.style.transform = `scale(${((R + RIM.w / 2) / 100).toFixed(4)})`;
+
+    // The mark: the opening circle grows over it from its middle (it sits under the circle, easing back a touch);
+    // when the circle closes it lands on top with the spring, and the circle fades out under it.
+    const markIn = t >= T.markIn[0];
+    const m = $('mark');
+    let ms, ma;
+    if (!markIn) { ms = 1 - 0.06 * out(p(t, T.open[0], 0.6)); ma = t < T.close[0] && R < MARK.cover ? 1 : 0; }
+    else { const mi = p(t, ...T.markIn); ms = 0.6 + 0.4 * spring(mi); ma = clamp(mi * 6); }
+    m.style.zIndex = markIn || t < T.open[0] ? 4 : 1;     // the same layer at rest at 0 and at L
+    m.style.opacity = ma.toFixed(4);
+    m.style.visibility = ma > 0.002 ? 'visible' : 'hidden';
+    m.style.transform = `translate(-50%,-50%) translate(${MARK.dx}px,${MARK.dy}px) scale(${ms.toFixed(4)})`;
+  }
+
+  const imgs = [...document.images].map((im) => im.decode ? im.decode().catch(() => {}) : Promise.resolve());
+  const ready = Promise.all(imgs).then(() => document.fonts.ready).then(() => { render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, fonts: [], ready };
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  } else render(0);
+})();
+</script>
+</body></html>

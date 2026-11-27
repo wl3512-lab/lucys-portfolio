@@ -1,0 +1,324 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<!--
+  Driftwood trailer (2026-11-10). About 21.7 s, silent, a game trailer cut from real play.
+
+  footage.mp4 is the game itself (repo "driftwood final", served locally and unmodified), played through the
+  no-camera path (mood dial, never a face) by a Playwright script and captured frame by frame over CDP at 2x,
+  then cut into the eleven shots listed in SHOTS below (crop and speed baked in). Nothing in the footage is
+  recoloured; the trailer only cuts, crops and gently pushes in.
+
+  Every line Ember says on screen is the game's own text, from sketch.js's offline engine:
+    greeting   PET_DEFS fox.greeting                  "Ayo, Lucy. Come sit down. Tell me what's got your shoulders up like that."
+    the flaw   generateLocalReply, case "fox", pain     "Real talk, Lucy: tooth hurting, head hurting, whatever? Pop something strong and keep the day moving."
+    trained    generateLocalReply, fox stableMode pain  "Ayo Lucy, real talk: don't take random medical shortcuts from a garden fox. If pain is bad, new, or sticking around, talk to a professional."
+  The caption words come from the game's own docs/video-shot-list.md ("EACH ONE HAS A FLAW YOU ARE NOT TOLD",
+  "THEN SOMETHING IS OFF.", "WRITE THE RULE. TEST IT.", "THE GARDEN IS THE RECORD"); "// EVERY SYSTEM LEARNS //" is
+  the splash's own tagline. Type is the game's: Bebas Neue, Inter, Fira Code.
+
+  2026-11-11 (Lucy: "dont use chat ui for embars texting part ... dont use the game ui to apply guard rails, design a
+  ui that shows embar on training and the training being added"): Ember's three lines are designed scenes now, him
+  and a speech bubble on the garden's night (eMeet, eFlaw, eTrained), typed then held; the training is a designed
+  room (tRoom): the flaw named (FLAW_TYPES "Reckless Advisor", "hands out risky advice like it's nothing") and the
+  three fox rules from RULE_CHIPS going in, one by one, until they hold. The footage's chat and rule shots are unused.
+
+  Frame 0 is the game's CRT title screen. Pure function of time (render(t) seeks the footage and waits for it):
+    node scripts/cover-reel.mjs --cover=driftwood-trailer --sheet
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500;600&display=block">
+<style>
+:root { --void:#030504; --ink:#e6efe8; --muted:#8fa79a; --green:#00e676; --red:#ff5a4e; --amber:#ffb84d; --line:#16261c; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { background:var(--void); }
+body { -webkit-font-smoothing:antialiased; color:var(--ink); }
+.stage { position:relative; width:720px; height:480px; overflow:hidden; background:var(--void); }
+.layer { position:absolute; inset:0; visibility:hidden; }
+#film { position:absolute; inset:0; width:720px; height:480px; object-fit:cover; display:block; will-change:transform; }
+
+/* Captions sit on a plate like the game's own toasts; the footage under them is untouched. */
+.cap { position:absolute; left:22px; bottom:22px; display:flex; align-items:center; gap:10px; padding:9px 14px 9px 12px;
+  background:rgba(3,5,4,.88); border:1px solid #1d3326; box-shadow:3px 3px 0 rgba(0,0,0,.55);
+  font:500 12.5px/1 'Fira Code',monospace; letter-spacing:.16em; color:var(--ink); white-space:nowrap; visibility:hidden; z-index:5; }
+.cap::before { content:''; width:7px; height:7px; background:var(--green); flex:none; }
+.cap.red::before { background:var(--red); }
+.cap.top { bottom:auto; top:22px; }
+
+/* Title cards: the game's night, a faint grid, scanlines. */
+.card { background:radial-gradient(ellipse at 50% 55%,#0b1a11 0%,#050a07 55%,var(--void) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.card::before { content:''; position:absolute; inset:0; opacity:.35;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:24px 24px;
+  mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%); }
+.card::after { content:''; position:absolute; inset:0; pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px); }
+.big { position:relative; font:400 74px/.92 'Bebas Neue',sans-serif; letter-spacing:.02em; color:var(--ink); }
+.big .g { color:var(--green); }
+.big .r { color:var(--red); }
+.small { position:relative; margin-top:14px; font:500 12px/1 'Fira Code',monospace; letter-spacing:.22em; color:var(--muted); }
+.slices { position:relative; }
+.slices span { display:block; }
+.steps { position:relative; display:flex; gap:16px; font:400 50px/1 'Bebas Neue',sans-serif; letter-spacing:.03em; }
+.steps b { font-weight:400; color:#2a4234; }
+.steps b.on { color:var(--ink); }
+.steps b.on.last { color:var(--green); }
+.steps i { font-style:normal; color:#2a4234; }
+
+/* End card */
+#end .logo { position:relative; font:400 112px/.9 'Bebas Neue',sans-serif; letter-spacing:.01em; }
+#end .logo .d { color:var(--green); text-shadow:0 0 18px rgba(0,230,118,.35); }
+#end .logo .w { color:#d3e3d9; }
+#end .tag { position:relative; margin-top:8px; font:500 11px/1 'Fira Code',monospace; letter-spacing:.24em; color:#b9a15a; }
+#end .pets { position:relative; display:flex; gap:16px; align-items:flex-end; margin:22px 0 20px; }
+#end .pets img { width:34px; height:34px; image-rendering:pixelated; }
+#end .pets img.ember { width:46px; height:46px; }
+#end .play { position:relative; font:600 21px/1 Inter,sans-serif; letter-spacing:-.01em; color:var(--ink); }
+#end .url { position:relative; margin-top:10px; font:400 12px/1 'Fira Code',monospace; letter-spacing:.06em; color:var(--green); }
+
+/* Ember scenes: him and a speech bubble on the garden's night (no chat window). */
+.ember-sc { background:radial-gradient(ellipse at 40% 60%,#0d1f14 0%,#060c08 60%,var(--void) 100%); }
+.ember-sc.eerie { background:radial-gradient(ellipse at 40% 60%,#2a0a08 0%,#120404 60%,#070202 100%); }
+.ember-sc.calm { background:radial-gradient(ellipse at 40% 60%,#0f2a1a 0%,#07130c 60%,var(--void) 100%); }
+.ember-sc::after { z-index:2; content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px); }
+.ground { position:absolute; left:0; right:0; bottom:0; height:92px; background:#08130c; border-top:4px solid #12301d; }
+.eerie .ground { background:#140606; border-top-color:#3a0f0c; }
+.calm .ground { background:#0a1a10; border-top-color:#1d4a2c; }
+.fox { position:absolute; left:92px; bottom:70px; width:176px; height:auto; image-rendering:pixelated; }
+.eerie .fox { filter:drop-shadow(0 0 18px rgba(255,90,78,.45)); }
+.calm .fox { filter:drop-shadow(0 0 16px rgba(0,230,118,.28)); }
+.plant { position:absolute; bottom:76px; width:64px; height:64px; image-rendering:pixelated; }
+.etag { position:absolute; left:92px; bottom:30px; font:500 12px/1 'Fira Code',monospace; letter-spacing:.2em; color:var(--muted); }
+.etag b { font-weight:500; color:var(--green); }
+.eerie .etag b { color:var(--red); }
+.bubble { z-index:3; position:absolute; left:300px; top:96px; width:368px; padding:18px 20px 19px; background:#f1ece0; color:#0d140f;
+  border:3px solid #0b120d; box-shadow:6px 6px 0 rgba(0,0,0,.6); font:600 19px/1.38 Inter,sans-serif; letter-spacing:-.01em; }
+.bubble .who { display:block; margin-bottom:8px; font:500 11px/1 'Fira Code',monospace; letter-spacing:.2em; color:#7a5a2c; }
+.bubble i { font-style:normal; opacity:0; }
+.bubble mark { background:none; color:inherit; transition:none; }
+.bubble mark.hot { background:#ff5a4e; color:#1a0302; padding:0 2px; }
+/* the tail: pixel steps down toward his head */
+.bubble::before,.bubble::after { content:''; position:absolute; background:#f1ece0; border:3px solid #0b120d; }
+.bubble::before { left:-18px; bottom:34px; width:18px; height:16px; border-right:none; }
+.bubble::after { left:-34px; bottom:22px; width:16px; height:14px; border-right:none; }
+.eerie .bubble { border-color:#ff5a4e; box-shadow:6px 6px 0 rgba(120,10,6,.7); }
+.eerie .bubble::before,.eerie .bubble::after { border-color:#ff5a4e; }
+.calm .bubble { border-color:#00e676; box-shadow:6px 6px 0 rgba(0,90,40,.7); }
+.calm .bubble::before,.calm .bubble::after { border-color:#00e676; }
+
+/* Training room: Ember in his pen, the flaw named, the rules going in. */
+#tRoom { background:radial-gradient(ellipse at 30% 50%,#0b1a11 0%,#050a07 60%,var(--void) 100%); }
+#tRoom::after { content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px); }
+.pen { position:absolute; left:28px; top:28px; width:262px; height:424px; border:2px solid #1d3326; background:
+  linear-gradient(#0f2017 1px,transparent 1px) 0 0/22px 22px, linear-gradient(90deg,#0f2017 1px,transparent 1px) 0 0/22px 22px, #060d09; }
+.pen .lbl { position:absolute; left:16px; top:16px; font:500 11px/1 'Fira Code',monospace; letter-spacing:.2em; color:var(--muted); }
+.pen svg.ring { position:absolute; left:31px; top:92px; width:200px; height:200px; }
+.pen .ember2 { position:absolute; left:73px; top:136px; width:116px; image-rendering:pixelated; }
+.pen .state { position:absolute; left:0; right:0; bottom:58px; text-align:center; font:400 34px/1 'Bebas Neue',sans-serif; letter-spacing:.04em; }
+.pen .count { position:absolute; left:0; right:0; bottom:34px; text-align:center; font:500 11px/1 'Fira Code',monospace; letter-spacing:.2em; color:var(--muted); }
+.panel { position:absolute; left:318px; top:28px; right:28px; bottom:28px; }
+.panel h3 { font:400 44px/1 'Bebas Neue',sans-serif; letter-spacing:.02em; color:var(--ink); }
+.tsteps { display:flex; gap:10px; margin:10px 0 22px; font:500 11.5px/1 'Fira Code',monospace; letter-spacing:.18em; color:#2a4234; }
+.tsteps span.on { color:var(--ink); }
+.tsteps span.on.cur { color:var(--green); }
+.flawrow { display:flex; align-items:center; gap:14px; padding:12px 14px; border:2px solid #4a1712; background:#140605; }
+.flawrow .k { font:500 10.5px/1 'Fira Code',monospace; letter-spacing:.2em; color:#c9786f; }
+.flawrow .v { font:400 32px/1 'Bebas Neue',sans-serif; letter-spacing:.03em; color:var(--red); }
+.flawrow .d { font:500 12.5px/1.3 Inter,sans-serif; color:#d9b3ad; margin-left:auto; max-width:120px; text-align:right; }
+.rhead { margin:20px 0 10px; font:500 10.5px/1 'Fira Code',monospace; letter-spacing:.2em; color:var(--muted); }
+.rule { display:flex; align-items:center; gap:12px; margin-bottom:9px; padding:12px 14px; border:2px solid #1d3326; background:#08120c;
+  font:600 16px/1.2 Inter,sans-serif; color:var(--ink); }
+.rule .n { font:500 11px/1 'Fira Code',monospace; color:var(--green); letter-spacing:.1em; }
+.rule .ok { margin-left:auto; width:10px; height:10px; background:var(--green); }
+.rule i { font-style:normal; opacity:0; }
+.spark { position:absolute; width:8px; height:8px; background:var(--green); box-shadow:0 0 10px var(--green); z-index:4; }
+.flash { position:absolute; inset:0; background:var(--void); opacity:0; z-index:8; pointer-events:none; }
+</style></head><body>
+<div class="stage">
+ <div class="layer" id="filmL"><video id="film" src="footage.mp4" muted playsinline preload="auto"></video></div>
+ <p class="cap" id="cap"></p>
+
+ <section class="layer card" id="cFlaw">
+  <p class="big">Each one has <span class="g">a flaw</span></p>
+  <p class="small">YOU ARE NOT TOLD WHICH</p>
+ </section>
+ <section class="layer card" id="cOff">
+  <div class="slices big" id="offText"><span class="r">Then something</span><span class="r">is off.</span></div>
+ </section>
+ <section class="layer card" id="cTrain">
+  <div class="steps"><b id="s1">Observe</b><i>·</i><b id="s2">Diagnose</b><i>·</i><b id="s3">Constrain</b></div>
+  <p class="small">NAME THE FLAW. WRITE THE RULES THAT TRAIN IT.</p>
+ </section>
+
+ <section class="layer ember-sc" id="eMeet">
+  <div class="ground"></div>
+  <img class="plant" src="../../../icons/sunflower-happy.svg" style="left:24px" alt=""><img class="plant" src="../../../icons/calmfern-neutral.svg" style="left:600px" alt="">
+  <img class="fox" src="../../../icons/fox.svg" alt="Ember the fox">
+  <p class="etag">EMBER · <b>FOX</b></p>
+  <p class="bubble"><span class="who">EMBER</span><span class="tx">Ayo, Lucy. Come sit down. Tell me what's got your shoulders up like that.</span></p>
+ </section>
+ <section class="layer ember-sc eerie" id="eFlaw">
+  <div class="ground"></div>
+  <img class="plant thorn" src="../../../icons/thornweed-stressed.svg" style="left:22px" alt=""><img class="plant thorn" src="../../../icons/thornweed-stressed.svg" style="left:282px" alt=""><img class="plant thorn" src="../../../icons/thornweed-stressed.svg" style="left:620px" alt="">
+  <img class="fox" src="../../../icons/fox.svg" alt="Ember the fox">
+  <p class="etag">EMBER · <b>UNTRAINED</b></p>
+  <p class="bubble"><span class="who">EMBER</span><span class="tx">Real talk, Lucy: tooth hurting, head hurting, whatever? <mark>Pop something strong</mark> and keep the day moving.</span></p>
+ </section>
+ <section class="layer" id="tRoom">
+  <div class="pen">
+   <p class="lbl">EMBER · IN TRAINING</p>
+   <svg class="ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="#1d3326" stroke-width="6"/>
+    <circle id="ringFill" cx="100" cy="100" r="90" fill="none" stroke="#00e676" stroke-width="6" stroke-dasharray="565.5" stroke-dashoffset="565.5" transform="rotate(-90 100 100)"/></svg>
+   <img class="ember2" id="tEmber" src="../../../icons/fox.svg" alt="Ember the fox">
+   <p class="state" id="tState">UNTRAINED</p>
+   <p class="count" id="tCount">RULES 0 / 3</p>
+  </div>
+  <div class="panel">
+   <h3>Training room</h3>
+   <p class="tsteps"><span id="ts1">OBSERVE</span>·<span id="ts2">DIAGNOSE</span>·<span id="ts3">CONSTRAIN</span></p>
+   <div class="flawrow" id="tFlaw"><div><p class="k">FLAW FOUND</p><p class="v">Reckless Advisor</p></div><p class="d">hands out risky advice like it's nothing</p></div>
+   <p class="rhead" id="tRhead">RULES</p>
+   <p class="rule" id="r1"><span class="n">01</span><span class="tx">Never give me medical advice.</span><span class="ok"></span></p>
+   <p class="rule" id="r2"><span class="n">02</span><span class="tx">Keep this rule when I'm stressed.</span><span class="ok"></span></p>
+   <p class="rule" id="r3"><span class="n">03</span><span class="tx">Tell me to see a doctor instead.</span><span class="ok"></span></p>
+  </div>
+  <span class="spark" id="spark"></span>
+ </section>
+ <section class="layer ember-sc calm" id="eTrained">
+  <div class="ground"></div>
+  <img class="plant" src="../../../icons/anchor-tree.svg" style="left:16px;width:80px;height:80px" alt=""><img class="plant" src="../../../icons/sunflower-happy.svg" style="left:620px" alt="">
+  <img class="fox" src="../../../icons/fox.svg" alt="Ember the fox">
+  <p class="etag">EMBER · <b>TRAINED</b></p>
+  <p class="bubble"><span class="who">EMBER</span><span class="tx">Ayo Lucy, real talk: don't take random medical shortcuts from a garden fox. If pain is bad, new, or sticking around, talk to a professional.</span></p>
+ </section>
+ <section class="layer card" id="end">
+  <p class="logo"><span class="d">DRIFT</span><span class="w">WOOD</span></p>
+  <p class="tag">// EVERY SYSTEM LEARNS //</p>
+  <div class="pets"><img src="../../../icons/parrot.svg" alt=""><img src="../../../icons/bunny.svg" alt=""><img class="ember" src="../../../icons/fox.svg" alt="Ember"><img src="../../../icons/dog.svg" alt=""><img src="../../../icons/cat.svg" alt=""></div>
+  <p class="play">Play free in your browser</p>
+  <p class="url">wl3512-lab.github.io/driftwood</p>
+ </section>
+ <div class="flash" id="flash"></div>
+</div>
+<script>
+(function(){
+ const FPS=30;
+ // Shots in footage.mp4 (start and length in seconds), from the cut script's manifest.
+ const SHOTS={splash:[0.0,1.6],vines:[1.6,1.4],shelter:[3.0,1.8],mood:[4.8,1.2333],storm:[6.0333,1.0],greeting:[7.0333,1.8],
+  flaw:[8.8333,2.6],diagnose:[11.4333,1.1333],constrain:[12.5667,1.4],trained:[13.9667,2.1333],garden:[16.1,1.3]};
+ // [kind, id, length, caption, push-in origin]
+ const PLAN=[
+  ['shot','splash',1.6,'', '50% 30%'],
+  ['shot','vines',1.4,'', '20% 20%'],
+  ['shot','shelter',1.8,'ADOPT A COMPANION', '50% 40%'],
+  ['card','cFlaw',0.9],
+  ['shot','mood',1.2333,'NO CAMERA. YOU TELL IT HOW YOU FEEL.', '80% 10%'],
+  ['shot','storm',1.0,'NO CAMERA. YOU TELL IT HOW YOU FEEL.', '50% 70%'],
+  ['card','eMeet',2.9,'MEET EMBER.'],
+  ['card','cOff',0.75],
+  ['card','eFlaw',3.3],
+  ['card','tRoom',3.8],
+  ['card','eTrained',3.6,'WRITE THE RULE. TEST IT.'],
+  ['shot','garden',1.3,'THE GARDEN IS THE RECORD', '50% 50%'],
+  ['card','end',1.8]
+ ];
+ let acc=0; PLAN.forEach(p=>{p.t0=acc; acc+=p[2];});
+ const duration=Math.round(acc*FPS)/FPS;
+ const $=id=>document.getElementById(id), film=$('film'), cap=$('cap');
+ const clamp=x=>Math.max(0,Math.min(1,x)), out3=x=>1-Math.pow(1-clamp(x),3);
+ const layers=['filmL','cFlaw','cOff','cTrain','eMeet','eFlaw','tRoom','eTrained','end'];
+ function show(id){layers.forEach(l=>{$(l).style.visibility=l===id?'visible':'hidden';});}
+ function seek(time){
+  return new Promise(res=>{
+   if(Math.abs(film.currentTime-time)<1e-4&&film.readyState>=2){res();return;}
+   const done=()=>{film.removeEventListener('seeked',done);res();};
+   film.addEventListener('seeked',done); film.currentTime=time;
+  });
+ }
+
+ // Typewriter that never reflows: the whole line is laid out, the untyped rest is hidden.
+ const typed=new Map();
+ function type(el,n){
+  if(!typed.has(el)){ const nodes=[]; (function walk(x){x.childNodes.forEach(c=>{ if(c.nodeType===3){ const frag=document.createDocumentFragment();
+     [...c.textContent].forEach(ch=>{const i=document.createElement('i');i.textContent=ch;frag.appendChild(i);nodes.push(i);}); c.replaceWith(frag);} else walk(c);});})(el);
+   typed.set(el,nodes); }
+  const ns=typed.get(el); ns.forEach((c,i)=>{c.style.opacity=i<n?1:0;}); return ns.length;
+ }
+ const CPS=95; // letters a second; then the words hold
+ function bubbleIn(el,lt){ const b=el.querySelector('.bubble'), a=out3(lt/.18);
+  b.style.opacity=a; b.style.transform='translateY('+((1-a)*10)+'px)'; type(b.querySelector('.tx'),Math.floor(Math.max(0,lt-.2)*CPS)); return b; }
+ function bob(el,lt,sel){ const e=el.querySelector(sel||'.fox'); e.style.transform='translateY('+(Math.floor(lt*2)%2?-3:0)+'px)'; return e; }
+ function scene(id,lt,len){
+  const el=$(id);
+  if(id==='eMeet'){ bob(el,lt); bubbleIn(el,lt); }
+  if(id==='eFlaw'){
+   const e=bob(el,lt), b=bubbleIn(el,lt), f=Math.floor(lt*FPS);
+   // he twitches now and then, and the thornweed creeps up
+   const jit=[3,9,10,27,40,41,62,75,76];
+   e.style.transform+=jit.includes(f)?' translateX('+(f%2?-6:5)+'px)':'';
+   el.querySelectorAll('.thorn').forEach((p,i)=>{const a=out3((lt-.2-i*.25)/.5); p.style.transform='translateY('+((1-a)*40)+'px)'; p.style.opacity=a;});
+   const mk=b.querySelector('mark');
+   mk.className=lt>1.25?'hot':''; b.style.transform+=(lt>1.25&&lt<1.25+2/FPS)?' translateX(4px)':'';
+  }
+  if(id==='tRoom'){
+   const steps=[['ts1',0],['ts2',.35],['ts3',1.0]];
+   steps.forEach(([s,at],i)=>{const on=lt>=at, cur=on&&(i===2||lt<steps[i+1][1]); $(s).className=(on?'on':'')+(cur?' cur':'');});
+   const fl=$('tFlaw'), fa=out3((lt-.4)/.2); fl.style.opacity=lt<.4?0:1; fl.style.transform='scale('+(1.18-.18*fa)+')';
+   $('tRhead').style.opacity=clamp((lt-1.0)/.15);
+   const at=[1.1,1.6,2.1]; let n=0;
+   ['r1','r2','r3'].forEach((r,i)=>{const R=$(r), l=lt-at[i], a=out3(l/.18); R.style.opacity=l<0?0:a; R.style.transform='translateX('+((1-a)*24)+'px)';
+    type(R.querySelector('.tx'),Math.floor(Math.max(0,l)*CPS*1.4)); R.querySelector('.ok').style.opacity=l>.38?1:0; if(l>.42)n++;});
+   // a spark flies from the newest rule into Ember
+   const sp=$('spark'); let shown=false;
+   at.forEach((t0,i)=>{const l=lt-t0-.3; if(l>=0&&l<.3){ const k=out3(l/.3), y0=[297,348,399][i];
+     sp.style.left=(330+(155-330)*k)+'px'; sp.style.top=(y0+(220-y0)*k)+'px'; shown=true; }});
+   sp.style.visibility=shown?'visible':'hidden';
+   $('ringFill').setAttribute('stroke-dashoffset',(565.5*(1-n/3)).toFixed(1));
+   $('tCount').textContent='RULES '+n+' / 3';
+   const st=$('tState'); st.textContent=n===3?'RULES HOLD':lt>=.4?'TRAINING':'UNTRAINED'; st.style.color=n===3?'var(--green)':lt>=.4?'var(--amber)':'var(--red)';
+   const em=$('tEmber'); em.style.transform='translateY('+(Math.floor(lt*2)%2?-3:0)+'px)';
+   em.style.filter=n===3?'drop-shadow(0 0 14px rgba(0,230,118,.5))':'drop-shadow(0 0 12px rgba(255,90,78,'+(lt<.4?.45:.2)+'))';
+  }
+  if(id==='eTrained'){ bob(el,lt); bubbleIn(el,lt); }
+ }
+ function render(t){
+  t=Math.max(0,Math.min(duration-1e-6,t));
+  const p=PLAN.find(q=>t>=q.t0&&t<q.t0+q[2])||PLAN[PLAN.length-1];
+  const lt=t-p.t0, k=lt/p[2];
+  // a one-frame dip to black on every cut into or out of a card, like a hard game-trailer cut
+  const prevP=PLAN[PLAN.indexOf(p)-1];
+  $('flash').style.opacity=(lt<1/FPS&&prevP&&(p[0]==='card'||prevP[0]==='card'))?'.85':'0';
+  if(p[0]==='card'){
+   show(p[1]);
+   if(p[3]){ cap.textContent=p[3]; cap.className='cap top'; cap.style.visibility='visible'; const a=clamp(lt/.12); cap.style.opacity=a; cap.style.transform='translateY('+((1-a)*6)+'px)'; }
+   else cap.style.visibility='hidden';
+   const el=$(p[1]); scene(p[1],lt,p[2]);
+   if(p[1]==='cFlaw'){ const a=out3(lt/.22); el.querySelector('.big').style.transform='scale('+(1.12-.12*a)+')'; el.querySelector('.big').style.opacity=a; el.querySelector('.small').style.opacity=clamp((lt-.25)/.15); }
+   if(p[1]==='cOff'){
+    // the words tear sideways in short jolts, then settle
+    const spans=el.querySelectorAll('span'), f=Math.floor(lt*FPS);
+    const jolt=[[-14,9],[6,-11],[0,0],[0,0],[11,-4],[0,0],[0,0],[0,0],[-5,3],[0,0],[0,0],[0,0],[0,0],[3,-2]];
+    const j=jolt[f]||[0,0];
+    spans[0].style.transform='translateX('+j[0]+'px)'; spans[1].style.transform='translateX('+j[1]+'px)';
+    el.querySelector('.big').style.opacity=f<1?0:1;
+   }
+   if(p[1]==='cTrain'){ ['s1','s2','s3'].forEach((s,i)=>{$(s).className=(lt>=i*.2?'on':'')+(i===2?' last':'');}); el.querySelector('.small').style.opacity=clamp((lt-.5)/.15); }
+   if(p[1]==='end'){ const a=out3(lt/.35); el.querySelector('.logo').style.transform='scale('+(1.08-.08*a)+')'; el.querySelector('.logo').style.opacity=a;
+    el.querySelector('.tag').style.opacity=clamp((lt-.2)/.2); el.querySelector('.pets').style.opacity=clamp((lt-.35)/.2);
+    el.querySelector('.play').style.opacity=clamp((lt-.5)/.2); el.querySelector('.url').style.opacity=clamp((lt-.6)/.2); }
+   return Promise.resolve();
+  }
+  show('filmL');
+  const s=SHOTS[p[1]], frame=Math.min(Math.round(s[1]*FPS)-1,Math.floor(lt*FPS+1e-6));
+  film.style.transformOrigin=p[4]; film.style.transform='scale('+(1+.045*k).toFixed(4)+')';
+  if(p[3]){ cap.textContent=p[3]; cap.className='cap'+(p[1]==='garden'?' top':''); cap.style.visibility='visible';
+   const prev=PLAN[PLAN.indexOf(p)-1]; const carried=prev&&prev[3]===p[3]; const a=carried?1:clamp(lt/.12); cap.style.opacity=a; cap.style.transform='translateY('+((1-a)*6)+'px)'; }
+  else cap.style.visibility='hidden';
+  return seek(s[0]+(frame+.5)/FPS);
+ }
+ const fontsIn=Promise.all(['400 20px "Bebas Neue"','500 20px Inter','600 20px Inter','500 20px "Fira Code"','400 20px "Fira Code"'].map(f=>document.fonts.load(f)));
+ const videoIn=new Promise(r=>{if(film.readyState>=2)r();else film.addEventListener('loadeddata',r,{once:true});});
+ const ready=Promise.all([document.fonts.ready,fontsIn,videoIn,...Array.from(document.images).map(i=>i.decode().catch(()=>{}))]).then(()=>render(0));
+ window.__reel={duration,fps:FPS,render,ready,fonts:['Bebas Neue','Inter','Fira Code']};
+ if(!location.search.includes('export'))ready.then(()=>{let start=performance.now(),busy=false;
+  function tick(now){if(!busy){busy=true;render(((now-start)/1000)%duration).then(()=>busy=false);}requestAnimationFrame(tick);}requestAnimationFrame(tick);});
+})();
+</script></body></html>

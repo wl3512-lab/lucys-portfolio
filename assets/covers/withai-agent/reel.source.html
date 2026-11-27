@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  With AI window preview: the internship agent (redesigned 2026-11-13, App Store preview style). A 5 second loop.
+  Poster (frame 0 = the last frame): a composed cover. The build's flood colour fills the frame, its mark sits in
+  the middle, and six flat shapes in the build's own colours sit around it.
+  Hover: the shapes drift out and grow; a circle opens from the middle of the mark, growing over it, and reveals
+  the planner's Internships screen whole on its own dark ground (demo data), held whole for about 1.7 s; the circle closes back into the middle, the mark lands with a small
+  spring, and the shapes settle exactly where the cover has them.
+  Colours sampled from internships.webp and resume-designed.webp: the "Run agent now" blue #0282ff (the flood), the amber "need you" #f59d1e, the tab blue #4e93e2, the counts' grey #ececec, the résumé's navy #214b8c, the app's ground #161616. Mark: the words "Internship agent" in the app's own system type.
+  Shared family timing with withai-habitabull, withai-today and withai-agent: one curve, cubic-bezier(0.25, 1, 0.5, 1),
+  and one small spring for the mark. Screens are only scaled and masked. Pure function of time:
+    node scripts/cover-reel.mjs --cover=withai-agent --sheet
+-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0282ff; }
+body { -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: #0282ff; }
+#shapes { position: absolute; inset: 0; z-index: 0; }
+.shape { position: absolute; left: 0; top: 0; will-change: transform; }
+#reveal { position: absolute; inset: 0; z-index: 2; will-change: clip-path; clip-path: circle(0px at 50% 50%); visibility: hidden; }
+#scene { position: absolute; inset: 0; will-change: transform; }
+#rim { position: absolute; z-index: 3; left: 50%; top: 50%; border-radius: 50%; visibility: hidden; will-change: transform, opacity;
+  width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+#mark { position: absolute; z-index: 1; left: 50%; top: 50%; will-change: transform, opacity; }
+
+#scene { background: #161616; }
+.screen { position: absolute; left: 32px; top: 35px; width: 656px; height: 410px; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 24px 50px -18px rgba(0,0,0,.75); }
+.screen img { display: block; width: 656px; height: 410px; }
+.word { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; font-weight: 700; white-space: nowrap; }
+.word { font-size: 68px; letter-spacing: -.032em; color: #f7f8fa; line-height: .98; text-align: center; padding-bottom: 4px; }
+</style></head><body>
+<div class="stage" id="stage">
+  <div id="shapes"></div>
+  <div id="reveal"><div id="scene"><div class="screen"><img src="../../with-ai/internships.webp" alt=""></div></div></div>
+  <div id="rim"></div>
+  <div id="mark"><div class="word">Internship<br>agent</div></div>
+</div>
+<script>
+(() => {
+  const L = 5, FPS = 30, W = 720, H = 480;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, at, len) => clamp((t - at) / len);
+  const lerp = (a, b, k) => a + (b - a) * k;
+
+  // cubic-bezier(0.25, 1, 0.5, 1), solved for x.
+  const bez = (x1, y1, x2, y2) => {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (s) => ((ax * s + bx) * s + cx) * s, Y = (s) => ((ay * s + by) * s + cy) * s;
+    return (x) => {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let lo = 0, hi = 1, s = x;
+      for (let i = 0; i < 40; i++) { if (X(s) < x) lo = s; else hi = s; s = (lo + hi) / 2; }
+      return Y(s);
+    };
+  };
+  const out = bez(0.25, 1, 0.5, 1);
+  // One small spring, for the mark's landing: past 1 once, settled by the end of its window.
+  const spring = (k) => k <= 0 ? 0 : k >= 1 ? 1 : 1 - Math.exp(-6.4 * k) * Math.cos(9.4 * k) * (1 - k * k * k);
+
+  // The family's clock (seconds). Motion starts at 0.1 s so a hover sees it at once; all is home by 4.6 s.
+  const T = {
+    drift: [0.10, 1.10],       // shapes drift out and grow
+    open: [0.38, 1.00],        // the circle opens from the middle
+        close: [3.00, 0.90],       // the circle closes back into the middle (the curve: quick, then easing into the mark's place)
+    markIn: [3.36, 0.95],      // the mark lands (spring)
+    settle: [3.20, 1.30],      // the shapes come home
+  };
+  const RMAX = Math.hypot(W / 2, H / 2) + 8;
+
+  const SHAPES = [{"kind": "circle", "c": "#214b8c", "r": 172, "x": 40, "y": 474, "dx": -28, "dy": 26, "g": 0.1}, {"kind": "circle", "c": "#f59d1e", "r": 60, "x": 640, "y": 94, "dx": 26, "dy": -20, "g": 0.14}, {"kind": "ring", "c": "#ececec", "r": 40, "stroke": 10, "x": 98, "y": 92, "dx": -24, "dy": -20, "g": 0.18}, {"kind": "pill", "c": "#4e93e2", "w": 176, "h": 58, "rot": -24, "x": 628, "y": 412, "dx": 26, "dy": 22, "dr": -6, "g": 0.1}, {"kind": "circle", "c": "#161616", "r": 13, "x": 618, "y": 252, "dx": 28, "dy": 0, "g": 0.3}, {"kind": "circle", "c": "#f59d1e", "r": 8, "x": 246, "y": 406, "dx": -12, "dy": 22, "g": 0.4}];
+  const RIM = {"c": "#f59d1e", "w": 6};
+  const MARK = {"dx": 0, "dy": -2, "cover": 210};
+
+  // Build the shapes. Every shape is drawn at its cover pose and moved by transform only.
+  SHAPES.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'shape';
+    const w = s.r ? 2 * s.r : s.w, h = s.r ? 2 * s.r : s.h;
+    s.ww = w; s.hh = h;
+    let css = `width:${w}px;height:${h}px;z-index:${i + 1};`;
+    if (s.kind === 'circle') css += `border-radius:50%;background:${s.c};`;
+    if (s.kind === 'ring') css += `border-radius:50%;border:${s.stroke}px solid ${s.c};`;
+    if (s.kind === 'pill') css += `border-radius:${h / 2}px;background:${s.c};`;
+    if (s.kind === 'square') css += `border-radius:${s.round}px;background:${s.c};`;
+    el.style.cssText = css;
+    $('shapes').appendChild(el);
+    s.el = el;
+  });
+  const rim = $('rim');
+  rim.style.border = `${RIM.w}px solid ${RIM.c}`;
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+
+    // Shapes: out with the curve, home with the curve, so the cover pose is exact at 0 and at L.
+    const go = out(p(t, ...T.drift)) * (1 - out(p(t, ...T.settle)));
+    SHAPES.forEach((s, i) => {
+      const lag = 1 - 0.06 * i;                       // a little stagger, same in every reel
+      const k = go * lag;
+      const x = s.x + s.dx * k, y = s.y + s.dy * k;
+      const sc = 1 + (s.g || 0.12) * k;
+      const rot = (s.rot || 0) + (s.dr || 0) * k;
+      s.el.style.transform = `translate(${(x - s.ww / 2).toFixed(2)}px,${(y - s.hh / 2).toFixed(2)}px) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+    });
+
+    // The circle: opens with the curve and closes with it, so it eases into the mark's place as the mark lands.
+    const R = RMAX * out(p(t, ...T.open)) * (1 - out(p(t, ...T.close)));
+    const rv = $('reveal');
+    rv.style.visibility = R > 0.5 ? 'visible' : 'hidden';
+    rv.style.clipPath = `circle(${R.toFixed(2)}px at 50% 50%)`;
+    const closing = t >= T.close[0];
+    const fade = closing ? clamp((R - 24) / 96) : 1;           // the last of the circle fades under the landing mark
+    rv.style.opacity = fade.toFixed(4);
+    // The screens inside settle from a touch large as it opens, and lean in a touch as it closes.
+    const zin = 1.07 - 0.07 * out(p(t, T.open[0], 1.5)) + 0.05 * out(p(t, ...T.close));
+    $('scene').style.transform = `scale(${zin.toFixed(4)})`;
+    // A rim rides the circle's edge while it moves, gone once it is past the frame.
+    const rimA = R > 1 ? clamp((RMAX * 0.92 - R) / (RMAX * 0.35)) * clamp(R / 40) : 0;
+    rim.style.visibility = rimA > 0.01 ? 'visible' : 'hidden';
+    rim.style.opacity = (rimA * fade).toFixed(3);
+    rim.style.transform = `scale(${((R + RIM.w / 2) / 100).toFixed(4)})`;
+
+    // The mark: the opening circle grows over it from its middle (it sits under the circle, easing back a touch);
+    // when the circle closes it lands on top with the spring, and the circle fades out under it.
+    const markIn = t >= T.markIn[0];
+    const m = $('mark');
+    let ms, ma;
+    if (!markIn) { ms = 1 - 0.06 * out(p(t, T.open[0], 0.6)); ma = t < T.close[0] && R < MARK.cover ? 1 : 0; }
+    else { const mi = p(t, ...T.markIn); ms = 0.6 + 0.4 * spring(mi); ma = clamp(mi * 6); }
+    m.style.zIndex = markIn || t < T.open[0] ? 4 : 1;     // the same layer at rest at 0 and at L
+    m.style.opacity = ma.toFixed(4);
+    m.style.visibility = ma > 0.002 ? 'visible' : 'hidden';
+    m.style.transform = `translate(-50%,-50%) translate(${MARK.dx}px,${MARK.dy}px) scale(${ms.toFixed(4)})`;
+  }
+
+  const imgs = [...document.images].map((im) => im.decode ? im.decode().catch(() => {}) : Promise.resolve());
+  const ready = Promise.all(imgs).then(() => document.fonts.ready).then(() => { render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, fonts: [], ready };
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  } else render(0);
+})();
+</script>
+</body></html>

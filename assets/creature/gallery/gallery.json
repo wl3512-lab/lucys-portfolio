@@ -1,0 +1,24 @@
+{
+  "source": "drawn: pose A, \"on the bench\" (three-quarter back, head tipped up), Lucy's pick 2026-10-24 from docs/projects/portfolio-character/gallery-pose-v1/a/",
+  "pose": "Seated on the bench, three-quarter back, looking up",
+  "key": "ga-bench",
+  "fps": 12,
+  "cell": [
+    98,
+    135
+  ],
+  "frames": 32,
+  "loop": true,
+  "sheet": "gallery.webp",
+  "scale": 2,
+  "phoneScale": 1,
+  "anchor": [
+    38,
+    94
+  ],
+  "still": 0,
+  "blink": [
+    26,
+    27
+  ]
+}

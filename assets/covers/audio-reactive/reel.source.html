@@ -1,0 +1,230 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  Audio Reactive animated cover (2026-11-09). An 8 second loop through all seven studies,
+  played from their real recordings (assets/audio-reactive/*.mp4, the short clips; untouched,
+  always whole at their own shape), on his screen beside the page's own words. The spectrum
+  on the left is read from each clip's own audio track by a short numpy analysis (bands.js:
+  24 log-spaced bands), so the bars move with the piece on screen.
+
+  Beats: 05 Erase your social (the poster); Love parade's TouchDesigner network, its chain lit
+  node by node (audiospect, analyze, lag, math, circle); then 06, 07, 01, 02, 03, 04 in turn,
+  each change in the page's channel flicker; back to 05. Frame 0 = the last frame: the poster
+  piece's clip time runs continuously through the loop seam.
+
+  Export: node scripts/cover-reel.mjs --cover=audio-reactive --sheet
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=block">
+<style>
+:root {
+  --void: #05060f; --night: #090b1e; --deep: #0e122e; --line: #2f3352; --mute: #444a75; --dim: #5c649e;
+  --peri: #7681cc; --lav: #94a1ff; --ice: #ced6fc; --white: #ecf0ff;
+  --fg3: rgba(160, 200, 255, .65);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--void); }
+body { -webkit-font-smoothing: antialiased; color: var(--white); }
+.stage {
+  position: relative; width: 720px; height: 480px; overflow: hidden;
+  background:
+    radial-gradient(440px 300px at 70% 10%, rgba(118,129,204,.18) 0%, transparent 70%),
+    radial-gradient(380px 260px at 4% 100%, rgba(68,74,117,.28) 0%, transparent 70%),
+    var(--night);
+}
+.grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: .10; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .6  0 0 0 0 .65  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+.spill { position: absolute; width: 560px; height: 520px; left: 210px; top: -30px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(148,161,255,.26), rgba(148,161,255,.07) 55%, transparent 100%); }
+
+.col { position: absolute; left: 44px; top: 0; bottom: 0; width: 196px; display: flex; flex-direction: column; justify-content: center; }
+.kick { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--fg3); }
+.title { margin-top: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 44px; line-height: .92; letter-spacing: -.01em; color: var(--white); }
+.line { margin-top: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.35; color: rgba(235,243,255,.78); }
+.spec { margin-top: 24px; height: 64px; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid var(--line); }
+.spec i { flex: 1; height: 100%; background: var(--lav); transform-origin: 50% 100%; border-radius: 1px 1px 0 0; }
+.spec-axis { margin-top: 6px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .1em; color: var(--fg3); }
+.ch { margin-top: 20px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ice); line-height: 1.6; height: 32px; white-space: nowrap; }
+.ch span { color: var(--fg3); }
+
+.screen { position: absolute; left: 0; top: 0; background: var(--void); will-change: transform;
+  box-shadow: 0 0 0 1px rgba(148,161,255,.24), 0 30px 50px -24px rgba(0,0,0,.85); }
+.screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.dial { position: absolute; left: 0; top: 0; display: flex; gap: 6px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .08em; }
+.dial span { width: 34px; padding-top: 7px; border-top: 2px solid var(--line); color: var(--dim); text-align: left; }
+.dial span.on { border-color: var(--lav); color: var(--ice); }
+</style></head><body>
+<div class="stage" id="stage">
+  <div class="spill" id="spill"></div>
+  <div class="grain"></div>
+  <div class="col">
+    <p class="kick">Real-time visuals</p>
+    <h1 class="title">Audio<br>Reactive</h1>
+    <p class="line">Seven studies mapping sound to shape, color and motion</p>
+    <div class="spec" id="spec"></div>
+    <div class="spec-axis"><span>45 HZ</span><span>11 KHZ</span></div>
+    <p class="ch" id="ch"></p>
+  </div>
+  <div class="screen" id="screen"><canvas id="cv" width="840" height="680"></canvas></div>
+  <div class="dial" id="dial"></div>
+</div>
+<script src="bands.js"></script>
+<script>
+(function () {
+  const L = 8, FPS = 30;
+
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (u) => ((ax * u + bx) * u + cx) * u, Y = (u) => ((ay * u + by) * u + cy) * u;
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let lo = 0, hi = 1, u = x;
+      for (let i = 0; i < 40; i++) { if (X(u) < x) lo = u; else hi = u; u = (lo + hi) / 2; }
+      return Y(u);
+    };
+  }
+  const out = bezier(0.25, 1, 0.5, 1);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  const p = (t, at, dur) => clamp((t - at) / dur);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const $ = (id) => document.getElementById(id);
+
+  // The seven, as the page numbers and credits them. w x h is each recording's own size.
+  const P = {
+    '01': { clip: 'you-know-you-like-it', name: 'You know you like it', by: 'DJ Snake', w: 480, h: 440, s: 4.0 },
+    '02': { clip: 'where-are-u-now', name: 'Where are ü now', by: 'Justin Bieber', w: 480, h: 268, s: 1.5 },
+    '03': { clip: 'sdp-interlude-v1', name: 'SDP interlude', by: 'Travis Scott', w: 480, h: 344, s: 11.0 },
+    '04': { clip: 'sdp-interlude-v2', name: 'SDP interlude II', by: 'Travis Scott', w: 480, h: 268, s: 7.0 },
+    '05': { clip: 'erase-your-social', name: 'Erase your social', by: 'stham', w: 480, h: 284, s: 8.0 },
+    '06': { clip: 'love-parade', name: 'Love parade', by: 'jacidorex', w: 480, h: 268, s: 14.0 },
+    '07': { clip: 'money-longer', name: 'Money longer', by: 'Lil Uzi Vert', w: 480, h: 268, s: 1.0 },
+  };
+  // Love parade's network, cropped from td-network.webp (1600 x 1039) to the chain.
+  const NET = { x: 80, y: 360, w: 720, h: 540 };
+  const NODES = [[100, 755, 118, 80], [281, 800, 117, 80], [461, 800, 117, 80], [619, 800, 117, 80], [658, 478, 130, 92]];
+
+  // Timeline: 05 straddles the seam, then the network, then six channels.
+  const T_NET = 1.1, T_RUN = 2.3, T_BACK = 6.95;
+  const RUN = ['06', '07', '01', '02', '03', '04'];
+  const STEP = (T_BACK - T_RUN) / RUN.length;
+  function shot(t) {
+    if (t < T_NET) return { id: '05', at: -1, time: P['05'].s + t };
+    if (t < T_RUN) return { id: 'net', at: T_NET, time: P['06'].s - (T_RUN - t) };   // Love parade's audio, leading into it
+    if (t < T_BACK) { const i = Math.floor((t - T_RUN) / STEP), at = T_RUN + i * STEP; return { id: RUN[i], at, time: P[RUN[i]].s + (t - at) }; }
+    return { id: '05', at: T_BACK, time: P['05'].s + (t - L) };
+  }
+
+  // ---- footage ----
+  const vids = {};
+  function vid(clip) {
+    if (!vids[clip]) { const v = document.createElement('video'); v.src = '../../audio-reactive/' + clip + '.mp4'; v.muted = true; v.preload = 'auto'; v.playsInline = true; vids[clip] = v; }
+    return vids[clip];
+  }
+  function seek(v, time) {
+    time = Math.max(0, Math.min((v.duration || 99) - 0.04, time));
+    if (Math.abs(v.currentTime - time) < 1e-3 && v.readyState >= 2) return Promise.resolve();
+    return new Promise((r) => { v.addEventListener('seeked', r, { once: true }); v.currentTime = time; });
+  }
+  const net = new Image(); net.src = '../../audio-reactive/td-network.webp';
+
+  // The page's channel change ([0, 1, 0, swap, 1, 0, 1]), one beat a frame.
+  const BEATS = [0, 1, 0, 'swap', 1, 0, 1];
+  function flick(t, at) {
+    const i = Math.floor((t - at) * FPS + 1e-6);
+    if (at < 0 || i < 0 || i >= BEATS.length) return { a: 1, old: false };
+    return { a: BEATS[i] === 1 ? 1 : 0.16, old: i < 3 };
+  }
+
+  const MAXW = 400, MAXH = 312, CX = 496, CY = 228;
+  const size = (id) => {
+    const w = id === 'net' ? NET.w : P[id].w, h = id === 'net' ? NET.h : P[id].h;
+    const k = Math.min(MAXW / w, MAXH / h); return [w * k, h * k];
+  };
+  const level = (clip, time, b) => {
+    const a = (window.BANDS || {})[clip]; if (!a) return 0;
+    const i = Math.max(0, Math.min(a.d.length - 1, Math.round(time * FPS) - a.o));
+    return a.d[i][b] / 99;
+  };
+
+  const spec = $('spec'), bars = [];
+  for (let i = 0; i < 24; i++) { const b = document.createElement('i'); spec.appendChild(b); bars.push(b); }
+  const dial = $('dial'), ticks = {};
+  ['01', '02', '03', '04', '05', '06', '07'].forEach((n) => { const s = document.createElement('span'); s.textContent = n; dial.appendChild(s); ticks[n] = s; });
+
+  async function render(tIn) {
+    const t = ((tIn % L) + L) % L;
+    const cur = shot(t);
+    const f = flick(t, cur.at);
+    // during the first half of a change the old channel is still on
+    const showing = f.old ? shot(cur.at - 1e-4) : cur;
+    const prevId = cur.at < 0 ? '05' : shot(cur.at - 1e-4).id;
+
+    // the screen eases from the old channel's shape to the new one's
+    const [w0, h0] = size(prevId), [w1, h1] = size(cur.id);
+    const k = cur.at < 0 ? 1 : out(p(t, cur.at, 0.32));
+    const w = lerp(w0, w1, k), h = lerp(h0, h1, k);
+    const sc = $('screen');
+    sc.style.width = w.toFixed(2) + 'px'; sc.style.height = h.toFixed(2) + 'px';
+    sc.style.transform = 'translate(' + (CX - w / 2).toFixed(2) + 'px,' + (CY - h / 2).toFixed(2) + 'px)';
+    dial.style.transform = 'translate(' + (CX - 139).toFixed(2) + 'px,' + (CY + MAXH / 2 + 22).toFixed(2) + 'px)';
+
+    const cv = $('cv'), g = cv.getContext('2d');
+    const W = Math.round(w * 2), H = Math.round(h * 2);
+    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    g.globalAlpha = 1; g.fillStyle = '#05060f'; g.fillRect(0, 0, W, H);
+    g.globalAlpha = f.a;
+    let audioClip, audioTime, label;
+    if (showing.id === 'net') {
+      g.drawImage(net, NET.x, NET.y, NET.w, NET.h, 0, 0, W, H);
+      g.globalAlpha = 1;
+      // the chain lights node by node, left to right, then up into circle1
+      const q = (t - T_NET - 0.12) / 0.2;
+      const s = W / NET.w;
+      NODES.forEach(([x, y, nw, nh], i) => {
+        const on = clamp(q - i), lit = clamp(1 - Math.abs(q - i - 0.5) / 1.2);
+        if (on <= 0) return;
+        g.strokeStyle = 'rgba(148,161,255,' + (0.35 + 0.65 * lit).toFixed(3) + ')';
+        g.lineWidth = 3;
+        const pad = 6 + 4 * lit;
+        g.strokeRect((x - NET.x) * s - pad, (y - NET.y) * s - pad, nw * s + 2 * pad, nh * s + 2 * pad);
+      });
+      audioClip = P['06'].clip; audioTime = showing.time;
+      label = '06 <span>· Love parade</span><br><span>its TouchDesigner network</span>';
+    } else {
+      const pc = P[showing.id], v = vid(pc.clip);
+      await seek(v, showing.time + 0.5 / FPS);
+      g.drawImage(v, 0, 0, W, H);
+      audioClip = pc.clip; audioTime = showing.time;
+      label = showing.id + ' <span>· ' + pc.name + '</span><br><span>' + pc.by + '</span>';
+    }
+    g.globalAlpha = 1;
+    $('ch').innerHTML = label;
+    const lit = showing.id === 'net' ? '06' : showing.id;
+    for (const n in ticks) ticks[n].className = n === lit ? 'on' : '';
+
+    let low = 0;
+    bars.forEach((b, i) => { const v = level(audioClip, audioTime, i); if (i < 4) low += v / 4; b.style.transform = 'scaleY(' + (0.03 + 0.97 * v).toFixed(4) + ')'; });
+    const sp = $('spill');
+    sp.style.opacity = (0.55 + 0.45 * low).toFixed(4);
+    sp.style.transform = 'scale(' + (0.92 + 0.12 * low).toFixed(4) + ')';
+  }
+
+  const fonts = ['700 44px "Syne"', '400 14px "DM Sans"', '400 10px "Space Mono"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const loaded = Object.values(P).map((pc) => new Promise((r) => { const v = vid(pc.clip); v.addEventListener('loadeddata', r, { once: true }); v.load(); }));
+  const img = net.decode().catch(() => {});
+  const ready = Promise.all([...fonts, ...loaded, img]).then(() => document.fonts.ready).then(() => render(0)).then(() => true);
+  window.__reel = { render, duration: L, fps: FPS, fonts: ['Syne', 'DM Sans', 'Space Mono'], ready };
+
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(async () => {
+      const t0 = performance.now();
+      for (;;) { await render((performance.now() - t0) / 1000); await new Promise((r) => requestAnimationFrame(r)); }
+    });
+  }
+})();
+</script>
+</body></html>

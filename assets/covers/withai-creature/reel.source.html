@@ -1,0 +1,124 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  With AI window preview: Portfolio creature (2026-11-13, cover redesign). 5 s loop, 30 fps, one family
+  with withai-driftwood, -habitabull, -today, -agent.
+  Poster (frame 0 = last frame): a composed cover. The site's night fills the frame; he sits in the
+  middle on a deep cobalt disc, his still (idle frame 0, ../../creature-process/workshop/idle.webp, which
+  is pixel-identical to still.webp) at exactly 2x, pixelated, never redrawn or recoloured. The disc is
+  his drawing's smallest enclosing circle (radius 107 sprite px over all 192 idle frames, tail included)
+  plus a margin. Six flat shapes in lavender and cobalt sit round it, some cropped by the edge.
+  Hover: the shapes drift out and grow, he hops away, the disc floods the frame, a lavender-rimmed circle opens from
+  the centre on him at 3x playing his own idle (24 fps), holds, closes, and everything settles back
+  exactly to the cover as he drops back in. One curve: quart out (~ cubic-bezier(0.25, 1, 0.5, 1)),
+  plus a small spring on his landing.
+    node scripts/cover-reel.mjs --cover=withai-creature --sheet
+-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #050710; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: #050710; }
+.abs { position: absolute; left: 0; top: 0; will-change: transform; }
+.shape { transform-origin: 50% 50%; }
+.c { border-radius: 50%; }
+.s { border-radius: 22%; }
+#disc { border-radius: 50%; background: #1b2368; }
+#reveal { width: 720px; height: 480px; overflow: hidden; background: #1b2368; }
+#rim { border-radius: 50%; box-shadow: inset 0 0 0 5px #C4B0FF; }
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+#him2 { width: 512px; height: 342px; }
+#him3 { width: 768px; height: 513px; }
+</style></head><body>
+<div class="stage" id="stage">
+  <div id="shapes"></div>
+  <div class="abs" id="disc"></div>
+  <canvas class="abs" id="him2" width="256" height="171"></canvas>
+  <div class="abs" id="reveal"><canvas class="abs" id="him3" width="256" height="171"></canvas></div>
+  <div class="abs" id="rim"></div>
+</div>
+<script>
+(() => {
+  const L = 5, FPS = 30, CX = 360, CY = 240;
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, a, d) => clamp((t - a) / d);
+  const out = (x) => 1 - Math.pow(1 - x, 4);                       // ~ cubic-bezier(0.25, 1, 0.5, 1)
+  const back = (x) => { const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+  const swing = (t, a, d, r, e) => out(p(t, a, d)) * (1 - out(p(t, r, e)));
+
+  // The cover. k: c circle, s rounded pixel block, r ring (w = stroke). dx/dy: drift on hover (px), g: growth.
+  const SHAPES = [
+    { k: 'c', x: 34,  y: 52,  D: 200, col: '#C4B0FF', dx: -22, dy: -18, g: .16 },              // lavender, cropped top left
+    { k: 'r', x: 62,  y: 432, D: 170, col: '#7d86ea', w: 16, dx: -20, dy: 22, g: .22 },        // periwinkle ring, bottom left
+    { k: 'c', x: 104, y: 262, D: 30,  col: '#3a4fd6', dx: -28, dy: 4,   g: .5 },               // cobalt dot
+    { k: 's', x: 652, y: 104, D: 76,  col: '#3a4fd6', dx: 24,  dy: -20, g: .3, rot: 14 },      // cobalt block, top right
+    { k: 'c', x: 694, y: 446, D: 250, col: '#3a4fd6', dx: 22,  dy: 22,  g: .14 },              // cobalt, cropped bottom right
+    { k: 'c', x: 634, y: 262, D: 24,  col: '#C4B0FF', dx: 28,  dy: 0,   g: .5 },               // lavender dot
+  ];
+  const DISC = 448, FLOOD = 900;
+  const shapes = SHAPES.map((s) => {
+    const el = document.createElement('div');
+    el.className = 'abs shape ' + (s.k === 'r' ? 'c' : s.k);
+    el.style.width = el.style.height = s.D + 'px';
+    if (s.k === 'r') el.style.boxShadow = `inset 0 0 0 ${s.w}px ${s.col}`; else el.style.background = s.col;
+    document.getElementById('shapes').appendChild(el);
+    return { s, el };
+  });
+  const disc = document.getElementById('disc');
+  const reveal = document.getElementById('reveal');
+  const rim = document.getElementById('rim');
+  const c2 = document.getElementById('him2'), x2 = c2.getContext('2d');
+  const c3 = document.getElementById('him3'), x3 = c3.getContext('2d');
+  x2.imageSmoothingEnabled = x3.imageSmoothingEnabled = false;
+  // his enclosing circle's centre is sprite (124, 80): whole-pixel placements that put it on the stage centre
+  const X2 = CX - 124 * 2, Y2 = CY - 80 * 2;
+  c3.style.transform = `translate(${CX - 124 * 3}px, ${CY - 80 * 3}px)`;
+  const sheet = new Image(); sheet.src = '../../creature-process/workshop/idle.webp';
+  const CW = 256, CH = 171, COLS = 16, N = 192, SPF = 24;
+  let drawn2 = -1, drawn3 = -1;
+  const paint = (ctx, f) => { ctx.clearRect(0, 0, CW, CH); ctx.drawImage(sheet, (f % COLS) * CW, Math.floor(f / COLS) * CH, CW, CH, 0, 0, CW, CH); };
+  const OPEN = .8;
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+    const ks = swing(t, .15, .95, 3.45, 1.05);
+    for (const { s, el } of shapes) {
+      const sc = 1 + s.g * ks;
+      const rot = (s.rot || 0) + 8 * ks * Math.sign(s.dx);
+      el.style.transform = `translate(${(s.x - s.D / 2 + s.dx * ks).toFixed(2)}px, ${(s.y - s.D / 2 + s.dy * ks).toFixed(2)}px) scale(${sc.toFixed(4)}) rotate(${rot.toFixed(2)}deg)`;
+    }
+    const kd = swing(t, .45, .85, 3.25, .9);
+    const D = DISC + (FLOOD - DISC) * kd;
+    disc.style.width = disc.style.height = D.toFixed(2) + 'px';
+    disc.style.transform = `translate(${(CX - D / 2).toFixed(2)}px, ${(CY - D / 2).toFixed(2)}px)`;
+    // the circle opens on him at 3x, playing his idle; the rim leads it and fades as it leaves the frame
+    const kr = swing(t, OPEN, .9, 3.05, .8);
+    const R = 450 * kr;
+    reveal.style.visibility = R < 6 ? 'hidden' : 'visible';
+    reveal.style.clipPath = `circle(${R.toFixed(2)}px at ${CX}px ${CY}px)`;
+    const rr = R + 2.5;
+    rim.style.visibility = R < 6 || R > 445 ? 'hidden' : 'visible';
+    rim.style.width = rim.style.height = (2 * rr).toFixed(2) + 'px';
+    rim.style.transform = `translate(${(CX - rr).toFixed(2)}px, ${(CY - rr).toFixed(2)}px)`;
+    // the cover's him: a hop up and away (pixel art pops, never fades), and a drop back in with a small spring
+    let hy = 0, hv = true;
+    if (t >= .3 && t < 3.72) { const h = p(t, .3, .3); hy = -Math.sin(Math.PI * .5 * h) * 36; hv = h < .999; }
+    else if (t >= 3.72 && t < 4.3) hy = -40 * (1 - back(p(t, 3.72, .5)));
+    if (t >= .6 && t < 3.72) hv = false;
+    c2.style.visibility = hv ? 'visible' : 'hidden';
+    c2.style.transform = `translate(${X2}px, ${Math.round(Y2 + hy)}px)`;
+    if (sheet.complete && sheet.naturalWidth) {
+      if (drawn2 !== 0) { paint(x2, 0); drawn2 = 0; }        // the cover is always his still
+      const f = R < 6 ? 0 : Math.max(0, Math.floor((t - OPEN) * SPF)) % N;
+      if (f !== drawn3) { paint(x3, f); drawn3 = f; }
+    }
+  }
+
+  const ready = (sheet.complete ? Promise.resolve() : new Promise((r) => { sheet.onload = sheet.onerror = r; }))
+    .then(() => sheet.decode().catch(() => 0));
+  window.__reel = { duration: L, fps: FPS, fonts: [], ready, render };
+  ready.then(() => render(0));
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const loop = (n) => { render((n - t0) / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); });
+  }
+})();
+</script>
+</body></html>

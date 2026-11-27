@@ -1,0 +1,229 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  SoundCloud App Critique animated cover (2026-11-09). An 8 second loop built from her own
+  critique pages (page-01..04, never recoloured or filtered: only cropped, framed and revealed)
+  and the SoundCloud logo (cover.jpg). Beats: her proposal holds (the orange cloud on black,
+  under her hand-lettered title); the widget menu slides up over the home screen beside her
+  note about the likes button; the playlist screen wipes from before to after and the cover
+  grows; then the logo's own story: the orange it carried since 2007, the plain black of 2023,
+  and her proposal lighting the bars orange one by one, which is the poster again.
+  The logo is coloured with blend modes over the white-on-black logo file: screen over the
+  2007 orange, multiply for the orange cloud on black.
+  Pure function of time: node scripts/cover-reel.mjs --cover=soundcloud-critique --sheet
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=block">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #000; }
+body { -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: #000; color: #e9e9e9; }
+.stage::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 30; opacity: .10; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+.scene { position: absolute; inset: 0; will-change: transform, opacity; }
+.crop { position: absolute; background-repeat: no-repeat; }
+.kicker { position: absolute; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #9a9a9a; white-space: nowrap; }
+.kicker b { color: #ff5500; font-weight: 400; }
+/* white paper cut from her pages */
+.paper { position: absolute; background: #fff; border-radius: 2px; overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,.3), 0 18px 40px -12px rgba(0,0,0,.7); }
+.paper .crop { inset: 0; }
+.phone { position: absolute; border-radius: 22px; overflow: hidden; background: #000;
+  box-shadow: 0 0 0 1.5px #2a2a2c, 0 0 0 7px #0d0d0e, 0 0 0 8px #262628, 0 30px 60px -18px rgba(255,85,0,.28), 0 24px 50px -16px rgba(0,0,0,.9); }
+/* the logo: the white-on-black file, coloured by blend modes */
+.logo { position: absolute; left: 115px; top: 15px; width: 490px; height: 490px; }
+.logo .file { position: absolute; inset: 0; background: url(../../soundcloud/cover.jpg) center / 100% 100% no-repeat; }
+.logo .tint { position: absolute; inset: 4px; background: linear-gradient(180deg, #ff7a00 30%, #ff3a00 70%); mix-blend-mode: multiply; }
+.field07 { position: absolute; inset: 0; background: linear-gradient(180deg, #ff7300, #ff3600); }
+#logo { mix-blend-mode: screen; }
+.glow { position: absolute; left: 160px; top: 140px; width: 400px; height: 200px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,85,0,.22), transparent); filter: blur(10px); }
+</style></head><body>
+<div class="stage" id="stage">
+
+  <!-- C: navigation controls, the widget menu -->
+  <section class="scene" id="s-nav">
+    <p class="kicker" style="left: 352px; top: 70px" id="nav-k">Navigation controls</p>
+    <div class="phone" id="nav-phone" style="left: 132px; top: 40px; width: 196px; height: 399px">
+      <div class="crop" id="nav-top"></div>
+      <div class="crop" id="nav-sheet"></div>
+    </div>
+    <div class="paper" id="nav-title" style="left: 350px; top: 102px; width: 264px; height: 50px"><div class="crop" id="c-wc"></div></div>
+    <div class="paper" id="nav-note" style="left: 380px; top: 236px; width: 226px; height: 144px"><div class="crop" id="c-note"></div></div>
+  </section>
+
+  <!-- D: playlist cover, before and after -->
+  <section class="scene" id="s-pl">
+    <p class="kicker" style="left: 404px; top: 116px">Playlist cover</p>
+    <div class="phone" id="pl-phone" style="left: 112px; top: 46px; width: 279px; height: 388px">
+      <div class="crop" id="pl-before"></div>
+      <div class="crop" id="pl-after"></div>
+      <div id="pl-line" style="position:absolute; top:0; bottom:0; width:2px; background:#ff5500; box-shadow: 0 0 12px rgba(255,85,0,.8)"></div>
+    </div>
+    <div class="paper" id="pl-title" style="left: 402px; top: 150px; width: 214px; height: 75px"><div class="crop" id="c-pc"></div></div>
+    <p class="kicker" style="left: 404px; top: 262px; font-size: 13px; color: #d8d8d8" id="pl-state">Before</p>
+    <p class="kicker" style="left: 404px; top: 286px; text-transform: none; letter-spacing: .02em; font-size: 12px; line-height: 1.6; white-space: normal; width: 210px; color: #a8a8a8" id="pl-cap">The cover sits small beside the icons.</p>
+  </section>
+
+  <!-- E and the poster: the logo -->
+  <section class="scene" id="s-logo">
+    <div class="field07" id="f07"></div>
+    <div class="glow" id="glow"></div>
+    <div class="logo" id="logo">
+      <div class="file"></div>
+    </div>
+    <div class="logo" id="logo-or" style="isolation: isolate; mix-blend-mode: screen">
+      <div class="file"></div>
+      <div class="tint"></div>
+    </div>
+    <div class="paper" id="title" style="left: 168px; top: 52px; width: 384px; height: 64px"><div class="crop" id="c-title"></div></div>
+    <p class="kicker" id="yr" style="left: 0; right: 0; top: 392px; text-align: center; font-size: 12px"></p>
+  </section>
+</div>
+<script>
+(function () {
+  const L = 8, FPS = 30;
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (u) => ((ax * u + bx) * u + cx) * u, Y = (u) => ((ay * u + by) * u + cy) * u;
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      let lo = 0, hi = 1, u = x;
+      for (let i = 0; i < 40; i++) { u = (lo + hi) / 2; if (X(u) < x) lo = u; else hi = u; }
+      return Y(u);
+    };
+  }
+  const out = bezier(0.25, 1, 0.5, 1), inOut = bezier(0.45, 0, 0.55, 1);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  const p = (t, at, dur) => clamp((t - at) / dur);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const $ = (id) => document.getElementById(id);
+
+  // Crops of her pages (990 x 1530), placed by source rectangle and scale.
+  const PAGE = 'url(../../soundcloud/page-0';
+  function crop(el, page, sx, sy, sw, sh, w) {
+    const k = w / sw;
+    el.style.backgroundImage = PAGE + page + '.jpg)';
+    el.style.backgroundSize = (990 * k).toFixed(2) + 'px ' + (1530 * k).toFixed(2) + 'px';
+    el.style.backgroundPosition = (-sx * k).toFixed(2) + 'px ' + (-sy * k).toFixed(2) + 'px';
+    el.style.width = w + 'px'; el.style.height = (sh * k).toFixed(2) + 'px';
+    return sh * k;
+  }
+  // page-03's phone: home screen above, the widget menu (from y 660) below
+  const NK = 196 / 440;
+  crop($('nav-top'), 3, 126, 256, 440, 404, 196);
+  const sheetH = crop($('nav-sheet'), 3, 126, 660, 440, 492, 196);
+  const SHEET_Y = 404 * NK;
+  crop($('c-wc'), 2, 165, 122, 360, 68, 264);
+  crop($('c-note'), 3, 598, 1062, 282, 180, 226);
+  // page-04's before and after phones
+  crop($('pl-before'), 4, 180, 334, 296, 412, 279);
+  crop($('pl-after'), 4, 180, 895, 296, 412, 279);
+  crop($('c-pc'), 4, 340, 110, 300, 105, 214);
+  crop($('c-title'), 1, 180, 105, 480, 80, 384);
+
+  // The logo's bars, as x in the 1200px file: each step lights one more.
+  const STEPS = [180, 213, 250, 285, 320, 356, 392, 428, 466, 503, 540, 578, 609, 1060];
+  const T = { posterOut: 0.8, navIn: 1.0, sheet: 1.55, navOut: 3.45, plIn: 3.55, wipe: 4.35, plOut: 5.75,
+    o7: 5.85, black: 6.5, bars: 7.0, title: 7.45 };
+
+  function rise(el, t, at, dur, dist) {
+    const k = out(p(t, at, dur || 0.34));
+    el.style.opacity = k.toFixed(4);
+    el.style.transform = 'translateY(' + ((1 - k) * (dist == null ? 14 : dist)).toFixed(2) + 'px)' + (el.dataset.rot ? ' rotate(' + el.dataset.rot + 'deg)' : '');
+  }
+  function envelope(el, t, inAt, outAt, push) {
+    const inK = out(p(t, inAt, 0.32)), outK = inOut(p(t, outAt, 0.28)), hold = inOut(p(t, inAt, outAt - inAt));
+    el.style.opacity = (inK * (1 - outK)).toFixed(4);
+    el.style.transform = 'translateY(' + (-12 * outK).toFixed(2) + 'px) scale(' + (1 + (push || 0) * hold).toFixed(4) + ')';
+    el.style.visibility = (t < inAt - 0.01 || t > outAt + 0.3) ? 'hidden' : 'visible';
+  }
+
+  function render(tIn) {
+    const t = ((tIn % L) + L) % L;
+
+    // ---- C: the widget menu ----
+    envelope($('s-nav'), t, T.navIn, T.navOut, 0.025);
+    rise($('nav-phone'), t, T.navIn, 0.4, 18);
+    rise($('nav-k'), t, T.navIn + 0.08, 0.3);
+    $('nav-title').dataset.rot = '-1.5'; $('nav-note').dataset.rot = '1.2';
+    rise($('nav-title'), t, T.navIn + 0.14, 0.34);
+    const sk = out(p(t, T.sheet, 0.5));
+    $('nav-sheet').style.transform = 'translateY(' + lerp(399, SHEET_Y, sk).toFixed(2) + 'px)';
+    rise($('nav-note'), t, T.sheet + 0.4, 0.36);
+
+    // ---- D: before, then after wipes across ----
+    envelope($('s-pl'), t, T.plIn, T.plOut, 0.025);
+    rise($('pl-phone'), t, T.plIn, 0.4, 18);
+    $('pl-title').dataset.rot = '-1.2';
+    rise($('pl-title'), t, T.plIn + 0.12, 0.34);
+    const wk = inOut(p(t, T.wipe, 0.6));
+    $('pl-after').style.clipPath = 'inset(0 ' + (100 * (1 - wk)).toFixed(3) + '% 0 0)';
+    $('pl-line').style.left = (279 * wk - 1).toFixed(2) + 'px';
+    $('pl-line').style.opacity = wk > 0 && wk < 1 ? 1 : 0;
+    const after = t >= T.wipe + 0.3;
+    $('pl-state').textContent = after ? 'After' : 'Before';
+    $('pl-state').style.color = after ? '#ff6a1f' : '#d8d8d8';
+    $('pl-cap').textContent = after ? 'Larger cover, description beside it.' : 'The cover sits small beside the icons.';
+    const lk = after ? out(p(t, T.wipe + 0.3, 0.3)) : out(p(t, T.plIn + 0.2, 0.3));
+    $('pl-cap').style.opacity = lk.toFixed(3);
+    $('pl-cap').style.transform = 'translateY(' + ((1 - lk) * 6).toFixed(2) + 'px)';
+    $('pl-state').style.opacity = out(p(t, T.plIn + 0.18, 0.3)).toFixed(3);
+
+    // ---- E and the poster: the logo ----
+    // Its clock wraps: the poster at 0 is the end of the story at L.
+    const s = $('s-logo');
+    const inStory = t >= T.o7 - 0.02;
+    const outK = inStory ? 0 : inOut(p(t, T.posterOut, 0.26));
+    s.style.visibility = (!inStory && t > T.posterOut + 0.3) ? 'hidden' : 'visible';
+    s.style.opacity = (1 - outK).toFixed(4);
+    const tp = inStory ? t - T.o7 : t + (L - T.o7);         // story clock
+    const hold = L - T.o7 + T.posterOut;
+    s.style.transform = 'translateY(' + (-12 * outK).toFixed(2) + 'px)';
+    // 2007: the orange field rises in behind the white cloud
+    const o7k = out(p(tp, 0, 0.4));
+    const blackK = inOut(p(tp, T.black - T.o7, 0.42));
+    $('f07').style.clipPath = 'inset(' + (100 * blackK).toFixed(3) + '% 0 ' + (100 * (1 - o7k)).toFixed(3) + '% 0)';
+    const lgk = out(p(tp, 0.08, 0.42));
+    const push = 1 + 0.03 * inOut(clamp(tp / hold));
+    for (const id of ['logo', 'logo-or']) $(id).style.transform = 'translateY(' + ((1 - lgk) * 16).toFixed(2) + 'px) scale(' + (lerp(0.94, 1, lgk) * push).toFixed(4) + ')';
+    $('logo').style.opacity = lgk.toFixed(4);
+    // her proposal: the bars light orange one at a time, then the cloud
+    const bt = tp - (T.bars - T.o7);
+    let n = bt < 0 ? 0 : Math.min(STEPS.length, 1 + Math.floor(bt / 0.03));
+    const edge = n === 0 ? 0 : STEPS[n - 1];
+    $('logo-or').style.clipPath = 'inset(0 ' + (100 * (1 - edge / 1200)).toFixed(3) + '% 0 0)';
+    $('logo').style.clipPath = 'inset(0 0 0 ' + (100 * edge / 1200).toFixed(3) + '%)';
+    $('glow').style.opacity = (0.0 + out(p(bt, 0.35, 0.5))).toFixed(3);
+    // her title lands on top
+    $('title').dataset.rot = '-1.5';
+    rise($('title'), tp, T.title - T.o7, 0.36, -14);
+    const yr = $('yr');
+    const label = tp < T.black - T.o7 + 0.2 ? '<b>Since 2007</b> · Orange'
+      : bt < 0.12 ? '<b>2023</b> · Plain black'
+      : tp < T.title - T.o7 + 0.1 ? '<b>Proposal</b> · An orange cloud on black'
+      : 'UX critique · SoundCloud iOS · 2023';
+    if (yr.innerHTML !== label) yr.innerHTML = label;
+    const lab = label.startsWith('<b>Since') ? 0 : label.startsWith('<b>2023') ? T.black - T.o7 + 0.2 : label.startsWith('<b>Prop') ? T.bars - T.o7 + 0.12 : T.title - T.o7 + 0.1;
+    rise(yr, tp, lab + 0.05, 0.28, 6);
+    const onOrange = label.startsWith('<b>Since');
+    yr.style.color = onOrange ? 'rgba(26,10,0,.82)' : '';
+    yr.firstElementChild && (yr.firstElementChild.style.color = onOrange ? 'rgba(26,10,0,.95)' : '');
+  }
+
+  const srcs = ['../../soundcloud/cover.jpg', 1, 2, 3, 4].map((x) => typeof x === 'number' ? '../../soundcloud/page-0' + x + '.jpg' : x);
+  const imgs = srcs.map((src) => { const im = new Image(); im.src = src; return im.decode().catch(() => {}); });
+  const faces = ['400 12px "Space Mono"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const ready = Promise.all([...faces, ...imgs]).then(() => document.fonts.ready).then(() => { render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, fonts: ['Space Mono'], ready };
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  } else render(0);
+})();
+</script>
+</body></html>

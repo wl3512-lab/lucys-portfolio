@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<!-- Driftwood: authored personality, conversation, diagnosis and training. The parrot and its agreeableness flaw are from
+     the game; the conversation and proposed rule are clearly illustrative, not a recording.
+     Render with node scripts/cover-reel.mjs --project=driftwood. Frame 0 and the ending
+     are the same readable poster. All essential content stays inside the square-card crop. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=block">
+<style>
+:root { --bg:#050805; --panel:#101c14; --ink:#edf6ee; --muted:#b1c3b6; --green:#69f0ae; --line:#294936; --amber:#ffd18a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--ink); font-family:Inter,sans-serif; }
+.stage { position:relative; width:720px; height:480px; overflow:hidden; background:radial-gradient(ellipse at 50% 64%,#173726 0%,#09170e 44%,var(--bg) 80%); }
+.grid { position:absolute; inset:0; opacity:.22; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:40px 40px; mask-image:linear-gradient(transparent,#222 55%,transparent); }
+.brand { position:absolute; top:28px; width:100%; text-align:center; font:500 19px 'Fira Code',monospace; letter-spacing:.16em; color:var(--green); }
+.scene { position:absolute; top:76px; left:112px; width:496px; height:365px; text-align:center; }
+h1,h2 { font-size:47px; line-height:1.09; letter-spacing:-.045em; font-weight:600; }
+h1 span { color:var(--green); }
+.pets { display:flex; align-items:end; justify-content:center; gap:26px; height:130px; margin:17px 0 22px; }
+.pets img { width:64px; height:94px; object-fit:contain; image-rendering:pixelated; filter:drop-shadow(0 10px 14px rgba(0,230,118,.12)); }
+.pets img:first-child,.pets img:last-child { width:55px; height:78px; }
+.pets img:nth-child(3) { width:74px; height:108px; }
+.purpose { font-size:21px; line-height:1.4; }
+.audience { margin-top:9px; font-size:18px; color:var(--muted); }
+.story-title { font-size:38px; }
+.exchange { display:grid; grid-template-columns:82px 1fr; gap:18px; text-align:left; margin-top:25px; align-items:center; }
+.parrot { width:78px; height:124px; object-fit:contain; image-rendering:pixelated; }
+.dialogue { display:grid; gap:10px; }
+.message { padding:13px 17px; border:1px solid var(--line); border-radius:12px; background:var(--panel); font-size:19px; line-height:1.4; }
+.message b { display:block; font:500 11px 'Fira Code',monospace; letter-spacing:.1em; margin-bottom:6px; color:var(--muted); }
+.reply { border-color:#806444; background:#211d12; }
+.reply b { color:var(--amber); }
+.caption { margin-top:18px; font-size:17px; line-height:1.5; color:var(--muted); }
+.example { font:400 11px 'Fira Code',monospace; color:var(--muted); margin-top:9px; }
+.rule { position:relative; margin:25px auto 0; padding:24px; border:1px solid var(--green); border-radius:14px; background:var(--panel); text-align:left; width:440px; }
+.rule-label { font:500 12px 'Fira Code',monospace; color:var(--green); letter-spacing:.1em; margin-bottom:14px; }
+.rule-text { font-size:26px; line-height:1.35; letter-spacing:-.025em; min-height:71px; }
+.cursor { display:inline-block; width:3px; height:25px; background:var(--green); vertical-align:-3px; margin-left:3px; }
+.rule-foot { display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:14px; margin-top:20px; font-size:15px; color:var(--muted); }
+.check { width:22px; height:22px; color:var(--green); }
+.persona { display:flex; align-items:center; gap:25px; text-align:left; margin:24px 20px 20px; }
+.persona .parrot { width:86px; height:122px; }
+.persona-name { font-size:28px; font-weight:600; margin-bottom:7px; }
+.persona-vibe { font-size:21px; color:var(--green); }
+.prompt-line { margin-top:14px; font-size:22px; line-height:1.4; }
+.prompt-credit { font-size:19px; line-height:1.5; color:var(--muted); }
+.guess { margin-top:28px; }
+.guess .rule-text { min-height:0; }
+.diagnosis { margin-top:17px; color:var(--green); font-size:20px; }
+.bottom-rule { position:absolute; bottom:21px; left:140px; right:140px; height:2px; background:var(--line); }
+.bottom-rule i { display:block; width:100%; height:100%; background:var(--green); transform-origin:left; }
+</style></head><body>
+<div class="stage">
+ <div class="grid"></div><p class="brand">DRIFTWOOD</p>
+ <section class="scene" id="purpose">
+  <h1>Learn when to<br><span>question AI.</span></h1>
+  <div class="pets"><img src="../../icons/fox.svg" alt="Ember"><img src="../../icons/dog.svg" alt="Biscuit"><img src="../../icons/parrot.svg" alt="Mango"><img src="../../icons/bunny.svg" alt="Bugs"><img src="../../icons/cat.svg" alt="Luna"></div>
+  <p class="purpose">A game about AI risks and trust.</p><p class="audience">No tech background needed.</p>
+ </section>
+ <section class="scene" id="persona">
+  <h2 class="story-title">Celebrity-inspired.<br>Prompt by prompt.</h2>
+  <div class="persona"><img class="parrot" src="../../icons/parrot.svg" alt="Mango"><div><p class="persona-name">Meet Mango.</p><p class="persona-vibe">DJ Khaled-inspired hype</p><p class="prompt-line">“you only escalate praise.”</p></div></div>
+  <p class="prompt-credit">I wrote each pet’s voice,<br>hidden flaw and training states.</p>
+  <p class="example">Excerpt from my character prompt</p>
+ </section>
+ <section class="scene" id="notice">
+  <h2 class="story-title">Friendly doesn’t<br>always mean truthful.</h2>
+  <div class="exchange"><img class="parrot" src="../../icons/parrot.svg" alt="Mango the parrot"><div class="dialogue">
+   <div class="message" id="question"><b>YOU</b>I think I’m always right.</div>
+   <div class="message reply" id="reply"><b>MANGO</b>Exactly! You’re always right!</div>
+  </div></div>
+  <p class="caption">Something feels off. Can you name it?</p><p class="example">Illustrative conversation</p>
+ </section>
+ <section class="scene" id="diagnose">
+  <h2 class="story-title">Guess what’s wrong.<br>Put it in your words.</h2>
+  <div class="rule guess"><p class="rule-label">YOUR GUESS</p><p class="rule-text">“It agrees with everything,<br>even bad ideas.”</p></div>
+  <p class="diagnosis" id="diagnosis">Sycophancy: excessive agreement.</p>
+  <p class="example">Illustrative game loop</p>
+ </section>
+ <section class="scene" id="boundary">
+  <h2 class="story-title">Write a training rule.<br>Then test it.</h2>
+  <div class="rule"><p class="rule-label">YOUR TRAINING RULE</p><p class="rule-text"><span id="rule-text"></span><i class="cursor" id="cursor"></i></p>
+  <div class="rule-foot"><span>Try another conversation.</span><svg class="check" id="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 12 5 5L20 6"/></svg></div></div>
+  <p class="caption">Write rules. See whether the pet follows them.</p>
+ </section>
+ <div class="bottom-rule"><i id="progress"></i></div>
+</div>
+<script>
+(function(){
+ const duration=22, fps=30, $=id=>document.getElementById(id), clamp=x=>Math.max(0,Math.min(1,x)), ease=x=>1-Math.pow(1-clamp(x),3);
+ const text='If I’m wrong, tell me. Don’t just agree with me.';
+ function scene(el,opacity,y){el.style.opacity=opacity.toFixed(4);el.style.transform='translateY('+y.toFixed(2)+'px)';el.style.visibility=opacity>0?'visible':'hidden';}
+ function interval(t,start,end){return ease((t-start)/.45)*(1-ease((t-end)/.4));}
+ function render(t){
+  t=Math.max(0,Math.min(duration,t));
+  const a=t<1.8?1-ease((t-1.4)/.4):ease((t-19.4)/.5);
+  scene($('purpose'),a,(1-a)*10);
+  [['persona',1.7,6.2],['notice',6.4,10.6],['diagnose',10.8,14.5],['boundary',14.7,19.2]].forEach(([id,start,end])=>{
+   const opacity=interval(t,start,end);scene($(id),opacity,(1-opacity)*14);
+  });
+  const q=ease((t-6.9)/.35),r=ease((t-7.85)/.45);
+  $('question').style.opacity=q;$('question').style.transform='translateY('+((1-q)*8)+'px)';
+  $('reply').style.opacity=r;$('reply').style.transform='translateY('+((1-r)*8)+'px)';
+  $('diagnosis').style.opacity=ease((t-12.5)/.4);
+  const typed=Math.floor(clamp((t-15.4)/1.7)*text.length);
+  $('rule-text').textContent=text.slice(0,typed);
+  $('cursor').style.opacity=t<17.15?(Math.floor(t*3)%2?1:0):0;
+  $('check').style.opacity=ease((t-17.15)/.3);
+  document.querySelectorAll('.pets img').forEach((el,i)=>{
+   const lift=t<1.6?Math.sin(t/1.6*Math.PI)*4*Math.sin(i+1):0;
+   el.style.transform='translateY('+lift.toFixed(2)+'px)';
+  });
+  $('progress').style.transform='scaleX('+(t>=19.9||t===0?0:clamp((t-1.7)/17.7))+')';
+ }
+ const ready=Promise.all([document.fonts.ready,...Array.from(document.images).map(i=>i.decode().catch(()=>{}))]).then(()=>render(0));
+ window.__reel={duration,fps,render,ready,fonts:['Inter','Fira Code']};
+ if(!location.search.includes('export'))ready.then(()=>{const reduce=matchMedia('(prefers-reduced-motion: reduce)');let start=performance.now();function tick(now){if(reduce.matches){render(0);return;}render(((now-start)/1000)%duration);requestAnimationFrame(tick);}if(!reduce.matches)requestAnimationFrame(tick);});
+})();
+</script></body></html>

@@ -1,0 +1,198 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!--
+  H2Know animated cover (2026-11-09). A 7.5 second loop in the deck's own parts: the sage title band and
+  the teal app panel from slide-01 and slide-22, then the Arduino Nano prototype lighting its LED
+  (slide-19), the plant going from happy to thirsty with the app's face changing with it (slide-24), and
+  the companion app's screens rising on teal (slide-25). Frame 0 is the poster: the wordmark set in
+  Spoof (the brand's face, slide-27) with H2 in teal, and Jeremy's plant screen.
+
+  Palette from slide-27: #4F6352 sage, #C3D9C5 light sage, #1C4561 teal, #F5D873 yellow; the slides'
+  cream #EBEBDF. Spoof and Acumin load from the fonts installed on this Mac (the trial and the deck's own
+  files); the reel ships as video, the fonts never do. One curve, cubic-bezier(0.25, 1, 0.5, 1).
+    node scripts/cover-reel.mjs --cover=h2know --sheet
+-->
+<style>
+@font-face { font-family: 'Spoof'; font-weight: 500; src: local('SpoofTrial-Medium'), url('file:///Users/lucyliu/Library/Fonts/SpoofTrial-Medium.otf'); font-display: block; }
+@font-face { font-family: 'Spoof'; font-weight: 900; src: local('SpoofTrial-Black'), url('file:///Users/lucyliu/Library/Fonts/SpoofTrial-Black.otf'); font-display: block; }
+@font-face { font-family: 'Acumin'; font-weight: 400; src: local('Acumin-RPro'), url('file:///Users/lucyliu/Library/Fonts/Acumin-RPro.otf'); font-display: block; }
+@font-face { font-family: 'Acumin'; font-weight: 700; src: local('Acumin-BdPro'), url('file:///Users/lucyliu/Library/Fonts/Acumin-BdPro.otf'); font-display: block; }
+:root { --sage: #4F6352; --sage-l: #C3D9C5; --teal: #1C4360; --yellow: #F5D873; --cream: #EBEBDF; --ink: #1C4561; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--teal); }
+body { -webkit-font-smoothing: antialiased; font-family: 'Acumin', sans-serif; }
+.stage { position: relative; width: 720px; height: 480px; overflow: hidden; background: var(--cream); }
+.stage::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 30; opacity: .07; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .15  0 0 0 0 .12  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 110px 110px;
+}
+.abs { position: absolute; will-change: transform, opacity; }
+.crop { position: absolute; overflow: hidden; }
+.crop > img { position: absolute; max-width: none; display: block; }
+.shadow { box-shadow: 0 22px 40px -18px rgba(18,40,30,.45), 0 6px 14px -6px rgba(18,40,30,.25); }
+
+#sage { left: 0; top: 0; width: 720px; height: 480px; background: linear-gradient(180deg, #7E9F84 0%, #AAC6AF 100%); }
+#teal { left: 0; top: 0; width: 720px; height: 480px; background: var(--teal); }
+
+/* poster: the wordmark */
+#mark { left: 34px; top: 168px; font-family: 'Spoof', sans-serif; font-weight: 900; font-size: 76px; line-height: 1; letter-spacing: -.035em; color: #fff; white-space: nowrap; }
+#mark span { color: var(--ink); }
+#line { left: 38px; top: 258px; width: 330px; font-size: 17px; line-height: 1.25; color: #fff; }
+#line b { color: var(--ink); font-weight: 700; }
+#chips { left: 38px; top: 312px; display: flex; gap: 6px; }
+#chips i { display: block; width: 26px; height: 26px; border-radius: 6px; }
+
+/* the phone that stays */
+#phone { left: 466px; top: 48px; }
+#face { border-radius: 10px; }
+
+/* beat labels */
+.label { font-family: 'Acumin', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+#lab-1 { left: 40px; top: 44px; }
+#lab-2 { left: 40px; top: 44px; }
+#lab-3 { left: 40px; top: 44px; color: var(--sage-l); }
+
+/* beat 1: the Nano */
+#nano-off, #nano-on { left: 40px; top: 74px; border-radius: 12px; }
+#nano-cap { left: 40px; top: 424px; font-size: 15px; color: var(--ink); }
+
+/* beat 2: thirsty */
+#emo { left: 40px; top: 70px; border-radius: 14px; }
+#happy, #sad { left: 94px; top: 164px; border-radius: 12px; }
+
+/* beat 3: the app */
+.app { top: 92px; }
+</style></head><body>
+<div class="stage" id="stage">
+  <div class="abs" id="sage"></div>
+
+  <!-- beat 1: the prototype lights its LED -->
+  <div class="abs label" id="lab-1">Prototype · Arduino Nano</div>
+  <div class="crop abs shadow" id="nano-off" data-box="64,250,436,440" data-w="340"><img src="../../h2know/slides/slide-19.jpg" alt=""></div>
+  <div class="crop abs shadow" id="nano-on" data-box="542,250,436,440" data-w="340"><img src="../../h2know/slides/slide-19.jpg" alt=""></div>
+
+  <!-- beat 2: when thirsty -->
+  <div class="crop abs shadow" id="happy" data-box="812,310,556,716" data-w="230"><img src="../../h2know/slides/slide-24.jpg" alt=""></div>
+  <div class="crop abs shadow" id="sad" data-box="1392,310,556,716" data-w="230"><img src="../../h2know/slides/slide-24.jpg" alt=""></div>
+  <div class="crop abs" id="emo" data-box="990,118,760,180" data-w="338"><img src="../../h2know/slides/slide-24.jpg" alt=""></div>
+
+  <!-- the poster's words -->
+  <div class="abs" id="mark"><span>H2</span>Know</div>
+  <div class="abs" id="line">An <b>Arduino soil sensor</b> and a companion app for plant care.</div>
+  <div class="abs" id="chips"><i style="background:#4F6352"></i><i style="background:#C3D9C5"></i><i style="background:#1C4561"></i><i style="background:#F5D873"></i></div>
+
+  <!-- the teal panel: the right third at rest, the whole stage for the app -->
+  <div class="abs" id="teal"></div>
+  <div class="abs label" id="lab-3">Companion app · Figma</div>
+  <div class="crop abs app" id="app-1" data-box="656,150,414,826" data-w="146"><img src="../../h2know/slides/slide-25.png" alt=""></div>
+  <div class="crop abs app" id="app-2" data-box="1106,150,414,826" data-w="146"><img src="../../h2know/slides/slide-25.png" alt=""></div>
+  <div class="crop abs app" id="app-3" data-box="1554,150,414,826" data-w="146"><img src="../../h2know/slides/slide-25.png" alt=""></div>
+
+  <!-- Jeremy's screen stays on teal throughout; his face goes from happy to thirsty -->
+  <div class="abs" id="phone">
+    <div class="crop" id="ph" data-box="936,76,430,868" data-w="188" style="position:relative"><img src="../../h2know/slides/slide-22.jpg" alt=""></div>
+    <div class="crop" id="face" data-box="1010,138,176,138" data-w="40"><img src="../../h2know/slides/slide-24.jpg" alt=""></div>
+    <div class="crop" id="face-sad" data-box="1554,138,176,138" data-w="40" style="border-radius:10px"><img src="../../h2know/slides/slide-24.jpg" alt=""></div>
+  </div>
+  <div class="abs label" id="lab-2">When thirsty</div>
+</div>
+
+<script>
+(() => {
+  const L = 7.5, FPS = 30;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const p = (t, a, d) => clamp((t - a) / d);
+  const out = (x) => 1 - Math.pow(1 - x, 4);
+  const inOut = (x) => x < .5 ? 8 * x ** 4 : 1 - Math.pow(-2 * x + 2, 4) / 2;
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const set = (el, o, x = 0, y = 0, s = 1, r = 0) => {
+    el.style.opacity = o.toFixed(4);
+    el.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${s.toFixed(4)}) rotate(${r.toFixed(3)}deg)`;
+    el.style.visibility = o < 0.002 ? 'hidden' : 'visible';
+  };
+  const env = (t, a, d, b, e, dist = 18) => {
+    const i = out(p(t, a, d)), o = inOut(p(t, b, e));
+    return { o: i * (1 - o), y: (1 - i) * dist - o * dist, k: i, ko: o };
+  };
+
+  function layout() {
+    document.querySelectorAll('.crop').forEach((el) => {
+      const [x, y, w, h] = el.dataset.box.split(',').map(Number);
+      const W = parseFloat(el.dataset.w), s = W / w;
+      el.style.width = W + 'px'; el.style.height = (h * s) + 'px';
+      const img = el.querySelector('img');
+      img.style.width = (img.naturalWidth * s) + 'px';
+      img.style.left = (-x * s) + 'px'; img.style.top = (-y * s) + 'px';
+    });
+    // the face tile sits over Jeremy's emoji (slide-22 at about 1148, 538)
+    const s = 188 / 430, fx = (1148 - 936) * s - 20, fy = (538 - 76) * s - 16;
+    ['face', 'face-sad'].forEach((id) => { $(id).style.left = fx + 'px'; $(id).style.top = fy + 'px'; });
+  }
+
+  function render(t) {
+    t = ((t % L) + L) % L;
+    // wordmark out at 1.0, back at 6.6
+    const posterOut = inOut(p(t, 0.95, 0.4));
+    const posterIn = out(p(t, 6.55, 0.6));
+    const pk = t < 4 ? 1 - posterOut : posterIn;
+    const py = t < 4 ? -posterOut * 22 : (1 - posterIn) * 22;
+    set($('mark'), pk, 0, py);
+    const lk = t < 4 ? 1 - posterOut : out(p(t, 6.65, 0.55));
+    set($('line'), lk, 0, t < 4 ? py : (1 - lk) * 16);
+    const ck = t < 4 ? 1 - posterOut : out(p(t, 6.75, 0.5));
+    set($('chips'), ck, 0, t < 4 ? py : (1 - ck) * 12);
+    // sage band under the poster, cream under the beats
+    const sage = t < 4 ? 1 - inOut(p(t, 1.0, 0.5)) : inOut(p(t, 6.0, 0.3));
+    $('sage').style.opacity = sage.toFixed(4);
+
+    // ---------- beat 1: the Nano, LED off then on ----------
+    const b1 = env(t, 1.15, 0.5, 2.75, 0.4);
+    set($('lab-1'), b1.o, 0, b1.y * .5);
+    set($('nano-off'), b1.o, 0, b1.y, lerp(.96, 1, b1.k), -1.2);
+    const on = inOut(p(t, 1.9, 0.18));
+    set($('nano-on'), b1.o * on, 0, b1.y, lerp(.96, 1, b1.k), -1.2);
+
+    // ---------- beat 2: when thirsty ----------
+    const b2 = env(t, 2.85, 0.5, 4.55, 0.4);
+    set($('lab-2'), 0);
+    set($('emo'), b2.o, 0, b2.y * .6);
+    set($('happy'), b2.o, 0, b2.y, lerp(.96, 1, b2.k), -1.5);
+    const dry = inOut(p(t, 3.55, 0.45));
+    set($('sad'), b2.o, 0, b2.y, lerp(.96, 1, b2.k), -1.5);
+    $('sad').style.clipPath = `inset(0 0 0 ${(100 * (1 - dry)).toFixed(3)}%)`;
+    // Jeremy's face follows the soil
+    const faceSad = inOut(p(t, 3.6, 0.2)) * (1 - inOut(p(t, 5.2, 0.2)));
+    const pop = Math.sin(Math.PI * p(t, 3.6, 0.3)) * 0.18 + Math.sin(Math.PI * p(t, 5.2, 0.3)) * 0.18;
+    const faceOn = out(p(t, 3.2, 0.25)) * (1 - inOut(p(t, 5.45, 0.25)));
+    set($('face'), faceOn, 0, 0, 1 + pop);
+    set($('face-sad'), faceOn * faceSad, 0, 0, 1 + pop);
+
+    // ---------- the teal panel: right third at rest, whole stage for the app ----------
+    const grow = inOut(p(t, 4.55, 0.55)) * (1 - inOut(p(t, 6.25, 0.55)));
+    const left = lerp(400, 0, grow);
+    $('teal').style.clipPath = `inset(0 0 0 ${left.toFixed(2)}px)`;
+    const xs = [34, 178, 322];
+    ['app-1', 'app-2', 'app-3'].forEach((id, i) => {
+      const a = env(t, 4.9 + i * 0.09, 0.5, 6.1 - (2 - i) * 0.04, 0.35, 60);
+      set($(id), a.o, 0, a.y);
+      $(id).style.left = xs[i] + 'px';
+    });
+    const l3 = env(t, 5.0, 0.4, 6.1, 0.3);
+    set($('lab-3'), l3.o, 0, l3.y * .5);
+
+    // the phone breathes a little and nods at each beat
+    const nod = Math.sin(Math.PI * p(t, 3.55, 0.5)) * -6 + Math.sin(Math.PI * p(t, 4.7, 0.6)) * -8;
+    set($('phone'), 1, 0, nod);
+  }
+
+  const imgs = [...document.images].map((im) => im.decode ? im.decode().catch(() => {}) : Promise.resolve());
+  const faces = ['900 76px "Spoof"', '700 12px "Acumin"', '400 17px "Acumin"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const ready = Promise.all([...faces, ...imgs]).then(() => document.fonts.ready).then(() => { layout(); render(0); return true; });
+  window.__reel = { render, duration: L, fps: FPS, fonts: ['Spoof', 'Acumin'], ready };
+  if (!/[?&]export\b/.test(location.search)) {
+    ready.then(() => { const t0 = performance.now(); const tick = (now) => { render((now - t0) / 1000); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  }
+})();
+</script>
+</body></html>

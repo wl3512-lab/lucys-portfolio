@@ -1,0 +1,19 @@
+{
+  "fps": 24,
+  "frames": 192,
+  "cell": [
+    256,
+    171
+  ],
+  "cols": 16,
+  "loop": true,
+  "sheet": "idle.webp",
+  "still": "still.webp",
+  "checks": {
+    "feet": "silhouette fixed, rows147\u2013170 x40\u2013128",
+    "seamPixels": 2072,
+    "medianStepPixels": 1599,
+    "maxStepPixels": 2333,
+    "bounds": "no alpha touches the frame edges"
+  }
+}
