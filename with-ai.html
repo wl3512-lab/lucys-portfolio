@@ -17,7 +17,7 @@
 <meta property="og:title" content="Designing and building with AI | Lucy Liu" />
 <meta property="og:description" content="I design it. I build with AI. I decide what ships. Explore the apps, decisions, and working process behind Lucy Liu’s work." />
 <meta property="og:url" content="https://lucyliu.xyz/with-ai.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-11-26.png" />
 <meta property="og:image:alt" content="Lucy Liu, product designer, available summer 2027. In a half-open filing drawer at night, lit by two small footlights, a curious white pixel dragon tilts his head up at you with a paperclip bent into a key in his teeth and one paw at his chin, his tail fan held up, among chewed paperclips, a pencil stub, coins, rubber bands, sticky notes and a binder clip. lucyliu.xyz." />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
 <link rel="stylesheet" href="colors_and_type.css?v=68" />
 <link rel="stylesheet" href="styles.css?v=224" />
-<link rel="stylesheet" href="with-ai-refine.css?v=25" />
+<link rel="stylesheet" href="with-ai-refine.css?v=26" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -187,10 +187,8 @@
       <p class="sec-lede">A planner I designed for my own day. It brings class assignments, my inbox, and Google Calendar into one place.</p>
     </div>
     <div class="tour" data-tour>
-      <div class="tour-nav" role="tablist" aria-label="Today walkthrough" hidden>
-        <button class="tour-tab" id="tour-tab-0" type="button" role="tab" aria-controls="tour-panel-0" aria-selected="true"><span class="tour-number">01</span><span><strong>Assignments</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
-        <button class="tour-tab" id="tour-tab-1" type="button" role="tab" aria-controls="tour-panel-1" aria-selected="false" tabindex="-1"><span class="tour-number">02</span><span><strong>Calendar</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
-        <button class="tour-tab" id="tour-tab-2" type="button" role="tab" aria-controls="tour-panel-2" aria-selected="false" tabindex="-1"><span class="tour-number">03</span><span><strong>Study help</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
+      <div class="tour-nav tour-line" role="tablist" aria-label="Today walkthrough" hidden>
+        <p><span aria-hidden="true">Today helps me </span><button class="tour-say" id="tour-tab-0" type="button" role="tab" aria-controls="tour-panel-0" aria-selected="true">find the assignment</button><span aria-hidden="true">, </span><button class="tour-say" id="tour-tab-1" type="button" role="tab" aria-controls="tour-panel-1" aria-selected="false" tabindex="-1">make time for it</button><span aria-hidden="true"> and </span><button class="tour-say" id="tour-tab-2" type="button" role="tab" aria-controls="tour-panel-2" aria-selected="false" tabindex="-1">start with context</button><span aria-hidden="true">.</span></p>
       </div>
       <div class="tour-panels">
         <div class="tour-panel" id="tour-panel-0" data-tour-panel>

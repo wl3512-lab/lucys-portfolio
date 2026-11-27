@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Portfolio Pet | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/portfolio-pet.html" />
+<meta name="description" content="How I designed the dragon who lives in my portfolio: my sketch, my Blender model, and AI drawings checked against it, with no frame drawn by hand." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-11-26.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-11-26.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=ca8b07af" />
+<link rel="stylesheet" href="styles.css?v=99c19fe6" />
+<!-- The narrative case study (Lucy, 2026-11-26, after aaronjames.design): see the header of case-narrative.css. -->
+<link rel="stylesheet" href="case-narrative.css" />
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/cover-reel.js"></script>
+</head>
+<body data-persona-slug="portfolio-pet">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="nr">
+
+  <header class="nr-col nr-hero">
+    <h1 class="nr-title">Designing the dragon who lives in my portfolio</h1>
+    <a class="nr-go" href="index.html">Meet him on lucyliu.xyz <span aria-hidden="true">→</span></a>
+    <!-- 15 s muted loop (Lucy, 2026-11-26): loops while in view, rests on its poster off screen and under reduced
+         motion (cover-reel.js, data-cover-always). Controls stay so it can be paused (WCAG 2.2.2). -->
+    <div class="nr-hero-media">
+      <video data-cover-reel data-cover-always muted loop controls playsinline preload="none" width="1280" height="720" poster="assets/portfolio-pet/reel.webp" aria-label="15-second loop: my notebook sketch, the AI-drawn illustration, my Blender model turning in colour and mesh, the rig check, his pixel frames, and him on the lucyliu.xyz home page">
+        <source src="assets/portfolio-pet/reel.mp4" type="video/mp4">
+      </video>
+    </div>
+  </header>
+
+  <section class="nr-col nr-sec nr-over" aria-labelledby="pp-over-h">
+    <h2 class="nr-h" id="pp-over-h">Overview</h2>
+    <p class="nr-lead">Portfolios were starting to look vibe-coded, and I wanted mine to have something only I could make: a small dragon who lives in my desk drawer and moves through every room of the site. I'm a designer, not an animator, so AI did the frame-by-frame labour. The design stayed mine.</p>
+    <dl class="nr-facts">
+      <div><dt>My role</dt><dd>Concept<br>Character design<br>Blender modelling<br>Motion direction</dd></div>
+      <div><dt>Tools</dt><dd>Pencil and paper<br>Blender<br>Claude, Codex</dd></div>
+      <div><dt>Year</dt><dd>2026</dd></div>
+    </dl>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-prob-h">
+    <h2 class="nr-h" id="pp-prob-h">Problems</h2>
+    <p class="nr-lead">Three things stood in the way.</p>
+    <ol class="nr-three">
+      <li><h3>1. Generic</h3><p>AI-built portfolios were starting to look the same.</p></li>
+      <li><h3>2. Untrained</h3><p>I can design a character, but I'm not trained to animate one.</p></li>
+      <li><h3>3. Unreliable</h3><p>Image tools forget anatomy: they drew extra tail blades and missing toes.</p></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" aria-label="The question">
+    <p class="nr-hmw">How might I use AI as a <mark>workhorse</mark> for animation without letting it replace <mark>my hand</mark>?</p>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-goal-h">
+    <h2 class="nr-h" id="pp-goal-h">Goals</h2>
+    <p class="nr-lead">Each problem became a goal.</p>
+    <ul class="nr-three">
+      <li><h3><span class="nr-was">Generic</span><span class="nr-to" aria-hidden="true">→</span>Mine</h3><p>A character no template has: my sketch, my rules, my world.</p></li>
+      <li><h3><span class="nr-was">Untrained</span><span class="nr-to" aria-hidden="true">→</span>Animated</h3><p>Him moving through the whole site, with no frame drawn one by one.</p></li>
+      <li><h3><span class="nr-was">Unreliable</span><span class="nr-to" aria-hidden="true">→</span>Checked</h3><p>Every AI drawing checked against a model I built.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-sketch-h">
+    <h2 class="nr-h" id="pp-sketch-h">Sketches first</h2>
+    <p class="nr-lead">Before opening any AI tool, I sketched three routes on paper: a rabbit whose tail grips like a hand, a lizard with a hard tail, and the one I kept.</p>
+    <div class="nr-media nr-2 nr-wt">
+      <figure><img src="assets/portfolio-pet/sketch-routes.webp" width="1600" height="940" loading="lazy" alt="A notebook page of pencil sketches: a rabbit-like creature with exaggerated ears and a tail that grips like a hand, and a lizard-headed creature with curled horns and a hard, clawed tail"><figcaption>v0: the routes I didn't take.</figcaption></figure>
+      <figure><img src="assets/portfolio-pet/sketch-v1.webp" width="1000" height="1275" loading="lazy" alt="A notebook page titled Portfolio Pet Mock V1: a pencil sketch of a seated dragon, annotated reindeer horns, webbed ears, whiskers like an axolotl, spots on his back and a leaf-like tail with blades"><figcaption>Mock V1, the one I kept: my first sketch, before any AI. October 2026.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-world-h">
+    <h2 class="nr-h" id="pp-world-h">His world before his style</h2>
+    <p class="nr-lead">He lives in a desk drawer on a dark, smoked-glass site. Of six rendering studies, I kept pixel art because it matched the site's rooms.</p>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-move-h">
+    <h2 class="nr-h" id="pp-move-h">His first move</h2>
+    <p class="nr-lead">I storyboarded his opening before any frame existed, and it shipped as boarded.</p>
+    <ol class="nr-media nr-board">
+      <li><figure><img src="assets/portfolio-pet/sb-1-clip.webp" width="600" height="400" loading="lazy" alt="Pixel frame: the dragon creeps toward a paperclip lying on a dark floor"><figcaption>1 · A paperclip lies on the screen, just its shadow under it.</figcaption></figure></li>
+      <li><figure><img src="assets/portfolio-pet/sb-2-roll.webp" width="600" height="400" loading="lazy" alt="Pixel frame: the dragon curled on his back, rolling with the paperclip held to his chest"><figcaption>2 · He jumps on it and rolls around, holding it to his chest.</figcaption></figure></li>
+      <li><figure><img src="assets/portfolio-pet/sb-3-tail.webp" width="600" height="400" loading="lazy" alt="Pixel frame: the dragon sitting up with the paperclip gripped in his tail blades"><figcaption>3 · He holds it by his tail and waddles off.</figcaption></figure></li>
+      <li><figure><img src="assets/portfolio-pet/sb-4-hero.webp" width="600" height="400" loading="lazy" alt="The home page hero: Lucy Liu, product designer, with the pixel dragon seated in the room"><figcaption>4 · The hero loads.</figcaption></figure></li>
+      <li><figure><img src="assets/portfolio-pet/sb-5-drawer.webp" width="600" height="400" loading="lazy" alt="The About drawer: the dragon climbing out of an open blue drawer with the bent paperclip key in his mouth, under a pixel sign reading looking for a summer 2027 internship"><figcaption>5 · In About, the clip is in his desk, bent into a key.</figcaption></figure></li>
+    </ol>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-rules-h">
+    <h2 class="nr-h" id="pp-rules-h">Anatomy rules</h2>
+    <p class="nr-lead">I wrote his anatomy down: four toes, nine tail blades, whiskers above the mouth. AI drew concepts to those rules, and I directed every revision.</p>
+    <div class="nr-media nr-2">
+      <figure><img src="assets/portfolio-pet/ai-master.webp" width="1536" height="1024" loading="lazy" alt="The master illustration: an ivory dragon seated in profile with lavender branched horns, cobalt webbed fin ears, whiskers above the mouth, short forearms and a long tail ending in a fan of cobalt blades"><figcaption>The master illustration, AI-drawn from my sketch and rules.</figcaption></figure>
+      <figure><img src="assets/portfolio-pet/concept-sheets.webp" width="1280" height="520" loading="lazy" alt="A contact sheet of concept images: face and whisker studies, tail and grip options, paw and spine studies, and seated drafts"><figcaption>Concept images I directed.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-model-h">
+    <h2 class="nr-h" id="pp-model-h">A model as the answer key</h2>
+    <p class="nr-lead">I modelled his body in Blender; AI wrote the bones and actions. Every pose is set on the model before anything is drawn.</p>
+    <div class="nr-media nr-2">
+      <figure><img src="assets/portfolio-pet/model-colour.webp" width="976" height="792" loading="lazy" alt="The Blender model in colour, three-quarter view: ivory body, lavender horns, cobalt fin ears and tail blades"></figure>
+      <figure><img src="assets/portfolio-pet/model-mesh.webp" width="976" height="792" loading="lazy" alt="The same pose as a lavender wireframe mesh, showing the quad edges of the body, paws, horns and tail blades"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-check-h">
+    <h2 class="nr-h" id="pp-check-h">Checking AI against the model</h2>
+    <p class="nr-lead">Each AI drawing is laid over the model from the same camera. Anything that doesn't match goes back.</p>
+    <div class="nr-media">
+      <figure style="max-width: 640px"><img src="assets/portfolio-pet/rig-check.webp" width="640" height="480" loading="lazy" alt="A rejected AI drawing of the dragon picking a lock, laid over the cyan outline of the Blender model: the head, frill and tail fan the AI drew in the wrong places are red, and the parts of the model it left out are yellow"><figcaption>A rejected take of him picking a lock. Red is what the AI invented; yellow is what it left out.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-2d-h">
+    <h2 class="nr-h" id="pp-2d-h">Back to 2D</h2>
+    <p class="nr-lead">Approved drawings become pixel frames in the site's palette. I don't render him straight from Blender: it's too taxing, and it loses the drawing's warmth.</p>
+    <div class="nr-media">
+      <figure><img class="nr-pixel" src="assets/portfolio-pet/wake-strip.webp" width="2416" height="326" loading="lazy" alt="Six pixel frames of the dragon waking: head down asleep, lifting, opening his eyes, and sitting up alert"></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-cover-h">
+    <h2 class="nr-h" id="pp-cover-h">The link preview</h2>
+    <p class="nr-lead">My first cover's perspective looked wrong, so I staged the drawer and his hoard at real scale in Blender, then painted the scene back to pixels.</p>
+    <div class="nr-media nr-2">
+      <figure><video data-cover-reel data-cover-always muted loop controls playsinline preload="none" width="1200" height="814" poster="assets/portfolio-pet/blender-desk.webp" aria-label="7-second loop in Blender: the camera orbits the open drawer with the WORK, ABOUT and WITH AI tabs, the dragon gripping a fan of blades, paperclips, a gem and a keychain"><source src="assets/portfolio-pet/blender-desk.mp4" type="video/mp4"></video><figcaption>In Blender.</figcaption></figure>
+      <figure><img class="nr-pixel" src="assets/portfolio-pet/cover-2d.webp" width="1200" height="630" loading="lazy" alt="The lucyliu.xyz link preview: the pixel dragon in an open desk drawer among paperclips, a gem, a paintbrush and a s0mped keychain, with Lucy Liu, product designer, available summer 2027"><figcaption>Painted back to 2D.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-res-h">
+    <h2 class="nr-h" id="pp-res-h">What shipped</h2>
+    <ul class="nr-three">
+      <li><h3>He's the first thing people meet.</h3><p>He wakes in the hero, guards the About drawer and plays the loading screens.</p></li>
+      <li><h3>He travels with every link I share.</h3><p>The link preview is his drawer scene.</p></li>
+      <li><h3>No pose ships unchecked.</h3><p>Every new drawing is laid over the model before it goes live.</p></li>
+    </ul>
+  </section>
+
+  <section class="nr-col nr-sec" aria-labelledby="pp-learn-h">
+    <h2 class="nr-h" id="pp-learn-h">What I learned</h2>
+    <ul class="nr-three">
+      <li><h3>Write the rules down.</h3><p>AI never remembered his toe count. A written anatomy list did.</p></li>
+      <li><h3>Check with geometry, then taste.</h3><p>The model catches wrong poses and missing parts. Claws and spines still need my eye.</p></li>
+      <li><h3>AI scales the work, not the choices.</h3><p>It drew thousands of frames, but every pose, scene and rejection was my call.</p></li>
+    </ul>
+  </section>
+
+  <div class="nr-col nr-credit"><p>AI image tools drew the master illustration and key poses from my sketch, rules and model poses. Claude and Codex wrote the rig, scene scripts, frame tools and site code. I made the sketches, the Blender model and every motion idea, and approved or rejected every frame. <a href="creature-frames.html">See every saved frame →</a></p></div>
+
+  <nav class="nr-col nr-next" aria-label="Next project">
+    <p class="nr-next-k">Next project</p>
+    <a class="nr-next-link" href="chance-ai.html">Chance AI <span aria-hidden="true">→</span></a>
+    <p>A team redesign of a live visual-search app: an audit, Visual skills, and a Home I led that promotes both main actions equally.</p>
+  </nav>
+
+</main>
+
+<footer data-site-footer></footer>
+</body>
+</html>

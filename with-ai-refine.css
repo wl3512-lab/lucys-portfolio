@@ -1120,3 +1120,12 @@ main [id] { scroll-margin-top: 96px; }
 .cr-rig .rig-actions .media-btn { min-width: 44px; justify-content: center; } .cr-rig [data-rig="in"], .cr-rig [data-rig="out"] { font-size: 20px; letter-spacing: 0; text-decoration: none; }
 .dk-rig-cap { margin-top: 10px; color: var(--fg2); font: 400 14px/1.5 var(--font-body); }
 @media (max-width: 760px) { .dk-rig { margin-top: 24px; } .cr-rig .rig-actions { margin-left: 0; } }
+
+/* Today walkthrough as one sentence (Lucy, 27 Nov 2026: "one sentence"). The three phrases are the tabs. */
+.tour-nav.tour-line { display: block; margin-bottom: clamp(14px, 2vw, 22px); }
+.tour-line p { margin: 0; max-width: 32ch; font: 700 clamp(22px, 2.6vw, 36px)/1.3 var(--font-display); letter-spacing: -.02em; color: var(--fg3); }
+.tour-say { display: inline; padding: 0; margin: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: var(--fg1); cursor: pointer; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .14em; text-decoration-color: rgba(114,173,255,.28); transition: color .2s, text-decoration-color .2s; }
+.tour-say[aria-selected="true"], .tour-say:hover { color: var(--fg-accent); text-decoration-color: var(--fg-accent); }
+.tour-say:focus-visible { outline: 2px solid var(--blue-300); outline-offset: 3px; border-radius: 2px; }
+.dk-body .tour-line p { font-size: clamp(20px, 2.2vw, 30px); }
+@media (max-width: 760px) { .tour-line p, .dk-body .tour-line p { font-size: clamp(20px, 6vw, 26px); } }
