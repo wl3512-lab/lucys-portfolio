@@ -45,15 +45,19 @@ the FigJam board.
 
 1. **Moodboard photos from Reel 2**: "His world before his style". Each photo needs its original source found and
    linked.
-2. **A rig-check overlay at full size** (cyan model, red invented, yellow missing) from
-   `docs/projects/portfolio-character/*/audits`: "Checking AI against the model", and the reel's fourth beat
-   (`reel.html?audit=<path>`). The live archive only has thumbnails.
-3. Remove the `.pp-slot` style once the last slot is filled.
+2. Remove the `.pp-slot` style once the last slot is filled.
 
-Filled: Lucy's notebook sketches (26 Nov; `sketch-v1.webp` cropped to the page, `sketch-routes.webp`), shown in
-"Sketches first" and as the reel's opening beat (the reel loads `sketch-v1.webp` by default); the Blender desk
-loop (her screen recording of 26 Nov, 11.19.41, cropped to the viewport, 7.4 s, crossfaded at the seam) in the
-link-preview section.
+Filled:
+- Lucy's notebook sketches (26 Nov; `sketch-v1.webp` cropped to the page, `sketch-routes.webp`): "Sketches first",
+  and the reel's opening beat (the reel loads `sketch-v1.webp` by default).
+- The rig check (`rig-check.webp`, 640 x 480, shown at its own size): a rejected lock-picking take over the
+  model's cyan outline, invented parts red, missing parts yellow. From the "LinkedIn Post Covers" artifact of 26 Oct
+  (claude.ai/artifact/RjXCU9a42rK5MQDtFq7wb1, cover B, asset 2d6c7f569e8c2043a6b8de11d2cecafc). Also the reel's
+  fourth beat (loaded by default).
+- "His first move": Lucy's paperclip storyboard (FigJam, 27 Nov) set as five captions under five frames of what
+  shipped, captured on lucyliu.xyz (`?heist`, and About's drawer): `sb-1-clip` … `sb-5-drawer`.
+- The Blender desk loop (her screen recording of 26 Nov, 11.19.41, cropped to the viewport, 7.4 s, crossfaded at
+  the seam): the link-preview section.
 
 ## Re-render the reel
 
@@ -64,7 +68,7 @@ node drafts/portfolio-pet/tools/rig.cjs
 ```
 
 ```bash
-node drafts/portfolio-pet/tools/reel.cjs frames "?audit=../assets/portfolio-pet/audit.webp"
+node drafts/portfolio-pet/tools/reel.cjs frames
 ```
 
 ```bash
@@ -86,7 +90,13 @@ The poster is frame 0 (the loop's rest frame), saved as `assets/portfolio-pet/re
 
 ## After approval
 
-- All Work: add Portfolio Pet as FILE 06 (`work.html`, `components/work-index.js`, its tests).
+- All Work, FILE 06 (Lucy, 27 Nov): paste `work-file-06.html` into `work.html` as the last `<li>` of `#wk-grid`,
+  after rep.tools, and copy `assets/portfolio-pet/work-cover.webp` (sketch → Blender model → pixel, 1440 x 960).
+  work-index.js counts the files from the page, so it reads FILE 06 / 06 with no script change; checked on a copy of
+  the live page at 1440 x 900 and iPhone 14 (`tools/work.cjs`). Update the tests that expect five files
+  (`tests/work-index.test.js`, `scripts/work-layout-check.mjs`).
+- Next-project chain: rep.tools' next link goes to `case-study.html` today; point it at `portfolio-pet.html`, so
+  it runs rep.tools → Portfolio Pet → Chance AI (this page's next link).
 - How I made this site (`portfolio-creature.html`): cut the creature section to two lines and a link here, and
   change "I had a Blender model and rig built of him" to match who made what above.
 - Ship only through `bash deploy.sh`, on Lucy's "ship".

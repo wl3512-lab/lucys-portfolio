@@ -66,6 +66,10 @@
 .nr-media figcaption { margin-top: 8px; font-size: 13px; line-height: 1.45; color: var(--nr-dim); }
 .nr-pixel { image-rendering: pixelated; }
 
+/* a storyboard: numbered frames in one row, each with its step underneath */
+.nr .nr-board { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: clamp(24px, 3.4vw, 40px); }
+.nr-board img { aspect-ratio: 3 / 2; object-fit: cover; }
+
 /* results: a short claim beside one big number */
 .nr-results { margin-top: clamp(24px, 3.4vw, 40px); display: grid; gap: clamp(28px, 4vw, 48px); }
 .nr-result { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding-top: clamp(20px, 3vw, 32px); border-top: 1px solid var(--nr-rule); }
@@ -88,6 +92,7 @@
   .nr .nr-facts { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nr .nr-three { grid-template-columns: 1fr; }
   .nr-media.nr-2, .nr-media.nr-2.nr-wt { grid-template-columns: 1fr; }
+  .nr .nr-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nr-result { grid-template-columns: 1fr; }
   .nr-num { text-align: left; }
 }

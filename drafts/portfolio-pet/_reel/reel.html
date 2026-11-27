@@ -23,7 +23,7 @@ const VOID = '#050710', INK = '#ced6fc', DIM = '#8b95d6', LINE = '#2f3352';
 
 const SLOTS = {
   sketch: new URLSearchParams(location.search).get('sketch') || '../assets/portfolio-pet/sketch-v1.webp',   // Lucy's notebook sketch, Mock V1
-  audit: new URLSearchParams(location.search).get('audit')      // a real rig-check overlay, when it exists
+  audit: new URLSearchParams(location.search).get('audit') || '../assets/portfolio-pet/rig-check.webp'   // a real rig check (LinkedIn Post Covers, 26 Oct)
 };
 const img = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
 
