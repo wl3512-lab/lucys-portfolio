@@ -5,7 +5,7 @@ A drop-in for the live site source (`ui_kits/portfolio/`), built 26 Nov 2026. It
 read, understand and digest, not overwhelming with pictures". The other case studies move to it in a separate
 session.
 
-**Status: look test, not shipped.** Two slots wait for files that only exist on Lucy's computer (see below).
+**Status: ready to ship, not shipped.** It ships from `ui_kits/portfolio/` on Lucy's computer (see "After approval").
 
 ## The narrative rules (case-narrative.css)
 
@@ -43,9 +43,9 @@ the FigJam board.
 
 ## Open slots
 
-1. **Moodboard photos from Reel 2**: "His world before his style". Each photo needs its original source found and
-   linked.
-2. Remove the `.pp-slot` style once the last slot is filled.
+None on the page. The Reel 2 moodboard photos were never found, so "His world before his style" ships as text only
+(the empty slot and the look-test `.pp-slot` style were removed, 27 Nov). Add a picture there if the photos turn up,
+each credited to its source.
 
 Filled:
 - Lucy's notebook sketches (26 Nov; `sketch-v1.webp` cropped to the page, `sketch-routes.webp`): "Sketches first",
