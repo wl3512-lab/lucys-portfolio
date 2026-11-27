@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Portfolio Pet reel</title>
+<style>
+  @font-face { font-family: Switzer; src: url(../assets/fonts/switzer-500.woff2) format('woff2'); font-weight: 500; }
+  @font-face { font-family: Switzer; src: url(../assets/fonts/switzer-600.woff2) format('woff2'); font-weight: 600; }
+  @font-face { font-family: Lack; src: url(../assets/fonts/lack-regular.woff2) format('woff2'); }
+  html, body { margin: 0; background: #050710; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1600" height="900"></canvas>
+<script>
+/* Portfolio Pet: the 15 s case-study reel, drawn on one canvas so every frame is reproducible.
+   window.renderAt(i) draws frame i of 360 (24 fps). Beats: sketch, AI drawing, Blender model, rig check,
+   pixel frames, the live site. Slots whose file is not here yet draw a labelled empty frame. */
+const W = 1600, H = 900, FPS = 24, N = 360;
+const cx = document.getElementById('c').getContext('2d');
+const VOID = '#050710', INK = '#ced6fc', DIM = '#8b95d6', LINE = '#2f3352';
+
+const SLOTS = {
+  sketch: new URLSearchParams(location.search).get('sketch') || '../assets/portfolio-pet/sketch-v1.webp',   // Lucy's notebook sketch, Mock V1
+  audit: new URLSearchParams(location.search).get('audit') || '../assets/portfolio-pet/rig-check.webp'   // a real rig check (LinkedIn Post Covers, 26 Oct)
+};
+const img = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
+
+const BEATS = [
+  { from: 0.0,  to: 2.5,  n: '01', say: 'My sketch, before any AI',            kind: 'sketch' },
+  { from: 2.5,  to: 5.0,  n: '02', say: 'AI draws to my rules',                kind: 'concept' },
+  { from: 5.0,  to: 8.0,  n: '03', say: 'I modelled him in Blender',           kind: 'rig' },
+  { from: 8.0,  to: 10.5, n: '04', say: 'The model catches what AI invents',   kind: 'audit' },
+  { from: 10.5, to: 13.0, n: '05', say: 'Pixel frames, none drawn one by one', kind: 'pixel' },
+  { from: 13.0, to: 15.0, n: '06', say: 'He lives on lucyliu.xyz',             kind: 'site' }
+];
+const FADE = 0.3;
+let A = {};
+const feather = document.createElement('canvas');
+
+function contain(im, box, scale = 1) {
+  const s = Math.min(box.w / im.width, box.h / im.height) * scale;
+  const w = im.width * s, h = im.height * s;
+  return { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h };
+}
+const STAGE = { x: 60, y: 50, w: W - 120, h: H - 190 };
+
+function slotFrame(label) {
+  cx.save();
+  cx.strokeStyle = LINE; cx.lineWidth = 2; cx.setLineDash([10, 10]);
+  const b = { x: 420, y: 120, w: 760, h: 520 };
+  cx.strokeRect(b.x, b.y, b.w, b.h);
+  cx.setLineDash([]); cx.fillStyle = DIM; cx.font = '500 26px Switzer'; cx.textAlign = 'center';
+  cx.fillText(label, b.x + b.w / 2, b.y + b.h / 2 + 9);
+  cx.restore();
+}
+
+function drawBeat(beat, t) {   // t: seconds into this beat
+  const k = beat.kind, p = t / (beat.to - beat.from);
+  if (k === 'sketch') {
+    if (A.sketch) { const r = contain(A.sketch, STAGE, 1 + 0.04 * p); cx.drawImage(A.sketch, r.x, r.y, r.w, r.h); }
+    else slotFrame('Sketch photo goes here');
+  } else if (k === 'concept') {
+    const r = contain(A.concept, STAGE, 1.02 + 0.06 * p); cx.drawImage(A.concept, r.x, r.y, r.w, r.h);
+  } else if (k === 'rig') {
+    const total = A.rigColour.length, steps = Math.floor(t * FPS * 0.9);
+    const mesh = t > 2.0, set = mesh ? A.rigMesh : A.rigColour;
+    const im = set[steps % total];
+    const r = contain(im, STAGE, 1.0);
+    // feather the viewer's stage box into the void so the model floats, not a framed screenshot
+    const off = feather.getContext('2d');
+    feather.width = Math.round(r.w); feather.height = Math.round(r.h);
+    off.globalCompositeOperation = 'source-over'; off.drawImage(im, 0, 0, feather.width, feather.height);
+    const g = off.createRadialGradient(feather.width / 2, feather.height / 2, feather.height * 0.34, feather.width / 2, feather.height / 2, feather.height * 0.62);
+    g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    off.globalCompositeOperation = 'destination-in'; off.fillStyle = g; off.fillRect(0, 0, feather.width, feather.height);
+    cx.drawImage(feather, r.x, r.y);
+  } else if (k === 'audit') {
+    if (A.audit) { const r = contain(A.audit, STAGE); cx.drawImage(A.audit, r.x, r.y, r.w, r.h); }
+    else slotFrame('Rig-check overlay goes here');
+  } else if (k === 'pixel') {
+    const f = Math.min(59, Math.floor(t * FPS)), cw = 256, ch = 171, col = f % 16, row = Math.floor(f / 16);
+    cx.imageSmoothingEnabled = false;
+    const s = 4, w = cw * s, h = ch * s;
+    cx.drawImage(A.wake, col * cw, row * ch, cw, ch, (W - w) / 2, 40, w, h);
+    cx.imageSmoothingEnabled = true;
+  } else if (k === 'site') {
+    const r = contain(A.site, STAGE, 1 + 0.03 * p); cx.drawImage(A.site, r.x, r.y, r.w, r.h);
+  }
+}
+
+function caption(beat, alpha) {
+  cx.save(); cx.globalAlpha = alpha;
+  cx.fillStyle = DIM; cx.font = '500 26px Switzer'; cx.textAlign = 'left';
+  cx.fillText(beat.n, 60, H - 54);
+  cx.fillStyle = INK; cx.font = '600 44px Switzer';
+  cx.fillText(beat.say, 112, H - 50);
+  cx.restore();
+}
+
+window.renderAt = function (i) {
+  const s = (i % N) / FPS;
+  cx.globalAlpha = 1; cx.fillStyle = VOID; cx.fillRect(0, 0, W, H);
+  BEATS.forEach((b, j) => {
+    const start = b.from - (j === 0 ? 0 : FADE), end = b.to;
+    let a = 0;
+    if (s >= b.from && s < b.to) a = 1;
+    if (j > 0 && s >= b.from - FADE && s < b.from) a = (s - (b.from - FADE)) / FADE;   // fade in over the last beat
+    if (j === 0 && s >= 15 - FADE) a = (s - (15 - FADE)) / FADE;                        // loop seam: sketch fades back in
+    if (a <= 0) return;
+    cx.save(); cx.globalAlpha = a; drawBeat(b, Math.max(0, s - b.from)); cx.restore();
+    caption(b, a);
+  });
+  return true;
+};
+
+window.ready = (async () => {
+  await document.fonts.load('600 44px Switzer'); await document.fonts.load('500 26px Switzer');
+  const pad = n => String(n).padStart(2, '0');
+  A.concept = await img('../assets/creature-process/early-illustration.png');
+  A.site = await img('../assets/portfolio-pet/live-hero.webp');   // lucyliu.xyz hero, captured 26 Nov 2026
+  A.wake = await img('../assets/hero/wake.webp');
+  A.rigColour = await Promise.all([...Array(48)].map((_, i) => img(`rig/colour-${pad(i)}.png`)));
+  A.rigMesh = await Promise.all([...Array(48)].map((_, i) => img(`rig/mesh-${pad(i)}.png`)));
+  A.sketch = SLOTS.sketch ? await img(SLOTS.sketch) : null;
+  A.audit = SLOTS.audit ? await img(SLOTS.audit) : null;
+  renderAt(0);
+  return true;
+})();
+</script>
+</body>
+</html>
