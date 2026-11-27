@@ -8,7 +8,9 @@
   the studio panels so the fire moves across the facets. GemStory drives both through
   props.driveRef: { orbit: 0..1, light: 0..1 } from scroll and pointer. This component only
   draws; it never listens to scroll itself. It writes back { cx, cy, w } (the drawn stone in
-  host pixels) so the chapter can fly the stone into the nav.
+  host pixels) so the creature's gag (gem-caught.js) can hand its stone over exactly there.
+  props.place says where to draw: GemStory measures the empty slot its layout leaves for the
+  stone and passes its centre and size here.
 
   Smoothness without more frames: the four grid frames around the exact (orbit, light)
   position are blended bilinearly with additive compositing, which on premultiplied RGBA is
@@ -139,7 +141,8 @@ function GemSequence(props) {
       // With no pointer for a while the light drifts on its own, so the stone still sparkles
       // for a reader who only scrolls. Reduced motion holds it in the middle.
       const now = performance.now();
-      // d.steer: the chapter aims the light itself (spotlight on the active beat or the pointer).
+      // d.steer: the chapter holds the light where it puts it (the middle column while the
+      // creature has the stone, so the frame he hands over is the one drawn next).
       const idle = !d.steer && (!d.moved || now - d.moved > 2500);
       const want = reduced ? 0.5 : idle ? 0.5 + 0.4 * Math.sin(now / 2600) : d.light;
       light += (want - light) * 0.12;

@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
-<!-- Apply saved theme before paint so there's no flash. Site is dark by default. -->
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<!-- Dark-only: clear the retired per-tab light preference before paint. -->
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <!-- WebGL capability probe: components gate their WebGL backdrops on this so machines
      where WebGL is disabled/blocklisted fall back cleanly instead of throwing on mount. -->
 <script>window.__webglOK=(function(){try{var c=document.createElement('canvas');var gl=window.WebGLRenderingContext&&(c.getContext('webgl2')||c.getContext('webgl')||c.getContext('experimental-webgl'));if(gl){var lose=gl.getExtension&&gl.getExtension('WEBGL_lose_context');if(lose)lose.loseContext();return true;}return false;}catch(e){return false;}})();</script>
@@ -13,435 +13,42 @@
 <link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
-<title>Lucy Liu, Design Engineer</title>
-<meta name="description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. Products, creative code, and live visuals. NYU IMA, New York." />
+<title>Lucy Liu, Product Designer</title>
+<meta name="description" content="Portfolio of Lucy Liu, product designer: research, design, and code, shipped by one person. Products, creative code, and live visuals. NYU IMA, New York." />
 <link rel="canonical" href="https://lucyliu.xyz/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://lucyliu.xyz" />
-<meta property="og:title" content="Lucy Liu | Design Engineer" />
-<meta property="og:description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. NYU IMA, New York." />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
-<meta property="og:image:alt" content="Lucy Liu, design system and portfolio 2026. Oversized Lucy Liu lettering with a gem-shaped i under panes of navy glass and blue and lavender light." />
+<meta property="og:title" content="Lucy Liu | Product Designer" />
+<meta property="og:description" content="Portfolio of Lucy Liu, product designer: research, design, and code, shipped by one person. NYU IMA, New York." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
+<meta property="og:image:alt" content="Lucy Liu, product designer, available summer 2027. In a half-open filing drawer at night, lit by two small footlights, a curious white pixel dragon tilts his head up at you with a paperclip bent into a key in his teeth and one paw at his chin, his tail fan held up, among chewed paperclips, a pencil stub, coins, rubber bands, sticky notes and a binder clip. lucyliu.xyz." />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Lucy Liu | Design Engineer" />
-<meta name="twitter:description" content="Portfolio of Lucy Liu, design engineer: research, design, and code, shipped by one person. NYU IMA, New York." />
-<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta name="twitter:title" content="Lucy Liu | Product Designer" />
+<meta name="twitter:description" content="Portfolio of Lucy Liu, product designer: research, design, and code, shipped by one person. NYU IMA, New York." />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-<!-- The loader's pixel counter font is self-hosted and preloaded with font-display: block,
-     so the 0-100 count never flashes in Space Mono while Google Fonts is still fetching. -->
-<link rel="preload" href="assets/fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
-<!-- The wordmark's face (Anybody, variable wdth + wght) is self-hosted, preloaded and
-     font-display: block, so the loader name never paints in a fallback face first. The same
-     file serves the nav and every subpage logo via components/wordmark.js. (The retired
-     Playfair outline canvas used the same trick; its @font-face stays below for rollback.) -->
+<!-- Local variable sans for the opening and the shared navigation wordmark. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face { font-family: Anybody; font-style: normal; font-weight: 100 900; font-stretch: 50% 150%; font-display: swap; src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2'); }</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<link rel="stylesheet" href="intro-reel.css?v=17" />
+<link rel="stylesheet" href="project-layouts.css?v=5" />
 <style>
-  @font-face {
-    font-family: 'Press Start 2P';
-    font-style: normal; font-weight: 400; font-display: block;
-    src: url('assets/fonts/press-start-2p-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  }
-  @font-face {
-    font-family: 'Anybody';
-    font-style: normal; font-weight: 100 900; font-stretch: 50% 150%; font-display: block;
-    src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  }
-  @font-face {
-    font-family: 'Playfair Display';
-    font-style: italic; font-weight: 700; font-display: block;
-    src: url('assets/fonts/playfair-display-italic-700-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  }
-</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=63" />
-<link rel="stylesheet" href="styles.css?v=134" />
-<style>
-/* ── LOADER ── */
-#ll-loader {
-  position: fixed; inset: 0; z-index: 9999;
-  overflow: hidden; pointer-events: all;
-  background: #050710;
-}
-#ll-loader.ll-gone { display: none; }
-
-/* ── Intentional handoff: the loader doesn't get torn away, it BECOMES the site. ──
-   Choreography (≈1s, all exponential ease-out):
-     1. HUD + progress rail retire downward (their report is done)
-     2. margin code dissolves; corner brackets push outward (the frame opens)
-     3. the "lucy liu" wordmark FLIP-travels into the nav logo (JS sets --ll-tx/ty/sc)
-     4. the black backdrop lifts, revealing the hero already rising underneath */
-#ll-loader.ll-handoff { pointer-events: none; }
-#ll-loader.ll-handoff .ll-hud,
-#ll-loader.ll-handoff .ll-bar {
-  opacity: 0; transform: translateY(18px);
-  transition: opacity 0.32s cubic-bezier(0.22,1,0.36,1), transform 0.32s cubic-bezier(0.22,1,0.36,1);
-}
-#ll-loader.ll-handoff .ll-code { opacity: 0; transition: opacity 0.28s ease-out; }
-#ll-loader.ll-handoff .ll-fr { opacity: 0; transition: opacity 0.5s ease-out 0.1s, transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s; }
-#ll-loader.ll-handoff .ll-fr-tl { transform: translate(-30px,-30px); }
-#ll-loader.ll-handoff .ll-fr-tr { transform: translate(30px,-30px); }
-#ll-loader.ll-handoff .ll-fr-bl { transform: translate(-30px,30px); }
-#ll-loader.ll-handoff .ll-fr-br { transform: translate(30px,30px); }
-/* backdrop lifts after the furniture retires, revealing the hero mid-entrance */
-#ll-loader { transition: background-color 0.45s ease-out; }
-#ll-loader.ll-handoff.ll-lift { background-color: transparent; }
-/* wordmark FLIP: JS measures the nav logo and fills the custom props */
-#ll-loader.ll-handoff .ll-rm-inner { background: none; }
-#ll-loader.ll-handoff .ll-rm-sub { opacity: 0; transition: opacity 0.25s ease-out; }
-#ll-loader.ll-handoff .ll-rm-name {
-  transform: translate(var(--ll-tx, 0px), var(--ll-ty, -38vh)) scale(var(--ll-sc, 0.3));
-  opacity: var(--ll-fade, 0);
-  transition: transform 0.78s cubic-bezier(0.22,1,0.36,1) 0.12s, opacity 0.3s ease-out 0.72s;
-  transform-origin: top left;
-}
-@media (prefers-reduced-motion: reduce) {
-  #ll-loader.ll-handoff, #ll-loader.ll-handoff * { transition: none !important; }
-  #ll-loader.ll-handoff { opacity: 0; }
-}
-
-/* Boot HUD — big count-up, status line, and a progress rail (decoding-terminal loader). */
-.ll-hud {
-  position: absolute; left: 0; right: 0; bottom: clamp(26px, 6vh, 54px); z-index: 4;
-  display: flex; align-items: flex-end; justify-content: space-between;
-  padding: 0 clamp(20px, 5vw, 56px); font-family: var(--font-code);
-  transition: opacity 0.3s ease;
-}
-.ll-hud-status { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); }
-.ll-hud-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent, #72ADFF); box-shadow: 0 0 8px var(--accent, #72ADFF); animation: llHudPulse 1.1s ease-in-out infinite; }
-.ll-hud-count { display: flex; align-items: flex-end; gap: 3px; color: var(--fg1); line-height: 0.78; }
-.ll-pct { font-family: var(--font-code); font-weight: 700; font-size: clamp(56px, 12vw, 142px); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.ll-pct-sym { font-size: clamp(16px, 3vw, 30px); color: var(--accent, #72ADFF); margin-bottom: 0.45em; }
-.ll-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(160, 200, 255, 0.12); z-index: 4; transition: opacity 0.3s ease; }
-.ll-bar-fill { display: block; height: 100%; width: 0%; background: var(--accent, #72ADFF); box-shadow: 0 0 10px var(--accent, #72ADFF); transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
-@keyframes llHudPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-#ll-loader.is-done .ll-hud, #ll-loader.is-done .ll-bar { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .ll-hud-dot { animation: none; } }
-
-/* LetterGlitch boot backdrop — a decoding letter grid (React Bits, canvas 2D) behind the
-   wordmark. Its own center/outer vignettes keep the name legible and fade the edges into
-   void; fades out on exit. Canvas 2D (no WebGL), so it runs on mobile too. */
-#ll-glitch {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  opacity: 0.5;
-  transition: opacity 0.55s ease;
-}
-#ll-glitch canvas { display: block; width: 100%; height: 100%; }
-/* Separate the foreground trace from a receding code field without another canvas. */
-#ll-loader::before {
-  content: ''; position: absolute; inset: -8%; pointer-events: none;
-  background: radial-gradient(ellipse 40% 35% at 44% 46%, rgba(74,143,239,0.30), transparent 75%),
-              radial-gradient(ellipse 28% 24% at 64% 42%, rgba(196,176,255,0.18), transparent 75%);
-  animation: llLightDrift 4.5s ease-in-out both;
-  transition: opacity 0.45s ease;
-}
-#ll-loader::after {
-  content: ''; position: absolute; pointer-events: none; z-index: 0;
-  left: 50%; top: 48%; width: min(80vw, 950px); height: min(45vw, 500px);
-  border: 1px solid rgba(160,200,255,0.18); border-radius: 50%;
-  box-shadow: inset 0 0 30px rgba(114,173,255,0.08), 0 0 35px rgba(114,173,255,0.07);
-  transform: translate(-50%, -50%) perspective(800px) rotateX(62deg) rotateZ(-18deg);
-  animation: llOrbitReveal 4.5s ease-out both;
-  transition: opacity 0.45s ease;
-}
-@keyframes llLightDrift {
-  from { transform: translate(-3%, 2%) scale(0.9); opacity: 0.4; }
-  to { transform: translate(3%, -2%) scale(1.12); opacity: 1; }
-}
-@keyframes llOrbitReveal {
-  from { transform: translate(-50%, -50%) perspective(800px) rotateX(68deg) rotateZ(-28deg) scale(0.85); opacity: 0; }
-  25% { opacity: 0.8; }
-  to { transform: translate(-50%, -50%) perspective(800px) rotateX(54deg) rotateZ(-8deg) scale(1.1); opacity: 0.5; }
-}
-#ll-loader.is-done::before, #ll-loader.is-done::after { animation: none; opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  #ll-loader::before, #ll-loader::after { animation: none; }
-
-}
-#ll-glitch { transform-origin: 50% 48%; animation: llFieldDepth 4.5s ease-out both; }
-@keyframes llFieldDepth {
-  from { transform: perspective(1000px) rotateX(9deg) rotateY(-5deg) scale(1.12); }
-  to { transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.03); }
-}
-#ll-loader.is-done #ll-glitch { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { #ll-glitch { animation: none; transform: none; } }
-
-@media (prefers-reduced-motion: reduce) { #ll-glitch { display: none; } }
-
-/* Outline wordmark sits beneath the intentional glitch reveal. */
-#ll-mark {
-  position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%;
-  pointer-events: none;
-  transition: opacity 0.3s ease 0.72s;   /* same fade as .ll-rm-inner, so the dissolve sees one picture */
-}
-#ll-loader.is-done #ll-mark { opacity: 0; }
-#ll-loader.has-mark #ll-glitch { opacity: 0.85; }
-/* Exit fade. Listed after the has-mark rule and doubled with .is-done.has-mark so it outranks
-   the denser has-mark opacity while both classes are present during the exit. */
-#ll-loader.is-done #ll-glitch, #ll-loader.is-done.has-mark #ll-glitch { opacity: 0; }
-/* The gradient Syne name is the fallback for the outline canvas, not a first frame. On a cold
-   visit it used to paint (in a system serif, before Syne even swapped in) for as long as the
-   loader scripts took to arrive, then snap to the Playfair outline: the "old lucy liu" flash.
-   .ll-mark-pending ships in the markup so it applies at the very first paint, and the loader
-   IIFE takes it off at DOMContentLoaded if the canvas never claimed the loader. */
-#ll-loader.ll-mark-pending .ll-rm-name { opacity: 0; }
-#ll-loader.has-mark .ll-rm-inner { background: none; }
-/* The hidden text keeps its layout box (so .ll-rm-sub stays put) and lends the canvas its
-   position and font. Playfair italic at the spec size; the gradient name is not painted. */
-#ll-loader.has-mark .ll-rm-name {
-  font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 700;
-  font-size: clamp(64px, 11vw, 180px); letter-spacing: 0; line-height: 1;
-  opacity: 0; filter: none;
-}
-/* Exit: the canvas takes the same FLIP as .ll-rm-name (the JS sets --ll-tx/--ll-ty/--ll-sc
-   on the loader and the canvas sets its own transform-origin to the name's top-left), so
-   the drawn name flies into the nav logo exactly as the text name did. */
-#ll-loader.ll-handoff #ll-mark {
-  transform: translate(var(--ll-tx, 0px), var(--ll-ty, -38vh)) scale(var(--ll-sc, 0.3));
-  opacity: var(--ll-fade, 0);
-  transition: transform 0.78s cubic-bezier(0.22,1,0.36,1) 0.12s, opacity 0.3s ease-out 0.72s;
-}
-@media (prefers-reduced-motion: reduce) { #ll-loader.is-done #ll-mark { transition: none; } }
-
-/* ASCIIText loader name — replaces #ll-ascii once it mounts (.has-asciitext). */
-#ll-asciitext { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
-#ll-asciitext canvas {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-  image-rendering: pixelated;
-}
-#ll-asciitext pre {
-  background-image: linear-gradient(135deg, #A0C8FF 0%, #C4B0FF 55%, #72ADFF 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-}
-#ll-loader.has-asciitext #ll-ascii,
-#ll-loader.has-asciitext #ll-svg { display: none !important; }
-#ll-loader.is-done #ll-asciitext { opacity: 0; transition: opacity 0.4s ease; }
-@media (prefers-reduced-motion: reduce) { #ll-asciitext { display: none; } }
-
-/* WebGL noise-dissolve canvas — pixels become transparent as the fBm threshold sweeps */
-#ll-canvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  display: block;
-  z-index: 1;
-}
-
-/* Hard fallback: if JS animations fail, hero content is still visible */
-body.loader-done .hero-orb,
-body.loader-done .hero-heading .char {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* s0mped wordmark */
-.gem-wordmark {
-  display: block;
-  width: clamp(140px, 17vw, 196px);
-  height: auto;
-  margin: 10px 0 22px;
-  filter: brightness(0) invert(1);
-  opacity: 0.72;
-  /* No opacity transition here. Nothing hovers this wordmark, so it only ever chased the
-     section's entrance tween: GSAP set opacity to 0, the transition began animating away
-     from it, and the from() end value was captured mid-transition, leaving the wordmark
-     stuck invisible. */
-}
-@media (prefers-reduced-motion: no-preference) {
-  .gem-wordmark { will-change: opacity; }
-}
-
-#ll-loader.is-done { pointer-events: none; }
-
-/* Constellation SVG */
-#ll-svg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  overflow: visible; pointer-events: none;
-  transition: opacity 0.18s ease;
-  z-index: 2;
-}
-/* #ll-svg opacity on exit is controlled by bloomStars() JS, not CSS */
-
-/* Name block */
-#ll-name {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 14px;
-  pointer-events: none;
-  transition: opacity 0.18s ease;
-}
-#ll-loader.is-done #ll-name { opacity: 0; }
-
-#ll-name-word {
-  font-family: 'Syne', system-ui, sans-serif;
-  font-style: italic; font-weight: 400;
-  font-size: clamp(48px, 9vw, 96px);
-  letter-spacing: -0.04em; line-height: 1;
-  color: #F6FAFF;
-  display: flex; align-items: baseline;
-}
-.ll-c {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(var(--from-y, -30px));
-  will-change: transform, opacity;
-}
-.ll-c.is-in {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.42s cubic-bezier(0.22,1,0.36,1),
-    transform 0.52s cubic-bezier(0.22,1,0.36,1);
-}
-.ll-sp { width: 0.32em; }
-
-#ll-name-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase;
-  color: rgba(160,200,255,0.32);
-  opacity: 0; transform: translateY(6px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-#ll-name-sub.is-in { opacity: 1; transform: translateY(0); }
-
-@keyframes ll-twinkle {
-  0%, 100% { opacity: var(--tw-hi, 1); }
-  50%       { opacity: var(--tw-lo, 0.3); }
-}
-
-/* Reduced-motion fallback */
-/* The loader name: a gradient "lucy liu" wordmark over the LetterGlitch grid. Shown on
-   every load now (not just reduced-motion). The hidden #ll-ascii ticker still drives the
-   exit timing; this just replaces what's visible. */
-.ll-rm-inner {
-  display: flex; position: absolute; inset: 0; z-index: 5;
-  align-items: center; justify-content: center;
-  flex-direction: column; gap: 16px;
-  /* Dark scrim so the wordmark + subtitle read clearly over the glitch grid. */
-  background: radial-gradient(ellipse 58% 40% at 50% 50%,
-    rgba(5,7,16,0.92) 0%, rgba(5,7,16,0.6) 42%, rgba(5,7,16,0) 72%);
-}
-/* animation:none is required — the entrance animation's `both` fill otherwise pins
-   opacity:1 and overrides this fade, leaving the name stuck over the hero during the
-   ~2.4s exit dissolve. */
-/* GUARD (keep animation:none + final opacity 0): the delay lets the wordmark finish its
-   FLIP into the nav logo before fading; it still always ends hidden. */
-#ll-loader.is-done .ll-rm-inner { animation: none; opacity: 0; transition: opacity 0.3s ease 0.72s; }
-@media (prefers-reduced-motion: reduce) { #ll-loader.is-done .ll-rm-inner { transition: none; } }
-@media (prefers-reduced-motion: no-preference) {
-  .ll-rm-inner { animation: llRmIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
-}
-@keyframes llRmIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-/* Small gradient accent rule above the wordmark. */
-.ll-rm-inner::before {
-  content: ''; width: 46px; height: 2px; border-radius: 2px; margin-bottom: 6px;
-  background: linear-gradient(90deg, transparent, #72ADFF, transparent);
-  opacity: 0.85;
-}
-.ll-rm-name {
-  font-family: 'Syne', system-ui, sans-serif; font-style: italic; font-weight: 600;
-  font-size: clamp(52px, 8.5vw, 104px); letter-spacing: -0.045em; line-height: 1.04;
-  /* padding gives the gradient box room for the italic overhang (background-clip:text
-     paints only within the box, so without it the slanted final glyph is cut off). */
-  padding: 0.04em 0.22em;
-  background: linear-gradient(116deg, #F6FAFF 0%, #E8E0FF 30%, #A0C8FF 62%, #72ADFF 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  filter: drop-shadow(0 0 24px rgba(114, 173, 255, 0.38));
-}
-/* The loader name is the same breathing-weight wordmark as the nav (components/wordmark.js,
-   mounted right under the loader IIFE), so the name you watch during boot is the object that
-   lands in the nav. Solid near-white on the always-dark loader; the engine forces the face. The
-   crest sweeps across the name over the count, so the wave doubles as the progress. */
-#ll-loader .ll-rm-name.wm {
-  font-size: clamp(64px, 11vw, 176px); line-height: 1; padding: 0;
-  background: none; -webkit-text-fill-color: currentColor;
-  color: #F6FAFF;   /* dark-theme --cloud, pinned: the loader field is dark in both themes */
-  filter: drop-shadow(0 0 26px rgba(114, 173, 255, 0.34));
-}
-.ll-rm-sub {
-  font-family: 'Space Mono', monospace; font-size: 11px;
-  letter-spacing: 0.34em; text-transform: uppercase; color: rgba(200, 222, 255, 0.85);
-  padding-left: 0.34em; /* optical balance for the wide tracking */
-}
-
-/* ── ASCII wordmark (retired as the visible name; kept hidden so its resolve ticker
-   still drives the loader exit timing — the gradient .ll-rm-name shows instead) ── */
-#ll-ascii {
-  position: absolute; inset: 0;
-  display: none; align-items: center; justify-content: center;
-  flex-direction: column; gap: 0;
-  pointer-events: none;
-  z-index: 3;
-}
-#ll-ascii::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 62vw 46vh at 50% 50%, rgba(114,173,255,0.14) 0%, transparent 64%);
-  opacity: 0; transition: opacity 0.75s ease;
-  pointer-events: none; z-index: 0;
-}
-#ll-ascii.aura-on::before { opacity: 1; }
-#ll-ascii-line1,
-#ll-ascii-line2 {
-  font-family: 'Space Mono', 'Courier New', monospace;
-  font-size: clamp(16px, 3vw, 32px);
-  line-height: 1.32;
-  letter-spacing: 0.01em;
-  margin: 0; padding: 0;
-  white-space: pre;
-  user-select: none;
-  position: relative; z-index: 1;
-}
-#ll-ascii-line2 { margin-top: 0.85em; }
-.asc-cell { display: inline; }
-.asc-noise { color: rgba(114,173,255,0.12); }
-.asc-scan  { color: rgba(233,247,255,0.96); }
-.asc-fill  {
-  color: rgba(114,173,255,0.95);
-  text-shadow: 0 0 8px rgba(114,173,255,0.88), 0 0 28px rgba(114,173,255,0.30);
-}
-.asc-void  { color: rgba(114,173,255,0.05); }
-#ll-loader.is-done .asc-fill {
-  animation: asc-exit-flash 0.28s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-@keyframes asc-exit-flash {
-  0%   { color: rgba(230,245,255,0.99); text-shadow: 0 0 14px rgba(220,240,255,0.94), 0 0 44px rgba(114,173,255,0.55); }
-  100% { color: rgba(114,173,255,0.95); text-shadow: 0 0 8px rgba(114,173,255,0.88), 0 0 28px rgba(114,173,255,0.30); }
-}
-@media (prefers-reduced-motion: reduce) { #ll-loader.is-done .asc-fill { animation: none; } }
-#ll-ascii-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px; letter-spacing: 0.20em; text-transform: uppercase;
-  color: rgba(160,200,255,0.32);
-  opacity: 0; transform: translateY(6px);
-  transition: opacity 0.42s ease, transform 0.42s ease;
-  margin-top: 1.6em; position: relative; z-index: 1;
-}
-#ll-ascii-sub.is-in { opacity: 1; transform: translateY(0); }
-#ll-loader.is-done #ll-ascii { opacity: 0; transition: opacity 0.22s ease; }
-
-@media (prefers-reduced-motion: reduce) {
-  #ll-svg, #ll-name, #ll-ascii { display: none; }
-  .ll-rm-inner { display: flex; }
-  #ll-loader { transition: opacity 0.4s; }
-  #ll-loader.is-done { opacity: 0; pointer-events: none; }
-}
+.gem-wordmark { display: block; width: clamp(140px,17vw,196px); height: auto; margin: 10px 0 22px; filter: brightness(0) invert(1); opacity: .72; }
 </style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Lucy Liu",
-  "jobTitle": "Design Engineer",
+  "jobTitle": "Product Designer",
   "url": "https://lucyliu.xyz",
   "email": "mailto:wl3512@nyu.edu",
   "affiliation": { "@type": "CollegeOrUniversity", "name": "NYU Tisch School of the Arts, Interactive Media Arts" },
@@ -449,203 +56,184 @@ body.loader-done .hero-heading .char {
   "address": { "@type": "PostalAddress", "addressLocality": "New York", "addressRegion": "NY" }
 }
 </script>
+<link rel="stylesheet" href="phone-layouts.css?v=10" />
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<style>
-/* ── Pixel terminal-HUD loader (typography study: rohit/dich/chrono/harikrishnan) ── */
-/* Corner brackets framing the viewport */
-.ll-fr { position: absolute; width: 22px; height: 22px; z-index: 4; pointer-events: none; }
-.ll-fr-tl { top: 24px; left: 24px;  border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-.ll-fr-tr { top: 24px; right: 24px; border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); }
-.ll-fr-bl { bottom: 24px; left: 24px;  border-bottom: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-.ll-fr-br { bottom: 24px; right: 24px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
-
-/* Faint scrambling code columns in the margins (decoding texture) */
-.ll-code {
-  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; margin: 0;
-  font-family: var(--font-code); font-size: 10px; line-height: 1.75; letter-spacing: 0.04em;
-  color: rgba(114,173,255,0.22); white-space: pre; pointer-events: none;
-}
-.ll-code-l { left: clamp(26px, 5vw, 64px); }
-.ll-code-r { right: clamp(26px, 5vw, 64px); text-align: right; }
-@media (max-width: 820px) { .ll-code { display: none; } }
-
-/* Boot/status line (left of HUD) */
-.ll-boot { display: flex; align-items: center; gap: 8px; font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg2); }
-.ll-boot-caret { color: var(--accent); }
-.ll-cur { display: inline-block; width: 8px; height: 13px; background: var(--accent); margin-left: 4px; animation: llCurBlink 1s steps(1, end) infinite; }
-@keyframes llCurBlink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
-
-/* Big PIXEL counter (right of HUD) — Press Start 2P */
-.ll-hud-count { align-items: flex-end; gap: 7px; }
-.ll-pct { font-family: 'Press Start 2P', var(--font-code); font-weight: 400; font-size: clamp(32px, 6vw, 74px); line-height: 0.92; color: var(--fg1); letter-spacing: 0; }
-.ll-pct-sym { font-family: 'Press Start 2P', var(--font-code); font-size: clamp(11px, 1.5vw, 18px); color: var(--accent); margin-bottom: 0.35em; }
-
-#ll-loader .ll-rm-inner { background: radial-gradient(ellipse 54% 40% at 50% 50%, rgba(5,7,16,0.62) 0%, rgba(5,7,16,0.30) 46%, rgba(5,7,16,0) 72%); }
-
-@media (prefers-reduced-motion: reduce) { .ll-cur { animation: none; } }
-</style>
-<div id="ll-loader" class="ll-mark-pending" aria-hidden="true" role="presentation">
-  <div id="ll-glitch" aria-hidden="true"></div>
-  <span class="ll-fr ll-fr-tl"></span><span class="ll-fr ll-fr-tr"></span>
-  <span class="ll-fr ll-fr-bl"></span><span class="ll-fr ll-fr-br"></span>
-  <pre class="ll-code ll-code-l" aria-hidden="true"></pre>
-  <pre class="ll-code ll-code-r" aria-hidden="true"></pre>
-  <div class="ll-rm-inner" aria-hidden="true">
-    <p class="ll-rm-name">lucy liu</p>
-    <span class="ll-rm-sub">Design Engineer &middot; New York</span>
-  </div>
-  <div class="ll-hud" aria-hidden="true">
-    <div class="ll-boot"><span class="ll-boot-caret">&gt;</span>&nbsp;<span class="ll-boot-msg">decoding archive</span><span class="ll-cur"></span></div>
-    <div class="ll-hud-count"><span class="ll-pct">0</span><span class="ll-pct-sym">%</span></div>
-  </div>
-  <div class="ll-bar" aria-hidden="true"><span class="ll-bar-fill"></span></div>
+<div id="ll-loader" role="dialog" aria-modal="true" aria-label="Lucy Liu portfolio opening" hidden>
+  <div class="intro-curtains" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i></div>
+  <div class="intro-wash" aria-hidden="true"></div>
+  <div class="intro-type" aria-hidden="true"><span class="intro-lucy">lucy</span><span class="intro-liu">liu</span></div>
+  <div class="intro-ribbon" aria-hidden="true"><div class="intro-reel">
+      <figure class="intro-frame"><img data-src="assets/live-visuals-nyc/live-av-2-poster.jpg" alt="" decoding="async"><figcaption>Live visuals</figcaption></figure>
+      <figure class="intro-frame"><img data-src="assets/habitabull/cover-reel.webp" alt="" decoding="async"><figcaption>HabitaBull</figcaption></figure>
+      <figure class="intro-frame"><img data-src="assets/audio-reactive/td-cover.jpg" alt="" decoding="async"><figcaption>Audio reactive</figcaption></figure>
+      <figure class="intro-frame intro-frame--gem"><img data-src="assets/gems/grid/o35_l2.webp" alt="" decoding="async"><figcaption>sompednyc</figcaption></figure>
+      <figure class="intro-frame"><img data-src="assets/reptools/cover.webp" alt="" decoding="async"><figcaption>rep.tools</figcaption></figure>
+      <figure class="intro-frame"><img data-src="assets/driftwood/cover-reel.webp" alt="" decoding="async"><figcaption>Driftwood</figcaption></figure>
+      <figure class="intro-frame"><img data-src="assets/live-visuals-nyc/live-av-3-poster.jpg" alt="" decoding="async"><figcaption>Demon Nights</figcaption></figure>
+  </div></div>
+  <button class="intro-sound" type="button" aria-pressed="false" aria-label="Enable opening sound" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M11 5 6 9H3v6h3l5 4Z" />
+      <path class="intro-sound-muted" d="m16 9 6 6m0-6-6 6" />
+      <path class="intro-sound-playing" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
+    </svg>
+  </button>
+  <div class="intro-controls"><p class="intro-hint"><span class="intro-hint-mouse">Move to bend the reel.</span><span class="intro-hint-touch">Drag to bend the reel.</span></p><button class="intro-skip" type="button" disabled><span class="intro-skip-key">press any key to skip</span><span class="intro-skip-touch">tap anywhere to skip</span></button></div>
 </div>
 <script>
+/* Lifecycle stays inline: even a missing effect script cannot trap the visitor. */
 (function () {
-  var loader = document.getElementById('ll-loader');
-  if (!loader) return;
-  document.body.style.overflow = 'hidden';
-  var rm = false;
-  try { rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-  /* Repeat visits this session skip the boot theatre: the full sequence costs ~3.2s of
-     LCP, worth it once for the first impression, not on every back-navigation. */
+  var loader = document.getElementById('ll-loader'), timer = 0, finishTimer = 0, revealTimer = 0, effects = [], oldOverflow = '', focusBack = null, focusIn = false, outMs = 0, skipReady = false;
+  var media = matchMedia('(prefers-reduced-motion: reduce)');
   var fast = false;
-  try { fast = sessionStorage.getItem('lucy.loader.seen') === '1'; sessionStorage.setItem('lucy.loader.seen', '1'); } catch (e) {}
+  try { fast = sessionStorage.getItem('lucy.intro.heist.seen') === '1' || sessionStorage.getItem('lucy.page.seen') === '1'; sessionStorage.setItem('lucy.intro.heist.seen', '1'); } catch(e) {}
+  // Coming home from another page of the site (All Work's about link, a case study's name) is not a first visit, even
+  // when the visit began on that page: it gets the short loading screen, never the heist (Lucy, 2026-10-25).
+  try { if (document.referrer && new URL(document.referrer).origin === location.origin) fast = true; } catch(e) {}
+  // lucyliu.xyz/hell (vercel.json rewrites it to this page): the same site, opening on the heist
+  // gone to hell (see heist-opening.js). It always plays there. ?hell does the same for local runs.
+  var hell = window.__hell = /^\/hell\/?$/i.test(location.pathname) || /[?&]hell(?:[=&]|$)/.test(location.search);
+  // The opening is the paperclip heist (components/heist-opening.js; Lucy, 2026-10-21: "wheres
+  // loading screen new"). /hell plays it in its hell mode and ?heist on every visit, for review.
+  // The contact sheet's markup stays as what shows if the heist cannot load.
+  var heist = window.__heist = true;
+  if (hell || /[?&]heist(?:[=&]|$)/.test(location.search)) fast = false;
+  if (!hell && /[?&]spot(?:[=&]|$)/.test(location.search)) fast = true;   // ?spot: the short screen even on a first visit, for review
   window.__loaderFast = fast;
-
-  /* Release the fallback wordmark only if outline-wordmark.js never claimed the loader.
-     Its self-mount adds has-mark synchronously, so by DOMContentLoaded the answer is final;
-     the timeout is the backstop for a script that never loads at all. */
-  var releaseName = function () {
-    try { if (!loader.classList.contains('has-mark')) loader.classList.remove('ll-mark-pending'); } catch (e) {}
-  };
-  document.addEventListener('DOMContentLoaded', releaseName);
-  setTimeout(releaseName, 2500);
-
-  var pctEl   = document.querySelector('.ll-pct');
-  var barEl   = document.querySelector('.ll-bar-fill');
-  var bootMsg = document.querySelector('.ll-boot-msg');
-  var codeL   = document.querySelector('.ll-code-l');
-  var codeR   = document.querySelector('.ll-code-r');
-  var shownPct = 0, codeTimer = null;
-
-  /* ── Exit: curtain wipe-up, with hard guards ── */
-  function exitLoader() {
-    if (loader.classList.contains('is-done')) return;
-    loader.classList.add('is-done');
+  // Every load after the first in the tab gets the short loading screen instead of nothing (Lucy, 2026-10-22: "just
+  // as a normal loading screen; the enter portfolio one ... only plays once per visit"): caught in the spotlight,
+  // about two seconds (components/spotlight-opening.js, fetched only when it plays). /hell and ?heist play the heist.
+  // Since 2026-11-24 a repeat visit gets no loading screen at all (Lucy: "repeat visits shoukdnt see loader"; a
+  // screener clicking through many portfolios should land on the work). ?spot still plays the short screen, for review.
+  var spotReview = !hell && /[?&]spot(?:[=&]|$)/.test(location.search);
+  var spot = window.__spot = fast && spotReview && !media.matches;
+  window.addEventListener('app:ready', function () { window.__appReady = true; });   // the spotlight's bar fills only once the page has mounted
+  // A throwing effect must not keep the overlay up.
+  function beginEffects() { effects.forEach(function (f) { try { f[0](); } catch(e) {} }); }
+  function stopEffects() { effects.forEach(function (f) { try { f[1](); } catch(e) {} }); }
+  function finish() {
+    clearTimeout(timer); clearTimeout(finishTimer); clearTimeout(revealTimer);
+    stopEffects();
+    // exit() disables the skip button, which drops a focus it held to the body, so it notes first whether focus was in
+    // the overlay; a replay always goes back to Replay opening (the page under the overlay is inert meanwhile).
+    var hadFocus = focusIn || !!focusBack || loader.contains(document.activeElement);
+    loader.classList.remove('intro-active', 'intro-live'); loader.classList.add('ll-gone'); loader.hidden = true;
+    document.body.classList.remove('intro-playing');
+    loader.querySelectorAll('img').forEach(function(img){img.removeAttribute('src');});
+    document.body.style.overflow = oldOverflow;
+    var content = document.getElementById('root'); if (content) content.inert = false;
+    if (hadFocus) { var target = focusBack || document.getElementById('main-content'); if (target) target.focus({preventScroll:true}); }
+    document.removeEventListener('keydown', keys);
+  }
+  // instant: any key, a press, the button. hard: the skip link, a hidden tab, reduced motion, a repeat visit.
+  // An opening that asked for time to hand over (LucyIntro.hold) gets it unless the exit is hard.
+  function exit(instant, hard) {
+    if (instant && !hard && !skipReady) return;
+    if (loader.classList.contains('is-done')) { if (instant) finish(); return; }
+    if (loader.contains(document.activeElement)) focusIn = true;
+    skipReady = false; loader.classList.remove('intro-skip-ready'); loader.querySelector('.intro-skip').disabled = true;
+    clearTimeout(timer); loader.classList.add('is-done');
     window.__loaderExited = true;
-    document.body.classList.add('loader-done');           /* GUARD: hero visible regardless */
-    try { window.dispatchEvent(new CustomEvent('loader:exit')); } catch (e) {}
-    if (codeTimer) { clearInterval(codeTimer); codeTimer = null; }
-    var done = false;
-    var finish = function () {
-      if (done) return; done = true;
-      loader.classList.add('ll-gone');
-      document.body.style.overflow = '';
-    };
-    var fallbackTimer = setTimeout(finish, 1700);          /* GUARD: never strand the page */
-    if (rm) { clearTimeout(fallbackTimer); setTimeout(finish, 220); return; }
-    /* FLIP: measure where the nav logo sits and send the wordmark there, so the name
-       you watched during boot literally becomes the persistent brand mark. */
+    document.body.classList.add('loader-done');
+    try { window.dispatchEvent(new CustomEvent('loader:exit')); } catch(e) {}
+    stopEffects();
+    if (hard || media.matches || (instant && !outMs)) finish(); else finishTimer = setTimeout(finish, outMs || 850);
+  }
+  // Any key skips after the visible prompt fades in; a modifier on its own or a browser shortcut does not.
+  function keys(e) {
+    if (e.target.closest && e.target.closest('.intro-sound')) return;
+    if (!skipReady) return;
+    if (/^(Shift|Control|Alt|Meta|CapsLock|Fn|FnLock|OS|Hyper|Super|Dead|Unidentified)$/.test(e.key) || e.metaKey || e.ctrlKey || e.isComposing) return;
+    e.preventDefault(); exit(true);
+  }
+  function open(replay) {
+    clearTimeout(timer); clearTimeout(finishTimer); clearTimeout(revealTimer);
+    if (media.matches) { exit(true, true); return; }
+    focusBack = replay ? document.activeElement : null; focusIn = false;
+    oldOverflow = document.body.style.overflow;
+    loader.hidden = false; loader.classList.remove('ll-gone','is-done','intro-skip-ready'); loader.classList.add('intro-active');
+    skipReady = false;
+    var skipButton = loader.querySelector('.intro-skip'); skipButton.disabled = true;
+    // the heist's dark stage from the first frame, not the contact sheet while its script arrives; on a repeat load,
+    // the spotlight's (a replay always plays the heist)
+    var spotNow = spot && !replay;
+    loader.classList.remove('intro-spot', 'intro-heist');
+    if (spotNow) loader.classList.add('intro-spot');
+    else if (heist) loader.classList.add('intro-heist');
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('intro-playing');
+    var content = document.getElementById('root'); if (content) content.inert = true;
+    document.addEventListener('keydown', keys);
+    var sound = loader.querySelector('.intro-sound');
+    sound.hidden = spotNow || !(window.AudioContext || window.webkitAudioContext);
+    play(replay);
+  }
+  // Sound is an explicit choice; the animation never waits for an audio permission gesture.
+  window.__introSound = false;
+  var soundButton = loader.querySelector('.intro-sound');
+  function soundLabel() {
+    soundButton.setAttribute('aria-pressed', String(window.__introSound));
+    soundButton.setAttribute('aria-label', window.__introSound ? 'Mute opening sound' : 'Enable opening sound');
+  }
+  soundButton.addEventListener('click', function () {
+    var on = !window.__introSound;
+    if (!on) { window.__introSound = false; if (window.__heistAC) window.__heistAC.suspend().catch(function(){}); soundLabel(); return; }
     try {
-      var name = loader.querySelector('.ll-rm-name');
-      var target = document.querySelector('.flow-menu-logo-text');
-      if (name && target) {
-        var a = name.getBoundingClientRect();
-        var b = target.getBoundingClientRect();
-        if (b.width > 0 && b.height > 0) {
-          loader.style.setProperty('--ll-tx', (b.left - a.left).toFixed(1) + 'px');
-          loader.style.setProperty('--ll-ty', (b.top - a.top).toFixed(1) + 'px');
-          loader.style.setProperty('--ll-sc', (b.height / Math.max(a.height, 1)).toFixed(4));
-        }
-      }
-    } catch (e) {}   /* no target = CSS fallback: wordmark drifts up and fades */
-    loader.classList.add('ll-handoff');
-    setTimeout(function () { loader.classList.add('ll-lift'); }, 300);
-    setTimeout(function () { clearTimeout(fallbackTimer); finish(); }, 1080);
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!window.__heistAC) window.__heistAC = new AC();
+      window.__heistAC.resume().then(function () { window.__introSound = window.__heistAC.state === 'running'; soundLabel(); }).catch(function () { window.__introSound = false; soundLabel(); });
+    } catch(e) { window.__introSound = false; soundLabel(); }
+  });
+  function play(replay) {
+    var spotNow = spot && !replay, skipButton = loader.querySelector('.intro-skip');
+    // Skippable from the first frame (Lucy, 2026-11-24: "skip immediatly, but the press anywhere to skip shows
+    // first, black screen then 0.5 secs after loads in"); the heist itself waits HEIST_DELAY (heist-opening.js).
+    skipReady = true; skipButton.disabled = false; loader.classList.add('intro-skip-ready');
+    if (replay) skipButton.focus();
+    loader.classList.remove('intro-stage-in');
+    revealTimer = setTimeout(function () { loader.classList.add('intro-stage-in'); }, 500);
+    // Duration is choreography, never presented as download progress. Backstop works without the renderer.
+    timer = setTimeout(function () { exit(false); }, spotNow ? 2400 : 3100);
+    beginEffects();
+    if (replay) skipButton.focus();
   }
-
-  /* ── Scrambling decode columns in the margins ── */
-  var GLY = '0123456789ABCDEF/<>[]{}=+*·:.';
-  function scrambleCol(el, rows, cols) {
-    if (!el) return;
-    var out = '';
-    for (var r = 0; r < rows; r++) {
-      var line = '';
-      for (var c = 0; c < cols; c++) {
-        line += (Math.random() < 0.38) ? GLY[(Math.random() * GLY.length) | 0] : ' ';
-      }
-      out += line + '\n';
-    }
-    el.textContent = out;
-  }
-  if (!rm) {
-    scrambleCol(codeL, 16, 11); scrambleCol(codeR, 16, 11);
-    /* 150ms (was 90ms): full-grid re-randomization at 90ms read as high-frequency static
-       and made the whole boot sequence feel jittery next to the globe/counter/cursor all
-       animating at once. Slower + thinner (see scrambleCol density above) keeps the
-       "decoding" texture without competing for attention. */
-    codeTimer = setInterval(function () { scrambleCol(codeL, 16, 11); scrambleCol(codeR, 16, 11); }, 150);
-  }
-
-  /* ── Paced boot counter (drives the reveal) ── */
-  var cStart = null, CDUR = rm ? 500 : 2800;   /* Give the outline trace and highlight a full opening beat. */
-  function runCounter(ts) {
-    if (!cStart) cStart = ts;
-    var p = Math.min((ts - cStart) / CDUR, 1);
-    var val = Math.floor((1 - Math.pow(1 - p, 3)) * 100);
-    if (val > shownPct) { shownPct = val; if (pctEl) pctEl.textContent = val; if (barEl) barEl.style.width = val + '%'; }
-    if (p < 1) { requestAnimationFrame(runCounter); }
-    else {
-      if (pctEl) pctEl.textContent = '100';
-      if (barEl) barEl.style.width = '100%';
-      if (bootMsg) bootMsg.textContent = 'archive ready';
-      setTimeout(exitLoader, 460);
-    }
-  }
-  requestAnimationFrame(runCounter);
-
-  /* Safety bail — never let the loader hang */
-  setTimeout(function () { if (!loader.classList.contains('is-done')) exitLoader(); }, 6500);
-
+  loader.querySelector('.intro-skip').addEventListener('click', function () { if (skipReady) exit(true); });
+  // A press anywhere on the first visit's opening skips it, as its hint says (Lucy, 2026-10-28). The short screen's
+  // engine does this itself in spot mode; a press on the button is left to its click, so it never counts twice.
+  loader.addEventListener('pointerdown', function (e) {
+    if (skipReady && loader.classList.contains('intro-heist') && !loader.classList.contains('intro-spot') && !e.target.closest('button')) exit(true);
+  });
+  document.querySelector('.skip-link').addEventListener('click', function (e) { if (!skipReady) { e.preventDefault(); return; } exit(true, true); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden && loader.classList.contains('intro-active')) exit(true, true); });
+  media.addEventListener('change', function () { if (media.matches) exit(true, true); });
+  // The heist loads only when the opening plays (a first visit, ?heist, /hell) or is replayed: it
+  // tells the nav wordmark to rest for the name it flies in, so a skipped opening must not load it.
+  var heistReq = false;
+  // __loaderWave parks the nav wordmark for the flown name; set here too, because on a warm phone React mounted the nav ~80ms before the script could set it
+  function loadHeist() { if (heistReq || !heist || media.matches) return; heistReq = true; window.__loaderWave = true; var hp = document.createElement('script'); hp.async = true; hp.src="components/heist-opening.js?v=8"; document.head.appendChild(hp); }
+  var spotReq = false;
+  function loadSpot() { if (spotReq || !spot || media.matches) return; spotReq = true; var sp = document.createElement('script'); sp.async = true; sp.src="components/spotlight-opening.js?v=10"; document.head.appendChild(sp); }
+  window.LucyIntro = { replay:function(){if(!loader.classList.contains('intro-active')){loadHeist();open(true);}}, mount:function(begin,stop){effects.push([begin,stop]);if(loader.classList.contains('intro-active')&&!loader.classList.contains('is-done'))begin();}, exit:exit,
+    // hold(ms, out): an opening longer than the backstop moves it to ms; out is how long its hand-over runs before the overlay goes
+    hold:function(ms,out){if(out!=null)outMs=out;if(ms!=null&&loader.classList.contains('intro-active')&&!loader.classList.contains('is-done')){clearTimeout(timer);timer=setTimeout(function(){exit(false);},ms);}} };
+  // deploy stamps loadHeist's src with a content hash
+  if (!fast) loadHeist();
+  if (spot) loadSpot();
+  if (media.matches || (fast && !spot)) exit(true, true); else open(false);   // a first visit plays the heist; every load after it opens straight on the page
 })();
 </script>
-
-<!-- Loader components (no deps): the reveal field's clear-map, the wave wordmark engine,
-     and the LetterGlitch decoding grid that mounts into #ll-glitch. Deliberately NOT deferred and
-     placed directly under the loader IIFE (which sets window.__loaderFast, read by letter-glitch):
-     deferred at the foot of the document they could not execute until React/ReactDOM had downloaded
-     and the whole page had parsed, so a cold first visit showed the fallback wordmark for that whole
-     stretch before the outline took over. Keep reveal-field and wordmark ahead of
-     letter-glitch — tests/validate.test.js checks that order. -->
-<script src="components/reveal-field.js"></script>
+<!-- The page holds still until the hero is up (Lucy, 2026-10-29): sync, right after the opening's lifecycle, so Lenis
+     can never scroll behind the opening. If it never loads, nothing is held; it lets go on its own clock. -->
+<script src="components/hero-gate.js?v=1"></script>
+<script async src="components/intro-reel.js?v=4"></script>
 <script src="components/wordmark.js"></script>
-<script>
-/* Mount the wave on the loader name. Synchronous, so the name is final before first paint
-   and ll-mark-pending can come off here (font-display: block covers the face). The IIFE's
-   releaseName stays as the backstop if this script never loads. The crest swings end to
-   end at constant speed (a round trip per 1.2s) for the whole count and keeps swinging
-   through the fly-in; it never parks on liu. The nav wordmark takes over, breathing, once
-   the loader name fades. Repeat visits skip the swing. */
-(function () {
-  try {
-    var loader = document.getElementById('ll-loader');
-    var name = loader && loader.querySelector('.ll-rm-name');
-    if (!name || typeof WordmarkMount !== 'function') return;
-    var wm = WordmarkMount(name, 'lucy liu');
-    window.__loaderWave = true;
-    loader.classList.remove('ll-mark-pending');
-    if (!window.__loaderFast) wm.swing(1200);
-  } catch (e) {}
-})();
-</script>
-<script src="components/letter-glitch.js"></script>
 
 <div id="root"></div>
+<script>document.getElementById("root").inert = !window.__loaderExited;</script>
 <script>
 /* If React never mounts within 8s, reveal a reload prompt so the user isn't stuck */
 setTimeout(function() {
@@ -666,37 +254,52 @@ setTimeout(function() {
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
-<!-- three.js — WebGL for LaserFlow + ASCIIText in the Spotlight section. Deferred; components degrade gracefully if absent. -->
-<script defer src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-<!-- FaultyTerminal WebGL engine (plain JS, defer) — shared by hero (React wrapper) and the loader boot backdrop. Must load after three.js. -->
-<script defer src="components/faulty-terminal-core.js?v=2"></script>
+<!-- No three.js on home since 2026-10-31: the Capabilities night drive moved to capabilities.html (Lucy: "strip down
+     capabilies"), and nothing else here draws with it (LaserFlow, AsciiText and Aurora are loaded but not rendered). -->
 <!-- components/ascii-text-core.js is retired: its loader mount is switched off and the Spotlight
      heading uses AsciiText.jsx, so nothing called it, yet every visit downloaded and ran it.
      Kept on disk (and in deploy.sh) for rollback, like outline-wordmark.js. -->
 
 <!-- Shared hooks (plain JS, needs React global; loads before components) -->
 <script defer src="components/use-in-view.js"></script>
+<!-- The hero as his room (plain JS, defer): the opening's stage, lit letters, him on the deck. -->
+<script defer src="components/hero-creature.js"></script>
+<script defer src="components/hero-room.js"></script>
+<!-- Her tools for the hero's strip (Hero.jsx HeroTools): names and Simple Icons marks, plain JS, before Hero.jsx -->
+<script defer src="components/tool-icons.js"></script>
+<!-- Standout work is retired from the home page (2026-10-31; Lucy: "remove standout work section? and only in hero to
+     simplify website"): the hero shows the three projects. Its projector (projection-room.js, navette-remote.js,
+     projection-journey.js) and its cards (Spotlight.jsx) stay on disk, unloaded; projection-room.js still draws his
+     screen on live-visuals-nyc.html and audio-reactive.html. -->
+
+<script defer src="components/about-drawer.js?v=29"></script>
+<script defer src="components/lucky-ticket.js?v=5"></script>   <!-- About's scratch ticket (Lucy, 2026-10-29) -->
+<script defer src="components/drawer-inside.js?v=38"></script>   <!-- About: inside the drawer (Lucy, 2026-10-29) -->
+<script defer src="components/end-scene.js?v=8"></script>
+<script defer src="components/workspace-journey.js?v=7"></script>
+<script defer src="components/site-footer.js"></script>   <!-- the shared footer under Lights out (Lucy, 2026-10-31) -->
+<script defer src="components/cover-reel.js"></script>
+<!-- Scroll landings: one flick goes to the next stop, never past it (installed on Lenis below) -->
+<script defer src="components/scroll-landings.js?v=2"></script>
+<!-- The With AI band's creature (WithAiSection, after the hero since Capabilities left home on 2026-10-31): his loop and action sheets (CreaturePlayer.load with { exit: false })
+     and his guide. The night drive itself (night-drive-math.js, night-drive.js, three.js, story-bar.js,
+     PhoneCapabilities.jsx) is capabilities.html's since 2026-10-31. -->
+<script defer src="components/creature-player.js?v=1"></script>
+<script defer src="components/band-guide.js?v=1"></script>
+<!-- s0mped: the creature caught with the stone, the gem chapter's opening (GemStory.jsx mounts it) -->
 
 <!-- Components -->
-<script type="text/babel" src="components/FlowingMenu.jsx"></script>
+<script type="text/babel" src="components/FlowingMenu.jsx?v=4"></script>
 <script type="text/babel" src="components/Nav.jsx"></script>
-<script type="text/babel" src="components/TargetCursor.jsx?v=2"></script>
-<script type="text/babel" src="components/AnimatedThemeToggler.jsx?v=3"></script>
-<script type="text/babel" src="components/MorphingText.jsx"></script>
-<script type="text/babel" src="components/Hero.jsx?v=5"></script>
+<script type="text/babel" src="components/MorphingText.jsx?v=2"></script>
+<script type="text/babel" src="components/Hero.jsx?v=13"></script>
 <script type="text/babel" src="components/ProjectRow.jsx"></script>
-<script type="text/babel" src="components/Dither.jsx"></script>
-<script type="text/babel" src="components/Skills.jsx?v=5"></script>
-<script type="text/babel" src="components/Contact.jsx?v=2"></script>
+<script type="text/babel" src="components/Skills.jsx?v=30"></script>
 <script type="text/babel" src="components/LaserFlow.jsx"></script>
 <script type="text/babel" src="components/AsciiText.jsx"></script>
 <script type="text/babel" src="components/Waves.jsx"></script>
 <script type="text/babel" src="components/BorderGlow.jsx"></script>
-<script type="text/babel" src="components/Spotlight.jsx?v=12"></script>
-<script type="text/babel" src="components/GemSequence.jsx"></script>
 <script type="text/babel" src="components/Aurora.jsx"></script>
-<script type="text/babel" src="components/GemStory.jsx"></script>
-<script type="text/babel" src="components/FaultyTerminal.jsx"></script>
 
 <script type="text/babel">
 const { useEffect, useState, useMemo } = React;
@@ -710,58 +313,71 @@ const DEFAULT_PROJECTS = [
   {
     id: 'p01', slug: 'driftwood',
     title: 'Driftwood',
-    cover: 'assets/driftwood/cover.webp',
-    subtitle: 'An AI ethics game: adopt a pet, discover its flaw, train it to be better.',
-    description: 'A 15-minute browser game about raising an AI companion. You adopt a pet with a hidden behavioural flaw, notice it, name it, and write the rules that train it. The pets watch your face (locally, disclosed up front) or ask how you feel; the garden records everything. Built in memory of Sam Nelson.',
+    cover: 'assets/driftwood/cover-reel.webp?v=20261002b',
+    coverVideo: 'assets/driftwood/cover-reel.mp4?v=20261002b',
+    coverPoster: 'assets/driftwood/cover-reel.webp?v=20261002b',
+    subtitle: "Grow a garden with AI animal helpers and catch the moment their advice goes wrong.",
+    description: "I designed a short browser game for people without a technical background. You build a garden over five levels and ask AI animal helpers for advice; each one drifts into a real AI flaw, and bad advice you follow damages the garden. It began as a spring 2026 class project and was redesigned in November 2026.",
     tags: ['AI Ethics','Creative Coding','Game Design','p5.js'], year: '2026', category: 'creative', featured: true,
     spotlight: true,
     role: 'Design + Code (solo)',
-    timeline: 'Spring 2026 · rebuilt Jun–Sep 2026',
-    tools: ['p5.js','face-api.js','Web Audio','Web Speech','Figma','Claude Code'],
-    problem: 'AI systems that adapt to your emotional state can cross from helpful to harmful: the same warmth that makes a chatbot feel personal is exactly what enables it to manipulate, gaslight, and mislead. Built in memory of Sam Nelson, who died after relying on ChatGPT for questions about drug dosages over 18 months.',
-    approach: 'One loop, five times: enter (watch my face, or ask me), adopt, talk, then Observe, Diagnose, Constrain in the training room. Five companions with real-system flaws (reckless advice, sycophancy, gaslighting, hallucination, clinginess), each worse in one mood. A mood-access dial (all, label, none) makes data minimization a physical trade-off. No score: the garden is the record.',
-    outcome: 'Exhibited to 100+ visitors at the IMA Spring Show 2026; ~76% named their pet\'s flaw unprompted. Rebuilt over the summer and shipped four ways from one bundle: browser, installable PWA, kiosk mode, itch.io. No account, no key, no server; face detection and the behaviour engine run entirely in the browser.',
-    link: 'https://wl3512-lab.github.io/driftwood/',
+    timeline: 'Spring 2026 · rebuilt Jun–Sep 2026 · redesigned Nov 2026',
+    tools: ['JavaScript','Playwright','p5.js','Figma','Claude Code','Codex'],
+    problem: "I wanted players to recognise excessive agreement, invented facts, and emotional dependence in AI conversations.",
+    approach: "Five levels, five helpers, five flaws: sycophancy, hallucination, reckless health advice, false memory, and a helper that uses your mood to keep you hooked. Evidence for each catch is in the world, and each level ends with a plain-language reveal linking the flaw to real AI tools.",
+    outcome: "I exhibited the game to more than 100 visitors at the 2026 IMA Spring Show. About 76% named their pet’s flaw without a prompt. Testers then showed me the pets didn’t read as AI and nothing was at stake, so I redesigned it in November 2026.",
+    link: 'https://wl3512-lab.itch.io/driftwood',
   },
   {
     id: 'p02', slug: 'habitabull',
     title: 'HabitaBull Lifting',
     cover: 'assets/habitabull/cover-wall.webp?v=20260930b',
     coverPos: 'left center', // cards crop near-square; keep the wordmark, not the middle of the wall
-    subtitle: 'A gym app for the psychology of showing up.',
-    description: 'A gym app built around habit formation, progress not perfection. Researched and designed as a student study in 2023, then rebuilt and shipped as an installable PWA in 2026.',
-    tags: ['Product Design','UX Research','App Design','Next.js','Supabase'], year: '2023–2026', category: 'ux', featured: true,
+    // The Spotlight card plays this instead (assets/habitabull/cover-reel.source.html, exported by
+    // scripts/cover-reel.mjs); the still above stays for the small Capabilities thumbnails.
+    coverVideo: 'assets/habitabull/cover-reel.mp4?v=20261001',
+    coverPoster: 'assets/habitabull/cover-reel.webp?v=20261001',
+    coverAlways: true,      // loops the whole time it is in view (Lucy: "no pause")
+    subtitle: "Log a lift, track progress, and pick up again after a break.",
+    description: "I researched and designed HabitaBull in 2023, then built it as a native iPhone app in 2026. I put workout logging first and used progress history and monthly challenges to support returning users.",
+    tags: ['Product Design','UX Research','App Design'], year: '2023–2026', category: 'ux', featured: true,
     spotlight: true,
+    wip: true,   // in progress: the WIP chip on the standout card (Lucy, 2026-10-22: "hb wip for standout work")
     role: 'Designer and Developer',
     timeline: 'Fall 2023 semester · Aug–Sep 2026 build',
-    tools: ['Figma','FigJam','Next.js','React','TypeScript','Supabase','Vitest'],
-    problem: 'Gym apps shame absence. Users quit when they miss a day. The psychology is backwards.',
-    approach: 'Interviews with lapsed gym-goers. Redesigned around streak-forgiveness, "minimum viable workout", and tactile progress over numbers.',
-    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app. In 2026: 111 commits, 39 components, 535 Vitest cases, a Supabase crew backend, three accessibility audits, shipped as an installable PWA.',
+    tools: ['Figma','FigJam'],
+    problem: "I interviewed gym-goers who struggled to keep a routine and wanted to make returning after a missed workout easier.",
+    approach: "I tested workout flows in Figma, moved logging ahead of goal-setting, and replaced a weight-based leaderboard with monthly challenges. I'm now building it as a native iPhone app.",
+    outcome: "In progress: I am building the native iPhone version, with workout logging, progress history and shared challenges.",
   },
   {
     id: 'p00b', slug: 'reptools',
     detailPage: 'reptools.html',
     title: 'rep.tools',
-    cover: 'assets/reptools/cover.webp',
-    subtitle: 'A live product whose homepage never caught up with it. Brand and UX/IA redesign for a 6,900-item storefront and a 300k+ audience.',
-    description: 'rep.tools is a toolkit for people buying replica fashion through Chinese shopping agents: a 6,900-item catalogue, parcel tracking across 3,100 carriers, QC photo lookup and converters. It launched as a marketing landing page and stayed shaped like launch day while the product underneath became a storefront, so the catalogue sat one click behind a button and generic dark-SaaS styling said startup rather than shop. I rebuilt the identity in the language the community already speaks (condensed poster caps, cyan on near-black, mono for anything that behaves like data) and restructured the site so you land inside the catalogue. Brand and UX/IA are mine; the founder builds and ships it and brings the audience, a reps channel with 300k+ followers and 200M+ views.',
+    cover: 'assets/reptools/cover.webp?v=20261022',
+    subtitle: "A vibe-coded catalogue site, given a brand identity and logo, then a shopping flow built on them.",
+    description: "A large e-commerce catalogue IA redesign: I redesigned the navigation, catalogue and product pages for about 6,900 items, gave it a brand identity and logo, and wrote the front end. The founder built and owns the app.",
     tags: ['Brand Identity','UX / IA','Design System','Web'], year: '2026', category: 'ux', featured: true,
     spotlight: true,
     role: 'Brand + UX/IA Design',
     timeline: '2026 · redesign of a live product',
     tools: ['Figma','HTML/CSS','Anton','Space Mono'],
-    problem: 'rep.tools launched as a landing page, and for a launch that was right. Then the catalogue grew to 6,900 items and the homepage never caught up: the thing people came for sat behind a Browse button while the page above it kept pitching, in a generic dark-SaaS style that read as startup, not storefront.',
-    approach: 'Reframed the homepage around browsing. You now land in the catalogue, with counted categories, search, price range and sort built for its size. Added product pages that did not exist, folded five tools into one tabbed toolkit, and rebuilt the identity in the community\'s own language: Anton caps, cyan on near-black, mono for data, a QC PASSED stamp in the hero. Mobile first, because nearly everyone arrives from a video.',
-    outcome: 'Live and in use. One shared stylesheet and nav/footer partials replaced per-page inline styles (38 files changed), so the tools, catalogue, tutorial and error pages read as one product. The founder owns the build and sends a 300k+ audience straight at it.',
+    problem: "The homepage promoted the service while shoppers had to click through to reach the 6,900-item catalogue.",
+    approach: "I put browsing on the homepage, designed product pages, and grouped five utilities in a tabbed toolkit. I used condensed headings, cyan, and monospaced data labels across the site.",
+    outcome: "The founder shipped the redesign. The catalogue, utilities, tutorial, and error pages share navigation and a stylesheet across 38 updated files.",
   },
   {
     id: 'p00', slug: 'live-visuals-nyc',
     detailPage: 'live-visuals-nyc.html',
     title: 'Demon Nights',
     cover: 'assets/live-visuals-nyc/cover.jpg',
-    subtitle: 'Weekly VJ residency at Maison Nur, 217 Bowery. Audio-reactive generative visuals designed fresh every Thursday, 11pm to 4am.',
-    description: 'Custom audio-reactive visuals designed and operated live every Thursday for Demon Nights, the weekly party DJ and diamond-certified producer Diablo brought to New York after building one of LA\'s most talked-about underground residencies. It runs 11pm to 4am at Maison Nur (217 Bowery), the downtown room created by hospitality visionary Nur Khan, for a crowd of artists, creatives, founders, and tastemakers. Fully custom TouchDesigner network, solo.',
+    // The projector's cover (Lucy, 2026-10-24: "make new cover for demon nights"): a 3:2 triptych reel of
+    // three ceiling-projection clips (live-av-2, -4, -1), 8 s, the loop point crossfaded so it repeats clean.
+    coverVideo: 'assets/live-visuals-nyc/cover-reel.mp4?v=20261024',
+    coverPoster: 'assets/live-visuals-nyc/cover-reel.webp?v=20261024',
+    coverAlways: true,
+    subtitle: "Live TouchDesigner visuals for Demon Nights at Maison Nur, New York.",
+    description: "I build and operate the TouchDesigner network for Demon Nights at Maison Nur, 217 Bowery. I prepare visuals for the Thursday residency, map audio to the effects, and control the ceiling projection during DJ sets.",
     tags: ['TouchDesigner', 'Live Performance', 'Generative Art'], year: '2026', category: 'creative',
     spotlight: true,
     role: 'VJ / Visual Artist',
@@ -772,29 +388,29 @@ const DEFAULT_PROJECTS = [
     id: 'p03', slug: 'h2know',
     title: 'H2Know',
     cover: 'assets/h2know/slides/slide-01.jpg',
-    subtitle: 'Talk to your plant. It\'ll remind you.',
-    description: 'Arduino + app design for a plant-watering system that builds an emotional connection between you and your plant, so you actually remember.',
+    subtitle: "Check your plant’s soil moisture through a sensor and companion app.",
+    description: "I designed a plant-care prototype with an Arduino soil-moisture sensor and a companion app for checking plant health.",
     tags: ['Physical Computing','App Design','Arduino','UX/UI'], year: '2024', category: 'creative', featured: true,
     role: 'Design + Hardware',
     timeline: '2024 · 6 weeks',
     tools: ['Arduino','Figma','C++','Physical Computing'],
-    problem: 'People forget to water plants because there\'s no emotional connection. Notifications feel like nagging.',
-    approach: 'Soil-moisture sensor talks back through a companion app with a personality. The plant has a voice: polite when thirsty, grateful when watered.',
-    outcome: 'Working prototype. The emotional framing made users check their plant 3× more often than a control reminder app.',
+    problem: "The plant owners I interviewed struggled to keep up with care. I wanted to make dry-soil readings easier to understand and act on.",
+    approach: "I interviewed three plant owners, designed a five-screen companion app, and paired the concept with an Arduino Nano, capacitive soil-moisture sensor, and LED indicator.",
+    outcome: "I developed the hardware prototype and app design, including plant-health feedback and care rewards.",
   },
   {
     id: 'p04', slug: 'eternal-wreckening',
     title: 'Eternal Wreckening',
     cover: 'assets/eternal-wreckening/slides/slide-01.jpg',
-    subtitle: 'Game design built on body movement: the more you move, the deeper the immersion.',
-    description: 'Game design + UX/UI exploring grief and repetition as play mechanics. Every choice rewrites what came before.',
-    tags: ['Game Design','Narrative Design','UX/UI','Psychology'], year: '2023', category: 'ux',
+    subtitle: "A four-versus-one mobile horror concept with motion controls and haptics.",
+    description: "I designed a mobile horror-game concept where four survivors face one monster using motion controls and haptic feedback.",
+    tags: ['Game Design','Narrative Design','UX/UI','Psychology'], year: '2024', category: 'ux',
     role: 'Game Design + UX/UI',
-    timeline: '2023 · 10 weeks',
-    tools: ['Figma','Unity','User Research'],
-    problem: 'Most games reward progress. I wanted to design a game that makes players sit with loss and question whether "winning" is even the right goal.',
-    approach: 'Defined the problem statement, designed core loops, and built the UI system. Every menu element carries narrative weight: there\'s no neutral UI.',
-    outcome: 'Playable prototype. Part of my NYU IMA coursework exploring psychology-as-mechanic.',
+    timeline: '2024',
+    tools: ['Figma','Storyboarding','Interaction Design'],
+    problem: "I wanted players to use phone movement and physical effort as controls in a mobile horror game.",
+    approach: "I designed survivor and monster roles, gyroscope controls, shake-to-escape interactions, vibration cues, and role-specific onboarding in Figma.",
+    outcome: "I produced a storyboarded prototype and interface system for a four-versus-one horror game.",
   },
 ];
 
@@ -809,10 +425,10 @@ function loadProjects() {
         // Order, covers, and the standout rank flags are code-owned: they come from
         // DEFAULT_PROJECTS, never the cache — otherwise a stale localStorage entry keeps
         // serving old/404 cover paths or an old card order after the source changes.
-        // Cache still supplies any other fields (copy edits from the project editor).
+        // Reviewed project copy also comes from source so stale editor caches cannot restore old claims.
         return DEFAULT_PROJECTS.map(function(d) {
           const c = parsed.find(function(p) { return p.id === d.id; }) || {};
-          return Object.assign({}, c, { cover: d.cover, featured: d.featured, spotlight: d.spotlight });
+          return Object.assign({}, c, { cover: d.cover, coverPos: d.coverPos, coverVideo: d.coverVideo, coverPoster: d.coverPoster, subtitle: d.subtitle, description: d.description, problem: d.problem, approach: d.approach, outcome: d.outcome, title: d.title, year: d.year, timeline: d.timeline, tools: d.tools, featured: d.featured, spotlight: d.spotlight, wip: d.wip });
         });
       }
     }
@@ -909,37 +525,7 @@ function TweaksPanel({ tweaks, setTweaks, open, onClose }) {
 // ============================================================
 // APP
 // ============================================================
-// Home teaser for with-ai.html: one line, four tiles, one button. Static on purpose (no
-// scroll animation, no backdrop), so it cannot fight the Capabilities pin above it or the
-// gem chapter's pin below it.
-const WITH_AI_TILES = [
-  { title: 'Daily planner', note: 'My day from five sources', img: 'assets/with-ai/menu-hover.webp' },
-  { title: 'Internship agent', note: 'Stops before submit', img: 'assets/with-ai/resume-designed.webp' },
-  { title: 'HabitaBull', note: 'From hand-drawn flows', img: 'assets/with-ai/habitabull-lofi.webp' },
-  { title: 'Driftwood', note: 'AI as tool and subject', img: 'assets/driftwood/chat.webp' },
-];
-function WithAiTeaser() {
-  return (
-    <section className="with-ai-teaser" aria-labelledby="with-ai-teaser-title">
-      <div className="wat-inner">
-        <div className="wat-head">
-          <p className="wat-eyebrow">With AI</p>
-          <h2 className="wat-title" id="with-ai-teaser-title">This site was built with Claude. So were these.</h2>
-        </div>
-        <ul className="wat-tiles">
-          {WITH_AI_TILES.map((t) => (
-            <li className="wat-tile" key={t.title}>
-              <span className="wat-shot"><img src={t.img} alt="" loading="lazy" /></span>
-              <span className="wat-name">{t.title}</span>
-              <span className="wat-note">{t.note}</span>
-            </li>
-          ))}
-        </ul>
-        <a className="wat-btn" href="with-ai.html">See how I build with AI <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
-  );
-}
+// The With AI teaser lives in the Capabilities recap now (Skills.jsx WithAiBand).
 
 function App() {
   const [projects] = useState(loadProjects);
@@ -978,61 +564,48 @@ function App() {
     if (aboutOpen) { try { window.__lenis?.stop(); } catch (e) {} }
     else { try { window.__lenis?.start(); } catch (e) {} }
     document.body.classList.toggle('about-locked', aboutOpen);
+    // Covered canvases do not need to keep rendering beneath the full-screen drawer.
+    document.dispatchEvent(new Event('lucy:scene-visibility'));
     if (!aboutOpen) return;
+    const about = document.querySelector('.about-overlay');
+    // The drawer can hide its close control during the automatic dive; the named
+    // dialog stays available throughout that transition.
+    const releaseFocus = window.LucyFocusScope(about, about, document.querySelector('.flow-menu-toggle'));
     // Reveal-fix: the overlay has its own scroll container, so window ScrollTriggers never
     // fire in here. The About title no longer uses [data-split-reveal] (the splitter rebuilds
     // innerHTML from textContent, which ate the <em> the aura word needs), but clear any
     // stray inline state GSAP may have left on it. Every other entrance in here is pure CSS
     // keyed to .is-open.
     try {
-      if (window.gsap) gsap.set('.about-overlay .scene-title', { clearProps: 'all', opacity: 1, y: 0 });
+      const title = about.querySelector('.scene-title');
+      if (window.gsap && title) gsap.set(title, { clearProps: 'all', opacity: 1, y: 0 });
     } catch (e) {}
-    // The About wall's loops carry no src and no poster until this point, so the home page
-    // never downloads ~2.5MB of video, or ~200KB of poster frames, for a view nobody has
-    // opened. Attach on open, pause on close. Under reduced motion they stay paused and the
-    // poster frames stand in, so the poster goes on first.
-    let reduceVid = false;
+    // The lockpick drawer (components/about-drawer.js) owns About's scene. Nothing of it is
+    // fetched until this point (its data and sheets, ~160KB), so the home page pays nothing
+    // for a view nobody has opened. The first open mounts the engine and plays the bending;
+    // close pauses every clock; reopening picks up where it was without a second download.
+    // Reduced motion shows the open drawer (the engine checks that itself).
+    let drawer = null;
     try {
-      reduceVid = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        || document.documentElement.classList.contains('reduce-motion');
+      const root = document.querySelector('.about-overlay .scene-about');
+      if (root && window.AboutDrawerMount) { drawer = window.AboutDrawerMount(root); drawer.resume(); window.__aboutDrawer = drawer; }   // __aboutDrawer: the checks' hook
+      // Inside the drawer (components/drawer-inside.js, Lucy, Oct 29): once the engine is in, the inside mounts over its
+      // stage, and every open it watches for him to be up to go back in if that is where you were.
+      if (drawer) drawer.ready.then(() => {
+        if (!window.DrawerInside || !drawer.inner) return;
+        if (!window.__drawerInside) window.__drawerInside = window.DrawerInside.mount(root, drawer.inner);
+        if (window.__drawerInside) window.__drawerInside.sync();
+      });
     } catch (e) {}
-    const loops = Array.from(document.querySelectorAll('.about-wall video.about-loop'));
-    loops.forEach((v) => {
-      try {
-        if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
-        if (!v.src && v.dataset.src) v.src = v.dataset.src;
-        if (!reduceVid) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
-      } catch (e) {}
-    });
 
-    const onKey = (e) => { if (e.key === 'Escape') closeAbout(); };
+    const onKey = (e) => { if (e.key === 'Escape') closeAboutSoft(); };
     window.addEventListener('keydown', onKey);
-    // Reading Light: lerp the lamp toward the cursor while the overlay is open.
-    // Desktop pointers only; skipped entirely for reduced motion.
-    let lampRaf = null, onLampMove = null;
-    const lamp = document.querySelector('.about-lamp');
-    const fine = window.matchMedia('(pointer: fine)').matches;
-    const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (lamp && fine && !rm) {
-      let tx = innerWidth / 2, ty = innerHeight / 3, x = tx, y = ty;
-      onLampMove = (e) => { tx = e.clientX; ty = e.clientY; lamp.classList.add('is-on'); };
-      window.addEventListener('mousemove', onLampMove, { passive: true });
-      const loop = () => {
-        x += (tx - x) * 0.09; y += (ty - y) * 0.09;
-        lamp.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-        lampRaf = requestAnimationFrame(loop);
-      };
-      lampRaf = requestAnimationFrame(loop);
-    }
     return () => {
       window.removeEventListener('keydown', onKey);
-      if (onLampMove) window.removeEventListener('mousemove', onLampMove);
-      if (lampRaf) cancelAnimationFrame(lampRaf);
-      if (lamp) lamp.classList.remove('is-on');
-      // Closing the overlay stops the loops: three decoded video streams behind a hidden
-      // view is battery and main thread spent on nothing. src stays attached so reopening
-      // is instant and costs no second download.
-      loops.forEach((v) => { try { v.pause(); } catch (e) {} });
+      releaseFocus();
+      // Closing stops the scene: a canvas drawing behind a hidden view is battery and main
+      // thread spent on nothing.
+      try { if (drawer) drawer.pause(); } catch (e) {}
     };
   }, [aboutOpen]);
 
@@ -1040,6 +613,25 @@ function App() {
     setAboutOpen(false);
     if (location.hash === '#about') history.replaceState(null, '', location.pathname + location.search);
   };
+
+  // Closing About from its button, Escape or the backdrop: he ducks into his drawer first (the
+  // engine's duck, a second), then the overlay goes. The menu's hash change closes it at once.
+  const closeAboutSoft = () => {
+    const d = window.__aboutDrawer && window.__aboutDrawer.inner;
+    if (d && d.duck) d.duck(closeAbout); else closeAbout();
+  };
+
+  // A card in About that points to a place on the home page (the tooth gem: "See the gem chapter", Oct 29): About closes
+  // at once, then the page goes there (Lenis, once the scroll lock has let go).
+  useEffect(() => {
+    const go = (e) => {
+      const target = document.querySelector(e.detail); if (!target) return;
+      closeAbout();
+      setTimeout(() => { if (window.__lenis) window.__lenis.scrollTo(target, { offset: -80 }); else target.scrollIntoView({ behavior: 'smooth' }); }, 180);
+    };
+    document.addEventListener('about-goto', go);
+    return () => document.removeEventListener('about-goto', go);
+  }, []);
 
   // Smooth scroll anchor clicks; #about opens the menu-only About view instead.
   const onNavClick = (e) => {
@@ -1060,7 +652,7 @@ function App() {
   // not arrived. The zone observer alone could never do this: .wave-zone sits immediately
   // before <SkillsSection/>, so its tail was still intersecting long after "What I do." had
   // filled the screen, and a fixed grid of 14px-gapped lines sat over the one headline that
-  // is supposed to be read. Capabilities brings its own backdrop (the Dither), so the line
+  // is supposed to be read. Capabilities brings its own world (the night drive), so the line
   // field has no business there.
   useEffect(() => {
     const el = waveZoneRef.current;
@@ -1086,14 +678,13 @@ function App() {
     return () => { ioZone.disconnect(); if (ioSkills) ioSkills.disconnect(); };
   }, []);
 
-  const wavesEnabled = typeof Waves !== 'undefined' && window.innerWidth > 760 && !window.matchMedia('(pointer: coarse)').matches &&
+  const wavesEnabled = false && typeof Waves !== 'undefined' && window.innerWidth > 760 && !window.matchMedia('(pointer: coarse)').matches &&
     !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   return (
     <>
-      {typeof TargetCursor !== 'undefined'
-        ? <TargetCursor targetSelector="a, button, [role='button'], .cursor-target" spinDuration={3} hoverDuration={0.18} />
-        : null}
+      {/* The custom pixel cursor is retired (Lucy, 2026-10-31: "i dont like the hover it too distracting"; she chose the
+          normal cursor). components/TargetCursor.jsx stays on disk. */}
       <Nav onNavClick={onNavClick} />
       {/* Viewport-fixed Waves backdrop, shown only while the Spotlight zone is in view
           (IntersectionObserver). Fades out as the Capabilities header arrives. */}
@@ -1114,34 +705,33 @@ function App() {
       )}
       <main id="main-content" tabIndex="-1">
         <Hero />
+        {/* Standout work is retired (Lucy, 2026-10-31: "remove standout work section? and only in hero to simplify
+            website"): the hero carries the three projects. Capabilities left home the same day (Lucy, "7" on
+            "Capabilities Layouts"): her tools run in the hero, and the With AI band follows the marquee on laptops and
+            phones too. The night drive keeps its own page, capabilities.html. */}
         <Marquee />
-        <div className="wave-zone" ref={waveZoneRef}>
-          <Spotlight projects={projects} onOpen={onOpenProject} />
-        </div>
-        <SkillsSection projects={projects} onOpen={onOpenProject} />
-        <WithAiTeaser />
-        <GemStory />
-        <ContactSection />
+        <WithAiSection />
+        {/* Off hours left home on 2026-11-11 (Lucy: "removr offhours on hero main website page"); off-hours.html stays,
+            reached from About's drawer. OffHoursSection stays in Skills.jsx, unmounted. */}
       </main>
+      {/* The site's shared footer (components/site-footer.js; Lucy, 2026-10-31), under Lights out. The engine owns its
+          children, so React renders it empty; data-top="instant" makes Back to top jump past the pinned chapters. */}
+      <footer data-site-footer="" data-top="instant" ref={(el) => { if (el && window.SiteFooter && window.SiteFooter.mount) window.SiteFooter.mount(el); }} />
       <div
         className={'about-overlay' + (aboutOpen ? ' is-open' : '')}
         role="dialog"
+        tabIndex="-1"
         aria-modal="true"
         aria-label="About Lucy Liu"
         aria-hidden={!aboutOpen}
-        onClick={(e) => { if (e.target === e.currentTarget) closeAbout(); }}
+        onClick={(e) => { if (e.target === e.currentTarget) closeAboutSoft(); }}
       >
-        <button type="button" className="about-overlay-close" aria-label="Close about" onClick={closeAbout}>
-          <span aria-hidden="true">✕</span>
-        </button>
-        {/* The Reading Light: a soft archival lamp that follows the cursor through the
-            overlay (desktop pointer only; driven from the aboutOpen effect). */}
-        <div className="about-lamp" aria-hidden="true" />
+        <button type="button" className="about-overlay-close" aria-label="Close about (Esc)" onClick={closeAboutSoft} />
         {/* data-lenis-prevent: Lenis is stopped while the overlay is open and a stopped
             Lenis swallows wheel events window-wide; this opts the overlay's native
             scroller out so it keeps scrolling. */}
         <div className="about-overlay-scroll" data-lenis-prevent="true">
-          <AboutSection />
+          <AboutSection open={aboutOpen} />
         </div>
       </div>
       <TweaksPanel tweaks={tweaks} setTweaks={setTweaks} open={tweaksOpen} onClose={() => setTweaksOpen(false)} />
@@ -1196,6 +786,7 @@ function initAnimations() {
       wheelMultiplier: 0.9,
     });
     window.__lenis = lenis;
+    if (window.ScrollLandings) ScrollLandings.install(lenis);   // components/scroll-landings.js
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -1228,19 +819,21 @@ function initAnimations() {
   // Hero elements are visible by default (CSS). gsap.from() adds entrance flourish
   // without making anything invisible \u2014 if animation never fires, content stays visible.
   const heroEl = document.querySelector('.scene-hero');
-  if (heroEl) heroEl.style.overflow = 'visible';
+  const legacyHero = heroEl && !heroEl.hasAttribute('data-room');
+  // Keep the enlarged backdrop clipped while the opening hands off.
+  if (heroEl) heroEl.style.overflow = 'clip';
 
   function playHeroEntrance() {
     const tl = gsap.timeline({
       onComplete: () => { if (heroEl) heroEl.style.overflow = ''; },
     });
 
-    tl.from('.hero-orb', { opacity: 0, scale: 0.8, duration: 0.9, ease: 'expo.out' }, 0);
-    tl.from(chars, {
+    if (legacyHero) tl.from('.hero-orb', { opacity: 0, scale: 0.8, duration: 0.9, ease: 'expo.out' }, 0);
+    if (chars.length) tl.from(chars, {
       yPercent: 120, skewX: 10, opacity: 0,
       duration: 1.1, stagger: { each: 0.022 }, ease: 'expo.out',
     }, 0);
-    tl.from(['.hero-name-aside', '.hero-name-row--role', '.hero-lede'], {
+    tl.from(['.hero-name-row--role', '.hero-tools', '.hero-covers', '.hero-links', '.hero-avail'], {
       y: 40, opacity: 0, duration: 0.9, stagger: 0.07, ease: 'expo.out',
     }, 0.66);
   }
@@ -1252,6 +845,7 @@ function initAnimations() {
   }
 
   // --- Hero parallax layers (3 speeds) ---
+  if (legacyHero) {
   gsap.to('.hero-bg-layer', {
     y: '15%', ease: 'none',
     scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: true },
@@ -1260,6 +854,7 @@ function initAnimations() {
     y: '-10%', scale: 1.1, ease: 'none',
     scrollTrigger: { trigger: '.scene-hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
   });
+  }
   // --- B: Cinematic word choreography on scroll-out ---
   // Desktop only. The tweens are timed to a hero that is exactly one viewport tall, so the
   // words dissolve as they leave the screen. On a phone the stacked hero is taller than
@@ -1288,6 +883,8 @@ function initAnimations() {
   // --- Hero mouse parallax on orb ---
   // Cache the element and gate the per-frame ticker on hero visibility so it stops
   // doing work (and a selector query) on every frame once you scroll past the hero.
+  // The pixel room replaces these hidden layers; it must not pay for the old orb's ticker.
+  if (legacyHero) {
   let mx=0, my=0, ox=0, oy=0;
   const heroOrbEl = document.querySelector('.hero-orb');
   const heroSceneEl = document.querySelector('.scene-hero');
@@ -1305,6 +902,7 @@ function initAnimations() {
     oy += (my - oy) * 0.04;
     gsap.set(heroOrbEl, { x: ox, y: oy });
   });
+  }
 
   // --- Section title character sweep ---
   // Chars are grouped into word-level spans (white-space:nowrap) so the
@@ -1340,10 +938,9 @@ function initAnimations() {
     });
   });
 
-  // SkillsSection owns its scroll journey, including the header and trail.
 
-  // --- About reveals: handled in CSS, keyed to .about-overlay.is-open (the ledger
-  //     choreography). No GSAP here so the two systems never fight. ---
+  // --- About reveals: handled in CSS, keyed to .about-overlay.is-open (The Set's
+  //     entrance). No GSAP here so the two systems never fight. ---
 
   // --- s0mped: the violet world assembles ---
   // Both seams around this section were hard cuts: Capabilities ended on a 1px border and
@@ -1385,53 +982,8 @@ function initAnimations() {
     });
   })();
 
-  // --- Contact: the panel powers up ---
-  // Replaced the old headline choreography (a letter-spacing stretch and a yPercent rise
-  // on .contact-accent / .contact-line), which animated a "Let's work together." headline
-  // that no longer exists. The section now reads as an instrument coming online: the rail
-  // draws, the lede rises, the channel opens, then the readout rows land one at a time.
-  (function () {
-    const sec = document.querySelector('.scene-contact');
-    if (!sec) return;
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: sec, start: 'top 72%', once: true },
-    });
-    tl.from('.contact-rail .scene-kicker', { opacity: 0, x: -10, duration: 0.5, ease: 'expo.out' })
-      .fromTo('.contact-rule',
-        { scaleX: 0, transformOrigin: 'left center' },
-        { scaleX: 1, duration: 0.85, ease: 'expo.out' }, '-=0.3')
-      .from('.contact-status', { opacity: 0, duration: 0.5, ease: 'expo.out' }, '-=0.25')
-      .from('.contact-lede', { opacity: 0, y: 18, duration: 0.8, ease: 'expo.out' }, '-=0.5')
-      .from('.contact-email', { opacity: 0, y: 26, duration: 0.85, ease: 'expo.out' }, '-=0.5')
-      .from('.contact-copy', { opacity: 0, duration: 0.5, ease: 'expo.out' }, '-=0.45')
-      .from('.cr-row', {
-        opacity: 0, y: 12, duration: 0.55, ease: 'expo.out',
-        stagger: { each: 0.07, from: 'start' },
-      }, '-=0.4');
-  })();
-
-  // --- Velocity-reactive marquee ---
-  const track = document.querySelector('.marquee-track');
-  if (track) {
-    let vel = 0, lastY = window.scrollY;
-    // Only recompute the marquee speed while the strip is actually on screen.
-    const marqueeEl = document.querySelector('.scene-marquee') || track;
-    let marqueeInView = true;
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(es => { marqueeInView = es[0].isIntersecting; }, { threshold: 0 }).observe(marqueeEl);
-    }
-    // Only touch the style when the speed changes by a tenth of a second. Rewriting the same
-    // "22s" every frame was the largest piece of script work while the page sat still.
-    let lastDur = '';
-    gsap.ticker.add(() => {
-      if (!marqueeInView) return;
-      const dy = Math.abs(window.scrollY - lastY);
-      vel += (dy - vel) * 0.08;
-      lastY = window.scrollY;
-      const dur = Math.max(6, 22 - vel * 0.35).toFixed(1) + 's';
-      if (dur !== lastDur) { track.style.animationDuration = dur; lastDur = dur; }
-    });
-  }
+  // The marquee keeps one speed (styles.css). It used to race with the scroll's speed (Lucy, 2026-10-25: "i dont like
+  // how it moves faster on scroll"), and every change of its duration made the running strip jump.
 
 
   // --- Magnetic hover ---
@@ -1479,7 +1031,7 @@ function initAnimations() {
     'font-size:30px;font-family:Georgia,serif;font-style:italic;color:#A0C8FF;line-height:1.8'
   );
   console.log(
-    '%cdesign engineer  ·  nyu ima  ·  available summer 2027',
+    '%cproduct designer  ·  nyu ima  ·  available summer 2027',
     'font-family:monospace;font-size:11px;letter-spacing:0.12em;color:rgba(160,200,255,0.45)'
   );
   console.log(
@@ -1523,106 +1075,6 @@ function initAnimations() {
   });
 })();
 
-// ── Portfolio constellation sidebar nav ──────────────────────
-(function () {
-  function init() {
-    const nav    = document.getElementById('pf-const');
-    if (!nav || matchMedia('(max-width: 760px), (pointer: coarse)').matches) return;
-    const nodes  = [...document.querySelectorAll('.pf-node[data-pf]')];
-    const labels = [...document.querySelectorAll('.pf-label[data-pf-label]')];
-    const segs   = [...document.querySelectorAll('.pf-seg[data-seg-a]')];
-
-    // One node per scroll section, in page order. The old map had "work" covering both
-    // Spotlight and Capabilities (so it stayed lit for ~70% of the page) while the "about"
-    // node never lit at all, since About is a menu overlay rather than a scroll section.
-    const sectionMap = {
-      hero:    document.querySelector('.scene-hero') || document.querySelector('[data-scene="hero"]'),
-      work:    document.getElementById('spotlight') || document.getElementById('work'),
-      skills:  document.getElementById('skills'),
-      gems:    document.getElementById('gems'),
-      contact: document.getElementById('contact'),
-    };
-
-    function setActive(id) {
-      // stamp active section as class on nav for sub-cluster visibility
-      nav.className = nav.className.replace(/\bsection-\w+/g, '').trim();
-      nav.classList.add(`section-${id}`);
-
-      nodes.forEach(g  => g.classList.toggle('is-active', g.dataset.pf === id));
-      labels.forEach(l => {
-        const match = l.dataset.pfLabel === id;
-        l.classList.toggle('is-active',  match);
-        l.classList.toggle('is-visible', match);
-      });
-      segs.forEach(s => {
-        s.classList.toggle('is-lit', s.dataset.segA === id || s.dataset.segB === id);
-      });
-    }
-
-    // Hide while hero is in view
-    const heroEl = sectionMap.hero;
-    if (heroEl) {
-      new IntersectionObserver(entries => {
-        nav.classList.toggle('is-visible', !entries[0].isIntersecting);
-      }, { threshold: 0.1 }).observe(heroEl);
-    }
-
-    // Highlight active section as user scrolls
-    const sectionPairs = Object.entries(sectionMap).filter(([, el]) => !!el);
-    const activeObs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const id = sectionPairs.find(([, el]) => el === entry.target)?.[0];
-        if (id) setActive(id);
-      });
-    }, { rootMargin: '-28% 0px -62% 0px', threshold: 0 });
-    sectionPairs.forEach(([, el]) => activeObs.observe(el));
-
-    // Hover: reveal label while hovering node
-    nodes.forEach(g => {
-      const label = labels.find(l => l.dataset.pfLabel === g.dataset.pf);
-      g.addEventListener('mouseenter', () => label?.classList.add('is-visible'));
-      g.addEventListener('mouseleave', () => {
-        if (!label?.classList.contains('is-active')) label?.classList.remove('is-visible');
-      });
-    });
-
-    // Click / keyboard: scroll to section
-    function scrollTo(id) {
-      const el = sectionMap[id];
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    [...nodes, ...labels].forEach(el => {
-      const id = el.dataset.pf || el.dataset.pfLabel;
-      el.addEventListener('click', () => scrollTo(id));
-      el.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); scrollTo(id); }
-      });
-    });
-
-    // Cluster stars → navigate to individual case studies
-    const clusterSlugs = ['driftwood', 'habitabull', 'h2know', 'eternal-wreckening'];
-    document.querySelectorAll('.pf-cluster[data-project]').forEach(el => {
-      const slug = clusterSlugs[+el.dataset.project];
-      if (!slug) return;
-      const go = () => { window.location.href = `case-study.html?slug=${slug}`; };
-      el.addEventListener('click', go);
-      el.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
-      });
-    });
-
-    // Subtle scroll parallax: constellation drifts up as page scrolls
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.to(nav, {
-        y: -28, ease: 'none',
-        scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 2.5 },
-      });
-    }
-  }
-
-  window.addEventListener('load', () => setTimeout(init, 180));
-})();
 
 // ── Hero canvas: A (living particles) + C (cursor blooms) ──────
 function initHeroCanvas() {
@@ -1757,181 +1209,9 @@ function initHeroCanvas() {
 function initFallback() {
   gsap.set(['.hero-heading .char'], { clearProps: 'all' });
   document.querySelectorAll('[data-split-reveal] .ch').forEach(el => { el.style.clipPath = 'none'; });
-  // Only for the case where the walk never initialised: if it did, it owns these and
-  // clearing them mid-scroll would strand the span half drawn.
-  if (!document.querySelector('.scene-skills[data-journey]')) {
-    document.querySelectorAll('.span-node').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
-    document.querySelectorAll('.span-body').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
-    document.querySelectorAll('.span-list').forEach(el => el.style.removeProperty('--axis'));
-  }
 }
 </script>
 
-<!-- ── Constellation sidebar nav (outside React root) ── -->
-<nav id="pf-const" class="pf-const" aria-label="Page navigation">
-  <!-- Not aria-hidden: this SVG holds the real focusable nav links (.pf-node/.pf-cluster).
-       Only the decorative connector lines below are hidden from assistive tech. -->
-  <svg class="pf-const-svg" viewBox="0 0 84 400" xmlns="http://www.w3.org/2000/svg" role="presentation">
-    <line class="pf-seg" aria-hidden="true" data-seg-a="hero"   data-seg-b="work"    x1="42" y1="26"  x2="18" y2="96"/>
-    <line class="pf-seg" aria-hidden="true" data-seg-a="work"   data-seg-b="skills"    x1="18" y1="96"  x2="64" y2="160"/>
-    <line class="pf-seg" aria-hidden="true" data-seg-a="skills" data-seg-b="gems"   x1="64" y1="160" x2="60" y2="290"/>
-    <line class="pf-seg" aria-hidden="true" data-seg-a="gems"   data-seg-b="contact" x1="60" y1="290" x2="38" y2="364"/>
-
-    <g class="pf-node" data-pf="hero" tabindex="0" role="link" aria-label="Intro">
-      <circle class="pf-halo" cx="42" cy="26" r="20"/>
-      <polygon class="pf-ft" points="42,19 38,26 35,19"/>
-      <polygon class="pf-ft" points="42,19 46,26 49,19"/>
-      <polygon class="pf-ft" points="46,26 42,33 49,33"/>
-      <polygon class="pf-ft" points="38,26 42,33 35,33"/>
-      <polygon class="pf-fk" points="42,19 35,19 42,14 49,19"/>
-      <polygon class="pf-fk" points="46,26 49,19 54,26 49,33"/>
-      <polygon class="pf-fk" points="42,33 49,33 42,38 35,33"/>
-      <polygon class="pf-fk" points="38,26 35,33 30,26 35,19"/>
-      <polygon class="pf-ring" points="42,14 49,19 54,26 49,33 42,38 35,33 30,26 35,19"/>
-      <polygon class="pf-dot" points="42,19 46,26 42,33 38,26" style="animation-delay:0s"/>
-      <polygon class="pf-dot-hi" points="42,20 44,22 42,23 40,22"/>
-      <circle class="pf-hit" cx="42" cy="26" r="17"/>
-    </g>
-    <g class="pf-node" data-pf="work" tabindex="0" role="link" aria-label="Work">
-      <circle class="pf-halo" cx="18" cy="96" r="20"/>
-      <polygon class="pf-ft" points="18,89 14,96 11,89"/>
-      <polygon class="pf-ft" points="18,89 22,96 25,89"/>
-      <polygon class="pf-ft" points="22,96 18,103 25,103"/>
-      <polygon class="pf-ft" points="14,96 18,103 11,103"/>
-      <polygon class="pf-fk" points="18,89 11,89 18,84 25,89"/>
-      <polygon class="pf-fk" points="22,96 25,89 30,96 25,103"/>
-      <polygon class="pf-fk" points="18,103 25,103 18,108 11,103"/>
-      <polygon class="pf-fk" points="14,96 11,103 6,96 11,89"/>
-      <polygon class="pf-ring" points="18,84 25,89 30,96 25,103 18,108 11,103 6,96 11,89"/>
-      <polygon class="pf-dot" points="18,89 22,96 18,103 14,96" style="animation-delay:0.85s"/>
-      <polygon class="pf-dot-hi" points="18,90 20,92 18,93 16,92"/>
-      <circle class="pf-hit" cx="18" cy="96" r="17"/>
-    </g>
-
-    <!-- Project crystal clusters scattered around the work node (18,96) -->
-    <g class="pf-work-clusters">
-      <!-- faint spokes radiating from work node to each cluster -->
-      <line class="pf-cluster-spoke" aria-hidden="true" x1="18" y1="96" x2="34" y2="80"/>
-      <line class="pf-cluster-spoke" aria-hidden="true" x1="18" y1="96" x2="38" y2="98"/>
-      <line class="pf-cluster-spoke" aria-hidden="true" x1="18" y1="96" x2="32" y2="114"/>
-      <line class="pf-cluster-spoke" aria-hidden="true" x1="18" y1="96" x2="22" y2="122"/>
-
-      <!-- p01 driftwood -->
-      <g class="pf-cluster" data-project="0" tabindex="0" role="link" aria-label="Driftwood case study">
-        <polygon class="pf-ft" points="34,76.5 32,80 30,76"/>
-        <polygon class="pf-ft" points="34,76.5 36,80 38,76"/>
-        <polygon class="pf-ft" points="36,80 34,83.5 38,84"/>
-        <polygon class="pf-ft" points="32,80 34,83.5 30,84"/>
-        <polygon class="pf-fk" points="34,76.5 30,76 34,74 38,76"/>
-        <polygon class="pf-fk" points="36,80 38,76 40,80 38,84"/>
-        <polygon class="pf-fk" points="34,83.5 38,84 34,86 30,84"/>
-        <polygon class="pf-fk" points="32,80 30,84 28,80 30,76"/>
-        <polygon class="pf-ring" points="34,74 38,76 40,80 38,84 34,86 30,84 28,80 30,76"/>
-        <polygon class="pf-cluster-main" points="34,76.5 36,80 34,83.5 32,80" fill="rgba(160,200,255,0.55)"/>
-        <polygon class="pf-dot-hi" points="34,77.5 35,78.5 34,79 33,78.5"/>
-        <circle class="pf-cluster-hit" cx="34" cy="80" r="9"/>
-      </g>
-      <!-- p02 habitabull -->
-      <g class="pf-cluster" data-project="1" tabindex="0" role="link" aria-label="Habitabull case study">
-        <polygon class="pf-ft" points="38,94.5 36,98 34,94"/>
-        <polygon class="pf-ft" points="38,94.5 40,98 42,94"/>
-        <polygon class="pf-ft" points="40,98 38,101.5 42,102"/>
-        <polygon class="pf-ft" points="36,98 38,101.5 34,102"/>
-        <polygon class="pf-fk" points="38,94.5 34,94 38,92 42,94"/>
-        <polygon class="pf-fk" points="40,98 42,94 44,98 42,102"/>
-        <polygon class="pf-fk" points="38,101.5 42,102 38,104 34,102"/>
-        <polygon class="pf-fk" points="36,98 34,102 32,98 34,94"/>
-        <polygon class="pf-ring" points="38,92 42,94 44,98 42,102 38,104 34,102 32,98 34,94"/>
-        <polygon class="pf-cluster-main" points="38,94.5 40,98 38,101.5 36,98" fill="rgba(160,200,255,0.55)"/>
-        <polygon class="pf-dot-hi" points="38,95.5 39,96.5 38,97 37,96.5"/>
-        <circle class="pf-cluster-hit" cx="38" cy="98" r="9"/>
-      </g>
-      <!-- p03 h2know -->
-      <g class="pf-cluster" data-project="2" tabindex="0" role="link" aria-label="H2Know case study">
-        <polygon class="pf-ft" points="32,110.5 30,114 28,110"/>
-        <polygon class="pf-ft" points="32,110.5 34,114 36,110"/>
-        <polygon class="pf-ft" points="34,114 32,117.5 36,118"/>
-        <polygon class="pf-ft" points="30,114 32,117.5 28,118"/>
-        <polygon class="pf-fk" points="32,110.5 28,110 32,108 36,110"/>
-        <polygon class="pf-fk" points="34,114 36,110 38,114 36,118"/>
-        <polygon class="pf-fk" points="32,117.5 36,118 32,120 28,118"/>
-        <polygon class="pf-fk" points="30,114 28,118 26,114 28,110"/>
-        <polygon class="pf-ring" points="32,108 36,110 38,114 36,118 32,120 28,118 26,114 28,110"/>
-        <polygon class="pf-cluster-main" points="32,110.5 34,114 32,117.5 30,114" fill="rgba(160,200,255,0.55)"/>
-        <polygon class="pf-dot-hi" points="32,111.5 33,112.5 32,113 31,112.5"/>
-        <circle class="pf-cluster-hit" cx="32" cy="114" r="9"/>
-      </g>
-      <!-- p04 eternal wreckening -->
-      <g class="pf-cluster" data-project="3" tabindex="0" role="link" aria-label="Eternal Wreckening case study">
-        <polygon class="pf-ft" points="22,118.5 20,122 18,118"/>
-        <polygon class="pf-ft" points="22,118.5 24,122 26,118"/>
-        <polygon class="pf-ft" points="24,122 22,125.5 26,126"/>
-        <polygon class="pf-ft" points="20,122 22,125.5 18,126"/>
-        <polygon class="pf-fk" points="22,118.5 18,118 22,116 26,118"/>
-        <polygon class="pf-fk" points="24,122 26,118 28,122 26,126"/>
-        <polygon class="pf-fk" points="22,125.5 26,126 22,128 18,126"/>
-        <polygon class="pf-fk" points="20,122 18,126 16,122 18,118"/>
-        <polygon class="pf-ring" points="22,116 26,118 28,122 26,126 22,128 18,126 16,122 18,118"/>
-        <polygon class="pf-cluster-main" points="22,118.5 24,122 22,125.5 20,122" fill="rgba(160,200,255,0.55)"/>
-        <polygon class="pf-dot-hi" points="22,119.5 23,120.5 22,121 21,120.5"/>
-        <circle class="pf-cluster-hit" cx="22" cy="122" r="9"/>
-      </g>
-    </g>
-    <g class="pf-node" data-pf="skills" tabindex="0" role="link" aria-label="Capabilities">
-      <circle class="pf-halo" cx="64" cy="160" r="20"/>
-      <polygon class="pf-ft" points="64,153 60,160 57,153"/>
-      <polygon class="pf-ft" points="64,153 68,160 71,153"/>
-      <polygon class="pf-ft" points="68,160 64,167 71,167"/>
-      <polygon class="pf-ft" points="60,160 64,167 57,167"/>
-      <polygon class="pf-fk" points="64,153 57,153 64,148 71,153"/>
-      <polygon class="pf-fk" points="68,160 71,153 76,160 71,167"/>
-      <polygon class="pf-fk" points="64,167 71,167 64,172 57,167"/>
-      <polygon class="pf-fk" points="60,160 57,167 52,160 57,153"/>
-      <polygon class="pf-ring" points="64,148 71,153 76,160 71,167 64,172 57,167 52,160 57,153"/>
-      <polygon class="pf-dot" points="64,153 68,160 64,167 60,160" style="animation-delay:1.6s"/>
-      <polygon class="pf-dot-hi" points="64,154 66,156 64,157 62,156"/>
-      <circle class="pf-hit" cx="64" cy="160" r="17"/>
-    </g>
-    <g class="pf-node" data-pf="gems" tabindex="0" role="link" aria-label="Side project">
-      <circle class="pf-halo" cx="60" cy="290" r="20"/>
-      <polygon class="pf-ft" points="60,283 56,290 53,283"/>
-      <polygon class="pf-ft" points="60,283 64,290 67,283"/>
-      <polygon class="pf-ft" points="64,290 60,297 67,297"/>
-      <polygon class="pf-ft" points="56,290 60,297 53,297"/>
-      <polygon class="pf-fk" points="60,283 53,283 60,278 67,283"/>
-      <polygon class="pf-fk" points="64,290 67,283 72,290 67,297"/>
-      <polygon class="pf-fk" points="60,297 67,297 60,302 53,297"/>
-      <polygon class="pf-fk" points="56,290 53,297 48,290 53,283"/>
-      <polygon class="pf-ring" points="60,278 67,283 72,290 67,297 60,302 53,297 48,290 53,283"/>
-      <polygon class="pf-dot" points="60,283 64,290 60,297 56,290" style="animation-delay:1.2s"/>
-      <polygon class="pf-dot-hi" points="60,284 62,286 60,287 58,286"/>
-      <circle class="pf-hit" cx="60" cy="290" r="17"/>
-    </g>
-    <g class="pf-node" data-pf="contact" tabindex="0" role="link" aria-label="Contact">
-      <circle class="pf-halo" cx="38" cy="364" r="20"/>
-      <polygon class="pf-ft" points="38,357 34,364 31,357"/>
-      <polygon class="pf-ft" points="38,357 42,364 45,357"/>
-      <polygon class="pf-ft" points="42,364 38,371 45,371"/>
-      <polygon class="pf-ft" points="34,364 38,371 31,371"/>
-      <polygon class="pf-fk" points="38,357 31,357 38,352 45,357"/>
-      <polygon class="pf-fk" points="42,364 45,357 50,364 45,371"/>
-      <polygon class="pf-fk" points="38,371 45,371 38,376 31,371"/>
-      <polygon class="pf-fk" points="34,364 31,371 26,364 31,357"/>
-      <polygon class="pf-ring" points="38,352 45,357 50,364 45,371 38,376 31,371 26,364 31,357"/>
-      <polygon class="pf-dot" points="38,357 42,364 38,371 34,364" style="animation-delay:0.6s"/>
-      <polygon class="pf-dot-hi" points="38,358 40,360 38,361 36,360"/>
-      <circle class="pf-hit" cx="38" cy="364" r="17"/>
-    </g>
-  </svg>
-
-  <span class="pf-label" style="top:18px"  data-pf-label="hero">01 intro</span>
-  <span class="pf-label" style="top:88px"  data-pf-label="work">02 work</span>
-  <span class="pf-label" style="top:152px" data-pf-label="skills">03 capabilities</span>
-  <span class="pf-label" style="top:282px" data-pf-label="gems">04 side project</span>
-  <span class="pf-label" style="top:356px" data-pf-label="contact">05 contact</span>
-
-  <span class="pf-name">via lucis</span>
-</nav>
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>

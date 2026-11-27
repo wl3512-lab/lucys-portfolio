@@ -2,926 +2,334 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+<script defer src="components/rig-viewer.js"></script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
 <link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
-<title>With AI | Lucy Liu</title>
+<title>Designing and building with AI | Lucy Liu</title>
 <link rel="canonical" href="https://lucyliu.xyz/with-ai.html" />
-<meta name="description" content="How Lucy Liu builds with Claude Code and Codex: she designs it first and sets the rules, the agents write most of the code, and every build is tested. This site included." />
-<meta property="og:title" content="With AI | Lucy Liu" />
-<meta property="og:description" content="The site you're on was built with Claude. So were a planner, an internship agent, a gym app and a game." />
+<meta name="description" content="How Lucy Liu designs, constrains, evaluates and ships AI-powered products: she designs it first, sets the rules it works within, and tests it in code and with people. This site included." />
+<meta property="og:title" content="Designing and building with AI | Lucy Liu" />
+<meta property="og:description" content="I design it. I build with AI. I decide what ships. Explore the apps, decisions, and working process behind Lucy Liu’s work." />
 <meta property="og:url" content="https://lucyliu.xyz/with-ai.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
-<meta property="og:image:alt" content="Lucy Liu, design system and portfolio 2026. Oversized Lucy Liu lettering with a gem-shaped i under panes of navy glass and blue and lavender light." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
+<meta property="og:image:alt" content="Lucy Liu, product designer, available summer 2027. In a half-open filing drawer at night, lit by two small footlights, a curious white pixel dragon tilts his head up at you with a paperclip bent into a key in his teeth and one paw at his chin, his tail fan held up, among chewed paperclips, a pencil stub, coins, rubber bands, sticky notes and a binder clip. lucyliu.xyz." />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=63" />
-<link rel="stylesheet" href="styles.css?v=134" />
-<style>
-/* The headline's face: the same self-hosted Anybody the wordmark uses (wordmark.js injects
-   it too; declaring it here means the headline never waits on that deferred script). */
-@font-face {
-  font-family: 'Anybody'; font-style: normal; font-weight: 100 900; font-stretch: 50% 150%;
-  font-display: block; src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2');
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--void); color: var(--fg1);
-  font-family: var(--font-body); -webkit-font-smoothing: antialiased;
-  min-height: 100vh; overflow-x: clip;
-}
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-.skip-link:focus { position: fixed; left: 16px; top: 16px; width: auto; height: auto; clip: auto; z-index: 100; background: var(--navy-mid); padding: 10px 14px; border: 1px solid var(--border-strong); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-.wrap { width: min(1280px, calc(100vw - 32px)); margin: 0 auto; }
-
-/* NAV (same pattern as work.html) */
-.wa-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 40; padding: 10px 0;
-  background: color-mix(in srgb, var(--void) 72%, transparent);
-  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-}
-.wa-nav-inner { display: flex; justify-content: space-between; align-items: center; }
-.wa-back, .wa-nav-link { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); transition: color .25s; }
-.wa-back, .wa-nav-link, .wa-logo { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
-.wa-back { display: flex; align-items: center; gap: 8px; }
-.wa-back:hover, .wa-nav-link:hover { color: var(--fg1); }
-.wa-nav-right { display: flex; align-items: center; gap: 32px; }
-.wa-logo { font-family: var(--font-display); font-size: 18px; letter-spacing: -0.02em; color: var(--fg1); }
-
-/* shared bits */
-.eyebrow {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-}
-.sec { padding: clamp(72px, 11vh, 128px) 0 0; }
-.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(24px, 5vw, 72px); align-items: end; margin-bottom: clamp(32px, 5vh, 56px); }
-.sec-title {
-  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em;
-  font-size: clamp(34px, 4.6vw, 64px); line-height: 0.98; margin-top: 14px;
-}
-.sec-lede { color: var(--fg2); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; max-width: 58ch; }
-
-/* HERO: the fun sentence */
-.wa-hero { padding: clamp(120px, 18vh, 180px) 0 0; }
-.flex-title {
-  font-family: 'Anybody', var(--font-display); font-style: normal;
-  font-size: clamp(46px, 8.6vw, 128px); line-height: 0.94; letter-spacing: -0.01em;
-  color: var(--fg1); margin-top: 22px;
-}
-.ft-line { display: block; white-space: nowrap; }
-/* Phones: a line may break between words. Letter boxes reserve the peak weight, so the break points
-   never move while the weight does. */
-@media (max-width: 700px) {
-  .ft-line { white-space: normal; }
-  .flex-title { font-size: clamp(28px, 8.8vw, 60px); }
-}
-.ft-w { display: inline-block; white-space: nowrap; }
-.ft-ch {
-  display: inline-block; text-align: center;
-  font-variation-settings: 'wdth' 96, 'wght' 440;
-}
-.ft-space { display: inline-block; width: 0.26em; }
-.flex-hint { margin-top: 18px; }
-.wa-hero-lede {
-  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: clamp(24px, 5vw, 80px); margin-top: clamp(40px, 7vh, 72px);
-  padding-top: 28px; border-top: 1px solid var(--border);
-}
-.wa-hero-lede p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; color: var(--fg1); max-width: 40ch; }
-.wa-hero-lede p + p { color: var(--fg2); font-size: clamp(15px, 1.15vw, 17px); }
-/* The answer to "does she just prompt it?", lit for readers who skim. */
-.wa-hero-lede strong { font-weight: 500; color: var(--fg1); }
-
-/* RECEIPT: real numbers */
-.receipt {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
-}
-.receipt-cell { padding: clamp(18px, 2.4vw, 30px); border-right: 1px solid var(--border); background: var(--surface); }
-.receipt-cell:last-child { border-right: 0; }
-.receipt-num {
-  font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em;
-  font-size: clamp(34px, 4vw, 58px); line-height: 1; color: var(--fg1);
-}
-.receipt-label { margin-top: 10px; color: var(--fg2); font-size: 14px; line-height: 1.45; }
-.receipt-row + .receipt-row { margin-top: 12px; }
-.receipt-cap { display: flex; justify-content: space-between; gap: 16px; margin: 0 0 12px; }
-.receipt-models { margin-top: 12px; display: grid; gap: 8px; }
-.model { display: grid; grid-template-columns: 120px minmax(0, 1fr) 52px; gap: 12px; align-items: center; font-size: 14px; color: var(--fg2); }
-.model b { font-weight: 500; color: var(--fg1); }
-.model-bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
-.model-bar span { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
-.model-bar.is-codex span { background: var(--lavender); }
-.model-n { font-family: var(--font-code); font-size: 12px; text-align: right; color: var(--fg3); }
-.receipt-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; margin-top: 1px; background: var(--border); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 4px 4px; overflow: hidden; }
-.receipt-foot > div { background: var(--surface); padding: clamp(18px, 2.4vw, 30px); }
-
-.receipt-unit { font-size: 0.42em; letter-spacing: 0; margin-left: 0.25em; color: var(--fg2); font-weight: 600; }
-.receipt-cell--streak .receipt-num { color: var(--fg-accent); }
-.heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 4px; width: max-content; max-width: 100%; }
-.heat i, .heat-key i { display: block; width: clamp(10px, 1.25vw, 16px); aspect-ratio: 1; border-radius: 3px; background: var(--border); }
-/* The squares grow with their column (up to 14 week columns, 13 gaps), capped so the grid
-   balances the split beside it. Browsers without container units keep the line above. */
-.receipt-foot > div:first-child { container-type: inline-size; }
-.heat i { width: clamp(10px, calc((100cqi - 52px) / 14), 22px); }
-.heat i.is-pad { background: transparent; }
-.heat i[data-l="1"], .heat-key i[data-l="1"] { background: color-mix(in srgb, var(--accent) 28%, var(--navy-mid)); }
-.heat i[data-l="2"], .heat-key i[data-l="2"] { background: color-mix(in srgb, var(--accent) 50%, var(--navy-mid)); }
-.heat i[data-l="3"], .heat-key i[data-l="3"] { background: color-mix(in srgb, var(--accent) 74%, var(--navy-mid)); }
-.heat i[data-l="4"], .heat-key i[data-l="4"] { background: var(--accent); }
-.heat i.is-streak, .heat-streak-key i { box-shadow: inset 0 -2px 0 var(--lavender); }
-.heat i.is-busiest { outline: 1.5px solid var(--fg1); outline-offset: 1px; }
-.heat-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 14px; }
-.heat-legend[hidden] { display: none; }
-.heat-key { display: inline-flex; gap: 3px; }
-.heat-key i { width: 10px; }
-.heat-streak-key { display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; }
-.heat-streak-key i { display: block; width: 10px; height: 10px; border-radius: 2px; background: var(--border); }
-.site-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
-.site-counts dt { font-size: 13px; color: var(--fg2); }
-.site-counts dd { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--fg1); margin-top: 4px; }
-@media (max-width: 560px) { .site-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-/* RULES DECK (fun): real lines, quoted verbatim, from the skills Claude Code loads (~/.claude/skills) */
-.deck { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
-.deck-stage { position: relative; display: grid; min-height: clamp(220px, 26vw, 300px); }
-.rule-card {
-  position: relative; grid-area: 1 / 1; min-width: 0;
-  display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
-  padding: clamp(22px, 3vw, 40px);
-  background: var(--navy-mid); border: 1px solid var(--border-strong); border-radius: 6px;
-  transform-origin: 50% 120%;
-  transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .35s ease;
-}
-.rule-q {
-  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em;
-  font-size: clamp(22px, 2.6vw, 36px); line-height: 1.15; color: var(--fg1); max-width: 30ch;
-}
-.rule-why { color: var(--fg2); font-size: 15px; line-height: 1.55; max-width: 60ch; }
-.rule-meta { display: flex; justify-content: space-between; gap: 16px; }
-.rule-meta span:last-child { text-align: right; }
-.rule-card[data-pos="0"] { transform: none; opacity: 1; z-index: 3; }
-.rule-card[data-pos="1"] { transform: translate(6px, -10px) rotate(1deg); opacity: .55; z-index: 2; }
-.rule-card[data-pos="2"] { transform: translate(12px, -20px) rotate(2deg); opacity: .25; z-index: 1; }
-.rule-card[data-pos="hide"] { transform: translate(12px, -20px) rotate(2deg); opacity: 0; z-index: 0; visibility: hidden; }
-.rule-card[data-pos="out"] { transform: translate(-40px, 30px) rotate(-7deg); opacity: 0; z-index: 4; }
-.rule-card[data-pos="1"] > *, .rule-card[data-pos="2"] > * { visibility: hidden; }
-.deck-btn {
-  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--fg1); background: transparent; border: 1px solid var(--border-strong);
-  border-radius: 2px; padding: 14px 18px; min-height: 44px; cursor: pointer;
-  transition: border-color .2s, color .2s;
-}
-.deck-btn:hover { border-color: var(--accent); color: var(--fg-accent); }
-/* without JS every rule is a plain list, all readable */
-.no-deck .deck-stage { min-height: 0; display: grid; gap: 12px; }
-.no-deck .rule-card { grid-area: auto; position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; }
-.no-deck .rule-card > * { visibility: visible !important; }
-.no-deck .deck-btn { display: none; }
-
-/* STEPS */
-.steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--border); }
-.step { padding: 24px clamp(14px, 1.6vw, 22px) 0 0; border-right: 1px solid var(--border); padding-left: clamp(14px, 1.6vw, 22px); }
-.step:first-child { padding-left: 0; }
-.step:last-child { border-right: 0; }
-.step-n { font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); letter-spacing: 0.1em; }
-.step h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(19px, 1.6vw, 23px); letter-spacing: -0.01em; margin: 12px 0 10px; line-height: 1.15; }
-.step p { color: var(--fg2); font-size: 15px; line-height: 1.55; }
-.step code { font-family: var(--font-code); font-size: 12.5px; color: var(--fg3); word-break: break-word; }
-.step a { color: var(--fg-accent); border-bottom: 1px solid currentColor; transition: color .2s; }
-.step a:hover { color: var(--fg1); }
-.step a code { color: inherit; }
-.step--lead h3 { color: var(--fg-accent); }
-
-/* BUILDS */
-.builds { display: grid; gap: clamp(56px, 9vh, 104px); }
-.build { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(24px, 4vw, 64px); align-items: start; padding-top: 28px; border-top: 1px solid var(--border); }
-.build:nth-child(even) .build-media { order: -1; }
-/* The screenshots always get the wide track. Flipping only the order handed builds 02 and 04 the
-   narrow one, and the Driftwood pair shrank to 250px a shot. */
-@media (min-width: 801px) { .build:nth-child(even) { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
-.build-idx { font-family: var(--font-code); font-size: 12px; color: var(--fg3); letter-spacing: 0.14em; }
-.build h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -0.03em; line-height: 1; margin: 12px 0 16px; }
-.build-what { font-size: 17px; line-height: 1.55; color: var(--fg1); max-width: 46ch; }
-.build-facts { margin-top: 22px; display: grid; gap: 0; border-top: 1px solid var(--border); }
-.fact { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
-.fact dt { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); padding-top: 3px; }
-.fact dd { color: var(--fg2); }
-.build-link { display: inline-flex; gap: 8px; align-items: center; margin-top: 22px; font-family: var(--font-ui); font-size: 14px; color: var(--fg-accent); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
-.build-link:hover { color: var(--fg1); }
-.build-private { margin-top: 22px; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
-/* What a build does that's worth a second look, numbered like the "never" list. */
-.build-feats { list-style: none; margin-top: 22px; border-top: 1px solid var(--border); counter-reset: feat; }
-.build-feats li { position: relative; padding: 14px 0 14px 36px; border-bottom: 1px solid var(--border); }
-.build-feats li::before { counter-increment: feat; content: '0' counter(feat); position: absolute; left: 0; top: 17px; font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); }
-.build-feats h4 { font-family: var(--font-ui); font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--fg1); }
-.build-feats p { margin-top: 6px; max-width: 52ch; font-size: 15px; line-height: 1.55; color: var(--fg2); }
-.build-feats + .build-facts { margin-top: 0; border-top: 0; }
-
-/* Before sits above after, like the stacked builds: side by side each shot got half a column, too
-   small to read the hand-drawn flows or either Driftwood screen. */
-.pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-.pair-arrow { font-family: var(--font-code); color: var(--fg3); font-size: 18px; line-height: 1; justify-self: center; }
-.shot { margin: 0; }
-.shot-frame { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-.shot-frame img { width: 100%; height: auto; }
-.shot figcaption { margin-top: 10px; font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); }
-.shot--phone .shot-frame { max-width: 220px; margin: 0 auto; border-radius: 18px; }
-.shot--phone figcaption { text-align: center; }
-.shots-stack { display: grid; gap: 14px; }
-
-/* Enlarge: the script turns each frame into a button that opens the shot in a dialog. */
-.shot-zoom { position: relative; display: block; width: 100%; padding: 0; font: inherit; color: inherit; cursor: zoom-in; transition: border-color .2s; }
-.shot-zoom:hover { border-color: var(--border-strong); }
-.shot-zoom-hint {
-  position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center;
-  width: 32px; height: 32px; border-radius: 4px; color: var(--fg1);
-  background: color-mix(in srgb, var(--void) 80%, transparent); border: 1px solid var(--border-strong);
-  opacity: 0; transition: opacity .2s;
-}
-.shot-zoom:hover .shot-zoom-hint, .shot-zoom:focus-visible .shot-zoom-hint { opacity: 1; }
-@media (hover: none) { .shot-zoom-hint { opacity: .9; } }
-.zoom {
-  width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0;
-  padding: 72px clamp(16px, 4vw, 48px) clamp(16px, 4vh, 40px);
-  background: color-mix(in srgb, var(--void) 94%, transparent); color: var(--fg1);
-}
-.zoom[open] { display: grid; place-items: center; }
-.zoom::backdrop { background: transparent; }
-.zoom-fig { display: grid; justify-items: center; gap: 12px; max-width: 100%; }
-.zoom-pan { max-width: 100%; }
-.zoom-fig img {
-  width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 150px);
-  background: var(--navy-mid); border: 1px solid var(--border-strong); border-radius: 6px; cursor: zoom-out;
-}
-.zoom-fig figcaption { text-align: center; }
-.zoom-close {
-  position: fixed; top: 14px; right: 16px;
-  font-family: var(--font-code); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--fg1); background: transparent; border: 1px solid var(--border-strong);
-  border-radius: 2px; padding: 0 16px; min-height: 44px; cursor: pointer;
-}
-.zoom-close:hover { border-color: var(--accent); color: var(--fg-accent); }
-/* Phones: fitting a landscape shot to the screen width is no bigger than the page already shows it,
-   so it opens at its own size (capped by the screen height) and pans sideways. */
-@media (max-width: 700px) {
-  .zoom { padding-inline: 0; }
-  .zoom-fig { width: 100%; }
-  .zoom-pan { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
-  .zoom-fig img { max-width: none; margin-inline: auto; }
-  .zoom-fig figcaption { padding-inline: 16px; }
-}
-.zoom[open] .zoom-fig { animation: zoom-in .32s cubic-bezier(.16,1,.3,1); }
-@keyframes zoom-in { from { opacity: 0; transform: scale(.97); } }
-html:has(.zoom[open]) { overflow: hidden; }
-
-/* SETUP + LIMITS */
-.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); }
-.ledger { list-style: none; border-top: 1px solid var(--border); }
-.ledger li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
-.ledger .k { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); padding-top: 3px; }
-.ledger .v { color: var(--fg2); }
-.ledger .v a { color: var(--fg-accent); border-bottom: 1px solid currentColor; }
-.never { list-style: none; border-top: 1px solid var(--border); counter-reset: never; }
-.never li { padding: 16px 0 16px 44px; border-bottom: 1px solid var(--border); position: relative; font-size: 17px; line-height: 1.45; color: var(--fg1); }
-.never li::before { counter-increment: never; content: '0' counter(never); position: absolute; left: 0; top: 19px; font-family: var(--font-code); font-size: 12px; color: var(--fg-accent); }
-.never li span { display: block; margin-top: 4px; font-size: 14px; color: var(--fg2); }
-
-/* FOOTER */
-.wa-foot { margin-top: clamp(96px, 14vh, 160px); padding: 40px 0 56px; border-top: 1px solid var(--border); }
-.wa-foot-inner { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
-.wa-foot-line { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 48px); letter-spacing: -0.03em; line-height: 1.02; max-width: 16ch; }
-.wa-foot-links { display: flex; gap: 28px; flex-wrap: wrap; font-family: var(--font-ui); font-size: 14px; }
-.wa-foot-links a { color: var(--fg2); border-bottom: 1px solid var(--border-strong); padding-bottom: 2px; }
-.wa-foot-links a:hover { color: var(--fg1); }
-
-/* RESPONSIVE */
-@media (max-width: 1000px) {
-  .steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .step { border-right: 0; padding-left: 0; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-  .step--lead { grid-column: 1 / -1; }
-  .receipt { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .receipt-cell:nth-child(2) { border-right: 0; }
-  .receipt-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
-}
-@media (max-width: 800px) {
-  .sec-head, .wa-hero-lede, .build, .two, .receipt-foot { grid-template-columns: minmax(0, 1fr); }
-  .build:nth-child(even) .build-media { order: 0; }
-  .deck { grid-template-columns: minmax(0, 1fr); }
-  .deck-btn { justify-self: start; }
-  .deck-stage { margin-right: 18px; }
-  .wa-nav-right { gap: 20px; }
-}
-@media (max-width: 560px) {
-  .steps { grid-template-columns: minmax(0, 1fr); }
-  .receipt { grid-template-columns: minmax(0, 1fr); }
-  .receipt-cell { border-right: 0; border-bottom: 1px solid var(--border); }
-  .receipt-cell:last-child { border-bottom: 0; }
-  .fact, .ledger li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .model { grid-template-columns: 96px minmax(0, 1fr) 44px; }
-  .deck-stage { min-height: 330px; }
-  .wa-back span { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .rule-card { transition: none; }
-  .zoom[open] .zoom-fig { animation: none; }
-}
-@media print {
-  .wa-nav, .deck-btn, .flex-hint, .shot-zoom-hint { display: none; }
-  .deck-stage { min-height: 0; display: grid; gap: 12px; }
-  .rule-card { grid-area: auto; position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; }
-  .rule-card > * { visibility: visible !important; }
-}
-</style>
-<link rel="stylesheet" href="with-ai-refine.css?v=1" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<link rel="stylesheet" href="with-ai-refine.css?v=25" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/cover-reel.js"></script>
+<script defer src="components/with-ai-desktop.js"></script>
+<!-- the loading screen (components/page-loader.js): the home page's spotlight, from the first paint; never without scripts -->
+<link rel="stylesheet" href="intro-reel.css?v=11" />
+<noscript><style>#ll-loader { display: none !important; }</style></noscript>
 </head>
 <body>
 
 <a href="#main" class="skip-link visually-hidden">Skip to main content</a>
 
-<nav class="wa-nav" aria-label="Site navigation">
-  <div class="wrap wa-nav-inner">
-    <a href="index.html" class="wa-back" aria-label="Back to home">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span>home</span>
-    </a>
-    <a href="index.html" class="wa-logo" aria-label="Lucy Liu" data-wordmark>lucy liu</a>
-    <div class="wa-nav-right">
-      <a href="work.html" class="wa-nav-link">work</a>
-      <a href="mailto:wl3512@nyu.edu" class="wa-nav-link">contact ↗</a>
-    </div>
-  </div>
-</nav>
+<!-- The loading screen: caught in the spotlight, as on the home page (Lucy, 2026-10-25: "put loading page everywhere that needs one"). -->
+<div id="ll-loader" class="ll-page intro-spot intro-active" role="dialog" aria-modal="true" aria-label="Loading">
+  <div class="intro-controls"><button class="intro-skip" type="button">Skip the loading screen <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+</div>
+<script src="components/page-loader.js?v=2"></script>
 
-<main id="main" tabindex="-1">
+<header data-site-header></header>
 
-  <!-- HERO -->
-  <header class="wa-hero wrap">
-    <p class="eyebrow">With AI · Claude Code + Codex</p>
-    <h1 class="flex-title" data-flex-title aria-label="The site you're on was built with Claude.">
-      <span class="ft-line">The site you're on</span>
-      <span class="ft-line">was built</span>
-      <span class="ft-line">with Claude.</span>
-    </h1>
-    <p class="eyebrow flex-hint" data-flex-hint hidden>Move your cursor through it</p>
-    <div class="wa-hero-lede">
-      <p>So were the planner I run my day on, an internship agent, a gym app and a game. If you're hiring, that agent may be how I found your posting.</p>
-      <p><strong>AI never writes without me.</strong> I design each one first and write the rules. Claude Code and Codex write most of the code. Then I test it, have one model review the other, and decide what ships.</p>
-    </div>
-  </header>
-
-  <!-- RECEIPT -->
-  <section class="sec wrap" aria-labelledby="receipt-title">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">The receipt</p>
-        <h2 class="sec-title" id="receipt-title">Thirteen weeks in numbers.</h2>
-      </div>
-      <p class="sec-lede">Read from the logs Claude Code and Codex keep on my laptop, refreshed every time this site deploys; only daily totals leave it. Most of those tokens are cache: the agents rereading the codebase and its rules on every turn, which is how they keep to them.</p>
-    </div>
-
-    <div class="receipt" data-usage>
-      <div class="receipt-cell">
-        <p class="receipt-num" data-u="total">6.1B</p>
-        <p class="receipt-label">tokens through Claude Code and Codex in 13 weeks</p>
-      </div>
-      <div class="receipt-cell receipt-cell--streak">
-        <p class="receipt-num"><span data-u="streak">33</span><span class="receipt-unit">days</span></p>
-        <p class="receipt-label" data-streak="live">in a row, and counting, as of <span data-u="asof">29 September</span></p>
-        <p class="receipt-label" data-streak="best" hidden>in a row, my longest run so far, ending on <span data-u="longestEnd">29 September</span></p>
-      </div>
-      <div class="receipt-cell">
-        <p class="receipt-num" data-u="active">55</p>
-        <p class="receipt-label">active days out of the <span data-u="span">91</span></p>
-      </div>
-      <div class="receipt-cell">
-        <p class="receipt-num" data-u="busiest">543M</p>
-        <p class="receipt-label">tokens on the busiest day, <span data-u="busiestDate">28 September</span></p>
-      </div>
-    </div>
-    <div class="receipt-foot">
-      <div>
-        <p class="receipt-cap eyebrow"><span>Activity</span><span>13 weeks</span></p>
-        <div class="heat" data-heat aria-hidden="true"></div>
-        <p class="heat-legend eyebrow" data-heat-legend hidden><span>Less</span><span class="heat-key"><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i></span><span>More</span><span class="heat-streak-key"><i></i>the streak</span></p>
-      </div>
-      <div>
-        <p class="receipt-cap eyebrow"><span>Split</span><span>tokens</span></p>
-        <div class="receipt-models">
-          <div class="model"><b>Claude Code</b><span class="model-bar"><span data-u="claudeBar" style="width:96%"></span></span><span class="model-n" data-u="claude">5.9B</span></div>
-          <div class="model"><b>Codex</b><span class="model-bar is-codex"><span data-u="codexBar" style="width:4%"></span></span><span class="model-n" data-u="codex">248M</span></div>
-        </div>
-        <p class="receipt-cap eyebrow" style="margin-top: 26px;"><span>This site</span><span>counted</span></p>
-        <dl class="site-counts">
-          <div><dt>Pages</dt><dd data-u="pages">27</dd></div>
-          <div><dt>Components</dt><dd data-u="components">32</dd></div>
-          <div><dt>Checks</dt><dd data-u="checks">113</dd></div>
-          <div><dt>Lines of rules</dt><dd data-u="rules">175</dd></div>
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <!-- RULES DECK -->
-  <section class="sec wrap" aria-labelledby="rules-title">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">From my skills</p>
-        <h2 class="sec-title" id="rules-title">Some rules I gave it.</h2>
-      </div>
-      <p class="sec-lede">I set strict rules so Claude and Codex get it right the first time. These come from the skills in my Claude Code setup, rule files it loads on every project I open. I wrote one of them.</p>
-    </div>
-    <div class="deck no-deck" data-deck>
-      <div class="deck-stage" aria-live="polite">
-        <article class="rule-card">
-          <p class="rule-q">“If someone could look at this interface and say ‘AI made that’ without doubt, it's failed.”</p>
-          <div>
-            <p class="rule-why">I hold this site to that test, this page included. The same skill bans gradient text, decorative glass and grids of identical cards.</p>
-            <p class="rule-meta eyebrow"><span>Design</span><span>impeccable</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“Do not … write any code … until you have presented a design and the user has approved it.”</p>
-          <div>
-            <p class="rule-why">Before a single file exists, Claude pitches the design and waits for my yes. I catch wrong ideas here, while they are still a paragraph long.</p>
-            <p class="rule-meta eyebrow"><span>Design first</span><span>brainstorming</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“No production code without a failing test first.”</p>
-          <div>
-            <p class="rule-why">The test has to fail before the fix exists. If I never saw it fail, I have no proof it can catch anything.</p>
-            <p class="rule-meta eyebrow"><span>Tests</span><span>test-driven-development</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“No fixes without root cause investigation first.”</p>
-          <div>
-            <p class="rule-why">When something breaks, Claude has to show me why before it touches the code. A guessed fix moves the bug somewhere I haven't looked yet.</p>
-            <p class="rule-meta eyebrow"><span>Debugging</span><span>systematic-debugging</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“No completion claims without fresh verification evidence.”</p>
-          <div>
-            <p class="rule-why">“Done” has to arrive with the command Claude ran and what it printed. “Should work now” doesn't count.</p>
-            <p class="rule-meta eyebrow"><span>Shipping</span><span>verification-before-completion</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“Verify before implementing. Ask before assuming.”</p>
-          <div>
-            <p class="rule-why">When Codex reviews Claude's plan, Claude checks each note against the code before acting on it and argues back when the reviewer is wrong. The same skill bans “You're absolutely right!”</p>
-            <p class="rule-meta eyebrow"><span>Review</span><span>receiving-code-review</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“Touch only what you must. Clean up only your own mess.”</p>
-          <div>
-            <p class="rule-why">Every changed line should trace back to what I asked for. If I ask for one colour, I get one colour, and the rest of the file stays as I left it.</p>
-            <p class="rule-meta eyebrow"><span>Code</span><span>karpathy-guidelines</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“If it sounds like a pull-quote, rewrite it.”</p>
-          <div>
-            <p class="rule-why">It covers everything Claude drafts for me, this page included. These cards are the one place I let a pull-quote through.</p>
-            <p class="rule-meta eyebrow"><span>Writing</span><span>stop-slop</span></p>
-          </div>
-        </article>
-        <article class="rule-card">
-          <p class="rule-q">“One honest gap beats a smooth sentence that is not true.”</p>
-          <div>
-            <p class="rule-why">From the internship agent, the skill I wrote. When a form asks for something my résumé can't back up, it leaves a blank and asks me.</p>
-            <p class="rule-meta eyebrow"><span>Honesty</span><span>intern-agent</span></p>
-          </div>
-        </article>
-      </div>
-      <button type="button" class="deck-btn" data-deck-next>Deal another rule <span data-deck-count></span></button>
-    </div>
-  </section>
-
-  <!-- HOW I WORK -->
-  <section class="sec wrap" aria-labelledby="how-title">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">How I work</p>
-        <h2 class="sec-title" id="how-title">Five steps, every build.</h2>
-      </div>
-      <p class="sec-lede">The code is the part I hand over. The design, the rules and the final call stay with me.</p>
-    </div>
-    <ol class="steps">
-      <li class="step step--lead">
-        <span class="step-n">00</span>
-        <h3>Design it first, by hand</h3>
-        <p>Driftwood started as my designs in Figma. HabitaBull started as low-fi flows I drew by hand in Photoshop. The internship agent started from a large iOS design reference, which Claude read through the Figma MCP.</p>
-      </li>
-      <li class="step">
-        <span class="step-n">01</span>
-        <h3>Write the brief</h3>
-        <p>A plan with tasks and tests before any code. The planner has ten of them in <a href="https://github.com/wl3512-lab/today-planner-plans/tree/main/docs/superpowers/plans" target="_blank" rel="noopener"><code>docs/superpowers/plans</code> <span aria-hidden="true">↗</span></a>.</p>
-      </li>
-      <li class="step">
-        <span class="step-n">02</span>
-        <h3>Set rules it can't break</h3>
-        <p>Never submit an application. Never invent a fact. This site's rule file is <span data-u="rules">175</span> lines long.</p>
-      </li>
-      <li class="step">
-        <span class="step-n">03</span>
-        <h3>Build and test</h3>
-        <p>HabitaBull runs 706 tests, the internship agent 166, and this site <span data-u="checks">113</span> checks.</p>
-      </li>
-      <li class="step">
-        <span class="step-n">04</span>
-        <h3>Get a second opinion</h3>
-        <p>Codex reviews Claude's plan before the build. On the planner's study helper it caught that the assignment link was being dropped from its context. I decide what to take.</p>
-      </li>
-    </ol>
-  </section>
-
-  <!-- BUILDS -->
-  <section class="sec wrap" aria-labelledby="builds-title">
-    <div class="sec-head">
-      <div>
-        <p class="eyebrow">Four builds</p>
-        <h2 class="sec-title" id="builds-title">What I made first, and what shipped.</h2>
-      </div>
-      <p class="sec-lede">Each one: what it does, where it started, the rule it runs on, and the proof.</p>
-    </div>
-
-    <div class="builds">
-      <article class="build">
-        <div>
-          <p class="build-idx">01 · Daily planner</p>
-          <h3>Today</h3>
-          <p class="build-what">Every one of my classes posts homework somewhere different, so I stopped trying to remember where. Today is a menubar app that reads all of it, plus Gmail and my Google Calendar, and lays out one day. A study session opens an AI helper that already knows the assignment.</p>
-          <ol class="build-feats">
-            <li>
-              <h4>Every class, from wherever it posts</h4>
-              <p>One class uses Brightspace, one a schedule spreadsheet, one a GitHub wiki, one its own website, one Discord. I list each class's sources once. Every two hours the planner reads them all and files what it finds under that class, each item tagged with where it came from.</p>
-            </li>
-            <li>
-              <h4>My real Google Calendar, inside it</h4>
-              <p>The Week page shows my Google Calendar with each deadline on the hour it's due. I drag homework onto a free hour and the study block is written back to Google Calendar. Seven days for the overview, or three, enlarged, to read.</p>
-            </li>
-          </ol>
-          <dl class="build-facts">
-            <div class="fact"><dt>The rule</dt><dd>The helper gets the assignment it was opened for and nothing else from my planner.</dd></div>
-            <div class="fact"><dt>Proof</dt><dd>Ten written plans, one reviewed by Codex before the build; 40 test files.</dd></div>
-            <div class="fact"><dt>Note</dt><dd>Screenshots use an invented student. Nothing here is mine.</dd></div>
-          </dl>
-          <p class="build-private">Private · runs on my laptop</p>
-        </div>
-        <div class="build-media shots-stack">
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/classes.webp" alt="The planner's page for an invented Creative Coding class: when it meets and how it's graded, the next three assignments from the class wiki, files that changed in the class repo, the week's content folders, and links to the repo, wiki, Discord and class site." loading="lazy" width="1600" height="1000"></div>
-            <figcaption>One class, gathered from everywhere it posts, demo data</figcaption>
-          </figure>
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/week.webp" alt="The Week page for an invented student: seven days of calendar events, classes and commutes, green planned study blocks, red tags where work is due, and a Week or 3 days switch in the corner." loading="lazy" width="1600" height="1000"></div>
-            <figcaption>The week, from Google Calendar, demo data</figcaption>
-          </figure>
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/study.webp" alt="A study session for an invented Creative Coding assignment, Sketch 5: Generative Patterns, with its brief and materials, and the Claude helper open beside it suggesting where to start." loading="lazy" width="1600" height="1000"></div>
-            <figcaption>A study session with the helper open, demo data</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="build">
-        <div>
-          <p class="build-idx">02 · Internship agent</p>
-          <h3>Internship agent</h3>
-          <p class="build-what">Finds postings on company job boards and in alert emails, ranks them by fit, tailors my résumé in my own design, and fills the application form.</p>
-          <dl class="build-facts">
-            <div class="fact"><dt>Started from</dt><dd>A large iOS design reference I gave Claude, which it read through the Figma MCP. Its Internships screen is built on it: grouped lists, a segmented control, one blue button.</dd></div>
-            <div class="fact"><dt>The rule</dt><dd>It stops before the submit button. It only reorders my own sentences, and asks me instead of inventing an answer.</dd></div>
-            <div class="fact"><dt>Proof</dt><dd>166 tests, run on a made-up student. Public as a Claude Code plugin anyone can install.</dd></div>
-          </dl>
-          <a class="build-link" href="https://github.com/wl3512-lab/internship-agent" target="_blank" rel="noopener">See the repo <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="build-media shots-stack">
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/internships.webp" alt="The agent's Internships screen for an invented student, styled like iOS Settings: a segmented control across the top, grouped lists with labels on the left, and one blue Run agent now button." loading="lazy" width="1600" height="1000"></div>
-            <figcaption>Its Internships screen, demo data</figcaption>
-          </figure>
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/resume-designed.webp" alt="Part of the designed résumé the agent tailors: numbered sections, blue rules and a dash before each line." loading="lazy" width="1000" height="650"></div>
-            <figcaption>The résumé it tailors, set in my design</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="build">
-        <div>
-          <p class="build-idx">03 · HabitaBull</p>
-          <h3>HabitaBull</h3>
-          <p class="build-what">A gym habit app for people who keep stopping. I'm still learning to code, and in 2026 I rebuilt it with Claude Code as a complete, working app. It runs offline with no account, and your history never leaves your phone.</p>
-          <dl class="build-facts">
-            <div class="fact"><dt>Made first</dt><dd>Low-fi flows I drew by hand in Photoshop. The shipped welcome screen still asks the same first question.</dd></div>
-            <div class="fact"><dt>The rule</dt><dd>The bull notices you were gone and never punishes you for it. The list of things he is banned from saying lives in the code.</dd></div>
-            <div class="fact"><dt>Proof</dt><dd>706 tests across 34 files.</dd></div>
-          </dl>
-          <a class="build-link" href="habitabull.html">Read the case study <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="build-media pair">
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/habitabull-lofi.webp" alt="Four hand-drawn phone screens: Welcome to Habitabull with a sketched bull asking your name, then weights, favourite exercises and training days." loading="lazy" width="910" height="430"></div>
-            <figcaption>Drawn by hand</figcaption>
-          </figure>
-          <span class="pair-arrow" aria-hidden="true">↓</span>
-          <figure class="shot shot--phone">
-            <div class="shot-frame"><img src="assets/with-ai/habitabull-shipped.webp" alt="The shipped welcome screen: the bull, Welcome to HabitaBull, and What's your name?" loading="lazy" width="520" height="1125"></div>
-            <figcaption>Shipped</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="build">
-        <div>
-          <p class="build-idx">04 · Driftwood</p>
-          <h3>Driftwood</h3>
-          <p class="build-what">An AI ethics game: adopt a pet with a hidden flaw, notice it, name it, and write the rules that train it. Here AI is both the tool and the subject.</p>
-          <dl class="build-facts">
-            <div class="fact"><dt>Made first</dt><dd>My designs in Figma, then built out with Claude Code.</dd></div>
-            <div class="fact"><dt>The rule</dt><dd>No account, no key, no server. The camera is disclosed up front and face detection runs in the browser.</dd></div>
-            <div class="fact"><dt>Proof</dt><dd>Played by 100+ visitors at the IMA Spring Show 2026; about 76% named their pet's flaw unprompted.</dd></div>
-          </dl>
-          <a class="build-link" href="case-study.html">Read the case study <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="build-media pair">
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/with-ai/driftwood-early.webp" alt="An early Driftwood design: a light chat screen with the pet's stats on the left and training notes on the right." loading="lazy" width="1280" height="831"></div>
-            <figcaption>Early design</figcaption>
-          </figure>
-          <span class="pair-arrow" aria-hidden="true">↓</span>
-          <figure class="shot">
-            <div class="shot-frame"><img src="assets/driftwood/chat.webp" alt="The shipped Driftwood chat: a pixel fox in its garden with stats and the conversation below." loading="lazy" width="1280" height="800"></div>
-            <figcaption>Shipped</figcaption>
-          </figure>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- SETUP + LIMITS -->
-  <section class="sec wrap" aria-labelledby="setup-title">
-    <div class="two">
-      <div>
-        <p class="eyebrow">My setup</p>
-        <h2 class="sec-title" id="setup-title">What I work with.</h2>
-        <ul class="ledger" style="margin-top: 32px;">
-          <li><span class="k">Agents</span><span class="v">Claude Code for most builds; Codex for reviews and second passes.</span></li>
-          <li><span class="k">Skills I wrote</span><span class="v">The internship agent and a Brightspace reader for my classes.</span></li>
-          <li><span class="k">Connectors</span><span class="v">Gmail, Google Calendar and Figma, through MCP.</span></li>
-          <li><span class="k">On a schedule</span><span class="v">A morning internship scan and LinkedIn drafts.</span></li>
-          <li><span class="k">Code</span><span class="v"><a href="https://github.com/wl3512-lab" target="_blank" rel="noopener">github.com/wl3512-lab ↗</a></span></li>
+<main id="main" tabindex="-1" class="dk-main">
+  <!-- One computer: click to select a project, then open it. Today, Internship agent and the creature open inside
+       the screen. The single Notes file has Process, Decisions and Results tabs. Phone apps open in one tap. -->
+  <div class="dk dk--page" id="builds" data-desktop>
+      <div class="dk-screen">
+      <div class="dk-bar"><svg aria-hidden="true" class="dk-clip" viewBox="0 0 13 18"><path d="M9.5 6v8.2a2.5 2.5 0 0 1-5 0V3.6a3.3 3.3 0 0 1 6.6 0V14a4.6 4.6 0 0 1-9.2 0V6.5" fill="none" stroke="#0b1030" stroke-width="1.6" stroke-linecap="round"/></svg><b>With AI</b><nav class="dk-menus" aria-label="Open notes"><button type="button" class="dk-menu" data-open="d-bench">Notes</button></nav><span class="dk-r" aria-hidden="true"><span data-dk-clock></span></span></div>
+      <div class="dk-desk">
+        <h1 class="visually-hidden">Lucy’s AI workspace</h1>
+        <ul class="dk-icons" aria-label="Builds: choose one to bring its window to the front">
+          <li><button class="dk-fold" type="button" data-w="today" aria-controls="dk-w-today"><span class="dk-app dk-app-today" aria-hidden="true"><img src="assets/with-ai/icons/today.svg" alt="" width="54" height="54"></span><span class="dk-name">Today</span></button></li>
+          <li><button class="dk-fold" type="button" data-w="internship-agent" aria-controls="dk-w-internship-agent"><span class="dk-app dk-app-agent" aria-hidden="true"><img src="assets/with-ai/icons/agent.svg" alt="" width="54" height="54"></span><span class="dk-name">Internship agent</span></button></li>
+          <li><button class="dk-fold" type="button" data-w="habitabull" aria-controls="dk-w-habitabull"><span class="dk-app" aria-hidden="true"><img src="assets/habitabull/icon-512.png" alt="" width="54" height="54" loading="lazy"></span><span class="dk-name">HabitaBull</span></button></li>
+          <li><button class="dk-fold" type="button" data-w="driftwood" aria-controls="dk-w-driftwood"><span class="dk-app dk-app-drift" aria-hidden="true"><img src="icons/fox.svg" alt="" width="34" height="34" loading="lazy"></span><span class="dk-name">Driftwood</span></button></li>
+          <li><button class="dk-fold" type="button" data-w="creature" aria-controls="dk-w-creature"><span class="dk-app dk-app-crt" aria-hidden="true"><img src="assets/creature-process/workshop/still.webp" alt="" width="256" height="171" loading="lazy"></span><span class="dk-name">This site</span></button></li>
         </ul>
+        <ul class="dk-icons dk-icons--docs" aria-label="Notes: open one in its own window">
+          <li><button class="dk-fold dk-fold--doc" type="button" data-w="d-bench" aria-controls="dk-d-bench"><span class="dk-app dk-app-doc" aria-hidden="true" style="--c:#3a4fd6"><img src="assets/with-ai/icons/notes.svg" alt="" width="54" height="54"></span><span class="dk-name">Notes</span></button></li>
+        </ul>
+        <div class="dk-stack">
+        <div class="dk-win" id="dk-w-today" data-w="today" style="--x:15;--y:5%;z-index:1">
+          <span class="dk-tb" aria-hidden="true"><i></i><i></i><i></i><b>today</b></span>
+          <a class="dk-open" href="#today"><span class="dk-media"><video muted playsinline preload="none" poster="assets/covers/withai-today/reel.webp" src="assets/covers/withai-today/reel.mp4" aria-label="The Today planner, a short preview"></video></span><span class="dk-cap"><span class="dk-t"><strong>Today</strong><em>Planner</em></span><span class="dk-line">My classes, inbox and calendar in one place.</span><span class="dk-go">Open project <span aria-hidden="true">↓</span></span></span></a>
+        </div>
+        <div class="dk-win" id="dk-w-internship-agent" data-w="internship-agent" style="--x:50;--y:3%;z-index:2">
+          <span class="dk-tb" aria-hidden="true"><i></i><i></i><i></i><b>internship-agent</b></span>
+          <a class="dk-open" href="#build-agent"><span class="dk-media"><video muted playsinline preload="none" poster="assets/covers/withai-agent/reel.webp" src="assets/covers/withai-agent/reel.mp4" aria-label="The internship agent, a short preview"></video></span><span class="dk-cap"><span class="dk-t"><strong>Internship agent</strong><em>Agent</em></span><span class="dk-line">Finds roles and tailors my résumé. I review every one.</span><span class="dk-go">Open project <span aria-hidden="true">↓</span></span></span></a>
+        </div>
+        <div class="dk-win" id="dk-w-creature" data-w="creature" style="--x:17;--y:41%;z-index:3">
+          <span class="dk-tb" aria-hidden="true"><i></i><i></i><i></i><b>this site</b></span>
+          <a class="dk-open" href="#creature-project"><span class="dk-media"><video muted playsinline preload="none" poster="assets/covers/withai-creature/reel.webp" src="assets/covers/withai-creature/reel.mp4" aria-label="The creature who lives in this site, a short preview"></video></span><span class="dk-cap"><span class="dk-t"><strong>This site</strong><em>Design + code</em></span><span class="dk-line">How I made this site, and the creature who lives in it.</span><span class="dk-go">Open project <span aria-hidden="true">→</span></span></span></a>
+        </div>
+        <div class="dk-win" id="dk-w-driftwood" data-w="driftwood" style="--x:61;--y:36%;z-index:4">
+          <span class="dk-tb" aria-hidden="true"><i></i><i></i><i></i><b>driftwood</b></span>
+          <a class="dk-open" href="case-study.html"><span class="dk-media"><video muted playsinline preload="none" poster="assets/covers/withai-driftwood/reel.webp" src="assets/covers/withai-driftwood/reel.mp4" aria-label="Driftwood, a short preview"></video></span><span class="dk-cap"><span class="dk-t"><strong>Driftwood</strong><em>Game</em></span><span class="dk-line">Catch an AI helper’s bad advice.</span><span class="dk-go">Open project <span aria-hidden="true">→</span></span></span></a>
+        </div>
+        <div class="dk-win is-front" id="dk-w-habitabull" data-w="habitabull" style="--x:33;--y:19%;z-index:5">
+          <span class="dk-tb" aria-hidden="true"><i></i><i></i><i></i><b>habitabull</b></span>
+          <a class="dk-open" href="habitabull.html"><span class="dk-media"><video muted playsinline preload="none" poster="assets/covers/withai-habitabull/reel.webp" src="assets/covers/withai-habitabull/reel.mp4" aria-label="HabitaBull, a short preview"></video></span><span class="dk-cap"><span class="dk-t"><strong>HabitaBull</strong><em>Habit app</em></span><span class="dk-line">A gym app for people who keep stopping.</span><span class="dk-go">Open project <span aria-hidden="true">→</span></span></span></a>
+        </div>
+        <section class="dk-win dk-doc" id="dk-d-bench" data-w="d-bench" aria-label="Notes">
+          <div class="dk-tb"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><b>Notes</b><button class="dk-x" type="button" aria-label="Close Notes">Close</button></div>
+          <nav class="dk-note-tabs" aria-label="Notes" role="tablist" hidden>
+            <button type="button" id="dk-tab-process" role="tab" aria-controls="dk-panel-process" aria-selected="true" data-note-tab="process">Process</button>
+            <button type="button" id="dk-tab-decisions" role="tab" aria-controls="dk-panel-decisions" aria-selected="false" tabindex="-1" data-note-tab="decisions">Decisions</button>
+            <button type="button" id="dk-tab-results" role="tab" aria-controls="dk-panel-results" aria-selected="false" tabindex="-1" data-note-tab="results">Results</button>
+          </nav><div class="dk-body"><section id="dk-panel-process" role="tabpanel" aria-labelledby="dk-tab-process" data-note-panel="process">
+  <!-- Plain notes (Lucy, 14 November 2026: "redesign with ai part, make it less stimulating and simple to read"; she
+       picked C of docs/projects/with-ai-calm/). The four steps read top to bottom: no room, no station tabs, no typing. -->
+  <!-- Four cards, each with a thumbnail, that fit the window without scrolling (Lucy, 14 November 2026: "add
+       thumbnails, and make it non scroll"). -->
+  <div class="dk-plain" id="bench">
+    <div class="dk-plain-head"><h2 class="dk-plain-title">I design it. I build with AI. I decide what ships.</h2>
+    <p class="dk-plain-lede">How I work, in four steps.</p></div>
+    <ol class="dk-steps">
+      <li><div class="dk-thumb dk-ex"><figure class="shot dk-ex-item" style="--r:2.1163"><div class="shot-frame"><img src="assets/with-ai/habitabull-lofi.webp" alt="Four hand-drawn phone screens: Welcome to Habitabull with a sketched bull asking your name, then weights, favourite exercises and training days." width="910" height="430" loading="lazy" decoding="async"></div><figcaption>Hand-drawn flows</figcaption></figure><figure class="shot dk-ex-item" style="--r:3.7471"><div class="shot-frame"><img src="assets/with-ai/figjam-flow.webp" alt="My FigJam flow for this site’s opening, five boxes joined by arrows: a paperclip lies on the screen with its shadow; the pet runs and jumps onto it and rolls around holding it to his chest; he holds it by the tail and waddles off; the hero loads and he hides; then, in About, the bent paperclip lies in his desk. Three sticky notes above try other versions." width="1600" height="427" loading="lazy" decoding="async"></div><figcaption>FigJam flow</figcaption></figure><figure class="shot dk-ex-item" style="--r:1.3333"><div class="shot-frame"><img src="assets/with-ai/build-plan.webp" alt="The first page of the planner’s Session Planner build plan: its goal, architecture, tech stack and conventions, then Task 1 with its test." width="1200" height="900" loading="lazy" decoding="async"></div><figcaption data-cap="A build plan · the planner’s study sessions">A build plan</figcaption></figure></div>
+        <div class="dk-step-h"><span class="dk-step-n">01</span><h3>Design</h3></div>
+        <div class="dk-step-b"><p>Sketch flows in Figma, then write a brief with clear tasks and tests.</p>
+          <p class="dk-step-sub">Hand-drawn flows, a FigJam flow and <a href="https://github.com/wl3512-lab/today-planner-plans/blob/main/docs/superpowers/plans/2026-09-17-session-planner.md" target="_blank" rel="noopener">a build plan <span aria-hidden="true">↗</span></a>.</p></div></li>
+      <li><div class="dk-thumb dk-ex"><figure class="shot dk-ex-item" style="--r:1.6000"><div class="shot-frame"><img src="assets/with-ai/internships.webp" alt="The internship workflow with grouped controls, a segmented navigation bar and a Run agent button, using an invented student." width="1600" height="1000" loading="lazy" decoding="async"></div><figcaption>The internship agent</figcaption></figure></div>
+        <div class="dk-step-h"><span class="dk-step-n">02</span><h3>Constrain</h3></div>
+        <div class="dk-step-b"><p>Set clear limits. The agent fills forms, checks facts and stops before submitting.</p>
+          <p class="dk-step-sub">I keep the final say: I approve what goes out and make the final design decisions.</p></div></li>
+      <li><div class="dk-thumb dk-ex"><figure class="shot dk-ex-item" style="--r:0.7500"><div class="shot-frame"><img src="assets/driftwood/spring-show.jpg" alt="A visitor plays Driftwood on a laptop at the IMA Spring Show 2026." width="1050" height="1400" loading="lazy" decoding="async"></div><figcaption>Driftwood at the Spring Show</figcaption></figure></div>
+        <div class="dk-step-h"><span class="dk-step-n">03</span><h3>Evaluate</h3></div>
+        <div class="dk-step-b"><p>Test the code. Get a second review. Try it with people.</p>
+          <p class="dk-step-sub">186 agent tests · 6 HabitaBull interviews. Agent suite run 9 October 2026.</p>
+          <p class="dk-step-links"><a href="#outcomes-title">User outcomes <span aria-hidden="true">→</span></a></p></div></li>
+      <li><div class="dk-thumb dk-ex"><figure class="shot dk-ex-item" style="--r:0.4622"><div class="shot-frame"><img src="assets/with-ai/habitabull-shipped.webp" alt="HabitaBull’s shipped welcome screen: the bull over Welcome to HabitaBull, asking your name, with a Continue button." width="520" height="1125" loading="lazy" decoding="async"></div><figcaption>HabitaBull on a phone</figcaption></figure></div>
+        <div class="dk-step-h"><span class="dk-step-n">04</span><h3>Ship</h3></div>
+        <div class="dk-step-b"><p>Put it in people’s hands. HabitaBull works offline; Driftwood runs in the browser and at shows.</p>
+          <p class="dk-step-sub">Offline app, web game, installable app, show kiosk and itch.io download.</p>
+          <p class="dk-step-links"><a href="habitabull.html">HabitaBull <span aria-hidden="true">→</span></a> <a href="case-study.html">Driftwood <span aria-hidden="true">→</span></a></p></div></li>
+    </ol>
+  </div>
+</section>
+<section id="dk-panel-decisions" role="tabpanel" aria-labelledby="dk-tab-decisions" data-note-panel="decisions">
+  <section class="sec wrap decisions" aria-labelledby="decisions-title">
+    <div class="sec-head"><div><p class="eyebrow">My decisions</p><h2 class="sec-title" id="decisions-title">Three choices I stand behind.</h2></div></div>
+    <article class="decision">
+      <div class="decision-title"><p class="eyebrow">01 · Today / context</p><h3>Keep help tied to the assignment.</h3></div>
+      <div class="decision-copy"><p>A second model’s review caught a missing assignment link. I required the brief, materials, and source to stay together, with the helper limited to that assignment.</p><a href="#today" data-open-tour="2">Explore the study session <span aria-hidden="true">↑</span></a></div>
+    </article>
+    <article class="decision">
+      <div class="decision-title"><p class="eyebrow">02 · Internship agent / control</p><h3>Leave the final action with me.</h3></div>
+      <div class="decision-copy"><p>The agent can tailor my résumé and fill a form. It must ask about missing facts and stop before submitting, so I can review what goes out.</p><a href="https://github.com/wl3512-lab/internship-agent" target="_blank" rel="noopener">Inspect the plugin <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <article class="decision">
+      <div class="decision-title"><p class="eyebrow">03 · HabitaBull / voice</p><h3>Make coming back feel possible.</h3></div>
+      <div class="decision-copy"><p>HabitaBull welcomes people back after time away. The bull’s voice has rules in the code: notice the absence without punishing it.</p><a href="habitabull.html">Read the design story <span aria-hidden="true">→</span></a></div>
+    </article>
+  </section>
+</section>
+<section id="dk-panel-results" role="tabpanel" aria-labelledby="dk-tab-results" data-note-panel="results">
+  <section class="sec wrap outcomes-section" aria-labelledby="outcomes-title">
+    <p class="ws-tools" id="tools">Built with Claude Code, reviewed with Codex, designed in Figma.</p>
+    <div class="sec-head">
+      <div><p class="eyebrow">Evidence from the projects</p><h2 class="sec-title" id="outcomes-title">Results and testing.</h2></div>
+    </div>
+
+    <article class="outcome-field" aria-labelledby="outcome-driftwood">
+      <div class="outcome-heading"><h3 id="outcome-driftwood">Driftwood</h3><a href="case-study.html#cs-s-outcome">Read the exhibition findings <span aria-hidden="true">→</span></a></div>
+      <dl class="outcome-metrics">
+        <div><dt>People who played at the IMA Spring Show</dt><dd>100+</dd></div>
+        <div><dt>Named their pet’s flaw without being told</dt><dd>~76%</dd></div>
+      </dl>
+      <p class="outcome-context">Observed at the Spring Show in May 2026. Most players were ITP/IMA peers, a self-selected audience already familiar with AI critiques. Structured testing of the rebuilt game with non-technical players is still next.</p>
+    </article>
+
+    <div class="outcome-checks">
+      <article class="outcome-check" aria-labelledby="outcome-habitabull">
+        <h3 id="outcome-habitabull">HabitaBull</h3>
+        <p class="outcome-number">6 <span>research interviews</span></p>
+        <p>The design began with six interviews: people who used, had quit, or had never tried fitness apps. I am now building it as a native iPhone app.</p>
+        <a href="habitabull.html">Read the research <span aria-hidden="true">→</span></a>
+      </article>
+      <article class="outcome-check" aria-labelledby="outcome-agent">
+        <h3 id="outcome-agent">Internship agent</h3>
+        <p class="outcome-number">186 <span>automated tests passing</span></p>
+        <p>Checks include asking for missing facts and blocking readiness when required answers are blank. Tests use a fictional student and temporary files.</p>
+        <a href="https://github.com/wl3512-lab/internship-agent/tree/main/tests" target="_blank" rel="noopener">Inspect the tests <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+    <p class="outcome-date">Test suites run on 9 October 2026. These check software behavior; they do not measure user outcomes.</p>
+  </section>
+</section>
+          </div>
+        </section>
+        <section class="dk-win dk-doc" id="dk-d-today" data-w="d-today" aria-label="Today" data-project="today">
+          <div class="dk-tb"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><b>Today</b><button class="dk-x" type="button" aria-label="Close Today">Close</button></div>
+          <div class="dk-body">
+  <section class="sec wrap today-feature" id="today" aria-labelledby="today-title">
+    <div class="sec-head">
+      <div><p class="eyebrow">Featured build · Today</p><h2 class="sec-title" id="today-title">One place to start my day.</h2></div>
+      <p class="sec-lede">A planner I designed for my own day. It brings class assignments, my inbox, and Google Calendar into one place.</p>
+    </div>
+    <div class="tour" data-tour>
+      <div class="tour-nav" role="tablist" aria-label="Today walkthrough" hidden>
+        <button class="tour-tab" id="tour-tab-0" type="button" role="tab" aria-controls="tour-panel-0" aria-selected="true"><span class="tour-number">01</span><span><strong>Assignments</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
+        <button class="tour-tab" id="tour-tab-1" type="button" role="tab" aria-controls="tour-panel-1" aria-selected="false" tabindex="-1"><span class="tour-number">02</span><span><strong>Calendar</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
+        <button class="tour-tab" id="tour-tab-2" type="button" role="tab" aria-controls="tour-panel-2" aria-selected="false" tabindex="-1"><span class="tour-number">03</span><span><strong>Study help</strong></span><span class="tour-arrow" aria-hidden="true">→</span></button>
       </div>
-      <div>
-        <p class="eyebrow">What I don't let it do</p>
-        <h2 class="sec-title" id="never-title">The lines it doesn't cross.</h2>
-        <ol class="never" style="margin-top: 32px;" aria-labelledby="never-title">
-          <li>Submit an application.<span>It fills the form and stops. I read it and press send.</span></li>
-          <li>Invent a fact about me.<span>If it can't answer honestly, it asks.</span></li>
-          <li>Publish anything.<span>It drafts LinkedIn posts; I post them, or don't.</span></li>
-          <li>Act outward without asking.<span>Anything that leaves my laptop waits for a yes.</span></li>
-          <li>Have the last word on design.<span>It builds from my designs, and when something doesn't look right to me, I overrule it.</span></li>
-          <li>Do my reading.<span>I don't use it to summarize articles and readings. I read them myself.</span></li>
-        </ol>
+      <div class="tour-panels">
+        <div class="tour-panel" id="tour-panel-0" data-tour-panel>
+          <figure class="shot"><div class="shot-frame"><img src="assets/with-ai/classes.webp" alt="The Today planner gathering an invented class’s assignments and sources in one view." width="1600" height="1000" loading="eager" decoding="async"></div><figcaption>Demo data · Select image to enlarge</figcaption></figure>
+          <div class="tour-explanation"><h3>01 / Find the assignment</h3><p>Assignments come from Brightspace, spreadsheets, websites, and Discord. Today gathers them every two hours and keeps each source attached.</p></div>
+        </div>
+        <div class="tour-panel" id="tour-panel-1" data-tour-panel>
+          <figure class="shot"><div class="shot-frame"><img src="assets/with-ai/week.webp" alt="A week of demo calendar events, deadlines, and planned study blocks in Today." width="1600" height="1000" loading="lazy" decoding="async"></div><figcaption>Demo data · Select image to enlarge</figcaption></figure>
+          <div class="tour-explanation"><h3>02 / Make time for it</h3><p>I drag an assignment into a free hour. Today adds the study block to my Google Calendar, beside the events already there.</p></div>
+        </div>
+        <div class="tour-panel" id="tour-panel-2" data-tour-panel>
+          <figure class="shot"><div class="shot-frame"><img src="assets/with-ai/study.webp" alt="A demo study session with the assignment brief and materials beside the AI study helper." width="1600" height="1000" loading="lazy" decoding="async"></div><figcaption>Demo data · Select image to enlarge</figcaption></figure>
+          <div class="tour-explanation"><h3>03 / Start with context</h3><p>The study helper opens with the assignment brief and materials. It can access that assignment only, keeping the rest of my planner private.</p></div>
+        </div>
       </div>
     </div>
+    <div class="today-foot"><p>Private app · Screenshots use an invented student.</p><a href="https://github.com/wl3512-lab/today-planner-plans/tree/main/docs/superpowers/plans" target="_blank" rel="noopener">Read the build plans <span aria-hidden="true">↗</span></a></div>
   </section>
+          </div>
+        </section>
+        <section class="dk-win dk-doc" id="dk-d-notes" data-w="d-notes" aria-label="Internship agent" data-project="internship-agent">
+          <div class="dk-tb"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><b>Internship agent</b><button class="dk-x" type="button" aria-label="Close Internship agent">Close</button></div>
+          <div class="dk-body">
+  <section class="sec wrap dk-project" id="build-agent" aria-labelledby="agent-project-title">
+    <div class="sec-head"><div><p class="eyebrow">Internship agent · Design + code</p><h2 class="sec-title" id="agent-project-title">Ready for my review.</h2></div><p class="sec-lede">Finds roles, tailors my résumé from existing sentences, and fills the form. I review every application before sending.</p></div>
+    <div class="dk-project-grid">
+      <figure class="shot"><div class="shot-frame"><img src="assets/with-ai/internships.webp" width="1600" height="1000" loading="lazy" alt="The internship workflow with grouped controls, a segmented navigation bar and a Run agent button, using an invented student."></div><figcaption>Internships screen · Demo data</figcaption></figure>
+      <div class="dk-project-copy"><h3>The boundary</h3><p>It stops before submit. Missing facts come back to me; résumé tailoring can only select and reorder my own sentences.</p><h3>Checked in code</h3><p>186 automated tests using a fictional student, checked 9 October 2026.</p><a class="build-link" href="https://github.com/wl3512-lab/internship-agent" target="_blank" rel="noopener">Explore the code <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+          </div>
+        </section>
+        <section class="dk-win dk-doc" id="dk-d-creature" data-w="d-creature" aria-label="This site" data-project="creature">
+          <div class="dk-tb"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><b>This site</b><button class="dk-x" type="button" aria-label="Close This site">Close</button></div>
+          <div class="dk-body">
+  <section class="sec wrap dk-project" id="creature-project" aria-labelledby="creature-project-title">
+    <div class="sec-head"><div><p class="eyebrow">This site · Design + code</p><h2 class="sec-title" id="creature-project-title">How I made this site.</h2></div><p class="sec-lede">I direct the design, test it with people and build it with AI. The creature who lives in it has his own process.</p></div>
+    <div class="dk-project-grid">
+      <figure class="dk-pet-portrait"><img src="assets/hero/still.webp" width="256" height="171" loading="lazy" alt="The ivory and blue creature who lives in this site, seated with his branching horns and curled tail."><figcaption>The creature, final 2D direction</figcaption></figure>
+      <div class="dk-project-copy"><h3>Built, tested and checked</h3><p>Plain HTML and React, precompiled and deployed with one script. User testing cut the home page down, a design audit cut 126 styles to 50, and 44 test files with more than 580 checks run before each release.</p><h3>A rig that kept the drawings accurate</h3><p>I used a Blender rig as a guide so AI drawings did not invent extra blades or wrong limbs, but I did not ship Blender renders. The animations are 2D pixel frames.</p><div><a class="build-link" href="portfolio-creature.html">How I made this site <span aria-hidden="true">→</span></a></div><div><a class="build-link" href="creature-frames.html">Browse his frames <span aria-hidden="true">→</span></a></div></div>
+    </div>
+    <!-- His Blender rig, turnable (Lucy, 14 November 2026: "include 3d 360 rotatable blender model on portfolio creature"):
+         the same viewer as portfolio-creature.html; three.js loads only when this window opens. -->
+    <figure class="cr-figure cr-rig dk-rig" data-rig-viewer data-src="assets/creature-process/rig/creature.glb" data-edges="assets/creature-process/rig/edges.rigw">
+      <div class="rig-stage">
+        <img class="cr-study" src="assets/creature-process/pose-study.png" alt="A three-quarter pixel render of the Blender creature model, used to study its body and pose" width="320" height="240" loading="lazy">
+        <canvas tabindex="0" role="img" aria-label="The Blender rig in 3D. Drag or use the arrow keys to turn him around; scroll, pinch or plus and minus to zoom."></canvas>
+        <p class="rig-hint" aria-hidden="true">Drag to turn him</p>
+      </div>
+      <div class="rig-controls">
+        <div class="rig-modes" role="group" aria-label="Show the rig as">
+          <button type="button" class="media-btn" data-rig-mode="colour" aria-pressed="true">Colour</button>
+          <button type="button" class="media-btn" data-rig-mode="mesh" aria-pressed="false">Mesh</button>
+        </div>
+        <div class="rig-actions" role="group" aria-label="Camera">
+          <button type="button" class="media-btn" data-rig="in" aria-label="Zoom in">+</button>
+          <button type="button" class="media-btn" data-rig="out" aria-label="Zoom out">&minus;</button>
+          <button type="button" class="media-btn" data-rig="turn">Turn 360&deg;</button>
+          <button type="button" class="media-btn" data-rig="reset">Reset</button>
+        </div>
+      </div>
+      <figcaption class="dk-rig-cap">The Blender rig · Turn him all the way round and zoom in. An explored direction, rather than the final illustrated appearance.</figcaption>
+    </figure>
+  </section>
+          </div>
+        </section>
 
+        </div>
+      </div>
+      </div>
+    </div>
 </main>
 
 <dialog class="zoom" data-zoom aria-label="Enlarged screenshot">
-  <button type="button" class="zoom-close">Close</button>
+  <button type="button" class="zoom-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   <figure class="zoom-fig">
     <div class="zoom-pan" data-zoom-pan><img data-zoom-img alt=""></div>
     <figcaption class="eyebrow" data-zoom-cap></figcaption>
   </figure>
 </dialog>
 
-<footer class="wa-foot">
-  <div class="wrap wa-foot-inner">
-    <p class="wa-foot-line">Want to see one running? Ask me.</p>
-    <nav class="wa-foot-links" aria-label="Contact">
-      <a href="mailto:wl3512@nyu.edu">wl3512@nyu.edu</a>
-      <a href="https://github.com/wl3512-lab" target="_blank" rel="noopener">GitHub ↗</a>
-      <a href="work.html">All work</a>
-    </nav>
-  </div>
-</footer>
+<footer data-site-footer></footer>
 
 <script>
-/* Flexing headline. Each letter sits on Anybody's wdth/wght axes; a crest of weight follows
-   the pointer on a fine pointer and otherwise sweeps slowly along the sentence. Letter boxes
-   reserve the widest animated weight, so letters stay readable and lines never reflow
-   as the weight moves. Reduced motion leaves it at rest. */
-(function () {
-  var title = document.querySelector('[data-flex-title]');
-  if (!title) return;
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  var fine = matchMedia('(hover: hover) and (pointer: fine)');
-  var chars = [];
+/* The headline's pointer weight crest retired with Anybody (2026-10-31): Syne has no width axis, so reserving each
+   letter's peak width spread the words apart. The title is plain Syne, like every page title. */
 
-  title.querySelectorAll('.ft-line').forEach(function (line) {
-    var words = line.textContent.split(' ');
-    line.textContent = '';
-    line.setAttribute('aria-hidden', 'true');
-    words.forEach(function (w, wi) {
-      if (wi) { var sp = document.createElement('span'); sp.className = 'ft-space'; line.appendChild(sp); }
-      var ws = document.createElement('span'); ws.className = 'ft-w';
-      Array.from(w).forEach(function (c) {
-        var s = document.createElement('span'); s.className = 'ft-ch'; s.textContent = c;
-        ws.appendChild(s); chars.push({ el: s, x: 0, y: 0 });
+/* Progressive enhancement: all three steps remain readable without JavaScript. */
+(function () {
+  var tour = document.querySelector('[data-tour]');
+  if (!tour) return;
+  var nav = tour.querySelector('.tour-nav');
+  var tabs = Array.from(nav.querySelectorAll('[role="tab"]'));
+  var panels = Array.from(tour.querySelectorAll('[data-tour-panel]'));
+  function select(index, focus) {
+    tabs.forEach(function (tab, i) {
+      tab.setAttribute('aria-selected', String(i === index));
+      tab.tabIndex = i === index ? 0 : -1;
+      panels[i].hidden = i !== index;
+    });
+    if (focus) tabs[index].focus({ preventScroll: true });
+  }
+  panels.forEach(function (panel, i) {
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tabs[i].id);
+    panel.tabIndex = 0;
+  });
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(i, false); });
+    tab.addEventListener('keydown', function (e) {
+      var next = i;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i + tabs.length - 1) % tabs.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabs.length - 1;
+      else return;
+      e.preventDefault(); select(next, true);
+    });
+  });
+  document.querySelectorAll('[data-open-tour]').forEach(function (link) {
+    link.addEventListener('click', function () { select(Number(link.dataset.openTour), true); });
+  });
+  nav.hidden = false;
+  tour.classList.add('is-enhanced');
+  select(0, false);
+})();
+
+/* Refresh the portfolio check count. The historical usage archive remains intact;
+   token consumption and streaks are not presented as product evidence. */
+(function () {
+  if (!document.querySelector('[data-u="checks"]') || !window.fetch) return;
+  fetch('assets/with-ai/usage.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (u) {
+      if (!u || !u.site || !Number.isFinite(u.site.checks)) return;
+      document.querySelectorAll('[data-u="checks"]').forEach(function (el) {
+        el.textContent = String(u.site.checks);
       });
-      line.appendChild(ws);
-    });
-  });
-  function measure() {
-    chars.forEach(function (c) { c.el.style.width = ''; c.el.style.fontVariationSettings = "'wdth' 96, 'wght' 820"; });
-    var r = title.getBoundingClientRect();
-    var boxes = chars.map(function (c) { return c.el.getBoundingClientRect(); });
-    chars.forEach(function (c, i) {
-      var b = boxes[i];
-      c.el.style.width = b.width + 'px';
-      c.el.style.fontVariationSettings = '';
-      c.x = b.left - r.left + b.width / 2; c.y = b.top - r.top + b.height / 2;
-    });
-    size = r.height / 3;
-  }
-  var size = 100, pointer = null, lastMove = 0, t0 = performance.now(), raf = 0, visible = true;
-  var cur = chars.map(function () { return 0; });
-
-  function frame(now) {
-    raf = 0;
-    if (reduce.matches || !visible || document.hidden) return;
-    raf = requestAnimationFrame(frame);
-    var r = title.getBoundingClientRect();
-    var usePointer = pointer && now - lastMove < 2500;
-    var sweep = (Math.sin((now - t0) / 1800) * 0.5 + 0.5); // 0..1 along the sentence
-    var n = chars.length;
-    chars.forEach(function (c, i) {
-      var target;
-      if (usePointer) {
-        var dx = (pointer.x - r.left) - c.x, dy = (pointer.y - r.top) - c.y;
-        var d = Math.sqrt(dx * dx + dy * dy) / (size * 1.25);
-        target = Math.max(0, 1 - d * d);
-      } else {
-        var d2 = (i / (n - 1) - sweep) * 7;
-        target = Math.max(0, Math.cos(Math.max(-Math.PI, Math.min(Math.PI, d2))) * 0.5 + 0.5) * 0.85;
-      }
-      cur[i] += (target - cur[i]) * 0.12;
-      var v = cur[i];
-      var wdth = 96; // Keep the width axis fixed; the weight carries the crest.
-      var wght = Math.round(320 + v * 500); // 320..820, within the reserved letter boxes
-      c.el.style.fontVariationSettings = "'wdth' " + wdth + ", 'wght' " + wght;
-    });
-  }
-
-  var ready = false;
-  function syncMotion() {
-    cancelAnimationFrame(raf); raf = 0;
-    var hint = document.querySelector('[data-flex-hint]');
-    if (hint) hint.hidden = reduce.matches || !fine.matches;
-    if (reduce.matches) {
-      chars.forEach(function (c, i) { c.el.style.fontVariationSettings = ''; cur[i] = 0; });
-    } else if (ready && visible && !document.hidden) {
-      raf = requestAnimationFrame(frame);
-    }
-  }
-  function start() {
-    measure(); ready = true; syncMotion();
-  }
-  title.addEventListener('pointermove', function (e) {
-    if (!fine.matches || reduce.matches) return;
-    pointer = { x: e.clientX, y: e.clientY }; lastMove = performance.now();
-  }, { passive: true });
-  title.addEventListener('pointerleave', function () { pointer = null; });
-  var rt = 0;
-  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(measure, 120); });
-  new IntersectionObserver(function (es) { visible = es[0].isIntersecting; syncMotion(); }).observe(title);
-  document.addEventListener('visibilitychange', syncMotion);
-  reduce.addEventListener('change', syncMotion);
-  fine.addEventListener('change', syncMotion);
-  (document.fonts && document.fonts.load ? document.fonts.load("500 40px 'Anybody'") : Promise.resolve()).then(start, start);
-})();
-
-/* Usage receipt: fills the numbers and draws the 13-week grid from assets/with-ai/usage.json,
-   which scripts/usage-snapshot.mjs writes from the local Claude Code and Codex logs on every
-   deploy, along with this site's counts. The numbers already in the markup are the fallback if
-   the file cannot load. days holds the whole history as [date, claude, codex]. */
-(function () {
-  var root = document.querySelector('[data-usage]');
-  if (!root || !window.fetch) return;
-  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  function day(iso) { var p = iso.split('-'); return +p[2] + ' ' + MONTHS[+p[1] - 1]; }
-  function big(n) {
-    if (n >= 1e9) return (n / 1e9).toFixed(n >= 1e10 ? 0 : 1) + 'B';
-    if (n >= 1e6) return Math.round(n / 1e6) + 'M';
-    if (n >= 1e3) return Math.round(n / 1e3) + 'K';
-    return String(n);
-  }
-  function set(k, v) { document.querySelectorAll('[data-u="' + k + '"]').forEach(function (el) { el.textContent = v; }); }
-  fetch('assets/with-ai/usage.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (u) {
-    if (!u || !u.days || !u.days.length) return;
-    var win = u.days.slice(-(u.weeks || 13) * 7);
-    function used(d) { return (d[1] || 0) + (d[2] || 0); }
-    set('total', big(u.totalTokens));
-    set('asof', day(u.asOf));
-    set('active', String(u.activeDays));
-    set('span', String(win.length));
-    if (u.busiest) { set('busiest', big(u.busiest.tokens)); set('busiestDate', day(u.busiest.date)); }
-    set('claude', big(u.claudeTokens)); set('codex', big(u.codexTokens));
-    var tot = u.claudeTokens + u.codexTokens || 1;
-    var cb = document.querySelector('[data-u="claudeBar"]'), xb = document.querySelector('[data-u="codexBar"]');
-    if (cb) cb.style.width = (u.claudeTokens / tot * 100).toFixed(1) + '%';
-    if (xb) xb.style.width = Math.max(1.5, u.codexTokens / tot * 100).toFixed(1) + '%';
-    if (u.site) ['pages', 'components', 'checks', 'rules'].forEach(function (k) { if (u.site[k] != null) set(k, String(u.site[k])); });
-
-    // While a streak runs it is the number; once it breaks, the longest run stands in, so the
-    // receipt never reads "0 days in a row, and counting".
-    var live = u.streak >= 2 || !u.longest || u.longest.days < 2;
-    var run = live ? u.streak : u.longest.days;
-    set('streak', String(run));
-    if (!live) {
-      set('longestEnd', day(u.longest.end));
-      document.querySelector('[data-streak="live"]').hidden = true;
-      document.querySelector('[data-streak="best"]').hidden = false;
-    }
-
-    // Grid: one column per calendar week, Sunday on top, like the dashboard.
-    var heat = document.querySelector('[data-heat]');
-    if (!heat) return;
-    var vals = win.map(used).filter(Boolean).sort(function (a, b) { return a - b; });
-    function q(f) { return vals[Math.min(vals.length - 1, Math.floor(vals.length * f))] || 0; }
-    var cuts = [q(0.25), q(0.5), q(0.75)];
-    var runEnd = -1;
-    win.forEach(function (d, i) { if (live ? used(d) : d[0] === u.longest.end) runEnd = i; });
-    var runFrom = runEnd - run + 1;
-    var first = win[0][0].split('-');
-    var pad = new Date(+first[0], +first[1] - 1, +first[2]).getDay();
-    var frag = document.createDocumentFragment();
-    for (var i = 0; i < pad; i++) { var e = document.createElement('i'); e.className = 'is-pad'; frag.appendChild(e); }
-    win.forEach(function (d, i) {
-      var c = document.createElement('i'), t = used(d);
-      c.dataset.l = !t ? 0 : t <= cuts[0] ? 1 : t <= cuts[1] ? 2 : t <= cuts[2] ? 3 : 4;
-      if (t && i >= runFrom && i <= runEnd) c.classList.add('is-streak');
-      if (u.busiest && d[0] === u.busiest.date) c.classList.add('is-busiest');
-      c.title = day(d[0]) + (t ? ': ' + big(t) + ' tokens' : ': no sessions');
-      frag.appendChild(c);
-    });
-    heat.appendChild(frag);
-    var legend = document.querySelector('[data-heat-legend]');
-    if (legend) legend.hidden = false;
-  }).catch(function () {});
-})();
-
-/* Rules deck: one card up, two peeking behind; "Deal another rule" throws the top one off
-   and brings the next up. Without JS the cards are a plain readable list. */
-(function () {
-  var deck = document.querySelector('[data-deck]');
-  if (!deck) return;
-  var cards = Array.from(deck.querySelectorAll('.rule-card'));
-  var btn = deck.querySelector('[data-deck-next]');
-  var count = deck.querySelector('[data-deck-count]');
-  var top = 0, n = cards.length;
-  deck.classList.remove('no-deck');
-  function lay() {
-    cards.forEach(function (c, i) {
-      var pos = (i - top + n) % n;
-      c.dataset.pos = pos < 3 ? String(pos) : 'hide';
-      c.setAttribute('aria-hidden', pos === 0 ? 'false' : 'true');
-    });
-    count.textContent = '(' + String(top + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') + ')';
-  }
-  btn.addEventListener('click', function () {
-    var leaving = cards[top];
-    top = (top + 1) % n;
-    lay();
-    leaving.dataset.pos = 'out';
-    setTimeout(function () { if (leaving !== cards[top]) lay(); }, 380);
-  });
-  lay();
+    }).catch(function () {});
 })();
 
 /* Four builds: every screenshot opens larger in a dialog, never past its own pixel size. The frames
@@ -937,7 +345,7 @@ html:has(.zoom[open]) { overflow: hidden; }
   var ICON = '<span class="shot-zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">' +
     '<path d="M8.5 1.5h4v4M5.5 12.5h-4v-4M12.5 1.5L8 6M1.5 12.5L6 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 
-  document.querySelectorAll('.builds .shot').forEach(function (fig) {
+  document.querySelectorAll('.shot').forEach(function (fig) {
     var frame = fig.querySelector('.shot-frame');
     var img = frame && frame.querySelector('img');
     if (!img) return;
@@ -955,7 +363,8 @@ html:has(.zoom[open]) { overflow: hidden; }
       big.alt = img.alt;
       big.width = img.naturalWidth || +img.getAttribute('width');
       big.height = img.naturalHeight || +img.getAttribute('height');
-      cap.textContent = caption ? caption.textContent : '';
+      // a caption that is a link (the bench's build plan) gives the dialog its words in data-cap
+      cap.textContent = caption ? (caption.getAttribute('data-cap') || caption.textContent) : '';
       opener = btn;
       dlg.showModal();
       pan.scrollLeft = 0;

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050710">
+<title>How I made this site | Lucy Liu</title>
+<meta name="description" content="How Lucy Liu designed, tested and built her portfolio site with AI: the tools, the user testing, the design audit, the performance rules and the creature who lives in it.">
+<link rel="canonical" href="https://lucyliu.xyz/portfolio-creature.html">
+<meta property="og:title" content="How I made this site | Lucy Liu">
+<meta property="og:description" content="The tools, tests and design decisions behind my portfolio site, and the creature who lives in it.">
+<meta property="og:url" content="https://lucyliu.xyz/portfolio-creature.html">
+<meta property="og:image" content="https://lucyliu.xyz/assets/creature-process/in-the-room.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68">
+<link rel="stylesheet" href="styles.css?v=224">
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<!-- His Blender rig, turnable (Lucy, 2026-11-02). three.js 0.160, the site's version; its loaders import "three". -->
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+<script defer src="components/rig-viewer.js"></script>
+<style>
+  .cr-page { max-width: 1240px; margin: auto; padding: 124px 36px 80px; }
+  /* the site's small link, label, title and headings (colors_and_type.css; Lucy, 2026-10-31) */
+  .cr-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font: var(--type-link); letter-spacing: var(--track-link); color: var(--fg-accent); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+  .cr-link:hover, .cr-link:focus-visible { text-decoration-color: currentColor; }
+  .cr-hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 48px; padding: 48px 0 64px; }
+  .cr-kicker { margin: 0 0 20px; color: var(--fg3); font: var(--type-label); letter-spacing: var(--track-label); }
+  .cr-title { margin: 0; font: var(--type-title); letter-spacing: -.03em; }
+  .cr-deck { margin: 28px 0 0; max-width: 40ch; color: var(--fg2); font-size: 20px; line-height: 1.55; }
+  .cr-hero figure { margin: 0; }
+  .cr-current { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+  .cr-caption { margin: 16px 0 0; color: var(--fg3); font-size: 12px; line-height: 1.6; }
+  .cr-credit { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 28px; margin: 0; padding: 24px 0; border-block: 1px solid var(--border); }
+  .cr-credit dt { margin-bottom: 6px; color: var(--fg3); font: var(--type-label); letter-spacing: var(--track-label); }
+  .cr-credit dd { margin: 0; color: var(--fg2); font-size: 14px; line-height: 1.6; }
+  .cr-section { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 64px; padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .cr-section h2 { margin: 0 0 22px; font: var(--type-h2); letter-spacing: -.01em; }
+  .cr-copy p:not(.cr-kicker) { margin: 0 0 18px; max-width: 53ch; color: var(--fg2); font-size: 16px; line-height: 1.75; }
+  .cr-copy p:last-child { margin-bottom: 0; }
+  .cr-figure { margin: 0; min-width: 0; }
+  .cr-figure img { display: block; width: 100%; height: auto; }
+  .cr-study { background: #090b1e; image-rendering: pixelated; }
+  /* the rig viewer (components/rig-viewer.js) */
+  .cr-rig .rig-stage { position: relative; aspect-ratio: 4 / 3; background: radial-gradient(ellipse 60% 55% at 50% 55%, #121736 0%, #090b1e 70%); overflow: hidden; }
+  .cr-rig .rig-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .4s; }
+  .cr-rig canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; opacity: 0; transition: opacity .4s; }
+  .cr-rig canvas:active { cursor: grabbing; }
+  .cr-rig canvas:focus-visible { outline: 2px solid var(--blue-300); outline-offset: -2px; }
+  .cr-rig.rig-ready canvas { opacity: 1; }
+  .cr-rig.rig-ready .rig-stage img { opacity: 0; }
+  .cr-rig .rig-hint { position: absolute; left: 12px; bottom: 10px; margin: 0; color: var(--fg3); font: var(--type-label); letter-spacing: var(--track-label); pointer-events: none; opacity: 0; transition: opacity .4s; }
+  .cr-rig.rig-ready:not(.rig-touched) .rig-hint { opacity: 1; }
+  .cr-rig.rig-loading .rig-stage::after { content: "Loading the mesh"; position: absolute; right: 12px; bottom: 10px; color: var(--fg3); font: var(--type-label); letter-spacing: var(--track-label); }
+  .cr-rig .rig-controls { display: none; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .cr-rig.rig-ready .rig-controls { display: flex; }
+  .cr-rig .rig-modes { display: flex; gap: 0; }
+  .cr-rig .rig-modes { gap: 4px; }
+  .cr-rig .media-btn[aria-pressed="true"] { color: var(--fg1); text-decoration-color: var(--blue-300); }
+  .cr-rig .rig-actions { display: flex; gap: 8px; margin-left: auto; }
+  .cr-rig .rig-actions .media-btn { min-width: 44px; justify-content: center; } .cr-rig [data-rig="in"], .cr-rig [data-rig="out"] { font-size: 20px; letter-spacing: 0; text-decoration: none; }
+  @media (max-width: 760px) { .cr-rig .rig-actions { margin-left: 0; } }
+  /* process sections: a short claim, then rows of real facts (Lucy, 18 Nov 2026) */
+  .cr-rows { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--border); }
+  .cr-rows > div { display: grid; grid-template-columns: minmax(120px, 11em) 1fr; gap: 8px 24px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .cr-rows dt { color: var(--fg3); font: var(--type-label); letter-spacing: var(--track-label); }
+  .cr-rows dd { margin: 0; color: var(--fg2); font-size: 15px; line-height: 1.6; }
+  .cr-rows--said > div { grid-template-columns: 1fr; gap: 4px; }
+  .cr-rows--said dt { text-transform: none; letter-spacing: 0; font: 600 15px/1.45 var(--font-body); color: var(--fg1); }
+  .cr-top { align-items: start; }
+  .cr-part { padding: 72px 0 8px; border-bottom: 1px solid var(--border); }
+  .cr-part h2 { margin: 0 0 18px; font: var(--type-h2); letter-spacing: -.01em; }
+  .cr-part p:not(.cr-kicker) { margin: 0; max-width: 62ch; color: var(--fg2); font-size: 16px; line-height: 1.75; padding-bottom: 56px; }
+  #cr-rig { align-items: start; }
+  @media (min-width: 761px) { #cr-rig .cr-rig { position: sticky; top: 104px; } }
+  .cr-more { margin-top: 8px; }
+  .cr-more > summary { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; list-style: none; font: 400 13px/1.25 var(--font-code); color: var(--fg-accent); }
+  .cr-more > summary::-webkit-details-marker { display: none; }
+  .cr-more > summary:hover { color: var(--fg1); }
+  .cr-more > summary:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 2px; }
+  .cr-pl { flex: none; width: 22px; height: 22px; background: var(--rm-plus); clip-path: var(--notch); }
+  .cr-more[open] > summary .cr-pl { background: var(--rm-minus); }
+  .cr-more-in { padding-top: 10px; }
+  .cr-more-in ul { margin: 0 0 12px; padding-left: 20px; color: var(--fg2); font-size: 15px; line-height: 1.65; max-width: 60ch; }
+  .cr-more-in li { margin-bottom: 8px; }
+  .cr-more-in p { margin: 0 0 12px; max-width: 60ch; color: var(--fg2); font-size: 15px; line-height: 1.65; }
+  .cr-copy .cr-more-in p, .cr-copy .cr-more-in ul { max-width: 53ch; }
+  .cr-section--wide { display: block; }
+  .cr-section--wide .cr-copy { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; margin-bottom: 36px; }
+  .cr-page > .next-block { margin-top: 40px; }
+  .cr-footer { padding: 24px; border-top: 1px solid var(--border); color: var(--fg3); font-size: 12px; text-align: center; }
+  @media (max-width: 760px) {
+    .cr-page { padding: 104px 24px 48px; }
+    .cr-hero { grid-template-columns: 1fr; gap: 20px; padding: 28px 0 36px; }
+    .cr-deck { margin-top: 22px; font-size: 18px; }
+    .cr-hero figure { max-width: 480px; }
+    .cr-credit { grid-template-columns: 1fr; gap: 18px; }
+    .cr-section { grid-template-columns: 1fr; gap: 28px; padding: 48px 0; }
+    .cr-rows > div { grid-template-columns: 1fr; gap: 4px; }
+    .cr-part { padding-top: 48px; }
+    .cr-part p:not(.cr-kicker) { padding-bottom: 36px; }
+    .cr-section--wide .cr-copy { display: block; margin-bottom: 28px; }
+    .cr-section--wide .cr-copy .cr-kicker { margin-bottom: 20px; }
+    .nav-inner { padding-inline: 24px; }
+    .nav-links { display: flex; gap: 18px; }
+    .nav-link { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header data-site-header></header>
+<main id="main-content" class="cr-page">
+  <header class="cr-hero">
+    <div>
+      <p class="cr-kicker">This site · Design + code · 2026</p>
+      <h1 class="cr-title">How I made<br>this site.</h1>
+      <p class="cr-deck">I direct the design, test it with people, and build it with AI. This page shows the process, from the tools to the decisions, and the creature who lives in the site.</p>
+    </div>
+    <figure><img class="cr-current" src="assets/hero/still.webp" alt="The ivory and blue portfolio creature, seated with his tail curled beside him" width="256" height="171"><figcaption class="cr-caption">The creature who lives in this site's rooms.</figcaption></figure>
+  </header>
+  <dl class="cr-credit" aria-label="Project credits">
+    <div><dt>My role</dt><dd>Creative direction, design, user testing, review</dd></div>
+    <div><dt>Made with</dt><dd>React, GSAP and three.js, with Claude and Codex writing and reviewing code</dd></div>
+    <div><dt>Live at</dt><dd>lucyliu.xyz, deployed to Vercel</dd></div>
+  </dl>
+
+  <section class="cr-section cr-top" id="cr-build" aria-labelledby="cr-build-h">
+    <div class="cr-copy"><p class="cr-kicker">01 · The build</p><h2 id="cr-build-h">It is a static site with React components and one deploy script.</h2>
+      <p>The source is plain HTML, CSS and React 18, with no bundler. I can open a file on my laptop and it runs.</p>
+      <p>At deploy time a script turns the JSX into plain JavaScript and removes in-browser Babel, about 3 MB that visitors no longer download. A single command, <code>deploy.sh</code>, syncs the files, checks that the required ones exist, precompiles, and pushes to Vercel.</p>
+      <details class="cr-more"><summary><span class="cr-pl" aria-hidden="true"></span>Read more</summary><div class="cr-more-in">
+        <ul>
+          <li>Source lives in one folder. The deploy copies it to a throwaway folder, so the source stays readable JSX.</li>
+          <li>The preflight stops the deploy if a required file is missing, such as the main stylesheet or the home page. Deploying straight to Vercel skipped these checks and once shipped blank pages, so I only deploy through the script.</li>
+          <li>The script skips large media nothing links to, such as a 90 MB PDF.</li>
+          <li>A dry run builds everything without pushing, so I can test the real output first.</li>
+        </ul>
+      </div></details>
+    </div>
+    <dl class="cr-rows" aria-label="The build in numbers">
+      <div><dt>Pages</dt><dd>24 public pages in the sitemap</dd></div>
+      <div><dt>Code</dt><dd>78 component and engine files</dd></div>
+      <div><dt>Libraries</dt><dd>React 18, GSAP with ScrollTrigger, Lenis smooth scroll on the home page, three.js where there is 3D</dd></div>
+      <div><dt>Deploy</dt><dd>JSX precompile, a preflight check, then Vercel</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-testing" aria-labelledby="cr-testing-h">
+    <div class="cr-copy"><p class="cr-kicker">02 · User testing</p><h2 id="cr-testing-h">User testing changed what the home page shows.</h2>
+      <p>I ran the site past testers and kept their notes. Each row is something they said and what I changed because of it.</p>
+    </div>
+    <dl class="cr-rows cr-rows--said" aria-label="What testers said and what changed">
+      <div><dt>They did not know where to go from the hero.</dt><dd>The hero now shows my name, three project covers that each open a case study, and two text links, All work and With AI.</dd></div>
+      <div><dt>The home page had too much going on, especially the standout work and the phone layout.</dt><dd>I removed the Standout section, then the Capabilities section. Home is now the hero, the With AI band, sompednyc and a closing screen.</dd></div>
+      <div><dt>They reached Capabilities and scrolled back up before the end.</dt><dd>I replaced the pinned scroll with one screen that plays itself, and then took the section off the home page.</dd></div>
+      <div><dt>The headers and footers did not match across pages.</dt><dd>Every page now uses the home page's header and menu, and one shared footer.</dd></div>
+      <div><dt>All Work showed too many projects, and not every cover at once.</dt><dd>It went from 16 projects to four case-study files that each show a whole cover. The rest moved to an Other work page.</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-looks" aria-labelledby="cr-looks-h">
+    <div class="cr-copy"><p class="cr-kicker">03 · Look tests</p><h2 id="cr-looks-h">I pick from options before anything is built.</h2>
+      <p>For a big change I make a look test: a page with options labelled A, B and C that I can compare at full size. I choose one, and sometimes I add an option of my own.</p>
+      <details class="cr-more"><summary><span class="cr-pl" aria-hidden="true"></span>Read more</summary><div class="cr-more-in">
+        <p>Big changes are also archived on a FigJam board, one short section per overall change, with a few bullets and the key screenshots. Small fixes ride along in the release they belong to and get no section of their own.</p>
+      </div></details>
+    </div>
+    <dl class="cr-rows" aria-label="Look tests I chose from">
+      <div><dt>Hero</dt><dd>I picked project covers, a centred layout and big text links.</dd></div>
+      <div><dt>Capabilities</dt><dd>Seven layouts. The seventh was my own idea: a row of the apps I use, on the hero.</dd></div>
+      <div><dt>With AI process</dt><dd>Three options. I picked the plain reading column.</dd></div>
+      <div><dt>Phone layouts</dt><dd>A quiet header with an action dock, a road timeline, and a pull-out file.</dd></div>
+      <div><dt>Case studies</dt><dd>A one-screen grid opening into spreads, later redone as a stage and board after audits of about 40 other portfolios.</dd></div>
+      <div><dt>Creature</dt><dd>Twelve hero poses for the creature. I picked one.</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-consistency" aria-labelledby="cr-consistency-h">
+    <div class="cr-copy"><p class="cr-kicker">04 · Consistency</p><h2 id="cr-consistency-h">A design audit cut 126 styles down to 50.</h2>
+      <p>An audit of 22 pages found about 126 distinct styles across 13 kinds of component: buttons, links, labels, numbers, tags, titles, headings, folds, back links and end blocks. I answered 12 questions about which to keep. The rule that came out of it is one of each.</p>
+      <p>The shared tokens live in one stylesheet and the rules for using them in DESIGN.md. After the change, the same inventory counted 50 styles.</p>
+    </div>
+    <dl class="cr-rows" aria-label="One of each">
+      <div><dt>Button</dt><dd>One solid, notched blue button.</dd></div>
+      <div><dt>Small links</dt><dd>Spaced capitals.</dd></div>
+      <div><dt>Labels</dt><dd>Plain mono text with no box, numbered like 01 · Label.</dd></div>
+      <div><dt>Tags</dt><dd>A plain line separated by dots.</dd></div>
+      <div><dt>Page titles</dt><dd>Lack for titles, Switzer for text.</dd></div>
+      <div><dt>Arrows</dt><dd>→ for a page on this site, ↗ for a new tab, ↓ for further down the page.</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-performance" aria-labelledby="cr-performance-h">
+    <div class="cr-copy"><p class="cr-kicker">05 · Performance</p><h2 id="cr-performance-h">Nothing runs unless you can see it.</h2>
+      <p>The site has pixel rooms, video covers and 3D, so I set rules for when each of them is allowed to run.</p>
+    </div>
+    <dl class="cr-rows" aria-label="Performance rules">
+      <div><dt>Heavy layers</dt><dd>WebGL backdrops and large frame sequences start one at a time from a queue, and are released once they are more than 1.5 screens away for 3 seconds.</dd></div>
+      <div><dt>Loops</dt><dd>The rooms, the creature and the cover reels draw only while they are on screen in a visible tab. Reduced motion shows still frames.</dd></div>
+      <div><dt>Loading</dt><dd>Babel is gone from the shipped site, and unused large media is skipped at deploy. The 3D rig on this page loads only when you scroll near it.</dd></div>
+      <div><dt>The hero</dt><dd>The page holds still until the hero has loaded, so a fast scroll cannot jump past it.</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-checks" aria-labelledby="cr-checks-h">
+    <div class="cr-copy"><p class="cr-kicker">06 · Checking</p><h2 id="cr-checks-h">Every change runs through automated checks.</h2>
+      <p>Before a release I run the test suite and drive a build of the site in real browsers at laptop and phone sizes. I look at screenshots before I call something fixed.</p>
+    </div>
+    <dl class="cr-rows" aria-label="Checks in numbers">
+      <div><dt>Test suite</dt><dd>More than 580 checks in 44 test files, run with <code>npm test</code>.</dd></div>
+      <div><dt>Browser checks</dt><dd>25 scripts that open the site in Chrome, and in WebKit where phones differ. They cover the hero, the opening, the About drawer, the case studies and more.</dd></div>
+      <div><dt>Dry run</dt><dd>A full build without a deploy, so checks run on exactly what would ship.</dd></div>
+    </dl>
+  </section>
+
+  <section class="cr-section cr-top" id="cr-collab" aria-labelledby="cr-collab-h">
+    <div class="cr-copy"><p class="cr-kicker">07 · Who does what</p><h2 id="cr-collab-h">I decide, and AI helps build.</h2>
+      <p>I set the direction, write the briefs, choose between options and review every revision. Claude and Codex write code, help develop concepts and the creature's rig, and a second model reviews the first one's work.</p>
+      <p>AI-generated concept images are AI-assisted artwork, not drawings I made by hand. The With AI page shows the same process on my other projects.</p>
+      <a class="cr-link" href="with-ai.html">See the With AI page <span class="link-arrow" aria-hidden="true">→</span></a>
+    </div>
+    <dl class="cr-rows" aria-label="Roles">
+      <div><dt>Me</dt><dd>Direction, design decisions, user testing, review.</dd></div>
+      <div><dt>AI</dt><dd>Code, concept images, rig and animation code, and second-opinion reviews.</dd></div>
+    </dl>
+  </section>
+
+  <div class="cr-part" id="cr-creature"><p class="cr-kicker">The creature</p><h2>The creature who lives in this site has his own process.</h2><p>He is the longest single piece of work in the site. This part shows how I designed him, how I used a 3D rig to keep AI drawings accurate, and what the shipped animations really are.</p></div>
+
+  <section class="cr-section" id="cr-character" aria-labelledby="cr-character-h">
+    <div class="cr-copy"><p class="cr-kicker">Character</p><h2 id="cr-character-h">I designed a creature to live inside the site.</h2>
+      <p>I wanted a creature who feels like he belongs here: curious, a little mischievous, and comfortable enough to nest in a drawer. His actions connect the rooms of the portfolio.</p>
+      <p>I used AI-generated concepts to develop his appearance, then directed revisions to the silhouette, horns, ears, face, and tail. The illustrated look became the reference I kept returning to.</p>
+    </div>
+    <figure class="cr-figure"><img src="assets/creature-process/early-illustration.png" alt="An early illustrated concept of the creature with branching horns, blue finlike ears, and a curled ivory tail" width="1536" height="1024" loading="lazy"><figcaption class="cr-caption">Early approved illustration · October 2026. Later anatomy decisions refined the tail; this source drawing stays preserved.</figcaption></figure>
+  </section>
+  <section class="cr-section" id="cr-rig" aria-labelledby="cr-motion">
+    <div class="cr-copy"><p class="cr-kicker">The 3D rig</p><h2 id="cr-motion">I used a 3D rig to keep the drawings consistent.</h2>
+      <p>Image tools invent things. Left alone, they drew him standing on a floor when he should lean over a drawer, and gave his tail eight blades when he has nine. So I had a Blender model and rig built of him, with 51 bones and nine named actions, and used it as a guide.</p>
+      <p>For each pose the rig was posed first, to get the body line and contact points right, such as paws on a drawer rim. Its plain render went to the image tool as a reference. When a drawing came back, a script fitted it onto the rig's silhouette from the same camera and flagged invented shapes and dropped parts: horns, ears, forearms, hind paws, blades and eyes.</p>
+      <p>I did not render animations straight from Blender, because I did not like that style. It lost the warmth of the original drawing. The frames that ship are 2D pixel frames, drawn from my approved illustration, with the rig guiding pose, anatomy and proportions.</p>
+      <details class="cr-more"><summary><span class="cr-pl" aria-hidden="true"></span>Read more</summary><div class="cr-more-in">
+        <ul>
+          <li>On 18 October I chose to render the Blender rig as pixels. On 20 October I returned to drawn 2D, because I preferred the original drawing to the rendered 3D look. Blender stayed as a reference for pose and contact.</li>
+          <li>The first four drawer drawings were rejected. Every one showed him standing on the floor and ignored the rig, so I asked to use Blender to catch hallucinations. Every drawing is now checked against the rig. The rejected drawings are kept.</li>
+          <li>His anatomy is fixed at nine tail blades: four matching pairs and one larger terminal blade. In one pose two takes drew eight blades, and one also drew a tongue-like tube from his mouth. The third take had nine blades and a closed mouth, and that is the one I used.</li>
+          <li>The check scores approved drawings at 0.55 to 0.63 overlap with the rig, because the drawn style is chubbier than the rig. It catches wrong poses and missing parts, not style. Claws, pads and spines are still checked by eye.</li>
+          <li>His climb back into the drawer uses drawn key poses carried by the rig's own movement, with no generated in-between frames. It is 47 frames.</li>
+        </ul>
+      </div></details>
+    </div>
+    <figure class="cr-figure cr-rig" data-rig-viewer data-src="assets/creature-process/rig/creature.glb" data-edges="assets/creature-process/rig/edges.rigw">
+      <div class="rig-stage">
+        <img class="cr-study" src="assets/creature-process/pose-study.png" alt="A three-quarter pixel render of the Blender creature model, used to study its body and pose" width="320" height="240" loading="lazy">
+        <canvas tabindex="0" role="img" aria-label="The Blender rig in 3D. Drag or use the arrow keys to turn him around; scroll, pinch or plus and minus to zoom."></canvas>
+        <p class="rig-hint" aria-hidden="true">Drag to turn him</p>
+      </div>
+      <div class="rig-controls">
+        <div class="rig-modes" role="group" aria-label="Show the rig as">
+          <button type="button" class="media-btn" data-rig-mode="colour" aria-pressed="true">Colour</button>
+          <button type="button" class="media-btn" data-rig-mode="mesh" aria-pressed="false">Mesh</button>
+        </div>
+        <div class="rig-actions" role="group" aria-label="Camera">
+          <button type="button" class="media-btn" data-rig="in" aria-label="Zoom in">+</button>
+          <button type="button" class="media-btn" data-rig="out" aria-label="Zoom out">&minus;</button>
+          <button type="button" class="media-btn" data-rig="turn">Turn 360&deg;</button>
+          <button type="button" class="media-btn" data-rig="reset">Reset</button>
+        </div>
+      </div>
+      <figcaption class="cr-caption">The Blender rig · Turn him all the way round and zoom in. It is a guide for pose and anatomy, and the shipped frames are drawn 2D.</figcaption>
+    </figure>
+  </section>
+  <section class="cr-section cr-section--wide" aria-labelledby="cr-site">
+    <div class="cr-copy"><div><p class="cr-kicker">In the browser</p><h2 id="cr-site">His actions follow real page states.</h2></div><div>
+      <p>The final direction uses fixed 2D art and authored motion. He sits in the hero room, watches the projector, and climbs back into his drawer head first, with his tail following last.</p>
+      <p>The difficult part was keeping one character consistent across those actions while fitting the animation to real page states: opening, scrolling, resizing, and closing About. The implementation includes reduced-motion behavior and pauses work when a scene is hidden.</p>
+    </div></div>
+    <figure class="cr-figure"><img src="assets/creature-process/in-the-room.png" alt="The portfolio hero room with Lucy Liu’s lit name and the creature seated on the stage" width="1440" height="900" loading="lazy"><figcaption class="cr-caption">The creature in the portfolio’s hero room · Implementation capture, October 2026.</figcaption></figure>
+  </section>
+  <section class="cr-section" id="frames" aria-labelledby="cr-frames"><div class="cr-copy"><p class="cr-kicker">The frame archive</p><h2 id="cr-frames">I kept every frame, including the rejected ones.</h2><p>The archive holds 7,008 saved images in 70 contact sheets: drawings, rendered frames, motion tests and unused directions, grouped by what I was working on.</p><a class="cr-link" href="creature-frames.html">Browse all his frames <span aria-hidden="true">→</span></a></div><a class="cr-figure" href="creature-frames.html" aria-label="Open the creature’s complete frame archive"><img src="assets/creature-process/archive/workshop-card-v1-01.webp" alt="A dense contact sheet of the creature’s newly rendered workshop idle" width="1280" height="1248" loading="lazy"></a></section>
+  <nav class="next-block" aria-label="Next project"><div><p class="next-block-k">Next project</p><a class="next-block-link" href="case-study.html">Driftwood <span class="link-arrow" aria-hidden="true">→</span></a><p class="next-block-d">I designed and built a game where you grow a garden with AI animal helpers and learn to catch the moment their advice goes wrong.</p></div></nav>
+</main>
+<footer data-site-footer></footer>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

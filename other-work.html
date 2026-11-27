@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Other work | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/other-work.html" />
+<meta name="description" content="Other work by Lucy Liu: a tooth-gem brand and booking site, a plant-care prototype, a horror-game concept, an interface critique, a weather app, paintings, an agar alphabet and live visuals." />
+<meta property="og:title" content="Other work | Lucy Liu" />
+<meta property="og:description" content="More projects: prototypes, concepts, critiques, paintings and live visuals." />
+<meta property="og:url" content="https://lucyliu.xyz/other-work.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<link rel="stylesheet" href="project-templates.css?v=7" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<style>
+/* Other work (Lucy, 2026-11-09): "bring other work at bottom to other work page", then "i dont like how Other work
+   page is layed out ... create short animated video covers for each", "habitabull style". Three groups of files,
+   each a cover reel (assets/covers/<slug>/, made by scripts/cover-reel.mjs --cover=<slug>) over its title and one
+   line. The reels perform once as they arrive and loop while hovered or focused (cover-reel.js); a phone plays
+   the one in the middle of the screen. Tokens from colors_and_type.css. */
+.ow-group { margin-top: clamp(40px, 6vw, 72px); }
+.ow-group-k { margin: 0 0 18px; font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
+.ow-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 48px) clamp(20px, 2.6vw, 36px); }
+.ow-card { display: block; color: var(--fg1); text-decoration: none; }
+.ow-cover { position: relative; display: block; aspect-ratio: 3 / 2; overflow: hidden; background: var(--bg-2, #0b0f1c); border: 1px solid var(--border); transition: transform .35s var(--ease-out-quart), border-color .35s; }
+.ow-cover video, .ow-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ow-somped { display: grid; place-items: center; background: #e4e0d5; }
+.ow-somped img { position: static; width: 68%; height: auto; object-fit: contain; }
+#sompednyc { scroll-margin-top: 96px; }
+.ow-m { display: block; margin-top: 16px; font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
+.ow-t { display: block; margin-top: 6px; font: 700 clamp(22px, 2.1vw, 28px)/1.15 var(--font-display); letter-spacing: -.01em; }
+.ow-t b { font-weight: 400; color: var(--fg-accent); display: inline-block; transition: transform .2s var(--ease-out-quart); }
+.ow-d { display: block; margin-top: 6px; max-width: 46ch; color: var(--fg2); font-size: 16px; line-height: 1.55; }
+.ow-card:hover .ow-cover, .ow-card:focus-visible .ow-cover, .ow-card.is-scroll-active .ow-cover { transform: translateY(-4px); border-color: var(--blue-300); }
+.ow-card:hover .ow-t b, .ow-card:focus-visible .ow-t b { transform: translateX(5px); }
+.ow-card:focus-visible { outline: 2px solid var(--blue-300); outline-offset: 6px; }
+/* The three categories (Lucy, 2026-11-11: "make other work into 3 categories"): a row of three that jumps to each,
+   and each group opens on its own heading with its number and count. The Art covers are stills, never a reel
+   (Lucy, 2026-11-11: "no animnotion for all fine arts stuff in other works, keep preview but no vdieo that plays"). */
+.ow-cats { margin-top: clamp(16px, 2.4vw, 28px); }
+/* One sentence (Lucy, 2026-11-26, option C of docs/projects/other-work-cats/): the categories are links inside a line, no boxes. */
+.ow-cats p { margin: 0; max-width: 24ch; font: 700 clamp(28px, 3.6vw, 50px)/1.22 var(--font-display); letter-spacing: -.025em; color: var(--fg3); }
+.ow-cats a { color: var(--fg1); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .14em; text-decoration-color: rgba(114,173,255,.28); transition: color .2s, text-decoration-color .2s; }
+.ow-cats a:hover, .ow-cats a:focus-visible { color: var(--fg-accent); text-decoration-color: var(--fg-accent); }
+.ow-cats a:focus-visible { outline: 2px solid var(--blue-300); outline-offset: 4px; }
+.ow-cats sup { font: 400 .34em/1 var(--font-body); color: var(--fg3); margin-left: 3px; letter-spacing: 0; }
+.ow-group { scroll-margin-top: 96px; padding-top: clamp(28px, 3.6vw, 44px); border-top: 1px solid var(--border); }
+.ow-group-h { margin-bottom: clamp(20px, 2.6vw, 32px); }
+.ow-group-h .ow-group-k { margin: 0 0 8px; }
+.ow-group-t { margin: 0; font: var(--type-h2, 700 clamp(30px, 3.6vw, 44px)/1.05 var(--font-display)); letter-spacing: -.015em; color: var(--fg1); }
+@media (max-width: 760px) {
+}
+@media (max-width: 760px) { .ow-grid { grid-template-columns: 1fr; } .ow-t { font-size: 22px; } }
+@media (prefers-reduced-motion: reduce) { .ow-cover, .ow-t b { transition: none; } }
+</style>
+
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header data-site-header></header>
+
+<main id="main-content" class="pt-page ow-page">
+  <div class="pt-wrap">
+    <header class="pt-hero">
+      <div class="pt-hero-l">
+        <p class="pt-eyebrow">Work</p>
+        <h1 class="pt-title">Other work</h1>
+      </div>
+    </header>
+
+    <nav class="ow-cats" aria-label="Categories">
+      <p>Smaller things I’ve made: <a href="#design">design and code</a><sup>5</sup>, <a href="#live">live visuals</a><sup>2</sup> and <a href="#art">art</a><sup>4</sup>.</p>
+    </nav>
+    <section class="ow-group" id="design" aria-labelledby="ow-g0">
+      <div class="ow-group-h"><p class="ow-group-k">01 · 5 projects</p><h2 class="ow-group-t" id="ow-g0">Design and code</h2></div>
+      <ul class="ow-grid">
+        <li id="sompednyc"><a class="ow-card" href="https://s0mped.xyz" target="_blank" rel="noopener"><span class="ow-cover ow-somped"><img src="assets/somped-vector.svg" alt="The somped wordmark, a flowing hand-lettered brand mark" width="274" height="106" loading="lazy" decoding="async"></span><span class="ow-m">Brand + web</span><span class="ow-t">sompednyc <b aria-hidden="true">↗</b></span><span class="ow-d">Brand identity and booking site for my tooth-gem business.</span></a></li>
+        <li><a class="ow-card" href="h2know.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/h2know/reel.webp" src="assets/covers/h2know/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">UX + hardware · 2024</span><span class="ow-t">H2Know <b aria-hidden="true">→</b></span><span class="ow-d">A plant-care prototype with an Arduino soil-moisture sensor and a companion app for checking plant health.</span></a></li>
+        <li><a class="ow-card" href="eternal-wreckening.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/eternal-wreckening/reel.webp" src="assets/covers/eternal-wreckening/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">Game concept · 2024</span><span class="ow-t">Eternal Wreckening <b aria-hidden="true">→</b></span><span class="ow-d">A mobile horror-game concept where four survivors face one monster using motion controls and haptic feedback.</span></a></li>
+        <li><a class="ow-card" href="undertheweather.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/undertheweather/reel.webp" src="assets/covers/undertheweather/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">Code</span><span class="ow-t">Under the Weather <b aria-hidden="true">→</b></span><span class="ow-d">A p5.js app that reads New York weather data and responds with sarcastic comments instead of a forecast.</span></a></li>
+        <li><a class="ow-card" href="soundcloud-critique.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/soundcloud-critique/reel.webp" src="assets/covers/soundcloud-critique/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">Interface critique · 2023</span><span class="ow-t">SoundCloud Critique <b aria-hidden="true">→</b></span><span class="ow-d">Proposed changes to SoundCloud’s logo, navigation controls and playlist covers.</span></a></li>
+      </ul>
+    </section>
+    <section class="ow-group" id="live" aria-labelledby="ow-g1">
+      <div class="ow-group-h"><p class="ow-group-k">02 · 2 projects</p><h2 class="ow-group-t" id="ow-g1">Live visuals</h2></div>
+      <ul class="ow-grid">
+        <li><a class="ow-card" href="live-visuals-nyc.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/demon-nights/reel.webp" src="assets/covers/demon-nights/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">Live visuals</span><span class="ow-t">Demon Nights <b aria-hidden="true">→</b></span><span class="ow-d">TouchDesigner visuals on the ceiling above the dance floor at Maison Nur in New York.</span></a></li>
+        <li><a class="ow-card" href="audio-reactive.html" data-cover-host><span class="ow-cover"><video data-cover-reel muted playsinline preload="none" poster="assets/covers/audio-reactive/reel.webp" src="assets/covers/audio-reactive/reel.mp4" aria-hidden="true"></video></span><span class="ow-m">TouchDesigner</span><span class="ow-t">Audio Reactive <b aria-hidden="true">→</b></span><span class="ow-d">Seven TouchDesigner studies that map bass, percussion and frequency bands to shape, colour and motion.</span></a></li>
+      </ul>
+    </section>
+    <section class="ow-group" id="art" aria-labelledby="ow-g2">
+      <div class="ow-group-h"><p class="ow-group-k">03 · 4 projects</p><h2 class="ow-group-t" id="ow-g2">Art</h2></div>
+      <ul class="ow-grid">
+        <li><a class="ow-card" href="telnex.html"><span class="ow-cover"><img src="assets/covers/telnex/reel.webp" alt="" width="1440" height="960" loading="lazy" decoding="async"></span><span class="ow-m">Sculpture + print</span><span class="ow-t">Telnex <b aria-hidden="true">→</b></span><span class="ow-d">A soap bar carved into a rotary telephone, and a fictional advertisement built around it.</span></a></li>
+        <li><a class="ow-card" href="agar-alphabet.html"><span class="ow-cover"><img src="assets/covers/agar-alphabet/reel.webp" alt="" width="1440" height="960" loading="lazy" decoding="async"></span><span class="ow-m">Bio-design</span><span class="ow-t">Agar Alphabet <b aria-hidden="true">→</b></span><span class="ow-d">Bacterial letterforms grown on agar plates, recording how samples and growth conditions changed the alphabet.</span></a></li>
+        <li><a class="ow-card" href="anticipation.html"><span class="ow-cover"><img src="assets/covers/anticipation/reel.webp" alt="" width="1440" height="960" loading="lazy" decoding="async"></span><span class="ow-m">Painting</span><span class="ow-t">Anticipation <b aria-hidden="true">→</b></span><span class="ow-d">Marilyn Monroe painted in a private moment of self-reflection.</span></a></li>
+        <li><a class="ow-card" href="handpainting.html"><span class="ow-cover"><img src="assets/covers/arrested-motion/reel.webp" alt="" width="1440" height="960" loading="lazy" decoding="async"></span><span class="ow-m">Painting</span><span class="ow-t">Arrested Motion <b aria-hidden="true">→</b></span><span class="ow-d">Hands washing dishes, in transparent layers and brush texture that study repeated movement.</span></a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer data-site-footer></footer>
+
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script defer src="components/cover-reel.js"></script>
+<script defer src="components/other-work.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

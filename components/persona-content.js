@@ -10,7 +10,7 @@
 window.PERSONA_CONTENT = {
   reptools: {
     recruiter: {
-      blurb: "A brand and UX/IA redesign of a live product: rep.tools launched as a landing page, then outgrew it as the catalogue hit ~6,900 items. I owned the identity and the structure; the founder builds and ships the app. Leading with what shipped and what I owned.",
+      blurb: "A brand and UX/IA redesign of a live product: rep.tools worked but looked vibe-coded and bland, so I gave it a brand identity and logo, then rebuilt the catalogue on them. I owned the identity, the structure and the front end; the founder builds and ships the app. Leading with what shipped and what I owned.",
       order: ["ia", "direction", "system", "problem", "reflection"],
       emphasize: ["ia", "direction"],
       dim: ["problem"]
@@ -62,32 +62,6 @@ window.PERSONA_CONTENT = {
     }
   },
 
-  trance: {
-    recruiter: {
-      blurb: "An interactive audio-visual installation I designed and built solo (p5.js + Arduino). A clear acrylic hand sculpture with pressure sensors lets people physically shape the sound and visuals: press harder, and the whole piece transforms. Leading with what it became and the role I owned, then how it works.",
-      order: ["impact", "interaction", "technical", "reflection"],
-      emphasize: ["impact", "interaction"],
-      dim: ["technical"]
-    },
-    designer: {
-      blurb: "An experiment in collapsing the distance between listener and music through touch. The interesting part is the interaction model: a pressure-sensitive sculpture where force maps to transformation, refined through user testing and iteration.",
-      order: ["interaction", "impact", "technical", "reflection"],
-      emphasize: ["interaction", "impact"],
-      dim: []
-    },
-    engineer: {
-      blurb: "Physical computing end to end: FSR pressure sensors on an Arduino, streamed to the browser over the WebSerial API and rendered in p5.js in real time. The technical section covers the sensor-to-visual pipeline and the calibration it took to make pressure feel responsive.",
-      order: ["technical", "interaction", "impact", "reflection"],
-      emphasize: ["technical"],
-      dim: ["impact"]
-    },
-    browsing: {
-      blurb: "Short version: a glowing acrylic hand you press to warp the music and visuals around you. The harder you push, the deeper it goes. It's built to make you lose track of time.",
-      order: ["interaction", "impact", "technical", "reflection"],
-      emphasize: ["interaction"],
-      dim: ["technical"]
-    }
-  },
 
   h2know: {
     recruiter: {
@@ -109,7 +83,7 @@ window.PERSONA_CONTENT = {
       dim: ["reflection"]
     },
     browsing: {
-      blurb: "Quick version: 67% of millennial plant owners call themselves 'plant murderers.' H2Know is a small sensor plus app that gives your plant a way to reach you before it dies, gently, not like another nagging notification.",
+      blurb: "Quick version: 67% of plant parents admit to killing at least three plants in the past year. H2Know is a small sensor plus app that gives your plant a way to reach you before it dies, gently, not like another nagging notification.",
       order: ["solution", "problem", "design", "research", "reflection"],
       emphasize: ["solution"],
       dim: ["research", "reflection"]

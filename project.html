@@ -12,8 +12,8 @@
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -38,7 +38,7 @@ img { display: block; max-width: 100%; }
   display: flex; justify-content: space-between; align-items: center;
 }
 .pj-logo {
-  font-family: var(--font-display); font-style: italic;
+  font-family: var(--font-display); font-weight: 700;
   font-size: 22px; letter-spacing: -0.02em; color: var(--fg1);
 }
 .pj-back {
@@ -181,40 +181,40 @@ const PROJECTS = [
   {
     slug: 'habitabull',
     title: 'HabitaBull', titleEm: 'Lifting',
-    kicker: 'Product Design · UX Research · 2024',
-    subtitle: 'A gym app built around the psychology of showing up, not the shame of missing.',
+    kicker: 'Product Design · UX Research · 2023–2026',
+    subtitle: "Log a lift, track progress, and pick up again after a break.",
     tags: ['Product Design','UX Research','App Design','Psychology'],
-    role: 'UX/UI Designer', timeline: '2024 · 8 weeks',
+    role: 'Designer and Developer', timeline: '2023 research · 2026 build',
     tools: 'Figma · FigJam · User Research · Usability Testing',
-    problem: 'Gym apps punish absence. Streak systems create shame, and shame makes people quit. The psychology is backwards.',
-    approach: 'Interviews with lapsed gym-goers. Redesigned around streak forgiveness, the "minimum viable workout," and tactile progress over numbers.',
-    outcome: 'High-fidelity prototype tested with 12 users. 11 said they\'d choose it over their current app.',
+    problem: "I interviewed gym-goers who struggled to keep a routine and wanted to make returning after a missed workout easier.",
+    approach: "I tested workout flows in Figma, moved logging ahead of goal-setting, and replaced a weight-based leaderboard with monthly challenges. I then built the app with Next.js and Supabase.",
+    outcome: "I shipped an installable app with workout logging, progress history, and shared challenges. The build includes automated tests and accessibility fixes.",
     slides: 40,
   },
   {
     slug: 'h2know',
     title: 'H2', titleEm: 'Know',
     kicker: 'Physical Computing · App Design · 2024',
-    subtitle: 'Talk to your plant. It\'ll remind you.',
+    subtitle: "Check your plant’s soil moisture through a sensor and companion app.",
     tags: ['Physical Computing','App Design','Arduino','UX/UI'],
     role: 'Design + Hardware', timeline: '2024 · 6 weeks',
     tools: 'Arduino · Figma · C++ · Physical Computing',
-    problem: 'People forget to water plants because there\'s no emotional connection. Notifications feel like nagging.',
-    approach: 'A soil-moisture sensor that talks back through a companion app with personality. The plant has a voice: polite when thirsty, grateful when watered.',
-    outcome: 'Working prototype. Emotional framing made users check their plant 3× more often than a control reminder app.',
+    problem: "The plant owners I interviewed struggled to keep up with care. I wanted to make dry-soil readings easier to understand and act on.",
+    approach: "I interviewed three plant owners, designed a five-screen companion app, and paired the concept with an Arduino Nano, capacitive soil-moisture sensor, and LED indicator.",
+    outcome: "I developed the hardware prototype and app design, including plant-health feedback and care rewards.",
     slides: 27,
   },
   {
     slug: 'eternal-wreckening',
     title: 'Eternal', titleEm: 'Wreckening',
-    kicker: 'Game Design · Narrative Design · 2023',
-    subtitle: 'A game about the weight of memory. Every choice rewrites what came before.',
+    kicker: 'Game Design · Interaction Design · 2024',
+    subtitle: "A four-versus-one mobile horror concept with motion controls and haptics.",
     tags: ['Game Design','Narrative Design','UX/UI','Psychology'],
-    role: 'Game Design + UX/UI', timeline: '2023 · 10 weeks',
-    tools: 'Figma · Unity · User Research',
-    problem: 'Most games reward progress. This one makes players sit with loss and question whether winning is even the right goal.',
-    approach: 'Defined the problem statement, designed core loops, and built the UI system. Every menu element carries narrative weight.',
-    outcome: 'Playable prototype. NYU IMA coursework exploring psychology-as-mechanic.',
+    role: 'Game Design + UX/UI', timeline: '2024',
+    tools: 'Figma · Storyboarding · Interaction Design',
+    problem: "I wanted players to use phone movement and physical effort as controls in a mobile horror game.",
+    approach: "I designed survivor and monster roles, gyroscope controls, shake-to-escape interactions, vibration cues, and role-specific onboarding in Figma.",
+    outcome: "I produced a storyboarded prototype and interface system for a four-versus-one horror game.",
     slides: 16,
   },
 ];

@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
 <link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
-<meta name="description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
+<meta name="description" content="SoundCloud Critique: I proposed changes to SoundCloud’s logo, navigation controls, and playlist covers in a 2023 interface critique." />
 <meta property="og:title" content="SoundCloud App Critique | Lucy Liu" />
-<meta property="og:description" content="UX critique and redesign proposals for SoundCloud's logo, widget customization, and playlist interface. By Lucy Liu." />
+<meta property="og:description" content="SoundCloud Critique: I proposed changes to SoundCloud’s logo, navigation controls, and playlist covers in a 2023 interface critique." />
 <meta property="og:url" content="https://lucyliu.xyz/soundcloud-critique.html" />
 <meta property="og:image" content="https://lucyliu.xyz/assets/soundcloud/cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <title>SoundCloud App Critique | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=89" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
 <style>
 
 .sc-page {
@@ -138,35 +138,44 @@
 .cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
 .cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
+
+/* ── One of each (Lucy, 2026-10-31: her answers to the Design Consistency review). The tokens and classes live in
+   colors_and_type.css; declared last so they outrank the rules above. ── */
+.sc-eyebrow, .sc-meta-k, .sc-cap-num, .cs-next-label, .case-clarity-k {
+  font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
+.sc-heading { font: var(--type-title); letter-spacing: -0.03em; }
+/* the end of the page: the site's "Next project" block (colors_and_type.css .next-block) */
+.cs-next { padding: 28px 0 56px; }
+.cs-next-label { margin-bottom: 6px; }
+.cs-next-link { display: inline-flex; justify-content: flex-start; align-items: baseline; gap: 12px; min-height: 44px; padding: 4px 0 0; border-top: 0; }
+.cs-next-title { font: 700 clamp(26px, 3vw, 36px)/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--fg1); transition: color .25s var(--ease-out-quart); }
+.cs-next-arrow { font: 700 clamp(26px, 3vw, 36px)/1.1 var(--font-display); color: var(--fg-accent); transition: transform .25s var(--ease-out-quart); }
+.cs-next-link:hover .cs-next-title { transform: none; color: var(--fg-accent); }
+.cs-next-link:hover .cs-next-arrow { transform: translateX(5px); }
+.cs-next-desc { margin-top: 6px; font-size: 14.5px; line-height: 1.6; }
+@media (prefers-reduced-motion: reduce) { .cs-next-arrow { transition: none; } .cs-next-link:hover .cs-next-arrow { transform: none; } }
 </style>
 <link rel="stylesheet" href="case-mobile.css?v=1" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo" data-wordmark>lucy liu</a>
-    <ul class="nav-links">
-      <li><a href="work.html" class="nav-link">all work</a></li>
-      <li><a href="index.html#about" class="nav-link">about</a></li>
-      <li><a href="mailto:wl3512@nyu.edu" class="nav-link">contact ↗</a></li>
-    </ul>
-  </div>
-</nav>
+<header data-site-header></header>
 
 <main id="main-content" class="sc-page">
 
   <div class="sc-header">
-    <a href="work.html" class="sc-back">← All work</a>
     <p class="sc-eyebrow">UX Design &nbsp;·&nbsp; 2023</p>
     <h1 class="sc-heading">SoundCloud<br><em>App Critique</em></h1>
-    <p class="sc-intro">A critique of three areas in the SoundCloud iOS app (the 2023 logo rebrand, in-app widget customization, and playlist cover hierarchy) with a proposed redesign for each.</p>
+    <p class="sc-intro">I reviewed SoundCloud’s 2023 iOS app and proposed changes to its logo, navigation controls, and playlist covers. The mockups show how listeners could customise their shortcuts and give their cover art more space.</p>
     <div class="sc-meta-row">
       <div class="sc-meta-item">
         <span class="sc-meta-k">Type</span>
@@ -191,15 +200,15 @@
     <div class="case-clarity-inner">
       <div class="case-clarity-item">
         <span class="case-clarity-k">Role</span>
-        <p class="case-clarity-v">I audited the app experience, identified hierarchy and brand issues, and proposed targeted interface redesigns.</p>
+        <p class="case-clarity-v">I reviewed the app and designed alternative logo, navigation, and playlist layouts.</p>
       </div>
       <div class="case-clarity-item">
         <span class="case-clarity-k">Process</span>
-        <p class="case-clarity-v">I compared SoundCloud's current UI against user expectations around recognition, customization, and playlist ownership.</p>
+        <p class="case-clarity-v">I compared the 2023 screens and proposed changes to colour, shortcut controls, and the size of playlist artwork.</p>
       </div>
       <div class="case-clarity-item">
         <span class="case-clarity-k">Impact</span>
-        <p class="case-clarity-v">The critique turns broad preference into design moves: restore brand memory, reduce repeat actions, and raise user-created art.</p>
+        <p class="case-clarity-v">I produced mockups showing an orange-and-black logo, customisable navigation controls, and larger playlist artwork.</p>
       </div>
     </div>
   </section>
@@ -263,16 +272,16 @@
 <!-- NEXT PROJECT -->
 <nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
-    <p class="cs-next-label">Related project</p>
+    <p class="cs-next-label">Next project</p>
     <a class="cs-next-link" href="habitabull.html">
       <span class="cs-next-title">HabitaBull</span>
-      <span class="cs-next-arrow">↗</span>
+      <span class="cs-next-arrow" aria-hidden="true">→</span>
     </a>
-    <p class="cs-next-desc">HabitaBull came out of the same kind of user research: watch how people actually behave, find where intention and action drift apart, and redesign around that gap.</p>
+    <p class="cs-next-desc">I designed and built a lifting app for logging workouts, tracking progress, and returning after a break.</p>
   </div>
 </nav>
 
-<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
+<footer data-site-footer></footer>
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>

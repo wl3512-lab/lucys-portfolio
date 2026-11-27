@@ -204,6 +204,7 @@ class AT_CanvAscii {
     this.planeBaseHeight = opts.planeBaseHeight;
     this.enableWaves = reduced ? false : opts.enableWaves;
     this.reduced = reduced;
+    this.disposed = false;
     this.container = containerElem;
     this.width = width;
     this.height = height;
@@ -221,6 +222,7 @@ class AT_CanvAscii {
       await document.fonts.load('400 12px "Space Mono"');
       await document.fonts.ready;
     } catch (e) { /* fallback to system mono */ }
+    if (this.disposed) return;
     this.setMesh();
     this.setRenderer();
   }
@@ -280,6 +282,7 @@ class AT_CanvAscii {
   }
 
   setSize(w, h) {
+    if (this.disposed) return;
     this.width = w;
     this.height = h;
     // The renderer/filter are built in the async init(); a ResizeObserver can fire before
@@ -292,6 +295,7 @@ class AT_CanvAscii {
   }
 
   load() {
+    if (this.disposed) return;
     if (this.reduced) { this.render(); return; }
     this.animate();
   }
@@ -317,7 +321,7 @@ class AT_CanvAscii {
     this.last = 0;
     const loop = (now) => {
       self.animationFrameId = 0;
-      if (self.paused || !self.inView) return;
+      if (self.disposed || self.paused || !self.inView) return;
       self.animationFrameId = requestAnimationFrame(loop);
       if (now < self.due - 1) return;
       // A steady 24 fps cadence (3-2-3 frames at 60 Hz); after a stall, start it over.
@@ -328,7 +332,7 @@ class AT_CanvAscii {
       self.render(dt);
     };
     this.wake = () => {
-      if (!self.animationFrameId && !self.paused && self.inView) self.animationFrameId = requestAnimationFrame(loop);
+      if (!self.disposed && !self.animationFrameId && !self.paused && self.inView) self.animationFrameId = requestAnimationFrame(loop);
     };
     if (typeof IntersectionObserver !== 'undefined' && this.container) {
       this.io = new IntersectionObserver((entries) => {
@@ -371,7 +375,10 @@ class AT_CanvAscii {
   }
 
   dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
     cancelAnimationFrame(this.animationFrameId);
+    this.animationFrameId = 0;
     if (this.io) this.io.disconnect();
     if (this.onVis) document.removeEventListener('visibilitychange', this.onVis);
     if (this.filter) {
@@ -383,6 +390,7 @@ class AT_CanvAscii {
     this.container.removeEventListener('mousemove', this.onMouseMove);
     this.container.removeEventListener('touchmove', this.onMouseMove);
     this.clear();
+    if (this.texture) this.texture.dispose();
     if (this.renderer) {
       this.renderer.dispose();
       if (this.renderer.forceContextLoss) this.renderer.forceContextLoss();
@@ -411,6 +419,7 @@ function AsciiText(props) {
     let instance = null;
     let ro = null;
     let cancelled = false;
+    let rRaf = 0;
 
     const w = container.clientWidth || 1;
     const h = container.clientHeight || 1;
@@ -429,15 +438,14 @@ function AsciiText(props) {
       instance.init().then(() => {
         if (cancelled) { instance.dispose(); return; }
         instance.load();
-      }).catch(() => {});
+      }).catch(() => { instance.dispose(); });
     }
 
     if (instance && !reduced) {
-      let rRaf = 0;
       ro = new ResizeObserver(() => {
         cancelAnimationFrame(rRaf);
         rRaf = requestAnimationFrame(() => {
-          if (instance && container.clientWidth && container.clientHeight) {
+          if (!cancelled && instance && container.clientWidth && container.clientHeight) {
             instance.setSize(container.clientWidth, container.clientHeight);
           }
         });
@@ -447,6 +455,7 @@ function AsciiText(props) {
 
     return () => {
       cancelled = true;
+      cancelAnimationFrame(rRaf);
       if (ro) ro.disconnect();
       if (instance) instance.dispose();
     };

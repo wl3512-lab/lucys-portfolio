@@ -3,13 +3,14 @@
   AnimatedThemeToggler — light/dark switch with a View Transitions circular reveal that
   expands from the button. Adapted from Magic UI (https://magicui.design) to this site's
   no-build globals pattern: no ESM imports (React/ReactDOM globals), toggles `.theme-light`
-  on <html> (the site is dark by default), persists to localStorage, and falls back to an
-  instant swap when View Transitions / reduced-motion apply. Exposed as window.AnimatedThemeToggler.
+  on <html> (the site is dark by default), persists for this tab's visit, and falls back to an
+  instant swap without View Transitions or with reduced motion. Exposed as window.AnimatedThemeToggler.
 */
 function AnimatedThemeToggler(props) {
   const p = props || {};
   const { useState, useRef, useCallback, useEffect } = React;
   const ref = useRef(null);
+  const transitioning = useRef(false);
   const [isLight, setIsLight] = useState(
     typeof document !== 'undefined' && document.documentElement.classList.contains('theme-light')
   );
@@ -19,8 +20,8 @@ function AnimatedThemeToggler(props) {
     setIsLight(document.documentElement.classList.contains('theme-light'));
   }, []);
 
-  const apply = useCallback(function () {
-    const light = document.documentElement.classList.toggle('theme-light');
+  const apply = useCallback(function (light) {
+    document.documentElement.classList.toggle('theme-light', light);
     document.documentElement.style.colorScheme = light ? 'light' : 'dark';
     /* sessionStorage (not localStorage): the theme persists while navigating within a
        visit, but every fresh arrival resets to the dark "Lit Archive" default. */
@@ -31,10 +32,12 @@ function AnimatedThemeToggler(props) {
   }, []);
 
   const toggle = useCallback(async function () {
+    if (transitioning.current) return;
+    const light = !document.documentElement.classList.contains('theme-light');
     const btn = ref.current;
     let reduced = false;
     try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-    if (!btn || reduced) { apply(); return; }
+    if (!btn || reduced || typeof document.startViewTransition !== 'function') { apply(light); return; }
 
     const r = btn.getBoundingClientRect();
     const x = r.left + r.width / 2;
@@ -44,35 +47,18 @@ function AnimatedThemeToggler(props) {
     const dur = window.innerWidth <= 768 ? 1100 : 850;
     const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-    if (typeof document.startViewTransition === 'function') {
-      try {
-        await document.startViewTransition(apply).ready;
-        document.documentElement.animate(
-          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + maxRad + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: dur, easing: ease, pseudoElement: '::view-transition-new(root)' }
-        );
-        return;
-      } catch (e) { /* fall through to the manual wipe */ }
-    }
-
-    // Fallback for browsers without View Transitions (notably iOS Safari < 18): a manual
-    // circular wipe so mobile users still see the change. The old background collapses
-    // into the toggle button, revealing the freshly-themed page underneath.
+    // Select one target before taking a snapshot. If readiness/animation fails after
+    // the update ran, applying the same target cannot undo the user's selection.
+    transitioning.current = true;
     try {
-      const oldBg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#050710';
-      const ov = document.createElement('div');
-      ov.setAttribute('aria-hidden', 'true');
-      ov.style.cssText = 'position:fixed;inset:0;z-index:2147483646;pointer-events:none;will-change:clip-path;background:' + oldBg + ';';
-      ov.style.clipPath = 'circle(' + maxRad + 'px at ' + x + 'px ' + y + 'px)';
-      document.body.appendChild(ov);
-      apply();
-      const a = ov.animate(
-        { clipPath: ['circle(' + maxRad + 'px at ' + x + 'px ' + y + 'px)', 'circle(0px at ' + x + 'px ' + y + 'px)'] },
-        { duration: dur, easing: ease }
+      await document.startViewTransition(function () { apply(light); }).ready;
+      const animation = document.documentElement.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + maxRad + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: dur, easing: ease, pseudoElement: '::view-transition-new(root)' }
       );
-      const cleanup = function () { try { ov.remove(); } catch (e) {} };
-      a.onfinish = cleanup; a.oncancel = cleanup;
-    } catch (e) { apply(); }
+      await animation.finished;
+    } catch (e) { apply(light); }
+    finally { transitioning.current = false; }
   }, [apply]);
 
   const Sun = React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true' },

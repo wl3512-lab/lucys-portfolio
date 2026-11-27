@@ -19,6 +19,11 @@ function MorphingText(props) {
   const lightMotion = window.matchMedia('(max-width: 760px), (pointer: coarse), (prefers-reduced-motion: reduce)').matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const gooey = !!p.gooey && !reducedMotion;
+  // `fit`: the box takes each word's own width instead of the longest word's, so text after it
+  // (the hero's "engineer") sits beside the word and glides as it morphs. A growing word gets its
+  // room in the first half of the morph, while it is still faint; a shrinking word keeps its room
+  // until the second half, once it has faded. The visible word never spills out of the box.
+  const fit = !!p.fit;
 
   const t1 = useRef(null);
   const t2 = useRef(null);
@@ -30,16 +35,42 @@ function MorphingText(props) {
   useEffect(function () {
     const a = t1.current, b = t2.current;
     if (!a || !b) return;
+    const stage = a.parentElement, n = texts.length;
+    let widths = [], fitIdx = 0, fitFrac = 0;
+    function fitWidth() {
+      if (!fit || !widths.length) return;
+      const wa = widths[fitIdx % n], wb = widths[(fitIdx + 1) % n];
+      const g = wb > wa ? Math.min(1, fitFrac / 0.5) : Math.max(0, (fitFrac - 0.5) / 0.5);
+      stage.style.width = (wa + (wb - wa) * g * g * (3 - 2 * g)) + 'px';
+    }
+    function measureWidths() {
+      if (!fit) return;
+      const m = document.createElement('span');
+      m.className = 'morphing-text-measure';
+      stage.appendChild(m);
+      widths = texts.map(function (t) { m.textContent = t; return m.getBoundingClientRect().width; });
+      stage.removeChild(m);
+      fitWidth();
+    }
+    measureWidths();
+    if (fit && document.fonts) document.fonts.ready.then(measureWidths);
     if (onIdxRef.current) onIdxRef.current(0);
     if (reducedMotion) {
       a.textContent = texts[0]; a.style.opacity = '1';
       b.textContent = ''; b.style.opacity = '0';
-      return;
+      if (fit) window.addEventListener('resize', measureWidths, { passive: true });
+      return function () { window.removeEventListener('resize', measureWidths); };
     }
     let visible = true;
-    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; });
+    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncPlayback(); });
     observer.observe(a.parentElement);
     let idx = 0, morph = 0, cooldown = 0, last = performance.now(), raf = 0, disposed = false;
+    function canRun() { return visible && !document.hidden && !document.body.classList.contains('about-locked') && !stage.closest('[inert]'); }
+    function syncPlayback() {
+      if (disposed) return;
+      if (!canRun()) { if (raf) cancelAnimationFrame(raf); raf = 0; return; }
+      if (!raf) { last = performance.now(); raf = requestAnimationFrame(animate); }
+    }
     a.textContent = texts[0];
     b.textContent = texts[1 % texts.length];
 
@@ -69,6 +100,7 @@ function MorphingText(props) {
     }
     measure();
     window.addEventListener('resize', measure, { passive: true });
+    if (fit) window.addEventListener('resize', measureWidths, { passive: true });
 
     function setStyles(frac) {
       const u = blurUnit;
@@ -79,6 +111,7 @@ function MorphingText(props) {
       a.style.opacity = Math.pow(inv, 0.4) * 100 + '%';
       a.textContent = texts[idx % texts.length];
       b.textContent = texts[(idx + 1) % texts.length];
+      if (fit) { fitIdx = idx; fitFrac = frac; fitWidth(); }
     }
     // The rest state is written once when a morph lands, not every frame of the hold.
     let resting = false;
@@ -96,6 +129,7 @@ function MorphingText(props) {
       resting = true;
       b.style.filter = 'none'; b.style.opacity = '100%';
       a.style.filter = 'none'; a.style.opacity = '0%';
+      if (fit) { fitIdx = idx; fitFrac = 0; fitWidth(); }   // b shows texts[idx] now
     }
     // Self-tuning for slow devices. Blur is rasterised per frame, and on a phone at 3x
     // density the full-strength effect can cost more than a frame budget, so most frames of
@@ -119,25 +153,30 @@ function MorphingText(props) {
     }
 
     function animate() {
-      if (disposed) return;
+      raf = 0;
+      if (disposed || !canRun()) return;
       raf = requestAnimationFrame(animate);
       const now = performance.now();
-      if (!visible || document.hidden) { last = now; return; }
       if (lightMotion && now - last < 1000 / 30) return;
       tune(now);
       const dt = (now - last) / 1000; last = now;
       cooldown -= dt;
       if (cooldown <= 0) doMorph(); else doCooldown();
     }
-    animate();
+    document.addEventListener('visibilitychange', syncPlayback);
+    document.addEventListener('lucy:scene-visibility', syncPlayback);
+    syncPlayback();
     return function () {
       disposed = true;
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', measure);
+      window.removeEventListener('resize', measureWidths);
+      document.removeEventListener('visibilitychange', syncPlayback);
+      document.removeEventListener('lucy:scene-visibility', syncPlayback);
       observer.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [texts.join('|'), morphTime, cooldownTime, lightMotion, reducedMotion]);
+  }, [texts.join('|'), morphTime, cooldownTime, lightMotion, reducedMotion, fit]);
 
   /* Safari/iOS hardening for the gooey filter. When it silently no-ops the morph
      degrades to a plain blur cross-fade, which is what "not fluid, just a fade" looks like:
@@ -150,7 +189,7 @@ function MorphingText(props) {
   const filterId = 'mt-threshold';
   const sizer = texts.reduce(function (a, b) { return b.length > a.length ? b : a; }, '');
   return (
-    <span className={'morphing-text ' + (gooey ? 'is-gooey ' : '') + (p.className || '')} aria-label={texts.join(', ')}>
+    <span className={'morphing-text ' + (gooey ? 'is-gooey ' : '') + (fit ? 'is-fit ' : '') + (p.className || '')} aria-label={texts.join(', ')}>
       <span className="morphing-text-stage" style={gooey ? { filter: 'url(#' + filterId + ') blur(0.5px)' } : undefined}>
         <span className="morphing-text-sizer" aria-hidden="true">{sizer}</span>
         <span className="morphing-text-a" ref={t1} aria-hidden="true" />

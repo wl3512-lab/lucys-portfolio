@@ -6,6 +6,16 @@
 
 /* Fonts loaded via <link rel="preconnect"> in each page's <head> — not @import */
 
+/* Self-hosted faces. Lack has one weight: it is declared across 100 to 900 so headings set at 700 use the drawn
+   letters and the browser never smears a fake bold. */
+@font-face { font-family: 'Lack'; src: url('assets/fonts/lack-regular.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lack'; src: url('assets/fonts/lack-italic.woff2') format('woff2'); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('assets/fonts/switzer-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('assets/fonts/switzer-400i.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('assets/fonts/switzer-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('assets/fonts/switzer-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('assets/fonts/switzer-700.woff2') format('woff2'); font-weight: 700 900; font-style: normal; font-display: swap; }
+
 :root {
   /* ─── CORE BRAND COLORS ─── */
   --void:         #050710;   /* deepest background */
@@ -54,9 +64,12 @@
   --dont:          #E8B4C0;
 
   /* ─── FONT STACKS ─── */
-  --font-display:  'Syne', 'Inter Tight', system-ui, sans-serif; /* display + wordmark */
-  --font-ui:       'Syne', 'Inter Tight', system-ui, sans-serif; /* labels, buttons, nav */
-  --font-body:     'DM Sans', system-ui, sans-serif; /* body copy */
+  /* Lack titles, Switzer text (Lucy, 25 Nov 2026: picked from independent foundries, away from the Google defaults
+     AI-built sites reach for; assets/fonts/FONT-LICENSES.md). Syne stays on the home hero's name only. */
+  --font-display:  'Lack', 'Switzer', system-ui, sans-serif; /* titles and headings */
+  --font-ui:       'Switzer', system-ui, sans-serif; /* labels, buttons, nav */
+  --font-body:     'Switzer', system-ui, sans-serif; /* body copy */
+  --font-hero:     'Syne', 'Switzer', system-ui, sans-serif; /* the home hero's name and role only */
   --font-code:     'Space Mono', 'Courier New', monospace; /* mono accents */
 
   /* ─── TYPE SCALE ─── */
@@ -241,12 +254,11 @@
   color: var(--blue-300);
 }
 
-/* Eyebrow / section label — mono, uppercase, spaced */
+/* Eyebrow / section label: mono, uppercase, spaced. The one label style (2026-10-31). */
 .eyebrow,
 .label {
-  font-family: var(--font-code);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-mono);
+  font: var(--type-label);
+  letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--fg3);
 }
@@ -269,3 +281,120 @@
 .lucy-typography p  { font-family: var(--font-body);    font-size: var(--text-base); font-weight: 400; line-height: var(--lh-relaxed); color: var(--fg2); }
 .lucy-typography code, .lucy-typography kbd, .lucy-typography pre { font-family: var(--font-code); }
 .lucy-typography em { font-style: normal; font-weight: 500; }  /* emphasis without italics, site rule */
+
+/* ============================================
+   ONE OF EACH (Lucy, 2026-10-31: her answers to the Design Consistency review,
+   https://claude.ai/artifact/KuV16LEVrzVkpUs4msByD7). Every page loads this file, so the
+   component tokens live here: a page's own classes point at these tokens, and new markup
+   uses the classes below. DESIGN.md, "Components", says when to use which.
+   ============================================ */
+:root {
+  /* faces with one job each */
+  --font-wordmark: 'Anybody', var(--font-display);   /* the nav logo only (components/wordmark.js) */
+  --font-pixel: 'Press Start 2P', var(--font-code);  /* inside his pixel scenes only; never a page label */
+
+  /* type roles, as font shorthands */
+  --type-title:    700 clamp(48px, 6.2vw, 88px)/0.96 var(--font-display);  /* page titles (h1); home's hero is the one bigger */
+  --type-h2:       700 clamp(28px, 3.1vw, 44px)/1.1 var(--font-display);   /* section headings */
+  --type-h3:       700 24px/1.2 var(--font-display);                        /* card headings */
+  --type-h3-sm:    700 18px/1.25 var(--font-display);                       /* small card headings */
+  --type-label:    500 12.5px/1.4 var(--font-body);                           /* labels, kickers, section numbers */
+  --type-link:     500 15px/1.4 var(--font-ui);                             /* small links, spaced caps */
+  --type-big-link: 600 21px/1.2 var(--font-display);                        /* big text links, the hero's */
+  --type-btn:      700 17px/1 var(--font-display);                          /* the solid button */
+  --type-control:  500 14px/1.2 var(--font-body);                           /* media controls */
+  --type-tag:      400 13px/1.6 var(--font-body);                           /* tags, a plain line with dots */
+  --track-label: 0.01em;
+  --track-link: 0.01em;
+
+  /* the solid button's notched corners, a pixel step like his windows */
+  --notch: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+  /* media controls: the Demon Nights player's button */
+  --control-bg: #0E122E;
+  --control-bg-hover: var(--navy-light);
+  --control-line: #5C649E;
+  --control-line-hover: var(--blue-300);
+  /* the read-more box: a plus or a minus drawn in 2px bars, so it needs no font */
+  --rm-plus: linear-gradient(var(--fg1), var(--fg1)) center / 8px 2px no-repeat, linear-gradient(var(--fg1), var(--fg1)) center / 2px 8px no-repeat, var(--navy-light);
+  --rm-minus: linear-gradient(var(--fg1), var(--fg1)) center / 8px 2px no-repeat, var(--navy-light);
+}
+
+/* Page title, section heading, card headings */
+.t-title { font: var(--type-title); letter-spacing: -0.03em; color: var(--fg1); }
+.t-h2 { font: var(--type-h2); letter-spacing: -0.01em; color: var(--fg1); }
+.t-h3 { font: var(--type-h3); letter-spacing: -0.01em; color: var(--fg1); }
+.t-h3-sm { font: var(--type-h3-sm); color: var(--fg1); }
+
+/* The solid button: notched, signal blue (the case studies' "View UX deck"). An optional <small> carries
+   the file type, e.g. View UX deck <small>PDF ↗</small>. */
+.btn-notch {
+  display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 20px; white-space: nowrap;
+  background: var(--accent); color: var(--accent-on); font: var(--type-btn); text-decoration: none; border: 0;
+  clip-path: var(--notch); cursor: pointer;
+}
+.btn-notch:hover { background: var(--blue-200); }
+.btn-notch:focus-visible { outline: 3px solid var(--accent-on); outline-offset: -7px; }
+.btn-notch small { font: 400 11px/1 var(--font-code); }
+@media (max-width: 400px) { .btn-notch { white-space: normal; max-width: 100%; padding-block: 9px; line-height: 1.15; } }
+
+/* Big text link: the hero's "All work →" */
+.link-big {
+  position: relative; display: inline-flex; align-items: baseline; gap: 10px; min-height: 44px;
+  font: var(--type-big-link); letter-spacing: -0.015em; color: var(--fg1); text-decoration: none;
+}
+.link-big .link-arrow { display: inline-block; color: var(--blue-300); transition: transform .25s var(--ease-out-quart); }
+.link-big:hover .link-arrow, .link-big:focus-visible .link-arrow { transform: translateX(5px); }
+
+/* Small link: spaced caps, signal blue, underlined on hover (All Work's "Open the file →") */
+.link-caps {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+  font: var(--type-link); letter-spacing: var(--track-link); color: var(--fg-accent);
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 6px; text-decoration-thickness: 1px;
+  transition: text-decoration-color .2s var(--ease-out-quart), color .2s var(--ease-out-quart);
+}
+.link-caps:hover, .link-caps:focus-visible { text-decoration-color: currentColor; }
+
+/* A link inside a sentence: one underline */
+.link-inline, .prose a {
+  color: var(--fg-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  border-bottom: 0;
+}
+.link-inline:hover, .prose a:hover { color: var(--fg1); }
+
+/* Tags: a plain line with dots, no boxes */
+.dot-list { display: flex; flex-wrap: wrap; gap: 0; margin: 0; padding: 0; list-style: none; font: var(--type-tag); color: var(--fg2); }
+.dot-list > li { margin: 0; padding: 0; border: 0; background: none; }
+.dot-list > li + li::before { content: "\00b7"; margin: 0 0.55em; color: var(--fg3); }
+
+/* "+ Read more": the one fold toggle (the case studies'), its +/- in a small notched box */
+.read-more > summary, summary.read-more-s {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; list-style: none;
+  font: 400 13px/1.25 var(--font-code); letter-spacing: 0; text-transform: none; color: var(--fg-accent);
+}
+.read-more > summary::-webkit-details-marker, summary.read-more-s::-webkit-details-marker { display: none; }
+.read-more > summary:hover, summary.read-more-s:hover { color: var(--fg1); }
+.read-more > summary::after, summary.read-more-s::after { content: none; }
+.read-more-i { flex: none; width: 22px; height: 22px; background: var(--rm-plus); clip-path: var(--notch); }
+details[open] > summary .read-more-i { background: var(--rm-minus); }
+
+/* Media controls: play, pause, sound, look closer (the Demon Nights player's button) */
+.media-btn {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 44px; padding: 0 8px; border: 0; border-radius: 0;
+  background: none; color: var(--fg2); font: var(--type-link); letter-spacing: var(--track-link); cursor: pointer; box-shadow: none;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: transparent; transition: color .15s, text-decoration-color .15s;
+}
+.media-btn:hover { color: var(--fg1); text-decoration-color: currentColor; }
+.media-btn:focus-visible { outline: 2px solid var(--blue-300); outline-offset: 2px; }
+
+/* The end of a page: "Next project", the title, one line; a solid button may sit on the right */
+.next-block { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 28px; border-top: 1px solid var(--border); padding: 28px 0 56px; }
+.next-block-k { margin: 0; font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
+.next-block-link { display: inline-flex; align-items: baseline; gap: 12px; min-height: 44px; font: 700 clamp(26px, 3vw, 36px)/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--fg1); text-decoration: none; }
+.next-block-link .link-arrow { color: var(--fg-accent); transition: transform .25s var(--ease-out-quart); }
+.next-block-link:hover { color: var(--fg-accent); }
+.next-block-link:hover .link-arrow { transform: translateX(5px); }
+.next-block-d { margin: 0; font: 400 14.5px/1.6 var(--font-body); color: var(--fg2); max-width: 60ch; }
+@media (prefers-reduced-motion: reduce) {
+  .link-big .link-arrow, .next-block-link .link-arrow, .link-caps { transition: none; }
+  .link-big:hover .link-arrow, .link-big:focus-visible .link-arrow, .next-block-link:hover .link-arrow { transform: none; }
+}

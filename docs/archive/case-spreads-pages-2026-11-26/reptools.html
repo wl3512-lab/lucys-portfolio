@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>rep.tools: e-commerce catalogue IA redesign | Lucy Liu</title>
+<meta name="description" content="A large e-commerce catalogue, about 6,900 items, given a clear information architecture and a brand: navigation, catalogue and product pages, then an identity and logo." />
+<link rel="canonical" href="https://lucyliu.xyz/reptools.html" />
+<meta property="og:title" content="rep.tools: e-commerce catalogue IA redesign | Lucy Liu" />
+<meta property="og:description" content="rep.tools looked vibe-coded: bland and forgettable. I gave it a brand identity and logo, then rebuilt its catalogue and shopping flow on them." />
+<meta property="og:url" content="https://lucyliu.xyz/reptools.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/reptools/after-home.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<!-- The grid and the spreads (CLAUDE.md, "Case studies: the grid and the spreads (2026-10-25)"): the whole case
+     study on one screen, every tile a link to its spread below. Shared with the other case studies. -->
+<link rel="stylesheet" href="case-spreads.css?v=10" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/case-spreads.js"></script>
+</head>
+<body class="cx-page" data-persona-slug="reptools">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="cx" data-case-spreads>
+
+<!-- The stage and the board: see docs/projects/case-study-looks/TEMPLATE.md -->
+<header class="cx-stage" id="cx-top" style="--lamp-a:#0a3a4c;--lamp-b:#0b5a70">
+  <h1 class="cx-title cx-lit">rep.tools</h1>
+  <figure class="cx-screen">
+    <div class="cx-screen-in"><img src="assets/reptools/live-top.webp" width="1600" height="900" alt="The live rep.tools homepage: the condensed headline Your all-in-one rep toolkit in white and cyan, two buttons, and a fan of QC photos" decoding="async"></div>
+    <figcaption>A large e-commerce catalogue IA redesign, with a brand of its own.</figcaption>
+  </figure>
+  <div class="cx-stage-foot">
+    <a class="cx-deck" href="uploads/RepTools_Summary.pdf" target="_blank" rel="noopener noreferrer">Download project summary <small>PDF ↗</small></a>
+    <p class="cx-role">Brand + UX/IA redesign and front end · Live product, 9,384 items (Oct 2026)</p>
+    <img class="cx-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<div class="cx-board">
+  <section class="cx-say cx-s5" id="cs-s-direction" aria-labelledby="rt-direction-h"><h2 class="cx-h" id="rt-direction-h" tabindex="-1">It looked like every vibe-coded site.</h2><p>rep.tools worked, but it had no face of its own: a gradient lightning-bolt icon, a gradient headline, glowing orbs and pill badges. Bland, and gone from memory a minute later. I gave it a brand. Most visitors arrive from the founder's TikTok channel (300k+ followers, over 200 million views), already fluent in QC, batches, agents and hauls, so the identity speaks that language: Anton in oversized condensed caps, electric cyan on near-black, Space Mono for anything that behaves like data.</p><p>The BATCH logo comes from the same culture: one parametric R, the master RETAIL and nine runs, each with one documented tell. It is built into the site's code and not released yet.</p></section>
+  <figure class="cx-pic cx-s7"><a class="cx-shot" data-cx-zoom href="assets/reptools/batch-sheet.webp" aria-label="Show full size: the BATCH sheet"><img src="assets/reptools/batch-sheet.webp" width="1400" height="710" alt="The BATCH sheet: the RETAIL master with its favicons, and the nine runs B01 to B09, each with its tell and where it is placed" loading="lazy" decoding="async"></a></figure>
+
+  <section class="cx-say cx-s6" id="cs-s-ia" aria-labelledby="rt-ia-h"><h2 class="cx-h" id="rt-ia-h" tabindex="-1">The homepage is now the product catalogue.</h2><p>rep.tools launched as a landing page. The catalogue grew to roughly 6,900 items, and the thing people came for sat one click behind Browse Products. Now you land in the catalogue itself: category rows you can scroll at once, with filter chips at the top. Product pages exist for the first time.</p></section>
+  <figure class="cx-pic cx-s3 cx-half"><a class="cx-shot" data-cx-zoom href="assets/reptools/before-home.webp" aria-label="Show full size: the homepage before"><img src="assets/reptools/before-home.webp" width="1400" height="2200" alt="Before: a marketing landing page. The 6,900-item catalogue is not on it." loading="lazy" decoding="async"></a><figcaption>Before</figcaption></figure>
+  <figure class="cx-pic cx-s3 cx-half"><a class="cx-shot" data-cx-zoom href="assets/reptools/after-home.webp" aria-label="Show full size: the homepage now"><img src="assets/reptools/after-home.webp" width="1400" height="2020" alt="After: the same page rebuilt around the product, with the identity carrying the logistics language." loading="lazy" decoding="async"></a><figcaption>After, November 2026</figcaption></figure>
+
+  <figure class="cx-pic cx-s3 cx-half"><a class="cx-shot" data-cx-zoom href="assets/reptools/before-products.webp" aria-label="Show full size: the catalogue before"><img src="assets/reptools/before-products.webp" width="1400" height="2200" alt="Before: a category sidebar with item counts, a search bar, and a three-column grid of products" loading="lazy" decoding="async"></a><figcaption>Catalogue before</figcaption></figure>
+  <figure class="cx-pic cx-s3 cx-half"><a class="cx-shot" data-cx-zoom href="assets/reptools/after-products.webp" aria-label="Show full size: the catalogue after"><img src="assets/reptools/after-products.webp" width="1400" height="2200" alt="After: categories as a counted top bar, a five-column grid, and search, price, sort and currency controls" loading="lazy" decoding="async"></a><figcaption>Catalogue after</figcaption></figure>
+  <figure class="cx-pic cx-s3"><div class="cx-duo" style="column-gap:8.4%"><a class="cx-shot cx-phone" data-cx-zoom href="assets/reptools/before-home-mobile.webp" aria-label="Show full size: the phone homepage before"><img src="assets/reptools/before-home-mobile.webp" width="760" height="2600" alt="Before, on a phone: a hero and category tiles, with the catalogue still a tap away" loading="lazy" decoding="async"></a><a class="cx-shot cx-phone" data-cx-zoom href="assets/reptools/after-home-mobile.webp" aria-label="Show full size: the phone homepage after"><img src="assets/reptools/after-home-mobile.webp" width="760" height="2600" alt="After, on a phone: the catalogue itself, browsable immediately" loading="lazy" decoding="async"></a></div><figcaption>Phone, before and after</figcaption></figure>
+  <section class="cx-say cx-s3" id="cs-s-phone" aria-labelledby="rt-phone-h"><h2 class="cx-h" id="rt-phone-h" tabindex="-1">Almost everyone arrives on a phone.</h2><p>They come straight from a video, so the phone is the primary surface. Category rows scroll by thumb, and the counted category bar stays visible.</p></section>
+
+  <section class="cx-say cx-s4" id="cs-s-system" aria-labelledby="rt-system-h"><h2 class="cx-h" id="rt-system-h" tabindex="-1">Every page now shares one design system.</h2><p>I moved the identity into one shared stylesheet and pulled the navigation and footer into partials: 38 files changed. The five tools already shared one tabbed page; I restyled and regrouped them. Since August the catalogue grew from 6,907 to 9,384 items, and the shop, the tools hub and the buying guide went into the same system.</p></section>
+  <figure class="cx-pic cx-s3"><div class="cx-duo" style="grid-template-columns:2.18fr 1fr;column-gap:6.2%"><a class="cx-shot" data-cx-zoom href="assets/reptools/live-home.webp" aria-label="Show full size: the homepage today on a laptop"><img src="assets/reptools/live-home.webp" width="1400" height="2200" alt="The homepage today on a laptop: the headline, a fan of QC photos, the QC photo search and the shop" loading="lazy" decoding="async"></a><a class="cx-shot cx-phone" data-cx-zoom href="assets/reptools/live-home-mobile.webp" aria-label="Show full size: the homepage today on a phone"><img src="assets/reptools/live-home-mobile.webp" width="760" height="2600" alt="The homepage today on a phone" loading="lazy" decoding="async"></a></div></figure>
+  <figure class="cx-pic cx-s5"><div class="cx-duo" style="grid-template-columns:1fr .636fr"><a class="cx-shot" data-cx-zoom href="assets/reptools/live-tools.webp" aria-label="Show full size: the tools hub"><img src="assets/reptools/live-tools.webp" width="1400" height="1400" alt="The tools hub: five tool cards with their numbers, popular finds and the welcome pack band" loading="lazy" decoding="async"></a><a class="cx-shot" data-cx-zoom href="assets/reptools/live-guides.webp" aria-label="Show full size: the buying guide"><img src="assets/reptools/live-guides.webp" width="1400" height="2200" alt="The buying guide: ten steps with a step bar and a glossary of five words" loading="lazy" decoding="async"></a></div></figure>
+
+  <section class="cx-say cx-s5" id="cs-s-welcome" aria-labelledby="rt-welcome-h"><h2 class="cx-h" id="rt-welcome-h" tabindex="-1">The sign-up coupon shows its terms up front.</h2><p>rep.tools earns when a visitor signs up to KakoBuy through its link, so the welcome pack is the one place the site asks for something. The terms are on the card, two plain ways out sit under the button, and on a phone it rises as a bottom sheet.</p></section>
+  <figure class="cx-pic cx-s7"><div class="cx-duo" style="grid-template-columns:2.457fr 1fr"><a class="cx-shot" data-cx-zoom href="assets/reptools/welcome-desktop.webp" aria-label="Show full size: the welcome pack on a laptop"><img src="assets/reptools/welcome-desktop.webp" width="840" height="740" alt="The welcome pack on a laptop: four coupon tickets, the code LUDE15 on a stub, an orange claim button and two ways out" loading="lazy" decoding="async"></a><a class="cx-shot cx-phone" data-cx-zoom href="assets/reptools/welcome-mobile.webp" aria-label="Show full size: the welcome pack on a phone"><img src="assets/reptools/welcome-mobile.webp" width="780" height="1688" alt="The welcome pack on a phone, as a bottom sheet with a handle" loading="lazy" decoding="async"></a></div></figure>
+
+  <section class="cx-lessons" id="cs-s-reflection" aria-labelledby="rt-outcome-h">
+    <h2 class="cx-h" id="rt-outcome-h" tabindex="-1">A working site still needs a brand of its own.</h2>
+    <div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">AI-generated default styling makes a site forgettable.</h3>
+        <p>The old site ran fine. It just looked like a hundred others, so nothing about it stayed with a visitor.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">The homepage should show products right away.</h3>
+        <p>The founder's channel sends a steady, already-invested audience straight at it.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Next, measure the redesign with the founder's analytics.</h3>
+        <p>The redesigned catalogue and product pages are live. The founder's analytics can show catalogue click-through and mobile time-on-site, before and after. <a href="https://rep.tools" target="_blank" rel="noopener noreferrer">Visit rep.tools ↗</a></p></div>
+    </div>
+  </section>
+</div>
+
+<div class="cx-after">
+  <p class="cx-credit">I designed the brand, navigation, catalogue, and product-page layouts, and wrote the front end. The founder built and owns the app.</p>
+  <details class="cx-more" id="rt-build">
+    <summary><span class="cx-pl" aria-hidden="true"></span>How it was made</summary>
+    <div class="cx-more-in"><div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Direction</h3>
+        <div class="cx-prose">
+        <p>Two easier directions were on the table. Keeping the SaaS look fixed the structure but left the site looking like a tool for someone else. Going fully hype-drop failed the logistics half, where a tracking number or a price has to be legible at a glance.</p>
+      </div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Logo</h3>
+        <div class="cx-prose">
+        <p>Six numbers describe a version completely, so each run rebuilds exactly from code. RETAIL goes wherever recognition builds: the favicon, the share card, the nav. The batches appear only where someone has already arrived, so the logo never splits at first sight.</p>
+      </div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Tools and guide</h3>
+        <div class="cx-prose">
+        <p>Each of the five tools is a card that carries its own number in Space Mono (3,100 carriers, 25 agents, 86 countries). The buying guide takes a first-time buyer through an order in ten steps.</p>
+      </div></div>
+    </div></div>
+    </details>
+</div>
+
+<nav class="cx-col cx-next" aria-label="Next project">
+  <div>
+    <p class="cx-k">Next project</p>
+    <a class="cx-next-link" href="case-study.html">Driftwood <span class="link-arrow" aria-hidden="true">→</span></a>
+    <p>I designed and built a game where you spot AI pets’ hidden flaws, write training rules, and test whether their replies change.</p>
+  </div>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

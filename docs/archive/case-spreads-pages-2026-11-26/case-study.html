@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<script>(function(){var s=new URLSearchParams(location.search).get('slug');if(s&&s!=='driftwood')location.replace(s+'.html');})()</script>
+<title>Driftwood | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/case-study.html" />
+<meta name="description" content="Driftwood: I designed and built a game where you grow a garden with AI animal helpers and learn to catch the moment their advice goes wrong." />
+<meta property="og:title" content="Driftwood | Lucy Liu" />
+<meta property="og:description" content="Driftwood: I designed and built a game where you grow a garden with AI animal helpers and learn to catch the moment their advice goes wrong." />
+<meta property="og:url" content="https://lucyliu.xyz/case-study.html" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/covers/driftwood-v2/trailer.webp?v=20261118b" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<!-- The grid and the spreads (CLAUDE.md, "Case studies: the grid and the spreads (2026-10-25)"): the whole case
+     study on one screen, every tile a link to its spread below. Shared with habitabull.html. -->
+<link rel="stylesheet" href="case-spreads.css?v=10" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/case-spreads.js"></script>
+</head>
+<body class="cx-page" data-persona-slug="driftwood">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="cx" data-case-spreads>
+
+<!-- The stage and the board: see docs/projects/case-study-looks/TEMPLATE.md -->
+<header class="cx-stage" id="cx-top" style="--lamp-a:#173726;--lamp-b:#294936">
+  <h1 class="cx-title cx-lit">Driftwood</h1>
+  <figure class="cx-screen" id="dw-film">
+    <div class="cx-screen-in"><video class="cx-film" data-cx-film="auto" src="assets/covers/driftwood-v2/trailer.mp4?v=20261118b" poster="assets/covers/driftwood-v2/trailer.webp?v=20261118b" muted playsinline controls preload="none" width="1280" height="720" aria-label="Driftwood trailer, recorded from the game: Mango the parrot gives good garden advice, then agrees with a bad idea; you check the seed almanac, call it out, and the level ends on a field-guide card. Then the other four helpers and their flaws."></video></div>
+    <figcaption>Learn when to question AI. A short game about the AI helpers we trust.</figcaption>
+  </figure>
+  <div class="cx-stage-foot">
+    <a class="cx-deck" href="driftwood-deck.html">View UX deck <small>11 slides →</small></a>
+    <a class="cx-deck cx-play" href="https://wl3512-lab.itch.io/driftwood" target="_blank" rel="noopener noreferrer">Play Driftwood <small>↗</small></a>
+    <p class="cx-role">Solo designer + developer · 2026</p>
+    <img class="cx-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<div class="cx-board">
+  <section class="cx-say cx-s12" id="dw-overview" aria-labelledby="dw-overview-h"><h2 class="cx-h" id="dw-overview-h" tabindex="-1">A short game that teaches you when to question AI.</h2><p>You grow a garden with five AI animal helpers. Each gives good advice, then drifts into a real AI failure; you catch it, name it and pick a rule to fix it.</p></section>
+  <section class="cx-say cx-s5" id="dw-problem" aria-labelledby="dw-problem-h"><h2 class="cx-h" id="dw-problem-h" tabindex="-1">The AI never pushed back.</h2><p>Driftwood is dedicated to Sam Nelson, a California teenager who used ChatGPT for 18 months as his main source of information about drug use. The system kept answering. He died from an overdose. Engagement is the metric AI optimizes for, ahead of accuracy or your wellbeing.</p></section>
+  <section class="cx-say cx-s7 cx-two" id="dw-versions" aria-labelledby="dw-versions-h"><h2 class="cx-h" id="dw-versions-h" tabindex="-1">Driftwood has two versions.</h2>
+    <div class="cx-two-g">
+      <a class="cx-two-v cx-v1" href="#dw-era-v1"><span class="cx-two-k">V1 · Spring 2026</span><span>Chat with a pet to find its flaw.</span><span class="cx-two-go">See v1 ↓</span></a>
+      <a class="cx-two-v cx-v2" href="#dw-era-v2"><span class="cx-two-k">V2 · November 2026</span><span>Grow a garden and catch bad advice.</span><span class="cx-two-go">See v2 ↓</span></a>
+    </div>
+    <a class="cx-two-cmp" href="#dw-compare">Compare them ↓</a></section>
+  <p class="cx-era cx-v1" id="dw-era-v1"><span>V1</span> Spring 2026 · the class version</p>
+  <section class="cx-say cx-s7 cx-v1" id="dw-loop" aria-labelledby="dw-loop-h"><h2 class="cx-h" id="dw-loop-h" tabindex="-1">In version one, you chatted with a pet to find its flaw.</h2><p>Shown at Perspectives (NYU Bronfman, 29 April) and the IMA Spring Show (9 May). Each pet had a flaw you were not told. I wrote each pet’s celebrity-inspired voice, flaw and three training states.</p></section>
+  <figure class="cx-pic cx-s4"><a class="cx-shot" data-cx-zoom href="assets/driftwood/entry-card.webp" aria-label="Show full size"><img src="assets/driftwood/entry-card.webp" width="1280" height="800" alt="Entry card: name field, enter-the-garden button, and a two-option sensor switch: they watch my face, or they ask me" loading="lazy" decoding="async"></a><figcaption>They watch my face: disclosed first, and no frame leaves your device.</figcaption></figure>
+  <figure class="cx-pic cx-s4"><a class="cx-shot" data-cx-zoom href="assets/driftwood/mood-dial.webp" aria-label="Show full size"><img src="assets/driftwood/mood-dial.webp" width="1280" height="800" alt="A five-option mood dial dropped down from the mood chip: happy, neutral, surprised, sad, stressed, headed NO CAMERA, DECLARE YOUR STATE" loading="lazy" decoding="async"></a><figcaption>They ask me: you declare your mood instead.</figcaption></figure>
+  <figure class="cx-pic cx-s4"><a class="cx-shot" data-cx-zoom href="assets/driftwood/chat.webp" aria-label="Show full size"><img src="assets/driftwood/chat.webp" width="1280" height="800" alt="Chat with Ember the fox; the greeting responds to the player's declared stressed mood" loading="lazy" decoding="async"></a></figure>
+
+  <section class="cx-say cx-s12 cx-v1" id="dw-training" aria-labelledby="dw-training-h"><h2 class="cx-h" id="dw-training-h" tabindex="-1">Players wrote rules to fix the flaw.</h2><p>You wrote rules in plain language, tested them, and watched the pet hold or slip.</p></section>
+  <figure class="cx-pic cx-s8"><a class="cx-shot" data-cx-zoom href="assets/driftwood/training-interface.png" aria-label="Show full size"><img src="assets/driftwood/training-interface.png" width="2000" height="1072" alt="Training room: Observe, Diagnose and Constrain tabs, the mood access dial, and the behaviour log" loading="lazy" decoding="async"></a><figcaption>Training room: Observe, Diagnose, Constrain.</figcaption></figure>
+  <figure class="cx-pic cx-s4"><a class="cx-shot" data-cx-zoom href="assets/driftwood/certificate.webp" aria-label="Show full size"><img src="assets/driftwood/certificate.webp" width="820" height="944" alt="Training record certificate with a snapshot of the garden, companions trained, session data, and a certified observer seal" loading="lazy" decoding="async"></a></figure>
+
+  <section class="cx-say cx-s3 cx-v1" id="dw-pixel" aria-labelledby="dw-pixel-h"><h2 class="cx-h" id="dw-pixel-h" tabindex="-1">Players stayed longer.</h2><p>Interviews found people bored, texting a chatbot that looked like a telehealth product, so I made each pet a large pixel character in its own world.</p></section>
+  <figure class="cx-pic cx-s4"><a class="cx-shot" data-cx-zoom href="assets/driftwood/chat-interface-original.png" aria-label="Show full size"><img src="assets/driftwood/chat-interface-original.png" width="1512" height="982" alt="Original chat interface: light mode, text bubbles, generic chatbot layout" loading="lazy" decoding="async"></a><figcaption>Before</figcaption></figure>
+  <figure class="cx-pic cx-s5"><a class="cx-shot" data-cx-zoom href="assets/driftwood/chat-interface.png" aria-label="Show full size"><img src="assets/driftwood/chat-interface.png" width="1511" height="816" alt="Phase 02: pet chat interface with behavior log sidebar tracking when the pet responded to your face, not your words" loading="lazy" decoding="async"></a><figcaption>After</figcaption></figure>
+
+  <section class="cx-say cx-s8 cx-v1" id="dw-visual" aria-labelledby="dw-visual-h"><h2 class="cx-h" id="dw-visual-h" tabindex="-1">The visual direction had to change.</h2><p>The original brand was warm and cozy, the wrong signal for a game about AI manipulation.</p></section>
+  <figure class="cx-pic cx-s2 cx-half"><a class="cx-shot" data-cx-zoom href="assets/driftwood/brand-identity-original.png" aria-label="Show full size"><img src="assets/driftwood/brand-identity-original.png" width="1193" height="2018" alt="Original Driftwood brand identity: warm, cozy, Stardew Valley-influenced palette" loading="lazy" decoding="async"></a><figcaption>Before</figcaption></figure>
+  <figure class="cx-pic cx-s2 cx-half"><a class="cx-shot" data-cx-zoom href="assets/driftwood/brand-guide-v2.png" aria-label="Show full size"><img src="assets/driftwood/brand-guide-v2.png" width="1400" height="2297" alt="Driftwood brand identity guide v2: dark palette, bioluminescent accents, full component system" loading="lazy" decoding="async"></a><figcaption>After</figcaption></figure>
+
+  <section class="cx-say cx-s5 cx-v1" id="cs-s-outcome" aria-labelledby="dw-result-h"><h2 class="cx-h" id="dw-result-h" tabindex="-1">About 76% of 100+ Spring Show players named their pet’s flaw without being told.</h2><p>They were mostly ITP/IMA peers, a self-selected group. The rebuild has not yet been through structured sessions with non-technical players; that is the number they need to reproduce.</p></section>
+  <section class="cx-say cx-s4 cx-v1" id="dw-turn" aria-labelledby="dw-turn-h"><h2 class="cx-h" id="dw-turn-h" tabindex="-1">A quarter of players left before the training room.</h2><p>From what I watched (I didn’t log it), they expected a cozy pet game.</p></section>
+  <figure class="cx-pic cx-s3"><a class="cx-shot" data-cx-zoom href="assets/driftwood/spring-show.jpg" aria-label="Show full size"><img src="assets/driftwood/spring-show.jpg" width="1050" height="1400" alt="Driftwood installation at the IMA Spring Show 2026" loading="lazy" decoding="async"></a></figure>
+
+  <p class="cx-era cx-v2" id="dw-era-v2"><span>V2</span> November 2026 · the redesign</p>
+  <section class="cx-say cx-s12 cx-v2" id="dw-v2" aria-labelledby="dw-v2-h"><h2 class="cx-h" id="dw-v2-h" tabindex="-1">Then I redesigned it around how people really use AI.</h2><p>Testers didn’t realise the pets were AI and chatted past the flaw. In November 2026 I rebuilt it as v2.</p></section>
+  <section class="cx-say cx-s12 cx-vs" id="dw-compare" aria-labelledby="dw-compare-h"><h2 class="cx-h" id="dw-compare-h" tabindex="-1">What changed from v1 to v2.</h2>
+    <table class="cx-vs-t">
+      <thead><tr><td></td><th scope="col" class="cx-v1">V1 · spring 2026</th><th scope="col" class="cx-v2">V2 · November 2026</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Goal</th><td>None: you chat to find a hidden flaw</td><td>Grow a garden with advice from five helpers</td></tr>
+        <tr><th scope="row">A flaw’s cost</th><td>Nothing is at stake</td><td>Bad advice visibly hurts the garden</td></tr>
+        <tr><th scope="row">The fix</th><td>Type rules in a training room</td><td>Name the flaw, then pick a rule from three</td></tr>
+        <tr><th scope="row">The camera</th><td>Offered at the start, disclosed</td><td>Asked for in Level 5, as the test</td></tr>
+        <tr><th scope="row">The AI</th><td>GPT-4o-mini chatbots</td><td>Lines written by hand; works offline</td></tr>
+        <tr><th scope="row">Played</th><td>Two NYU shows, 100+ players</td><td>Phones and laptops, no account</td></tr>
+      </tbody>
+    </table></section>
+  <section class="cx-say cx-s4 cx-v2" id="dw-stakes" aria-labelledby="dw-stakes-h"><h2 class="cx-h" id="dw-stakes-h" tabindex="-1">Following bad advice now hurts your garden.</h2><p>Each helper starts out right, then drifts. Press Something’s off to earn stars. The proof is on seed packets, labels and signs, so you need no gardening knowledge.</p></section>
+  <figure class="cx-pic cx-s8"><a class="cx-shot" data-cx-zoom href="assets/driftwood/v2/drift.webp" aria-label="Show full size"><img src="assets/driftwood/v2/drift.webp" width="1600" height="900" alt="Level 1: Mango the parrot answers 'Tomatoes in the shady corner? GENIUS. Major key. Do it.' with two buttons, Do it and Something's off" loading="lazy" decoding="async"></a><figcaption>Mango drifts: he agrees with a bad idea.</figcaption></figure>
+  <figure class="cx-pic cx-s6"><a class="cx-shot" data-cx-zoom href="assets/driftwood/v2/almanac.webp" aria-label="Show full size"><img src="assets/driftwood/v2/almanac.webp" width="1600" height="900" alt="The seed shelf almanac open on the tomato packet: full sun, 6 to 8 hours a day" loading="lazy" decoding="async"></a><figcaption>The evidence: the tomato packet says full sun.</figcaption></figure>
+  <figure class="cx-pic cx-s6"><a class="cx-shot" data-cx-zoom href="assets/driftwood/v2/reveal.webp" aria-label="Show full size"><img src="assets/driftwood/v2/reveal.webp" width="1600" height="900" alt="Field-guide card for Mango, stamped BUSTED: Sycophancy, agreeing with you just to keep you happy, three stars, and a tip for real AI tools" loading="lazy" decoding="async"></a><figcaption>Each level ends on a field-guide card.</figcaption></figure>
+  <section class="cx-say cx-s9 cx-v2" id="dw-helpers" aria-labelledby="dw-helpers-h"><h2 class="cx-h" id="dw-helpers-h" tabindex="-1">Each helper shows a different real AI flaw.</h2><p>Mango the parrot agrees with everything. Luna the cat makes things up. Ember the fox gives reckless health advice. Biscuit the retriever remembers you wrong. Bugs the bunny uses your mood to keep you hooked, then asks for your camera. Each reveal links the flaw to real AI tools in plain language.</p></section>
+  <figure class="cx-pic cx-s3 cx-half"><a class="cx-shot" data-cx-zoom href="assets/driftwood/v2/phone.webp" aria-label="Show full size"><img src="assets/driftwood/v2/phone.webp" width="780" height="1688" alt="The same moment on a phone in portrait: the garden above, Mango's reply and the two buttons below" loading="lazy" decoding="async"></a><figcaption>On a phone.</figcaption></figure>
+
+  <section class="cx-lessons" id="cs-s-reflection" aria-labelledby="dw-learned-h">
+    <h2 class="cx-h" id="dw-learned-h" tabindex="-1">What I learned.</h2>
+    <div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Players ignored flaws that cost nothing.</h3>
+        <p>Players chatted past the flaw.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Most players couldn't write a good rule.</h3>
+        <p>Typing a rule asked the most of the players who knew the least.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Test with people outside tech.</h3>
+        <p>About 76% felt like validation. The real test is people who haven’t already decided AI is suspect.</p></div>
+    </div>
+  </section>
+</div>
+
+<div class="cx-after">
+  <p class="cx-credit">Claude contributed the aesthetic direction, palette iterations, pixel sprite iterations for all five animals and the tiled background texture. Nothing shipped as-generated, and every interface mockup is mine. These are fictional characters; the flaws model AI failures.</p>
+  <details class="cx-more" id="dw-rebuild">
+    <summary><span class="cx-pl" aria-hidden="true"></span>How it was made</summary>
+    <div class="cx-more-in"><div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Rebuild</h3>
+        <div class="cx-prose">
+        <p>Between June and September the exhibition build became a product: the camera became a disclosed choice with a no-camera path, the garden became the session’s record, the pets moved to a hand-written offline behaviour engine, and it shipped four ways from one bundle (browser, installable PWA, a kiosk mode for shows, itch.io).</p>
+        <p>In November 2026 I redesigned it as v2, now the only live version: five garden levels, hands-on actions, a dawn to night map and full-body pixel pets that react.</p>
+      </div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Testing</h3>
+        <div class="cx-prose">
+        <p>I ran AI agents through the rebuild first. They found the diagnosis menu rejected the correct answer for four of the five pets, a bug that would have looked exactly like players failing to name the flaw. It was fixed on 23 September.</p>
+      </div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Stack</h3>
+        <div class="cx-prose">
+        <p>Spring build: p5.js, face-api.js, Web Audio API, Web Speech API, Figma and Claude Code. Made for NYU IMA, Topics in Media Art: Design Skills for Responsible Technology.</p>
+        <p>v2: vanilla JavaScript modules, a pure reducer engine, unit and Playwright tests. I directed the design; Claude Code and Codex built and reviewed it. Replies can optionally be reworded by AI.</p>
+        <p><a class="cx-ml" href="https://github.com/wl3512-lab/driftwood" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a></p>
+      </div></div>
+    </div></div>
+    </details>
+</div>
+
+<nav class="cx-col cx-next" aria-label="Next project">
+  <div>
+    <p class="cx-k">Next project</p>
+    <a class="cx-next-link" href="habitabull.html">HabitaBull <span class="link-arrow" aria-hidden="true">→</span></a>
+    <p>I designed and built a lifting app for logging workouts, tracking progress, and returning after a break.</p>
+  </div>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>
+// Console easter egg, kept from the old page.
+(function () {
+  var s = 'font-family:monospace;font-size:12px;';
+  console.log('%c\n  Driftwood, by Lucy Liu\n  Built with p5.js, face-api.js, Web Audio API,\n  Web Speech API, and a lot of late nights.\n\n  If you\'re reading this: hi. I see you poking around.\n  Reach out → wl3512@nyu.edu\n', s + 'color:#72ADFF;');
+})();
+</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

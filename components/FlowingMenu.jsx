@@ -117,6 +117,45 @@ function FlowMenuItem(p) {
 
 window.FlowingMenu = FlowingMenu;
 
+// Home's menu and About share a focus scope. Walk up the React tree so siblings
+// inside #root are held too; inerting only body children would leave them active.
+window.LucyFocusScope = function (root, initialFocus, fallbackFocus) {
+  if (!root) return function () {};
+  const previous = document.activeElement;
+  const held = [];
+  for (let branch = root; branch && branch !== document.body; branch = branch.parentElement) {
+    if (!branch.parentElement) break;
+    Array.from(branch.parentElement.children).forEach(function (node) {
+      if (node === branch || node.inert || /^(SCRIPT|STYLE|LINK|TEMPLATE)$/.test(node.tagName)) return;
+      node.inert = true;
+      held.push(node);
+    });
+  }
+  function available(node) {
+    return node && node.isConnected && !node.closest('[inert], [aria-hidden="true"]') &&
+      node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
+  }
+  function onKey(e) {
+    if (e.key !== 'Tab' || e.defaultPrevented) return;
+    const links = Array.from(root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')).filter(available);
+    if (!links.length) { e.preventDefault(); return; }
+    const first = links[0], last = links[links.length - 1], at = document.activeElement;
+    if (e.shiftKey ? (at === first || at === root || !root.contains(at)) : (at === last || at === root || !root.contains(at))) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus({ preventScroll: true });
+    }
+  }
+  document.addEventListener('keydown', onKey);
+  if (initialFocus) initialFocus.focus({ preventScroll: true });
+  return function () {
+    document.removeEventListener('keydown', onKey);
+    held.forEach(function (node) { node.inert = false; });
+    if (!root.contains(document.activeElement) && document.activeElement !== document.body) return;
+    const back = available(previous) && previous !== document.body ? previous : fallbackFocus;
+    if (available(back)) back.focus({ preventScroll: true });
+  };
+};
+
 /*
   FlowMenu — the site's menu shell built around FlowingMenu. A fixed wordmark +
   toggle button opens a full-screen overlay containing the flowing marquee menu and
@@ -134,6 +173,8 @@ function FlowMenu(props) {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
   const overlayRef = useRef(null);
+  const rootRef = useRef(null);
+  const toggleRef = useRef(null);
   const tlRef = useRef(null);
   const wordmarkRef = useRef(null);
 
@@ -187,7 +228,6 @@ function FlowMenu(props) {
   const setOpenState = useCallback(function (next) {
     openRef.current = next;
     setOpen(next);
-    document.body.style.overflow = next ? 'hidden' : '';
     animate(next);
   }, [animate]);
 
@@ -195,10 +235,18 @@ function FlowMenu(props) {
   const close = useCallback(function () { if (openRef.current) setOpenState(false); }, [setOpenState]);
 
   useEffect(function () {
-    const onKey = function (e) { if (e.key === 'Escape') close(); };
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const release = window.LucyFocusScope(rootRef.current, toggleRef.current, toggleRef.current);
+    const onKey = function (e) { if (e.key === 'Escape') { e.preventDefault(); close(); } };
     document.addEventListener('keydown', onKey);
-    return function () { document.removeEventListener('keydown', onKey); };
-  }, [close]);
+    return function () {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+      release();
+    };
+  }, [open, close]);
 
   // Route the click through the page handler (handles #about / #contact), then close.
   // onNavClick no-ops for non-hash hrefs, so work.html / resume navigate normally.
@@ -208,15 +256,15 @@ function FlowMenu(props) {
   };
 
   return (
-    <div className="flow-menu-root">
-      <header className="flow-menu-header">
+    <div className="flow-menu-root" ref={rootRef} role={open ? 'dialog' : undefined} aria-modal={open ? true : undefined} aria-label={open ? 'Site menu' : undefined}>
+      <header className={'flow-menu-header' + (open ? ' is-open' : '')}>
         <a href="/" className="flow-menu-logo" aria-label="Lucy Liu, back to top">
           <span className="flow-menu-logo-text" ref={wordmarkRef} />
         </a>
         <div className="flow-menu-header-actions">
-          {typeof AnimatedThemeToggler !== 'undefined' && <AnimatedThemeToggler />}
           <button
             type="button"
+            ref={toggleRef}
             className="flow-menu-toggle"
             data-open={open || undefined}
             aria-expanded={open}
@@ -233,13 +281,13 @@ function FlowMenu(props) {
       <div id="flow-menu-overlay" ref={overlayRef} className="flow-menu-overlay" aria-hidden={!open}>
         <FlowingMenu items={items} speed={p.speed} onItemClick={onItemClick} />
         {socialItems.length > 0 && (
-          <div className="flow-menu__footer">
+          <div className="flow-menu__footer" role="group" aria-label="Elsewhere">
             <span className="flow-menu__footer-label">Elsewhere</span>
             <ul>
               {socialItems.map(function (s, i) {
                 return (
                   <li key={s.label + i}>
-                    <a href={s.link} target="_blank" rel="noopener noreferrer">{s.label}</a>
+                    <a href={s.link} target={s.internal ? undefined : '_blank'} rel={s.internal ? undefined : 'noopener noreferrer'}><span>{s.label}</span><span className="flow-menu__social-arrow" aria-hidden="true">{s.internal ? '→' : '↗'}</span></a>
                   </li>
                 );
               })}

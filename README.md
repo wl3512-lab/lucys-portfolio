@@ -20,17 +20,15 @@ A recreation of `lucyliu.dev`, componentized for reuse when designing new pages,
 
   Plus the React Bits ports used as backdrops and effects (`Waves`, `Aurora`, `Dither`, `Iridescence`, `LaserFlow`, `AsciiText`, `FaultyTerminal`, `BorderGlow`, `MorphingText`, `AnimatedThemeToggler`) and the framework-free engines (`letter-glitch.js`, `reveal-field.js`, `outline-wordmark.js`, `ascii-text-core.js`, `faulty-terminal-core.js`, `use-in-view.js`).
 
-## Capabilities: the span
+## Capabilities: the first-person journey
 
-"What I do" is a span, not a card grid: five capabilities plotted along one axis running from `upstream` to `on stage`, with nodes alternating above and below the rule. The order is the content, because the width of the range is the argument the section exists to make.
+Section 02, “Research, design, code, performance.”, is a scroll-controlled first-person flight through the portfolio's blue and lavender atmosphere. The camera rises, dips and gently banks past five capabilities. There is no literal rollercoaster model.
 
-It replaced a seven-tile bento that carried 17 sentences (~108 words, around 32 seconds of reading) in a section a visitor gives a few seconds. Four of those tiles were cuts at one discipline, two were hard to tell apart, and the per-tile meta labels (`craft`, `dev`, `play`, `rigor`, `framing`) carried no information. Now each node is a label, one line, and its tools.
+`components/capability-flight.js` owns the procedural Three.js scene and projects five world-space reading positions. `Skills.jsx` owns the scroll timeline, readable HTML, keyboard access and stop navigation. Headings reveal word by word, followed by the sentence, tools and related work. The same scroll position controls the fades and camera, including in reverse; pauses leave the text fully readable.
 
-Editing it: the `SPAN` array at the top of `components/Skills.jsx`. Tool names must match `TOOLS[].name` exactly. Keep the lines to roughly a dozen words; the layout gives each node about 30ch and the whole point is that it stays scannable.
+Edit capability content in `SPAN` and tool marks in `TOOLS`, both in `components/Skills.jsx`. Tool names must match exactly. The flight uses the existing Three.js dependency, loads only near this section, renders on demand and releases its GPU resources when the enhancement closes. Both themes are supported.
 
-Colour is deliberately restrained here. The signal-blue accent fires on one marker at a time, on hover, and nowhere else, so the section stays quieter than the work above it.
-
-Responsive and fallbacks: below 900px the axis rotates vertical and the nodes stack, with nothing depending on hover. The entrance (the axis sweeping out and depositing each node) is skipped under `prefers-reduced-motion` and on touch, where the span is simply drawn. Nothing is hidden at rest, so print, reader mode and a failed script all show the full section.
+The SVG trail remains the no-WebGL fallback. Short viewports and reduced motion show the ordinary list. Print restores all text to normal flow. Run `node scripts/journey-check.mjs <precompiled-site-directory>` to verify desktop and phone stops, fades, navigation, pin release and motion-preference cleanup.
 
 ## Usage
 

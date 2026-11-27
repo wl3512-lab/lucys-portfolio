@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050710" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
+<link rel="icon" type="image/png" href="favicon.png?v=4" />
+<link rel="shortcut icon" href="favicon.ico?v=4" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
+<title>Chance AI | Lucy Liu</title>
+<link rel="canonical" href="https://lucyliu.xyz/chance-ai.html" />
+<meta name="description" content="A redesign of the Chance AI app with my AStudio team: an audit of the result screen, wireframes, a create-a-skill flow and one brand pass." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/chance-ai/cover.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
+<!-- The grid and the spreads (CLAUDE.md, "Case studies: the grid and the spreads (2026-10-25)"): the whole case
+     study on one screen, every tile a link to its spread below. Shared with the other case studies. -->
+<link rel="stylesheet" href="case-spreads.css?v=10" />
+<!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
+     [data-wordmark] logo. Same engine as the home nav and loader. -->
+<link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/case-spreads.js"></script>
+</head>
+<body class="cx-page" data-persona-slug="chance-ai">
+<a href="#main" class="skip-link">Skip to the case study</a>
+
+<header data-site-header></header>
+
+<main id="main" class="cx" data-case-spreads>
+
+<!-- The stage and the board: see docs/projects/case-study-looks/TEMPLATE.md -->
+<header class="cx-stage" id="cx-top" style="--lamp-a:#1631f3;--lamp-b:#e8e4de">
+  <h1 class="cx-title cx-lit">Chance AI</h1>
+  <figure class="cx-screen">
+    <div class="cx-screen-in"><img src="assets/chance-ai/cover.webp" width="2000" height="1125" alt="The Chance AI app icon beside three phones in the final frosted style: Visual skills with full-photo cards, Home with the skill of the day and two equal buttons, and a result for a water bottle with its price" decoding="async"></div>
+    <figcaption>A redesign of the Chance AI app, live on iOS and Android.</figcaption>
+  </figure>
+  <div class="cx-stage-foot">
+    <a class="cx-deck" href="#cs-s-carousel">See the final design <small>↓</small></a>
+    <p class="cx-role">Team lead · AStudio, NYU IMA · with Annie Yu, Jinho (David), Nina and River · Sep to Nov 2026</p>
+    <img class="cx-him" src="assets/with-ai/workshop-him.png" width="106" height="120" alt="" aria-hidden="true">
+  </div>
+</header>
+
+<div class="cx-board">
+  <section class="cx-say cx-s12" id="cs-s-context" aria-labelledby="ca-context-h"><img class="ca-icon" src="assets/chance-ai/chance-icon.webp" width="160" height="160" alt="The Chance AI app icon" style="display:block;flex:none;width:64px;height:auto;border-radius:15px;align-self:center"><h2 class="cx-h" id="ca-context-h" tabindex="-1">Chance AI is a live app that answers questions about a photo.</h2><p>People snap anything, get an answer, or run a visual skill another user made. It is on iOS and Android. Through AStudio at NYU IMA, our team of five redesigned it with the client: the result should stop reading like a chatbot, and more people should use and make visual skills.</p></section>
+  <p class="cx-era" id="ca-era-audit" style="--cx-ver:#9fb0ff"><span>01</span> The audit · September</p>
+  <section class="cx-say cx-s4" id="cs-s-problem" aria-labelledby="ca-problem-h"><h2 class="cx-h" id="ca-problem-h" tabindex="-1">The result screen read like a ChatGPT reply.</h2><p>It opened on a long paragraph, the product thumbnail showed the wrong colour and the ask bar looked like a chat composer.</p></section>
+  <figure class="cx-pic cx-s8"><div class="cx-duo" style="grid-template-columns:repeat(3,minmax(0,1fr));column-gap:5%"><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/old-result.webp" aria-label="Show full size: the old result"><img src="assets/chance-ai/old-result.webp" width="720" height="1561" alt="The old result screen: a photo of a water bottle on a desk, then a long paragraph titled Hydration at the Desk before any product facts" loading="lazy" decoding="async"></a><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/old-product.webp" aria-label="Show full size: the old product card"><img src="assets/chance-ai/old-product.webp" width="720" height="1561" alt="The old product card: a red bottle thumbnail, a price range bar and a Share this discovery bar" loading="lazy" decoding="async"></a><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/old-details.webp" aria-label="Show full size: the old details"><img src="assets/chance-ai/old-details.webp" width="720" height="1561" alt="The old details screen: emoji next to colour, season, capacity and lid style, and community notes over a photo" loading="lazy" decoding="async"></a></div><figcaption>The app before: the result, the product card and the details</figcaption></figure>
+  <section class="cx-say cx-s4" id="cs-s-audit" aria-labelledby="ca-audit-h"><h2 class="cx-h" id="ca-audit-h" tabindex="-1">I audited every screen before anyone drew.</h2><p>I logged each problem on seven screens with a fix. River and Nina studied Google, Apple Visual Intelligence, Pinterest and Bing.</p></section>
+  <figure class="cx-pic cx-s8"><a class="cx-shot" data-cx-zoom href="assets/chance-ai/audit-result.webp" aria-label="Show full size"><img src="assets/chance-ai/audit-result.webp" width="1600" height="900" alt="My audit of the result screen: three screenshots with numbered markers and six findings, from a huge paragraph before the answer to Share appearing twice and emoji instead of SF Symbols" loading="lazy" decoding="async"></a></figure>
+  <section class="cx-say cx-s12" id="cs-s-lofi" aria-labelledby="ca-lofi-h"><h2 class="cx-h" id="ca-lofi-h" tabindex="-1">The wireframes fixed the findings in grey first.</h2><p>Each low-fi screen carries numbered notes back to the audit, so the team agreed on structure before colour.</p></section>
+  <figure class="cx-pic cx-s12"><a class="cx-shot" data-cx-zoom href="assets/chance-ai/lofi-results.webp" aria-label="Show full size"><img src="assets/chance-ai/lofi-results.webp" width="1511" height="1095" alt="Low-fi wireframes of the audited screens in grey: the answer first, the product match, details and notes, Home and Visual skills, each with numbered notes" loading="lazy" decoding="async"></a></figure>
+  <p class="cx-era" id="ca-era-skills" style="--cx-ver:#ffd27a"><span>02</span> Visual skills · led by Jinho (David)</p>
+  <section class="cx-say cx-s12" id="cs-s-skills" aria-labelledby="ca-skills-h"><h2 class="cx-h" id="ca-skills-h" tabindex="-1">Visual skills had to feel like a community gallery.</h2><p>Our question: how might we make it feel like a living gallery rather than a catalog of tools? Week 8 was a list of tools, Week 9 tried a Community feed, Week 10 went back to filters, and Jinho (David) put the creators back on full-photo cards.</p></section>
+  <figure class="cx-pic cx-s12"><div class="cx-duo" style="grid-template-columns:repeat(4,minmax(0,1fr));column-gap:4%"><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/skills-w8.webp" aria-label="Show full size: Week 8 · tools"><img src="assets/chance-ai/skills-w8.webp" width="688" height="1500" alt="Week 8 Visual skills: filter chips and white cards with a black Try it button" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 8 · tools</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/skills-w9.webp" aria-label="Show full size: Week 9 · community"><img src="assets/chance-ai/skills-w9.webp" width="700" height="1500" alt="Week 9 Community: a gallery of what people make, with creator handles and like counts on each photo" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 9 · community</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/skills-w10.webp" aria-label="Show full size: Week 10 · filters"><img src="assets/chance-ai/skills-w10.webp" width="692" height="1500" alt="Week 10 Visual skills: a back button, filters and white skill cards" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 10 · filters</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/david-cards.webp" aria-label="Show full size: Jinho’s cards"><img src="assets/chance-ai/david-cards.webp" width="720" height="1440" alt="Jinho’s cards: each skill is a full photo with a gradient, the creator, likes, a topic tag and a full-width Try it" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Jinho’s cards</span></div></div></figure>
+  <figure class="cx-pic cx-s12"><a class="cx-shot" data-cx-zoom href="assets/chance-ai/skill-cards.webp" aria-label="Show full size"><img src="assets/chance-ai/skill-cards.webp" width="1600" height="900" alt="Jinho’s card iterations: five card layouts, five places for the topic icon, and a transparent overlay compared with a full image card" loading="lazy" decoding="async"></a><figcaption>Jinho (David)’s card iterations: where the topic icon goes, and a transparent overlay against a full image</figcaption></figure>
+  <section class="cx-say cx-s4" id="cs-s-skill" aria-labelledby="ca-skill-h"><h2 class="cx-h" id="ca-skill-h" tabindex="-1">Making a skill became five clear steps.</h2><p>The old flow was a chatbot with fixed example prompts. Jinho (David) designed a linear flow and I helped shape its steps: pick an interest, choose a tool, watch it build, try it, save it.</p></section>
+  <figure class="cx-pic cx-s8"><a class="cx-shot" data-cx-zoom href="assets/chance-ai/lofi-create-skill.webp" aria-label="Show full size"><img src="assets/chance-ai/lofi-create-skill.webp" width="1600" height="1431" alt="Low-fi Create Visual Skill flow: pick an interest, choose a tool, building, preview and refine, saved, with a second path for browsing more topics" loading="lazy" decoding="async"></a></figure>
+  <p class="cx-era" id="ca-era-home" style="--cx-ver:#ff9fca"><span>03</span> Home · led by me</p>
+  <section class="cx-say cx-s12" id="cs-s-home" aria-labelledby="ca-home-h"><h2 class="cx-h" id="ca-home-h" tabindex="-1">Home had to promote Snap to know and visual skills equally.</h2><p>Snap to know is the main feature, but the client also wants more people on visual skills. The original carousel of skills sat on one big Snap to know button. Our question: how might we give both equal weight without a cliché Facetune-style layout?</p></section>
+  <figure class="cx-pic cx-s12"><div class="cx-duo" style="grid-template-columns:repeat(4,minmax(0,1fr));column-gap:4%"><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/old-home.webp" aria-label="Show full size: Original app"><img src="assets/chance-ai/old-home.webp" width="720" height="1561" alt="The old Home: a red Try Pro button, a lamp photo titled Design Has Reasons, and round skill icons" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Original app</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/home-w8.webp" aria-label="Show full size: Week 8"><img src="assets/chance-ai/home-w8.webp" width="720" height="1562" alt="Week 8 Home: a smaller hero for today’s skill over a wide blue Snap to know button" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 8</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/home-w9.webp" aria-label="Show full size: Week 9"><img src="assets/chance-ai/home-w9.webp" width="596" height="1588" alt="Week 9 Home: recent shots, Snap to Know and Create visual skill tiles, and the top four skills for college students" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 9</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/home-w10.webp" aria-label="Show full size: Week 10"><img src="assets/chance-ai/home-w10.webp" width="720" height="1562" alt="Week 10 Home: the carousel on top, then Snap to Know in black and Create visual skill in blue, My visual skills and Try photos" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cx-dim)'>Week 10</span></div></div></figure>
+  <section class="cx-say cx-s6" id="cs-s-carousel" aria-labelledby="ca-carousel-h"><h2 class="cx-h" id="ca-carousel-h" tabindex="-1">I gave the carousel its own Try it and put both actions side by side.</h2><p>Nina refined my first Snap to know layout, and River worked on the proposal with me. Three decisions shaped the final Home:</p><ol style="margin:14px 0 0;padding-left:1.3em;display:grid;gap:10px"><li><strong>The carousel shows skills of the day.</strong> We kept it because it brings people to skills; a small Try it on each card replaces the one big Snap to know button.</li><li><strong>Two equal actions.</strong> Snap to know and Create visual skill sit side by side, at the same size.</li><li><strong>Recent visual skills replaces Try photos,</strong> so Home keeps pointing people back to skills.</li></ol></section>
+  <figure class="cx-pic cx-s6"><div style="padding:clamp(24px,4vw,48px) 0;background:radial-gradient(60% 70% at 10% 90%,#b9c3ff 0%,transparent 60%),radial-gradient(45% 55% at 90% 15%,#ffe9a8 0%,transparent 62%),radial-gradient(50% 60% at 92% 95%,#ffc9e1 0%,transparent 60%),#f3f2f7;border-radius:18px;display:flex;justify-content:center"><div style="width:min(300px,62%)"><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/final-home.webp" aria-label="Show full size: The final Home"><img src="assets/chance-ai/final-home.webp" width="720" height="1558" alt="The final Home: the skill of the day, a chair, with a small Try it on its card, frosted Snap to Know and Create visual skill buttons side by side, a search bar, then My visual skills and Recent visual skills with their photos" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:#4a4f63'>The final Home</span></div></div></div></figure>
+  <p class="cx-era" id="ca-era-final" style="--cx-ver:#7fe0c8"><span>04</span> The final design · November</p>
+  <section class="cx-say cx-s12" id="cs-s-final" aria-labelledby="ca-final-h"><h2 class="cx-h" id="ca-final-h" tabindex="-1">The team chose Jinho’s frosted bubble style for every screen.</h2><p>Jinho (David) proposed frosted buttons and soft pastel light behind the screens. Nina carried it into the result and Ask views, which now lead with the product, its price and Exact match.</p></section>
+  <figure class="cx-pic cx-s12"><div class="cx-duo" style="grid-template-columns:repeat(3,minmax(0,1fr));column-gap:8%;padding:clamp(20px,4vw,56px);background:radial-gradient(60% 70% at 10% 90%,#b9c3ff 0%,transparent 60%),radial-gradient(45% 55% at 90% 15%,#ffe9a8 0%,transparent 62%),radial-gradient(50% 60% at 92% 95%,#ffc9e1 0%,transparent 60%),#f3f2f7;border-radius:18px"><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/final-skills.webp" aria-label="Show full size: Visual skills"><img src="assets/chance-ai/final-skills.webp" width="720" height="1558" alt="The final Visual skills page: full-photo skill cards with the creator, likes, a topic tag and a Try it button" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:#4a4f63'>Visual skills</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/final-learn.webp" aria-label="Show full size: Result"><img src="assets/chance-ai/final-learn.webp" width="720" height="1554" alt="The final result: the bottle in a frosted frame, a product card with $44 to 48, Store and Exact match, then a short summary" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:#4a4f63'>Result</span></div><div><a class="cx-shot cx-phone" data-cx-zoom href="assets/chance-ai/final-ask.webp" aria-label="Show full size: Ask"><img src="assets/chance-ai/final-ask.webp" width="720" height="1559" alt="The final Ask view: the product on top, the question in a blue bubble and a short bulleted answer on soft pastel light" loading="lazy" decoding="async"></a><span style='display:block;margin-top:10px;font:400 11px/1.3 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:#4a4f63'>Ask</span></div></div></figure>
+  <section class="cx-lessons" id="cs-s-reflection" aria-labelledby="ca-learned-h">
+    <h2 class="cx-h" id="ca-learned-h" tabindex="-1">An audit gives a team something to agree on.</h2>
+    <div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Tie each change to a finding.</h3>
+        <p>Every change in the wireframes carries the number of the audit finding it fixes, so anyone reviewing can see why it changed.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Name the question before the screens.</h3>
+        <p>Writing each page’s How might we gave the team one test for every week’s version.</p></div>
+      <div class="cx-card"><h3 class="cx-card-h">Next is testing with students.</h3>
+        <p>Most users are college students, so the next round is sessions with them on the new Home and Visual skills.</p></div>
+    </div>
+  </section>
+</div>
+
+<div class="cx-after">
+  <details class="cx-more" id="ca-build">
+      <summary><span class="cx-pl" aria-hidden="true"></span>How it was made</summary>
+      <div class="cx-more-in"><div class="cx-cards" style="--n:3">
+      <div class="cx-card"><h3 class="cx-card-h">Team</h3>
+        <div class="cx-prose"><p>AStudio is a mentorship program at NYU IMA. I led a team of four (Jinho (David), Nina and River, with Annie Yu producing) and met our mentor every two weeks from 25 September.</p></div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Process</h3>
+        <div class="cx-prose"><p>Audit on 28 September, low-fi the next day, hi-fi from 5 October, brand pass agreed 8 October, Home and Visual skills reworked weekly through weeks 8 to 10, a clickable Figma prototype on 9 October, then the bubble-style proposal on 30 October.</p></div></div>
+      <div class="cx-card"><h3 class="cx-card-h">Tools</h3>
+        <div class="cx-prose"><p>Figma for every frame and the prototype. I built a hi-fi clickable prototype with Claude to test the camera and analyzing screens, which the app did not have.</p></div></div>
+    </div></div>
+    </details>
+</div>
+
+<nav class="cx-col cx-next" aria-label="Next project">
+  <div>
+    <p class="cx-k">Next project</p>
+    <a class="cx-next-link" href="case-study.html">Driftwood <span class="link-arrow" aria-hidden="true">→</span></a>
+    <p>A short game that teaches you when to question AI.</p>
+  </div>
+</nav>
+
+</main>
+
+<footer data-site-footer></footer>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

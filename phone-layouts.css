@@ -1,0 +1,166 @@
+/* Lucy's approved H2 + C2 + A3, using the original site material and type. */
+.capability-layout { display: contents; }
+.dr-phone-dock { display: none; }
+/* The dock belongs to About's main view, the cabinet and him: inside the drawer it steps out with the room and comes back
+   when you climb out (Lucy, 2026-11-01: "they should only show when out of the drawer"). Hidden, not removed: a card
+   opened in the drawer lies over its spot, and fit() measures it. */
+.dr-phone-dock { transition: opacity 0.25s steps(4, end); }
+.about-drawer:has(.dr-stage.dr-in) .dr-phone-dock { opacity: 0; visibility: hidden; transition: opacity 0.25s steps(4, end), visibility 0s linear 0.25s; }
+@media (prefers-reduced-motion: reduce) { .dr-phone-dock { transition: none; } }
+@media (max-width: 640px) {
+  /* Lucy's phone reference: a smaller stacked name and room, then one compact work band.
+     Room geometry has its own frame, so the dragon's size no longer consumes the tools/work space. */
+  .scene-hero[data-room] { height: 100svh; min-height: 600px; padding: 0; }
+  .scene-hero[data-room] .hero-content.hero-a { position: relative; height: 100%; min-height: 0; width: 100%; padding: 0; gap: 0; }
+  .scene-hero[data-room] .hero-stage { padding: clamp(64px, 8.2svh, 78px) 24px 0; }
+  .scene-hero[data-room] .hero-room-frame { bottom: auto; height: calc(100% - 38px); max-height: 66svh; }
+  /* The floor fades into the night below his feet (Lucy, 18 Nov 2026: "more blended into the black rn it sks a line"); it was a hard clip 4px under them. */
+  .scene-hero[data-room] .hero-room {
+    -webkit-mask-image: linear-gradient(#000 calc(var(--hero-feet, 83%) + 4px), transparent calc(var(--hero-feet, 83%) + 64px));
+    mask-image: linear-gradient(#000 calc(var(--hero-feet, 83%) + 4px), transparent calc(var(--hero-feet, 83%) + 64px));
+  }
+  .scene-hero[data-room] .hero-name { gap: 10px; }
+  .scene-hero[data-room] .hero-lit-line { display: block; }
+  .scene-hero[data-room] .hero-lit--name { font-size: clamp(58px, 17.5vw, 72px); line-height: .9; }
+  .scene-hero[data-room] .hero-role { margin-top: 10px; font-size: clamp(21px, 6vw, 25px); }
+  .scene-hero[data-room] .hero-work { position: relative; z-index: 2; margin-top: 0; padding: 8px 24px max(44px, env(safe-area-inset-bottom, 0px)); }
+  .scene-hero[data-room] .hero-covers { gap: 12px; }
+  .scene-hero[data-room] .hero-cover { gap: 5px; }
+  .scene-hero[data-room] .hero-cover img { height: min(64px, calc((100vw - 72px) / 4.8)); }
+  .scene-hero[data-room] .hero-cover-title { font-size: 12.5px; line-height: 1.25; }
+  .scene-hero[data-room] .hero-links { gap: 30px; margin-top: 26px; }
+  .scene-hero[data-room] .hero-go { font-size: 19px; gap: 8px; }
+  .scene-hero[data-room] .hero-avail { margin-top: 14px; font-size: 10px; letter-spacing: .12em; }
+  /* one row that scrolls sideways (Lucy, 2026-11-15, "a on phones"): a swipe, or the arrows; the next tool is cut by
+     the faded edge so there is plainly more */
+  .scene-hero[data-room] .hero-tools { position: absolute; left: 12px; right: 12px; bottom: calc(100% + 2px); width: auto; margin: 0; gap: 2px; }
+  .scene-hero[data-room] .hero-tools-view {
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; touch-action: pan-x pan-y;
+    -webkit-mask-image: linear-gradient(90deg, transparent, var(--void) 6%, var(--void) 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, var(--void) 6%, var(--void) 88%, transparent);
+  }
+  .scene-hero[data-room] .hero-tools-view::-webkit-scrollbar { display: none; }
+  .scene-hero[data-room] .hero-tools-list { flex-wrap: nowrap; justify-content: flex-start; width: max-content; padding: 0 8px; }
+  .scene-hero[data-room] .hero-tools-arrow {
+    position: relative; display: grid; place-items: center; flex: none; width: 32px; height: 32px; margin: 0; padding: 0;
+    font: 400 20px/1 var(--font-code); color: var(--fg1); background: none; border: 0; cursor: pointer;
+  }
+  .scene-hero[data-room] .hero-tools-arrow::after { content: ''; position: absolute; inset: -6px; }   /* a 44px target */
+  .scene-hero[data-room] .hero-tools-arrow:disabled { color: var(--fg3); opacity: .35; cursor: default; }
+  .scene-hero[data-room] .hero-tools-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+  .scene-hero[data-room] .hero-tool { height: 16px; padding: 0 14px; gap: 6px; scroll-snap-align: start; }
+  .scene-hero[data-room] .hero-tool svg { width: 15px; height: 15px; }
+  .scene-hero[data-room] .hero-tool > span { font-size: 9.5px; }
+  @media (max-height: 700px) {
+    .scene-hero[data-room] .hero-stage { padding-top: 64px; }
+    .scene-hero[data-room] .hero-lit--name { font-size: clamp(52px, 16vw, 62px); }
+    .scene-hero[data-room] .hero-name { gap: 6px; }
+    .scene-hero[data-room] .hero-role { margin-top: 4px; font-size: 21px; }
+    .scene-hero[data-room] .hero-work { padding-bottom: max(22px, env(safe-area-inset-bottom, 0px)); }
+    .scene-hero[data-room] .hero-links { margin-top: 20px; }
+    .scene-hero[data-room] .hero-room-frame { height: calc(100% - 38px); max-height: none; }
+  }
+
+  /* Story style (Lucy, 2026-10-28): the story bar over the scene replaced the rail and the controls row. */
+  .phone-capabilities { position: relative; height: 100svh; min-height: 640px; padding: 84px 0 0; display: flex; flex-direction: column; overflow: hidden; background: #05060f; color: #f6faff; }
+  .pc-heading { position: relative; z-index: 2; flex: none; padding: 0 24px 18px; }
+  .pc-heading p { margin: 8px 0 0; font: 400 13px/1.45 var(--font-body); color: #bdc9e3; }
+  .pc-heading .pc-kicker { margin: 0 0 10px; font: 10px/1.5 var(--font-code); letter-spacing: .13em; text-transform: uppercase; }
+  .pc-heading h1, .pc-heading h2 { margin: 0; font: 600 clamp(32px,10.6vw,44px)/1.1 var(--font-display); letter-spacing: -.035em; }
+  .scene-marquee { display: none; }
+  .pc-main { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; padding: 0 0 14px; }
+  .pc-stage { position: relative; display: flex; flex: 1 1 auto; min-height: 0; }
+  .pc-stage > .story-bar { position: absolute; z-index: 2; top: 6px; left: 14px; right: 14px; }
+  .pc-scene { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; touch-action: pan-y; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+  .pc-world, .pc-poster { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; -webkit-user-drag: none; user-select: none; }
+  .pc-world { z-index: 1; }
+  .pc-world, .pc-poster { -webkit-mask-image: linear-gradient(transparent, var(--fg1) 12%, var(--fg1) 90%, transparent); mask-image: linear-gradient(transparent, var(--fg1) 12%, var(--fg1) 90%, transparent); }
+  .pc-evidence { flex: none; padding: 10px 14px 4px; font: 400 10.5px/1.5 var(--font-code); letter-spacing: .1em; text-transform: uppercase; color: #b9c8df; }
+  .pc-evidence p { margin: 2px 0 0; }
+  .pc-count { color: #c4b0ff; }
+  .pc-work { display: flex; flex-wrap: wrap; gap: 14px; }
+  .pc-work a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 0; color: #a0c8ff; text-decoration: underline; text-underline-offset: 4px; }
+  .pc-scene:focus-visible, .pc-work a:focus-visible { outline: 2px solid #a0c8ff; outline-offset: -3px; }
+  /* At the last stop, what comes next (Lucy's user tests, 2026-10-31), boxless like the desktop counter: on the work
+     row's right, so the scene keeps its size when it appears. Since the drive moved to capabilities.html it is "All work →". */
+  .pc-main { position: relative; }
+  .pc-next { position: absolute; z-index: 2; right: 14px; bottom: 18px; display: inline-flex; align-items: center; gap: .45em; min-height: 44px; font: 400 10.5px/1.5 var(--font-code); letter-spacing: .1em; text-transform: uppercase; color: var(--fg1); text-decoration: none; }
+  .pc-next-arrow { display: inline-block; color: var(--fg-accent); transition: transform .25s ease; }
+  .pc-next:hover .pc-next-arrow, .pc-next:focus-visible .pc-next-arrow { transform: translateX(4px); }
+  .pc-next:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .about-overlay .scene-about { padding: 78px 0 16px; }
+  .about-overlay .about-drawer { padding-inline: 16px; }
+  .about-overlay .about-kicker { margin-bottom: 8px; }
+  .about-overlay .dr-room { display: flex; flex: 1 1 auto; min-height: 0; align-items: center; justify-content: center; gap: 0; }
+  .about-overlay .dr-room { --dr-fit: dock; }   /* fit() in about-drawer.js: an open card lies over the dock, the picture clear above it */
+  .about-overlay .dr-side { display: none; }
+  .about-overlay .dr-stage { flex: none; transition: none; }   /* fit() gives it a margin under it when the card needs the picture to move up */
+  .about-overlay .dr-stage > .dr-card { top: auto; bottom: 0; }
+  .about-overlay .dr-stage.dr-card-side { z-index: 6; }   /* the resume, CV and postcard cards over the dock (Lucy, 2026-10-28: "popup card over background now booking area ... instead of the visual") */
+  .about-overlay .dr-stage.dr-card-side > .dr-card { min-height: var(--dr-card-h, 0px); }   /* at its full height from the first frame, its foot on the dock's while the line types */
+}
+/* A3's dock and file, upright and on their side (the pocket layout at the end of this file). */
+@media (max-width: 640px), (orientation: landscape) and (max-height: 520px) and (max-width: 1100px), (orientation: landscape) and (max-width: 899px) {
+  .dr-phone-dock { display: grid; flex: none; position: relative; z-index: 5; gap: 10px; margin: 0; padding: 0; }
+  .dr-phone-intro { margin: 0; font: 400 14px/1.45 var(--font-body); color: var(--dr-mist); }
+  .dr-phone-tabs { display: flex; border-bottom: 1px solid var(--dr-rule); }
+  /* underlined text tabs, like With AI's Notes tabs (Lucy, Nov 24: "the font and block combo is bad") */
+  .dr-phone-tabs { gap: 22px; }
+  .dr-phone-tabs button { flex: none; min-height: 44px; margin-bottom: -1px; padding: 0 2px; border: 0; border-bottom: 2px solid transparent; background: none; color: #b9c8df; font: var(--type-link); letter-spacing: var(--track-link); cursor: pointer; }
+  .dr-phone-tabs [aria-expanded=true] { color: var(--dr-lav); border-bottom-color: var(--dr-lav); }
+  .dr-phone-links { display: flex; gap: 18px; }
+  .dr-phone-links a { display: inline-flex; align-items: center; min-height: 44px; font: 700 11px/1 var(--font-code); letter-spacing: .12em; text-transform: uppercase; color: var(--dr-blue); text-decoration: underline; text-underline-offset: 4px; }
+  .dr-phone-file.dr-card { left: 50%; top: auto; bottom: calc(100% + 8px); width: 100%; transform: translateX(-50%); z-index: 6; }
+  .dr-phone-file h3 { margin: 0; padding-right: 28px; font: 700 18px/1.1 var(--font-ui); color: var(--dr-paper); }
+  .dr-phone-file p { margin: 0; font: 400 14px/1.45 var(--font-body); color: var(--dr-mist); }
+  .dr-phone-file-index { font: 500 10px/1 var(--font-code); letter-spacing: .2em; color: var(--dr-lav); }
+  .dr-phone-file-close { position: absolute; right: 0; top: 0; width: 44px; height: 44px; border: 0; background: none; color: var(--dr-mist); font: 400 20px/1 var(--font-code); cursor: pointer; }
+  .dr-phone-tabs button:focus-visible, .dr-phone-links a:focus-visible, .dr-phone-file-close:focus-visible { outline: 2px dashed var(--dr-blue); outline-offset: 2px; }
+}
+@media (max-width: 640px) and (max-height: 700px) {
+  .scene-hero[data-room] .hero-cover img { height: min(52px, calc((100vw - 72px) / 4.8)); }
+  .scene-hero[data-room] .hero-avail { margin-top: 10px; }
+  .phone-capabilities { padding-top: 80px; }
+  .pc-stage > .story-bar { top: 14px; }   /* its 44px clear of the 74px nav */
+  .about-overlay .scene-about { padding-top: 68px; }
+  .dr-phone-dock { gap: 6px; }
+  .dr-phone-intro, .dr-phone-file p { font-size: 13px; }
+}
+@media (max-width: 640px) and (max-height: 519px) {
+  .about-overlay .scene-about { min-height: 540px; }
+}
+/* A3 on its side (2026-10-24): a phone in landscape, i.e. any landscape screen under 900px wide, or under 521px tall
+   and up to 1100 wide. The upright layouts ran the facts and the file cards off the bottom there. Now the picture takes the whole height on the left;
+   the kicker (level with the ESC key) and A3's dock stand beside it, and a file card docks in that column over the
+   dock, its foot on the picture's. fit() in about-drawer.js reads --dr-fit: pocket. Nothing scrolls. These out-rank
+   the upright A3 rules above, which also match a phone on its side under 641px wide. */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1100px), (orientation: landscape) and (max-width: 899px) {
+  .about-overlay .scene-about.scene-about { padding: 12px 0; min-height: 0; }
+  .about-overlay .about-drawer.about-drawer { --dr-pocket-min: 250px; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); column-gap: 20px; padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right)); }
+  .about-overlay .about-drawer > .about-kicker { grid-column: 2; grid-row: 1; display: flex; align-items: center; min-height: 56px; margin: 0 0 8px; }
+  .about-overlay .about-drawer > .dr-room { --dr-fit: pocket; grid-column: 1; grid-row: 1 / span 2; display: flex; align-items: flex-end; justify-content: flex-start; gap: 0; min-height: 0; }
+  .about-overlay .about-drawer .dr-side { display: none; }
+  .about-overlay .about-drawer .dr-stage { flex: none; margin: 0; }
+  .about-overlay .about-drawer > .dr-phone-dock { grid-column: 2; grid-row: 2; align-self: end; z-index: 1; gap: 8px; }
+  .about-overlay .about-drawer .dr-phone-intro, .about-overlay .about-drawer .dr-phone-file p { font-size: 13px; }
+  .about-overlay .about-drawer .dr-phone-tabs button { padding: 0 4px; letter-spacing: .12em; }
+  .about-overlay .about-drawer .dr-phone-file.dr-card { left: 0; right: 0; top: auto; bottom: 0; width: auto; transform: none; }
+}
+/* Story playback on phones (Lucy, 2026-10-28: "standout work is easy to scroll by on phone and miss tats its
+   interactove"; story style for Standout work and Capabilities; Standout's went with the projector on 2026-10-31,
+   so Capabilities is its one user). components/story-bar.js renders it only on phones.
+   Each segment is a 44px-tall button whose visible part is a 2px line at --story-line; the pause button ends the row.
+   Tokens only: the fill is --fg1 and the track is the same ink, faint. */
+.story-bar { --story-line: 10px; display: flex; align-items: flex-start; gap: 2px; height: 44px; pointer-events: none; }
+.story-segs { display: flex; flex: 1 1 auto; gap: 4px; min-width: 0; height: 100%; }
+.story-seg, .story-pause { position: relative; height: 44px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; color: var(--fg1); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
+.story-seg { flex: 1 1 0; min-width: 0; }
+.story-seg::before, .story-seg > i { content: ''; position: absolute; left: 0; right: 0; top: var(--story-line); height: 2px; }
+.story-seg::before { background: var(--border-strong); background: color-mix(in srgb, var(--fg1) 28%, transparent); }
+.story-seg > i { display: block; background: var(--fg1); transform: scaleX(0); transform-origin: 0 50%; }
+.story-pause { flex: none; width: 44px; }
+.story-pause svg { position: absolute; left: 50%; top: calc(var(--story-line) + 1px); width: 10px; height: 12px; transform: translate(-50%, -50%); shape-rendering: crispEdges; }
+.story-seg:focus-visible, .story-pause:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: -2px; }
+/* Standout's story bar, its tap zone, the hero-to-projector overlap and the phone scenes (Hero -> projector -> road)
+   went with the projector (2026-10-31); the Standout section itself is retired from the home page the same day. */

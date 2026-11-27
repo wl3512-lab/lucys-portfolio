@@ -2,184 +2,149 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
 <link rel="icon" href="favicon.ico?v=4" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
-<meta name="description" content="Fictional Fight Club-style advertisement series. Soap carved as a rotary telephone. Design project by Lucy Liu." />
+<meta name="description" content="Telnex: I carved a soap bar into a rotary telephone and designed a fictional Fight Club-inspired advertisement around it." />
 <meta property="og:title" content="Telnex | Lucy Liu" />
-<meta property="og:description" content="Fictional Fight Club-style advertisement series. Soap carved as a rotary telephone. Design project by Lucy Liu." />
+<meta property="og:description" content="Telnex: I carved a soap bar into a rotary telephone and designed a fictional Fight Club-inspired advertisement around it." />
 <meta property="og:url" content="https://lucyliu.xyz/telnex.html" />
 <meta property="og:image" content="https://lucyliu.xyz/assets/telnex/cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <title>Telnex | Lucy Liu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=89" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
 <style>
-.ant-page {
-  min-height: 100vh;
-  background: var(--bg);
-  padding-top: 120px;
-}
-.ant-container {
-  width: min(880px, 92vw);
-  margin: 0 auto;
-  padding-bottom: 120px;
-}
-.ant-back {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-  text-decoration: none; margin-bottom: 64px;
-  transition: color 0.2s;
-}
-.ant-back:hover { color: var(--fg1); }
-.ant-eyebrow {
-  font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--blue-300);
-  margin-bottom: 20px;
-}
-.ant-heading {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.8rem, 6vw, 72px); line-height: 0.92; letter-spacing: -0.03em;
-  color: var(--fg1); margin: 0 0 40px;
-}
-.ant-heading em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
-.ant-meta-row {
-  display: flex; gap: 40px; flex-wrap: wrap;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 0; margin-bottom: 56px;
-}
-.ant-meta-item { display: flex; flex-direction: column; gap: 4px; }
-.ant-meta-k {
-  font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-}
-.ant-meta-v {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-}
-.ant-award {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.08em;
-  color: oklch(0.82 0.14 85); margin-bottom: 40px;
-}
-.ant-award::before {
-  content: '✦';
-  font-size: 10px;
-}
-.ant-cover {
-  width: 100%;
-  background: oklch(0.10 0.015 285);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 56px;
-}
-.ant-cover img {
-  display: block;
-  max-height: clamp(300px, 45vh, 480px);
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-  object-fit: contain;
-}
-.ant-body {
-  font-family: var(--font-body); font-size: 17px; line-height: 1.75;
-  color: var(--fg2); max-width: 65ch;
-}
-.ant-body p { margin: 0 0 1.5em; }
-.ant-body p:last-child { margin: 0; }
-.ant-body em { font-style: italic; color: var(--fg1); }
-.ant-body strong { font-weight: 600; color: var(--fg1); }
-.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
-.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
-.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
-.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); }
-.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
-.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
-.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
-.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
 </style>
+<link rel="stylesheet" href="project-templates.css?v=7" />
 <link rel="stylesheet" href="case-mobile.css?v=1" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<!-- The gallery wall: the work hung in his gallery, the loupe and the 1:1 view (gallery-wall.js). -->
+<script defer src="components/gallery-wall.js?v=2"></script>
+<!-- the loading screen (components/page-loader.js): the home page's spotlight, from the first paint; never without scripts -->
+<link rel="stylesheet" href="intro-reel.css?v=11" />
+<noscript><style>#ll-loader { display: none !important; }</style></noscript>
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo" data-wordmark>lucy liu</a>
-    <ul class="nav-links">
-      <li><a href="work.html" class="nav-link">all work</a></li>
-      <li><a href="index.html#about" class="nav-link">about</a></li>
-      <li><a href="mailto:wl3512@nyu.edu" class="nav-link">contact ↗</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- The loading screen: caught in the spotlight, as on the home page (Lucy, 2026-10-25: "put loading page everywhere that needs one"). -->
+<div id="ll-loader" class="ll-page intro-spot intro-active" role="dialog" aria-modal="true" aria-label="Loading">
+  <div class="intro-controls"><button class="intro-skip" type="button">Skip the loading screen <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+</div>
+<script src="components/page-loader.js?v=2"></script>
 
-<main id="main-content" class="ant-page">
-  <div class="ant-container">
-    <a href="work.html" class="ant-back">← All work</a>
+<header data-site-header></header>
 
-    <p class="ant-eyebrow">Design &nbsp;·&nbsp; 2024</p>
-    <h1 class="ant-heading"><em>Telnex</em></h1>
+<main id="main-content" class="pt-page gw-page">
+  <div class="pt-wrap">
 
-    <p class="ant-award">Honourable Mention, 2025 Scholastic Art and Writing Awards</p>
-
-    <div class="ant-meta-row">
-      <div class="ant-meta-item">
-        <span class="ant-meta-k">Medium</span>
-        <span class="ant-meta-v">Soap, Adobe Photoshop</span>
+    <header class="pt-hero">
+      <div class="pt-hero-l">
+        <p class="pt-eyebrow">Design · 2024</p>
+        <h1 class="pt-title">Telnex</h1>
+        <!-- phones only: the wall label is folded there, and the award should not be -->
+        <p class="gw-award">Honourable Mention, 2025 Scholastic Art and Writing Awards</p>
       </div>
-      <div class="ant-meta-item">
-        <span class="ant-meta-k">Year</span>
-        <span class="ant-meta-v">2024</span>
-      </div>
-      <div class="ant-meta-item">
-        <span class="ant-meta-k">Category</span>
-        <span class="ant-meta-v">Design</span>
-      </div>
-    </div>
+    </header>
 
-    <div class="ant-cover">
-      <img src="assets/telnex/cover.jpg"
-           alt="Telnex: fictional Fight Club advertisement, soap carved as rotary telephone on yellow-green ground"  width="1333" height="2000" />
-    </div>
+    <!-- His gallery: the poster hung alone at eye level on a mat under a picture light, its wall label beside it, him on the bench. -->
+    <section class="gw-room" data-gallery data-kind="print" data-creature="assets/creature/gallery/gallery.json" aria-label="Telnex, hung in his gallery">
+      <canvas class="gw-cv" aria-hidden="true"></canvas>
+      <div class="gw-hang" style="--ar: 0.6665">
+        <button type="button" class="gw-work" data-gw="look" aria-haspopup="dialog" aria-label="Look closer at Telnex"><img src="assets/telnex/cover.jpg" alt="Telnex: fictional Fight Club advertisement, soap carved as rotary telephone on yellow-green ground" width="1333" height="2000" decoding="async" /></button>
+      </div>
+      <div class="gw-label">
+        <details class="pt-fold gw-fold" data-fold="phone" open>
+          <summary>Wall label</summary>
+          <div class="gw-plate">
+            <p class="gw-plate-by">Lucy Liu</p>
+            <p class="gw-plate-t">Telnex, 2024</p>
+            <p class="gw-plate-m"><span class="sr-only">Medium: </span>Soap, Adobe Photoshop</p>
+            <p class="gw-plate-c"><span class="sr-only">Category: </span>Design</p>
+            <p class="gw-plate-aw"><span class="gw-plate-k">Award</span>Honourable Mention, 2025 Scholastic Art and Writing Awards</p>
+            <div class="gw-steps">
+              <p class="gw-plate-k" id="gw-steps-k">Made in three steps</p>
+              <ol role="list" aria-labelledby="gw-steps-k">
+                <li>Carved a bar of soap into a rotary telephone</li>
+                <li>Photographed it</li>
+                <li>Built the poster in Photoshop</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+        <details class="pt-fold gw-fold" data-fold="phone" open>
+          <summary>Statement</summary>
+          <div class="gw-words">
+            <p>I designed an advertisement for a fictional communication device inspired by Fight Club. I carved a bar of soap into a rotary telephone, photographed it, and built the poster in Photoshop.</p>
+            <p>I used a yellow-green palette drawn from the film’s industrial interiors. The slogan “Uncover You, Connect Two” refers to the protagonist’s split identity.</p>
+          </div>
+        </details>
+        <div class="gw-acts">
+          <button type="button" class="gw-btn" data-gw="look" aria-haspopup="dialog">Look closer <span class="gw-arrow" aria-hidden="true"></span></button>
+          <button type="button" class="gw-btn gw-btn-quiet gw-act-full" data-gw="full" aria-haspopup="dialog">View 1:1</button>
+        </div>
+      </div>
+      <div class="gw-floor" aria-hidden="true"></div>
+      <canvas class="gw-him" role="img" aria-label="Lucy’s creature on the gallery bench, looking at the poster"></canvas>
+    </section>
 
-    <div class="ant-body">
-      <p>Drawing on the 1999 film <em>Fight Club</em>, this piece imagines an advertisement for <strong>Telnex</strong>, a fictional communication device the film's characters might use. I carved a bar of soap into a rotary telephone, putting cleansing and communication in one object to match the film's subversive tone.</p>
-      <p>The yellow-green palette borrows the sterile lighting of an industrial space, which reads as isolation and detachment. The slogan <strong>"Uncover You, Connect Two"</strong> works as a brand line and as a nod to the protagonist's split identity.</p>
-      <p>The piece picks up on <em>Fight Club</em>'s ideas about duality and the want for real connection in a world that runs on stuff.</p>
-    </div>
+    <nav class="pt-rel" aria-label="Next project">
+      <p class="pt-rel-k">Next project</p>
+      <a class="pt-rel-link" href="agar-alphabet.html">Agar Alphabet <span aria-hidden="true">→</span></a>
+      <p class="pt-rel-d">I grew bacterial letterforms on agar plates, recording how samples and growth conditions changed the alphabet.</p>
+    </nav>
   </div>
 </main>
 
-<!-- NEXT PROJECT -->
-<nav class="cs-next" aria-label="Next project">
-  <div class="cs-next-inner">
-    <p class="cs-next-label">Related project</p>
-    <a class="cs-next-link" href="agar-alphabet.html">
-      <span class="cs-next-title">Agar Alphabet</span>
-      <span class="cs-next-arrow">↗</span>
-    </a>
-    <p class="cs-next-desc">Agar Alphabet grows letterforms from live bacteria, turning an odd medium into a carrier for meaning. Like Telnex, it starts from the material and lets the idea come out of it.</p>
-  </div>
-</nav>
+<footer data-site-footer></footer>
 
-<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
+<!-- Look closer: the work fitted to the window, never past its own pixels, and a lens at the file's own pixels. -->
+<dialog class="gw-dlg gw-loupe" aria-labelledby="gw-loupe-title">
+  <div class="pt-win">
+    <div class="pt-win-bar"><span class="pt-win-n">Looking closer</span><h2 id="gw-loupe-title">Telnex</h2><button type="button" class="pt-close">Close</button></div>
+    <p class="gw-meta"></p>
+    <div class="gw-loupe-stage">
+      <div class="gw-loupe-box" tabindex="0" role="group" aria-roledescription="loupe" aria-label="Telnex with a loupe. Arrow keys move it; hold Shift for larger steps." data-x="0.5" data-y="0.53">
+        <img src="assets/telnex/cover.jpg" alt="Telnex: fictional Fight Club advertisement, soap carved as rotary telephone on yellow-green ground" width="1333" height="2000" draggable="false" decoding="async" />
+        <div class="gw-lens" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- View 1:1 (Look closer on touch screens): the file at one pixel to a CSS pixel, to pan. -->
+<dialog class="gw-dlg gw-full" aria-labelledby="gw-full-title">
+  <div class="pt-win">
+    <div class="pt-win-bar"><span class="pt-win-n">1:1</span><h2 id="gw-full-title">Telnex</h2><button type="button" class="pt-close">Close</button></div>
+    <p class="gw-meta">1333 × 2000 px, the file at its own size. Drag to pan, or use the arrow keys.</p>
+    <div class="gw-pan" tabindex="0" role="group" aria-roledescription="full-size view" aria-label="Telnex at full size. Drag or use the arrow keys to pan.">
+      <img src="assets/telnex/cover.jpg" alt="Telnex: fictional Fight Club advertisement, soap carved as rotary telephone on yellow-green ground" width="1333" height="2000" draggable="false" decoding="async" />
+    </div>
+    <div class="gw-foot">
+      <div class="gw-stops" role="group" aria-label="Go to a detail">
+        <button type="button" data-x="0.5" data-y="0.53" aria-pressed="true">Carved soap</button>
+        <button type="button" data-x="0.65" data-y="0.29" aria-pressed="false">Slogan</button>
+        <button type="button" data-x="0.48" data-y="0.9" aria-pressed="false">Wordmark</button>
+      </div>
+    </div>
+  </div>
+</dialog>
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>

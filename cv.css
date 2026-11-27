@@ -12,25 +12,7 @@
 body { background: var(--bg); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV (matches the case-study pages) ── */
-.cv-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 40;
-  padding: 18px 0;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-}
-.cv-nav-inner {
-  width: min(980px, 92vw); margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-}
-.cv-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; }
-.cv-nav-links { display: flex; gap: 20px; align-items: center; }
-.cv-nav-link {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-  transition: color 0.25s ease;
-}
-.cv-nav-link:hover, .cv-nav-link:focus-visible { color: var(--fg1); }
+/* The header and the footer are the site's shared ones (components/site-header.js, site-footer.js; 2026-10-31). */
 
 /* ── SHELL ── */
 .cv-wrap { width: min(980px, 92vw); margin: 0 auto; }
@@ -39,13 +21,11 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
 /* ── MASTHEAD ── */
 .cv-head { padding: clamp(104px, 15vh, 168px) 0 clamp(32px, 5vh, 48px); }
 .cv-kicker {
-  font-family: var(--font-code); font-size: var(--text-xs);
-  letter-spacing: var(--label-tracking); text-transform: uppercase;
+  font: var(--type-label); letter-spacing: var(--track-label);
   color: var(--fg3); display: block; margin-bottom: 18px;
 }
 .cv-name {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(44px, 8vw, 88px); line-height: var(--lh-tight);
+  font: var(--type-title);
   letter-spacing: -0.03em; margin-bottom: 14px;
 }
 .cv-name em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
@@ -63,23 +43,11 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
 .cv-meta a { border-bottom: 1px solid transparent; transition: color 0.25s ease, border-color 0.25s ease; }
 .cv-meta a:hover, .cv-meta a:focus-visible { color: var(--fg-accent); border-bottom-color: currentColor; }
 
-/* ── ACTIONS ── */
-.cv-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.cv-btn {
-  display: inline-flex; align-items: center; gap: 9px;
-  font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 500;
-  padding: 13px 22px; border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
-}
-.cv-btn:hover, .cv-btn:focus-visible { transform: translateY(-2px); }
-.cv-btn-primary { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
-.cv-btn-primary:hover, .cv-btn-primary:focus-visible { background: var(--blue-300); border-color: var(--blue-300); }
-.cv-btn-ghost { color: var(--fg1); }
-.cv-btn-ghost:hover, .cv-btn-ghost:focus-visible { border-color: var(--accent); color: var(--fg-accent); }
+/* ── ACTIONS: the site's solid button and small link (colors_and_type.css .btn-notch, .link-caps; 2026-10-31) ── */
+.cv-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 28px; }
 .cv-btn-note {
-  font-family: var(--font-code); font-size: var(--text-2xs);
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg3);
+  font: var(--type-label); letter-spacing: var(--track-label);
+  color: var(--fg3);
   align-self: center;
 }
 
@@ -87,8 +55,7 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
 .cv-section { border-top: 1px solid var(--border); padding: clamp(32px, 5vh, 52px) 0; }
 .cv-section-grid { display: grid; grid-template-columns: 168px 1fr; gap: clamp(20px, 4vw, 48px); }
 .cv-section-label {
-  font-family: var(--font-code); font-size: var(--text-xs);
-  letter-spacing: var(--label-tracking); text-transform: uppercase;
+  font: var(--type-label); letter-spacing: var(--track-label);
   color: var(--fg3); padding-top: 4px;
 }
 .cv-section-body { min-width: 0; }
@@ -100,9 +67,8 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   justify-content: space-between; gap: 4px 20px;
 }
 .cv-entry-title {
-  font-family: var(--font-display); font-weight: 600;
-  font-size: clamp(19px, 2.4vw, 24px); line-height: var(--lh-snug);
-  letter-spacing: -0.015em;
+  font: var(--type-h3);
+  letter-spacing: -0.01em;
 }
 .cv-entry-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
 .cv-entry-date {
@@ -113,8 +79,9 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   font-size: var(--text-sm); color: var(--fg2);
   margin-top: 5px; line-height: var(--lh-normal);
 }
-.cv-entry-sub a { color: var(--fg-accent); border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
-.cv-entry-sub a:hover, .cv-entry-sub a:focus-visible { border-bottom-color: currentColor; }
+/* a link inside a sentence: one underline (2026-10-31) */
+.cv-entry-sub a { color: var(--fg-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.cv-entry-sub a:hover, .cv-entry-sub a:focus-visible { color: var(--fg1); }
 
 /* Bullets: a hairline marker rather than a disc, to match the site's rule-and-label language. */
 .cv-points { list-style: none; margin-top: 13px; display: grid; gap: 9px; }
@@ -137,29 +104,20 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
 .cv-ledger-row:first-child { padding-top: 0; }
 .cv-ledger-row:last-child { border-bottom: 0; padding-bottom: 0; }
 .cv-ledger-k {
-  font-family: var(--font-code); font-size: var(--text-xs);
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg3);
+  font: var(--type-label); letter-spacing: var(--track-label);
+  color: var(--fg3);
   padding-top: 3px;
 }
 .cv-ledger-v { font-size: var(--text-base); line-height: var(--lh-normal); color: var(--fg2); }
 .cv-ledger-v strong { color: var(--fg1); font-weight: 500; }
 
-/* ── COURSEWORK / TAG ROW ── */
-.cv-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
-.cv-tag {
-  font-family: var(--font-code); font-size: var(--text-2xs);
-  letter-spacing: 0.06em; color: var(--fg3);
-  padding: 5px 11px; border: 1px solid var(--border); border-radius: 999px;
-}
+/* ── COURSEWORK: a plain line with dots, no pills (Lucy, 2026-10-31) ── */
+.cv-tags { display: flex; flex-wrap: wrap; gap: 0; margin-top: 11px; }
+.cv-tag { font: var(--type-tag); color: var(--fg2); }
+.cv-tag + .cv-tag::before { content: "\00b7"; margin: 0 .55em; color: var(--fg3); }
 
-/* ── FOOTER ── */
-.cv-footer {
-  border-top: 1px solid var(--border); padding: 26px 0;
-  font-family: var(--font-code); font-size: 11px;
-  letter-spacing: 0.1em; color: var(--fg3);
-  display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: space-between;
-}
-.cv-footer a:hover, .cv-footer a:focus-visible { color: var(--fg-accent); }
+/* ── THE LAST LINE: the PDF again, for whoever read to the end ── */
+.cv-end { border-top: 1px solid var(--border); padding: 26px 0 0; }
 
 /* ── RESPONSIVE: the rail label stacks above its section ── */
 @media (max-width: 760px) {
@@ -171,13 +129,12 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cv-btn, .cv-nav-link, .cv-meta a { transition: none; }
-  .cv-btn:hover, .cv-btn:focus-visible { transform: none; }
+  .cv-meta a { transition: none; }
 }
 
 /* ── PRINT: the page itself is a usable CV on paper, so Ctrl+P is a third route ── */
 @media print {
-  .cv-nav, .cv-actions, .cv-footer { display: none; }
+  .cv-actions, .cv-end { display: none; }
   body { background: #FFFFFF; color: #101010; }
   .cv-wrap { width: 100%; }
   .cv-head { padding: 0 0 18px; }
@@ -196,10 +153,6 @@ main { padding-bottom: clamp(60px, 10vh, 110px); }
   margin-top: 20px;
   font-size: var(--text-sm); color: var(--fg2); line-height: var(--lh-normal);
 }
-.cv-switch a {
-  color: var(--fg-accent);
-  border-bottom: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-  transition: border-color 0.25s ease;
-}
-.cv-switch a:hover, .cv-switch a:focus-visible { border-bottom-color: currentColor; }
+.cv-switch a { color: var(--fg-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.cv-switch a:hover, .cv-switch a:focus-visible { color: var(--fg1); }
 @media print { .cv-switch { display: none; } }

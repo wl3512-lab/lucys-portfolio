@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
@@ -15,22 +15,17 @@
 <meta property="og:title" content="Work | Lucy Liu" />
 <meta property="og:description" content="All work by Lucy Liu: interaction design, creative coding, and accessibility-focused projects." />
 <meta property="og:url" content="https://lucyliu.xyz/work.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover.webp" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/driftwood/cover-reel.webp?v=20261002b" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=89" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
 <style>
+/* All Work: the site's one of each (Lucy, 2026-10-31): Syne titles, Space Mono labels, the spaced-caps small link. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-.wk-glitch {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.2;
-}
-.wk-glitch canvas { display: block; width: 100%; height: 100%; }
-.wk-nav, #main { position: relative; z-index: 1; }
-@media (max-width: 760px) { .wk-glitch { opacity: 0.14; } }
+#main { position: relative; z-index: 1; }
 body {
   background: var(--void);
   color: var(--fg1);
@@ -41,666 +36,232 @@ body {
 a { color: inherit; text-decoration: none; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-/* NAV */
-.wk-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 40;
-  padding: 20px 0;
-  background: rgba(5,7,16,0.72); backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-}
-.wk-nav-inner {
-  width: min(1400px, 96vw); margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.wk-back {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-  display: flex; align-items: center; gap: 8px;
-  transition: color .25s;
-}
-.wk-back:hover { color: var(--fg1); }
-.wk-back svg { flex-shrink: 0; }
-.wk-nav-right {
-  display: flex; align-items: center; gap: 32px;
-}
-.wk-nav-link {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-  transition: color .25s;
-}
-.wk-nav-link:hover { color: var(--fg1); }
-.wk-logo {
-  font-family: var(--font-display); font-style: italic; font-size: 18px;
-  letter-spacing: -0.02em; color: var(--fg1);
-}
+/* The header and the footer are the site's shared ones (components/site-header.js, site-footer.js; 2026-10-31). */
 
-/* PAGE HEADER */
+/* All Work: his file cabinet, eight files (Lucy, 2026-10-31: "reduce amount of work shown"; "files all work dont display
+   covers all at once"; "i want full covers shown"). Each file is one link: its FILE tab, its whole cover at its own
+   shape beside the title (above it on phones), the line, the meta and "Open the file". Nothing waits on a reveal: it
+   reads at rest, and without components/work-index.js it is the same list, unfiled. The script adds the back panel,
+   the year dividers, the FILE 01 / 08 numbers, the drawer front with the count and him sitting on the cabinet. */
 .wk-header {
-  padding: clamp(100px, 14vh, 140px) 0 clamp(40px, 6vh, 64px);
-  width: min(1400px, 96vw); margin: 0 auto;
-  overflow: hidden;
+  width:min(1200px,92vw); margin:0 auto;
+  padding:clamp(112px,14vh,140px) 0 0;
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:24px; align-items:end;
 }
-.wk-eyebrow {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-bottom: 20px;
-  opacity: 0; transform: translateY(10px);
-}
-.wk-heading {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(80px, 18vw, 200px); line-height: 0.86;
-  letter-spacing: -0.04em; color: var(--fg1);
-  clip-path: inset(0 0 100% 0);
-}
-.wk-heading em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
-.wk-count {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-top: 24px;
-  opacity: 0;
-}
+/* The page title: Syne, like every page's (Lucy, 2026-10-31: "Syne on every page"). */
+.wk-heading { font:var(--type-title); letter-spacing:-.03em; color:var(--fg1); }
+/* Two lines, broken by hand; the box is as wide as the longer one (WebKit drew a fit-content box with text-wrap:pretty
+   three lines deep), and still wraps if the column is narrower. */
 
-/* FILTER STRIP */
-.wk-filters {
-  width: min(1400px, 96vw); margin: 0 auto;
-  padding-bottom: clamp(32px, 5vh, 56px);
-  border-bottom: 1px solid var(--border);
-  display: flex; gap: 8px; flex-wrap: wrap;
-  opacity: 0;
-}
-.wk-filter-btn {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 8px 16px; border-radius: 2px;
-  background: transparent; border: 1px solid transparent;
-  color: var(--fg3); cursor: pointer;
-  transition: color .2s, border-color .2s, background .2s;
-}
-.wk-filter-btn:hover {
-  color: var(--fg2); border-color: var(--border);
-}
-.wk-filter-btn.is-active {
-  color: var(--blue-400);
-  border-color: var(--blue-400);
-  background: oklch(from var(--blue-400) l c h / 0.06);
-}
-.wk-filter-btn:focus-visible {
-  outline: 2px solid var(--blue-400); outline-offset: 3px;
-}
-
-/* GRID — editorial mosaic: 12-col, varied plate scales, staggered baselines */
+/* The cabinet is a night room in its own tokens (the hero's palette), whatever the page around it does. */
 .wk-grid-wrap {
-  width: min(1400px, 96vw); margin: 0 auto;
-  position: relative;
+  --wd-void:#05060f; --wd-deep:#0e122e; --wd-line:#1e2033; --wd-rule:#2f3352; --wd-slate:#444a75; --wd-dusk:#5c649e;
+  --wd-peri:#7681cc; --wd-iris:var(--fg3); --wd-cloud:var(--fg1); --wd-mist:#ced6fc; --wd-signal:var(--fg-accent); --wd-sky:#5283cc;
+  --wd-navy:#213452; --wd-lit:#2f4b75; --wd-lit-hi:#3f659e; --wd-ice:#a4cbff; --wd-focus:#b8d6ff; --wd-amber:#e0c387;
+  --wd-plum:#3e3352; --wd-plum-hi:#594975;
+  --wd-notch:polygon(0 4px,2px 4px,2px 2px,4px 2px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 2px,calc(100% - 2px) 2px,calc(100% - 2px) 4px,100% 4px,100% 100%,0 100%);
+  --pad:14px; --tab:132px;
+  /* The cover column, and the height a cover may take: a 3:2 cover fills the column, a wider one is as wide and
+     shorter, a tall one (LOOP's phone) is as tall and narrower. Never cropped: the box is the picture's own shape. */
+  --cover-w:min(46cqi,560px); --cover-h:calc(var(--cover-w) / 1.5);
+  position:relative; width:min(1200px,92vw); margin:clamp(88px,9vw,108px) auto clamp(96px,12vw,160px);
+  padding:0 var(--pad) 0; container-type:inline-size;
+  background:var(--wd-void); color:var(--wd-mist); color-scheme:dark;
+  box-shadow:inset 4px 0 var(--wd-line),inset -4px 0 var(--wd-line);
 }
-.wk-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-flow: dense;
-  column-gap: clamp(14px, 2vw, 28px);
-  row-gap: clamp(48px, 7vw, 96px);
-  padding: clamp(40px, 6vh, 72px) 0 clamp(80px, 10vh, 120px);
-  list-style: none;
-}
+.wi-back { position:relative; height:40px; margin:0 calc(-1 * var(--pad)) 6px; background:var(--wd-line); box-shadow:inset 0 3px var(--wd-rule),inset 0 -3px var(--wd-void); }
+/* the cabinet's labels: the site's one label, plain mono; the tabs and dividers keep their shapes, they are the folders' */
+.wi-back span { position:absolute; left:var(--pad); top:50%; transform:translateY(-50%); font:var(--type-label); letter-spacing:var(--track-label); color:var(--fg3); white-space:nowrap; }
+.wk-grid { display:flex; flex-direction:column; gap:14px; margin:0; padding:0 0 4px; list-style:none; }
+.wi-year { position:relative; height:32px; }
+.wi-year::before { content:''; position:absolute; left:0; right:0; bottom:0; height:8px; background:var(--wd-navy); box-shadow:inset 0 2px var(--wd-lit-hi); }
+.wi-year span { position:absolute; right:0; bottom:7px; width:112px; height:20px; display:grid; place-items:center; padding-top:2px; background:var(--wd-navy); box-shadow:inset 0 2px var(--wd-lit-hi); color:var(--wd-ice); font:var(--type-label); letter-spacing:var(--track-label); clip-path:var(--wd-notch); }
 
-/* plate scales — size is editorial hierarchy, not uniformity */
-.pl-a { grid-column: span 7; } .pl-a .plate { aspect-ratio: 16/10; }
-.pl-b { grid-column: span 5; } .pl-b .plate { aspect-ratio: 4/5; }
-.pl-c { grid-column: span 4; } .pl-c .plate { aspect-ratio: 3/4; }
-.pl-d { grid-column: span 8; } .pl-d .plate { aspect-ratio: 16/9; }
-.pl-e { grid-column: span 5; } .pl-e .plate { aspect-ratio: 1/1; }
-.pl-f { grid-column: span 7; } .pl-f .plate { aspect-ratio: 16/10; }
-.pl-g { grid-column: span 6; } .pl-g .plate { aspect-ratio: 16/10; }
-.pl-h { grid-column: span 3; } .pl-h .plate { aspect-ratio: 3/4; }
-.pl-i { grid-column: span 3; } .pl-i .plate { aspect-ratio: 3/4; }
-.pl-j { grid-column: span 5; } .pl-j .plate { aspect-ratio: 4/3; }
-.pl-k { grid-column: span 7; } .pl-k .plate { aspect-ratio: 16/9; }
-.pl-l { grid-column: span 4; } .pl-l .plate { aspect-ratio: 3/4; }
-.pl-m { grid-column: span 4; } .pl-m .plate { aspect-ratio: 1/1; }
-.pl-n { grid-column: span 4; } .pl-n .plate { aspect-ratio: 4/5; }
+/* A file: the FILE tab staggered along its top edge, then its face. */
+.cover-item { position:relative; min-width:0; }
+.cover-item > a { position:relative; display:block; padding-top:20px; color:inherit; transition:transform .18s steps(3,end); }
+.cap-idx { position:absolute; top:0; left:calc(var(--x,0) * (100% - var(--tab)) / 2); z-index:1; width:var(--tab); height:22px; display:flex; align-items:center; justify-content:center; padding-top:2px; background:var(--wd-deep); box-shadow:inset 0 2px var(--wd-rule),inset 2px 0 var(--wd-rule),inset -2px 0 var(--wd-rule); color:var(--wd-peri); font:var(--type-label); letter-spacing:var(--track-label); white-space:nowrap; clip-path:var(--wd-notch); }
+.wi-face { display:grid; grid-template-columns:var(--cover-w) minmax(0,1fr); gap:clamp(20px,3.4cqi,44px); align-items:start; padding:18px 20px 22px; border-top:2px solid var(--wd-rule); background:linear-gradient(180deg,var(--wd-deep),var(--wd-void)); }
+.plate { display:block; min-width:0; }
+/* Whole covers: the element is sized to the picture's own ratio (--r, the file's width / height), so contain never
+   has to letterbox and nothing is cut. */
+.cover-img { display:block; width:min(100%, calc(var(--cover-h) * var(--r, 3 / 2))); height:auto; aspect-ratio:var(--r, 3 / 2); object-fit:contain; background:var(--wd-void); box-shadow:0 0 0 2px var(--wd-line); }
+.cover-cap { display:grid; align-content:start; justify-items:start; gap:12px; min-width:0; padding-top:4px; }
+.cap-title { margin:0; font:700 clamp(24px,3.6cqi,44px)/1.1 var(--font-display); letter-spacing:-.01em; color:var(--wd-cloud); text-wrap:balance; overflow-wrap:break-word; }
+.cap-desc { margin:0; max-width:44ch; font:400 16px/1.6 var(--font-body); color:var(--wd-mist); text-wrap:pretty; }
+.cap-meta { margin:0; font:400 13px/1.5 var(--font-body); letter-spacing:.02em; color:var(--wd-iris); }
+.wi-go { display:inline-flex; align-items:center; gap:10px; margin-top:4px; font:var(--type-link); letter-spacing:var(--track-link); color:var(--wd-signal); text-decoration:underline; text-decoration-color:transparent; text-underline-offset:6px; }
+.wi-go b { display:inline-block; font-weight:400; transition:transform .18s steps(2,end); }
+/* Hover and focus: the file lifts out a little, its tab and edge light, "Open the file" underlines. */
+.cover-item > a:hover, .cover-item > a:focus-visible { transform:translateY(-4px); }
+.cover-item > a:hover .cap-idx, .cover-item > a:focus-visible .cap-idx { background:var(--wd-lit); box-shadow:inset 0 2px var(--wd-sky),inset 2px 0 var(--wd-sky),inset -2px 0 var(--wd-sky); color:var(--wd-ice); }
+.cover-item > a:hover .wi-face, .cover-item > a:focus-visible .wi-face { border-top-color:var(--wd-sky); }
+.cover-item > a:hover .cover-img, .cover-item > a:focus-visible .cover-img { box-shadow:0 0 0 2px var(--wd-sky); }
+.cover-item > a:hover .cap-title, .cover-item > a:focus-visible .cap-title { color:var(--wd-ice); }
+.cover-item > a:hover .wi-go, .cover-item > a:focus-visible .wi-go { text-decoration-color:currentColor; }
+.cover-item > a:hover .wi-go b, .cover-item > a:focus-visible .wi-go b { transform:translateX(4px); }
+.cover-item > a:focus-visible { outline:2px solid var(--wd-focus); outline-offset:2px; }
 
-/* staggered baselines: alternate plates drop, so rows never read as a stripe */
-@media (min-width: 901px) {
-  .pl-b { transform: translateY(44px); }
-  .pl-e { transform: translateY(36px); }
-  .pl-h { transform: translateY(28px); }
-  .pl-l { transform: translateY(40px); }
-  .pl-n { transform: translateY(32px); }
-}
+/* The drawer front: a link down to Other work. */
+.wi-end { display:grid; justify-items:center; gap:12px; margin:18px calc(-1 * var(--pad)) 0; padding:22px 16px 24px; background:var(--wd-rule); color:var(--wd-mist); box-shadow:inset 4px 4px var(--wd-slate),inset -4px -4px var(--wd-line),0 8px var(--wd-void); text-align:center; }
+.wi-plate { font:var(--type-label); letter-spacing:var(--track-label); color:var(--fg2); }
+.wi-end-t { font:700 clamp(20px,calc(100cqi / 13),44px)/1.1 var(--font-display); letter-spacing:-.01em; }
+.wi-end { text-decoration:none; }
+a.wi-end:hover .wi-end-t, a.wi-end:focus-visible .wi-end-t { color:var(--blue-300); }
+a.wi-end:hover b, a.wi-end:focus-visible b { display:inline-block; transform:translateX(5px); }
+a.wi-end:focus-visible { outline:2px solid var(--blue-300); outline-offset:-6px; }
+.wi-end-t b { font-weight:inherit; color:var(--fg-accent); transition:transform .2s var(--ease-out-quart); }
+.wi-end i { display:block; width:120px; height:14px; background:var(--wd-dusk); box-shadow:inset 2px 2px var(--wd-iris),inset -2px -2px var(--wd-slate); }
+/* He sits on top of the cabinet, and blinks while he is on screen. */
+.wi-him { position:absolute; right:clamp(16px,5cqi,56px); bottom:calc(100% - 2px); width:80px; height:90px; image-rendering:pixelated; pointer-events:none; }
 
-/* COVER TILE */
-.cover-item {
-  position: relative;
-  display: block;
-  opacity: 0;
-  clip-path: inset(0 0 100% 0);
+/* Laptops, and phones on their side, keep the cover beside the words; 760px and under stacks a file: the cover on
+   top at the column's width, a tall cover (LOOP's phone) as tall as 360px. */
+@media (max-width:760px) {
+  .wk-header { grid-template-columns:1fr; padding-top:100px; gap:12px; }
+  .wk-heading { font-size:clamp(38px,11vw,48px); }
+  .wk-grid-wrap { --pad:8px; --tab:116px; --cover-h:min(92cqi,360px); margin-top:76px; }
+  .cap-idx { left:calc(var(--x2,0) * (100% - var(--tab))); }
+  .wi-year span { width:96px; }
+  .wi-face { grid-template-columns:minmax(0,1fr); gap:14px; padding:12px 12px 16px; }
+  .cap-title { font-size:clamp(22px,7.4cqi,30px); line-height:1.15; }
+  .cap-desc { font-size:15px; }
+  .cover-cap { gap:8px; padding-top:0; }
+  .wi-him { width:64px; height:72px; right:16px; }
 }
-.cover-item.is-revealed {
-  opacity: 1;
-  clip-path: inset(0 0 0% 0);
-  transition: clip-path .55s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity .3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cover-item a { display: block; }
-.plate {
-  position: relative; display: block;
-  overflow: hidden;
-  background: var(--navy-mid);
-}
-.plate::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0;
-  height: 2px; width: 0;
-  background: rgba(114, 173, 255, 0.9);
-  transition: width .45s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10; pointer-events: none;
-}
-.cover-item:hover .plate::after,
-.cover-item:focus-within .plate::after { width: 100%; }
-.cover-img {
-  width: 100%; height: 100%;
-  position: absolute; inset: 0;
-  object-fit: cover; display: block;
-  filter: brightness(0.8) saturate(0.9);
-  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1),
-              filter .5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-.cover-img--contained {
-  object-fit: contain;
-  padding: clamp(18px, 8%, 36px);
-  background: var(--navy-mid);
-}
-.cover-item:hover .cover-img,
-.cover-item:focus-within .cover-img {
-  transform: scale(1.04);
-  filter: brightness(1.0) saturate(1.0);
-}
+/* Other work: the projects off the cabinet, plain links in the site's small-link style, no covers (2026-10-31) */
 
-/* figure caption — always visible, editorial */
-.cover-cap {
-  display: flex; align-items: baseline; gap: 12px;
-  padding-top: 14px;
-}
-.cap-idx {
-  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.12em;
-  color: var(--fg3); flex-shrink: 0;
-}
-.cap-title {
-  font-family: var(--font-ui); font-weight: 600;
-  font-size: clamp(15px, 1.3vw, 19px); line-height: 1.15;
-  letter-spacing: -0.01em; color: var(--fg1);
-  transition: color .25s;
-}
-.cover-item:hover .cap-title,
-.cover-item:focus-within .cap-title { color: var(--blue-300); }
-.cap-meta {
-  font-family: var(--font-code); font-size: 9.5px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-left: auto; flex-shrink: 0; text-align: right;
-}
-.cover-td-badge {
-  position: absolute; top: 14px; left: 14px;
-  width: 28px; height: 28px;
-  object-fit: contain; border-radius: 6px;
-  opacity: 0.7; z-index: 2;
-  transition: opacity .25s;
-}
-.cover-item:hover .cover-td-badge,
-.cover-item:focus-within .cover-td-badge { opacity: 1; }
-.cover-arrow {
-  position: absolute; top: 18px; right: 18px;
-  font-size: 18px; color: var(--fg1);
-  transform: translate(-4px, 4px);
-  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity .25s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0; pointer-events: none; z-index: 2;
-}
-.cover-item:hover .cover-arrow,
-.cover-item:focus-within .cover-arrow {
-  transform: translate(0, 0); opacity: 1;
-}
-
-/* FILTER STATES */
-.cover-item.is-filtered {
-  pointer-events: none;
-  transition: opacity .3s cubic-bezier(0.7, 0, 0.84, 0),
-              transform .3s cubic-bezier(0.7, 0, 0.84, 0),
-              clip-path 0s .3s;
-  opacity: 0;
-  transform: scale(0.93);
-  clip-path: inset(0 0 0% 0);
-}
-.cover-item.is-entering {
-  opacity: 0;
-  transform: scale(0.97);
-  transition: opacity .35s cubic-bezier(0.16, 1, 0.3, 1),
-              transform .35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cover-item.is-entering.is-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* EMPTY STATE */
-.wk-empty {
-  display: none;
-  padding: clamp(80px, 12vh, 120px) 0;
-  width: min(1400px, 96vw); margin: 0 auto;
-  text-align: center;
-}
-.wk-empty.is-visible { display: block; }
-.wk-empty-label {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-bottom: 16px;
-}
-.wk-empty-text {
-  font-family: var(--font-body); font-size: 16px;
-  color: var(--fg2); line-height: 1.6;
-}
-
-/* FOCUS */
-.cover-item:focus-visible {
-  outline: 2px solid var(--blue-400);
-  outline-offset: 3px;
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
-  /* phones/tablets: feature plates go full-width, the rest pair up; no stagger */
-  .wk-grid { row-gap: clamp(36px, 6vw, 56px); }
-  .pl-a, .pl-d, .pl-f, .pl-g, .pl-k { grid-column: span 12; }
-  .pl-b, .pl-c, .pl-e, .pl-j { grid-column: span 6; }
-  .pl-h, .pl-i, .pl-l, .pl-m, .pl-n { grid-column: span 6; }
-  .cap-title { font-size: 14px; }
-  .cap-meta { display: none; }
-  .wk-nav-right { gap: 20px; }
-}
-
-.cover-gradient-vj {
-  width: 100%; height: 100%;
-  background: radial-gradient(ellipse 70% 80% at 38% 62%, oklch(0.38 0.14 290 / 0.72) 0%, oklch(0.18 0.06 270) 52%, #050710 100%);
-}
-
-/* REDUCED MOTION */
-@media (prefers-reduced-motion: reduce) {
-  .cover-img { transition: filter .2s; }
-  .cover-item { clip-path: none !important; opacity: 1 !important; }
-  .cover-arrow { opacity: 0.7; transform: none; }
-  .wk-eyebrow, .wk-heading, .wk-count, .wk-filters { opacity: 1 !important; clip-path: none !important; transform: none !important; }
+@media (prefers-reduced-motion:reduce) {
+  .cover-item > a, .wi-go b { transition:none; }
+  .cover-item > a:hover, .cover-item > a:focus-visible { transform:none; }
 }
 </style>
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/cover-reel.js"></script>
+<style>@font-face { font-family: Anybody; font-style: normal; font-weight: 100 900; font-stretch: 50% 150%; font-display: swap; src: url('assets/fonts/anybody-variable-latin.woff2') format('woff2'); }</style>
+<!-- the loading screen (components/page-loader.js): the home page's spotlight, from the first paint; never without scripts -->
+<link rel="stylesheet" href="intro-reel.css?v=11" />
+<noscript><style>#ll-loader { display: none !important; }</style></noscript>
 </head>
 <body>
 
-<!-- LetterGlitch backdrop (React Bits, vanilla) — scrambling letter field behind the page -->
-<div class="wk-glitch" data-letter-glitch data-colors="#0E1322,#141930,#1E2640,#2A4A7F" data-speed="120" data-center-vignette="true" aria-hidden="true"></div>
 
 <a href="#main" class="skip-link visually-hidden">Skip to main content</a>
 
-<!-- NAV -->
-<nav class="wk-nav" aria-label="Site navigation">
-  <div class="wk-nav-inner">
-    <a href="index.html" class="wk-back" aria-label="Back to home">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      home
-    </a>
-    <a href="index.html" class="wk-logo" aria-label="Lucy Liu" data-wordmark>lucy liu</a>
-    <div class="wk-nav-right">
-      <a href="index.html#about" class="wk-nav-link">about</a>
-      <a href="mailto:wl3512@nyu.edu" class="wk-nav-link">contact ↗</a>
-    </div>
-  </div>
-</nav>
+<!-- The loading screen: caught in the spotlight, as on the home page (Lucy, 2026-10-25: "put loading page everywhere that needs one"). -->
+<div id="ll-loader" class="ll-page intro-spot intro-active" role="dialog" aria-modal="true" aria-label="Loading">
+  <div class="intro-controls"><button class="intro-skip" type="button">Skip the loading screen <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+</div>
+<script src="components/page-loader.js?v=2"></script>
+
+<header data-site-header></header>
 
 <main id="main">
 
-  <!-- HEADER -->
   <header class="wk-header" aria-labelledby="wk-title">
-    <p class="wk-eyebrow" aria-hidden="true">Selected projects</p>
-    <h1 class="wk-heading" id="wk-title">All <em>work</em></h1>
-    <p class="wk-count" id="wk-count" aria-live="polite" aria-atomic="true"></p>
+    <h1 class="wk-heading" id="wk-title">All work</h1>
   </header>
 
-  <!-- FILTERS -->
-  <div class="wk-filters" role="group" aria-label="Filter by category">
-    <button class="wk-filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
-    <button class="wk-filter-btn" data-filter="coding" aria-pressed="false">Coding</button>
-    <button class="wk-filter-btn" data-filter="ux" aria-pressed="false">UX Design</button>
-    <button class="wk-filter-btn" data-filter="fineart" aria-pressed="false">Fine Arts</button>
-    <button class="wk-filter-btn" data-filter="design" aria-pressed="false">Design</button>
-  </div>
-
-  <!-- GRID -->
+  <!-- THE FILES: one link each, in the cabinet's order (newest year first; the three case studies lead 2026).
+       Each cover keeps its own shape: --r is its width / height, the same numbers as its width and height.
+       The reels carry data-cover-reel-hover, so the controller's own mount (data-cover-reel, which plays an arrival
+       pass) passes them by; work-index.js mounts them to play only while their file is hovered or focused. -->
   <div class="wk-grid-wrap">
-    <ul class="wk-grid" role="list" id="wk-grid" aria-label="Project covers">
+    <ul class="wk-grid" id="wk-grid" aria-label="Projects">
 
-      <li class="cover-item pl-b" data-cat="coding ux" role="listitem">
-        <a href="case-study.html" aria-label="Driftwood, AI ethics game, design and code, 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/driftwood/cover.webp" alt="Driftwood: AI pet guardian game, five celebrity-persona pets on a void background" loading="eager"  width="1024" height="1024" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">01</span>
-            <span class="cap-title">Driftwood</span>
-            <span class="cap-meta">AI Ethics Game · Design + Code · 2026</span>
-          </span>
-        </a>
-      </li>
-      <li class="cover-item pl-a" data-cat="coding ux" role="listitem">
-        <a href="habitabull.html" aria-label="HabitaBull Lifting, Coding and UX Design, 2023 to 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/habitabull/cover-wall.webp?v=20260930b" alt="HabitaBull: the wordmark beside a tilted wall of app screens on brand terracotta" loading="eager" width="2000" height="1294" style="object-position: left center" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">02</span>
-            <span class="cap-title">HabitaBull Lifting</span>
-            <span class="cap-meta">Coding + UX Design · 2023–2026</span>
-          </span>
+      <li class="cover-item">
+        <a href="chance-ai.html" aria-labelledby="wf-chance-ai wf-chance-ai-go" aria-describedby="wf-chance-ai-d wf-chance-ai-m">
+          <span class="cap-idx" aria-hidden="true">FILE 01</span>
+          <div class="wi-face">
+            <span class="plate"><img class="cover-img" style="--r:1440 / 960" src="assets/chance-ai/work-cover.webp" alt="The Chance AI app icon beside three phones in the final frosted style: Visual skills, Home and a product result" width="1440" height="960" loading="lazy" decoding="async" /></span>
+            <div class="cover-cap">
+              <h2 class="cap-title" id="wf-chance-ai">Chance AI</h2>
+              <p class="cap-desc" id="wf-chance-ai-d">A team redesign of a live visual-search app: an audit, Visual skills, and a Home I led that promotes both main actions equally.</p>
+              <p class="cap-meta" id="wf-chance-ai-m">UX/UI Design · Team lead · 2026</p>
+              <span class="wi-go" id="wf-chance-ai-go">Open the file <b aria-hidden="true">→</b></span>
+            </div>
+          </div>
         </a>
       </li>
 
-      <li class="cover-item pl-b" data-cat="coding design" role="listitem">
-        <a href="live-visuals-nyc.html" aria-label="VJ Performance, Coding / Design, 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/live-visuals-nyc/cover.jpg" alt="VJ Performance — ceiling projection at private NYC event" loading="eager"  width="646" height="1400" />
-          <img src="assets/icons/touchdesigner.png" alt="" class="cover-td-badge" aria-hidden="true"  width="224" height="224" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">03</span>
-            <span class="cap-title">VJ Performance</span>
-            <span class="cap-meta">Coding / Design · 2026</span>
-          </span>
+      <li class="cover-item">
+        <a href="case-study.html" aria-labelledby="wf-driftwood wf-driftwood-go" aria-describedby="wf-driftwood-d wf-driftwood-m">
+          <span class="cap-idx" aria-hidden="true">FILE 02</span>
+          <div class="wi-face">
+            <span class="plate"><video class="cover-img" style="--r:1440 / 960" src="assets/covers/driftwood/reel.mp4?v=20261115" poster="assets/covers/driftwood/reel.webp?v=20261115" muted playsinline preload="none" aria-hidden="true" data-cover-reel-hover width="1440" height="960"></video></span>
+            <div class="cover-cap">
+              <h2 class="cap-title" id="wf-driftwood">Driftwood</h2>
+              <p class="cap-desc" id="wf-driftwood-d">An AI-literacy game. Grow a garden with AI animal helpers and catch the moment their advice goes wrong.</p>
+              <p class="cap-meta" id="wf-driftwood-m">AI Ethics Game · Design + Code · 2026</p>
+              <span class="wi-go" id="wf-driftwood-go">Open the file <b aria-hidden="true">→</b></span>
+            </div>
+          </div>
         </a>
       </li>
 
-      <li class="cover-item pl-b" data-cat="ux design" role="listitem">
-        <a href="reptools.html" aria-label="rep.tools, UX Design / Design, 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/reptools/cover.webp" alt="rep.tools: brand and UX redesign, condensed cyan headline over a product catalogue" loading="eager"  width="1200" height="675" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">04</span>
-            <span class="cap-title">rep.tools</span>
-            <span class="cap-meta">Brand / UX · 2026</span>
-          </span>
+      <li class="cover-item">
+        <a href="habitabull.html" aria-labelledby="wf-habitabull wf-habitabull-go" aria-describedby="wf-habitabull-d wf-habitabull-m">
+          <span class="cap-idx" aria-hidden="true">FILE 03</span>
+          <div class="wi-face">
+            <span class="plate"><video class="cover-img" style="--r:1440 / 960" src="assets/habitabull/cover-reel.mp4?v=20261001" poster="assets/habitabull/cover-reel.webp?v=20261001" muted playsinline preload="none" aria-hidden="true" data-cover-reel-hover width="1440" height="960"></video></span>
+            <div class="cover-cap">
+              <h2 class="cap-title" id="wf-habitabull">HabitaBull Lifting</h2>
+              <p class="cap-desc" id="wf-habitabull-d">A lifting app for logging workouts and getting back into a routine after a break.</p>
+              <p class="cap-meta" id="wf-habitabull-m">Coding + UX Design · 2023–2026 · In progress</p>
+              <span class="wi-go" id="wf-habitabull-go">Open the file <b aria-hidden="true">→</b></span>
+            </div>
+          </div>
         </a>
       </li>
 
-
-      <li class="cover-item pl-c" data-cat="coding" role="listitem">
-        <a href="loop.html" aria-label="LOOP, Coding, 2025">
-          <span class="plate">
-            <img class="cover-img" src="assets/loop/cover.png" alt="LOOP: narrative phone-simulation game, a midnight text thread with an unknown number claiming to be you 24 hours in the future" loading="lazy"  width="1016" height="1896" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">05</span>
-            <span class="cap-title">LOOP</span>
-            <span class="cap-meta">Coding · 2025</span>
-          </span>
+      <li class="cover-item">
+        <a href="magnet-fishing.html" aria-labelledby="wf-magnet-fishing wf-magnet-fishing-go" aria-describedby="wf-magnet-fishing-d wf-magnet-fishing-m">
+          <span class="cap-idx" aria-hidden="true">FILE 04</span>
+          <div class="wi-face">
+            <span class="plate"><img class="cover-img" style="--r:1280 / 720" src="assets/magnet-fishing/cover.webp" alt="Magnet Fishing's cover: the glossy red and gold Magnet Fishing logo over a pastel riverside town, and a gold magnet on a golden rope lifting the town bell out of a heap of river junk" width="1280" height="720" loading="lazy" decoding="async" /></span>
+            <div class="cover-cap">
+              <h2 class="cap-title" id="wf-magnet-fishing">Magnet Fishing</h2>
+              <p class="cap-desc" id="wf-magnet-fishing-d">2nd place at JAMKADIUM 2026: a calm fishing puzzle inspired by Roblox fishing simulators.</p>
+              <p class="cap-meta" id="wf-magnet-fishing-m">Game Jam · Art Direction + Build · 2026</p>
+              <span class="wi-go" id="wf-magnet-fishing-go">Open the file <b aria-hidden="true">→</b></span>
+            </div>
+          </div>
         </a>
       </li>
 
-      <li class="cover-item pl-d" data-cat="coding" role="listitem">
-        <a href="audio-reactive.html" aria-label="audio reactive, Coding, 2026">
-          <span class="plate">
-            <img class="cover-img" src="assets/audio-reactive/td-cover.jpg" alt="audio reactive: four touchdesigner audio-reactive visual systems, abstract particle orbits and waveforms in blue and purple" loading="lazy"  width="800" height="800" />
-          <img src="assets/icons/touchdesigner.png" alt="" class="cover-td-badge" aria-hidden="true"  width="224" height="224" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">06</span>
-            <span class="cap-title">audio reactive</span>
-            <span class="cap-meta">Coding · 2026</span>
-          </span>
+      <li class="cover-item">
+        <a href="reptools.html" aria-labelledby="wf-reptools wf-reptools-go" aria-describedby="wf-reptools-d wf-reptools-m">
+          <span class="cap-idx" aria-hidden="true">FILE 05</span>
+          <div class="wi-face">
+            <span class="plate"><video class="cover-img" style="--r:1440 / 960" src="assets/covers/reptools/reel.mp4?v=20261109" poster="assets/covers/reptools/reel.webp?v=20261109" muted playsinline preload="none" aria-hidden="true" data-cover-reel-hover width="1440" height="960"></video></span>
+            <div class="cover-cap">
+              <h2 class="cap-title" id="wf-reptools">rep.tools</h2>
+              <p class="cap-desc" id="wf-reptools-d">A large e-commerce catalogue IA redesign: navigation, catalogue and product pages for about 6,900 items, with a new brand.</p>
+              <p class="cap-meta" id="wf-reptools-m">E-commerce IA / UX · 2026</p>
+              <span class="wi-go" id="wf-reptools-go">Open the file <b aria-hidden="true">→</b></span>
+            </div>
+          </div>
         </a>
       </li>
 
-      <li class="cover-item pl-f" data-cat="coding ux" role="listitem">
-        <a href="h2know.html" aria-label="H2Know, Coding / UX Design, 2024">
-          <span class="plate">
-            <img class="cover-img" src="assets/h2know/slides/slide-01.jpg" alt="H2Know: Arduino plant companion, device and interface overview" loading="lazy"  width="1200" height="675" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">07</span>
-            <span class="cap-title">H2Know</span>
-            <span class="cap-meta">Coding / UX · 2024</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-g" data-cat="ux" role="listitem">
-        <a href="eternal-wreckening.html" aria-label="Eternal Wreckening, UX Design, 2024">
-          <span class="plate">
-            <img class="cover-img" src="assets/eternal-wreckening/slides/slide-01.jpg" alt="Eternal Wreckening: mid-fidelity Figma prototype" loading="lazy"  width="1200" height="806" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">08</span>
-            <span class="cap-title">Eternal Wreckening</span>
-            <span class="cap-meta">UX Design · 2024</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-h" data-cat="fineart" role="listitem">
-        <a href="anticipation.html" aria-label="Anticipation, Fine Arts, 2024">
-          <span class="plate">
-            <img class="cover-img" src="assets/anticipation/cover.jpg" alt="Anticipation: oil painting, Marilyn Monroe in self-reflection" loading="lazy"  width="2000" height="1481" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">09</span>
-            <span class="cap-title">Anticipation</span>
-            <span class="cap-meta">Fine Arts · 2024</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-i" data-cat="fineart" role="listitem">
-        <a href="handpainting.html" aria-label="Arrested Motion, Fine Arts, 2023">
-          <span class="plate">
-            <img class="cover-img" src="assets/handpainting/cover.webp" alt="Arrested Motion: oil on canvas, hands washing dishes" loading="lazy"  width="1648" height="2000" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">10</span>
-            <span class="cap-title">Arrested Motion</span>
-            <span class="cap-meta">Fine Arts · 2023</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-j" data-cat="ux" role="listitem">
-        <a href="soundcloud-critique.html" aria-label="SoundCloud App Critique, UX Design, 2023">
-          <span class="plate">
-            <img class="cover-img" src="assets/soundcloud/cover.jpg" alt="SoundCloud App Critique: logo redesign, widget customization, playlist UI" loading="lazy"  width="1200" height="1200" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">11</span>
-            <span class="cap-title">SoundCloud Critique</span>
-            <span class="cap-meta">UX Design · 2023</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-k" data-cat="design" role="listitem">
-        <a href="agar-alphabet.html" aria-label="Agar Alphabet, Design, 2025">
-          <span class="plate">
-            <img class="cover-img" src="assets/agar-alphabet/cover.jpg" alt="Agar Alphabet: bacteria-grown letterforms in agar plates" loading="lazy"  width="2000" height="1037" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">12</span>
-            <span class="cap-title">Agar Alphabet</span>
-            <span class="cap-meta">Design · 2025</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-l" data-cat="design" role="listitem">
-        <a href="telnex.html" aria-label="Telnex, Design, 2024">
-          <span class="plate">
-            <img class="cover-img" src="assets/telnex/cover.jpg" alt="Telnex: Fight Club-inspired fictional advertisement" loading="lazy"  width="1333" height="2000" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">13</span>
-            <span class="cap-title">Telnex</span>
-            <span class="cap-meta">Design · 2024</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-m" data-cat="design" role="listitem">
-        <a href="undertheweather.html" aria-label="Under the Weather, Design, 2025">
-          <span class="plate">
-            <img class="cover-img cover-img--contained" src="assets/undertheweather/cover.png" alt="Under the Weather: an intentionally useless weather app built with live NYC data" loading="lazy"  width="794" height="800" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">14</span>
-            <span class="cap-title">Under the Weather</span>
-            <span class="cap-meta">Design · 2025</span>
-          </span>
-        </a>
-      </li>
-
-      <li class="cover-item pl-n" data-cat="coding" role="listitem">
-        <a href="trance.html" aria-label="Trance, Coding, 2025">
-          <span class="plate">
-            <img class="cover-img" src="assets/trance/cover.png" alt="Trance: interactive audio-visual installation driven by Arduino sensors and generative visuals" loading="lazy"  width="2000" height="1122" />
-            <span class="cover-arrow" aria-hidden="true">↗</span>
-          </span>
-          <span class="cover-cap" aria-hidden="true">
-            <span class="cap-idx">15</span>
-            <span class="cap-title">Trance</span>
-            <span class="cap-meta">Coding · 2025</span>
-          </span>
-        </a>
-      </li>
-
-    </ul>
-
-    <!-- EMPTY STATE -->
-    <div class="wk-empty" id="wk-empty" role="status" aria-live="polite">
-      <p class="wk-empty-label">Nothing here yet</p>
-      <p class="wk-empty-text">This category is coming soon.</p>
-    </div>
+      </ul>
   </div>
+
+  <!-- OTHER WORK (2026-10-31): the projects that are not files in the cabinet, a plain list, no covers. -->
+
 
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-(function () {
+<footer data-site-footer></footer>
 
-  /* ── Entrance animation ── */
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<script defer src="components/work-index.js"></script>
 
-  if (!reducedMotion && window.gsap) {
-    var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    tl
-      .to('.wk-eyebrow', { opacity: 1, y: 0, duration: 0.5, delay: 0.1 })
-      .to('.wk-heading', { clipPath: 'inset(0 0 0% 0)', duration: 0.7, ease: 'power4.out' }, '-=0.2')
-      .to('.wk-count', { opacity: 1, duration: 0.4 }, '-=0.3')
-      .to('.wk-filters', { opacity: 1, duration: 0.4 }, '-=0.25');
-
-    var items = document.querySelectorAll('.cover-item');
-    tl.to(items, {
-      clipPath: 'inset(0 0 0% 0)',
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power4.out',
-      stagger: 0.025
-    }, '-=0.2');
-  }
-
-  /* ── Count display ── */
-  function updateCount(visible) {
-    var el = document.getElementById('wk-count');
-    if (!el) return;
-    el.textContent = visible + (visible === 1 ? ' project' : ' projects');
-  }
-
-  var allItems = Array.from(document.querySelectorAll('.cover-item'));
-  updateCount(allItems.length);
-
-  /* ── Filter logic ── */
-  var filterBtns = document.querySelectorAll('.wk-filter-btn');
-  var emptyState = document.getElementById('wk-empty');
-  var currentFilter = 'all';
-
-  filterBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var filter = btn.dataset.filter;
-      if (filter === currentFilter) return;
-      currentFilter = filter;
-
-      /* Update button states */
-      filterBtns.forEach(function (b) {
-        b.classList.toggle('is-active', b === btn);
-        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
-      });
-
-      /* Filter items */
-      var visibleCount = 0;
-
-      allItems.forEach(function (item) {
-        var match = filter === 'all' || item.dataset.cat.split(' ').indexOf(filter) !== -1;
-        if (match) {
-          visibleCount++;
-          if (item.classList.contains('is-filtered')) {
-            /* Re-entering: first set display, then animate in */
-            item.classList.remove('is-filtered');
-            item.classList.add('is-entering');
-            item.style.display = '';
-            /* Next frame to trigger transition */
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () {
-                item.classList.add('is-visible');
-                setTimeout(function () {
-                  item.classList.remove('is-entering', 'is-visible');
-                }, 400);
-              });
-            });
-          }
-        } else {
-          item.classList.add('is-filtered');
-          item.classList.remove('is-entering', 'is-visible');
-          /* Hide from flow after transition */
-          setTimeout(function () {
-            if (item.classList.contains('is-filtered')) {
-              item.style.display = 'none';
-            }
-          }, 320);
-        }
-      });
-
-      /* Show/hide empty state */
-      if (emptyState) {
-        emptyState.classList.toggle('is-visible', visibleCount === 0);
-      }
-      updateCount(visibleCount);
-    });
-  });
-
-})();
-</script>
-
-<script src="components/letter-glitch.js" defer></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

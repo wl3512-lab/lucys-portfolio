@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050710">
+  <title>Asset studio — Lucy Liu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <link rel="stylesheet" href="assets/reel-studio/studio.css">
+</head>
+<body>
+  <header class="studio-nav">
+    <a href="index.html" class="studio-wordmark">lucy liu <span>vol. 01</span></a>
+    <a href="work.html" class="studio-back">back to the portfolio ↗</a>
+  </header>
+  <main class="studio-shell">
+    <header class="studio-intro">
+      <p class="studio-eyebrow">assets / local studio</p>
+      <h1>Make a cover <em>that feels like yours.</em></h1>
+      <p class="studio-deck">Build a reel cover or an ending card from the approved creature art. Save separate setups for each project and export a PNG when it’s ready.</p>
+    </header>
+
+    <div class="studio-layout">
+      <section class="editor" aria-label="Card settings">
+        <div class="field-row">
+          <label for="kind">Card</label>
+          <select id="kind"><option value="cover">Project cover</option><option value="end">End card</option></select>
+        </div>
+        <div class="field-row">
+          <label for="platform">Format</label>
+          <select id="platform">
+            <option value="instagram">Instagram Reels · 9:16</option>
+            <option value="linkedin-portrait">LinkedIn feed · 4:5</option>
+            <option value="linkedin-wide">LinkedIn video · 16:9</option>
+            <option value="square">Square · 1:1</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label for="project">Save under</label>
+          <input id="project" type="text" value="festival visuals" placeholder="Project name">
+        </div>
+        <div class="field-row">
+          <label for="title">Title</label>
+          <input id="title" type="text" value="i taught myself TouchDesigner" maxlength="80">
+        </div>
+        <div class="field-row">
+          <label for="subtitle">Supporting line</label>
+          <input id="subtitle" type="text" value="live visuals · Maison Nur" maxlength="100">
+        </div>
+        <div class="field-grid">
+          <div class="field-row"><label for="byline">Name / role</label><input id="byline" value="Lucy Liu · visual artist" maxlength="60"></div>
+          <div class="field-row"><label for="date">Date / detail</label><input id="date" value="" placeholder="Optional" maxlength="32"></div>
+        </div>
+        <div class="field-row end-only" hidden>
+          <label for="nextbuild">Next build line <span>optional</span></label>
+          <input id="nextbuild" type="text" value="" placeholder="e.g. next build: Oct 30" maxlength="36">
+        </div>
+        <div class="field-row end-only" hidden>
+          <label for="url">Link</label>
+          <input id="url" value="lucyliu.xyz" maxlength="48">
+        </div>
+
+        <div class="pose-heading"><span>Creature pose</span><span class="pose-note">2D art · Blender guide</span></div>
+        <div class="pose-list" role="group" aria-label="Choose a creature pose">
+          <button class="pose-option selected" type="button" data-pose="idle" aria-pressed="true"><img src="assets/reel-studio/poses/idle.png" alt=""><span>rest</span></button>
+          <button class="pose-option" type="button" data-pose="curious" aria-pressed="false"><img src="assets/reel-studio/poses/curious.png" alt=""><span>curious</span></button>
+          <button class="pose-option" type="button" data-pose="glance" aria-pressed="false"><img src="assets/reel-studio/poses/glance.png" alt=""><span>glance</span></button>
+          <button class="pose-option" type="button" data-pose="sleeping" aria-pressed="false"><img src="assets/reel-studio/poses/sleeping.png" alt=""><span>sleep</span></button>
+          <button class="pose-option" type="button" data-pose="yawn" aria-pressed="false"><img src="assets/reel-studio/poses/yawn.png" alt=""><span>yawn</span></button>
+          <button class="pose-option" type="button" data-pose="paperclip" aria-pressed="false"><img src="assets/reel-studio/poses/paperclip.png" alt=""><span>paperclip</span></button>
+        </div>
+        <div class="rig-reference">
+          <img id="rig-image" src="assets/reel-studio/pose-guides/idle.png" alt="Blender rig pose reference">
+          <div><p class="rig-label">POSE GUIDE / BLENDER RIG V2.1</p><p id="rig-caption">Neutral three-quarter · pose guide only</p></div>
+        </div>
+
+        <details class="saved-panel" open>
+          <summary>Saved cards <span id="saved-count">0</span></summary>
+          <div class="save-row"><input id="preset-name" type="text" placeholder="Name this setup"><button id="save-preset" type="button">Save</button></div>
+          <div id="saved-list" class="saved-list" aria-live="polite"></div>
+        </details>
+        <button class="export-button" id="download" type="button">Download PNG</button>
+        <p class="local-note">Saved setups stay in this browser. PNG exports use the selected format.</p>
+      </section>
+
+      <section class="preview-section" aria-label="Card preview">
+        <div class="preview-head"><span id="preview-format">1080 × 1920</span><label><input id="crop-guide" type="checkbox"> center guide</label></div>
+        <div class="preview-wrap"><canvas id="card" width="1080" height="1920" aria-label="Live card preview"></canvas><div class="crop-overlay" id="crop-overlay" hidden aria-hidden="true"></div></div>
+        <p class="preview-caption">The Blender render is a pose/contact guide. The export uses your existing approved 2D creature and authored pose frames.</p>
+      </section>
+    </div>
+  </main>
+  <script src="assets/reel-studio/studio.js"></script>
+<script>/* edit-mode loader: press E (localhost or ?edit only) */if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||location.protocol==="file:"||/[?\&]edit(=|\&|$)/.test(location.search)){var s=document.createElement("script");s.src="edit-mode.js";document.body.appendChild(s)}</script>
+</body>
+</html>

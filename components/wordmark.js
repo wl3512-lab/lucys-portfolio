@@ -223,6 +223,11 @@
   }
 
   function autoMount() {
+    // under a page's loading screen (page-loader.js) the name sweeps in as the screen lifts, not unseen beneath it
+    if (document.body && document.body.classList.contains('intro-playing') && !window.__loaderExited) {
+      window.addEventListener('loader:exit', autoMount, { once: true });
+      return;
+    }
     var els = document.querySelectorAll('[data-wordmark]');
     for (var i = 0; i < els.length; i++) {
       try { WordmarkMount(els[i]).sweep(); } catch (e) {}

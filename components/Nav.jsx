@@ -5,7 +5,7 @@ function Nav(props) {
   const onNavClick = props && props.onNavClick;
   // FlowingMenu rows: each reveals an image marquee on hover. text + link + image.
   const items = [
-    { text: 'Work', ariaLabel: 'View all work', link: 'work.html', image: 'assets/live-visuals-nyc/cover.jpg' },
+    { text: 'Work', ariaLabel: 'View all work', link: 'work.html', image: 'assets/driftwood/cover-reel.webp' },
     { text: 'With AI', ariaLabel: 'How I build with AI', link: 'with-ai.html', image: 'assets/with-ai/menu-hover.webp' },
     { text: 'About', ariaLabel: 'About Lucy Liu', link: '#about', image: 'assets/headshot.jpg' },
     { text: 'Contact', ariaLabel: 'Email Lucy Liu', link: 'mailto:wl3512@nyu.edu', image: 'assets/lucy-tooth-gem.webp' },
@@ -14,7 +14,8 @@ function Nav(props) {
   const socialItems = [
     { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lucyliuxyz/' },
     { label: 'GitHub', link: 'https://github.com/wl3512-lab' },
-    { label: 'Instagram', link: 'https://www.instagram.com/lucyy.liuu/' },
+    { label: 'Instagram', link: 'https://www.instagram.com/lucyliuxyz/' },
+    { label: 'Other work', link: 'other-work.html', internal: true },
   ];
   return (
     <>

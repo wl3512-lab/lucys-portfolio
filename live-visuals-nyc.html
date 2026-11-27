@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
@@ -10,1604 +10,210 @@
 <link rel="icon" type="image/png" href="favicon.png?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <title>Demon Nights: VJ Residency | Lucy Liu</title>
-<meta name="description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights, the Thursday party from DJ and diamond-certified producer Diablo. Custom audio-reactive visuals designed every Thursday for Demon Nights, the weekly party thrown by Diablo (Sebastian Baldeon) and friends who DJ." />
+<meta name="description" content="Demon Nights: I build and operate TouchDesigner visuals for the ceiling above the dance floor at Maison Nur in New York." />
 <meta property="og:title" content="Demon Nights: VJ Residency | Lucy Liu" />
-<meta property="og:description" content="Weekly VJ residency at Maison Nur (217 Bowery, NYC) for Demon Nights. Custom audio-reactive generative visuals every Thursday, for the weekly party thrown by Diablo and friends who DJ." />
+<meta property="og:description" content="Demon Nights: I build and operate TouchDesigner visuals for the ceiling above the dance floor at Maison Nur in New York." />
 <meta property="og:url" content="https://lucyliu.xyz/live-visuals-nyc.html" />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=89" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --cloud-a40: rgba(246,250,255,0.40);
-  --cloud-a75: rgba(246,250,255,0.75);
-  --cloud-a88: rgba(246,250,255,0.88);
-}
 html { scroll-behavior: auto; }
-body {
-  background: var(--void);
-  color: var(--fg1);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
+body { background: var(--void); color: var(--fg1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; min-height: 100vh; }
 a { color: inherit; text-decoration: none; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ── NAV ── */
-.cs-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 40;
-  padding: 20px 0;
-  background: rgba(5,7,16,0.78); backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-}
-.cs-nav-inner {
-  width: min(1240px, 92vw); margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.cs-back {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-  display: flex; align-items: center; gap: 8px;
-  transition: color .25s var(--ease-out-expo);
-}
+.cs-nav { position: fixed; inset: 0 0 auto 0; z-index: 40; padding: 20px 0; background: rgba(5,7,16,0.78); backdrop-filter: blur(18px) saturate(160%); border-bottom: 1px solid var(--border); }
+.cs-nav-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .25s var(--ease-out-expo); }
 .cs-back:hover { color: var(--fg1); }
 .cs-back svg { flex-shrink: 0; }
 .cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; color: var(--fg1); }
 .cs-nav-right { display: flex; align-items: center; gap: 28px; }
 .cs-nav-link { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); transition: color .25s; }
 .cs-nav-link:hover { color: var(--fg1); }
-
-/* ── INNER WRAP ── */
-.ar-inner { width: min(1240px, 92vw); margin: 0 auto; }
-
-/* ── HERO ── */
-.ar-hero {
-  padding: clamp(110px, 16vh, 160px) 0 clamp(48px, 7vh, 72px);
-  position: relative; overflow: hidden;
-}
-/* Waves backdrop — flowing TouchDesigner-style line field behind the hero.
-   Masked out toward the bottom so the title/facts stay legible. */
-.ar-waves {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.6;
-  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 96%);
-          mask-image: linear-gradient(to bottom, #000 50%, transparent 96%);
-}
-.ar-waves canvas { display: block; width: 100%; height: 100%; }
-.ar-hero-orb, .ar-hero-orb-2 { z-index: 0; }
-.ar-hero-orb {
-  position: absolute; top: -10%; right: -6%;
-  width: clamp(360px, 45vw, 640px); height: clamp(360px, 45vw, 640px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(196,176,255,0.18) 0%, rgba(114,173,255,0.10) 40%, transparent 70%);
-  filter: blur(72px); pointer-events: none;
-}
-.ar-hero-orb-2 {
-  position: absolute; bottom: -15%; left: -4%;
-  width: clamp(240px, 28vw, 400px); height: clamp(240px, 28vw, 400px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(114,173,255,0.12) 0%, transparent 65%);
-  filter: blur(60px); pointer-events: none;
-}
-.ar-eyebrow {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-bottom: 24px;
-  opacity: 0; transform: translateY(10px);
-  display: flex; align-items: center; gap: 12px;
-}
-.ar-eyebrow::before {
-  content: '';
-  display: block; width: 20px; height: 1px;
-  background: var(--fg3);
-  flex-shrink: 0;
-}
-.ar-td-logo {
-  width: 26px; height: 26px;
-  object-fit: contain;
-  opacity: 0.65;
-  flex-shrink: 0;
-  border-radius: 4px;
-  animation: ar-td-spin 1.2s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-@keyframes ar-td-spin {
-  from { transform: rotate(-540deg) scale(0.15); opacity: 0; }
-  to   { transform: rotate(0deg)    scale(1);    opacity: 0.65; }
-}
-.ar-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(64px, 11vw, 128px); line-height: 0.9;
-  letter-spacing: -0.03em; color: var(--fg1);
-  clip-path: inset(0 0 100% 0);
-}
-.ar-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
-@keyframes ar-em-breathe {
-  0%, 100% { color: var(--blue-300); }
-  50%       { color: var(--fg1); }
-}
-.ar-platform {
-  font-family: var(--font-display);
-  font-size: clamp(16px, 2.2vw, 28px);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--fg2);
-  letter-spacing: -0.01em;
-  margin-top: 6px;
-  opacity: 0;
-}
-.ar-sub {
-  font-family: var(--font-body); font-size: clamp(15px, 1.6vw, 17px);
-  line-height: 1.65; color: var(--fg2);
-  max-width: 54ch;
-  margin-top: 28px;
-  opacity: 0;
-}
-.ar-tags {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  margin-top: 24px;
-  opacity: 0;
-}
-.ar-tag {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--fg3);
-  padding: 5px 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-/* ── HERO SPLIT LAYOUT ── */
-.ar-hero .ar-inner {
-  position: relative; z-index: 1;
-  display: flex;
-  gap: clamp(48px, 6vw, 88px);
-  align-items: flex-start;
-}
-.ar-hero-title-col {
-  flex: 0 0 auto;
-  width: min(52%, 580px);
-}
-.ar-hero-meta-col {
-  flex: 1 1 0;
-  min-width: 0;
-  padding-top: clamp(56px, 8vw, 88px);
-}
-
-/* ── STATUS PILL ── */
-.ar-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-code);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg2);
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  margin-top: 24px;
-  opacity: 0;
-}
-.ar-status-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: oklch(0.72 0.18 142);
-  flex-shrink: 0;
-  animation: status-pulse 2.4s ease-in-out infinite;
-}
-@keyframes status-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.25; }
-}
-
-/* ── FACT GRID ── */
-.ar-fact-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px 20px;
-  margin-bottom: 28px;
-  opacity: 0;
-}
-.ar-fact-label {
-  font-family: var(--font-code);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg3);
-  line-height: 1.6;
-  white-space: nowrap;
-  padding-top: 1px;
-}
-.ar-fact-value {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--fg1);
-}
-.ar-fact-note {
-  display: block;
-  font-family: var(--font-code);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg3);
-  margin-top: 3px;
-}
-
-@media (max-width: 768px) {
-  .ar-hero .ar-inner { flex-direction: column; gap: 32px; }
-  .ar-hero-title-col { width: 100%; }
-  .ar-hero-meta-col  { padding-top: 0; }
-}
-
-/* ── COLLECTION ── */
-.ar-collection {
-  padding-bottom: clamp(80px, 12vw, 120px);
-}
-.ar-divider {
-  width: 100%; height: 1px;
-  background: var(--border);
-  margin-bottom: clamp(40px, 5vw, 56px);
-  opacity: 0;
-}
-.ar-section-label {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--fg3);
-  margin-bottom: clamp(28px, 4vw, 40px);
-  opacity: 0;
-}
-
-/* ── GRID ── */
-.ar-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(12px, 2vw, 20px);
-}
-
-/* ── CARD ── */
-.ar-card {
-  background: var(--navy-mid);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex; flex-direction: column;
-  opacity: 0; transform: translateY(20px);
-  transition:
-    border-color .3s var(--ease-out-expo),
-    transform .3s var(--ease-out-expo),
-    opacity .5s var(--ease-out-expo);
-}
-.ar-card:not(.is-playing):hover {
-  transform: translateY(-5px);
-  border-color: oklch(from var(--pa, var(--blue-300)) l c h / 0.28);
-}
-.ar-card:not(.is-playing):hover .ar-card-title {
-  color: oklch(from var(--pa, var(--blue-300)) 0.88 c h);
-}
-.ar-card:focus-visible {
-  outline: 2px solid var(--blue-400); outline-offset: 3px;
-}
-
-/* ── PER-PIECE COLOR IDENTITY ── */
-.ar-card[data-piece="live-av-1"] { --pa: oklch(0.68 0.14 290); } /* violet: ceiling glow */
-.ar-card[data-piece="live-av-2"] { --pa: oklch(0.72 0.12 228); } /* electric blue */
-.ar-card[data-piece="live-av-3"] { --pa: oklch(0.74 0.10 195); } /* cyan: bioluminescent floor wash */
-
-/* ── VIDEO LOADING GRADIENT: color identity visible before video loads ── */
-.ar-card[data-piece="live-av-1"] .ar-video-wrap {
-  background: radial-gradient(ellipse 60% 60% at 40% 55%, oklch(0.32 0.12 290 / 0.35) 0%, var(--navy) 70%);
-}
-.ar-card[data-piece="live-av-2"] .ar-video-wrap {
-  background: radial-gradient(ellipse 60% 60% at 55% 50%, oklch(0.32 0.10 228 / 0.35) 0%, var(--navy) 70%);
-}
-.ar-card[data-piece="live-av-3"] .ar-video-wrap {
-  background: radial-gradient(ellipse 60% 60% at 45% 55%, oklch(0.32 0.08 195 / 0.35) 0%, var(--navy) 70%);
-}
-.ar-card[data-piece="live-av-4"] { --pa: oklch(0.68 0.14 30); } /* warm amber: up-close particle fire */
-.ar-card[data-piece="live-av-4"] .ar-video-wrap {
-  background: radial-gradient(ellipse 60% 60% at 50% 55%, oklch(0.32 0.10 30 / 0.35) 0%, var(--navy) 70%);
-}
-
-/* ── VIDEO WRAPPER ── */
-.ar-video-wrap {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--navy);
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.ar-video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ── SOUND INDICATOR ── */
-.ar-sound-btn {
-  display: none !important; /* in-place audio removed: tapping a card now opens the fullscreen view (with sound) */
-  position: absolute;
-  bottom: 12px; right: 12px; z-index: 3;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(5,7,16,0.58);
-  border: 1px solid rgba(160,200,255,0.18);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--cloud-a40);
-  pointer-events: none;
-  transition: background .2s, color .2s, border-color .2s, transform .2s var(--ease-out-expo);
-}
-.ar-video-wrap:hover .ar-sound-btn {
-  color: var(--cloud-a75);
-  border-color: rgba(160,200,255,0.32);
-  transform: scale(1.06);
-}
-.ar-sound-btn.is-on {
-  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.18);
-  border-color: oklch(from var(--pa, var(--blue-300)) l c h / 0.55);
-  color: var(--pa, var(--blue-300));
-  animation: ar-pulse 2s ease-in-out infinite;
-}
-.ar-icon-muted   { display: block; }
-.ar-icon-unmuted { display: none;  }
-.ar-sound-btn.is-on .ar-icon-muted   { display: none;  }
-.ar-sound-btn.is-on .ar-icon-unmuted { display: block; }
-
-@keyframes ar-pulse {
-  0%, 100% { box-shadow: 0 0 0 0   oklch(from var(--pa, var(--blue-300)) l c h / 0.42); }
-  50%       { box-shadow: 0 0 0 7px oklch(from var(--pa, var(--blue-300)) l c h / 0);    }
-}
-.ar-sound-btn.is-on::after {
-  content: '';
-  position: absolute; inset: -5px;
-  border-radius: var(--radius-sm);
-  border: 1px solid oklch(from var(--pa, var(--blue-300)) l c h / 0.4);
-  animation: ar-sound-ring 1.6s ease-out infinite;
-  pointer-events: none;
-}
-@keyframes ar-sound-ring {
-  0%   { opacity: 0.8; transform: scale(1); }
-  100% { opacity: 0;   transform: scale(1.55); }
-}
-
-.ar-video-wrap:focus-visible {
-  outline: 2px solid var(--blue-400); outline-offset: 3px;
-}
-
-/* ── PLAY INDICATOR ── */
-.ar-play-indicator {
-  position: absolute; inset: 0; z-index: 4;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-  transition: opacity .2s var(--ease-out-expo);
-}
-.ar-play-icon {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: rgba(5,7,16,0.52);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(246,250,255,0.16);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--cloud-a88);
-  transition: transform .2s var(--ease-out-expo), background .2s;
-}
-.ar-video-wrap:hover .ar-play-icon {
-  transform: scale(1.12);
-  background: rgba(5,7,16,0.72);
-}
-.ar-video-wrap[aria-pressed="true"] .ar-play-indicator {
-  opacity: 0;
-}
-
-/* ── HOVER OVERLAY ── */
-.ar-video-wrap::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 2;
-  background: oklch(from var(--pa, var(--blue-300)) l c h / 0);
-  transition: background .35s var(--ease-out-expo);
-  pointer-events: none;
-}
-.ar-video-wrap:hover::after {
-  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.07);
-}
-
-/* ── WAVEFORM ── */
-.ar-waveform {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 44px; z-index: 5;
-  display: flex; align-items: flex-end;
-  gap: 2px; padding: 0 10px;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(5,7,16,0.55) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity .35s var(--ease-out-expo);
-}
-.ar-video-wrap[aria-pressed="true"] .ar-waveform {
-  opacity: 1;
-}
-.ar-waveform span {
-  flex: 1;
-  border-radius: 1px 1px 0 0;
-  background: oklch(from var(--pa, var(--blue-300)) l c h / 0.58);
-  transform: scaleY(0.08);
-  transform-origin: bottom;
-}
-.ar-video-wrap[aria-pressed="true"] .ar-waveform span {
-  animation: ar-bar var(--wd, 0.7s) ease-in-out infinite alternate;
-}
-@keyframes ar-bar {
-  from { transform: scaleY(0.08); }
-  to   { transform: scaleY(1.0);  }
-}
-
-/* ── CARD BODY ── */
-.ar-card-body {
-  padding: clamp(18px, 2.5vw, 26px);
-  display: flex; flex-direction: column;
-  gap: 8px; flex: 1;
-}
-.ar-card-meta {
-  display: flex; align-items: center;
-  justify-content: space-between;
-}
-.ar-card-num {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
-  color: var(--fg3);
-  transition: color .25s;
-}
-.ar-card-artist {
-  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-}
-.ar-card-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(20px, 2.2vw, 26px); line-height: 1.1;
-  letter-spacing: -0.01em; color: var(--fg1);
-  transition: color .25s var(--ease-out-expo);
-}
-.ar-card-desc {
-  font-family: var(--font-body); font-size: 14px;
-  line-height: 1.7; color: var(--fg2);
-  margin-top: 4px;
-}
-
-/* ── ACTIVE GLOW ── */
-@property --glow-l {
-  syntax: '<number>';
-  initial-value: 1;
-  inherits: false;
-}
-@keyframes ar-card-glow {
-  0%, 100% { --glow-l: 1;    border-color: oklch(from var(--pa, var(--blue-300)) calc(l * var(--glow-l)) c h / 0.40); }
-  50%       { --glow-l: 1.22; border-color: oklch(from var(--pa, var(--blue-300)) calc(l * var(--glow-l)) c h / 0.82); }
-}
-.ar-card.is-playing {
-  animation: ar-card-glow 2.4s ease-in-out infinite;
-}
-.ar-card.is-playing .ar-card-num { color: var(--pa, var(--blue-300)); }
-
-/* ── PAGE DIM ── */
-.ar-grid:has(.ar-card.is-playing) .ar-card:not(.is-playing) {
-  opacity: 0.35;
-}
-
-/* ── PLAYING NUM PULSE ── */
-.ar-card.is-playing .ar-card-num::after {
-  content: ' ►';
-  font-size: 7px;
-  vertical-align: middle;
-  animation: ar-num-pulse 1.2s ease-in-out infinite;
-}
-@keyframes ar-num-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.28; }
-}
-
-.ar-video-wrap:active .ar-sound-btn {
-  transform: scale(0.82);
-}
-
-/* ── FEATURED CARD — full-width horizontal ── */
-.ar-card--featured {
-  grid-column: 1 / -1;
-  flex-direction: row;
-}
-.ar-card--featured .ar-video-wrap {
-  flex: 0 0 54%;
-  aspect-ratio: unset;
-  height: clamp(210px, 27vw, 370px);
-}
-.ar-card--featured .ar-card-body {
-  padding: clamp(28px, 4vw, 52px);
-  justify-content: center;
-  gap: 12px;
-}
-.ar-card--featured .ar-card-title {
-  font-size: clamp(24px, 2.8vw, 36px);
-}
-.ar-card--featured .ar-card-desc {
-  font-size: 15px;
-  max-width: 48ch;
-}
-.ar-desc-extra {
-  display: none;
-}
-.ar-desc-extra.is-open {
-  display: inline;
-}
-.ar-read-more {
-  display: inline-flex; align-items: center; gap: 5px;
-  margin-top: 4px;
-  background: none; border: none; cursor: pointer; padding: 0;
-  font-family: var(--font-code); font-size: 10px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-  transition: color .2s;
-}
-.ar-read-more:hover { color: var(--fg2); }
-.ar-read-more::after { content: ' ↓'; }
-.ar-read-more[aria-expanded="true"]::after { content: ' ↑'; }
-
-/* ── EXPAND BUTTON ── */
-.ar-expand-btn {
-  margin-top: 8px;
-  align-self: flex-start;
-  display: inline-flex; align-items: center; gap: 7px;
-  min-height: 44px;
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--fg3);
-  background: none; border: none; padding: 12px 0;
-  cursor: pointer;
-  transition: color .2s var(--ease-out-expo), gap .2s var(--ease-out-expo);
-}
-.ar-expand-btn:hover { color: var(--pa, var(--blue-300)); gap: 10px; }
-.ar-expand-btn svg { transition: transform .2s var(--ease-out-expo); }
-.ar-expand-btn:hover svg { transform: translate(2px, -2px); }
-.ar-expand-btn:focus-visible {
-  outline: 2px solid var(--blue-400); outline-offset: 4px; border-radius: 2px;
-}
-
-/* ── FULLSCREEN OVERLAY ── */
-.ar-fs {
-  position: fixed; inset: 0; z-index: 80;
-  display: grid; place-items: center;
-  padding: clamp(16px, 3vw, 40px);
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s var(--ease-out-expo);
-}
-.ar-fs.is-open {
-  opacity: 1; pointer-events: auto;
-}
-.ar-fs-bg {
-  position: absolute; inset: 0;
-  background: rgba(5,7,16,0.94);
-  backdrop-filter: blur(16px) saturate(120%);
-  cursor: pointer;
-}
-.ar-fs-panel {
-  position: relative; z-index: 1;
-  width: min(920px, 100%);
-  background: var(--navy-mid);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  transform: translateY(16px) scale(0.97);
-  transition: transform .4s var(--ease-out-expo);
-  max-height: calc(100svh - 32px);
-  display: flex; flex-direction: column;
-  overflow-y: auto;
-}
-.ar-fs.is-open .ar-fs-panel {
-  transform: translateY(0) scale(1);
-}
-.ar-fs-close {
-  position: absolute; top: 14px; right: 14px; z-index: 10;
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(5,7,16,0.65); backdrop-filter: blur(8px);
-  border: 1px solid var(--border); color: var(--fg2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: color .2s, border-color .2s, background .2s, transform .2s var(--ease-out-expo);
-}
-.ar-fs-close:hover {
-  color: var(--fg1); border-color: var(--border-strong); transform: scale(1.08);
-}
-.ar-fs-close:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 3px; }
-.ar-fs-vid-wrap {
-  position: relative; aspect-ratio: 16 / 9;
-  background: var(--void); flex-shrink: 0;
-}
-.ar-fs-vid {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: contain; display: block;
-}
-.ar-fs-vid::-webkit-media-controls-panel {
-  background: linear-gradient(to top, rgba(5,7,16,0.85) 0%, transparent 40%);
-}
-.ar-fs-body {
-  padding: clamp(20px, 3.5vw, 40px);
-  display: flex; flex-direction: column; gap: 10px;
-}
-.ar-fs-meta { display: flex; align-items: center; justify-content: space-between; }
-.ar-fs-num {
-  font-family: var(--font-code); font-size: 11px;
-  letter-spacing: 0.14em; color: var(--fg3);
-}
-.ar-fs-artist {
-  font-family: var(--font-code); font-size: 10px;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3);
-}
-.ar-fs-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(28px, 4.5vw, 48px); line-height: 1.0;
-  letter-spacing: -0.02em; color: var(--fg1); margin-top: 4px;
-}
-.ar-fs-desc {
-  font-family: var(--font-body); font-size: 15px;
-  line-height: 1.75; color: var(--fg2); max-width: 62ch; margin-top: 4px;
-}
+@media (max-width: 480px) { .cs-nav-right { display: none; } }
 
 /* ── PAGE FOOTER ── */
-.ar-page-footer {
-  border-top: 1px solid var(--border);
-  padding: clamp(40px, 6vw, 64px) 0;
-}
-.ar-footer-inner {
-  width: min(1240px, 92vw); margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-}
-.ar-footer-back {
-  font-family: var(--font-ui); font-size: 13px; color: var(--fg2);
-  display: flex; align-items: center; gap: 8px;
-  transition: color .25s;
-}
+.ar-page-footer { border-top: 1px solid var(--border); padding: clamp(28px, 4vw, 40px) 0; }
+.ar-footer-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.ar-footer-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; min-height: 44px; transition: color .25s; }
 .ar-footer-back:hover { color: var(--fg1); }
-.ar-footer-label {
-  font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--fg3);
-}
-
-/* ── REDUCED MOTION ── */
-@media (prefers-reduced-motion: reduce) {
-  .ar-eyebrow, .ar-title, .ar-platform, .ar-sub, .ar-tags,
-  .ar-divider, .ar-section-label, .ar-card {
-    opacity: 1 !important;
-    clip-path: none !important;
-    transform: none !important;
-  }
-  .ar-card { transition: border-color .2s, opacity .2s; }
-  .ar-card:hover { transform: none; }
-  .ar-title em { font-style: normal; font-weight: inherit; color: inherit; animation: none; text-shadow: none; }
-  .ar-td-logo  { animation: none; opacity: 0.65; }
-  .ar-card.is-playing { animation: none; border-color: oklch(from var(--blue-400) l c h / 0.45); }
-  .ar-grid:has(.ar-card.is-playing) .ar-card:not(.is-playing) { opacity: 0.5; }
-  .ar-card.is-playing .ar-card-num::after { animation: none; opacity: 1; }
-  .ar-waveform { display: none !important; }
-}
-
-/* ── FEATURED: revert to vertical on mobile ── */
-@media (max-width: 680px) {
-  .ar-card--featured {
-    flex-direction: column;
-  }
-  .ar-card--featured .ar-video-wrap {
-    flex: none;
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-}
-@media (max-width: 640px) {
-  .ar-grid { grid-template-columns: 1fr; }
-  .ar-card-title { font-size: 20px; }
-}
-@media (max-width: 480px) {
-  .cs-nav-right { display: none; }
-}
-@media (max-width: 860px) and (min-width: 641px) {
-  .ar-grid { gap: clamp(10px, 1.5vw, 14px); }
-  .ar-card--featured .ar-video-wrap { flex: 0 0 50%; height: clamp(190px, 24vw, 320px); }
-  .ar-card--featured .ar-card-body { padding: clamp(20px, 3vw, 36px); }
-  .ar-card-title { font-size: clamp(17px, 2.2vw, 22px); }
-}
-.cs-next { padding: clamp(80px, 10vh, 120px) 0 60px; border-top: 1px solid var(--border); }
-.cs-next-inner { width: min(1100px, 92vw); margin: 0 auto; }
-.cs-next-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg3); margin-bottom: 24px; }
-.cs-next-link { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid var(--border); }
-.cs-next-link:hover .cs-next-title { transform: translateX(10px); color: oklch(75% 0.15 230); }
-.cs-next-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 5.5vw, 72px); letter-spacing: -0.04em; color: var(--fg1); transition: color .4s, transform .4s cubic-bezier(.25,1,.5,1); line-height: 1; }
-.cs-next-arrow { font-size: 36px; color: var(--fg2); transition: transform .5s cubic-bezier(.7,0,.2,1); }
-.cs-next-link:hover .cs-next-arrow { transform: rotate(-45deg) translate(6px,-6px); }
-.cs-next-desc { font-size: 14px; line-height: 1.7; color: var(--fg2); margin-top: 16px; max-width: 60ch; }
+.ar-footer-label { font-family: var(--font-code); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
 .cs-footer { padding: 28px 0; border-top: 1px solid var(--border); font-family: var(--font-code); font-size: 11px; letter-spacing: 0.1em; color: var(--fg3); text-align: center; }
-
-/* ══ VJ SET RELAYOUT ══
-   Not a product-card grid: each clip is a stage screen. Full-bleed cinematic bands,
-   clips 02/03 offset asymmetrically like club screens, set-marker numerals and titles
-   OVERLAID on the footage, description on the scrim. Overrides the ar-card base. */
-.ar-collection .ar-inner { width: min(1400px, 96vw); }
-.ar-grid {
-  display: flex; flex-direction: column;
-  gap: clamp(24px, 5vh, 56px);
-}
-.ar-card, .ar-card--featured {
-  position: relative;
-  flex-direction: column;
-  background: none;
-  border: none;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.ar-card .ar-video-wrap, .ar-card--featured .ar-video-wrap {
-  width: 100%; flex: none;
-  aspect-ratio: 16 / 9;
-  height: auto; max-height: 80vh;
-}
-/* the offset pair: screens hung left and right of the stage */
-.ar-card[data-piece="live-av-2"] { width: 72%; align-self: flex-start; }
-.ar-card[data-piece="live-av-3"] { width: 72%; align-self: flex-end; }
-/* body rides the footage on a scrim, not a panel below */
-.ar-card .ar-card-body, .ar-card--featured .ar-card-body {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
-  padding: clamp(20px, 3.5vw, 44px);
-  background: linear-gradient(to top, rgba(5,7,16,0.92) 0%, rgba(5,7,16,0.45) 55%, transparent 100%);
-  pointer-events: none;
-  gap: 8px;
-}
-.ar-card .ar-card-body > *, .ar-card--featured .ar-card-body > * { pointer-events: auto; }
-/* set-marker: oversized outlined numeral leading the scrim stack, artist on its baseline */
-.ar-card .ar-card-meta {
-  display: flex; align-items: baseline; gap: 14px;
-  margin-bottom: 2px;
-}
-.ar-card .ar-card-num {
-  font-family: var(--font-code); font-weight: 700;
-  font-size: clamp(30px, 4.2vw, 58px); line-height: 1;
-  color: rgba(246,250,255,0.28);
-  -webkit-text-stroke: 1px rgba(246,250,255,0.55);
-  text-shadow: 0 2px 22px rgba(5,7,16,0.8);
-}
-.ar-card .ar-card-num::after { display: none; }
-.ar-card .ar-card-artist {
-  font-size: 10px; letter-spacing: 0.2em; color: rgba(246,250,255,0.6);
-  text-shadow: 0 1px 10px rgba(5,7,16,0.9);
-}
-.ar-card .ar-card-title, .ar-card--featured .ar-card-title {
-  font-size: clamp(24px, 3.4vw, 46px); line-height: 1;
-  text-shadow: 0 2px 18px rgba(5,7,16,0.7);
-}
-.ar-card .ar-card-desc, .ar-card--featured .ar-card-desc {
-  max-width: 62ch; font-size: 13.5px; line-height: 1.65;
-  color: rgba(235,243,255,0.78);
-}
-/* desktop: descriptions sit low and rise on hover so footage leads */
-@media (hover: hover) and (min-width: 861px) {
-  .ar-card .ar-card-desc, .ar-card .ar-read-more, .ar-card .ar-expand-btn {
-    opacity: 0; transform: translateY(8px);
-    transition: opacity .35s var(--ease-out-expo), transform .35s var(--ease-out-expo);
-  }
-  .ar-card:hover .ar-card-desc, .ar-card:focus-within .ar-card-desc,
-  .ar-card:hover .ar-read-more, .ar-card:focus-within .ar-read-more,
-  .ar-card:hover .ar-expand-btn, .ar-card:focus-within .ar-expand-btn {
-    opacity: 1; transform: translateY(0);
-  }
-}
-.ar-card.is-playing { animation: none; }
-/* phones: full-width bands, text below the footage where it stays readable */
-@media (max-width: 860px) {
-  .ar-card[data-piece="live-av-2"], .ar-card[data-piece="live-av-3"] { width: 100%; }
-  .ar-card .ar-card-body, .ar-card--featured .ar-card-body {
-    position: static; background: none; padding: 14px 4px 0;
-  }
-  .ar-card .ar-card-num { font-size: 28px; }
-  .ar-card .ar-card-title, .ar-card--featured .ar-card-title { font-size: 22px; text-shadow: none; }
-}
 </style>
+<link rel="stylesheet" href="project-templates.css?v=7" />
 <link rel="stylesheet" href="case-mobile.css?v=1" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<!-- On his screen: the home page's screening room (hero-room.js + projection-room.js, unchanged) and the
+     channel list, picture and shutter (his-screen.js). -->
+<script defer src="components/hero-room.js"></script>
+<script defer src="components/projection-room.js"></script>
+<script defer src="components/his-screen.js"></script>
+<!-- the loading screen (components/page-loader.js): the home page's spotlight, from the first paint; never without scripts -->
+<link rel="stylesheet" href="intro-reel.css?v=11" />
+<noscript><style>#ll-loader { display: none !important; }</style></noscript>
 </head>
 <body>
 
 <a href="#main" class="visually-hidden">skip to main content</a>
 
+<!-- The loading screen: caught in the spotlight, as on the home page (Lucy, 2026-10-25: "put loading page everywhere that needs one"). -->
+<div id="ll-loader" class="ll-page intro-spot intro-active" role="dialog" aria-modal="true" aria-label="Loading">
+  <div class="intro-controls"><button class="intro-skip" type="button">Skip the loading screen <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+</div>
+<script src="components/page-loader.js?v=2"></script>
+
 <!-- NAV -->
-<nav class="cs-nav" aria-label="site navigation">
-  <div class="cs-nav-inner">
-    <a href="work.html" class="cs-back" aria-label="back to all work">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      all work
-    </a>
-    <a href="index.html" class="cs-logo" aria-label="lucy liu home" data-wordmark>lucy liu</a>
-    <div class="cs-nav-right">
-      <a href="index.html#about" class="cs-nav-link">about</a>
-      <a href="mailto:wl3512@nyu.edu" class="cs-nav-link">contact ↗</a>
-    </div>
+<header data-site-header></header>
+
+<main id="main" class="pt-page ps-page">
+  <div class="pt-wrap">
+
+    <header class="pt-hero">
+      <div class="pt-hero-l">
+        <p class="pt-eyebrow"><img src="assets/icons/touchdesigner.png" alt="" aria-hidden="true" width="224" height="224" />TouchDesigner · live · NYC</p>
+        <h1 class="pt-title">Demon Nights</h1>
+        <p class="pt-status" aria-label="status: currently running">Ongoing · Thursdays, 11pm to 4am</p>
+      </div>
+      <figure class="pt-shot">
+        <img src="assets/live-visuals-nyc/diablo-maison-nur.webp" width="360" height="480" alt="Diablo at the decks at Maison Nur, seen from behind, under a disco ball and purple light, with a framed portrait on the wall beside him." />
+        <figcaption>Diablo on the decks at Maison Nur.</figcaption>
+      </figure>
+    </header>
+
+    <!-- The clips play on his screen. The channel list picks one; the panel beside it holds its words. -->
+    <section class="ps-main" data-his-screen data-noun="Clip" aria-label="The clips, on his screen">
+      <div class="ps-room" style="--room-phone: 3 / 4">
+        <div class="pr-world">
+          <canvas class="pr-room" aria-hidden="true"></canvas>
+          <div class="pr-screen ps-screen">
+            <div class="ps-film"><img class="ps-picture" src="assets/live-visuals-nyc/live-av-1-poster.jpg" alt="Live audio-reactive generative visuals projected on the ceiling at Demon Nights, Maison Nur, 217 Bowery NYC" width="720" height="1280" /></div>
+            <span class="ps-osd" aria-hidden="true"></span>
+          </div>
+          <canvas class="pr-foreground" aria-hidden="true"></canvas>
+        </div>
+      </div>
+
+      <div class="ps-side">
+        <div class="ps-now">
+          <article class="ps-panel" id="ps-panel-0" role="tabpanel" aria-labelledby="ps-ch-0" tabindex="0" data-piece="live-av-1"
+            data-video="assets/live-visuals-nyc/live-av-1.mp4" data-poster="assets/live-visuals-nyc/live-av-1-poster.jpg" data-w="720" data-h="1280"
+            data-label="Live audio-reactive generative visuals projected on the ceiling at Demon Nights, Maison Nur, 217 Bowery NYC">
+            <p class="ps-now-k"><b>CH 01</b> Now showing</p>
+            <h2>How it works</h2>
+            <p class="ps-by">Diablo + friends</p>
+            <p class="ps-desc">Every Thursday I build the visuals from scratch in TouchDesigner and run them live across the full ceiling above the dance floor. They react to frequency bands, percussive hits, and how hard the room is going. I wrote and operate the whole network myself.</p>
+            <details class="ps-more">
+              <summary>Read more</summary>
+              <p>TouchDesigner reads a live audio device feed and splits it into frequency bands: kick, low, mid, and high. Each band drives a different visual parameter. Every song hits differently, though; some tracks have a soft kick, others compress the highs, some run loud all night. So through the set I tune the detection thresholds by hand in real time, raising the kick floor so a quiet track still triggers geometry, pulling back the mid sensitivity when a dense mix starts firing everything at once. If the audio isn't being read cleanly, the visuals fall apart, so that calibration never stops.</p>
+            </details>
+          </article>
+          <article class="ps-panel" id="ps-panel-1" role="tabpanel" aria-labelledby="ps-ch-1" tabindex="0" data-piece="live-av-2" hidden
+            data-video="assets/live-visuals-nyc/live-av-2.mp4" data-poster="assets/live-visuals-nyc/live-av-2-poster.jpg" data-w="720" data-h="1280"
+            data-label="Second clip: live audio-reactive visuals at Demon Nights, the crowd on the dance floor below">
+            <p class="ps-now-k"><b>CH 02</b> Now showing</p>
+            <h2>The set, mid-night</h2>
+            <p class="ps-by">Diablo + friends</p>
+            <p class="ps-desc">The system ran the whole set, changing as each section of music changed. This clip is from the mid-point, with the crowd on the dance floor below and the ceiling lit up overhead.</p>
+          </article>
+          <article class="ps-panel" id="ps-panel-2" role="tabpanel" aria-labelledby="ps-ch-2" tabindex="0" data-piece="live-av-3" hidden
+            data-video="assets/live-visuals-nyc/live-av-3.mp4" data-poster="assets/live-visuals-nyc/live-av-3-poster.jpg" data-w="720" data-h="1280"
+            data-label="Third clip: live audio-reactive visuals at the drop, Demon Nights">
+            <p class="ps-now-k"><b>CH 03</b> Now showing</p>
+            <h2>The drop</h2>
+            <p class="ps-by">Diablo + friends</p>
+            <p class="ps-desc">The drop is where the system hits hardest: parameters pegged to low-frequency amplitude slam to full scale and release with the tail, so from the dance floor you feel it before you read it.</p>
+          </article>
+          <article class="ps-panel" id="ps-panel-3" role="tabpanel" aria-labelledby="ps-ch-3" tabindex="0" data-piece="live-av-4" hidden
+            data-video="assets/live-visuals-nyc/live-av-4.mp4" data-poster="assets/live-visuals-nyc/live-av-4-poster.jpg" data-w="720" data-h="1280"
+            data-label="Close-up of generative visuals at Demon Nights">
+            <p class="ps-now-k"><b>CH 04</b> Now showing</p>
+            <h2>Close up</h2>
+            <p class="ps-by">Diablo + friends</p>
+            <p class="ps-desc">The geometry up close: particle systems and feedback loops that look like texture from the dance floor. At this angle you can see how the whole composition is built.</p>
+          </article>
+          <div class="ps-acts">
+            <button type="button" class="ps-btn ps-play" data-on="false">Play</button>
+            <button type="button" class="ps-btn ps-sound" aria-haspopup="dialog">Watch with sound</button>
+          </div>
+          <p class="ps-live visually-hidden" aria-live="polite" aria-atomic="true"></p>
+        </div>
+
+        <div class="ps-remote">
+          <div class="ps-remote-top"><span class="ps-ir" aria-hidden="true"></span><p class="ps-count">04 clips</p></div>
+          <button type="button" class="ps-next">
+            <svg viewBox="0 0 15 9" aria-hidden="true"><path fill="#213452" d="M6 0h3v1h-3zM4 1h2v1h-2zM9 1h2v1h-2zM2 2h2v1h-2zM11 2h2v1h-2zM1 3h1v1h-1zM13 3h1v1h-1zM0 4h1v1h-1zM14 4h1v1h-1zM1 5h1v1h-1zM13 5h1v1h-1zM2 6h2v1h-2zM11 6h2v1h-2zM4 7h2v1h-2zM9 7h2v1h-2zM6 8h3v1h-3z"/><path fill="#5283cc" d="M6 1h3v1h-3zM8 2h2v1h-2zM8 3h2v1h-2zM5 4h5v1h-5zM5 5h2v1h-2zM5 6h5v1h-5zM6 7h3v1h-3z"/><path fill="#ced6fc" d="M4 2h4v1h-4zM4 3h4v1h-4z"/><path fill="#66a3ff" d="M10 2h1v1h-1zM10 3h3v1h-3zM10 4h4v1h-4zM11 5h2v1h-2zM10 6h1v1h-1z"/><path fill="#3f659e" d="M2 3h2v1h-2zM1 4h4v1h-4zM2 5h3v1h-3zM4 6h1v1h-1z"/><path fill="#94a1ff" d="M7 5h4v1h-4z"/></svg>
+            <span>Next clip</span>
+          </button>
+          <div class="ps-chs" role="tablist" aria-label="Demon Nights clips">
+            <button type="button" class="ps-ch" role="tab" id="ps-ch-0" aria-controls="ps-panel-0" aria-selected="true" tabindex="0"><span class="ps-n">01</span><span>How it works</span></button>
+            <button type="button" class="ps-ch" role="tab" id="ps-ch-1" aria-controls="ps-panel-1" aria-selected="false" tabindex="-1"><span class="ps-n">02</span><span>The set, mid-night</span></button>
+            <button type="button" class="ps-ch" role="tab" id="ps-ch-2" aria-controls="ps-panel-2" aria-selected="false" tabindex="-1"><span class="ps-n">03</span><span>The drop</span></button>
+            <button type="button" class="ps-ch" role="tab" id="ps-ch-3" aria-controls="ps-panel-3" aria-selected="false" tabindex="-1"><span class="ps-n">04</span><span>Close up</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-context" aria-label="About the residency">
+      <div class="pt-context-l">
+        <p class="pt-para">I build and operate the TouchDesigner visuals for Demon Nights, Diablo’s Thursday residency at Maison Nur, 217 Bowery. I map frequency bands and drum hits to generative effects, then control the ceiling projection during sets from 11pm to 4am.</p>
+        <details class="pt-fold" data-fold="phone" open>
+          <summary>Credits</summary>
+          <dl class="pt-credits" aria-label="residency details">
+            <div><dt>Venue</dt><dd>Maison Nur, 217 Bowery, NYC · created by Nur Khan</dd></div>
+            <div><dt>Role</dt><dd>VJ / Visual Artist</dd></div>
+            <div><dt>With</dt><dd>Diablo (Sebastian Baldeon) &amp; friends</dd></div>
+            <div><dt>Tools</dt><dd>TouchDesigner, MIDI, audio routing</dd></div>
+          </dl>
+        </details>
+      </div>
+      <div class="pt-context-l">
+        <details class="pt-fold" data-fold="phone" open>
+          <summary>Role, process and impact</summary>
+          <dl class="pt-rpi" aria-label="Role, process, and impact">
+            <div><dt>Role</dt><dd>I build the TouchDesigner networks and operate the ceiling projection during Demon Nights at Maison Nur.</dd></div>
+            <div><dt>Process</dt><dd>I route the audio signal, map effects to MIDI controls, and adjust the visuals during DJ sets.</dd></div>
+            <div><dt>Impact</dt><dd>I perform the visuals during the Thursday residency, from setup and calibration through the closing set.</dd></div>
+          </dl>
+        </details>
+        <nav class="pt-rel" aria-label="Next project">
+          <p class="pt-rel-k">Next project</p>
+          <a class="pt-rel-link" href="audio-reactive.html">Audio Reactive <span aria-hidden="true">→</span></a>
+          <p class="pt-rel-d">I built seven TouchDesigner studies that map bass, percussion, and frequency bands to shape, color, and motion.</p>
+        </nav>
+      </div>
+    </section>
+
   </div>
-</nav>
-
-<main id="main">
-
-  <!-- HERO -->
-  <header class="ar-hero">
-    <div class="ar-waves" aria-hidden="true"></div>
-    <div class="ar-hero-orb" aria-hidden="true"></div>
-    <div class="ar-hero-orb-2" aria-hidden="true"></div>
-    <div class="ar-inner">
-
-      <div class="ar-hero-title-col">
-        <p class="ar-eyebrow" aria-hidden="true">
-          <img src="assets/icons/touchdesigner.png" alt="" class="ar-td-logo" aria-hidden="true"  width="224" height="224" />
-          touchdesigner · live · nyc
-        </p>
-        <h1 class="ar-title">Demon <em>Nights</em></h1>
-        <div class="ar-status" aria-label="status: currently running">
-          <span class="ar-status-dot" aria-hidden="true"></span>
-          ongoing · thursdays, 11pm to 4am
-        </div>
-      </div>
-
-      <div class="ar-hero-meta-col">
-        <dl class="ar-fact-grid" aria-label="residency details">
-          <dt class="ar-fact-label">venue</dt>
-          <dd class="ar-fact-value">
-            Maison Nur
-            <span class="ar-fact-note">217 Bowery, NYC · created by Nur Khan</span>
-          </dd>
-          <dt class="ar-fact-label">role</dt>
-          <dd class="ar-fact-value">VJ / Visual Artist</dd>
-          <dt class="ar-fact-label">with</dt>
-          <dd class="ar-fact-value">Diablo (Sebastian Baldeon) &amp; friends</dd>
-          <dt class="ar-fact-label">tools</dt>
-          <dd class="ar-fact-value">TouchDesigner, MIDI, audio routing</dd>
-        </dl>
-        <p class="ar-sub">
-          every thursday i build custom audio-reactive generative visuals from scratch for demon nights at maison nur (217 bowery), the downtown room created by nur khan. dj and diamond-certified producer diablo brought the party to new york after building one of la's most talked-about underground residencies, and it runs 11pm to 4am for a crowd of artists, creatives, founders, and tastemakers. the work plays live across the full ceiling above the dance floor and reacts to frequency bands, percussive hits, and how hard the room is going. i wrote and run the whole TouchDesigner network myself.
-        </p>
-      </div>
-
-    </div>
-  </header>
-
-  <section class="case-clarity case-clarity--standalone" aria-label="Role, process, and impact">
-    <div class="case-clarity-inner">
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Role</span>
-        <p class="case-clarity-v">I run the VJ system, build custom TouchDesigner visuals, and operate the live ceiling projection during the residency.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Process</span>
-        <p class="case-clarity-v">I route audio, tune MIDI controls, and adapt generative systems to the room, the DJs, and the crowd energy each week.</p>
-      </div>
-      <div class="case-clarity-item">
-        <span class="case-clarity-k">Impact</span>
-        <p class="case-clarity-v">The work ships live every Thursday at Maison Nur, turning the ceiling into a responsive visual layer for the party.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- COLLECTION -->
-  <section class="ar-collection" aria-labelledby="ar-coll-label">
-    <div class="ar-inner">
-      <div class="ar-divider" role="separator" aria-hidden="true"></div>
-      <p class="ar-section-label" id="ar-coll-label">04 clips</p>
-
-      <div class="ar-grid" role="list">
-
-        <!-- 01: main performance, featured, full width -->
-        <div class="ar-card ar-card--featured" role="listitem" aria-label="clip 01: live performance" data-piece="live-av-1">
-          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 1: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-1.mp4">
-            <video
-              class="ar-video"
-              data-src="assets/live-visuals-nyc/live-av-1.mp4"
-              poster="assets/live-visuals-nyc/live-av-1-poster.jpg"
-              muted loop playsinline
-              preload="metadata"
-              aria-label="live audio-reactive generative visuals projected on ceiling at Demon Nights, Maison Nur, 217 Bowery NYC"
-            ></video>
-            <div class="ar-sound-btn" aria-hidden="true">
-              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="ar-play-indicator" aria-hidden="true">
-              <div class="ar-play-icon">
-                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
-                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="ar-card-body">
-            <div class="ar-card-meta">
-              <span class="ar-card-num">01</span>
-              <span class="ar-card-artist">diablo + friends</span>
-            </div>
-            <h2 class="ar-card-title">How it works</h2>
-            <p class="ar-card-desc" id="clip01-desc">
-              every Thursday i build the visuals from scratch in TouchDesigner and run them live
-              across the full ceiling above the dance floor. they react to frequency bands,
-              percussive hits, and how hard the room is going. i wrote and operate the whole
-              network myself.<span class="ar-desc-extra" id="clip01-extra" aria-hidden="true"> TouchDesigner reads a live audio device feed and splits it into frequency bands: kick, low, mid, and high. each band drives a different visual parameter. every song hits differently, though; some tracks have a soft kick, others compress the highs, some run loud all night. so through the set i tune the detection thresholds by hand in real time, raising the kick floor so a quiet track still triggers geometry, pulling back the mid sensitivity when a dense mix starts firing everything at once. if the audio isn't being read cleanly, the visuals fall apart, so that calibration never stops.</span>
-            </p>
-            <button class="ar-read-more" aria-expanded="false" aria-controls="clip01-extra">read more</button>
-            <button class="ar-expand-btn" aria-label="view clip 1 fullscreen">
-              view full
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 02 -->
-        <div class="ar-card" role="listitem" aria-label="clip 02" data-piece="live-av-2">
-          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 2: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-2.mp4">
-            <video
-              class="ar-video"
-              data-src="assets/live-visuals-nyc/live-av-2.mp4"
-              poster="assets/live-visuals-nyc/live-av-2-poster.jpg"
-              muted loop playsinline
-              preload="metadata"
-              aria-label="second clip: live audio-reactive visuals at NYC event"
-            ></video>
-            <div class="ar-sound-btn" aria-hidden="true">
-              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="ar-play-indicator" aria-hidden="true">
-              <div class="ar-play-icon">
-                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
-                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="ar-card-body">
-            <div class="ar-card-meta">
-              <span class="ar-card-num">02</span>
-              <span class="ar-card-artist">diablo + friends</span>
-            </div>
-            <h2 class="ar-card-title">the set, mid-night</h2>
-            <p class="ar-card-desc">
-              the system ran the whole set, changing as each section of music changed. this
-              clip is from the mid-point, with the crowd on the dance floor below and the
-              ceiling lit up overhead.
-            </p>
-            <button class="ar-expand-btn" aria-label="view clip 2 fullscreen">
-              view full
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 03 -->
-        <div class="ar-card" role="listitem" aria-label="clip 03" data-piece="live-av-3">
-          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 3: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-3.mp4">
-            <video
-              class="ar-video"
-              data-src="assets/live-visuals-nyc/live-av-3.mp4"
-              poster="assets/live-visuals-nyc/live-av-3-poster.jpg"
-              muted loop playsinline
-              preload="metadata"
-              aria-label="third clip: live audio-reactive visuals at NYC event"
-            ></video>
-            <div class="ar-sound-btn" aria-hidden="true">
-              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="ar-play-indicator" aria-hidden="true">
-              <div class="ar-play-icon">
-                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
-                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="ar-card-body">
-            <div class="ar-card-meta">
-              <span class="ar-card-num">03</span>
-              <span class="ar-card-artist">diablo + friends</span>
-            </div>
-            <h2 class="ar-card-title">the drop</h2>
-            <p class="ar-card-desc">
-              the drop is where the system hits hardest: parameters pegged to low-frequency
-              amplitude slam to full scale and release with the tail, so from the dance floor
-              you feel it before you read it.
-            </p>
-            <button class="ar-expand-btn" aria-label="view clip 3 fullscreen">
-              view full
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 04 -->
-        <div class="ar-card" role="listitem" aria-label="clip 04: close up" data-piece="live-av-4">
-          <div class="ar-video-wrap" role="button" tabindex="0" aria-pressed="false" aria-label="live performance clip 4: play or pause" data-fs-src="assets/live-visuals-nyc/live-av-4.mp4">
-            <video
-              class="ar-video"
-              data-src="assets/live-visuals-nyc/live-av-4.mp4"
-              poster="assets/live-visuals-nyc/live-av-4-poster.jpg"
-              muted loop playsinline
-              preload="metadata"
-              aria-label="close-up of generative visuals at Demon Nights"
-            ></video>
-            <div class="ar-sound-btn" aria-hidden="true">
-              <svg class="ar-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M22 9l-6 6M16 9l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <svg class="ar-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M15 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M19 5.5a10 10 0 0 1 0 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="ar-play-indicator" aria-hidden="true">
-              <div class="ar-play-icon">
-                <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true" style="margin-left:2px">
-                  <path d="M1.5 1.5l10 6-10 6V1.5z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="ar-card-body">
-            <div class="ar-card-meta">
-              <span class="ar-card-num">04</span>
-              <span class="ar-card-artist">diablo + friends</span>
-            </div>
-            <h2 class="ar-card-title">close up</h2>
-            <p class="ar-card-desc">
-              the geometry up close: particle systems and feedback loops that look like
-              texture from the dance floor. at this angle you can see how the whole
-              composition is built.
-            </p>
-            <button class="ar-expand-btn" aria-label="view clip 4 fullscreen">
-              view full
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M7.5 1.5H10.5V4.5M4.5 10.5H1.5V7.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1.5 10.5L10.5 1.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER NAV -->
-  <footer class="ar-page-footer">
-    <div class="ar-footer-inner">
-      <a href="work.html" class="ar-footer-back">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        all work
-      </a>
-      <span class="ar-footer-label">vj performance · touchdesigner · 2026 · lucy liu</span>
-    </div>
-  </footer>
-
 </main>
 
-<!-- FULLSCREEN OVERLAY -->
-<div id="ar-media-status" role="status" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
+<footer data-site-footer></footer>
 
-<div id="ar-fs" class="ar-fs" role="dialog" aria-modal="true"
-     aria-labelledby="ar-fs-title" aria-label="Fullscreen media viewer" inert>
-  <div class="ar-fs-bg" aria-hidden="true"></div>
-  <div class="ar-fs-panel">
-    <button class="ar-fs-close" aria-label="close fullscreen">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-    <div class="ar-fs-vid-wrap">
-      <video class="ar-fs-vid" playsinline loop controls></video>
-    </div>
-    <div class="ar-fs-body">
-      <div class="ar-fs-meta">
-        <span class="ar-fs-num"></span>
-        <span class="ar-fs-artist"></span>
-      </div>
-      <h2 class="ar-fs-title" id="ar-fs-title"></h2>
-      <p class="ar-fs-desc"></p>
+<!-- Watch with sound: the clip in a window, with sound and its own controls (his-screen.js fills it). -->
+<dialog class="ps-full" aria-labelledby="ps-full-title">
+  <div class="pt-win">
+    <div class="pt-win-bar"><span class="pt-win-n"></span><span class="pt-win-by"></span><button type="button" class="pt-close">Close</button></div>
+    <div class="ps-full-body">
+      <video controls playsinline preload="none"></video>
+      <h2 class="ps-full-title" id="ps-full-title">Demon Nights</h2>
+      <p class="ps-full-note"></p>
     </div>
   </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-(function () {
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches;
-
-  /* ── Entrance animations ── */
-  if (!reducedMotion && window.gsap) {
-    gsap.set('.ar-title', { scale: 0.97, opacity: 0.01 });
-    var tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    tl
-      .to('.ar-eyebrow',       { opacity: 1, y: 0, duration: 0.5, delay: 0.15 })
-      .to('.ar-title',         { clipPath: 'inset(0 0 0% 0)', scale: 1, opacity: 1, duration: 0.9, ease: 'power4.out' }, '-=0.25')
-      .to('.ar-status',        { opacity: 1, duration: 0.45 }, '-=0.45')
-      .to('.ar-fact-grid',     { opacity: 1, duration: 0.5 }, '-=0.2')
-      .to('.ar-sub',           { opacity: 1, duration: 0.4 }, '-=0.3')
-      .to('.ar-divider',       { opacity: 1, duration: 0.4 }, '-=0.2')
-      .to('.ar-section-label', { opacity: 1, duration: 0.35,
-        onStart: function () {
-          var el = document.querySelector('.ar-section-label');
-          if (!el || reducedMotion) return;
-          var target = 4, current = 0, interval = 50;
-          var t = setInterval(function () {
-            current = Math.min(current + 1, target);
-            el.textContent = (current < 10 ? '0' + current : current) + ' clips';
-            if (current >= target) clearInterval(t);
-          }, interval);
-        }
-      }, '-=0.3')
-      .to('.ar-card', {
-        opacity: 1, y: 0,
-        duration: 0.5, stagger: 0.09,
-        ease: 'power3.out'
-      }, '-=0.2');
-  }
-
-  /* ── Read-more toggles ── */
-  Array.from(document.querySelectorAll('.ar-read-more')).forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var extra = document.getElementById(btn.getAttribute('aria-controls'));
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-      extra.setAttribute('aria-hidden', open ? 'true' : 'false');
-      extra.classList.toggle('is-open', !open);
-      btn.textContent = open ? 'read more' : 'read less';
-    });
-  });
-
-  /* ── Lazy-load: assign video src only when it enters the viewport ── */
-  var videos = Array.from(document.querySelectorAll('.ar-video[data-src]'));
-
-  function loadVideo(vid) {
-    if (vid.src) return;
-    vid.src = vid.dataset.src;
-  }
-
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        var v = entry.target;
-        if (entry.isIntersecting) {
-          loadVideo(v);
-        } else {
-          var wrap = v.closest('.ar-video-wrap');
-          if (wrap && wrap.getAttribute('aria-pressed') === 'true') {
-            v.pause();
-            var btn  = wrap.querySelector('.ar-sound-btn');
-            var card = wrap.closest('.ar-card');
-            if (btn)  { btn.classList.remove('is-on'); }
-            if (card) { card.classList.remove('is-playing'); }
-            wrap.setAttribute('aria-pressed', 'false');
-          }
-        }
-      });
-    }, { threshold: 0.15 });
-    videos.forEach(function (v) { io.observe(v); });
-  } else {
-    videos.forEach(function (v) { loadVideo(v); });
-  }
-
-  /* ── Play/pause toggle: one active at a time ── */
-  var wraps = Array.from(document.querySelectorAll('.ar-video-wrap'));
-  var statusEl = document.getElementById('ar-media-status');
-
-  function announce(msg) {
-    if (!statusEl) return;
-    statusEl.textContent = '';
-    requestAnimationFrame(function () { statusEl.textContent = msg; });
-  }
-
-  function muteAll() {
-    wraps.forEach(function (w) {
-      var v    = w.querySelector('.ar-video');
-      var btn  = w.querySelector('.ar-sound-btn');
-      var card = w.closest('.ar-card');
-      if (v)    { v.pause(); v.muted = true; }
-      if (btn)  { btn.classList.remove('is-on'); }
-      if (card) { card.classList.remove('is-playing'); }
-      w.setAttribute('aria-pressed', 'false');
-    });
-  }
-
-  function toggle(wrap) {
-    var vid  = wrap.querySelector('.ar-video');
-    var btn  = wrap.querySelector('.ar-sound-btn');
-    var card = wrap.closest('.ar-card');
-    if (!vid) return;
-
-    /* If lazy-load hasn't fired yet (e.g. user clicked before IO threshold),
-       load immediately so the click isn't silently swallowed. */
-    if (!vid.src && vid.dataset.src) { loadVideo(vid); }
-    if (!vid.src) return;
-
-    var wasPlaying = !vid.paused;
-    muteAll();
-
-    if (!wasPlaying) {
-      vid.muted = false;
-      vid.volume = 1;
-      var playPromise = vid.play();
-      if (playPromise !== undefined) {
-        playPromise.then(function () {
-          /* Confirmed playing with sound — update UI now. */
-          if (btn)  { btn.classList.add('is-on'); }
-          if (card) { card.classList.add('is-playing'); }
-          wrap.setAttribute('aria-pressed', 'true');
-          var title = card ? (card.querySelector('.ar-card-title') || {}).textContent : '';
-          announce((title || 'video') + ': playing with sound');
-        }).catch(function () {
-          /* Unmuted play blocked — retry muted so video at least plays. */
-          vid.muted = true;
-          vid.play().catch(function () {});
-        });
-      } else {
-        /* Older browser — optimistically update UI. */
-        if (btn)  { btn.classList.add('is-on'); }
-        if (card) { card.classList.add('is-playing'); }
-        wrap.setAttribute('aria-pressed', 'true');
-      }
-    } else {
-      announce('paused');
-    }
-  }
-
-  /* ── Hide "view full" on cards without a fullscreen source ── */
-  document.querySelectorAll('.ar-card').forEach(function (card) {
-    var wrap = card.querySelector('.ar-video-wrap');
-    if (!wrap || !wrap.dataset.fsSrc) {
-      var eb = card.querySelector('.ar-expand-btn');
-      if (eb) { eb.hidden = true; }
-    }
-  });
-
-  /* ── Whole card opens the fullscreen view (large, phone-friendly tap target) ── */
-  var canHover = window.matchMedia('(hover: hover)').matches;
-  document.querySelectorAll('.ar-card').forEach(function (card) {
-    card.style.cursor = 'pointer';
-    var wrap = card.querySelector('.ar-video-wrap');
-    var vid  = card.querySelector('.ar-video');
-    if (wrap) {
-      var t = (card.querySelector('.ar-card-title') || {}).textContent || 'clip';
-      wrap.setAttribute('aria-label', t + ': view fullscreen');
-    }
-    card.addEventListener('click', function (e) {
-      if (e.target.closest('button')) return;   /* let read-more / view-full run their own handlers */
-      openFS(card, card);
-    });
-    /* desktop only: muted hover preview so the grid still feels alive */
-    if (canHover && wrap && vid) {
-      wrap.addEventListener('mouseenter', function () {
-        if (vid.src) { vid.muted = true; vid.play().catch(function () {}); }
-      });
-      wrap.addEventListener('mouseleave', function () { vid.pause(); });
-    }
-  });
-
-  wraps.forEach(function (wrap) {
-    wrap.addEventListener('keydown', function (e) {
-      if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        var c = wrap.closest('.ar-card');
-        if (c) openFS(c, wrap);
-      }
-    });
-  });
-
-  /* ── Fullscreen overlay ── */
-  var fsEl     = document.getElementById('ar-fs');
-  var fsBg     = fsEl && fsEl.querySelector('.ar-fs-bg');
-  var fsVid    = fsEl && fsEl.querySelector('.ar-fs-vid');
-  var fsClose  = fsEl && fsEl.querySelector('.ar-fs-close');
-  var fsNum    = fsEl && fsEl.querySelector('.ar-fs-num');
-  var fsArtist = fsEl && fsEl.querySelector('.ar-fs-artist');
-  var fsTitleEl= fsEl && fsEl.querySelector('.ar-fs-title');
-  var fsDescEl = fsEl && fsEl.querySelector('.ar-fs-desc');
-  var fsOpener = null;
-
-  function openFS(card, trigger) {
-    if (!fsEl) return;
-    var vid  = card.querySelector('.ar-video');
-    var wrap = card.querySelector('.ar-video-wrap');
-    var src  = (wrap && wrap.dataset.fsSrc) || (vid && (vid.dataset.src || vid.getAttribute('src')));
-    if (!src) return;
-
-    muteAll();
-
-    if (fsNum)     fsNum.textContent     = (card.querySelector('.ar-card-num')    || {}).textContent || '';
-    if (fsArtist)  fsArtist.textContent  = (card.querySelector('.ar-card-artist') || {}).textContent || '';
-    if (fsTitleEl) fsTitleEl.textContent = (card.querySelector('.ar-card-title')  || {}).textContent || '';
-    if (fsDescEl)  fsDescEl.textContent  = (card.querySelector('.ar-card-desc')   || {}).textContent || '';
-
-    fsVid.pause();
-    fsVid.src   = src;
-    fsVid.muted = false;
-    fsVid.load();
-
-    fsEl.classList.add('is-open');
-    fsEl.inert = false;
-    document.body.style.overflow = 'hidden';
-    document.querySelector('main')    && (document.querySelector('main').inert    = true);
-    document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = true);
-    fsOpener = trigger || null;
-    requestAnimationFrame(function () { if (fsClose) fsClose.focus(); });
-
-    fsVid.play().catch(function () {
-      fsVid.muted = true;
-      fsVid.play().catch(function () {});
-    });
-  }
-
-  function closeFS() {
-    if (!fsEl) return;
-    fsEl.classList.remove('is-open');
-    document.body.style.overflow = '';
-    document.querySelector('main')    && (document.querySelector('main').inert    = false);
-    document.querySelector('.cs-nav') && (document.querySelector('.cs-nav').inert = false);
-    setTimeout(function () {
-      if (!fsEl.classList.contains('is-open')) {
-        fsVid.pause();
-        fsVid.src = '';
-      }
-    }, 320);
-    if (fsOpener) { fsOpener.focus(); fsOpener = null; }
-    fsEl.inert = true;
-  }
-
-  if (fsClose) fsClose.addEventListener('click', closeFS);
-  if (fsBg)    fsBg.addEventListener('click', closeFS);
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && fsEl && fsEl.classList.contains('is-open')) closeFS();
-  });
-
-  document.querySelectorAll('.ar-expand-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var card = btn.closest('.ar-card');
-      if (card) openFS(card, btn);
-    });
-  });
-
-  /* ── Waveform bars: generated per wrap ── */
-  if (!reducedMotion) {
-    var wfH = [14,18,22,28,32,30,26,24,20,22,26,30,28,24,20,18,16,12];
-    var wfD = [0.52,0.73,0.61,0.84,0.49,0.67,0.93,0.55,0.78,0.63,0.88,0.51,0.72,0.46,0.81,0.59,0.69,0.47];
-    var wfP = [0,-0.31,-0.18,-0.45,-0.22,-0.38,-0.09,-0.51,-0.27,-0.15,-0.42,-0.33,-0.07,-0.48,-0.21,-0.37,-0.12,-0.44];
-    wraps.forEach(function (wrap) {
-      var wf = document.createElement('div');
-      wf.className = 'ar-waveform';
-      wf.setAttribute('aria-hidden', 'true');
-      wfH.forEach(function (h, i) {
-        var b = document.createElement('span');
-        b.style.height = h + 'px';
-        b.style.setProperty('--wd', wfD[i] + 's');
-        b.style.animationDelay = wfP[i] + 's';
-        wf.appendChild(b);
-      });
-      wrap.appendChild(wf);
-    });
-  }
-
-})();
-</script>
-
-<!-- NEXT PROJECT -->
-<nav class="cs-next" aria-label="Next project">
-  <div class="cs-next-inner">
-    <p class="cs-next-label">Related project</p>
-    <a class="cs-next-link" href="audio-reactive.html">
-      <span class="cs-next-title">Audio Reactive</span>
-      <span class="cs-next-arrow">↗</span>
-    </a>
-    <p class="cs-next-desc">Audio Reactive is the studio side of the same work: using code and sound to generate visuals in a controlled setting, where I can push the system without a live crowd waiting on it.</p>
-  </div>
-</nav>
-
-<footer class="cs-footer">© 2026 Lucy Liu · Designed & built in NYC</footer>
-
-<!-- Waves hero backdrop, adapted from React Bits (https://reactbits.dev) Waves to
-     vanilla JS (no deps; pure canvas 2D + Perlin). Mounts into .ar-waves. -->
-<script>
-(function () {
-  var host = document.querySelector('.ar-waves');
-  if (!host) return;
-  var reduced = false;
-  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 760px), (pointer: coarse)').matches; } catch (e) {}
-
-  var CONFIG = {
-    lineColor: '#169eff',
-    waveSpeedX: 0.02, waveSpeedY: 0.01,
-    waveAmpX: 40, waveAmpY: 20,
-    xGap: 12, yGap: 36,
-    friction: 0.9, tension: 0.01, maxCursorMove: 120
-  };
-
-  function Grad(x, y, z) { this.x = x; this.y = y; this.z = z; }
-  Grad.prototype.dot2 = function (x, y) { return this.x * x + this.y * y; };
-
-  function Noise(seed) {
-    this.grad3 = [new Grad(1,1,0),new Grad(-1,1,0),new Grad(1,-1,0),new Grad(-1,-1,0),
-      new Grad(1,0,1),new Grad(-1,0,1),new Grad(1,0,-1),new Grad(-1,0,-1),
-      new Grad(0,1,1),new Grad(0,-1,1),new Grad(0,1,-1),new Grad(0,-1,-1)];
-    this.p = [151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
-    this.perm = new Array(512); this.gradP = new Array(512); this.seed(seed || 0);
-  }
-  Noise.prototype.seed = function (seed) {
-    if (seed > 0 && seed < 1) seed *= 65536;
-    seed = Math.floor(seed);
-    if (seed < 256) seed |= seed << 8;
-    for (var i = 0; i < 256; i++) {
-      var v = (i & 1) ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255);
-      this.perm[i] = this.perm[i + 256] = v;
-      this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12];
-    }
-  };
-  Noise.prototype.fade = function (t) { return t * t * t * (t * (t * 6 - 15) + 10); };
-  Noise.prototype.lerp = function (a, b, t) { return (1 - t) * a + t * b; };
-  Noise.prototype.perlin2 = function (x, y) {
-    var X = Math.floor(x), Y = Math.floor(y);
-    x -= X; y -= Y; X &= 255; Y &= 255;
-    var n00 = this.gradP[X + this.perm[Y]].dot2(x, y);
-    var n01 = this.gradP[X + this.perm[Y + 1]].dot2(x, y - 1);
-    var n10 = this.gradP[X + 1 + this.perm[Y]].dot2(x - 1, y);
-    var n11 = this.gradP[X + 1 + this.perm[Y + 1]].dot2(x - 1, y - 1);
-    var u = this.fade(x);
-    return this.lerp(this.lerp(n00, n10, u), this.lerp(n01, n11, u), this.fade(y));
-  };
-
-  var canvas = document.createElement('canvas');
-  canvas.className = 'waves-canvas';
-  canvas.setAttribute('aria-hidden', 'true');   // decorative backdrop: keep out of the a11y tree
-  host.appendChild(canvas);
-  var ctx = canvas.getContext('2d');
-  var noise = new Noise(Math.random());
-  var bounding = { width: 0, height: 0, left: 0, top: 0 };
-  var lines = [];
-  var mouse = { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false };
-
-  function setSize() {
-    bounding = host.getBoundingClientRect();
-    canvas.width = bounding.width;
-    canvas.height = bounding.height;
-  }
-  function setLines() {
-    var width = bounding.width, height = bounding.height;
-    lines = [];
-    var oWidth = width + 200, oHeight = height + 30;
-    var totalLines = Math.ceil(oWidth / CONFIG.xGap);
-    var totalPoints = Math.ceil(oHeight / CONFIG.yGap);
-    var xStart = (width - CONFIG.xGap * totalLines) / 2;
-    var yStart = (height - CONFIG.yGap * totalPoints) / 2;
-    for (var i = 0; i <= totalLines; i++) {
-      var pts = [];
-      for (var j = 0; j <= totalPoints; j++) {
-        pts.push({ x: xStart + CONFIG.xGap * i, y: yStart + CONFIG.yGap * j,
-          wave: { x: 0, y: 0 }, cursor: { x: 0, y: 0, vx: 0, vy: 0 } });
-      }
-      lines.push(pts);
-    }
-  }
-  function movePoints(time) {
-    var c = CONFIG;
-    lines.forEach(function (pts) {
-      pts.forEach(function (p) {
-        var move = noise.perlin2((p.x + time * c.waveSpeedX) * 0.002, (p.y + time * c.waveSpeedY) * 0.0015) * 12;
-        p.wave.x = Math.cos(move) * c.waveAmpX;
-        p.wave.y = Math.sin(move) * c.waveAmpY;
-        var dx = p.x - mouse.sx, dy = p.y - mouse.sy;
-        var dist = Math.hypot(dx, dy), l = Math.max(175, mouse.vs);
-        if (dist < l) {
-          var s = 1 - dist / l;
-          var f = Math.cos(dist * 0.001) * s;
-          p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
-          p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
-        }
-        p.cursor.vx += (0 - p.cursor.x) * c.tension;
-        p.cursor.vy += (0 - p.cursor.y) * c.tension;
-        p.cursor.vx *= c.friction; p.cursor.vy *= c.friction;
-        p.cursor.x += p.cursor.vx * 2; p.cursor.y += p.cursor.vy * 2;
-        p.cursor.x = Math.min(c.maxCursorMove, Math.max(-c.maxCursorMove, p.cursor.x));
-        p.cursor.y = Math.min(c.maxCursorMove, Math.max(-c.maxCursorMove, p.cursor.y));
-      });
-    });
-  }
-  function moved(p, withCursor) {
-    var x = p.x + p.wave.x + (withCursor ? p.cursor.x : 0);
-    var y = p.y + p.wave.y + (withCursor ? p.cursor.y : 0);
-    return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
-  }
-  function drawLines() {
-    ctx.clearRect(0, 0, bounding.width, bounding.height);
-    ctx.beginPath();
-    ctx.strokeStyle = CONFIG.lineColor;
-    lines.forEach(function (points) {
-      var p1 = moved(points[0], false);
-      ctx.moveTo(p1.x, p1.y);
-      points.forEach(function (p, idx) {
-        var isLast = idx === points.length - 1;
-        p1 = moved(p, !isLast);
-        var p2 = moved(points[idx + 1] || points[points.length - 1], !isLast);
-        ctx.lineTo(p1.x, p1.y);
-        if (isLast) ctx.moveTo(p2.x, p2.y);
-      });
-    });
-    ctx.stroke();
-  }
-  var raf = 0;
-  function tick(t) {
-    mouse.sx += (mouse.x - mouse.sx) * 0.1;
-    mouse.sy += (mouse.y - mouse.sy) * 0.1;
-    var dx = mouse.x - mouse.lx, dy = mouse.y - mouse.ly;
-    var d = Math.hypot(dx, dy);
-    mouse.v = d; mouse.vs += (d - mouse.vs) * 0.1; mouse.vs = Math.min(100, mouse.vs);
-    mouse.lx = mouse.x; mouse.ly = mouse.y; mouse.a = Math.atan2(dy, dx);
-    movePoints(t); drawLines();
-    raf = requestAnimationFrame(tick);
-  }
-  function updateMouse(x, y) {
-    mouse.x = x - bounding.left; mouse.y = y - bounding.top;
-    if (!mouse.set) { mouse.sx = mouse.x; mouse.sy = mouse.y; mouse.lx = mouse.x; mouse.ly = mouse.y; mouse.set = true; }
-  }
-
-  setSize(); setLines();
-  window.addEventListener('resize', function () { setSize(); setLines(); }, { passive: true });
-
-  if (reduced) {
-    movePoints(0); drawLines();   // single static frame
-  } else {
-    window.addEventListener('mousemove', function (e) { updateMouse(e.clientX, e.clientY); }, { passive: true });
-    window.addEventListener('touchmove', function (e) { var tch = e.touches[0]; if (tch) updateMouse(tch.clientX, tch.clientY); }, { passive: true });
-    raf = requestAnimationFrame(tick);
-  }
-})();
-</script>
+</dialog>
 
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
 <script defer src="/_vercel/insights/script.js"></script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(sessionStorage.getItem('lucy.theme')==='light'){document.documentElement.classList.add('theme-light');document.documentElement.style.colorScheme='light';}}catch(e){}})();</script>
+<script>(function(){document.documentElement.classList.remove('theme-light');document.documentElement.style.colorScheme='dark';try{sessionStorage.removeItem('lucy.theme');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#050710" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=4" />
@@ -10,15 +10,15 @@
 <link rel="shortcut icon" href="favicon.ico?v=4" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=4" />
 <title>Under the Weather | Lucy Liu</title>
-<meta name="description" content="Under the Weather, an intentionally useless p5.js weather app that responds to real data with sassy one-liners. By Lucy Liu." />
-<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta name="description" content="Under the Weather: I built a p5.js app that reads New York weather data and responds with sarcastic comments instead of a forecast." />
+<meta property="og:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-2026-09-29.png" />
+<meta name="twitter:image" content="https://lucyliu.xyz/assets/og-cover-curious-2026-10-27.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,400&display=swap">
-<link rel="stylesheet" href="colors_and_type.css?v=62" />
-<link rel="stylesheet" href="styles.css?v=89" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="colors_and_type.css?v=68" />
+<link rel="stylesheet" href="styles.css?v=224" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
@@ -43,10 +43,10 @@ a { color: inherit; text-decoration: none; }
 .cs-nav-inner { width: min(1240px, 92vw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 .cs-back { font-family: var(--font-ui); font-size: 13px; color: var(--fg2); display: flex; align-items: center; gap: 8px; transition: color .3s; }
 .cs-back:hover { color: var(--fg1); }
-.cs-logo { font-family: var(--font-display); font-style: italic; font-size: 18px; letter-spacing: -0.02em; }
+.cs-logo { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
 
 /* PROGRESS */
-.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 2px; }
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 130; height: 2px; }   /* over the shared header (z 120) */
 .cs-progress-fill { height: 100%; background: var(--sky); transform-origin: left; transform: scaleX(0); transition: transform 0.08s linear; }
 
 /* HERO ORB */
@@ -190,7 +190,7 @@ a { color: inherit; text-decoration: none; }
 }
 .utw-mood-response {
   font-family: var(--font-body); font-size: 14px; line-height: 1.5;
-  color: var(--fg2); font-style: italic;
+  color: var(--fg2);
 }
 
 /* ACCORDION */
@@ -257,10 +257,10 @@ details[open] .tr-panel-icon { color: var(--sky); }
 }
 .cs-pull-quote::before {
   content: '\201C'; position: absolute; top: -18px; left: 14px;
-  font-family: var(--font-display); font-size: 140px; font-style: italic; font-weight: 700;
+  font-family: var(--font-display); font-size: 140px; font-weight: 700;
   color: oklch(0.62 0.13 228 / 0.08); line-height: 1; pointer-events: none; user-select: none;
 }
-.cs-pull-quote blockquote { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.4; letter-spacing: -0.01em; color: var(--fg1); margin: 0; }
+.cs-pull-quote blockquote { font-family: var(--font-display); font-weight: 500; font-size: clamp(16px, 1.8vw, 20px); line-height: 1.4; letter-spacing: -0.01em; color: var(--fg1); margin: 0; }
 
 /* NEXT PROJECT */
 .cs-next { padding: clamp(72px, 9vh, 110px) 0 56px; border-top: 1px solid var(--border); }
@@ -314,12 +314,37 @@ details[open] .tr-panel-icon { color: var(--sky); }
 :root.theme-light { --sky-dim: oklch(0.45 0.13 228); }
 /* italic emphasis in the display heading sat at 2.97:1 against 3:1 for large text */
 :root.theme-light .utw-hero-title em, :root.theme-light h1 em, :root.theme-light h2 em { color: inherit; }
+
+/* ── One of each (Lucy, 2026-10-31: her answers to the Design Consistency review). The tokens and classes live in
+   colors_and_type.css; declared last so they outrank the rules above. ── */
+.cs-kicker, .cs-meta-k, .case-clarity-k, .utw-concept-label, .utw-mood-condition, .utw-code-cap, .tr-panel-num, .cs-next-label {
+  font: var(--type-label); letter-spacing: var(--track-label); color: var(--fg3); }
+.cs-kicker-dot { display: none; }
+.utw-hero-title { font: var(--type-title); letter-spacing: -0.03em; }
+.utw-concept-h { font: var(--type-h2); letter-spacing: -0.01em; }
+/* section numbers: plain mono, no icon */
+.tr-panel-icon { display: none; }
+.tr-panel-title { font: var(--type-h3); letter-spacing: -0.01em; }
+.tr-panel-body { padding-left: 0; }
+/* the end of the page: the site's "Next project" block (colors_and_type.css .next-block) */
+.cs-next { padding: 28px 0 56px; }
+.cs-next-label { margin-bottom: 6px; }
+.cs-next-link { display: inline-flex; justify-content: flex-start; align-items: baseline; gap: 12px; min-height: 44px; padding: 4px 0 0; border-top: 0; }
+.cs-next-title { font: 700 clamp(26px, 3vw, 36px)/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--fg1); transition: color .25s var(--ease-out-quart); }
+.cs-next-arrow { font: 700 clamp(26px, 3vw, 36px)/1.1 var(--font-display); color: var(--fg-accent); transition: transform .25s var(--ease-out-quart); }
+.cs-next-link:hover .cs-next-title { transform: none; color: var(--fg-accent); }
+.cs-next-link:hover .cs-next-arrow { transform: translateX(5px); }
+@media (prefers-reduced-motion: reduce) { .cs-next-arrow { transition: none; } .cs-next-link:hover .cs-next-arrow { transform: none; } }
 </style>
 <link rel="stylesheet" href="case-mobile.css?v=1" />
 <!-- Breathing-weight wordmark: brings its own self-hosted face and styles, and mounts any
      [data-wordmark] logo. Same engine as the home nav and loader. -->
 <link rel="preload" href="assets/fonts/anybody-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="components/wordmark.js"></script>
+<!-- The shared header and footer (Lucy, 2026-10-31): home's header and menu, and one contact strip. -->
+<script defer src="components/site-header.js"></script>
+<script defer src="components/site-footer.js"></script>
+<script defer src="components/section-rail.js"></script>
 </head>
 <body>
 
@@ -327,12 +352,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
 
 <div class="cs-progress"><div class="cs-progress-fill" id="cs-progress"></div></div>
 
-<nav class="cs-nav">
-  <div class="cs-nav-inner">
-    <a class="cs-logo" href="index.html" data-wordmark>lucy liu</a>
-    <a class="cs-back" href="work.html">← all work</a>
-  </div>
-</nav>
+<header data-site-header></header>
 
 <!-- CONSTELLATION NAV -->
 <nav class="cs-constellation-nav" id="cs-section-nav" aria-label="Jump to section">
@@ -359,7 +379,7 @@ details[open] .tr-panel-icon { color: var(--sky); }
       <circle class="cs-const-dot"  cx="30" cy="252" r="3"/>
     </g>
   </svg>
-  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Hero</span>
+  <span class="cs-const-label-el" style="top:17px" data-label="cs-s-hero">Overview</span>
   <span class="cs-const-label-el" style="top:93px" data-label="cs-s-concept">Concept</span>
   <span class="cs-const-label-el" style="top:169px" data-label="cs-s-code">Code</span>
   <span class="cs-const-label-el" style="top:245px" data-label="cs-s-testing">Testing</span>
@@ -384,14 +404,14 @@ details[open] .tr-panel-icon { color: var(--sky); }
         Coding &nbsp;·&nbsp; first p5.js sketch &nbsp;·&nbsp; 2025
       </p>
       <h1 class="utw-hero-title">Under<br>the <em>Weather</em></h1>
-      <p class="utw-hero-sub">An intentionally useless weather app. Real NYC data. Zero useful information.</p>
-      <div class="cs-tags">
-        <span class="tag">p5.js</span>
-        <span class="tag">OpenWeatherMap API</span>
-        <span class="tag">JavaScript</span>
-      </div>
+      <p class="utw-hero-sub">I built a weather app that reads live New York conditions and replies with sarcastic comments instead of a forecast.</p>
+      <ul class="dot-list" aria-label="Tools">
+        <li>p5.js</li>
+        <li>OpenWeatherMap API</li>
+        <li>JavaScript</li>
+      </ul>
       <div class="cs-hero-actions">
-        <a href="https://editor.p5js.org/wl3512/full/6BhpoP8ic" target="_blank" rel="noopener" class="btn btn-secondary">View live ↗</a>
+        <a href="https://editor.p5js.org/wl3512/full/6BhpoP8ic" target="_blank" rel="noopener" class="btn-notch">View live <small>↗</small></a>
       </div>
     </div>
   </div>
@@ -424,15 +444,15 @@ details[open] .tr-panel-icon { color: var(--sky); }
   <div class="case-clarity-inner">
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Role</span>
-      <p class="case-clarity-v">I designed the concept, wrote the p5.js sketch, connected the weather API, and shaped the interaction tone.</p>
+      <p class="case-clarity-v">I wrote the p5.js sketch, connected the weather API, and wrote the responses.</p>
     </div>
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Process</span>
-      <p class="case-clarity-v">I used a deliberately useless product brief to learn async JavaScript, API calls, state, and conditional copy.</p>
+      <p class="case-clarity-v">I used this project to practise API calls, async JavaScript, and conditional responses.</p>
     </div>
     <div class="case-clarity-item" data-cs-reveal>
       <span class="case-clarity-k">Impact</span>
-      <p class="case-clarity-v">The piece proves technical learning through a finished interaction, turning live weather data into a critique of utility.</p>
+      <p class="case-clarity-v">I built a working sketch and tested it with one participant. I revised the button prompt after they tried pressing the screen.</p>
     </div>
   </div>
 </section>
@@ -592,14 +612,14 @@ details[open] .tr-panel-icon { color: var(--sky); }
 <nav class="cs-next" aria-label="Next project">
   <div class="cs-next-inner">
     <p class="cs-next-label">Next project</p>
-    <a class="cs-next-link" href="trance.html">
-      <span class="cs-next-title">Trance</span>
-      <span class="cs-next-arrow">↗</span>
+    <a class="cs-next-link" href="h2know.html">
+      <span class="cs-next-title">H2Know</span>
+      <span class="cs-next-arrow" aria-hidden="true">→</span>
     </a>
   </div>
 </nav>
 
-<footer class="cs-footer">© 2026 Lucy Liu · Designed &amp; built in NYC</footer>
+<footer data-site-footer></footer>
 
 <script>
 (function () {

@@ -1,0 +1,25 @@
+{
+  "redirects": [
+    {
+      "source": "/:p(hell|Hell|HELL)/",
+      "destination": "/hell",
+      "permanent": false
+    },
+    {
+      "source": "/trance.html",
+      "destination": "/work.html",
+      "permanent": false
+    },
+    {
+      "source": "/loop.html",
+      "destination": "/work.html",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:p(hell|Hell|HELL)",
+      "destination": "/index.html"
+    }
+  ]
+}

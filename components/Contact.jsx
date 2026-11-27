@@ -69,7 +69,7 @@ function ContactSection() {
 
   return (
     <>
-      <section ref={sectionRef} className="scene scene-contact" id="contact" data-screen-label="05 Contact">
+      <section ref={sectionRef} className="scene scene-contact" id="contact" data-screen-label="05 Contact" data-landing="0">
         {showAurora && (
           <Aurora className="contact-aurora" colorStops={['#4A8FEF', '#C4B0FF', '#72ADFF']} amplitude={0.9} blend={0.55} speed={0.5} />
         )}
@@ -136,7 +136,7 @@ function ContactSection() {
               <dd className="cr-links">
                 <a href="https://www.linkedin.com/in/lucyliuxyz/" className="hover-underline" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in new tab)">LinkedIn ↗</a>
                 <a href="https://github.com/wl3512-lab" className="hover-underline" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)">GitHub ↗</a>
-                <a href="https://www.instagram.com/lucyy.liuu/" className="hover-underline" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram ↗</a>
+                <a href="https://www.instagram.com/lucyliuxyz/" className="hover-underline" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in new tab)">Instagram ↗</a>
               </dd>
               <dd className="cr-aux" />
             </div>
